@@ -9,7 +9,7 @@ Repository of course notes and publically available assignment/test documents
 for the course “CS3mi3: Principles of Programming Languages”
 at McMaster University.
 
-* ~.gitignore~
+* ~.gitignore~                                    :noexport:
 
 #+begin_src text :tangle .gitignore
 # This file is tangled from README.org and

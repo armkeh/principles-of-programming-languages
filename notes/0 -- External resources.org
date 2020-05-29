@@ -1,0 +1,27 @@
+#+Title: External resources
+#+Author: Mark Armstrong
+#+Description: Information on, and where possible links to,
+#+Description: various external resources for this course.
+
+* Introduction
+
+This course has no required textbooks or external resources.
+
+However, herein are contained a number of /recommended/ resources,
+along with information about what those resouces may be useful for.
+
+Elsewhere in the course, we may refer to external resources using acronyms,
+or using authors names. Both are documented here.
+
+The collection is roughly organised by the principal topic of the resource.
+
+* “Principles of Programming Languages” texts
+
+** Structure and Interpretation of Computer Programs :SICP:
+** Concepts, Techniques, and Models of Computer Programming :CTMCP:
+** Principals of Programming Languages         :Dowek:
+
+* Texts on specific programming languages
+
+** Programming Language Foundations in Agda    :PLFA:
+** The “little” series
