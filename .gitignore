@@ -1,0 +1,10 @@
+# This file is tangled from README.org and
+# should not be modified directly.
+
+# Local backups
+*.*~
+*.*#
+
+# LaTeX generation artifacts
+*.aux
+*.log
