@@ -1,0 +1,76 @@
+#+Title: Software and tools
+#+Author: Mark Armstrong
+#+Description: Documentation on required and recommended software/tools
+
+* Introduction
+
+This document discusses the software and tools needed
+for CS3mi3, Principles of Programming Languages, for the fall 2020 session.
+
+** *IMPORTANT*: Your responsibilities
+
+#+begin_center
+It is not the responsibility of the instructor or the teaching assistants
+to install the required software and tools on your system.
+
+We will provide docker images for testing submissions, along with
+basic usage instructions.
+Installing and learning the basics of Docker is your own responsibility.
+
+We recommend installation of the programming environments and tools
+locally on your own system for your convenience
+while working on the assignments.
+This setup is your own responsibility.
+#+end_center
+
+* Docker
+
+We will use docker to ensure a common testing environment
+for all students and staff.
+
+* Editors
+
+Any text editor should be adequate for use in this course.
+I recommend against IDEs; it is likely
+some languages we use will not be supported by any choice of IDE.
+
+I do recommend [[https://www.gnu.org/software/emacs/][Emacs]] as a text editor,
+though warn that its use involves a steep learning curve
+and likely a long configuration time
+—most likely an unending configuration time.
+The [[https://www.spacemacs.org/][Spacemacs]] and [[https://github.com/hlissner/doom-emacs][Doom (Emacs)]] configurations alleviate at least some
+of the setup time; they are preconfigured with many commonly used features
+and support for many programming languages.
+
+[[https://atom.io/][Atom]], [[https://code.visualstudio.com/][VS Code]] and
+[[https://www.sublimetext.com/][Sublime Text]] are
+other extensible text editors, any of which is also
+an excellent choice.
+
+* Version control
+
+We will make use of the Github for course content distribution.
+We will use the CAS departmental Gitlab for course work submission,
+as your accounts there are tied to your macid.
+
+* TODO Language implementations
+
+We will use at least four languages throughout the course;
+each language will require an implementation to be installed.
+
+** Scala
+
+ML-style functional programming on the JVM.
+
+** Prolog
+
+The prevalent logical programming language.
+Program by /describing the problem/, rather than providing an algorithms. 
+
+** Ruby
+
+A nearly pure object-oriented language featuring flexible syntax.
+
+** Racket
+
+A Lisp (LISt Programming) (functional) language for developing languages.

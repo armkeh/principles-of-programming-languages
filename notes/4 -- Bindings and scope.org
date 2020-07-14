@@ -1,0 +1,52 @@
+#+Title: Bindings and scope
+#+Subtitle: Principles of Programming Languages
+#+Author: Mark Armstrong
+#+Date: Fall 2020
+#+Description: Definition and tools for building formal languages.
+#+Description: Introduction to semantics.
+#+Options: toc:nil
+
+* HTML settings                                 :noexport:
+
+** Reveal settings
+
+#+Reveal_root: http://cdn.jsdelivr.net/reveal.js/3.0.0/
+#+Reveal_init_options: width:1600, height:900, controlsLayout:'edges',
+#+Reveal_init_options: margin: 0.1, minScale:0.125, maxScale:5
+#+Reveal_extra_css: local.css
+# I don't recall what this was for
+# #+html: <script src="https://cdnjs.cloudflare.com/ajax/libs/headjs/0.96/head.min.js"></script>
+* LaTeX settings                                :noexport:
+
+#+LaTeX_header: \usepackage{amsthm}
+#+LaTeX_header: \theoremstyle{definition}
+#+LaTeX_header: \newtheorem{definition}{Definition}[section]
+
+#+LaTeX_header: \usepackage{unicode-math}
+#+LaTeX_header: \usepackage{unicode}
+
+* Preamble
+
+** TODO Notable references
+
+:TODO:
+
+** TODO Table of contents
+
+# The table of contents are added using org-reveal-manual-toc,
+# and so must be updated upon changes or added last.
+# Note that hidden headings are included, and so must be deleted!
+
+#+HTML: <font size="-1">
+#+begin_scriptsize
+  - [[Preamble][Preamble]]
+#+end_scriptsize
+#+HTML: </font>
+
+* Introduction
+
+This section introduces several concepts
+relating to names and bindings of those names.
+
+Of particular note is /scope/, the “visibility” of names
+throughout a program.

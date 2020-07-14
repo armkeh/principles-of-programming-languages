@@ -1,0 +1,191 @@
+#+Title: Introduction and Overview
+#+Subtitle: Principles of Programming Languages
+#+Author: Mark Armstrong
+#+Date: Fall 2020
+#+Description: An introduction and a brief overview of topics we will
+#+Description: discuss in the course.
+#+Options: toc:nil
+
+* HTML settings                                 :noexport:
+
+** Reveal settings
+
+#+Reveal_root: http://cdn.jsdelivr.net/reveal.js/3.0.0/
+#+Reveal_init_options: width:1600, height:900, controlsLayout:'edges',
+#+Reveal_init_options: margin: 0.1, minScale:0.125, maxScale:5
+#+Reveal_extra_css: local.css
+# I don't recall what this was for
+# #+html: <script src="https://cdnjs.cloudflare.com/ajax/libs/headjs/0.96/head.min.js"></script>
+
+* LaTeX settings                                :noexport:
+
+#+LaTeX_header: \usepackage{amsthm}
+#+LaTeX_header: \theoremstyle{definition}
+#+LaTeX_header: \newtheorem{definition}{Definition}[section]
+
+#+LaTeX_header: \usepackage{unicode-math}
+#+LaTeX_header: \usepackage{unicode}
+
+* Preamble
+
+** Explanation of preamble                     :ignore:
+
+The preamble section of each notes will include
+- notable references,
+  - i.e., specific chapters of our recommended/additional texts
+    from which the notes are derived, or which expand on the notes,
+- a table of contents, and
+- an update history, chronicling any major changes.
+  - Note the git commit history will provide a more fine-grained
+    record of upates.
+
+** TODO Notable references
+
+:TODO:
+
+** TODO Table of contents
+
+# The table of contents are added using org-reveal-manual-toc,
+# and so must be updated upon changes or added last.
+# Note that hidden headings are included, and so must be deleted!
+
+#+HTML: <font size="-1">
+#+begin_scriptsize
+  - [[Preamble][Preamble]]
+#+end_scriptsize
+#+HTML: </font>
+
+* Introduction
+
+This section of notes introduces the course and the staff,
+and lays out a few central concepts.
+
+* TODO Welcome
+* Purpose and goals of this course
+
+** Calendar description
+
+Design space of programming languages;
+abstraction and modularization concepts and mechanisms;
+programming in non-procedural (functional and logic) paradigms;
+introduction to programming language semantics.
+
+** Informal objectives
+
+- Investigate several programming languages.
+  - A relatively shallow but comprehensive survey.
+  - Focusing on general-purpose languages.
+- /Formally/ describe programming language syntax and semantics.
+  - An application of theory learned previously.
+- Learn informal criteria by which to judge languages.
+  - Identify what languages fit what tasks.
+- Examine the origins of certain languages/groups of languages.
+  - Historical context provides insight into why languages
+    are designed the way they are.
+
+** Course preconditions
+
+Before beginning this course:
+
+1. Students should know and understand:
+   1. Basic concepts about integers, sets, functions, & relations.
+   2. Induction and recursion.
+   3. First order logic, axiomatic theories & simple proof techniques.
+   4. Regular expressions & context-free grammars.
+   5. Programming in imperative language
+   6. Basic concepts of functional programming languages.
+2. Students should be able to:
+   1. Produce proofs involving quantifiers and/or induction.
+   2. Understand the meaning of a given axiomatic theory.
+   3. Construct regular sets & context-free languages.
+   4. Produce small to medium scale programs in imperative languages.
+   5. Produce small scale programs in functional languages.
+
+** Course postconditions
+
+After completion of this course:
+
+1. Students should know and understand:
+   1. The basics of several programming languages.
+   2. Formal definitions of syntax & semantics for various
+      simple programming languages.
+   3. Various abstraction & modularisation techniques
+      employed in programming languages.
+2. Students should be able to:
+   1. Reason about the design space of programming languages,
+      in particular tradeoffs & design issues.
+   2. Produce formal descriptions of syntax & semantics
+      from informal descriptions, identifying ambiguities.
+   3. Select appropriate abstraction & modularisation techniques
+      for a given problem.
+   4. Produce (relatively simple) programs in various languages,
+      including languages from non-procedural paradigms.
+
+** TODO Formal rubric for the course
+
+This was last year's rubric. It needs tweaking.
+
+# This HTML is probably a bad hack... but it works as a hammer.
+#+HTML: <font size="-1">
+#+begin_scriptsize
++--------------+------------+--------------+------------+------------+
+|Topic         | Below      | Marginal     | Meets      | Exceeds    |
++--------------+------------+--------------+------------+------------+
+|Familiarity   |Shows some  |Shows         |Achieves    |Achieves    |
+|with various  |competence  |competence    |competence  |competence  |
+|programming   |in          |in            |with the    |with        |
+|languages     |procedural  |procedural    |basic       |intermediate|
+|(PLs)         |languages,  |languages     |usage of    |usage of    |
+|              |but not     |and limited   |various     |various     |
+|              |languages   |competence    |languages   |languages   |
+|              |from other  |in            |            |            |
+|              |paradigms   |languages     |            |            |
+|              |            |from other    |            |            |
+|              |            |paradigms     |            |            |
++--------------+------------+--------------+------------+------------+
+|Ability to    |Cannot      |Identifies    |Identifies  |Identifies  |
+|identify and  |consistently|such          |such        |sucj        |
+|make use of   |identify    |constructs,   |constructs  |constructs  |
+|abstraction,  |such        |but does not  |and shows   |and shows   |
+|modularisation|constructs  |consistently  |some ability|mastery of  |
+|constructs    |            |make use of   |to make use |them when   |
+|              |            |them when     |of them when|programming |
+|              |            |programming   |programming |            |
++--------------+------------+--------------+------------+------------+
+|Ability to    |Unable or   |Comprehends   |Makes only  |Consistently|
+|comprehend and|rarely      |given         |minor       |fully       |
+|produce formal|able to     |grammars,     |errors      |understands |
+|descriptions  |comprehend  |but           |regarding   |given       |
+|of PL syntax  |given       |produces      |precedence  |grammars and|
+|              |grammars;   |grammars      |or          |produces    |
+|              |does not    |which are     |ambiguity   |correct     |
+|              |identify    |ambiguous     |when        |grammars.   |
+|              |ambiguity   |or which do   |reading or  |            |
+|              |or          |not           |producing   |            |
+|              |precedence  |correctly     |grammars    |            |
+|              |rules       |specify       |            |            |
+|              |            |precedence    |            |            |
++--------------+------------+--------------+------------+------------+
+|Ability to    |Rarely or   |Usually       |Comprehends |Comprehends |
+|comprehend and|never       |comprehends   |such        |such        |
+|produce       |comprehends |such semantic |semantic    |semantic    |
+|operational   |such        |descriptions, |descriptions|descriptions|
+|semantics for |semantic    |but cannot    |and produces|and produces|
+|simple PLs    |descriptions|consistently  |them with   |them without|
+|              |            |produce them  |only minor  |errors      |
+|              |            |              |errors      |            |
++--------------+------------+--------------+------------+------------+
+|Ability to    |Rarely or   |Inconsistently|Consistently|Consistently|
+|comprehend    |never       |comprehends   |comprehends |comprehends |
+|denotational  |comprehends |such semantic |such        |and can     |
+|and axiomatic |such        |descriptions  |semantic    |produce some|
+|semantics for |semantic    |              |descriptions|simple      |
+|simple PLs    |descriptions|              |            |semantic    |
+|              |            |              |            |descriptions|
++--------------+------------+--------------+------------+------------+
+#+end_scriptsize
+#+HTML: </font>
+
+* TODO “Principles of programming languages”
+* TODO Abstraction
+* TODO Exercises
