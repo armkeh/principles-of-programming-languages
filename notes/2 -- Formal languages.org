@@ -46,7 +46,518 @@
 * Introduction
 
 This section introduces the mathematical tools
-we will use in the discussion of programming languages.
+we will use in the discussion of programming languages
+as a /formal/ language.
 
 Several small formal languages (not full programming languages)
 are used as examples of the use of these tools.
+
+* COMMENT Formal tools in the study of programming languages
+
+# This section from last year is a bit of a tangled mess.
+
+We've said before, in order to facilitate running code on machines,
+programming languages must be /formal/.
+
+There are two portions to this requirement.
+- Describing the /syntax/; the form of expressions/statements.
+- Describing the /semantics/; the meaning of expressions/statements.
+
+Formal descriptions of semantics in particular are not always given!
+- This decreases the reliability of the language.
+  - It can never be clear if implementations (compilers, interpreters)
+    correctly implement the language.
+- Realistically, a “good enough” description may suffice.
+
+** Blurring the lines between syntax and semantics: static semantics
+
+Unfortunately, we cannot cleanly divide elements of
+programming languages into the categories of syntax and semantics.
+- The categorisation may depend upon the features of the language.
+- /Typing/ and /scope/ may be considered syntactic or semantic.
+  - Depending upon whether they are /static/ or /dynamic/.
+- Even if they are static, and could be considered syntax,
+  such features are often called /static semantics/.
+
+We will see an additional reason to segregate such features;
+- static semantic rules cannot be expressed by
+  the formal tools we use for syntax.
+  - It's either impossible or prohibitively expensive.
+
+* The syntax of formal languages
+
+** Preamble
+
+A language over an /alphabet/ (set of symbols) /Σ/
+is a subset of /Σ^{*}/.
+The elements of a language are called /sentences/
+(or /strings/ or sometimes /words/).
+
+A /formal/ language is one for which we have a mathematical tool
+for either
+- /generating/ all sentences of the language,
+  or equivalently,
+- /recognising/ (or /accepting/) only sentences of the language.
+
+Examples of such mathematical tools include
+- regular expressions,
+- automata, and
+- grammars.
+
+** The usefulness of formal languages
+
+Formal languages, unlike /natural/ languages, are well-suited
+for comprehension by computers.
+- Hence, all programming languages are formal languages.
+
+In particular, in most cases:
+- The sets of keywords, names, etc. form several /regular languages/,
+  and so can be recognised[fn:recogniser] by regular expressions.
+- The set of valid (in terms of form) programs forms
+  a /context-free/ language, and so can be recognised by
+  a (context-free) grammar.
+
+** Strings
+
+Recall that given a set /Σ/, the set of strings over /Σ/,
+written /Σ^{*}/, is the set of all finite sequences
+of elements of /Σ/.
+
+In particular, the sequence of length zero we denote by /ε/.
+Note that some other sources use /λ/ for this purpose.
+
+For example, for /Σ = {a, b, c}/,
+/Σ^{*} = {ε, a, b, c, aa, ab, ac, ba, bb, bc, ca, cb, cc, aaa, …}/.
+
+Given an element /e ∈ Σ/, we write
+- /eⁿ/ for the string consisting of /n/ occurrences of /e/, and
+- /e^{*}/ for the set of all such strings.
+
+** Writing grammars precisely
+
+Formally, a context-free grammar is a 4-tuple
+#+begin_src text
+⟨N, Σ, P, S⟩
+#+end_src
+where
+- ~N~ is a finite set of /non-terminal/ symbols
+  (sometimes called variables),
+- ~Σ~ is the underlying alphabet,
+  also called the /terminals/ of the grammar,
+- ~N~ and ~Σ~ must be distinct,
+- ~P~ is a set of /productions/, i.e.,
+  a binary relation between ~N~ and /(~N~ ∪ ~Σ~)^{*}/,
+  - In other words, a multi-valued function from
+    nonterminals to strings of non-terminals and terminals,
+- ~S~ is a particular element of ~N~, called the /starting nonterminal/.
+
+Given /(~A~, ~a~) ∈ ~P~/, we write ~A ⟶ α~ and read it as
+“~A~ produces ~α~” or “~A~ expands to ~α~”.
+
+Given a number of
+productions /(~A~, ~α₁~) ∈ ~P~/, /(~A~, ~α₂~) ∈ ~P~/, …, /(~A~, ~αₘ~) ∈ ~P~/, 
+we write ~A ⟶ α₁ | α₂ | … | αₘ~ as a shorthand.
+
+** Conventions for grammars
+
+Writing the 4-tuple each time we produce a grammar is tedious.
+
+For this reason, we usually omit it,
+and adopt the following conventions:
+1. We write /only/ the list of production,
+   using /BNF/ (discussed shortly). 
+2. The set ~N~ is taken to be the set of all symbols
+   appearing to the left of a list of productions.
+   - Note that this requires each nonterminal have
+     at least one production[fn:nonterminal-w/o-production].
+3. The set ~Σ~ is usually understood by the context
+   in which we are defining the grammer.
+   - For our purposes, it will usually be the set of
+     all ASCII symbols.
+4. The starting nonterminal ~S~ is understood to be
+   the nonterminal to the left of the first production in the list.
+
+As a rule of thumb, we try to write grammars “top down”,
+so that most nonterminals appearing to the right of a production
+have their rules listed below that production.
+
+[fn:nonterminal-w/o-production]
+A nonterminal without productions has no practical use in any case;
+it only serves to making parsing “get stuck”.
+
+** A simple example grammar
+
+#+begin_src text
+A ⟶ aAa | B
+B ⟶ bBb | C
+C ⟶ cCc | ε
+#+end_src
+
+This produces the language of strings of
+the form ~a~^{/i/}~b~^{/j/}~c~^{/k/}~c~^{/k/}~b~^{/j/}~a~^{/i/}.
+
+** Exercise – reading grammars
+
+What languages do the following grammars produce?
+
+#+begin_src text
+A ⟶ B | C
+B ⟶ aaB | ε
+C ⟶ aaaC | ε
+#+end_src
+
+#+begin_src text
+A ⟶ aB | B | ε
+B ⟶ bC | C
+C ⟶ cA | A
+#+end_src
+
+#+begin_src text
+A ⟶ aA | B
+B ⟶ bB
+#+end_src
+*What's the tricky part with this one?*
+
+Extra exercise: can you simplify any of them?
+If you believe so, be careful that
+your simplification accepts the same string!
+
+** Backus-Naur form (BNF)
+
+Up until now, we have used the form
+#+begin_example text
+N₁ ⟶ P₁ | P₂ | …
+   ⋮
+#+end_example
+for our production lists.
+
+Commonly in the study of programming languages,
+an alternative syntax called /Backus-Naur/ form (BNF)
+is used.
+- Named for two members of the Algol[fn:algol] design committee,
+  who created the first formal definition for a programming language,
+  namely Algol.
+
+In Backus-Naur form,
+- all nonterminals names are delimited by
+  angle brackets[fn:angle-brackets], ~⟨⟩~,
+- the ~⟶~ is replaced by ~∷=~,
+- additional whitespace is permitted on the right side
+  of a production between terminals and nonterminals,
+  without changing the meaning of the production
+  - So ~⟨A⟩ ∷= a a ⟨A⟩~ is treated the same as ~⟨A⟩ ∷= aa⟨A⟩~.
+
+[fn:algol]
+Algol was a contemporary of Fortran, Lisp, and Cobol,
+together the oldest languages still in (fairly) common use today.
+Algol is not in common use, but it was the most influential on
+modern programming language syntax, introducing concepts such as
+the block.
+
+[fn:angle-brackets]
+In notes and assignments, I use unicode angle brackets.
+Many other sources use the less-than and greater-than symbols,
+as they are avaiable in ASCII.
+
+** Extended Backus-Naur form (EBNF)
+
+We also extend our grammar notation to include several
+several additional operators.
+- (Square) brackets, ~[]~, surrounding a string
+  indicate that string may or may not be included in a production.
+  - I.e., they make part of a production optional.
+  - ~⟨A⟩ ∷= α₁ [ α₂ ] α₃~ ≈ ~⟨A⟩ ∷= α₁ α₂ α₃ | α₁ α₃~.
+- (Curly) braces, ~{}~, surrounding a string
+  indicate that string may be repeated any number of times,
+  including zero.
+  - ~⟨A⟩ ∷= α₁ { α₂ } α₃~ ≈ ~⟨A⟩ ∷= α₁ ⟨A′⟩ α₃~ together
+    with ~⟨A′⟩ ∷= α₂ ⟨A′⟩ | ε~.
+- Parentheses, ~()~, may group parts of a string.
+- The “alternative” pipe, ~|~, may be used /inside/ of productions,
+  to indicate alternatives inside a set of brackets, braces
+  or parentheses.
+  - ~⟨A⟩ ∷= α₁ (α₂ | α₃) α₄~ ≈ ~⟨A⟩ ∷= α₁ α₂ α₄ | α₁ α₃ α₄~.
+- Where necessary, terminals may be single or double quoted,
+  such as to indicate a whitespace character, pipe or quote.
+  - ~⟨ebnf-prod-list⟩ ∷= ⟨string⟩ | ⟨string⟩ ⟨opt-ws⟩ '|' ⟨opt-ws⟩ ⟨ebnf-prod-list⟩~
+
+There is an [[https://www.iso.org/standard/26153.html][ISO standard]] for EBNF.
+Our syntax and inclusion of features is
+not chosen to match the standard;
+it is what is convenient for our use.
+
+** Exercise – translating to EBNF
+
+Translate this grammar from an earlier exercise to EBNF syntax.
+#+begin_src text
+A ⟶ B | C
+B ⟶ aaB | ε
+C ⟶ aaaC | ε
+#+end_src
+Then try to reduce the number of productions in the grammar,
+while maintaining the language defined.
+
+Can you use only one production when using EBNF?
+
+** EBNF's syntactic sugar
+
+EBNF gives us our first example of /syntactic sugar/;
+syntax that does not add new features to a language,
+only more convenient notation.
+- As shown above, any grammar using the additional operators
+  can be translated into one not using them.
+  - But this likely requires more productions.
+  - And certainly more characters/space on the page.
+  
+Syntactic sugar is a common feature of programming languages.
+- Example: various kinds of loops.
+
+When we discuss programming languages formally,
+we will usually omit constructs which are syntactic sugar.
+- If anything, we may note how to represent them
+  in a “core” language which includes less constructs.
+
+** Exercise – a very small language
+
+Consider the following context-free language.
+#+begin_example text
+⟨stmt⟩   ∷= ⟨assign⟩ | ⟨stmt⟩ ';' ⟨stmt⟩ | 'while' ⟨expr⟩ 'do' ⟨stmt⟩
+⟨assign⟩ ∷= ⟨var⟩ ':=' ⟨expr⟩
+⟨expr⟩   ∷= 
+#+end_example
+
+* Stages of parsing; offloading unnecessary details
+
+# Some amount of discussion of attributes goes here
+# Not much; we will see how to implement this offloading
+# in assignment 2.
+
+** Tokens and lexemes
+
+The smallest syntactic units of a programming language are called
+/lexemes/.
+- Think of them as the /words/ of the language.
+  - E.g., ~while~, ~if~, ~int~, ~+~,
+    ~some-variable-name~, ~a-function-name~, etc.
+
+/Categories/ of lexemes are called /tokens/.
+- Comparing with natural languages, think of
+  “prepositions”, “pronouns”, “conjunctions” etc.
+- In programming, we have, e.g.,
+  /identifier/, /literal/, /operator/, /type name/.
+  - Some categories have only a single member,
+    without any additional information, e.g. /while/, /if/.
+
+The first step in parsing a program is to convert it
+from plaintext to a list of tokens.
+- /Tokenising/.
+- At this stage, details are abstract;
+  e.g., every identifier becomes just an identifier token
+  (with its name attached in some way for later steps).
+- Discards unnecessary information (whitespace, comments, etc.)
+
+** Tokenising
+
+#+begin_src text
+x = 0;
+r = 1;
+while (x < n) {
+  r = r * x;
+  x++;
+}
+#+end_src
+
+#+begin_center
+#+attr_html: :style text-align:center
+⇓
+#+end_center
+
+#+begin_src text
+id(x) eq lit(0) end_stmt
+id(r) eq lit(1) end_stmt
+while openbr id(x) op(<) id(n) closebr open_block
+id(r) eq id(r) op(*)
+id(x) end_stmt id(x) op(++) end_stmt
+close_block
+#+end_src
+
+Disclaimer: this example is purely made up;
+it's not intended to be a completely accurate depiction of tokenising
+any particular language.
+
+
+:TODO: regarding the use of ~var~ instead of ~⟨var⟩~.
+
+* Ambiguity
+
+** Ambiguity
+
+Recall that parsing a string (or deriving a string)
+using a grammar gives rise to a /parse tree/ or /derivation tree/.
+
+It is desirable to have a single parse tree for every program.
+- We should not admit two syntactic interpretations for a program!
+
+Three tools for removing ambiguity are
+- requiring parentheses,
+- introducing precedence rules, and
+- introducing associativity rules.
+
+** Enforcing precedence and associativity with grammars
+
+To enforce precedence using a grammar:
+- Create a hierarchy of non-terminals.
+- Higher-precedence operators are produced lower in the hierarchy.
+- For instance,
+  - An additive term can be a addition of multiplicative terms,
+    which is an addition of literals, which can be the negation
+    of a constant, variable or term.
+
+To enforce associativity using a grammar:
+- Left associative operators should be produced by left recursive
+  non-terminals.
+- And right associative operators by right recursive non-terminals.
+- Operators of the same precedence must associate the same way!
+
+** Is addition associative?
+
+Recall that addition is an associative operator.
+- Meaning it is both left and right associative.
+
+So the choice of whether addition in a language associates to
+the right or to the left may seem arbitrary.
+- But numerical types in programming are not necessarily
+  the same as numerical types in math!
+- Addition of floating point numbers /is not associative/.
+  - Consider a binary representation with two-digit coefficients.
+  - 1.0₂ × 2⁰ + 1.0₂ × 2⁰ + 1.0₂ × 2² has a different value depending
+    upon parenthesisation.
+
+** Abstract syntax
+
+“Simple”, ambiguous grammars do have a place in describing
+programming language syntax.
+- Such grammars describe the /abstract syntax/ of the language.
+  - As opposed to /concrete syntax/.
+- Consider programs as /trees/ generated by the grammar
+  for the abstract syntax of the language.
+  - Trees do not admit ambiguity!
+  - Such trees more efficiently represent programs.
+    - The shape of the tree expresses structure.
+    - Other unnecessary details may be left out.
+
+** Beyond context-free grammars: “static semantics”
+
+For most interesting languages,
+context-free grammars are not quite sufficient
+to describe well-formed programs.
+- They cannot express conditions such as
+  “variables must be declared before use”, and
+  typing rules.
+- It has been /proven/ that CFGs are not sufficient.
+  - At least some typing rules are possible to express,
+    but prohibitively difficult.
+
+Recall the Chomsky hierarchy of languages.
+#+begin_src text
+Regular ⊂ Context-free ⊂ Context-sensitive ⊂ Recursive ⊂ Recursively enumberable
+#+end_src
+- The properties we need could be described by /context-sensitive/ grammars.
+  - But they are unwieldy!
+- Instead, use /attribute grammars/;
+  a relatively small augmentation to CFGs.
+  - Each non-terminal and terminal may have a collection
+    of /attributes/ (named values).
+  - Each production may have a collection of
+    rules defining the values of the attributes
+    and a collection of predicates
+    reasoning about those attributes.
+
+** An example attribute grammar
+
+Consider this simple grammar.
+#+begin_src text
+⟨S⟩ ∷= ⟨A⟩ ⟨B⟩ ⟨C⟩
+⟨A⟩ ∷= ε ∣ a ⟨A⟩
+⟨B⟩ ∷= ε ∣ b ⟨B⟩
+⟨C⟩ ∷= ε ∣ c ⟨C⟩
+#+end_src
+
+Suppose we want to allow only strings of the form ~aⁿbⁿcⁿ~.
+There is no CFG that can produce exactly such strings.
+But we can enforce this condition using the above grammar
+augmented with attributes.
+- Each of the non-terminals ~⟨A⟩~, ~⟨B⟩~ and ~⟨C⟩~ are given an attribute
+  ~length~.
+- To each production with ~⟨A⟩~, ~⟨B⟩~ or ~⟨C⟩~ on the left side, we attach
+  a rule to compute the ~length~.
+- The production ~⟨S⟩ ∷= ⟨A⟩ ⟨B⟩ ⟨C⟩~ enforces the condition with a predicate.
+
+#+REVEAL: split:t
+
+#+begin_src text
+⟨S⟩ ∷= ⟨A⟩ ⟨B⟩ ⟨C⟩
+Predicate: ⟨A⟩.length = ⟨B⟩.length = ⟨C⟩.length
+
+⟨A⟩ ∷= ε
+Rule: ⟨A⟩.length ≔ 0
+
+⟨A⟩₁ ∷= a ⟨A⟩₂
+Rule: ⟨A⟩₁.length ≔ ⟨A⟩₂.length + 1
+
+⟨B⟩ ∷= ε
+Rule: ⟨B⟩.length ≔ 0
+
+⟨B⟩₁ ∷= b ⟨B⟩₂
+Rule: ⟨B⟩₁.length ≔ ⟨B⟩₂.length + 1
+
+⟨C⟩ ∷= ε
+Rule: ⟨C⟩.length ≔ 0
+
+⟨C⟩₁ ∷= c ⟨C⟩₂
+Rule: ⟨C⟩₁.length ≔ ⟨C⟩₂.length + 1
+#+end_src
+
+In productions with multiple occurrences of the same non-terminal,
+we number the occurrences so we can easily refer to them
+in the rules/predicates.
+
+* Abstract and concrete syntax; ignoring ambiguity sometimes
+* The /semantics/ of formal languages
+
+Unlike with syntax, there is not one universally used tool
+for describing programming language semantics.
+
+In this course we will primarily consider /operational semantics/.
+- A formal description of the meaning programs as
+  a series of computation steps on an abstract machine.
+  - The machine should be more abstract, and more easily understood,
+    than assembly language.
+  - But still “simpler” than the language.
+  - Stack machines and state diagrams are good candidates.
+
+Additional approaches include
+- Denotational semantics.
+  - The meaning of programs are /denoted/ by mathematical objects.
+    - Such as partial functions.
+  - Have to consider /limits/ and non-termination.
+- Axiomatic semantics.
+  - The meaning of a program is given by a precondition/postcondition
+    calculus.
+    - Such as ~wp~; the “weakest-precondition” calculus.
+  - Very useful for specification.
+
+** The kernel language approach
+
+The “kernel language” approach to semantics can be used
+for languages with many features and constructs.
+- Choose a small “kernel” set of features/constructs.
+- Describe the remainder of the language in terms of that kernal language.
+- The kernel language may be described using the formal approaches
+  mentioned.
+- /Concepts, Techniques, and Models of Computer Programming/
+  takes this approach.
+
+** More to come...
+
+We will return to the discussion of semantics later in the course.
