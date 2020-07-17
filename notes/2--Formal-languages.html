@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Formal languages</title>
+<meta name="author" content="(Mark Armstrong)"/>
+<meta name="description" content="Definition and tools for building formal languages.
+Introduction to semantics."/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="./reveal.js/dist/reveal.css"/>
+
+<link rel="stylesheet" href="./reveal.js/dist/theme/black.css" id="theme"/>
+
+<link rel="stylesheet" href="local.css"/>
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = './reveal.js/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide"><h2 class="title">Formal languages</h2>
+   <h3>Principles of Programming Languages</h3>
+   <h4>Mark Armstrong</h4>
+   <h5>Fall 2020</h5>
+</section>
+
+<section>
+<section id="slide-org7a2f1c8">
+<h2 id="org7a2f1c8"><span class="section-number-2">1</span> Preamble</h2>
+<font size="-1">
+<div class="scriptsize">
+<ul>
+<li><a href="#/slide-org7a2f1c8">Preamble</a></li>
+
+</ul>
+
+</div>
+</font>
+
+</section>
+<section id="slide-orgf9582d0">
+<h3 id="orgf9582d0"><span class="section-number-3">1.1</span> <span class="todo TODO">TODO</span> Notable references</h3>
+<p>
+:TODO:
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-org31f0835">
+<h2 id="org31f0835"><span class="section-number-2">2</span> Introduction</h2>
+<p>
+This section introduces the mathematical tools
+we will use in the discussion of programming languages
+as a <i>formal</i> language.
+</p>
+
+<p>
+Several small formal languages (not full programming languages)
+are used as examples of the use of these tools.
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-org9290cab">
+<h2 id="org9290cab"><span class="section-number-2">3</span> The syntax of formal languages</h2>
+<p>
+A language over an <i>alphabet</i> (set of symbols) <i>Σ</i>
+is a subset of <i>Σ*.
+The elements of a language are called /sentences</i>
+(or <i>strings</i> or sometimes <i>words</i>).
+</p>
+
+<p>
+A <i>formal</i> language is one for which we have a mathematical tool
+for either
+</p>
+<ul>
+<li><i>generating</i> all sentences of the language,
+or equivalently,</li>
+<li><i>recognising</i> (or <i>accepting</i>) only sentences of the language.</li>
+
+</ul>
+
+<p>
+Examples of such mathematical tools include
+</p>
+<ul>
+<li>regular expressions,</li>
+<li>automata, and</li>
+<li>grammars.</li>
+
+</ul>
+
+</section>
+<section id="slide-orgf8a78f0">
+<h3 id="orgf8a78f0"><span class="section-number-3">3.1</span> The usefulness of formal languages</h3>
+<p>
+Formal languages, unlike <i>natural</i> languages, are well-suited
+for comprehension by computers.
+</p>
+<ul>
+<li>Hence, all programming languages are formal languages.</li>
+
+</ul>
+
+<p>
+In particular, in most cases:
+</p>
+<ul>
+<li>The sets of keywords, names, etc. form several <i>regular languages</i>,
+and so can be recognised<sup><a id="fnr.1" class="footref" href="#fn.1">1</a></sup> by regular expressions.</li>
+<li>The set of valid (in terms of form) programs forms
+a <i>context-free</i> language, and so can be recognised by
+a (context-free) grammar.</li>
+
+</ul>
+
+</section>
+<section id="slide-org08bfde7">
+<h3 id="org08bfde7"><span class="section-number-3">3.2</span> Strings</h3>
+<p>
+Recall that given a set <i>Σ</i>, the set of strings over <i>Σ</i>,
+written <i>Σ*</i>, is the set of all finite sequences
+of elements of <i>Σ</i>.
+</p>
+
+<p>
+In particular, the sequence of length zero we denote by <i>ε</i>.
+Note that some other sources use <i>λ</i> for this purpose.
+</p>
+
+<p>
+For example, for <i>Σ = {a, b, c}</i>,
+<i>Σ* = {ε, a, b, c, aa, ab, ac, ba, bb, bc, ca, cb, cc, aaa, …}</i>.
+</p>
+
+<p>
+Given an element <i>e ∈ Σ</i>, we write
+</p>
+<ul>
+<li><i>eⁿ</i> for the string consisting of <i>n</i> occurrences of <i>e</i>, and</li>
+<li><i>e*</i> for the set of all such strings.</li>
+
+</ul>
+
+</section>
+<section id="slide-org29aebb5">
+<h3 id="org29aebb5"><span class="section-number-3">3.3</span> Writing grammars precisely</h3>
+<p>
+Formally, a context-free grammar is a 4-tuple
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-text"><code trim><span style="color: #00cd68;">&#10216;</span>N, &#931;, P, S<span style="color: #00cd68;">&#10217;</span>
+</code></pre>
+</div>
+<p>
+where
+</p>
+<ul>
+<li><code>N</code> is a finite set of <i>non-terminal</i> symbols
+(sometimes called variables),</li>
+<li><code>Σ</code> is the underlying alphabet,
+also called the <i>terminals</i> of the grammar,</li>
+<li><code>N</code> and <code>Σ</code> must be distinct,</li>
+<li><code>P</code> is a set of <i>productions</i>, i.e.,
+a binary relation between <code>N</code> and <i>(<code>N</code> ∪ <code>Σ</code>)*</i>,
+<ul>
+<li>In other words, a multi-valued function from
+nonterminals to strings of non-terminals and terminals,</li>
+
+</ul></li>
+<li><code>S</code> is a particular element of <code>N</code>, called the <i>starting nonterminal</i>.</li>
+
+</ul>
+
+<p>
+Given <i>(<code>A</code>, <code>a</code>) ∈ <code>P</code></i>, we write <code>A ⟶ α</code> and read it as
+“<code>A</code> produces <code>α</code>” or “<code>A</code> expands to <code>α</code>”.
+</p>
+
+<p>
+Given a number of
+productions <i>(<code>A</code>, <code>α₁</code>) ∈ <code>P</code></i>, <i>(<code>A</code>, <code>α₂</code>) ∈ <code>P</code></i>, …, <i>(<code>A</code>, <code>αₘ</code>) ∈ <code>P</code></i>, 
+we write <code>A ⟶ α₁ | α₂ | … | αₘ</code> as a shorthand.
+</p>
+
+</section>
+<section id="slide-org156fcd6">
+<h3 id="org156fcd6"><span class="section-number-3">3.4</span> Conventions for grammars</h3>
+<p>
+Writing the 4-tuple each time we produce a grammar is tedious.
+</p>
+
+<p>
+For this reason, we usually omit it,
+and adopt the following conventions:
+</p>
+<ol>
+<li>We write <i>only</i> the list of production,
+using <i>BNF</i> (discussed shortly).</li>
+<li>The set <code>N</code> is taken to be the set of all symbols
+appearing to the left of a list of productions.
+<ul>
+<li>Note that this requires each nonterminal have
+at least one production[fn:nonterminal-w/o-production].</li>
+
+</ul></li>
+<li>The set <code>Σ</code> is usually understood by the context
+in which we are defining the grammer.
+<ul>
+<li>For our purposes, it will usually be the set of
+all ASCII symbols.</li>
+
+</ul></li>
+<li>The starting nonterminal <code>S</code> is understood to be
+the nonterminal to the left of the first production in the list.</li>
+
+</ol>
+
+<p>
+As a rule of thumb, we try to write grammars “top down”,
+so that most nonterminals appearing to the right of a production
+have their rules listed below that production.
+</p>
+
+<p>
+[fn:nonterminal-w/o-production]
+A nonterminal without productions has no practical use in any case;
+it only serves to making parsing “get stuck”.
+</p>
+
+</section>
+<section id="slide-org0e05f90">
+<h3 id="org0e05f90"><span class="section-number-3">3.5</span> A simple example grammar</h3>
+<div class="org-src-container">
+
+<pre  class="src src-text"><code trim>A &#10230; aAa | B
+B &#10230; bBb | C
+C &#10230; cCc | &#949;
+</code></pre>
+</div>
+
+<p>
+This produces the language of strings of
+the form <code>a</code><sup><i>i</i></sup><code>b</code><sup><i>j</i></sup><code>c</code><sup><i>k</i></sup><code>c</code><sup><i>k</i></sup><code>b</code><sup><i>j</i></sup><code>a</code><sup><i>i</i></sup>.
+</p>
+
+</section>
+<section id="slide-org60bc1da">
+<h3 id="org60bc1da"><span class="section-number-3">3.6</span> Exercise – reading grammars</h3>
+<p>
+What languages do the following grammars produce?
+</p>
+
+<div class="org-src-container">
+
+<pre  class="src src-text"><code trim>A &#10230; B | C
+B &#10230; aaB | &#949;
+C &#10230; aaaC | &#949;
+</code></pre>
+</div>
+
+<div class="org-src-container">
+
+<pre  class="src src-text"><code trim>A &#10230; aB | B | &#949;
+B &#10230; bC | C
+C &#10230; cA | A
+</code></pre>
+</div>
+
+<div class="org-src-container">
+
+<pre  class="src src-text"><code trim>A &#10230; aA | B
+B &#10230; bB
+</code></pre>
+</div>
+<p>
+<b>What's the tricky part with this one?</b>
+</p>
+
+<p>
+Extra exercise: can you simplify any of them?
+If you believe so, be careful that
+your simplification accepts the same string!
+</p>
+
+</section>
+<section id="slide-orgc38561e">
+<h3 id="orgc38561e"><span class="section-number-3">3.7</span> Backus-Naur form (BNF)</h3>
+<p>
+Up until now, we have used the form
+</p>
+<pre class="example">
+N₁ ⟶ P₁ | P₂ | …
+   ⋮
+</pre>
+<p>
+for our production lists.
+</p>
+
+<p>
+Commonly in the study of programming languages,
+an alternative syntax called <i>Backus-Naur</i> form (BNF)
+is used.
+</p>
+<ul>
+<li>Named for two members of the Algol<sup><a id="fnr.2" class="footref" href="#fn.2">2</a></sup> design committee,
+who created the first formal definition for a programming language,
+namely Algol.</li>
+
+</ul>
+
+<p>
+In Backus-Naur form,
+</p>
+<ul>
+<li>all nonterminals names are delimited by
+angle brackets<sup><a id="fnr.3" class="footref" href="#fn.3">3</a></sup>, <code>⟨⟩</code>,</li>
+<li>the <code>⟶</code> is replaced by <code>∷=</code>,</li>
+<li>additional whitespace is permitted on the right side
+of a production between terminals and nonterminals,
+without changing the meaning of the production
+<ul>
+<li>So <code>⟨A⟩ ∷= a a ⟨A⟩</code> is treated the same as <code>⟨A⟩ ∷= aa⟨A⟩</code>.</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-orgc28fdba">
+<h3 id="orgc28fdba"><span class="section-number-3">3.8</span> Extended Backus-Naur form (EBNF)</h3>
+<p>
+We also extend our grammar notation to include several
+several additional operators.
+</p>
+<ul>
+<li>(Square) brackets, <code>[]</code>, surrounding a string
+indicate that string may or may not be included in a production.
+<ul>
+<li>I.e., they make part of a production optional.</li>
+<li><code>⟨A⟩ ∷= α₁ [ α₂ ] α₃</code> ≈ <code>⟨A⟩ ∷= α₁ α₂ α₃ | α₁ α₃</code>.</li>
+
+</ul></li>
+<li>(Curly) braces, <code>{}</code>, surrounding a string
+indicate that string may be repeated any number of times,
+including zero.
+<ul>
+<li><code>⟨A⟩ ∷= α₁ { α₂ } α₃</code> ≈ <code>⟨A⟩ ∷= α₁ ⟨A′⟩ α₃</code> together
+with <code>⟨A′⟩ ∷= α₂ ⟨A′⟩ | ε</code>.</li>
+
+</ul></li>
+<li>Parentheses, <code>()</code>, may group parts of a string.</li>
+<li>The “alternative” pipe, <code>|</code>, may be used <i>inside</i> of productions,
+to indicate alternatives inside a set of brackets, braces
+or parentheses.
+<ul>
+<li><code>⟨A⟩ ∷= α₁ (α₂ | α₃) α₄</code> ≈ <code>⟨A⟩ ∷= α₁ α₂ α₄ | α₁ α₃ α₄</code>.</li>
+
+</ul></li>
+<li>Where necessary, terminals may be single or double quoted,
+such as to indicate a whitespace character, pipe or quote.
+<ul>
+<li><code>⟨ebnf-prod-list⟩ ∷= ⟨string⟩ | ⟨string⟩ ⟨opt-ws⟩ '|' ⟨opt-ws⟩ ⟨ebnf-prod-list⟩</code></li>
+
+</ul></li>
+
+</ul>
+
+<p>
+There is an <a href="https://www.iso.org/standard/26153.html">ISO standard</a> for EBNF.
+Our syntax and inclusion of features is
+not chosen to match the standard;
+it is what is convenient for our use.
+</p>
+
+</section>
+<section id="slide-org31fa7eb">
+<h3 id="org31fa7eb"><span class="section-number-3">3.9</span> Exercise – translating to EBNF</h3>
+<p>
+Translate this grammar from an earlier exercise to EBNF syntax.
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-text"><code trim>A &#10230; B | C
+B &#10230; aaB | &#949;
+C &#10230; aaaC | &#949;
+</code></pre>
+</div>
+<p>
+Then try to reduce the number of productions in the grammar,
+while maintaining the language defined.
+</p>
+
+<p>
+Can you use only one production when using EBNF?
+</p>
+
+</section>
+<section id="slide-orgd9677b8">
+<h3 id="orgd9677b8"><span class="section-number-3">3.10</span> EBNF's syntactic sugar</h3>
+<p>
+EBNF gives us our first example of <i>syntactic sugar</i>;
+syntax that does not add new features to a language,
+only more convenient notation.
+</p>
+<ul>
+<li>As shown above, any grammar using the additional operators
+can be translated into one not using them.
+<ul>
+<li>But this likely requires more productions.</li>
+<li>And certainly more characters/space on the page.</li>
+
+</ul></li>
+
+</ul>
+
+<p>
+Syntactic sugar is a common feature of programming languages.
+</p>
+<ul>
+<li>Example: (imperative) languages often include various kinds of loops,
+where only one (or sometimes none!) is truly necessary.</li>
+
+</ul>
+
+<p>
+When we discuss programming languages formally,
+we will usually omit constructs which are syntactic sugar.
+</p>
+<ul>
+<li>If anything, we may note how to represent them
+in a “core” language which includes less constructs.</li>
+
+</ul>
+
+</section>
+<section id="slide-org224a9d6">
+<h3 id="org224a9d6"><span class="section-number-3">3.11</span> Exercise – a very small language</h3>
+<p>
+Consider the following context-free language.
+</p>
+<pre class="example">
+⟨stmt⟩   ∷= ⟨assign⟩ | ⟨stmt⟩ "; " ⟨stmt⟩ | "while " ⟨expr⟩ " do " ⟨stmt⟩ | ⟨ws⟩ ⟨stmt⟩ ⟨ws⟩
+⟨assign⟩ ∷= ⟨var⟩ ⟨ws⟩ " := " ⟨expr⟩
+⟨expr⟩   ∷= ⟨var⟩ | ⟨const⟩ | ⟨expr⟩ ⟨op⟩ ⟨expr⟩ | ⟨ws⟩ ⟨expr⟩ ⟨ws⟩
+⟨var⟩    ∷= ('x' | 'y' | 'z') {⟨var⟩}
+⟨const⟩  ∷= (1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 0) {⟨const⟩}
+⟨op⟩     ∷= '+' | '-' | '*' | '/' | '&lt;' | '&gt;' | '='
+⟨ws⟩  ∷= {' '} | {'\n'}
+</pre>
+
+<p>
+Provide some example programs in this language.
+</p>
+
+<p>
+Consider trying to precisely describe the language in English.
+</p>
+
+</section>
+<section id="slide-orgea38c03">
+<h3 id="orgea38c03"><span class="section-number-3">3.12</span> Example – EBNF for C++</h3>
+<p>
+A good example of the practicality EBNF for specifying
+the syntax of languages is this
+<a href="http://www.externsoft.ch/download/cpp-iso.html">EBNF grammar for C++</a>
+(presented in tabular form, rather than lists of productions
+as we use).
+</p>
+
+<p>
+The grammar is much, much larger than anything we will write,
+but it is still quite concise for describing
+a real-world programming language.
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-orge1cf9b9">
+<h2 id="orge1cf9b9"><span class="section-number-2">4</span> Stages of parsing; offloading unnecessary details</h2>
+</section>
+<section id="slide-org464eb16">
+<h3 id="org464eb16"><span class="section-number-3">4.1</span> Tokens and lexemes</h3>
+<p>
+The smallest syntactic units of a programming language are called
+<i>lexemes</i>.
+</p>
+<ul>
+<li>Think of them as the <i>words</i> of the language.
+<ul>
+<li>E.g., <code>while</code>, <code>if</code>, <code>int</code>, <code>+</code>,
+<code>some-variable-name</code>, <code>a-function-name</code>, etc.</li>
+
+</ul></li>
+
+</ul>
+
+<p>
+<i>Categories</i> of lexemes are called <i>tokens</i>.
+</p>
+<ul>
+<li>Comparing with natural languages, think of
+“prepositions”, “pronouns”, “conjunctions” etc.</li>
+<li>In programming, we have, e.g.,
+<i>identifier</i>, <i>literal</i>, <i>operator</i>, <i>type name</i>.
+<ul>
+<li>Some categories have only a single member,
+without any additional information, e.g. <i>while</i>, <i>if</i>.</li>
+
+</ul></li>
+
+</ul>
+
+<p>
+The first step in parsing a program is to convert it
+from plaintext to a list of tokens.
+</p>
+<ul>
+<li><i>Tokenising</i>.</li>
+<li>At this stage, details are abstract;
+e.g., every identifier becomes just an identifier token
+(with its name attached in some way for later steps).</li>
+<li>Discards unnecessary information (whitespace, comments, etc.)</li>
+
+</ul>
+
+</section>
+<section id="slide-orgecfd218">
+<h3 id="orgecfd218"><span class="section-number-3">4.2</span> Tokenising</h3>
+<div class="org-src-container">
+
+<pre  class="src src-text"><code trim>x = 0;
+r = 1;
+while <span style="color: #00cd68;">(</span>x &lt; n<span style="color: #00cd68;">)</span> <span style="color: #00cd68;">{</span>
+  r = r * x;
+  x++;
+<span style="color: #00cd68;">}</span>
+</code></pre>
+</div>
+
+<div class="org-center">
+<p style="text-align:center">
+⇓
+</p>
+</div>
+
+<div class="org-src-container">
+
+<pre  class="src src-text"><code trim>id<span style="color: #00cd68;">(</span>x<span style="color: #00cd68;">)</span> eq lit<span style="color: #00cd68;">(</span>0<span style="color: #00cd68;">)</span> end_stmt
+id<span style="color: #00cd68;">(</span>r<span style="color: #00cd68;">)</span> eq lit<span style="color: #00cd68;">(</span>1<span style="color: #00cd68;">)</span> end_stmt
+while openbr id<span style="color: #00cd68;">(</span>x<span style="color: #00cd68;">)</span> op<span style="color: #00cd68;">(</span>&lt;<span style="color: #00cd68;">)</span> id<span style="color: #00cd68;">(</span>n<span style="color: #00cd68;">)</span> closebr open_block
+id<span style="color: #00cd68;">(</span>r<span style="color: #00cd68;">)</span> eq id<span style="color: #00cd68;">(</span>r<span style="color: #00cd68;">)</span> op<span style="color: #00cd68;">(</span>*<span style="color: #00cd68;">)</span>
+id<span style="color: #00cd68;">(</span>x<span style="color: #00cd68;">)</span> end_stmt id<span style="color: #00cd68;">(</span>x<span style="color: #00cd68;">)</span> op<span style="color: #00cd68;">(</span>++<span style="color: #00cd68;">)</span> end_stmt
+close_block
+</code></pre>
+</div>
+
+<p>
+Disclaimer: this example is purely made up;
+it's not intended to be a completely accurate depiction of tokenising
+any particular language.
+</p>
+
+
+<p>
+:TODO: regarding the use of <code>var</code> instead of <code>⟨var⟩</code>.
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-org3d82f8d">
+<h2 id="org3d82f8d"><span class="section-number-2">5</span> Ambiguity</h2>
+<div class="outline-text-2" id="text-5">
+</div>
+</section>
+<section id="slide-org38e541b">
+<h3 id="org38e541b"><span class="section-number-3">5.1</span> Ambiguity</h3>
+<p>
+Recall that parsing a string (or deriving a string)
+using a grammar gives rise to a <i>parse tree</i> or <i>derivation tree</i>.
+</p>
+
+<p>
+It is desirable to have a single parse tree for every program.
+</p>
+<ul>
+<li>We should not admit two syntactic interpretations for a program!</li>
+
+</ul>
+
+<p>
+Three tools for removing ambiguity are
+</p>
+<ul>
+<li>requiring parentheses,</li>
+<li>introducing precedence rules, and</li>
+<li>introducing associativity rules.</li>
+
+</ul>
+
+</section>
+<section id="slide-orgdd45867">
+<h3 id="orgdd45867"><span class="section-number-3">5.2</span> Enforcing precedence and associativity with grammars</h3>
+<p>
+To enforce precedence using a grammar:
+</p>
+<ul>
+<li>Create a hierarchy of non-terminals.</li>
+<li>Higher-precedence operators are produced lower in the hierarchy.</li>
+<li>For instance,
+<ul>
+<li>An additive term can be a addition of multiplicative terms,
+which is an addition of literals, which can be the negation
+of a constant, variable or term.</li>
+
+</ul></li>
+
+</ul>
+
+<p>
+To enforce associativity using a grammar:
+</p>
+<ul>
+<li>Left associative operators should be produced by left recursive
+non-terminals.</li>
+<li>And right associative operators by right recursive non-terminals.</li>
+<li>Operators of the same precedence must associate the same way!</li>
+
+</ul>
+
+</section>
+<section id="slide-org3d9dd2c">
+<h3 id="org3d9dd2c"><span class="section-number-3">5.3</span> Is addition associative?</h3>
+<p>
+Recall that addition is an associative operator.
+</p>
+<ul>
+<li>Meaning it is both left and right associative.</li>
+
+</ul>
+
+<p>
+So the choice of whether addition in a language associates to
+the right or to the left may seem arbitrary.
+</p>
+<ul>
+<li>But numerical types in programming are not necessarily
+the same as numerical types in math!</li>
+<li>Addition of floating point numbers <i>is not associative</i>.
+<ul>
+<li>Consider a binary representation with two-digit coefficients.</li>
+<li>1.0₂ × 2⁰ + 1.0₂ × 2⁰ + 1.0₂ × 2² has a different value depending
+upon parenthesisation.</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-orgf9a22bb">
+<h3 id="orgf9a22bb"><span class="section-number-3">5.4</span> Abstract syntax</h3>
+<p>
+“Simple”, ambiguous grammars do have a place in describing
+programming language syntax.
+</p>
+<ul>
+<li>Such grammars describe the <i>abstract syntax</i> of the language.
+<ul>
+<li>As opposed to <i>concrete syntax</i>.</li>
+
+</ul></li>
+<li>Consider programs as <i>trees</i> generated by the grammar
+for the abstract syntax of the language.
+<ul>
+<li>Trees do not admit ambiguity!</li>
+<li>Such trees more efficiently represent programs.
+<ul>
+<li>The shape of the tree expresses structure.</li>
+<li>Other unnecessary details may be left out.</li>
+
+</ul></li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-org10dae80">
+<h3 id="org10dae80"><span class="section-number-3">5.5</span> Beyond context-free grammars: “static semantics”</h3>
+<p>
+For most interesting languages,
+context-free grammars are not quite sufficient
+to describe well-formed programs.
+</p>
+<ul>
+<li>They cannot express conditions such as
+“variables must be declared before use”, and
+typing rules.</li>
+<li>It has been <i>proven</i> that CFGs are not sufficient.
+<ul>
+<li>At least some typing rules are possible to express,
+but prohibitively difficult.</li>
+
+</ul></li>
+
+</ul>
+
+<p>
+Recall the Chomsky hierarchy of languages.
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-text"><code trim>Regular &#8834; Context-free &#8834; Context-sensitive &#8834; Recursive &#8834; Recursively enumberable
+</code></pre>
+</div>
+<ul>
+<li>The properties we need could be described by <i>context-sensitive</i> grammars.
+<ul>
+<li>But they are unwieldy!</li>
+
+</ul></li>
+<li>Instead, use <i>attribute grammars</i>;
+a relatively small augmentation to CFGs.
+<ul>
+<li>Each non-terminal and terminal may have a collection
+of <i>attributes</i> (named values).</li>
+<li>Each production may have a collection of
+rules defining the values of the attributes
+and a collection of predicates
+reasoning about those attributes.</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-orgbb0e134">
+<h3 id="orgbb0e134"><span class="section-number-3">5.6</span> An example attribute grammar</h3>
+<p>
+Consider this simple grammar.
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-text"><code trim><span style="color: #00cd68;">&#10216;</span>S<span style="color: #00cd68;">&#10217;</span> &#8759;= <span style="color: #00cd68;">&#10216;</span>A<span style="color: #00cd68;">&#10217;</span> <span style="color: #00cd68;">&#10216;</span>B<span style="color: #00cd68;">&#10217;</span> <span style="color: #00cd68;">&#10216;</span>C<span style="color: #00cd68;">&#10217;</span>
+<span style="color: #00cd68;">&#10216;</span>A<span style="color: #00cd68;">&#10217;</span> &#8759;= &#949; &#8739; a <span style="color: #00cd68;">&#10216;</span>A<span style="color: #00cd68;">&#10217;</span>
+<span style="color: #00cd68;">&#10216;</span>B<span style="color: #00cd68;">&#10217;</span> &#8759;= &#949; &#8739; b <span style="color: #00cd68;">&#10216;</span>B<span style="color: #00cd68;">&#10217;</span>
+<span style="color: #00cd68;">&#10216;</span>C<span style="color: #00cd68;">&#10217;</span> &#8759;= &#949; &#8739; c <span style="color: #00cd68;">&#10216;</span>C<span style="color: #00cd68;">&#10217;</span>
+</code></pre>
+</div>
+
+<p>
+Suppose we want to allow only strings of the form <code>aⁿbⁿcⁿ</code>.
+There is no CFG that can produce exactly such strings.
+But we can enforce this condition using the above grammar
+augmented with attributes.
+</p>
+<ul>
+<li>Each of the non-terminals <code>⟨A⟩</code>, <code>⟨B⟩</code> and <code>⟨C⟩</code> are given an attribute
+<code>length</code>.</li>
+<li>To each production with <code>⟨A⟩</code>, <code>⟨B⟩</code> or <code>⟨C⟩</code> on the left side, we attach
+a rule to compute the <code>length</code>.</li>
+<li>The production <code>⟨S⟩ ∷= ⟨A⟩ ⟨B⟩ ⟨C⟩</code> enforces the condition with a predicate.</li>
+
+</ul>
+
+</section>
+<section id="slide-orgbb0e134-split">
+
+<h3><span class="section-number-3">5.6</span> An example attribute grammar</h3>
+
+<div class="org-src-container">
+
+<pre  class="src src-text"><code trim><span style="color: #00cd68;">&#10216;</span>S<span style="color: #00cd68;">&#10217;</span> &#8759;= <span style="color: #00cd68;">&#10216;</span>A<span style="color: #00cd68;">&#10217;</span> <span style="color: #00cd68;">&#10216;</span>B<span style="color: #00cd68;">&#10217;</span> <span style="color: #00cd68;">&#10216;</span>C<span style="color: #00cd68;">&#10217;</span>
+Predicate: <span style="color: #00cd68;">&#10216;</span>A<span style="color: #00cd68;">&#10217;</span>.length = <span style="color: #00cd68;">&#10216;</span>B<span style="color: #00cd68;">&#10217;</span>.length = <span style="color: #00cd68;">&#10216;</span>C<span style="color: #00cd68;">&#10217;</span>.length
+
+<span style="color: #00cd68;">&#10216;</span>A<span style="color: #00cd68;">&#10217;</span> &#8759;= &#949;
+Rule: <span style="color: #00cd68;">&#10216;</span>A<span style="color: #00cd68;">&#10217;</span>.length &#8788; 0
+
+<span style="color: #00cd68;">&#10216;</span>A<span style="color: #00cd68;">&#10217;</span>&#8321; &#8759;= a <span style="color: #00cd68;">&#10216;</span>A<span style="color: #00cd68;">&#10217;</span>&#8322;
+Rule: <span style="color: #00cd68;">&#10216;</span>A<span style="color: #00cd68;">&#10217;</span>&#8321;.length &#8788; <span style="color: #00cd68;">&#10216;</span>A<span style="color: #00cd68;">&#10217;</span>&#8322;.length + 1
+
+<span style="color: #00cd68;">&#10216;</span>B<span style="color: #00cd68;">&#10217;</span> &#8759;= &#949;
+Rule: <span style="color: #00cd68;">&#10216;</span>B<span style="color: #00cd68;">&#10217;</span>.length &#8788; 0
+
+<span style="color: #00cd68;">&#10216;</span>B<span style="color: #00cd68;">&#10217;</span>&#8321; &#8759;= b <span style="color: #00cd68;">&#10216;</span>B<span style="color: #00cd68;">&#10217;</span>&#8322;
+Rule: <span style="color: #00cd68;">&#10216;</span>B<span style="color: #00cd68;">&#10217;</span>&#8321;.length &#8788; <span style="color: #00cd68;">&#10216;</span>B<span style="color: #00cd68;">&#10217;</span>&#8322;.length + 1
+
+<span style="color: #00cd68;">&#10216;</span>C<span style="color: #00cd68;">&#10217;</span> &#8759;= &#949;
+Rule: <span style="color: #00cd68;">&#10216;</span>C<span style="color: #00cd68;">&#10217;</span>.length &#8788; 0
+
+<span style="color: #00cd68;">&#10216;</span>C<span style="color: #00cd68;">&#10217;</span>&#8321; &#8759;= c <span style="color: #00cd68;">&#10216;</span>C<span style="color: #00cd68;">&#10217;</span>&#8322;
+Rule: <span style="color: #00cd68;">&#10216;</span>C<span style="color: #00cd68;">&#10217;</span>&#8321;.length &#8788; <span style="color: #00cd68;">&#10216;</span>C<span style="color: #00cd68;">&#10217;</span>&#8322;.length + 1
+</code></pre>
+</div>
+
+<p>
+In productions with multiple occurrences of the same non-terminal,
+we number the occurrences so we can easily refer to them
+in the rules/predicates.
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-orgb9cb0f5">
+<h2 id="orgb9cb0f5"><span class="section-number-2">6</span> Abstract and concrete syntax; ignoring ambiguity</h2>
+</section>
+</section>
+<section>
+<section id="slide-org07f954f">
+<h2 id="org07f954f"><span class="section-number-2">7</span> The <i>semantics</i> of formal languages</h2>
+<p>
+Unlike with syntax, there is not one universally used tool
+for describing programming language semantics.
+</p>
+
+<p>
+In this course we will primarily consider <i>operational semantics</i>.
+</p>
+<ul>
+<li>A formal description of the meaning programs as
+a series of computation steps on an abstract machine.
+<ul>
+<li>The machine should be more abstract, and more easily understood,
+than assembly language.</li>
+<li>But still “simpler” than the language.</li>
+<li>Stack machines and state diagrams are good candidates.</li>
+
+</ul></li>
+
+</ul>
+
+<p>
+Additional approaches include
+</p>
+<ul>
+<li>Denotational semantics.
+<ul>
+<li>The meaning of programs are <i>denoted</i> by mathematical objects.
+<ul>
+<li>Such as partial functions.</li>
+
+</ul></li>
+<li>Have to consider <i>limits</i> and non-termination.</li>
+
+</ul></li>
+<li>Axiomatic semantics.
+<ul>
+<li>The meaning of a program is given by a precondition/postcondition
+calculus.
+<ul>
+<li>Such as <code>wp</code>; the “weakest-precondition” calculus.</li>
+
+</ul></li>
+<li>Very useful for specification.</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-orgc4d9bd0">
+<h3 id="orgc4d9bd0"><span class="section-number-3">7.1</span> The kernel language approach</h3>
+<p>
+The “kernel language” approach to semantics can be used
+for languages with many features and constructs.
+</p>
+<ul>
+<li>Choose a small “kernel” set of features/constructs.</li>
+<li>Describe the remainder of the language in terms of that kernal language.</li>
+<li>The kernel language may be described using the formal approaches
+mentioned.</li>
+<li><i>Concepts, Techniques, and Models of Computer Programming</i>
+takes this approach.</li>
+
+</ul>
+
+</section>
+<section id="slide-orgfbe7a8a">
+<h3 id="orgfbe7a8a"><span class="section-number-3">7.2</span> More to come&#x2026;</h3>
+<p>
+We will return to the discussion of semantics later in the course.
+</p>
+</section>
+</section>
+</div>
+</div>
+<script src="./reveal.js/dist/reveal.js"></script>
+<script src="./reveal.js/plugin/markdown/markdown.js"></script>
+<script src="./reveal.js/plugin/zoom/zoom.js"></script>
+<script src="./reveal.js/plugin/notes/notes.js"></script>
+
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+plugins: [RevealMarkdown,RevealZoom,RevealNotes],
+width:1600, height:900, controlsLayout:'edges',
+margin: 0.1, minScale:0.125, maxScale:5,
+multiplex: {
+    secret: '', // null if client
+    id: '', // id, obtained from socket.io server
+    url: '' // Location of socket.io server
+},
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+]
+});
+</script>
+</body>
+</html>
