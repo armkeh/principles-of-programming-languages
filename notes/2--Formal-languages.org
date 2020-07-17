@@ -10,12 +10,13 @@
 
 ** Reveal settings
 
-#+Reveal_root: http://cdn.jsdelivr.net/reveal.js/3.0.0/
+#+Reveal_root: ./reveal.js
 #+Reveal_init_options: width:1600, height:900, controlsLayout:'edges',
 #+Reveal_init_options: margin: 0.1, minScale:0.125, maxScale:5
 #+Reveal_extra_css: local.css
-# I don't recall what this was for
-# #+html: <script src="https://cdnjs.cloudflare.com/ajax/libs/headjs/0.96/head.min.js"></script>
+
+# #+HTML: <script src="https://cdnjs.cloudflare.com/ajax/libs/headjs/0.96/head.min.js"></script>
+
 * LaTeX settings                                :noexport:
 
 #+LaTeX_header: \usepackage{amsthm}
@@ -27,11 +28,7 @@
 
 * Preamble
 
-** TODO Notable references
-
-:TODO:
-
-** TODO Table of contents
+** TODO Table of contents                      :ignore:
 
 # The table of contents are added using org-reveal-manual-toc,
 # and so must be updated upon changes or added last.
@@ -42,6 +39,10 @@
   - [[Preamble][Preamble]]
 #+end_scriptsize
 #+HTML: </font>
+
+** TODO Notable references
+
+:TODO:
 
 * Introduction
 
@@ -86,10 +87,10 @@ We will see an additional reason to segregate such features;
 
 * The syntax of formal languages
 
-** Preamble
+** Preamble                                    :ignore:
 
 A language over an /alphabet/ (set of symbols) /Σ/
-is a subset of /Σ^{*}/.
+is a subset of /Σ*.
 The elements of a language are called /sentences/
 (or /strings/ or sometimes /words/).
 
@@ -117,21 +118,27 @@ In particular, in most cases:
   a /context-free/ language, and so can be recognised by
   a (context-free) grammar.
 
+[fn:recogniser]
+The computer must recognise (accept) valid programs.
+Conveniently, both regular expressions and grammars
+can also be viewed as generators, which is a useful point of view
+for humans reading the grammar/expression.
+
 ** Strings
 
 Recall that given a set /Σ/, the set of strings over /Σ/,
-written /Σ^{*}/, is the set of all finite sequences
+written /Σ*/, is the set of all finite sequences
 of elements of /Σ/.
 
 In particular, the sequence of length zero we denote by /ε/.
 Note that some other sources use /λ/ for this purpose.
 
 For example, for /Σ = {a, b, c}/,
-/Σ^{*} = {ε, a, b, c, aa, ab, ac, ba, bb, bc, ca, cb, cc, aaa, …}/.
+/Σ* = {ε, a, b, c, aa, ab, ac, ba, bb, bc, ca, cb, cc, aaa, …}/.
 
 Given an element /e ∈ Σ/, we write
 - /eⁿ/ for the string consisting of /n/ occurrences of /e/, and
-- /e^{*}/ for the set of all such strings.
+- /e*/ for the set of all such strings.
 
 ** Writing grammars precisely
 
@@ -146,7 +153,7 @@ where
   also called the /terminals/ of the grammar,
 - ~N~ and ~Σ~ must be distinct,
 - ~P~ is a set of /productions/, i.e.,
-  a binary relation between ~N~ and /(~N~ ∪ ~Σ~)^{*}/,
+  a binary relation between ~N~ and /(~N~ ∪ ~Σ~)*/,
   - In other words, a multi-valued function from
     nonterminals to strings of non-terminals and terminals,
 - ~S~ is a particular element of ~N~, called the /starting nonterminal/.
@@ -310,7 +317,8 @@ only more convenient notation.
   - And certainly more characters/space on the page.
   
 Syntactic sugar is a common feature of programming languages.
-- Example: various kinds of loops.
+- Example: (imperative) languages often include various kinds of loops,
+  where only one (or sometimes none!) is truly necessary.
 
 When we discuss programming languages formally,
 we will usually omit constructs which are syntactic sugar.
@@ -321,10 +329,30 @@ we will usually omit constructs which are syntactic sugar.
 
 Consider the following context-free language.
 #+begin_example text
-⟨stmt⟩   ∷= ⟨assign⟩ | ⟨stmt⟩ ';' ⟨stmt⟩ | 'while' ⟨expr⟩ 'do' ⟨stmt⟩
-⟨assign⟩ ∷= ⟨var⟩ ':=' ⟨expr⟩
-⟨expr⟩   ∷= 
+⟨stmt⟩   ∷= ⟨assign⟩ | ⟨stmt⟩ "; " ⟨stmt⟩ | "while " ⟨expr⟩ " do " ⟨stmt⟩ | ⟨ws⟩ ⟨stmt⟩ ⟨ws⟩
+⟨assign⟩ ∷= ⟨var⟩ ⟨ws⟩ " := " ⟨expr⟩
+⟨expr⟩   ∷= ⟨var⟩ | ⟨const⟩ | ⟨expr⟩ ⟨op⟩ ⟨expr⟩ | ⟨ws⟩ ⟨expr⟩ ⟨ws⟩
+⟨var⟩    ∷= ('x' | 'y' | 'z') {⟨var⟩}
+⟨const⟩  ∷= (1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 0) {⟨const⟩}
+⟨op⟩     ∷= '+' | '-' | '*' | '/' | '<' | '>' | '='
+⟨ws⟩  ∷= {' '} | {'\n'}
 #+end_example
+
+Provide some example programs in this language.
+
+Consider trying to precisely describe the language in English.
+
+** Example – EBNF for C++
+
+A good example of the practicality EBNF for specifying
+the syntax of languages is this
+[[http://www.externsoft.ch/download/cpp-iso.html][EBNF grammar for C++]]
+(presented in tabular form, rather than lists of productions
+as we use).
+
+The grammar is much, much larger than anything we will write,
+but it is still quite concise for describing
+a real-world programming language.
 
 * Stages of parsing; offloading unnecessary details
 
@@ -522,7 +550,7 @@ In productions with multiple occurrences of the same non-terminal,
 we number the occurrences so we can easily refer to them
 in the rules/predicates.
 
-* Abstract and concrete syntax; ignoring ambiguity sometimes
+* Abstract and concrete syntax; ignoring ambiguity
 * The /semantics/ of formal languages
 
 Unlike with syntax, there is not one universally used tool
