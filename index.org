@@ -1,0 +1,81 @@
+#+Title: Computer Science 3MI3 - Principles of Programming Languages
+#+Subtitle: 2020 Course Homepage
+#+Author: Mark Armstrong
+#+Description: The course homepage for the 2020 class of 3mi3
+#+SETUPFILE: https://fniessen.github.io/org-html-themes/setup/theme-bigblow.setup
+
+* Communications
+:PROPERTIES:
+:CUSTOM_ID: Communications/Announcements
+:END:
+
+** August
+:PROPERTIES:
+:CUSTOM_ID: August
+:END:
+
+Welcome! This page is under construction.
+
+* Lecture and tutorial notes
+:PROPERTIES:
+:CUSTOM_ID: Lecture-notes
+:END:
+
+:TODO:
+
+* Course work
+:PROPERTIES:
+:CUSTOM_ID: Course-Work
+:END:
+
+:TODO: finalise this information
+
+This course is currently planned to have weekly [[Homeworks][homeworks]],
+three longer [[Assignments][assignments]],
+and either a final project or exam.
+
+All homeworks and assignments are to be submitted via your
+Computing and Software GitLab account.
+
+The homeworks are graded for completion,
+and the two lowest grades are not used in calculation
+—this also allows each student to miss two homeworks without penalty.
+The assignments are more thoroughly graded.
+
+:TODO: make links
+See [[][Grading]] and [[][Missed work]]
+in the course outline for details about grade calculations
+and procedures for missed work.
+
+** Homeworks
+:PROPERTIES:
+:CUSTOM_ID: Homeworks
+:END:
+
+:TODO:
+
+** Assignments
+:PROPERTIES:
+:CUSTOM_ID: Assignments
+:END:
+
+:TODO:
+
+* Course texts
+:PROPERTIES:
+:CUSTOM_ID: Course-texts
+:END:
+
+:TODO:
+
+* Course outline
+:PROPERTIES:
+:CUSTOM_ID: Course-outline
+:END:
+
+:TODO: include the HTML version as a subpage
+
+* TODO other subpages
+:PROPERTIES:
+:CUSTOM_ID: other-subpages
+:END:
