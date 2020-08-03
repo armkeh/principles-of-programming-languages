@@ -1,0 +1,343 @@
+#+Title: Computer Science 3MI3 - Principles of Programming Languages
+#+Subtitle: 2020 Course Outline
+#+Author: Mark Armstrong
+#+Description: The course outline for the 2020 class of 3mi3
+#+Options: toc:nil num:nil
+
+* TL;DR
+:PROPERTIES:
+:CUSTOM_ID: TL;DR
+:END:
+
+At the very least, please review these sections of the outline.
+- [[Course staff]]
+- [[Your responsibilities regarding course administration tools]]
+- [[Communicating with course staff]]
+
+* The purpose of an outline
+:PROPERTIES:
+:CUSTOM_ID: The-purpose-of-an-outline
+:END:
+
+#+begin_quote
+A course outline sets the expectations for students
+and what they can expect in terms of the course
+experience they will receive,
+the format in which the course will be delivered
+and the knowledge and skills that can be gained.
+The outline introduces the course and the instructor
+and sets out the expectations of the instructor
+so that students are aware of how they will learn,
+what level of participation will be expected
+and how they will be assessed.
+#+end_quote
+
+* Course staff
+:PROPERTIES:
+:CUSTOM_ID: Course-staff
+:END:
+
+:TODO:
+
+* Schedule
+:PROPERTIES:
+:CUSTOM_ID: Schedule
+:END:
+
++-------+----------+------+------------+-----+----------+-----+----------+
+|       | Mon      | Tues | Wed        | Thu | Fri      | Sat | Sun      |
++-------+----------+------+------------+-----+----------+-----+----------+
+|  9:30 |          |      | Tutorial 2 |     |          |     |          |
++-------+----------+------+------------+-----+----------+-----+----------+
+| 10:30 |          |      |            |     |          |     |          |
++-------+----------+------+------------+-----+----------+-----+----------+
+| 11:30 | Lecture  |      | Lecture    |     |          |     |          |
++-------+----------+------+------------+-----+----------+-----+----------+
+| 12:30 | Tutorial |      |            |     |          |     |          |
++-------+----------+------+------------+-----+----------+-----+----------+
+| 13:30 |          |      |            |     | Lecture  |     |          |
++-------+----------+------+------------+-----+----------+-----+----------+
+|   EOD |          |      |            |     | Homework |     | Homework |
+|       |          |      |            |     | released |     |   due    |
++-------+----------+------+------------+-----+----------+-----+----------+
+There is a one-week delay between the homework release and due dates.
+So there are 9 days to work on each homework.
+
+* Administration tools
+:PROPERTIES:
+:CUSTOM_ID: Administration-tools
+:END:
+
+** The tools
+:PROPERTIES:
+:CUSTOM_ID: The-tools
+:END:
+
+This course will be administered via a combination of
+- a “team” on the CAS departmental Microsoft Teams,
+- the course
+  [[https://armkeh.github.io/principles-of-programming-languages/][homepage]],
+- a [[https://github.com/armkeh/principles-of-programming-languages][Github repository]]
+  of the course content, from which
+  the homepage is hosted as a ~github.io~ website,
+- a repository for each student on the
+  [[https://gitlab.cas.mcmaster.ca][McMaster CAS GitLab server]], and
+- communications via McMaster email addresses.
+
+Specifically,
+- Teams :: will be used for live lectures/tutorials
+  and preferred for discussions relevant to the whole
+  (or at least many members of) the class,
+- the homepage :: will be used for announcements
+  and convenient access to notes and homework/assignments,
+- the Github repository :: will be used to host the course homepage
+  and content, and allow students to easily see version changes
+  to content,
+- the Gitlab repository for each student :: will be used
+  for homework and assignment submissions and grade distribution, and
+- McMaster email addresses :: will be used
+  for private communications with students.
+
+An Avenue to Learn course has been created for this course
+for the sake of directing students to the course homepage
+and entering homework/assignment deadlines in a calendar.
+No course content will be uploaded to Avenue to Learn,
+and attempts to communicate with staff on that platform
+may go unnoticed and unanswered.
+
+** Your responsibilities regarding course administration tools
+:PROPERTIES:
+:CUSTOM_ID: Your-responsibilities-regarding-course-administration-tools
+:END:
+
+*It is the student's responsibility*
+- to ensure they have an account on
+  the [[https://gitlab.cas.mcmaster.ca][McMaster CAS GitLab server]] and
+  the [[https://teams.microsoft.com/l/team/19%3a1f2f25fdc5e243d285e2f92216e5b483%40thread.tacv2/conversations?groupId=a2e98537-757f-4791-b72f-2cf4d7459f28&tenantId=44376307-b429-42ad-8c25-28cd496f4772][CAS Microsoft Teams team]]
+- to be aware of the information on the course's [[https://armkeh.github.io/principles-of-programming-languages/][homepage]] and
+- to check the [[https://armkeh.github.io/principles-of-programming-languages/][homepage]], their course GitLab repository,
+  the Microsoft Teams team for the course
+  and their email regularly for announcements and changes.
+It is not assumed that students follow the Github repo,
+but it is a good practice to stay informed of any and all
+changes to content.
+
+* Communicating with course staff
+:PROPERTIES:
+:CUSTOM_ID: Communicating-with-course-staff
+:END:
+
+To communicate with course staff reliably, you should
+choose the most appropriate means from the below.
+- “Mention” the course staff member in a relevant channel on
+  the Microsoft Teams team.
+  - This is appropriate for questions which may interest many students.
+- Private message the course staff member on Microsoft Teams.
+  - This is appropriate for very quick questions.
+- Email the course staff member using the email listed under [[Course staff]].
+  - This is appropriate for longer or more detailed questions.
+
+Note that outside of class hours, course staff may not be available
+for immediate replies to your communication.
+Permit up to a business day for response before following up.
+
+* Resources
+:PROPERTIES:
+:CUSTOM_ID: Resources
+:END:
+
+The course notes are intended to be self contained,
+but the recommended texts and several of the available resources
+are available free of charge,
+so you are encouraged to investigate them.
+
+:TODO:
+
+** COMMENT Last year's texts
+:PROPERTIES:
+:CUSTOM_ID: COMMENT-Last-year's-texts
+:END:
+
+*** Recommended texts
+:PROPERTIES:
+:CUSTOM_ID: Recommended-texts
+:END:
+
+These textbooks should be available at the Campus Bookstore.
+They are additionally available online at the included links.
+
+**** *“Van Roy & Haridi”*
+:PROPERTIES:
+:CUSTOM_ID: *“Van-Roy-&-Haridi”*
+:END:
+
+ACM Digital Library citation:
+#+begin_quote
+Peter Van Roy and Seif Haridi. 2004.
+Concepts, Techniques, and Models of Computer Programming (1st ed.).
+The MIT Press.
+#+end_quote
+
+From its abstract:
+#+begin_quote
+The book presents all major programming paradigms in a uniform framework
+that shows their deep relationships and how and where
+to use them together.
+#+end_quote
+
+~pdf~ available through
+[[http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.102.7366&rep=rep1&type=pdf][CiteSeer^{X}]].
+
+**** *“Dowek”*
+:PROPERTIES:
+:CUSTOM_ID: *“Dowek”*
+:END:
+
+ACM Digital Library citation:
+#+begin_quote
+Gilles Dowek. 2009.
+Principles of Programming Languages.
+Springer Publishing Company, Incorporated.
+#+end_quote
+
+From its abstract:
+#+begin_quote
+This book is an introduction to the principles
+around which these languages are organised:
+imperative constructions, functional constructions,
+reference, dynamic data types, objects and more.
+#+end_quote
+
+~pdf~ available through
+[[https://discovery.mcmaster.ca/iii/encore/record/C__Rb1593967][the McMaster library]].
+
+*** Additional resources
+:PROPERTIES:
+:CUSTOM_ID: Additional-resources
+:END:
+
+These texts may be of interest,
+or assist if something is unclear in the notes and recommended texts.
+
+**** *“SICP”*; “The Wizard Book”
+:PROPERTIES:
+:CUSTOM_ID: *“SICP”*;-“The-Wizard-Book”
+:END:
+
+ACM Digital Library citation:
+#+begin_quote
+Harold Abelson and Gerald J. Sussman. 1996.
+Structure and Interpretation of Computer Programs (2nd ed.).
+MIT Press, Cambridge, MA, USA.
+#+end_quote
+
+From its abstract:
+#+begin_quote
+With an analytical and rigorous approach to problem solving
+and programming techniques,this book is oriented toward engineering.
+Structure and Interpretation of Computer Programs emphasizes
+the central role played by different approaches
+to dealing with time in computational models.
+Its unique approach makes it appropriate for
+an introduction to computer science courses,
+as well as programming languages and program design.
+#+end_quote
+
+~html~ available through
+[[https://mitpress.mit.edu/sites/default/files/sicp/index.html][the MIT press]]
+and ~pdf~ available through
+[[https://github.com/sarabander/sicp-pdf][GitHub]].
+
+**** *“Sebesta”*
+:PROPERTIES:
+:CUSTOM_ID: *“Sebesta”*
+:END:
+
+ACM Digital Library citation:
+#+begin_quote
+Robert W. Sebesta. 2012.
+Concepts of Programming Languages (10th ed.).
+Pearson.
+#+end_quote
+
+An encyclopedic text on the construction of programming languages.
+
+**** *“Fernández”*
+:PROPERTIES:
+:CUSTOM_ID: *“Fernández”*
+:END:
+
+ACM Digital Library citation:
+#+begin_quote
+M. Fernandez. 2004.
+Programming Languages and Operational Semantics: An Introduction.
+King's College Publications.
+#+end_quote
+
+An introductory text covering primarily operational semantics
+of a simple imperative and a simple functional language.
+
+~pdf~ available through
+[[http://discovery.mcmaster.ca/iii/encore/record/C__Rb2200622][the McMaster library]].
+
+* Course description
+:PROPERTIES:
+:CUSTOM_ID: Course-description
+:END:
+
+:TODO:
+
+# In the past, I simply pulled this section from the first set of notes.
+
+# INCLUDE: "./notes/1-intro.org::*Purpose and goals of this course"
+
+* Grading
+:PROPERTIES:
+:CUSTOM_ID: Grading
+:END:
+
+:TODO:
+
+** COMMENT Last year's scheme
+:PROPERTIES:
+:CUSTOM_ID: COMMENT-Last-year's-scheme
+:END:
+
+The graded work for this course is:
+- Weekly short homeworks, marked for completion,
+  - (each student is permitted to miss 2 homeworks without penalty)
+- +four+ programming/written answer assignments,
+  - (Updated as of October 15th, 2019)
+- two midterm examinations, and
+- the final examination.
+
+Each student's final grade will be the maximum grade
+among three grading schemes.
++-------------+---------------+---------------+---------------+
+|             |   Scheme 1    |   Scheme 2    |   Scheme 3    |
++-------------+---------------+---------------+---------------+
+|  Homework   |      10%      |      10%      |      10%      |
++-------------+---------------+---------------+---------------+
+| Assignments | 3 * 10% = 30% | 3 * 10% = 30% | 3 * 10% = 30% |
++-------------+---------------+---------------+---------------+
+|  Midterm 1  |      10%      |      20%      |      10%      |
++-------------+---------------+---------------+---------------+
+|  Midterm 2  |      20%      |      10%      |      10%      |
++-------------+---------------+---------------+---------------+
+| Final Exam  |      30%      |      30%      |      40%      |
++-------------+---------------+---------------+---------------+
+In this way, your best examination is weighted more heavily.
+
+* Approved advisory statements
+:PROPERTIES:
+:CUSTOM_ID: Approved-statements
+:END:
+
+The following two pages cover topics and policies
+related to undergraduate course management.
+Please review them.
+
+#+LaTeX_header: \usepackage{pdfpages}
+@@latex:\includepdf[pages=-,width=\pagewidth]{media/outline-advisory-statements.pdf}@@
+
+@@html:<iframe src="media/outline-advisory-statements.pdf" style="width: 75vw; height:75vh"> </iframe>@@
