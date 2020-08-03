@@ -1,6 +1,7 @@
 #+Title: Computer Science 3MI3 - Principles of Programming Languages
 #+Subtitle: 2020 Course Outline
 #+Author: Mark Armstrong
+#+Date: August 2nd, 2020
 #+Description: The course outline for the 2020 class of 3mi3
 #+SETUPFILE: ../org-html-themes/setup/theme-readtheorg-local.setup
 
@@ -340,9 +341,4 @@ Please review them.
 #+LaTeX_header: \usepackage{pdfpages}
 @@latex:\includepdf[pages=-,width=\pagewidth]{media/outline-advisory-statements.pdf}@@
 
-#+HTML_head: <script>
-#+HTML_head:   function resizeIframe(obj) {
-#+HTML_head:     obj.style.height = obj.contentWindow.document.documentElement.scrollHeight + 'px';
-#+HTML_head:   }
-#+HTML_head: </script>
-@@html:<iframe src="media/outline-advisory-statements.pdf" style="width: 100%" scrolling="no" onload="resizeIframe(this)"> </iframe>@@
+@@html:<iframe src="media/outline-advisory-statements.pdf" style="width: 100%; height: 75vh"></iframe>@@
