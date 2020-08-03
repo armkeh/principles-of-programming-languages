@@ -2,7 +2,7 @@
 #+Subtitle: 2020 Course Outline
 #+Author: Mark Armstrong
 #+Description: The course outline for the 2020 class of 3mi3
-#+Options: toc:nil num:nil
+#+SETUPFILE: ../org-html-themes/setup/theme-readtheorg-local.setup
 
 * TL;DR
 :PROPERTIES:
@@ -10,9 +10,9 @@
 :END:
 
 At the very least, please review these sections of the outline.
-- [[Course staff]]
-- [[Your responsibilities regarding course administration tools]]
-- [[Communicating with course staff]]
+- [[Course staff][Course staff]]
+- [[Your responsibilities regarding course administration tools][Your responsibilities]]
+- [[Communicating with course staff][Communicating with course staff]]
 
 * The purpose of an outline
 :PROPERTIES:
@@ -340,4 +340,9 @@ Please review them.
 #+LaTeX_header: \usepackage{pdfpages}
 @@latex:\includepdf[pages=-,width=\pagewidth]{media/outline-advisory-statements.pdf}@@
 
-@@html:<iframe src="media/outline-advisory-statements.pdf" style="width: 75vw; height:75vh"> </iframe>@@
+#+HTML_head: <script>
+#+HTML_head:   function resizeIframe(obj) {
+#+HTML_head:     obj.style.height = obj.contentWindow.document.documentElement.scrollHeight + 'px';
+#+HTML_head:   }
+#+HTML_head: </script>
+@@html:<iframe src="media/outline-advisory-statements.pdf" style="width: 100%" scrolling="no" onload="resizeIframe(this)"> </iframe>@@

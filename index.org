@@ -43,12 +43,18 @@
 :CUSTOM_ID: Course-outline
 :END:
 
+The course outline is available as
+- a printer-friendly [[file:./notes/0--Course-outline.pdf][PDF]],
+- a screen-friendly [[file:./notes/0--Course-outline.html][webpage]], or
+- an text-editor [[file:./notes/0--Course-outline.org][Org]] file.
+
+The PDF is also embedded here for convenience.
 #+HTML_head: <script>
 #+HTML_head:   function resizeIframe(obj) {
 #+HTML_head:     obj.style.height = obj.contentWindow.document.documentElement.scrollHeight + 'px';
 #+HTML_head:   }
 #+HTML_head: </script>
-@@html:<iframe src="notes/0--Course-outline.html" style="width: 100%" scrolling="no" onload="resizeIframe(this)"> </iframe>@@
+@@html:<iframe src="notes/0--Course-outline.pdf" style="width: 100%" scrolling="no" onload="resizeIframe(this)"> </iframe>@@
 
 * TODO other subpages
 :PROPERTIES:
