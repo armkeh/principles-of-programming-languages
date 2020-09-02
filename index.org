@@ -56,9 +56,9 @@ The slides are available as
 :CUSTOM_ID: 3-–-An-untyped-λ-calculus,-/UL/
 :END:
 
-- [[./notes/3--L1-untyped-lambda-calculus.html][Online slides]]
-- [[./notes/3--L1-untyped-lambda-calculus.pdf][PDF]]
-- [[./notes/3--L1-untyped-lambda-calculus.org][Org plaintext]]
+- [[./notes/3--An-untyped-lambda-calculus-UL.html][Online slides]]
+- [[./notes/3--An-untyped-lambda-calculus-UL.pdf][PDF]]
+- [[./notes/3--An-untyped-lambda-calculus-UL.org][Org plaintext]]
 
 *** 4 – Bindings and scope
 :PROPERTIES:
@@ -83,9 +83,9 @@ The slides are available as
 :CUSTOM_ID: 6-–-A-typed-λ-calculus,-/TL/
 :END:
 
-- [[./notes/6--L2-typed-lambda-calculus.html][Online slides]]
-- [[./notes/6--L2-typed-lambda-calculus.pdf][PDF]]
-- [[./notes/6--L2-typed-lambda-calculus.org][Org plaintext]]
+- [[./notes/6--A-typed-lambda-calculus-TL.html][Online slides]]
+- [[./notes/6--A-typed-lambda-calculus-TL.pdf][PDF]]
+- [[./notes/6--A-typed-lambda-calculus-TL.org][Org plaintext]]
 
 *** 7 – Imperativeness
 :PROPERTIES:
@@ -101,9 +101,9 @@ The slides are available as
 :CUSTOM_ID: 8-–-An-imperative-core,-/WHILE/
 :END:
 
-- [[./notes/8--WHILE,-an-imperative-core.html][Online slides]]
-- [[./notes/8--WHILE,-an-imperative-core.pdf][PDF]]
-- [[./notes/8--WHILE,-an-imperative-core.org][Org plaintext]]
+- [[./notes/8--An-imperative-core-While.html][Online slides]]
+- [[./notes/8--An-imperative-core-While.pdf][PDF]]
+- [[./notes/8--An-imperative-core-While.org][Org plaintext]]
 
 *** Appendix 1 – Notation and conventions
 :PROPERTIES:
