@@ -1,7 +1,7 @@
 #+Title: Principle of Programming Languages
 #+Subtitle: Computer Science 3mi3, McMaster University
 #+Author: Mark Armstrong
-#+Description: README and assorted repository management files
+#+Description: README and the inlined homepage
 
 * Introduction
 
@@ -9,17 +9,8 @@ Repository of course notes and publically available assignment/test documents
 for the course “CS3mi3: Principles of Programming Languages”
 at McMaster University.
 
-* ~.gitignore~                                    :noexport:
+The remainder of this README is an inlined copy of the course
+homepage, better viewed at
+[[https://armkeh.github.io/principles-of-programming-languages/]]
 
-#+begin_src text :tangle .gitignore
-# This file is tangled from README.org and
-# should not be modified directly.
-
-# Local backups
-*.*~
-*.*#
-
-# LaTeX generation artifacts
-*.aux
-*.log
-#+end_src
+#+INCLUDE: "./index.org" :minlevel 1
