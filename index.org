@@ -23,6 +23,142 @@
 :CUSTOM_ID: Lecture-notes
 :END:
 
+** Lecture slides
+:PROPERTIES:
+:CUSTOM_ID: Lecture-slides
+:END:
+
+The slides are available as
+- Online ~reveal.js~ 2-dimensional slideshows,
+- printable PDFs, or
+- text-editor friendly plaintext Org files.
+
+*** 1 – Introduction and Overview
+:PROPERTIES:
+:CUSTOM_ID: 1-–-Introduction-and-Overview
+:END:
+
+- [[./notes/1--Introduction-and-overview.html][Online slides]]
+- [[./notes/1--Introduction-and-overview.pdf][PDF]]
+- [[./notes/1--Introduction-and-overview.org][Org plaintext]]
+
+*** 2 – Formal languages
+:PROPERTIES:
+:CUSTOM_ID: 2-–-Formal-languages
+:END:
+
+- [[./notes/2--Formal-languages.html][Online slides]]
+- [[./notes/2--Formal-languages.pdf][PDF]]
+- [[./notes/2--Formal-languages.org][Org plaintext]]
+
+*** 3 – An untyped λ-calculus, /UL/
+:PROPERTIES:
+:CUSTOM_ID: 3-–-An-untyped-λ-calculus,-/UL/
+:END:
+
+- [[./notes/3--L1-untyped-lambda-calculus.html][Online slides]]
+- [[./notes/3--L1-untyped-lambda-calculus.pdf][PDF]]
+- [[./notes/3--L1-untyped-lambda-calculus.org][Org plaintext]]
+
+*** 4 – Bindings and scope
+:PROPERTIES:
+:CUSTOM_ID: 4-–-Bindings-and-scope
+:END:
+
+- [[./notes/4--Bindings-and-scope.html][Online slides]]
+- [[./notes/4--Bindings-and-scope.pdf][PDF]]
+- [[./notes/4--Bindings-and-scope.org][Org plaintext]]
+
+*** 5 – Types
+:PROPERTIES:
+:CUSTOM_ID: 5-–-Types
+:END:
+
+- [[./notes/5--Types.html][Online slides]]
+- [[./notes/5--Types.pdf][PDF]]
+- [[./notes/5--Types.org][Org plaintext]]
+
+*** 6 – A typed λ-calculus, /TL/
+:PROPERTIES:
+:CUSTOM_ID: 6-–-A-typed-λ-calculus,-/TL/
+:END:
+
+- [[./notes/6--L2-typed-lambda-calculus.html][Online slides]]
+- [[./notes/6--L2-typed-lambda-calculus.pdf][PDF]]
+- [[./notes/6--L2-typed-lambda-calculus.org][Org plaintext]]
+
+*** 7 – Imperativeness
+:PROPERTIES:
+:CUSTOM_ID: 7-–-Imperativeness
+:END:
+
+- [[./notes/7--Imperativeness.html][Online slides]]
+- [[./notes/7--Imperativeness.pdf][PDF]]
+- [[./notes/7--Imperativeness.org][Org plaintext]]
+
+*** 8 – An imperative core, /WHILE/
+:PROPERTIES:
+:CUSTOM_ID: 8-–-An-imperative-core,-/WHILE/
+:END:
+
+- [[./notes/8--WHILE,-an-imperative-core.html][Online slides]]
+- [[./notes/8--WHILE,-an-imperative-core.pdf][PDF]]
+- [[./notes/8--WHILE,-an-imperative-core.org][Org plaintext]]
+
+*** Appendix 1 – Notation and conventions
+:PROPERTIES:
+:CUSTOM_ID: Appendix-1-–
+:END:
+
+- [[./notes/A1--Notation-and-conventions.html][Webpage]]
+- [[./notes/A1--Notation-and-conventions.pdf][PDF]]
+- [[./notes/A1--Notation-and-conventions.org][Org plaintext]]
+
+*** Appendix 2 – Software and tools
+:PROPERTIES:
+:CUSTOM_ID: Appendix-2-–
+:END:
+
+- [[./notes/A2--Software-and-tools.pdf][Webpage]]
+- [[./notes/A2--Software-and-tools.pdf][PDF]]
+- [[./notes/A2--Software-and-tools.org][Org plaintext]]
+
+*** Appendix 3 – External resources
+:PROPERTIES:
+:CUSTOM_ID: Appendix-3-–
+:END:
+
+- [[./notes/A3--External-resources.pdf][Webpage]]
+- [[./notes/A3--External-resources.pdf][PDF]]
+- [[./notes/A3--External-resources.org][Org plaintext]]
+
+** Lecture literate programs
+:PROPERTIES:
+:CUSTOM_ID: Lecture-literate-programs
+:END:
+
+The last lecture of each week is usually
+a hands-on live programming session.
+
+Literate copies of the programs developed in those lectures
+are available here.
+
+** Lecture hand-written notes
+:PROPERTIES:
+:CUSTOM_ID: Lecture-hand-written-notes
+:END:
+
+In some cases, some handwritten notes accompany the slides
+during lecture. This term, those notes will be written
+on paper that can be seen during the online lecture.
+
+When possible, those notes are scanned and made available here.
+
+** Tutorials
+:PROPERTIES:
+:CUSTOM_ID: Tutorials
+:END:
+
 :TODO:
 
 * Homework
@@ -45,9 +181,9 @@
 :END:
 
 The course outline is available as
-- a printer-friendly [[file:./notes/0--Course-outline.pdf][PDF]],
-- a screen-friendly [[file:./notes/0--Course-outline.html][webpage]], or
-- an text-editor [[file:./notes/0--Course-outline.org][Org]] file.
+- a printer friendly [[file:./notes/0--Course-outline.pdf][PDF]],
+- a screen friendly [[file:./notes/0--Course-outline.html][webpage]], or
+- a text-editor friendly [[file:./notes/0--Course-outline.org][Org]] file.
 
 The PDF is also embedded here for convenience.
 @@html:<iframe src="notes/0--Course-outline.pdf" style="width: 100%; height: 75vh"></iframe>@@

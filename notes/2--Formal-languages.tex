@@ -1,0 +1,924 @@
+% Created 2020-09-02 Wed 16:46
+% Intended LaTeX compiler: lualatex
+\documentclass[11pt]{article}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{etoolbox}
+\makeatletter
+\def\dontdofcolorbox{\renewcommand\fcolorbox[4][]{##4}}
+\AtBeginEnvironment{minted}{\dontdofcolorbox}
+\makeatother
+\usepackage[newfloat]{minted}
+\usepackage{amsthm}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\usepackage{unicode-math}
+\usepackage{unicode}
+\author{Mark Armstrong}
+\date{Fall 2020}
+\title{Formal languages\\\medskip
+\large Principles of Programming Languages}
+\hypersetup{
+   pdfauthor={Mark Armstrong},
+   pdftitle={Formal languages},
+   pdfkeywords={},
+   pdfsubject={Definition and tools for building formal languages. Introduction to semantics.},
+   pdfcreator={Emacs 27.0.90 (Org mode 9.3.7)},
+   pdflang={English},
+   colorlinks,
+   linkcolor=blue,
+   citecolor=blue,
+   urlcolor=blue
+   }
+\begin{document}
+
+\maketitle
+
+\section{Preamble}
+\label{sec:orge3363ee}
+
+\begin{scriptsize}
+\begin{itemize}
+\item \hyperref[sec:orge3363ee]{Preamble}
+\end{itemize}
+\end{scriptsize}
+
+\subsection{{\bfseries\sffamily TODO} Notable references}
+\label{sec:org70de22e}
+
+:TODO:
+
+\section{Introduction}
+\label{sec:org3ff09db}
+
+This section introduces the mathematical tools
+we will use in the discussion of programming languages
+as a \emph{formal} language.
+
+Several small formal languages (not full programming languages)
+are used as examples of the use of these tools.
+
+\section{Formal languages}
+\label{sec:org8f0039e}
+
+A language over an \emph{alphabet} (set of symbols) \(Σ\)
+is a subset of \(Σ^{*}\).
+The elements of a language are called \emph{sentences}
+(or \emph{strings} or sometimes \emph{words}).
+
+A \emph{formal} language is one for which we have a mathematical tool
+for either
+\begin{itemize}
+\item \emph{generating} (or \emph{deriving}) all sentences of the language,
+or equivalently,
+\item \emph{recognising} (or \emph{accepting}) only sentences of the language.
+\end{itemize}
+
+Examples of such mathematical tools include
+\begin{itemize}
+\item regular expressions,
+\item automata, and
+\item grammars.
+\end{itemize}
+
+\subsection{The usefulness of formal languages}
+\label{sec:orgdb74547}
+
+Formal languages, unlike \emph{natural} languages, are well-suited
+for comprehension by computers.
+\begin{itemize}
+\item Computers require unambiguous steps to follow.
+\item Hence, all programming languages are formal languages.
+\end{itemize}
+
+In particular, in most cases:
+\begin{itemize}
+\item The sets of keywords, names, etc. form several \emph{regular languages},
+and so can be recognised\footnote{The computer must recognise (accept) valid programs.
+Conveniently, both regular expressions and grammars
+can also be viewed as generators (derivers),
+which is a useful point of view
+for humans reading the grammar/expression.}
+by regular expressions.
+\item The set of valid (in terms of form) programs forms
+a \emph{context-free} language, and so can be recognised by
+a (context-free) grammar.
+\end{itemize}
+
+\subsection{Strings}
+\label{sec:orgce1dedf}
+
+Recall that given a set \(Σ\), the set of strings over \(Σ\),
+written \(Σ^{*}\), is the set of all finite sequences
+of elements of \(Σ\).
+
+In particular, the sequence of length zero we denote by \(ε\).
+Note that some other sources use \(λ\) for this purpose.
+
+For example, for \(Σ = \{a, b, c\}\),
+\begin{center}
+\(Σ^{*} = \{ε, a, b, c, aa, ab, ac, ba, bb, bc, ca, cb, cc, aaa, …\}\).
+\end{center}
+
+Given an element \(e ∈ Σ\), we write
+\begin{itemize}
+\item \(e^{n}\) for the string consisting of \(n\) occurrences of \(e\), and
+\item \(e^{*}\) for the set \(\{ n ∈ ℕ ∣ e^{n} \}\).
+\end{itemize}
+
+\section{Describing the \emph{syntax} of formal languages}
+\label{sec:orgef460eb}
+
+Here, we will
+\begin{itemize}
+\item briefly review regular expressions and grammars as
+they are presented in formal language theory, and then
+\item introduce more practical syntax for each
+which is used in practice.
+\end{itemize}
+
+In both cases, the additional syntax only adds to
+the \emph{practical expressiveness} of the tool.
+\begin{itemize}
+\item It does not change the \emph{theoretical expressiveness} of the tool.
+\begin{itemize}
+\item The same set of languages can be described,
+but many languages can be described “more easily”.
+\end{itemize}
+\item We will present brief arguments to this effect
+by showing how to translate from the new syntax
+to the restricted syntax.
+\end{itemize}
+
+\subsection{Regular expressions as in formal language theory}
+\label{sec:org5b47a3f}
+
+:TODO:
+
+\subsection{Additional operators for more expression regexps}
+\label{sec:orgb4f3fe4}
+
+:TODO:
+
+\subsection{Regular expression examples}
+\label{sec:orgab72c2b}
+
+:TODO:
+
+\subsection{Grammars as in formal language theory}
+\label{sec:orgc7073da}
+
+Formally, a context-free grammar is a 4-tuple
+\begin{center}
+\(⟨N, Σ, P, S⟩\)
+\end{center}
+where
+\begin{itemize}
+\item \(N\) is a finite set of \emph{non-terminal} symbols
+(sometimes called variables),
+\item \(Σ\) is the underlying alphabet,
+also called the \emph{terminals} of the grammar,
+\item \(N\) and \(Σ\) must be distinct,
+\item \(P\) is a set of \emph{productions} i.e.,
+a binary relation between \(N\) and \[ (N ∪ Σ)^{*} \],
+\begin{itemize}
+\item In other words, a multi-valued function from
+nonterminals to strings of non-terminals and terminals,
+\end{itemize}
+\item \(S\) is a distinguished element of \(N\), called the \emph{starting nonterminal}.
+\end{itemize}
+
+Given \[ (A, α) ∈ P \], we write \[ A ⟶ α \] and read it as
+“\(A\) produces \(α\)” or “\(A\) expands to \(α\)”.
+
+Given a number of
+productions \((A, α₁) ∈ P\), \((A, α₂) ∈ P\), …, \((A, αₘ) ∈ P\), 
+we write \(A ⟶ α₁ | α₂ | … | αₘ\) as a shorthand.
+
+\subsection{Conventions for grammars}
+\label{sec:org47614c1}
+
+Writing the 4-tuple each time we produce a grammar is tedious.
+
+For this reason, we adopt the following conventions
+in order to allow us to omit the 4-tuple.
+\begin{enumerate}
+\item We write \emph{only} the list of production,
+using \emph{BNF} (discussed shortly).
+\item The set \(N\) is taken to be the set of all symbols
+appearing to the left of a list of productions.
+\begin{itemize}
+\item Note that this requires each nonterminal have
+at least one production[fn:nonterminal-w/o-production].
+\end{itemize}
+\item The set \(Σ\) is usually understood by the context
+in which we are defining the grammer.
+\begin{itemize}
+\item For our purposes, it will usually be the set of
+all ASCII symbols.
+\end{itemize}
+\item The starting nonterminal \(S\) is understood to be either
+\begin{enumerate}
+\item the nonterminal whose name matches that of the grammar
+we are defining (it may be uncapitalised or abbreviated),
+\item otherwise, the non-terminal named \(S\), or
+\item otherwise, the nonterminal to the left of
+the first production in the list,.
+\end{enumerate}
+\end{enumerate}
+
+As a rule of thumb, we try to write grammars “top down”,
+so that most nonterminals appearing to the right of a production
+have their rules listed below that production.
+
+[fn:nonterminal-w/o-production]
+A nonterminal without productions has no practical use in any case;
+it only serves to making parsing “get stuck”.
+
+\subsection{A simple example grammar}
+\label{sec:org00df0d1}
+
+\begin{minted}[breaklines=true]{text}
+A ⟶ aAa | B
+B ⟶ bBb | C
+C ⟶ cCc | ε
+\end{minted}
+
+This produces the language of strings of
+the form \texttt{a}\textsuperscript{\emph{i}}\texttt{b}\textsuperscript{\emph{j}}\texttt{c}\textsuperscript{\emph{k}}\texttt{c}\textsuperscript{\emph{k}}\texttt{b}\textsuperscript{\emph{j}}\texttt{a}\textsuperscript{\emph{i}}.
+
+\subsection{Exercise – reading grammars}
+\label{sec:orge34e871}
+
+What languages do the following grammars produce?
+
+\begin{minted}[breaklines=true]{text}
+A ⟶ B | C
+B ⟶ aaB | ε
+C ⟶ aaaC | ε
+\end{minted}
+
+\begin{minted}[breaklines=true]{text}
+A ⟶ aB | B | ε
+B ⟶ bC | C
+C ⟶ cA | A
+\end{minted}
+
+\begin{minted}[breaklines=true]{text}
+A ⟶ aA | B
+B ⟶ bB
+\end{minted}
+\textbf{What's the tricky part with this one?}
+
+Extra exercise: can you simplify any of them?
+If you believe so, be careful that
+your simplification accepts the same string!
+
+\subsection{Parse trees}
+\label{sec:org8e6e5a7}
+
+We have discussed the facts that a grammar can
+\begin{itemize}
+\item generate strings or
+\item recognise/accept strings.
+\end{itemize}
+
+Then for a grammar \(G\) we might think of functions
+\begin{itemize}
+\item \(generateᴳ : ℕ → Σ^{*}\)
+\begin{itemize}
+\item with the intention that \(generateᴳ n\) generates the \(n^{th}\)
+string in the grammar's language is lexicographic order
+\end{itemize}
+\item \(recogniseᴳ : Σ^{*} → Bool\)
+\end{itemize}
+That is, we have two functions, which output a \texttt{String} or
+a \texttt{Bool} respectively.
+
+But there is a useful byproduct which may be obtained during
+during either process: a \emph{parse tree}.
+
+A parse tree's
+\begin{itemize}
+\item nodes (which have children) are
+labelled by a nonterminal of the grammar,
+\item leaves (which do not have children) are
+labelled by a terminal of the grammar
+or a nonterminal which may produce \(ε\), and
+\item if a node is labelled by a nonterminal \texttt{A},
+the children of that node must correspond
+(in order from left to right)
+the nonterminals appearing in a production of \texttt{A}.
+\end{itemize}
+
+For example, if we consider the grammar
+\begin{minted}[breaklines=true]{text}
+S ⟶ AB
+A ⟶ aA | ε
+B ⟶ Bb | b
+\end{minted}
+the following are valid parse trees.
+
+First, for the string \texttt{aab}.
+\includegraphics{media/parse-tree-example-aab.png}
+
+Similarly, we have the following parse tree for \texttt{abb}.
+\includegraphics{media/parse-tree-example-abb.png}
+
+Exercise: provide a parse tree for the string \texttt{aaa} using this grammar.
+Is there a valid parse tree for the string \texttt{bbb}?
+
+Exercise: if we add a production \texttt{A ⟶ a} to our example grammar,
+can you provide a different parse tree
+(or multiple different parse trees) for \texttt{aaa}?
+
+\subsection{Backus-Naur form (BNF)}
+\label{sec:orgca72791}
+
+Up until now, we have used the form
+\begin{verbatim}
+N₁ ⟶ P₁ | P₂ | …
+   ⋮
+\end{verbatim}
+for our production lists.
+
+Commonly in the study of programming languages,
+an alternative syntax called \emph{Backus-Naur} form (BNF)
+is used.
+\begin{itemize}
+\item Named for two members of the Algol\footnote{Algol was a contemporary of Fortran, Lisp, and Cobol,
+together the oldest languages still in (fairly) common use today.
+Algol is not in common use, but it was the most influential on
+modern programming language syntax, introducing concepts such as
+the block.} design committee,
+who created the first formal definition for a programming language,
+namely Algol.
+\end{itemize}
+
+In Backus-Naur form,
+\begin{itemize}
+\item all nonterminals names are delimited by
+angle brackets\footnote{In notes and assignments, I use unicode angle brackets.
+Many other sources use the less-than and greater-than symbols,
+as they are avaiable in ASCII.}, \texttt{⟨⟩},
+\item the \texttt{⟶} is replaced by \texttt{∷=},
+\item additional whitespace is permitted on the right side
+of a production between terminals and nonterminals,
+without changing the meaning of the production
+\begin{itemize}
+\item So \texttt{⟨A⟩ ∷= a a ⟨A⟩} is treated the same as \texttt{⟨A⟩ ∷= aa⟨A⟩}.
+\end{itemize}
+\end{itemize}
+
+\subsection{Extended Backus-Naur form (EBNF)}
+\label{sec:orge9c8d4c}
+
+We also extend our grammar notation to include several
+several additional operators.
+\begin{itemize}
+\item (Square) brackets, \texttt{[]}, surrounding a string
+indicate that string may or may not be included in a production.
+\begin{itemize}
+\item I.e., they make part of a production optional.
+\item \texttt{⟨A⟩ ∷= α₁ [ α₂ ] α₃} ≈ \texttt{⟨A⟩ ∷= α₁ α₂ α₃ | α₁ α₃}.
+\end{itemize}
+\item (Curly) braces, \texttt{\{\}}, surrounding a string
+indicate that string may be repeated any number of times,
+including zero.
+\begin{itemize}
+\item \texttt{⟨A⟩ ∷= α₁ \{ α₂ \} α₃} ≈ \texttt{⟨A⟩ ∷= α₁ ⟨A′⟩ α₃} together
+with \texttt{⟨A′⟩ ∷= α₂ ⟨A′⟩ | ε}.
+\end{itemize}
+\item Parentheses, \texttt{()}, may group parts of a string.
+\item The “alternative” pipe, \texttt{|}, may be used \emph{inside} of productions,
+to indicate alternatives inside a set of brackets, braces
+or parentheses.
+\begin{itemize}
+\item \texttt{⟨A⟩ ∷= α₁ (α₂ | α₃) α₄} ≈ \texttt{⟨A⟩ ∷= α₁ α₂ α₄ | α₁ α₃ α₄}.
+\end{itemize}
+\item Where necessary, terminals may be single or double quoted,
+such as to indicate a whitespace character, pipe or quote.
+\begin{itemize}
+\item \texttt{⟨ebnf-prod-list⟩ ∷= ⟨string⟩ | ⟨string⟩ ⟨opt-ws⟩ '|' ⟨opt-ws⟩ ⟨ebnf-prod-list⟩}
+\end{itemize}
+\end{itemize}
+
+There is an \href{https://www.iso.org/standard/26153.html}{ISO standard} for EBNF.
+Our syntax and inclusion of features is
+not chosen to match the standard;
+it is what is convenient for our use.
+
+\subsection{Exercise – translating to EBNF}
+\label{sec:orgbc94c82}
+
+Translate this grammar from an earlier exercise to EBNF syntax.
+\begin{minted}[breaklines=true]{text}
+A ⟶ B | C
+B ⟶ aaB | ε
+C ⟶ aaaC | ε
+\end{minted}
+Then try to reduce the number of productions in the grammar,
+while maintaining the language defined.
+
+Can you use only one production when using EBNF?
+
+\subsection{EBNF's syntactic sugar}
+\label{sec:org4b153ee}
+
+EBNF gives us our first example of \emph{syntactic sugar};
+syntax that does not add new features to a language,
+only more convenient notation.
+\begin{itemize}
+\item As shown above, any grammar using the additional operators
+can be translated into one not using them.
+\begin{itemize}
+\item But this likely requires more productions.
+\item And certainly more characters/space on the page.
+\end{itemize}
+\end{itemize}
+
+Syntactic sugar is a common feature of programming languages.
+\begin{itemize}
+\item Example: (imperative) languages often include various kinds of loops,
+where only one (or sometimes none!) is truly necessary.
+\end{itemize}
+
+When we discuss programming languages formally,
+we will usually omit constructs which are syntactic sugar.
+\begin{itemize}
+\item If anything, we may note how to represent them
+in a “core” language which includes less constructs.
+\end{itemize}
+
+\subsection{Exercise – a very small language}
+\label{sec:org647685d}
+
+Consider the following context-free language.
+\begin{verbatim}
+⟨stmt⟩   ∷= ⟨assign⟩ | ⟨stmt⟩ "; " ⟨stmt⟩ | "while " ⟨expr⟩ " do " ⟨stmt⟩ | ⟨ws⟩ ⟨stmt⟩ ⟨ws⟩
+⟨assign⟩ ∷= ⟨var⟩ ⟨ws⟩ " := " ⟨expr⟩
+⟨expr⟩   ∷= ⟨var⟩ | ⟨const⟩ | ⟨expr⟩ ⟨op⟩ ⟨expr⟩ | ⟨ws⟩ ⟨expr⟩ ⟨ws⟩
+⟨var⟩    ∷= ('x' | 'y' | 'z') {⟨var⟩}
+⟨const⟩  ∷= (1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 0) {⟨const⟩}
+⟨op⟩     ∷= '+' | '-' | '*' | '/' | '<' | '>' | '='
+⟨ws⟩  ∷= {' '} | {'\n'}
+\end{verbatim}
+
+Provide some example programs in this language.
+
+Consider trying to precisely describe the language in English.
+
+\subsection{Example – EBNF for C++}
+\label{sec:org57b0aaa}
+
+A good example of the practicality EBNF for specifying
+the syntax of languages is this
+\href{http://www.externsoft.ch/download/cpp-iso.html}{EBNF grammar for C++}
+(presented in tabular form, rather than lists of productions
+as we use).
+
+The grammar is much, much larger than anything we will write,
+but it is still quite concise for describing
+a real-world programming language.
+
+\section{Parsing and executable code}
+\label{sec:orgc19edad}
+
+We will briefly summarise the parsing process.
+\begin{itemize}
+\item In this course, we are primarily interested in
+the beginning of this process, up to the
+construction of parse trees.
+\item The reality of
+\end{itemize}
+
+\subsection{Lexemes and tokens}
+\label{sec:org81a5d0c}
+
+We have mentioned that both regular expressions and
+context-free grammars are used in the description of
+the syntax of programming languages.
+
+However, up until this point,
+our example programming languages have been described exclusively
+by context-free grammars.
+\begin{itemize}
+\item Even the smallest syntactic units of the language
+have been described by the grammars.
+\begin{itemize}
+\item For instance, we have used productions such as
+\(⟨const⟩  ∷= (1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 0) \{⟨const⟩\}\)
+which describes numerical constants.
+\end{itemize}
+\end{itemize}
+
+This is not done in practice.
+
+In practice,
+\begin{itemize}
+\item regular expressions are instead used to describe the
+smallest syntactic units of languages.
+\begin{itemize}
+\item For example,
+\begin{itemize}
+\item keywords such as \texttt{if} and \texttt{while},
+\item or constant values, such as \texttt{0} or \textasciitilde{}"abc"\textasciitilde{},
+\item or names such as \texttt{height} or \texttt{sqrt}.
+\end{itemize}
+\item Lexemes cannot be broken down into meaningful pieces.
+\end{itemize}
+\item Grammars are then used to describe the possible arrangements
+of lexemes.
+\begin{itemize}
+\item The terminals of the grammar are then names for sets of lexemes,
+called \emph{tokens}, rather than elements of \(Σ\).
+\item For instance,
+\begin{itemize}
+\item the token \texttt{while} for the set containing only the
+keyword \texttt{while},
+\item or the token \texttt{int\_literal} for the set \(\{ 0, 1, -1, 2, … \}\),
+\item or the tohen \texttt{var} for the set of valid variable names.
+\end{itemize}
+\end{itemize}
+\end{itemize}
+
+\subsection{The zeroth step – preprocessing}
+\label{sec:org2078f63}
+
+In some programming languages
+
+\subsection{The first step – lexical analysis}
+\label{sec:org531c235}
+
+Parsing is the process of translating a program
+from plaintext
+to executable instructions
+\begin{itemize}
+\item whether this is done
+\begin{itemize}
+\item ahead of time (compiling) or
+\item when the program is to be run (interpreting),
+\end{itemize}
+parsing is a necessary step before execution.
+\end{itemize}
+
+We now know the first step in parsing.
+\begin{itemize}
+\item Convert the plaintext source code into a sequence of tokens.
+\begin{itemize}
+\item This process may be
+called \emph{lexical analysis}, \emph{lexing} or \emph{tokenising}.
+\item The program to carry this process out may be
+called a \emph{lexer} or \emph{tokeniser}.
+\item Lexical analysis discards whitespace, comments, and any other
+irrelevant text.
+\end{itemize}
+\end{itemize}
+
+\subsection{The second step – parsing (syntactic analysis)}
+\label{sec:org2990472}
+
+After converting from plaintext to a string of tokens, the next
+step of parsing is to construct the parse tree.
+
+This step is part of the parsing process,
+but it is also usually called parsing.
+\begin{itemize}
+\item It may also be called \emph{syntactic analysis}.
+\end{itemize}
+
+\subsection{The third step – (static) semantic analysis}
+\label{sec:orgd799ac9}
+
+:TODO:
+
+\subsection{The fourth step – intermediate code generation}
+\label{sec:org2db9e08}
+
+:TODO:
+
+\subsection{Visualising the entire parsing process}
+\label{sec:org1844741}
+
+\includegraphics{media/parsing-whole.png}
+
+\section{Ambiguity}
+\label{sec:orgc3d0a3c}
+
+\subsection{Ambiguity}
+\label{sec:orgc023ab2}
+
+Recall that parsing a string (or deriving a string)
+using a grammar gives rise to a \emph{parse tree} or \emph{derivation tree}.
+
+In many cases, there is more than one parse tree
+for a given string in the language produced by a grammar.
+
+For instance, the string \texttt{aa} has four valid parse trees
+under the grammar
+\begin{minted}[breaklines=true]{text}
+⟨A⟩ ∷= a ⟨A⟩ | ⟨A⟩ a | ε 
+\end{minted}
+
+Exercise: find all four valid parse trees for \texttt{aa} with the above
+grammar.
+
+\subsection{Removing ambiguity}
+\label{sec:org8bbf8a5}
+
+It is desirable to have a single parse tree for every program.
+\begin{itemize}
+\item We should not admit two syntactic interpretations for a program!
+\end{itemize}
+
+Three tools for removing ambiguity are
+\begin{itemize}
+\item requiring parentheses,
+\item introducing precedence rules, and
+\item introducing associativity rules.
+\end{itemize}
+
+\subsection{Enforcing precedence and associativity with grammars}
+\label{sec:org332c166}
+
+To enforce precedence using a grammar:
+\begin{itemize}
+\item Create a hierarchy of non-terminals.
+\item Higher-precedence operators are produced lower in the hierarchy.
+\item For instance,
+\begin{itemize}
+\item An additive term can be a addition of multiplicative terms,
+which is an addition of literals, which can be the negation
+of a constant, variable or term.
+\end{itemize}
+\end{itemize}
+
+To enforce associativity using a grammar:
+\begin{itemize}
+\item Left associative operators should be produced by left recursive
+non-terminals.
+\item And right associative operators by right recursive non-terminals.
+\item Operators of the same precedence must associate the same way!
+\end{itemize}
+
+\subsection{Is addition associative?}
+\label{sec:orga0a936d}
+
+Recall that addition is an associative operator.
+\begin{itemize}
+\item Meaning it is both left and right associative.
+\end{itemize}
+
+So the choice of whether addition in a language associates to
+the right or to the left may seem arbitrary.
+\begin{itemize}
+\item But numerical types in programming are not necessarily
+the same as numerical types in math!
+\item Addition of floating point numbers \emph{is not associative}.
+\begin{itemize}
+\item Consider a binary representation with two-digit coefficients.
+\item 1.0₂ × 2⁰ + 1.0₂ × 2⁰ + 1.0₂ × 2² has a different value depending
+upon parenthesisation.
+\end{itemize}
+\end{itemize}
+
+\subsection{Abstract syntax}
+\label{sec:orgb311e7a}
+
+“Simple”, ambiguous grammars do have a place in describing
+programming language syntax.
+\begin{itemize}
+\item Such grammars describe the \emph{abstract syntax} of the language.
+\begin{itemize}
+\item As opposed to \emph{concrete syntax}.
+\end{itemize}
+\item Consider programs as \emph{trees} generated by the grammar
+for the abstract syntax of the language.
+\begin{itemize}
+\item Trees do not admit ambiguity!
+\item Such trees more efficiently represent programs.
+\begin{itemize}
+\item The shape of the tree expresses structure.
+\item Other unnecessary details may be left out.
+\end{itemize}
+\end{itemize}
+\end{itemize}
+
+\subsection{Beyond context-free grammars: “static semantics”}
+\label{sec:org149a248}
+
+For most interesting languages,
+context-free grammars are not quite sufficient
+to describe well-formed programs.
+\begin{itemize}
+\item They cannot express conditions such as
+“variables must be declared before use”, and
+typing rules.
+\item It has been \emph{proven} that CFGs are not sufficient.
+\begin{itemize}
+\item At least some typing rules are possible to express,
+but prohibitively difficult.
+\end{itemize}
+\end{itemize}
+
+Recall the Chomsky hierarchy of languages.
+\begin{minted}[breaklines=true]{text}
+Regular ⊂ Context-free ⊂ Context-sensitive ⊂ Recursive ⊂ Recursively enumberable
+\end{minted}
+\begin{itemize}
+\item The properties we need could be described by \emph{context-sensitive} grammars.
+\begin{itemize}
+\item But they are unwieldy!
+\end{itemize}
+\item Instead, use \emph{attribute grammars};
+a relatively small augmentation to CFGs.
+\begin{itemize}
+\item Each non-terminal and terminal may have a collection
+of \emph{attributes} (named values).
+\item Each production may have a collection of
+rules defining the values of the attributes
+and a collection of predicates
+reasoning about those attributes.
+\end{itemize}
+\end{itemize}
+
+\subsection{An example attribute grammar}
+\label{sec:orgae954ef}
+
+Consider this simple grammar.
+\begin{minted}[breaklines=true]{text}
+⟨S⟩ ∷= ⟨A⟩ ⟨B⟩ ⟨C⟩
+⟨A⟩ ∷= ε ∣ a ⟨A⟩
+⟨B⟩ ∷= ε ∣ b ⟨B⟩
+⟨C⟩ ∷= ε ∣ c ⟨C⟩
+\end{minted}
+
+Suppose we want to allow only strings of the form \texttt{aⁿbⁿcⁿ}.
+There is no CFG that can produce exactly such strings.
+But we can enforce this condition using the above grammar
+augmented with attributes.
+\begin{itemize}
+\item Each of the non-terminals \texttt{⟨A⟩}, \texttt{⟨B⟩} and \texttt{⟨C⟩} are given an attribute
+\texttt{length}.
+\item To each production with \texttt{⟨A⟩}, \texttt{⟨B⟩} or \texttt{⟨C⟩} on the left side, we attach
+a rule to compute the \texttt{length}.
+\item The production \texttt{⟨S⟩ ∷= ⟨A⟩ ⟨B⟩ ⟨C⟩} enforces the condition with a predicate.
+\end{itemize}
+
+\begin{minted}[breaklines=true]{text}
+⟨S⟩ ∷= ⟨A⟩ ⟨B⟩ ⟨C⟩
+Predicate: ⟨A⟩.length = ⟨B⟩.length = ⟨C⟩.length
+
+⟨A⟩ ∷= ε
+Rule: ⟨A⟩.length ≔ 0
+
+⟨A⟩₁ ∷= a ⟨A⟩₂
+Rule: ⟨A⟩₁.length ≔ ⟨A⟩₂.length + 1
+
+⟨B⟩ ∷= ε
+Rule: ⟨B⟩.length ≔ 0
+
+⟨B⟩₁ ∷= b ⟨B⟩₂
+Rule: ⟨B⟩₁.length ≔ ⟨B⟩₂.length + 1
+
+⟨C⟩ ∷= ε
+Rule: ⟨C⟩.length ≔ 0
+
+⟨C⟩₁ ∷= c ⟨C⟩₂
+Rule: ⟨C⟩₁.length ≔ ⟨C⟩₂.length + 1
+\end{minted}
+
+In productions with multiple occurrences of the same non-terminal,
+we number the occurrences so we can easily refer to them
+in the rules/predicates.
+
+\section{Abstract and concrete syntax; ignoring ambiguity}
+\label{sec:org8fe9365}
+\section{The \emph{semantics} of formal languages}
+\label{sec:orge2efb35}
+
+The \emph{semantics} of a language assigns a meaning to each sentence.
+\begin{itemize}
+\item In order to define a semantics, we must
+have in mind a \emph{semantic domain};
+\begin{itemize}
+\item a domain of meanings into which we map sentences.
+\end{itemize}
+\item For instance, if we are defining a language
+of natural numbers \emph{Nat}, we will map sentences into the set \texttt{ℕ}.
+\item Or map elements of a languages of propositions into \texttt{𝔹}.
+\item We may often provide several different definitions of
+a particular mapping, to emphasise different details.
+\end{itemize}
+
+We may also have several semantic domains for a given language.
+\begin{itemize}
+\item In the case of programming languages,
+several domains of meaning have been proposed and used;
+the three most well known are
+\begin{itemize}
+\item computing devices, whether a real-world machine or an \emph{abstract} machine,
+\begin{itemize}
+\item this is known as \emph{operational semantics}
+\end{itemize}
+\item (mathematical) functions,
+\begin{itemize}
+\item this is known as \emph{denotational semantics}
+\end{itemize}
+\item precondition/postcondition pairs
+\begin{itemize}
+\item this is known as \emph{axiomatic semantics}
+\end{itemize}
+\end{itemize}
+\end{itemize}
+
+\subsection{Example – semantics of a language of natural numbers}
+\label{sec:orgfcad8b0}
+
+Consider again a language of terms intended to represent
+natural numbers.
+\begin{minted}[breaklines=true]{text}
+⟨nat⟩ ∷= "zero" | "suc" ⟨nat⟩ 
+\end{minted}
+
+To assign meaning to these terms,
+we introduce a mapping from these (concrete) terms
+to (abstract) numerals.
+\begin{minted}[breaklines=true]{text}
+eval zero = 0
+eval (suc n) = (eval n) + 1
+\end{minted}
+
+The evaluation function in this case is very obvious and trivial,
+because with this language is simply a concrete representation
+of the semantic domain.
+\begin{itemize}
+\item In comparison, when defining the semantics of programming languages,
+the language and the semantic domain are not so directly related.
+\end{itemize}
+
+\subsection{Example – semantics of propositional logic}
+\label{sec:org2b9304d}
+
+As a more complex example, we can map propositional logic terms
+into the set of booleans.
+\begin{minted}[breaklines=true]{text}
+⟨prop⟩ ∷= "tt" | "ff" | ¬ ⟨prop⟩ | ⟨prop⟩ (∧ | ∨ | ⇒ | ⇔) ⟨prop⟩
+\end{minted}
+
+In order to make the mapping less trivial, let us define it
+without using boolean combinators; only constants
+and “if-then-else” statements.
+\begin{minted}[breaklines=true]{text}
+eval tt = true
+eval ff = false
+
+eval (¬ p) = true    if eval p
+             false   otherwise
+
+eval (p ∧ q) = eval q   if eval p
+               false    otherwise
+
+…
+\end{minted}
+Exercise: Complete this evaluation function.
+
+\subsection{Example – small-step semantics of propositional logic}
+\label{sec:org2030120}
+
+The evaluation function defined above can be considered
+to be a \emph{big-step} semantics.
+\begin{itemize}
+\item It is a (single-valued) relation between terms and
+their (final) value.
+\end{itemize}
+
+In contrast, we may define a \emph{small-step} semantics
+\begin{itemize}
+\item which maps terms to terms which are “one step” simpler.
+\item Then, once we have reduced to a constant term, that may be mapped
+to a value (this part is not shown here).
+\end{itemize}
+\begin{minted}[breaklines=true]{text}
+reduce (¬ tt) = ff
+reduce (¬ ff) = tt
+reduce (¬ p)  = ¬ (reduce p)
+
+reduce (tt ∧ q) = reduce q
+reduce (ff ∧ q) = ff
+reduce (p ∧ q)  = (reduce p) ∧ q
+
+…
+\end{minted}
+Exercise: Complete this reduction function.
+\end{document}

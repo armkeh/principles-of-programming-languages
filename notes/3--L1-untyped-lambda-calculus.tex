@@ -1,0 +1,111 @@
+% Created 2020-09-02 Wed 16:58
+% Intended LaTeX compiler: lualatex
+\documentclass[11pt]{article}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{etoolbox}
+\makeatletter
+\def\dontdofcolorbox{\renewcommand\fcolorbox[4][]{##4}}
+\AtBeginEnvironment{minted}{\dontdofcolorbox}
+\makeatother
+\usepackage[newfloat]{minted}
+\usepackage{amsthm}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\usepackage{unicode-math}
+\usepackage{unicode}
+\author{Mark Armstrong}
+\date{Fall 2020}
+\title{An untyped λ-calculus, \emph{UL}\\\medskip
+\large Principles of Programming Languages}
+\hypersetup{
+   pdfauthor={Mark Armstrong},
+   pdftitle={An untyped λ-calculus, \emph{UL}},
+   pdfkeywords={},
+   pdfsubject={Our first constructed language; a lambda calculus with no type checking (enforcement).},
+   pdfcreator={Emacs 27.0.90 (Org mode 9.3.7)},
+   pdflang={English},
+   colorlinks,
+   linkcolor=blue,
+   citecolor=blue,
+   urlcolor=blue
+   }
+\begin{document}
+
+\maketitle
+
+\section{Preamble}
+\label{sec:orgc8cf6da}
+
+\subsection{{\bfseries\sffamily TODO} Notable references}
+\label{sec:org2d92596}
+
+:TODO:
+
+\subsection{{\bfseries\sffamily TODO} Table of contents}
+\label{sec:org12066f1}
+
+\begin{scriptsize}
+\begin{itemize}
+\item \hyperref[sec:orgc8cf6da]{Preamble}
+\end{itemize}
+\end{scriptsize}
+
+\section{Introduction}
+\label{sec:org6d8632e}
+
+In this section we construct our first simple programming language,
+an untyped λ-calculus (lambda calculus).
+
+More specifically, we construct a λ-calculus
+without (static) type checking (enforcement),
+but including the natural numbers and booleans.
+
+\subsection{History}
+\label{sec:org6b1663a}
+
+:TODO:
+
+\subsection{Descendents of the λ-calculus}
+\label{sec:orgf4e57d3}
+
+:TODO:
+
+\section{The basics}
+\label{sec:orga07efca}
+
+:TODO:
+
+\section{The formal syntax and semantics of \emph{UL}}
+\label{sec:org2c51371}
+
+:TODO:
+
+\section{α-conversion, β-reduction and η-conversion}
+\label{sec:org6c76bc4}
+
+:TODO:
+
+\section{Topics of theoretical interest}
+\label{sec:org155c890}
+
+\subsection{The pure λ-calculus}
+\label{sec:orga6def14}
+
+:TODO:
+
+\subsection{Nameless representation of terms}
+\label{sec:orgfb7de8f}
+
+:TODO:
+\end{document}

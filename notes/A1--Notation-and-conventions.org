@@ -1,14 +1,21 @@
-#+Title: Notation and Conventions
+#+Title: Notation and conventions
 #+Author: Mark Armstrong
 #+Description: A living list of notation and conventions
 #+Description: used in my principles of programming course.
+#+SETUPFILE: ../org-html-themes/setup/theme-readtheorg-local.setup
 
 * Writing style
+:PROPERTIES:
+:CUSTOM_ID: Writing-style
+:END:
 
 This section discusses some particulars of my writing style
 I have found sometimes need explanation.
 
 ** Parentheses and en dashes
+:PROPERTIES:
+:CUSTOM_ID: Parentheses-and-en-dashes
+:END:
 
 Parentheses inside sentences I use to indicate optional words.
 The sentence may be read sensibly without the parenthesised portion.
@@ -34,12 +41,21 @@ In case the aside ends the sentence, the trailing em dash is omitted
 #+end_example
 
 * Variable conventions
+:PROPERTIES:
+:CUSTOM_ID: Variable-conventions
+:END:
 
 :TODO: Refer to Types and Programming Languages
 
 * Abbreviations
+:PROPERTIES:
+:CUSTOM_ID: Abbreviations
+:END:
 
 ** General use
+:PROPERTIES:
+:CUSTOM_ID: General-use
+:END:
 
 - e.g. :: for instance
 - i.e. :: that is

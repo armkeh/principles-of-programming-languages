@@ -1,0 +1,158 @@
+% Created 2020-09-02 Wed 17:21
+% Intended LaTeX compiler: lualatex
+\documentclass[11pt]{article}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{etoolbox}
+\makeatletter
+\def\dontdofcolorbox{\renewcommand\fcolorbox[4][]{##4}}
+\AtBeginEnvironment{minted}{\dontdofcolorbox}
+\makeatother
+\usepackage[newfloat]{minted}
+\author{Mark Armstrong}
+\date{\today}
+\title{Software and tools}
+\hypersetup{
+   pdfauthor={Mark Armstrong},
+   pdftitle={Software and tools},
+   pdfkeywords={},
+   pdfsubject={Documentation on required and recommended software/tools},
+   pdfcreator={Emacs 27.0.90 (Org mode 9.3.7)},
+   pdflang={English},
+   colorlinks,
+   linkcolor=blue,
+   citecolor=blue,
+   urlcolor=blue
+   }
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+
+\section{Introduction}
+\label{sec:orgc17859b}
+This document discusses the software and tools needed
+for CS3mi3, Principles of Programming Languages, for the fall 2020 session.
+
+\subsection{\textbf{IMPORTANT}: Your responsibilities}
+\label{sec:orgbbe43a6}
+\begin{center}
+It is not the responsibility of the instructor or the teaching assistants
+to install the required software and tools on your system.
+
+We will provide docker images for testing submissions, along with
+basic usage instructions.
+Installing and learning the basics of Docker is your own responsibility.
+
+We recommend installation of the programming environments and tools
+locally on your own system for your convenience
+while working on the assignments.
+This setup is your own responsibility.
+\end{center}
+
+\section{Docker}
+\label{sec:orgc07623f}
+We will use Docker to ensure a common testing environment
+for all students and staff.
+
+Docker images will be distributed which setup the required
+language tools for each assignment and include some sanity-checking
+unit tests for your code.
+
+Similar images with more complete unit tests will make up part
+of the marking process of assignments.
+
+\subsection{{\bfseries\sffamily TODO} Getting started with Docker}
+\label{sec:org7cf83bb}
+
+\section{Editors}
+\label{sec:orga9e7128}
+Any text editor should be adequate for use in this course.
+I recommend against “full-fledged IDEs”; it is likely
+some languages we use will not be supported by any choice of IDE.
+
+I do recommend \href{https://www.gnu.org/software/emacs/}{Emacs} as a text editor,
+though warn that its use involves a steep learning curve
+and likely a long configuration time
+—most likely an unending configuration time.
+The \href{https://www.spacemacs.org/}{Spacemacs} and \href{https://github.com/hlissner/doom-emacs}{Doom (Emacs)} configurations alleviate at least some
+of the setup time; they are preconfigured with many commonly used features
+and support for many programming languages.
+
+\href{https://atom.io/}{Atom}, \href{https://code.visualstudio.com/}{VS Code} and
+\href{https://www.sublimetext.com/}{Sublime Text} are
+other extensible text editors, any of which is also
+an excellent choice.
+
+\section{Version control}
+\label{sec:org8e87e54}
+We make frequent use of Git throughout this course for
+version control.
+
+We will make use of the
+\href{https://github.com/armkeh/principles-of-programming-languages}{course GitHub repository}
+and its
+\href{https://armkeh.github.io/principles-of-programming-languages/}{github.io website}
+for course content distribution.
+
+A repository on the
+\href{https://gitlab.cas.mcmaster.ca/}{CAS departmental Gitlab server}
+will be created for each student for course work submission,
+as your accounts there are tied to your macid.
+
+\section{Online communication}
+\label{sec:orgea61503}
+Online communications,
+\textbf{including for this term all lectures and tutorials},
+will be conducted using
+\href{https://teams.microsoft.com}{Microsoft Teams}.
+
+By the beginning of the course, you should have access to
+a Team for the course when logging in using your McMaster email
+and MacID password.
+
+\section{Programming languages and their implementations}
+\label{sec:org05350ec}
+We plan to use four programming languages
+for homework and assignments throughout the course.
+Each language will require an implementation to be installed.
+
+This section provides information on those implementations,
+as well as some additional resources for each language.
+
+\subsection{Scala\hfill{}\textsc{functional:objectoriented}}
+\label{sec:org55e8091}
+A Java-descended, \emph{pure} object oriented language
+with full functional programming support on the JVM.
+
+\begin{itemize}
+\item The Scala \href{https://scala-lang.org/}{homepage}.
+\item \href{https://www.handsonscala.com/index.html}{Hands-on Scala Programming},
+a very recent book with the first few chapters available freely online.
+\end{itemize}
+
+\subsection{Prolog\hfill{}\textsc{logical}}
+\label{sec:org2eca1cd}
+The prevalent logical programming language.
+Program by \emph{describing the problem}, rather than providing an algorithms. 
+
+\subsection{Ruby\hfill{}\textsc{objectoriented:scripting}}
+\label{sec:org4ed60e7}
+A \emph{nearly pure} object-oriented \emph{scripting} language
+featuring extremely flexible syntax.
+
+\subsection{Clojure\hfill{}\textsc{functional:LISP}}
+\label{sec:org19f113a}
+A Lisp (LISt Programming) functional language on the JVM.
+\end{document}

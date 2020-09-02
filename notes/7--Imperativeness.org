@@ -9,12 +9,13 @@
 
 ** Reveal settings
 
-#+Reveal_root: http://cdn.jsdelivr.net/reveal.js/3.0.0/
+#+Reveal_root: ./reveal.js
 #+Reveal_init_options: width:1600, height:900, controlsLayout:'edges',
 #+Reveal_init_options: margin: 0.1, minScale:0.125, maxScale:5
 #+Reveal_extra_css: local.css
-# I don't recall what this was for
-# #+html: <script src="https://cdnjs.cloudflare.com/ajax/libs/headjs/0.96/head.min.js"></script>
+
+# #+HTML: <script src="https://cdnjs.cloudflare.com/ajax/libs/headjs/0.96/head.min.js"></script>
+
 * LaTeX settings                                :noexport:
 
 #+LaTeX_header: \usepackage{amsthm}
@@ -47,3 +48,11 @@
 In this section we leave behind the “pure” languages
 which we have considered so far, and discuss the central features
 of imperative languages.
+* Control structures
+
+:TODO:
+
+* Memory management
+
+:TODO:
+

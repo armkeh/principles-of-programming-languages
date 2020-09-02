@@ -1,0 +1,89 @@
+% Created 2020-09-02 Wed 17:07
+% Intended LaTeX compiler: lualatex
+\documentclass[11pt]{article}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{etoolbox}
+\makeatletter
+\def\dontdofcolorbox{\renewcommand\fcolorbox[4][]{##4}}
+\AtBeginEnvironment{minted}{\dontdofcolorbox}
+\makeatother
+\usepackage[newfloat]{minted}
+\author{Mark Armstrong}
+\date{\today}
+\title{Notation and conventions}
+\hypersetup{
+   pdfauthor={Mark Armstrong},
+   pdftitle={Notation and conventions},
+   pdfkeywords={},
+   pdfsubject={A living list of notation and conventions used in my principles of programming course.},
+   pdfcreator={Emacs 27.0.90 (Org mode 9.3.7)},
+   pdflang={English},
+   colorlinks,
+   linkcolor=blue,
+   citecolor=blue,
+   urlcolor=blue
+   }
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+
+\section{Writing style}
+\label{sec:orgf29392e}
+This section discusses some particulars of my writing style
+I have found sometimes need explanation.
+
+\subsection{Parentheses and en dashes}
+\label{sec:org4ee2a3f}
+Parentheses inside sentences I use to indicate optional words.
+The sentence may be read sensibly without the parenthesised portion.
+The parenthesised portions are intended to offer additional context.
+\begin{verbatim}
+In particular, they are often used to expand abbreviations
+such as CFG (context-free grammar)
+in their first use (or first use after a while).
+\end{verbatim}
+
+For the other common use of parentheses, to wrap asides
+(or parenthetical statements) I use em dashes, written —.
+These are portions of sentences that somewhat deviate
+from the topic of the sentence.
+Note the difference between the em dash, —, and the hyphen, -,
+or the (occasionally used in my writing) en dash, – .
+\begin{verbatim}
+In a sentence containing an aside in the middle
+—such as this one—
+has the em dashes tightly wrapping the aside.
+In case the aside ends the sentence, the trailing em dash is omitted
+—as in this case.
+\end{verbatim}
+
+\section{Variable conventions}
+\label{sec:org03b2516}
+:TODO: Refer to Types and Programming Languages
+
+\section{Abbreviations}
+\label{sec:org404079c}
+\subsection{General use}
+\label{sec:org91ad06e}
+\begin{description}
+\item[{e.g.}] for instance
+\item[{i.e.}] that is
+\item[{s.t.}] such that
+\item[{w/o}] without
+\item[{w.r.t.}] with respect to
+\item[{w/}] with
+\end{description}
+\end{document}

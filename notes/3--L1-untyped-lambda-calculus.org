@@ -10,12 +10,13 @@
 
 ** Reveal settings
 
-#+Reveal_root: http://cdn.jsdelivr.net/reveal.js/3.0.0/
+#+Reveal_root: ./reveal.js
 #+Reveal_init_options: width:1600, height:900, controlsLayout:'edges',
 #+Reveal_init_options: margin: 0.1, minScale:0.125, maxScale:5
 #+Reveal_extra_css: local.css
-# I don't recall what this was for
-# #+html: <script src="https://cdnjs.cloudflare.com/ajax/libs/headjs/0.96/head.min.js"></script>
+
+# #+HTML: <script src="https://cdnjs.cloudflare.com/ajax/libs/headjs/0.96/head.min.js"></script>
+
 * LaTeX settings                                :noexport:
 
 #+LaTeX_header: \usepackage{amsthm}
@@ -51,3 +52,39 @@ an untyped λ-calculus (lambda calculus).
 More specifically, we construct a λ-calculus
 without (static) type checking (enforcement),
 but including the natural numbers and booleans.
+
+** History
+
+:TODO:
+
+** Descendents of the λ-calculus
+
+:TODO:
+
+# Very recently, a great many imperative languages
+# are adopting functional aspects.
+
+* The basics
+
+:TODO:
+
+* The formal syntax and semantics of /UL/
+
+:TODO:
+
+* α-conversion, β-reduction and η-conversion
+
+:TODO:
+
+# η-conversion does not fit into the content here,
+# but we should discuss it to tie in with Scala.
+
+* Topics of theoretical interest
+
+** The pure λ-calculus
+
+:TODO:
+
+** Nameless representation of terms
+
+:TODO:

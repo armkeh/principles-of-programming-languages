@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>An imperative core, <i>WHILE</i></title>
+<meta name="author" content="(Mark Armstrong)"/>
+<meta name="description" content="Constructing a simple imperative language."/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="./reveal.js/dist/reveal.css"/>
+
+<link rel="stylesheet" href="./reveal.js/dist/theme/black.css" id="theme"/>
+
+<link rel="stylesheet" href="local.css"/>
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = './reveal.js/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide"><h2 class="title">An imperative core, <i>WHILE</i></h2>
+   <h3>Principles of Programming Languages</h3>
+   <h4>Mark Armstrong</h4>
+   <h5>Fall 2020</h5>
+</section>
+
+<section>
+<section id="slide-org19874b4">
+<h2 id="org19874b4"><span class="section-number-2">1</span> Preamble</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+</section>
+<section id="slide-orgb71ed30">
+<h3 id="orgb71ed30"><span class="section-number-3">1.1</span> <span class="todo TODO">TODO</span> Notable references</h3>
+<p>
+:TODO:
+</p>
+
+</section>
+<section id="slide-org5bc6d85">
+<h3 id="org5bc6d85"><span class="section-number-3">1.2</span> <span class="todo TODO">TODO</span> Table of contents</h3>
+<font size="-1">
+<div class="scriptsize">
+<ul>
+<li><a href="#/slide-org19874b4">Preamble</a></li>
+
+</ul>
+
+</div>
+</font>
+
+</section>
+</section>
+<section>
+<section id="slide-orgb87813f">
+<h2 id="orgb87813f"><span class="section-number-2">2</span> Introduction</h2>
+<p>
+In this section we construct a simple imperative language,
+based on the <code>while</code> loop.
+</p>
+</section>
+</section>
+<section>
+<section id="slide-orgcf4be8c">
+<h2 id="orgcf4be8c"><span class="section-number-2">3</span> The imperative core</h2>
+<p>
+:TODO:
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-orgc751f0b">
+<h2 id="orgc751f0b"><span class="section-number-2">4</span> Syntax and semantics of <i>WHILE</i></h2>
+<p>
+:TODO:
+</p>
+</section>
+</section>
+</div>
+</div>
+<script src="./reveal.js/dist/reveal.js"></script>
+<script src="./reveal.js/plugin/markdown/markdown.js"></script>
+<script src="./reveal.js/plugin/zoom/zoom.js"></script>
+<script src="./reveal.js/plugin/notes/notes.js"></script>
+
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+plugins: [RevealMarkdown,RevealZoom,RevealNotes],
+width:1600, height:900, controlsLayout:'edges',
+margin: 0.1, minScale:0.125, maxScale:5,
+multiplex: {
+    secret: '', // null if client
+    id: '', // id, obtained from socket.io server
+    url: '' // Location of socket.io server
+},
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+]
+});
+</script>
+</body>
+</html>

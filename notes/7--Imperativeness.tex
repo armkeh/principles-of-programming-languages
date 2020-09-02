@@ -1,0 +1,79 @@
+% Created 2020-09-02 Wed 17:05
+% Intended LaTeX compiler: lualatex
+\documentclass[11pt]{article}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{etoolbox}
+\makeatletter
+\def\dontdofcolorbox{\renewcommand\fcolorbox[4][]{##4}}
+\AtBeginEnvironment{minted}{\dontdofcolorbox}
+\makeatother
+\usepackage[newfloat]{minted}
+\usepackage{amsthm}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\usepackage{unicode-math}
+\usepackage{unicode}
+\author{Mark Armstrong}
+\date{Fall 2020}
+\title{Imperativeness\\\medskip
+\large Principles of Programming Languages}
+\hypersetup{
+   pdfauthor={Mark Armstrong},
+   pdftitle={Imperativeness},
+   pdfkeywords={},
+   pdfsubject={Imperativeness: statements, side effects, impurity},
+   pdfcreator={Emacs 27.0.90 (Org mode 9.3.7)},
+   pdflang={English},
+   colorlinks,
+   linkcolor=blue,
+   citecolor=blue,
+   urlcolor=blue
+   }
+\begin{document}
+
+\maketitle
+
+\section{Preamble}
+\label{sec:orga0be171}
+
+\subsection{{\bfseries\sffamily TODO} Notable references}
+\label{sec:orgc8ba0da}
+
+:TODO:
+
+\subsection{{\bfseries\sffamily TODO} Table of contents}
+\label{sec:org7cd4dc6}
+
+\begin{scriptsize}
+\begin{itemize}
+\item \hyperref[sec:orga0be171]{Preamble}
+\end{itemize}
+\end{scriptsize}
+
+\section{Introduction}
+\label{sec:org0a94bfd}
+
+In this section we leave behind the “pure” languages
+which we have considered so far, and discuss the central features
+of imperative languages.
+\section{Control structures}
+\label{sec:org7e7fe15}
+
+:TODO:
+
+\section{Memory management}
+\label{sec:orgdf0595b}
+
+:TODO:
+\end{document}

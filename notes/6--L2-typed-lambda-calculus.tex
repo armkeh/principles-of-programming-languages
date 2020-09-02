@@ -1,0 +1,85 @@
+% Created 2020-09-02 Wed 17:00
+% Intended LaTeX compiler: lualatex
+\documentclass[11pt]{article}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{etoolbox}
+\makeatletter
+\def\dontdofcolorbox{\renewcommand\fcolorbox[4][]{##4}}
+\AtBeginEnvironment{minted}{\dontdofcolorbox}
+\makeatother
+\usepackage[newfloat]{minted}
+\usepackage{amsthm}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\usepackage{unicode-math}
+\usepackage{unicode}
+\author{Mark Armstrong}
+\date{Fall 2020}
+\title{A typed λ-calculus, \emph{TL}\\\medskip
+\large Principles of Programming Languages}
+\hypersetup{
+   pdfauthor={Mark Armstrong},
+   pdftitle={A typed λ-calculus, \emph{TL}},
+   pdfkeywords={},
+   pdfsubject={Extending our lambda calculus with type checking (enforcement).},
+   pdfcreator={Emacs 27.0.90 (Org mode 9.3.7)},
+   pdflang={English},
+   colorlinks,
+   linkcolor=blue,
+   citecolor=blue,
+   urlcolor=blue
+   }
+\begin{document}
+
+\maketitle
+
+\section{Preamble}
+\label{sec:org8877e6f}
+
+\subsection{{\bfseries\sffamily TODO} Notable references}
+\label{sec:orge885cea}
+
+:TODO:
+
+\subsection{{\bfseries\sffamily TODO} Table of contents}
+\label{sec:org9df50d8}
+
+\begin{scriptsize}
+\begin{itemize}
+\item \hyperref[sec:org8877e6f]{Preamble}
+\end{itemize}
+\end{scriptsize}
+
+\section{Introduction}
+\label{sec:org8937597}
+
+In this section we extend our previously considered
+untyped λ-calculus by defining a typing relation,
+essentially adding type checking (enforcement).
+
+:TODO: Is this appropriate at this stage?
+We then investigate adding some
+algebraic type formers to the language.
+This involves the introduction of a rudimentary form
+of pattern matching.
+\section{The simply typed λ-calculus}
+\label{sec:orga655db1}
+
+:TODO:
+
+\section{“Simple extensions” to the simply typed λ-calculus}
+\label{sec:orgb1865b9}
+
+:TODO:
+\end{document}

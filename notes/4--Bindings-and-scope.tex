@@ -1,0 +1,105 @@
+% Created 2020-09-02 Wed 16:59
+% Intended LaTeX compiler: lualatex
+\documentclass[11pt]{article}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{etoolbox}
+\makeatletter
+\def\dontdofcolorbox{\renewcommand\fcolorbox[4][]{##4}}
+\AtBeginEnvironment{minted}{\dontdofcolorbox}
+\makeatother
+\usepackage[newfloat]{minted}
+\usepackage{amsthm}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\usepackage{unicode-math}
+\usepackage{unicode}
+\author{Mark Armstrong}
+\date{Fall 2020}
+\title{Bindings and scope\\\medskip
+\large Principles of Programming Languages}
+\hypersetup{
+   pdfauthor={Mark Armstrong},
+   pdftitle={Bindings and scope},
+   pdfkeywords={},
+   pdfsubject={Definition and tools for building formal languages. Introduction to semantics.},
+   pdfcreator={Emacs 27.0.90 (Org mode 9.3.7)},
+   pdflang={English},
+   colorlinks,
+   linkcolor=blue,
+   citecolor=blue,
+   urlcolor=blue
+   }
+\begin{document}
+
+\maketitle
+
+\section{Preamble}
+\label{sec:org5db724a}
+
+\subsection{{\bfseries\sffamily TODO} Notable references}
+\label{sec:org06e1ffa}
+
+:TODO:
+
+\subsection{{\bfseries\sffamily TODO} Table of contents}
+\label{sec:org1e20969}
+
+\begin{scriptsize}
+\begin{itemize}
+\item \hyperref[sec:org5db724a]{Preamble}
+\end{itemize}
+\end{scriptsize}
+
+\section{Introduction}
+\label{sec:org1bda082}
+
+This section introduces several concepts
+relating to names and bindings of those names.
+
+Of particular note is \emph{scope}, the “visibility” of names
+throughout a program.
+
+\subsection{The life stages of a program; binding times}
+\label{sec:org7da1a3a}
+
+\section{Type checking}
+\label{sec:org24b54e2}
+
+:TODO:
+
+\subsection{“Dynamically checked” instead of “dynamically typed”}
+\label{sec:org5278f72}
+
+:TODO:
+
+\subsection{Polymorphism}
+\label{sec:orgaa94cce}
+
+:TODO:
+
+\section{Lifetime}
+\label{sec:org1afc1d4}
+
+:TODO:
+
+\subsection{Garbage}
+\label{sec:org8d62365}
+
+:TODO:
+
+\section{Scope}
+\label{sec:org9e892f0}
+
+:TODO:
+\end{document}

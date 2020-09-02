@@ -53,50 +53,18 @@ as a /formal/ language.
 Several small formal languages (not full programming languages)
 are used as examples of the use of these tools.
 
-* COMMENT Formal tools in the study of programming languages
-
-# This section from last year is a bit of a tangled mess.
-
-We've said before, in order to facilitate running code on machines,
-programming languages must be /formal/.
-
-There are two portions to this requirement.
-- Describing the /syntax/; the form of expressions/statements.
-- Describing the /semantics/; the meaning of expressions/statements.
-
-Formal descriptions of semantics in particular are not always given!
-- This decreases the reliability of the language.
-  - It can never be clear if implementations (compilers, interpreters)
-    correctly implement the language.
-- Realistically, a “good enough” description may suffice.
-
-** Blurring the lines between syntax and semantics: static semantics
-
-Unfortunately, we cannot cleanly divide elements of
-programming languages into the categories of syntax and semantics.
-- The categorisation may depend upon the features of the language.
-- /Typing/ and /scope/ may be considered syntactic or semantic.
-  - Depending upon whether they are /static/ or /dynamic/.
-- Even if they are static, and could be considered syntax,
-  such features are often called /static semantics/.
-
-We will see an additional reason to segregate such features;
-- static semantic rules cannot be expressed by
-  the formal tools we use for syntax.
-  - It's either impossible or prohibitively expensive.
-
-* The syntax of formal languages
+* Formal languages
 
 ** Preamble                                    :ignore:
 
-A language over an /alphabet/ (set of symbols) /Σ/
-is a subset of /Σ*.
+A language over an /alphabet/ (set of symbols) $Σ$
+is a subset of $Σ^{*}$.
 The elements of a language are called /sentences/
 (or /strings/ or sometimes /words/).
 
 A /formal/ language is one for which we have a mathematical tool
 for either
-- /generating/ all sentences of the language,
+- /generating/ (or /deriving/) all sentences of the language,
   or equivalently,
 - /recognising/ (or /accepting/) only sentences of the language.
 
@@ -109,11 +77,13 @@ Examples of such mathematical tools include
 
 Formal languages, unlike /natural/ languages, are well-suited
 for comprehension by computers.
+- Computers require unambiguous steps to follow.
 - Hence, all programming languages are formal languages.
 
 In particular, in most cases:
 - The sets of keywords, names, etc. form several /regular languages/,
-  and so can be recognised[fn:recogniser] by regular expressions.
+  and so can be recognised[fn:recogniser]
+  by regular expressions.
 - The set of valid (in terms of form) programs forms
   a /context-free/ language, and so can be recognised by
   a (context-free) grammar.
@@ -121,68 +91,106 @@ In particular, in most cases:
 [fn:recogniser]
 The computer must recognise (accept) valid programs.
 Conveniently, both regular expressions and grammars
-can also be viewed as generators, which is a useful point of view
+can also be viewed as generators (derivers),
+which is a useful point of view
 for humans reading the grammar/expression.
 
 ** Strings
 
-Recall that given a set /Σ/, the set of strings over /Σ/,
-written /Σ*/, is the set of all finite sequences
-of elements of /Σ/.
+Recall that given a set $Σ$, the set of strings over $Σ$,
+written $Σ^{*}$, is the set of all finite sequences
+of elements of $Σ$.
 
-In particular, the sequence of length zero we denote by /ε/.
-Note that some other sources use /λ/ for this purpose.
+In particular, the sequence of length zero we denote by $ε$.
+Note that some other sources use $λ$ for this purpose.
 
-For example, for /Σ = {a, b, c}/,
-/Σ* = {ε, a, b, c, aa, ab, ac, ba, bb, bc, ca, cb, cc, aaa, …}/.
+For example, for $Σ = \{a, b, c\}$,
+#+begin_center
+$Σ^{*} = \{ε, a, b, c, aa, ab, ac, ba, bb, bc, ca, cb, cc, aaa, …\}$.
+#+end_center
 
-Given an element /e ∈ Σ/, we write
-- /eⁿ/ for the string consisting of /n/ occurrences of /e/, and
-- /e*/ for the set of all such strings.
+Given an element $e ∈ Σ$, we write
+- $e^{n}$ for the string consisting of $n$ occurrences of $e$, and
+- $e^{*}$ for the set $\{ n ∈ ℕ ∣ e^{n} \}$.
 
-** Writing grammars precisely
+* Describing the /syntax/ of formal languages
+
+** Preamble                                    :ignore:
+
+Here, we will
+- briefly review regular expressions and grammars as
+  they are presented in formal language theory, and then
+- introduce more practical syntax for each
+  which is used in practice.
+
+In both cases, the additional syntax only adds to
+the /practical expressiveness/ of the tool.
+- It does not change the /theoretical expressiveness/ of the tool.
+  - The same set of languages can be described,
+    but many languages can be described “more easily”.
+- We will present brief arguments to this effect
+  by showing how to translate from the new syntax
+  to the restricted syntax.
+
+** Regular expressions as in formal language theory
+
+:TODO:
+
+** Additional operators for more expression regexps
+
+:TODO:
+
+** Regular expression examples
+
+:TODO:
+
+** Grammars as in formal language theory
 
 Formally, a context-free grammar is a 4-tuple
-#+begin_src text
-⟨N, Σ, P, S⟩
-#+end_src
+#+begin_center
+$⟨N, Σ, P, S⟩$
+#+end_center
 where
-- ~N~ is a finite set of /non-terminal/ symbols
+- $N$ is a finite set of /non-terminal/ symbols
   (sometimes called variables),
-- ~Σ~ is the underlying alphabet,
+- $Σ$ is the underlying alphabet,
   also called the /terminals/ of the grammar,
-- ~N~ and ~Σ~ must be distinct,
-- ~P~ is a set of /productions/, i.e.,
-  a binary relation between ~N~ and /(~N~ ∪ ~Σ~)*/,
+- $N$ and $Σ$ must be distinct,
+- $P$ is a set of /productions/ i.e.,
+  a binary relation between $N$ and \[ (N ∪ Σ)^{*} \],
   - In other words, a multi-valued function from
     nonterminals to strings of non-terminals and terminals,
-- ~S~ is a particular element of ~N~, called the /starting nonterminal/.
+- $S$ is a distinguished element of $N$, called the /starting nonterminal/.
 
-Given /(~A~, ~a~) ∈ ~P~/, we write ~A ⟶ α~ and read it as
-“~A~ produces ~α~” or “~A~ expands to ~α~”.
+Given \[ (A, α) ∈ P \], we write \[ A ⟶ α \] and read it as
+“$A$ produces $α$” or “$A$ expands to $α$”.
 
 Given a number of
-productions /(~A~, ~α₁~) ∈ ~P~/, /(~A~, ~α₂~) ∈ ~P~/, …, /(~A~, ~αₘ~) ∈ ~P~/, 
-we write ~A ⟶ α₁ | α₂ | … | αₘ~ as a shorthand.
+productions $(A, α₁) ∈ P$, $(A, α₂) ∈ P$, …, $(A, αₘ) ∈ P$, 
+we write $A ⟶ α₁ | α₂ | … | αₘ$ as a shorthand.
 
 ** Conventions for grammars
 
 Writing the 4-tuple each time we produce a grammar is tedious.
 
-For this reason, we usually omit it,
-and adopt the following conventions:
+For this reason, we adopt the following conventions
+in order to allow us to omit the 4-tuple.
 1. We write /only/ the list of production,
-   using /BNF/ (discussed shortly). 
-2. The set ~N~ is taken to be the set of all symbols
+   using /BNF/ (discussed shortly).
+2. The set $N$ is taken to be the set of all symbols
    appearing to the left of a list of productions.
    - Note that this requires each nonterminal have
      at least one production[fn:nonterminal-w/o-production].
-3. The set ~Σ~ is usually understood by the context
+3. The set $Σ$ is usually understood by the context
    in which we are defining the grammer.
    - For our purposes, it will usually be the set of
      all ASCII symbols.
-4. The starting nonterminal ~S~ is understood to be
-   the nonterminal to the left of the first production in the list.
+4. The starting nonterminal $S$ is understood to be either
+   1. the nonterminal whose name matches that of the grammar
+      we are defining (it may be uncapitalised or abbreviated),
+   2. otherwise, the non-terminal named $S$, or
+   3. otherwise, the nonterminal to the left of
+      the first production in the list,.
 
 As a rule of thumb, we try to write grammars “top down”,
 so that most nonterminals appearing to the right of a production
@@ -228,6 +236,91 @@ B ⟶ bB
 Extra exercise: can you simplify any of them?
 If you believe so, be careful that
 your simplification accepts the same string!
+
+** Parse trees
+
+We have discussed the facts that a grammar can
+- generate strings or
+- recognise/accept strings.
+
+Then for a grammar $G$ we might think of functions
+- $generateᴳ : ℕ → Σ^{*}$
+  - with the intention that $generateᴳ n$ generates the $n^{th}$
+    string in the grammar's language is lexicographic order
+- $recogniseᴳ : Σ^{*} → Bool$
+That is, we have two functions, which output a ~String~ or
+a ~Bool~ respectively.
+
+But there is a useful byproduct which may be obtained during
+during either process: a /parse tree/.
+
+A parse tree's
+- nodes (which have children) are
+  labelled by a nonterminal of the grammar,
+- leaves (which do not have children) are
+  labelled by a terminal of the grammar
+  or a nonterminal which may produce $ε$, and
+- if a node is labelled by a nonterminal ~A~,
+  the children of that node must correspond
+  (in order from left to right)
+  the nonterminals appearing in a production of ~A~.
+
+For example, if we consider the grammar
+#+begin_src text
+S ⟶ AB
+A ⟶ aA | ε
+B ⟶ Bb | b
+#+end_src
+the following are valid parse trees.
+
+First, for the string ~aab~.
+#+begin_src dot :file media/parse-tree-example-aab.png
+digraph T {
+  S  [label="S"]
+  A1 [label="A"]
+  A2 [label="A"]
+  B  [label="B"]
+
+  a1 [label="a", shape=plaintext]
+  a2 [label="a", shape=plaintext]
+  b  [label="b", shape=plaintext]
+
+  S -> A1 -> a1
+       A1 -> A2 -> a2
+  S -> B  -> b
+}
+#+end_src
+
+#+RESULTS:
+[[file:media/parse-tree-example-aab.png]]
+
+Similarly, we have the following parse tree for ~abb~.
+#+begin_src dot :file media/parse-tree-example-abb.png
+digraph T {
+  S  [label="S"]
+  A  [label="A"]
+  B1 [label="B"]
+  B2 [label="B"]
+
+  a  [label="a", shape=plaintext]
+  b1 [label="b", shape=plaintext]
+  b2 [label="b", shape=plaintext]
+
+  S -> A  -> a
+  S -> B1 -> b1
+       B1 -> B2 -> b2
+}
+#+end_src
+
+#+RESULTS:
+[[file:media/parse-tree-example-abb.png]]
+
+Exercise: provide a parse tree for the string ~aaa~ using this grammar.
+Is there a valid parse tree for the string ~bbb~?
+
+Exercise: if we add a production ~A ⟶ a~ to our example grammar,
+can you provide a different parse tree
+(or multiple different parse trees) for ~aaa~?
 
 ** Backus-Naur form (BNF)
 
@@ -354,67 +447,150 @@ The grammar is much, much larger than anything we will write,
 but it is still quite concise for describing
 a real-world programming language.
 
-* Stages of parsing; offloading unnecessary details
+* Parsing and executable code
 
-# Some amount of discussion of attributes goes here
-# Not much; we will see how to implement this offloading
-# in assignment 2.
+** Preamble                                    :ignore:
 
-** Tokens and lexemes
+We will briefly summarise the parsing process.
+- In this course, we are primarily interested in
+  the beginning of this process, up to the
+  construction of parse trees.
+- The reality of 
 
-The smallest syntactic units of a programming language are called
-/lexemes/.
-- Think of them as the /words/ of the language.
-  - E.g., ~while~, ~if~, ~int~, ~+~,
-    ~some-variable-name~, ~a-function-name~, etc.
+** Lexemes and tokens
 
-/Categories/ of lexemes are called /tokens/.
-- Comparing with natural languages, think of
-  “prepositions”, “pronouns”, “conjunctions” etc.
-- In programming, we have, e.g.,
-  /identifier/, /literal/, /operator/, /type name/.
-  - Some categories have only a single member,
-    without any additional information, e.g. /while/, /if/.
+We have mentioned that both regular expressions and
+context-free grammars are used in the description of
+the syntax of programming languages.
 
-The first step in parsing a program is to convert it
-from plaintext to a list of tokens.
-- /Tokenising/.
-- At this stage, details are abstract;
-  e.g., every identifier becomes just an identifier token
-  (with its name attached in some way for later steps).
-- Discards unnecessary information (whitespace, comments, etc.)
+However, up until this point,
+our example programming languages have been described exclusively
+by context-free grammars.
+- Even the smallest syntactic units of the language
+  have been described by the grammars.
+  - For instance, we have used productions such as
+    $⟨const⟩  ∷= (1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 0) \{⟨const⟩\}$
+    which describes numerical constants.
 
-** Tokenising
+This is not done in practice.
 
-#+begin_src text
-x = 0;
-r = 1;
-while (x < n) {
-  r = r * x;
-  x++;
-}
+In practice,
+- regular expressions are instead used to describe the
+  smallest syntactic units of languages.
+  - For example,
+    - keywords such as ~if~ and ~while~,
+    - or constant values, such as ~0~ or ~"abc"~,
+    - or names such as ~height~ or ~sqrt~.
+  - Lexemes cannot be broken down into meaningful pieces.
+- Grammars are then used to describe the possible arrangements
+  of lexemes.
+  - The terminals of the grammar are then names for sets of lexemes,
+    called /tokens/, rather than elements of $Σ$.
+  - For instance,
+    - the token ~while~ for the set containing only the
+      keyword ~while~,
+    - or the token ~int_literal~ for the set $\{ 0, 1, -1, 2, … \}$,
+    - or the tohen ~var~ for the set of valid variable names.
+
+** The zeroth step – preprocessing
+
+In some programming languages
+
+** The first step – lexical analysis
+
+Parsing is the process of translating a program
+from plaintext
+to executable instructions
+- whether this is done
+  - ahead of time (compiling) or
+  - when the program is to be run (interpreting),
+  parsing is a necessary step before execution.
+
+We now know the first step in parsing.
+- Convert the plaintext source code into a sequence of tokens.
+  - This process may be
+    called /lexical analysis/, /lexing/ or /tokenising/.
+  - The program to carry this process out may be
+    called a /lexer/ or /tokeniser/.
+  - Lexical analysis discards whitespace, comments, and any other
+    irrelevant text.
+
+** The second step – parsing (syntactic analysis)
+
+After converting from plaintext to a string of tokens, the next
+step of parsing is to construct the parse tree.
+
+This step is part of the parsing process,
+but it is also usually called parsing.
+- It may also be called /syntactic analysis/.
+
+** The third step – (static) semantic analysis
+
+:TODO:
+
+** The fourth step – intermediate code generation
+
+:TODO:
+
+# Mention optimisation
+
+** Visualising the entire parsing process
+
+#+begin_src ditaa :file media/parsing-whole.png :exports results
++-----------+    /--------------\    +--------------------+
+| {d}       |    |              |    | {d}                |
+| Plaintext +----+ Preprocesser +--->+ Expanded plaintext +-\
+| cDDF      |    | cFDD         |    | cDFD               | |
++-----+-----+    \--------------/    +--------------------+ |
+                                                            |
+             /----------------------------------------------/
+             |
+/------------+---------------\    +--------------------------+
+|                            |    | {d}                      |
+|     Lexical analysis       |    |    Sequence of tokens    |
+| (constructed from regexps) +--->| (tagged with attributes) +-\
+| cFDD                       |    | cDFD                     | |
+\----------------------------/    +-----------+--------------+ |
+                                                               |
+             /-------------------------------------------------/
+             |
+/------------+---------------\    +----------------------+
+|                            |    | {d}                  |
+|          Parser            |    |                      |
+| (constructed from grammar) +--->|  +-\
+| cFDD                       |    | cDFD                 | |
+\----------------------------/    +----------------------+ |
+                                                           |
+              /--------------------------------------------/
+              |
+/-------------+--------------\    +-------------------------+
+|                            |    | {d}                     |
+| (Static) semantic analysis |    | Attributed syntax tree, |
+|                            +--->|    symbol table         +-\
+| cFDD                       |    | cDFD                    | |
+\----------------------------/    +-------------------------+ |
+                                                              |
+              /-----------------------------------------------/
+              |
+/-------------+---------------\    +-----------------------+
+|                             |    | {d}                   |
+| Intermediate code generator |    | Intermediate language |
+|                             +--->+          code         +-\
+|  cFDD                       |    | cDFD                  | |
+\-----------------------------/    +-----------------------+ |
+                                                             |
+         /---------------------------------------------------/
+         |
+/--------+--------------\    +-----------------+
+|                       |    | {d}             |
+| Intermediate language |    | Executable code |
+|     implemention      |--->|                 |
+| cFDD                  |    | cDDF            |
+\-----------------------/    +-----------------+
 #+end_src
 
-#+begin_center
-#+attr_html: :style text-align:center
-⇓
-#+end_center
-
-#+begin_src text
-id(x) eq lit(0) end_stmt
-id(r) eq lit(1) end_stmt
-while openbr id(x) op(<) id(n) closebr open_block
-id(r) eq id(r) op(*)
-id(x) end_stmt id(x) op(++) end_stmt
-close_block
-#+end_src
-
-Disclaimer: this example is purely made up;
-it's not intended to be a completely accurate depiction of tokenising
-any particular language.
-
-
-:TODO: regarding the use of ~var~ instead of ~⟨var⟩~.
+#+RESULTS:
+[[file:media/parsing-whole.png]]
 
 * Ambiguity
 
@@ -422,6 +598,20 @@ any particular language.
 
 Recall that parsing a string (or deriving a string)
 using a grammar gives rise to a /parse tree/ or /derivation tree/.
+
+In many cases, there is more than one parse tree
+for a given string in the language produced by a grammar.
+
+For instance, the string ~aa~ has four valid parse trees
+under the grammar
+#+begin_src text
+⟨A⟩ ∷= a ⟨A⟩ | ⟨A⟩ a | ε 
+#+end_src
+
+Exercise: find all four valid parse trees for ~aa~ with the above
+grammar.
+
+** Removing ambiguity
 
 It is desirable to have a single parse tree for every program.
 - We should not admit two syntactic interpretations for a program!
@@ -553,6 +743,8 @@ in the rules/predicates.
 * Abstract and concrete syntax; ignoring ambiguity
 * The /semantics/ of formal languages
 
+** COMMENT Old notes
+
 Unlike with syntax, there is not one universally used tool
 for describing programming language semantics.
 
@@ -575,7 +767,7 @@ Additional approaches include
     - Such as ~wp~; the “weakest-precondition” calculus.
   - Very useful for specification.
 
-** The kernel language approach
+*** The kernel language approach
 
 The “kernel language” approach to semantics can be used
 for languages with many features and constructs.
@@ -586,6 +778,100 @@ for languages with many features and constructs.
 - /Concepts, Techniques, and Models of Computer Programming/
   takes this approach.
 
-** More to come...
+*** More to come...
 
 We will return to the discussion of semantics later in the course.
+
+** Preamble                                    :ignore:
+
+The /semantics/ of a language assigns a meaning to each sentence.
+- In order to define a semantics, we must
+  have in mind a /semantic domain/;
+  - a domain of meanings into which we map sentences.
+- For instance, if we are defining a language
+  of natural numbers /Nat/, we will map sentences into the set ~ℕ~.
+- Or map elements of a languages of propositions into ~𝔹~.
+- We may often provide several different definitions of
+  a particular mapping, to emphasise different details.
+
+We may also have several semantic domains for a given language.
+- In the case of programming languages,
+  several domains of meaning have been proposed and used;
+  the three most well known are
+  - computing devices, whether a real-world machine or an /abstract/ machine,
+    - this is known as /operational semantics/
+  - (mathematical) functions,
+    - this is known as /denotational semantics/
+  - precondition/postcondition pairs
+    - this is known as /axiomatic semantics/
+
+** Example – semantics of a language of natural numbers
+
+Consider again a language of terms intended to represent
+natural numbers.
+#+begin_src text
+⟨nat⟩ ∷= "zero" | "suc" ⟨nat⟩ 
+#+end_src
+
+To assign meaning to these terms,
+we introduce a mapping from these (concrete) terms
+to (abstract) numerals.
+#+begin_src text
+eval zero = 0
+eval (suc n) = (eval n) + 1
+#+end_src
+
+The evaluation function in this case is very obvious and trivial,
+because with this language is simply a concrete representation
+of the semantic domain.
+- In comparison, when defining the semantics of programming languages,
+  the language and the semantic domain are not so directly related.
+
+** Example – semantics of propositional logic
+
+As a more complex example, we can map propositional logic terms
+into the set of booleans.
+#+begin_src text
+⟨prop⟩ ∷= "tt" | "ff" | ¬ ⟨prop⟩ | ⟨prop⟩ (∧ | ∨ | ⇒ | ⇔) ⟨prop⟩
+#+end_src
+
+In order to make the mapping less trivial, let us define it
+without using boolean combinators; only constants
+and “if-then-else” statements.
+#+begin_src text
+eval tt = true
+eval ff = false
+
+eval (¬ p) = true    if eval p
+             false   otherwise
+
+eval (p ∧ q) = eval q   if eval p
+               false    otherwise
+
+…
+#+end_src
+Exercise: Complete this evaluation function.
+
+** Example – small-step semantics of propositional logic
+
+The evaluation function defined above can be considered
+to be a /big-step/ semantics.
+- It is a (single-valued) relation between terms and
+  their (final) value.
+
+In contrast, we may define a /small-step/ semantics
+- which maps terms to terms which are “one step” simpler.
+- Then, once we have reduced to a constant term, that may be mapped
+  to a value (this part is not shown here).
+#+begin_src text
+reduce (¬ tt) = ff
+reduce (¬ ff) = tt
+reduce (¬ p)  = ¬ (reduce p)
+
+reduce (tt ∧ q) = reduce q
+reduce (ff ∧ q) = ff
+reduce (p ∧ q)  = (reduce p) ∧ q
+
+…
+#+end_src
+Exercise: Complete this reduction function.

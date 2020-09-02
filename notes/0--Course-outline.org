@@ -152,22 +152,44 @@ but the recommended texts and several of the available resources
 are available free of charge,
 so you are encouraged to investigate them.
 
-:TODO:
+The primary recommended (not required) text is
+- Pierce 2002 – Types and Programming Languages
+  - Available through the McMaster library on
+    [[https://ebookcentral.proquest.com/lib/mcmu/detail.action?docID=3338823][ProQuest Ebook Central]].
+    You may view the whole text online,
+    download up to 65 pages per day as a PDF, or
+    borrow the whole text using Adobe Digital Editions. 
+  - Available for sale through the
+    [[https://campusstore.mcmaster.ca/cgi-mcm/ws/txsub.pl?wsTERMG1=204&wsDEPTG1=COMPSCI&wsCOURSEG1=3MI3&wsSECTIONG1=DAY%20C01&crit_cnt=1][Campus Store]].
 
-** COMMENT Last year's texts
+ACM Digital Library citation:
+#+begin_quote
+Benjamin C. Pierce. 2002.
+Types and Programming Languages (1st. ed.).
+The MIT Press.
+#+end_quote
+
+From its abstract:
+#+begin_quote
+A type system is a syntactic method for automatically checking the
+absence of certain erroneous behaviors by classifying program phrases
+according to the kinds of values they compute. The study of type systems
+– and of programming languages from a type-theoretic perspective –
+has important applications in software engineering, language design,
+high-performance compilers, and security. This text provides a
+comprehensive introduction both to type systems in computer science
+and to the basic theory of programming languages. The approach is
+pragmatic and operational; each new concept is motivated by programming
+examples and the more theoretical sections are driven by the
+needs of implementations
+#+end_quote
+
+** Additional textbooks
 :PROPERTIES:
-:CUSTOM_ID: COMMENT-Last-year's-texts
+:CUSTOM_ID: Additional-textbooks
 :END:
 
-*** Recommended texts
-:PROPERTIES:
-:CUSTOM_ID: Recommended-texts
-:END:
-
-These textbooks should be available at the Campus Bookstore.
-They are additionally available online at the included links.
-
-**** *“Van Roy & Haridi”*
+*** *“Van Roy & Haridi”*
 :PROPERTIES:
 :CUSTOM_ID: *“Van-Roy-&-Haridi”*
 :END:
@@ -189,7 +211,7 @@ to use them together.
 ~pdf~ available through
 [[http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.102.7366&rep=rep1&type=pdf][CiteSeer^{X}]].
 
-**** *“Dowek”*
+*** *“Dowek”*
 :PROPERTIES:
 :CUSTOM_ID: *“Dowek”*
 :END:
@@ -212,15 +234,7 @@ reference, dynamic data types, objects and more.
 ~pdf~ available through
 [[https://discovery.mcmaster.ca/iii/encore/record/C__Rb1593967][the McMaster library]].
 
-*** Additional resources
-:PROPERTIES:
-:CUSTOM_ID: Additional-resources
-:END:
-
-These texts may be of interest,
-or assist if something is unclear in the notes and recommended texts.
-
-**** *“SICP”*; “The Wizard Book”
+*** *“SICP”*; “The Wizard Book”
 :PROPERTIES:
 :CUSTOM_ID: *“SICP”*;-“The-Wizard-Book”
 :END:
@@ -249,7 +263,7 @@ as well as programming languages and program design.
 and ~pdf~ available through
 [[https://github.com/sarabander/sicp-pdf][GitHub]].
 
-**** *“Sebesta”*
+*** *“Sebesta”*
 :PROPERTIES:
 :CUSTOM_ID: *“Sebesta”*
 :END:
@@ -263,7 +277,7 @@ Pearson.
 
 An encyclopedic text on the construction of programming languages.
 
-**** *“Fernández”*
+*** *“Fernández”*
 :PROPERTIES:
 :CUSTOM_ID: *“Fernández”*
 :END:

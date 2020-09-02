@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>A typed λ-calculus, <i>TL</i></title>
+<meta name="author" content="(Mark Armstrong)"/>
+<meta name="description" content="Extending our lambda calculus with type checking (enforcement)."/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="./reveal.js/dist/reveal.css"/>
+
+<link rel="stylesheet" href="./reveal.js/dist/theme/black.css" id="theme"/>
+
+<link rel="stylesheet" href="local.css"/>
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = './reveal.js/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide"><h2 class="title">A typed λ-calculus, <i>TL</i></h2>
+   <h3>Principles of Programming Languages</h3>
+   <h4>Mark Armstrong</h4>
+   <h5>Fall 2020</h5>
+</section>
+
+<section>
+<section id="slide-orgd3e1d8f">
+<h2 id="orgd3e1d8f"><span class="section-number-2">1</span> Preamble</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+</section>
+<section id="slide-orgf81f427">
+<h3 id="orgf81f427"><span class="section-number-3">1.1</span> <span class="todo TODO">TODO</span> Notable references</h3>
+<p>
+:TODO:
+</p>
+
+</section>
+<section id="slide-orgb3b8642">
+<h3 id="orgb3b8642"><span class="section-number-3">1.2</span> <span class="todo TODO">TODO</span> Table of contents</h3>
+<font size="-1">
+<div class="scriptsize">
+<ul>
+<li><a href="#/slide-orgd3e1d8f">Preamble</a></li>
+
+</ul>
+
+</div>
+</font>
+
+</section>
+</section>
+<section>
+<section id="slide-orgcaca037">
+<h2 id="orgcaca037"><span class="section-number-2">2</span> Introduction</h2>
+<p>
+In this section we extend our previously considered
+untyped λ-calculus by defining a typing relation,
+essentially adding type checking (enforcement).
+</p>
+
+<p>
+:TODO: Is this appropriate at this stage?
+We then investigate adding some
+algebraic type formers to the language.
+This involves the introduction of a rudimentary form
+of pattern matching.
+</p>
+</section>
+</section>
+<section>
+<section id="slide-orge8f9b5d">
+<h2 id="orge8f9b5d"><span class="section-number-2">3</span> The simply typed λ-calculus</h2>
+<p>
+:TODO:
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-org4ab556c">
+<h2 id="org4ab556c"><span class="section-number-2">4</span> “Simple extensions” to the simply typed λ-calculus</h2>
+<p>
+:TODO:
+</p>
+</section>
+</section>
+</div>
+</div>
+<script src="./reveal.js/dist/reveal.js"></script>
+<script src="./reveal.js/plugin/markdown/markdown.js"></script>
+<script src="./reveal.js/plugin/zoom/zoom.js"></script>
+<script src="./reveal.js/plugin/notes/notes.js"></script>
+
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+plugins: [RevealMarkdown,RevealZoom,RevealNotes],
+width:1600, height:900, controlsLayout:'edges',
+margin: 0.1, minScale:0.125, maxScale:5,
+multiplex: {
+    secret: '', // null if client
+    id: '', // id, obtained from socket.io server
+    url: '' // Location of socket.io server
+},
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+]
+});
+</script>
+</body>
+</html>

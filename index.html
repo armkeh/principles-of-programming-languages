@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-08-03 Mon 00:35 -->
+<!-- 2020-08-26 Wed 18:26 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Computer Science 3MI3 - Principles of Programming Languages</title>
@@ -268,7 +268,28 @@ for the JavaScript code in this tag.
 <li><a href="#August">August</a></li>
 </ul>
 </li>
-<li><a href="#Lecture-notes">Notes</a></li>
+<li><a href="#Lecture-notes">Notes</a>
+<ul>
+<li><a href="#Lecture-slides">Lecture slides</a>
+<ul>
+<li><a href="#1-–-Introduction-and-Overview">1 – Introduction and Overview</a></li>
+<li><a href="#2-–-Formal-languages">2 – Formal languages</a></li>
+<li><a href="#3-–-An-untyped-λ-calculus,-/UL/">3 – An untyped λ-calculus, <i>UL</i></a></li>
+<li><a href="#4-–-Bindings-and-scope">4 – Bindings and scope</a></li>
+<li><a href="#5-–-Types">5 – Types</a></li>
+<li><a href="#6-–-A-typed-λ-calculus,-/TL/">6 – A typed λ-calculus, <i>TL</i></a></li>
+<li><a href="#7-–-Imperativeness">7 – Imperativeness</a></li>
+<li><a href="#8-–-An-imperative-core,-/WHILE/">8 – An imperative core, <i>WHILE</i></a></li>
+<li><a href="#Appendix-1-–">Appendix 1 –</a></li>
+<li><a href="#Appendix-2-–">Appendix 2 –</a></li>
+<li><a href="#Appendix-3-–">Appendix 3 –</a></li>
+</ul>
+</li>
+<li><a href="#Lecture-literate-programs">Lecture literate programs</a></li>
+<li><a href="#Lecture-hand-written-notes">Lecture hand-written notes</a></li>
+<li><a href="#Tutorials">Tutorials</a></li>
+</ul>
+</li>
 <li><a href="#Course-Work">Homework</a></li>
 <li><a href="#Assignments">Assignments</a></li>
 <li><a href="#Course-outline">Course outline</a></li>
@@ -277,12 +298,12 @@ for the JavaScript code in this tag.
 </div>
 </div>
 
-<div id="outline-container-org6187994" class="outline-2">
+<div id="outline-container-orgde4471c" class="outline-2">
 <h2 id="Communications/Announcements">Communication</h2>
 <div class="outline-text-2" id="text-Communications/Announcements">
 </div>
 
-<div id="outline-container-orgb8b6fe6" class="outline-3">
+<div id="outline-container-org6b7a81d" class="outline-3">
 <h3 id="August">August</h3>
 <div class="outline-text-3" id="text-August">
 <dl class="org-dl">
@@ -292,16 +313,187 @@ for the JavaScript code in this tag.
 </div>
 </div>
 
-<div id="outline-container-org5e73bed" class="outline-2">
+<div id="outline-container-org4af4d20" class="outline-2">
 <h2 id="Lecture-notes">Notes</h2>
 <div class="outline-text-2" id="text-Lecture-notes">
+</div>
+
+<div id="outline-container-org2d5b534" class="outline-3">
+<h3 id="Lecture-slides">Lecture slides</h3>
+<div class="outline-text-3" id="text-Lecture-slides">
+<p>
+The slides are available as
+</p>
+<ul class="org-ul">
+<li>Online <code>reveal.js</code> 2-dimensional slideshows,</li>
+<li>printable PDFs, or</li>
+<li>text-editor friendly plaintext Org files.</li>
+</ul>
+</div>
+
+<div id="outline-container-org37cb343" class="outline-4">
+<h4 id="1-–-Introduction-and-Overview">1 – Introduction and Overview</h4>
+<div class="outline-text-4" id="text-1-–-Introduction-and-Overview">
+<ul class="org-ul">
+<li><a href="./notes/1--Introduction-and-overview.html">Online slides</a></li>
+<li><a href="./notes/1--Introduction-and-overview.pdf">PDF</a></li>
+<li><a href="./notes/1--Introduction-and-overview.org">Org plaintext</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org44d6cd1" class="outline-4">
+<h4 id="2-–-Formal-languages">2 – Formal languages</h4>
+<div class="outline-text-4" id="text-2-–-Formal-languages">
+<ul class="org-ul">
+<li><a href="./notes/2--Formal-languages.html">Online slides</a></li>
+<li><a href="./notes/2--Formal-languages.pdf">PDF</a></li>
+<li><a href="./notes/2--Formal-languages.org">Org plaintext</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org11d1169" class="outline-4">
+<h4 id="3-–-An-untyped-λ-calculus,-/UL/">3 – An untyped λ-calculus, <i>UL</i></h4>
+<div class="outline-text-4" id="text-3-–-An-untyped-λ-calculus,-/UL/">
+<ul class="org-ul">
+<li><a href="./notes/3--L1-untyped-lambda-calculus.html">Online slides</a></li>
+<li><a href="./notes/3--L1-untyped-lambda-calculus.pdf">PDF</a></li>
+<li><a href="./notes/3--L1-untyped-lambda-calculus.org">Org plaintext</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org8f59e9e" class="outline-4">
+<h4 id="4-–-Bindings-and-scope">4 – Bindings and scope</h4>
+<div class="outline-text-4" id="text-4-–-Bindings-and-scope">
+<ul class="org-ul">
+<li><a href="./notes/4--Bindings-and-scope.html">Online slides</a></li>
+<li><a href="./notes/4--Bindings-and-scope.pdf">PDF</a></li>
+<li><a href="./notes/4--Bindings-and-scope.org">Org plaintext</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgb151bf5" class="outline-4">
+<h4 id="5-–-Types">5 – Types</h4>
+<div class="outline-text-4" id="text-5-–-Types">
+<ul class="org-ul">
+<li><a href="./notes/5--Types.html">Online slides</a></li>
+<li><a href="./notes/5--Types.pdf">PDF</a></li>
+<li><a href="./notes/5--Types.org">Org plaintext</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org475efa8" class="outline-4">
+<h4 id="6-–-A-typed-λ-calculus,-/TL/">6 – A typed λ-calculus, <i>TL</i></h4>
+<div class="outline-text-4" id="text-6-–-A-typed-λ-calculus,-/TL/">
+<ul class="org-ul">
+<li><a href="./notes/6--L2-typed-lambda-calculus.html">Online slides</a></li>
+<li><a href="./notes/6--L2-typed-lambda-calculus.pdf">PDF</a></li>
+<li><a href="./notes/6--L2-typed-lambda-calculus.org">Org plaintext</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orge07df28" class="outline-4">
+<h4 id="7-–-Imperativeness">7 – Imperativeness</h4>
+<div class="outline-text-4" id="text-7-–-Imperativeness">
+<ul class="org-ul">
+<li><a href="./notes/7--Imperativeness.html">Online slides</a></li>
+<li><a href="./notes/7--Imperativeness.pdf">PDF</a></li>
+<li><a href="./notes/7--Imperativeness.org">Org plaintext</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgf8fce12" class="outline-4">
+<h4 id="8-–-An-imperative-core,-/WHILE/">8 – An imperative core, <i>WHILE</i></h4>
+<div class="outline-text-4" id="text-8-–-An-imperative-core,-/WHILE/">
+<ul class="org-ul">
+<li><a href="./notes/8--WHILE,-an-imperative-core.html">Online slides</a></li>
+<li><a href="./notes/8--WHILE,-an-imperative-core.pdf">PDF</a></li>
+<li><a href="./notes/8--WHILE,-an-imperative-core.org">Org plaintext</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org109a149" class="outline-4">
+<h4 id="Appendix-1-–">Appendix 1 –</h4>
+<div class="outline-text-4" id="text-Appendix-1-–">
+<ul class="org-ul">
+<li><a href="./notes/A1--Notation-and-Conventions.html">Webpage</a></li>
+<li><a href="./notes/A1--Notation-and-Conventions.pdf">PDF</a></li>
+<li><a href="./notes/A1--Notation-and-Conventions.org">Org plaintext</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgd41b2df" class="outline-4">
+<h4 id="Appendix-2-–">Appendix 2 –</h4>
+<div class="outline-text-4" id="text-Appendix-2-–">
+<ul class="org-ul">
+<li><a href="./notes/A2--Software-and-tools.pdf">Webpage</a></li>
+<li><a href="./notes/A2--Software-and-tools.pdf">PDF</a></li>
+<li><a href="./notes/A2--Software-and-tools.org">Org plaintext</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org4dcd828" class="outline-4">
+<h4 id="Appendix-3-–">Appendix 3 –</h4>
+<div class="outline-text-4" id="text-Appendix-3-–">
+<ul class="org-ul">
+<li><a href="./notes/A3--External-resources.pdf">Webpage</a></li>
+<li><a href="./notes/A3--External-resources.pdf">PDF</a></li>
+<li><a href="./notes/A3--External-resources.org">Org plaintext</a></li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgb7787fb" class="outline-3">
+<h3 id="Lecture-literate-programs">Lecture literate programs</h3>
+<div class="outline-text-3" id="text-Lecture-literate-programs">
+<p>
+The last lecture of each week is usually
+a hands-on live programming session.
+</p>
+
+<p>
+Literate copies of the programs developed in those lectures
+are available here.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org82958e9" class="outline-3">
+<h3 id="Lecture-hand-written-notes">Lecture hand-written notes</h3>
+<div class="outline-text-3" id="text-Lecture-hand-written-notes">
+<p>
+In some cases, some handwritten notes accompany the slides
+during lecture. This term, those notes will be written
+on paper that can be seen during the online lecture.
+</p>
+
+<p>
+When possible, those notes are scanned and made available here.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org4418ace" class="outline-3">
+<h3 id="Tutorials">Tutorials</h3>
+<div class="outline-text-3" id="text-Tutorials">
 <p>
 :TODO:
 </p>
 </div>
 </div>
+</div>
 
-<div id="outline-container-orgb13bc4c" class="outline-2">
+<div id="outline-container-org451ee92" class="outline-2">
 <h2 id="Course-Work">Homework</h2>
 <div class="outline-text-2" id="text-Course-Work">
 <p>
@@ -310,7 +502,7 @@ for the JavaScript code in this tag.
 </div>
 </div>
 
-<div id="outline-container-org9e5868e" class="outline-2">
+<div id="outline-container-orgd753bfa" class="outline-2">
 <h2 id="Assignments">Assignments</h2>
 <div class="outline-text-2" id="text-Assignments">
 <p>
@@ -319,16 +511,16 @@ for the JavaScript code in this tag.
 </div>
 </div>
 
-<div id="outline-container-orgc49e754" class="outline-2">
+<div id="outline-container-orgede521a" class="outline-2">
 <h2 id="Course-outline">Course outline</h2>
 <div class="outline-text-2" id="text-Course-outline">
 <p>
 The course outline is available as
 </p>
 <ul class="org-ul">
-<li>a printer-friendly <a href="./notes/0--Course-outline.pdf">PDF</a>,</li>
-<li>a screen-friendly <a href="./notes/0--Course-outline.html">webpage</a>, or</li>
-<li>an text-editor <a href="./notes/0--Course-outline.org">Org</a> file.</li>
+<li>a printer friendly <a href="./notes/0--Course-outline.pdf">PDF</a>,</li>
+<li>a screen friendly <a href="./notes/0--Course-outline.html">webpage</a>, or</li>
+<li>a text-editor friendly <a href="./notes/0--Course-outline.org">Org</a> file.</li>
 </ul>
 
 <p>
@@ -338,7 +530,7 @@ The PDF is also embedded here for convenience.
 </div>
 </div>
 
-<div id="outline-container-org57c6bb0" class="outline-2">
+<div id="outline-container-org61a1b6a" class="outline-2">
 <h2 id="other-subpages"><span class="todo TODO">TODO</span> other subpages</h2>
 <div class="outline-text-2" id="text-other-subpages">
 </div>
@@ -348,7 +540,7 @@ The PDF is also embedded here for convenience.
 <p class="author">Author: Mark Armstrong</p>
      <p class="author">Contact: <a href="mailto:armstmp@mcmaster.ca">armstmp@mcmaster.ca</a></p>
      <p class="date">Original date: July 31st, 2020</p>
-     <p class="date">Last updated: 2020-08-03 Mon 00:35</p>
+     <p class="date">Last updated: 2020-08-26 Wed 18:26</p>
      <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.90 (<a href="https://orgmode.org">Org</a> mode 9.3.7)</p>
      <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

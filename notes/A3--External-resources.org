@@ -2,8 +2,12 @@
 #+Author: Mark Armstrong
 #+Description: Information on, and where possible links to,
 #+Description: various external resources for this course.
+#+SETUPFILE: ../org-html-themes/setup/theme-readtheorg-local.setup
 
 * Introduction
+:PROPERTIES:
+:CUSTOM_ID: Introduction
+:END:
 
 This course has no required textbooks or external resources.
 
@@ -16,12 +20,33 @@ or using authors names. Both are documented here.
 The collection is roughly organised by the principal topic of the resource.
 
 * “Principles of Programming Languages” texts
+:PROPERTIES:
+:CUSTOM_ID: “Principles-of-Programming-Languages”-texts
+:END:
 
 ** Structure and Interpretation of Computer Programs :SICP:
+:PROPERTIES:
+:CUSTOM_ID: Structure-and-Interpretation-of-Computer-Programs
+:END:
 ** Concepts, Techniques, and Models of Computer Programming :CTMCP:
+:PROPERTIES:
+:CUSTOM_ID: Concepts,-Techniques,-and-Models-of-Computer-Programming
+:END:
 ** Principals of Programming Languages         :Dowek:
+:PROPERTIES:
+:CUSTOM_ID: Principals-of-Programming-Languages
+:END:
 
 * Texts on specific programming languages
+:PROPERTIES:
+:CUSTOM_ID: Texts-on-specific-programming-languages
+:END:
 
 ** Programming Language Foundations in Agda    :PLFA:
+:PROPERTIES:
+:CUSTOM_ID: Programming-Language-Foundations-in-Agda
+:END:
 ** The “little” series
+:PROPERTIES:
+:CUSTOM_ID: The-“little”-series
+:END:

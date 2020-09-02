@@ -1,0 +1,78 @@
+% Created 2020-09-02 Wed 17:06
+% Intended LaTeX compiler: lualatex
+\documentclass[11pt]{article}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{etoolbox}
+\makeatletter
+\def\dontdofcolorbox{\renewcommand\fcolorbox[4][]{##4}}
+\AtBeginEnvironment{minted}{\dontdofcolorbox}
+\makeatother
+\usepackage[newfloat]{minted}
+\usepackage{amsthm}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\usepackage{unicode-math}
+\usepackage{unicode}
+\author{Mark Armstrong}
+\date{Fall 2020}
+\title{An imperative core, \emph{WHILE}\\\medskip
+\large Principles of Programming Languages}
+\hypersetup{
+   pdfauthor={Mark Armstrong},
+   pdftitle={An imperative core, \emph{WHILE}},
+   pdfkeywords={},
+   pdfsubject={Constructing a simple imperative language.},
+   pdfcreator={Emacs 27.0.90 (Org mode 9.3.7)},
+   pdflang={English},
+   colorlinks,
+   linkcolor=blue,
+   citecolor=blue,
+   urlcolor=blue
+   }
+\begin{document}
+
+\maketitle
+
+\section{Preamble}
+\label{sec:orgcbc6819}
+
+\subsection{{\bfseries\sffamily TODO} Notable references}
+\label{sec:orgfb184ba}
+
+:TODO:
+
+\subsection{{\bfseries\sffamily TODO} Table of contents}
+\label{sec:orgfe35cf8}
+
+\begin{scriptsize}
+\begin{itemize}
+\item \hyperref[sec:orgcbc6819]{Preamble}
+\end{itemize}
+\end{scriptsize}
+
+\section{Introduction}
+\label{sec:orgba4c6f4}
+
+In this section we construct a simple imperative language,
+based on the \texttt{while} loop.
+\section{The imperative core}
+\label{sec:org82cb56b}
+
+:TODO:
+
+\section{Syntax and semantics of \emph{WHILE}}
+\label{sec:org7f96408}
+
+:TODO:
+\end{document}
