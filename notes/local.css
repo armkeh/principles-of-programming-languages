@@ -1,8 +1,18 @@
-/* Don't center normal paragraphs in Reveal*/
+/* Don't center normal paragraphs in Reveal */
 .reveal p {
     text-align: left;
 }
-/* Restore centering for the center environment*/
+/* Restore centering for the center environment */
 .reveal .org-center p {
     text-align: center;
+}
+
+/* Do not (force) capitilise headers */
+.reveal h1,
+.reveal h2,
+.reveal h3,
+.reveal h4,
+.reveal h5,
+.reveal h6 {
+  text-transform: none;
 }
