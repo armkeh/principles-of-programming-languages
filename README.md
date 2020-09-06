@@ -10,6 +10,21 @@ better viewed at
 
 # Communication
 
+## September
+
+  - September 6  
+    As of this point, I am waiting on UTS to allow me access to the
+    course Microsoft Teams team. If this is not done by Wednesday, we
+    will be using Zoom for lectures until I am able to activate the
+    team.
+
+  - September 6  
+    The course outline is in near complete state; I am still waiting for
+    confirmation of the teaching assistants.
+    
+      - In particular, please review the information on grading; we will
+        not be having midterm or final exams for this course.
+
 ## August
 
   - August 3  
@@ -39,9 +54,9 @@ The slides are available as
 
 ### 3 – An untyped λ-calculus, *UL*
 
-  - [Online slides](./notes/3--L1-untyped-lambda-calculus.html)
-  - [PDF](./notes/3--L1-untyped-lambda-calculus.pdf)
-  - [Org plaintext](./notes/3--L1-untyped-lambda-calculus.org)
+  - [Online slides](./notes/3--An-untyped-lambda-calculus-UL.html)
+  - [PDF](./notes/3--An-untyped-lambda-calculus-UL.pdf)
+  - [Org plaintext](./notes/3--An-untyped-lambda-calculus-UL.org)
 
 ### 4 – Bindings and scope
 
@@ -57,9 +72,9 @@ The slides are available as
 
 ### 6 – A typed λ-calculus, *TL*
 
-  - [Online slides](./notes/6--L2-typed-lambda-calculus.html)
-  - [PDF](./notes/6--L2-typed-lambda-calculus.pdf)
-  - [Org plaintext](./notes/6--L2-typed-lambda-calculus.org)
+  - [Online slides](./notes/6--A-typed-lambda-calculus-TL.html)
+  - [PDF](./notes/6--A-typed-lambda-calculus-TL.pdf)
+  - [Org plaintext](./notes/6--A-typed-lambda-calculus-TL.org)
 
 ### 7 – Imperativeness
 
@@ -69,9 +84,9 @@ The slides are available as
 
 ### 8 – An imperative core, *WHILE*
 
-  - [Online slides](./notes/8--WHILE,-an-imperative-core.html)
-  - [PDF](./notes/8--WHILE,-an-imperative-core.pdf)
-  - [Org plaintext](./notes/8--WHILE,-an-imperative-core.org)
+  - [Online slides](./notes/8--An-imperative-core-While.html)
+  - [PDF](./notes/8--An-imperative-core-While.pdf)
+  - [Org plaintext](./notes/8--An-imperative-core-While.org)
 
 ### Appendix 1 – Notation and conventions
 

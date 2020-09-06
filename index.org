@@ -6,10 +6,27 @@
 #+Options: num:nil
 #+SETUPFILE: ./org-html-themes/setup/theme-bigblow-local.setup
 
+# TODO: export README when this is exported.
+
 * Communication
 :PROPERTIES:
 :CUSTOM_ID: Communications/Announcements
 :END:
+
+** September
+:PROPERTIES:
+:CUSTOM_ID: September
+:END:
+
+- September 6 :: As of this point, I am waiting on UTS to allow me
+  access to the course Microsoft Teams team.
+  If this is not done by Wednesday,
+  we will be using Zoom for lectures until I am able
+  to activate  the team.
+- September 6 :: The course outline is in near complete state;
+  I am still waiting for confirmation of the teaching assistants.
+  - In particular, please review the information on grading;
+    we will not be having midterm or final exams for this course.
 
 ** August
 :PROPERTIES:
@@ -188,7 +205,9 @@ The course outline is available as
 The PDF is also embedded here for convenience.
 @@html:<iframe src="notes/0--Course-outline.pdf" style="width: 100%; height: 75vh"></iframe>@@
 
-* TODO other subpages
+* Appendices
 :PROPERTIES:
-:CUSTOM_ID: other-subpages
+:CUSTOM_ID: Appendices
 :END:
+
+:TODO:
