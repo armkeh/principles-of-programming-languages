@@ -27,6 +27,9 @@
 #+LaTeX_header: \usepackage{unicode}
 
 * Preamble
+:PROPERTIES:
+:CUSTOM_ID: Preamble
+:END:
 
 ** Explanation of preamble                     :ignore:
 
@@ -40,10 +43,16 @@ The preamble section of each notes will include
     record of upates.
 
 ** TODO Notable references
+:PROPERTIES:
+:CUSTOM_ID: Notable-references
+:END:
 
 :TODO:
 
 ** TODO Table of contents
+:PROPERTIES:
+:CUSTOM_ID: Table-of-contents
+:END:
 
 # The table of contents are added using org-reveal-manual-toc,
 # and so must be updated upon changes or added last.
@@ -56,14 +65,55 @@ The preamble section of each notes will include
 #+HTML: </font>
 
 * Introduction
+:PROPERTIES:
+:CUSTOM_ID: Introduction
+:END:
 
 This section of notes introduces the course and the staff,
 and lays out a few central concepts.
 
-* TODO Welcome
+* Welcome
+:PROPERTIES:
+:CUSTOM_ID: Welcome
+:END:
+
+#+begin_center
+#+attr_html: :style text-align:center
+Welcome to the course!
+#+end_center
+
+** Instructor: Mark Armstrong
+:PROPERTIES:
+:CUSTOM_ID: Instructor:-Mark-Armstrong
+:END:
+
+#+begin_quote
+#+attr_org: :width 200px
+#+attr_html: :width 200px
+#+attr_latex: :width 200px
+#+attr_html: :alt Mark Armstrong photo
+[[./media/markarmstrong.jpg]]
+#+end_quote
+
+- Email: [[mailto:armstmp@mcmaster.ca]]
+- Website: https://armkeh.github.io
+
+** Teaching assistants
+:PROPERTIES:
+:CUSTOM_ID: Teaching-assistants
+:END:
+
+:TODO:
+
 * Purpose and goals of this course
+:PROPERTIES:
+:CUSTOM_ID: Purpose-and-goals-of-this-course
+:END:
 
 ** Calendar description
+:PROPERTIES:
+:CUSTOM_ID: Calendar-description
+:END:
 
 Design space of programming languages;
 abstraction and modularization concepts and mechanisms;
@@ -71,61 +121,70 @@ programming in non-procedural (functional and logic) paradigms;
 introduction to programming language semantics.
 
 ** Informal objectives
+:PROPERTIES:
+:CUSTOM_ID: Informal-objectives
+:END:
 
-- Investigate several programming languages.
+- Investigate a number of programming languages
+  which exemplify different paradigms.
   - A relatively shallow but comprehensive survey.
   - Focusing on general-purpose languages.
 - /Formally/ describe programming language syntax and semantics.
   - An application of theory learned previously.
-- Learn informal criteria by which to judge languages.
-  - Identify what languages fit what tasks.
-- Examine the origins of certain languages/groups of languages.
-  - Historical context provides insight into why languages
-    are designed the way they are.
+- Apply various abstraction and modularisation techniques,
+  - Learning how to apply them and
+    to which situations they are best applied.
 
 ** Course preconditions
+:PROPERTIES:
+:CUSTOM_ID: Course-preconditions
+:END:
 
 Before beginning this course:
 
 1. Students should know and understand:
-   1. Basic concepts about integers, sets, functions, & relations.
-   2. Induction and recursion.
-   3. First order logic, axiomatic theories & simple proof techniques.
-   4. Regular expressions & context-free grammars.
-   5. Programming in imperative language
-   6. Basic concepts of functional programming languages.
+   a. Basic concepts about integers, sets, functions, & relations.
+   b. Induction and recursion.
+   c. First order logic, axiomatic theories & simple proof techniques.
+   d. Regular expressions & context-free grammars.
+   e. Programming in imperative languages.
+   f. Basic concepts of functional programming languages.
 2. Students should be able to:
-   1. Produce proofs involving quantifiers and/or induction.
-   2. Understand the meaning of a given axiomatic theory.
-   3. Construct regular sets & context-free languages.
-   4. Produce small to medium scale programs in imperative languages.
-   5. Produce small scale programs in functional languages.
+   a. Produce proofs involving quantifiers and/or induction.
+   b. Understand the meaning of a given axiomatic theory.
+   c. Construct regular sets & context-free languages.
+   d. Produce small to medium scale programs in imperative languages.
+   e. Produce small scale programs in functional languages.
 
 ** Course postconditions
+:PROPERTIES:
+:CUSTOM_ID: Course-postconditions
+:END:
 
 After completion of this course:
 
 1. Students should know and understand:
-   1. The basics of several programming languages.
-   2. Formal definitions of syntax & semantics for various
+   a. Programming in functional languages.
+   b. Programming in logical languages.
+   c. Formal definitions of syntax & semantics for various
       simple programming languages.
-   3. Various abstraction & modularisation techniques
+   d. Various abstraction & modularisation techniques
       employed in programming languages.
 2. Students should be able to:
-   1. Reason about the design space of programming languages,
+   a. Reason about the design space of programming languages,
       in particular tradeoffs & design issues.
-   2. Produce formal descriptions of syntax & semantics
+   b. Produce formal descriptions of syntax & semantics
       from informal descriptions, identifying ambiguities.
-   3. Select appropriate abstraction & modularisation techniques
+   c. Select appropriate abstraction & modularisation techniques
       for a given problem.
-   4. Produce (relatively simple) programs in various languages,
-      including languages from non-procedural paradigms.
+   d. Produce tools for domain-specific languages
+      in imperative, functional and logical languages.
 
-** TODO Formal rubric for the course
+** Formal rubric for the course
+:PROPERTIES:
+:CUSTOM_ID: Formal-rubric-for-the-course
+:END:
 
-This was last year's rubric. It needs tweaking.
-
-# This HTML is probably a bad hack... but it works as a hammer.
 #+HTML: <font size="-1">
 #+begin_scriptsize
 +--------------+------------+--------------+------------+------------+
@@ -135,7 +194,7 @@ This was last year's rubric. It needs tweaking.
 |with various  |competence  |competence    |competence  |competence  |
 |programming   |in          |in            |with the    |with        |
 |languages     |procedural  |procedural    |basic       |intermediate|
-|(PLs)         |languages,  |languages     |usage of    |usage of    |
+|              |languages,  |languages     |usage of    |usage of    |
 |              |but not     |and limited   |various     |various     |
 |              |languages   |competence    |languages   |languages   |
 |              |from other  |in            |            |            |
@@ -175,17 +234,18 @@ This was last year's rubric. It needs tweaking.
 |              |            |produce them  |only minor  |errors      |
 |              |            |              |errors      |            |
 +--------------+------------+--------------+------------+------------+
-|Ability to    |Rarely or   |Inconsistently|Consistently|Consistently|
-|comprehend    |never       |comprehends   |comprehends |comprehends |
-|denotational  |comprehends |such semantic |such        |and can     |
-|and axiomatic |such        |descriptions  |semantic    |produce some|
-|semantics for |semantic    |              |descriptions|simple      |
-|simple PLs    |descriptions|              |            |semantic    |
-|              |            |              |            |descriptions|
-+--------------+------------+--------------+------------+------------+
 #+end_scriptsize
 #+HTML: </font>
 
 * TODO “Principles of programming languages”
+:PROPERTIES:
+:CUSTOM_ID: “Principles-of-programming-languages”
+:END:
 * TODO Abstraction
+:PROPERTIES:
+:CUSTOM_ID: Abstraction
+:END:
 * TODO Exercises
+:PROPERTIES:
+:CUSTOM_ID: Exercises
+:END:

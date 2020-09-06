@@ -2,18 +2,23 @@
 #+Subtitle: 2020 Course Outline
 #+Author: Mark Armstrong
 #+Date: August 2nd, 2020
-#+Description: The course outline for the 2020 class of 3mi3
+#+Description: The course outline for the 2020 class of 3mi3.
 #+SETUPFILE: ../org-html-themes/setup/theme-readtheorg-local.setup
 
-* TL;DR
+* TL;DR (Too Long, Didn't Read)
 :PROPERTIES:
 :CUSTOM_ID: TL;DR
 :END:
 
 At the very least, please review these sections of the outline.
 - [[Course staff][Course staff]]
-- [[Your responsibilities regarding course administration tools][Your responsibilities]]
 - [[Communicating with course staff][Communicating with course staff]]
+- [[Your responsibilities regarding course administration tools][Your responsibilities regarding course administration tools]]
+- [[Asking well-posed questions][Asking well-posed questions]]
+- [[Grading][Grading]],
+  - [[Missed work][Missed work]],
+  - [[Homework due dates][Homework due dates]] and
+  - [[Assignment due dates][Assignment due dates]].
 
 * The purpose of an outline
 :PROPERTIES:
@@ -21,7 +26,7 @@ At the very least, please review these sections of the outline.
 :END:
 
 #+begin_quote
-A course outline sets the expectations for students
+“A course outline sets the expectations for students
 and what they can expect in terms of the course
 experience they will receive,
 the format in which the course will be delivered
@@ -30,7 +35,7 @@ The outline introduces the course and the instructor
 and sets out the expectations of the instructor
 so that students are aware of how they will learn,
 what level of participation will be expected
-and how they will be assessed.
+and how they will be assessed.”
 #+end_quote
 
 * Course staff
@@ -38,31 +43,75 @@ and how they will be assessed.
 :CUSTOM_ID: Course-staff
 :END:
 
-:TODO:
+#+INCLUDE: "./1--Introduction-and-overview.org::*Instructor: Mark Armstrong"
+#+INCLUDE: "./1--Introduction-and-overview.org::*Teaching assistants"
 
 * Schedule
 :PROPERTIES:
 :CUSTOM_ID: Schedule
 :END:
 
-+-------+----------+------+------------+-----+----------+-----+----------+
-|       | Mon      | Tues | Wed        | Thu | Fri      | Sat | Sun      |
-+-------+----------+------+------------+-----+----------+-----+----------+
-|  9:30 |          |      | Tutorial 2 |     |          |     |          |
-+-------+----------+------+------------+-----+----------+-----+----------+
-| 10:30 |          |      |            |     |          |     |          |
-+-------+----------+------+------------+-----+----------+-----+----------+
-| 11:30 | Lecture  |      | Lecture    |     |          |     |          |
-+-------+----------+------+------------+-----+----------+-----+----------+
-| 12:30 | Tutorial |      |            |     |          |     |          |
-+-------+----------+------+------------+-----+----------+-----+----------+
-| 13:30 |          |      |            |     | Lecture  |     |          |
-+-------+----------+------+------------+-----+----------+-----+----------+
-|   EOD |          |      |            |     | Homework |     | Homework |
-|       |          |      |            |     | released |     |   due    |
-+-------+----------+------+------------+-----+----------+-----+----------+
-There is a one-week delay between the homework release and due dates.
-So there are 9 days to work on each homework.
++-------+------------+------+------------+-----+----------+-----+----------+
+|       | Mon        | Tues | Wed        | Thu | Fri      | Sat | Sun      |
++-------+------------+------+------------+-----+----------+-----+----------+
+|  9:30 |            |      | Tutorial 2 |     |          |     |          |
++-------+------------+------+------------+-----+----------+-----+----------+
+| 10:30 |            |      |            |     |          |     |          |
++-------+------------+------+------------+-----+----------+-----+----------+
+| 11:30 |  Lecture   |      | Lecture    |     |          |     |          |
++-------+------------+------+------------+-----+----------+-----+----------+
+| 12:30 | Tutorial 1 |      |            |     |          |     |          |
++-------+------------+------+------------+-----+----------+-----+----------+
+| 13:30 |            |      |            |     | Lecture  |     |          |
++-------+------------+------+------------+-----+----------+-----+----------+
+|   EOD |            |      |            |     | Homework |     | Homework |
+|       |            |      |            |     | released |     |   due    |
++-------+------------+------+------------+-----+----------+-----+----------+
+
+** Lecture recordings
+:PROPERTIES:
+:CUSTOM_ID: Lecture-recordings
+:END:
+
+Lectures and tutorials will be made available as recordings
+shortly after said lectures and tutorials.
+
+The platform for said recordings will be announced
+after the start of classes.
+:TODO:
+
+** Homework due dates
+:PROPERTIES:
+:CUSTOM_ID: Homework-due-dates
+:END:
+
+This course will have weekly homeworks, as described in [[Grading][Grading]].
+
+Homework will be released each Friday by end of day
+and will be due the Sunday nine days later by end of day,
+unless a delay is announced on the course homepage,
+and except for the weekends surrounding the midterm recess
+—there will be a single homework due
+the Monday following the recess instead.
+
+** Assignment due dates
+:PROPERTIES:
+:CUSTOM_ID: Assignment-due-dates
+:END:
+
+This course will have three assignments, as described in [[Grading][Grading]].
+
+As of the beginning of the course,
+the assignments are planned to be due on
+- October 5th,
+- November 9th, and
+- December 14th.
+
+Any changes to these dates will be announced on the course homepage.
+Also see [[Accomodations for SAS and conflicts with other courses][Accomodations for SAS and conflicts with other courses]];
+in particular, we will reevaluate the final assignment due date
+once the exams schedule is released, based on the exam dates
+of other third year computer science courses.
 
 * Administration tools
 :PROPERTIES:
@@ -76,6 +125,8 @@ So there are 9 days to work on each homework.
 
 This course will be administered via a combination of
 - a “team” on the CAS departmental Microsoft Teams,
+  - —Zoom meetings may be used if there is a problem with Teams;
+    any such change will be announced on the homepage—
 - the course
   [[https://armkeh.github.io/principles-of-programming-languages/][homepage]],
 - a [[https://github.com/armkeh/principles-of-programming-languages][Github repository]]
@@ -86,9 +137,12 @@ This course will be administered via a combination of
 - communications via McMaster email addresses.
 
 Specifically,
-- Teams :: will be used for live lectures/tutorials
+- Teams :: will be used for live lectures/tutorials,
+  lecture/tutorial recordings,
   and preferred for discussions relevant to the whole
   (or at least many members of) the class,
+  - *Zoom* :: may be used for live lectures/tutorials
+    if there are problems with Teams,
 - the homepage :: will be used for announcements
   and convenient access to notes and homework/assignments,
 - the Github repository :: will be used to host the course homepage
@@ -135,12 +189,43 @@ choose the most appropriate means from the below.
   - This is appropriate for questions which may interest many students.
 - Private message the course staff member on Microsoft Teams.
   - This is appropriate for very quick questions.
-- Email the course staff member using the email listed under [[Course staff]].
+- Email the course staff member using the email listed under [[Course staff][Course staff]].
   - This is appropriate for longer or more detailed questions.
 
 Note that outside of class hours, course staff may not be available
 for immediate replies to your communication.
-Permit up to a business day for response before following up.
+Permit up to a business day for response before following up
+on urgent issues, and up to two business days for non-urgent issues.
+
+** Asking well-posed questions
+:PROPERTIES:
+:CUSTOM_ID: Asking-“smart”-questions
+:END:
+
+While there are “no stupid questions”, and course staff are happy
+to help with any questions regarding course material,
+it is expected that when students ask questions
+they will take the time to ask well-posed questions
+as described in these resources.
+- [[https://cs.stackexchange.com/help/how-to-ask][The computer science StackOverflow guide]] to asking good questions.
+- [[https://www.cs.cornell.edu/courses/cs3110/2017fa/thoughtful.html][Asking Technical Questions]] by Dr. Clarkson of Cornell University.
+- [[http://www.catb.org/~esr/faqs/smart-questions.html][How to Ask Questions The Smart Way]] by Eric Steven Raymond and Rick Moen.
+
+In summary, when asking questions, always take the time to
+do your own research first, and describe this research to the staff.
+- For questions regarding course administration,
+  always check the homepage and the outline first,
+  and include which sections you have checked in your question.
+- For questions regarding tools, including installation and usage,
+  always search online first, and list the resources consulted
+  in your question.
+- For questions regarding course material, always
+  reference the portions of the notes you have checked
+  for your answers.
+
+Failure to follow these practices may result in
+terse answers from course staff, such as
+“Please check the course outline.” 
 
 * Resources
 :PROPERTIES:
@@ -189,6 +274,34 @@ needs of implementations
 :CUSTOM_ID: Additional-textbooks
 :END:
 
+*** *“SICP”*; “The Wizard Book”
+:PROPERTIES:
+:CUSTOM_ID: *“SICP”*;-“The-Wizard-Book”
+:END:
+
+ACM Digital Library citation:
+#+begin_quote
+Harold Abelson and Gerald J. Sussman. 1996.
+Structure and Interpretation of Computer Programs (2nd ed.).
+MIT Press, Cambridge, MA, USA.
+#+end_quote
+
+From its abstract:
+#+begin_quote
+With an analytical and rigorous approach to problem solving
+and programming techniques,this book is oriented toward engineering.
+Structure and Interpretation of Computer Programs emphasizes
+the central role played by different approaches
+to dealing with time in computational models.
+Its unique approach makes it appropriate for
+an introduction to computer science courses,
+as well as programming languages and program design.
+#+end_quote
+
+~html~ available through
+[[https://mitpress.mit.edu/sites/default/files/sicp/index.html][the MIT press]]
+and ~pdf~ available through
+[[https://github.com/sarabander/sicp-pdf][GitHub]].
 *** *“Van Roy & Haridi”*
 :PROPERTIES:
 :CUSTOM_ID: *“Van-Roy-&-Haridi”*
@@ -234,35 +347,6 @@ reference, dynamic data types, objects and more.
 ~pdf~ available through
 [[https://discovery.mcmaster.ca/iii/encore/record/C__Rb1593967][the McMaster library]].
 
-*** *“SICP”*; “The Wizard Book”
-:PROPERTIES:
-:CUSTOM_ID: *“SICP”*;-“The-Wizard-Book”
-:END:
-
-ACM Digital Library citation:
-#+begin_quote
-Harold Abelson and Gerald J. Sussman. 1996.
-Structure and Interpretation of Computer Programs (2nd ed.).
-MIT Press, Cambridge, MA, USA.
-#+end_quote
-
-From its abstract:
-#+begin_quote
-With an analytical and rigorous approach to problem solving
-and programming techniques,this book is oriented toward engineering.
-Structure and Interpretation of Computer Programs emphasizes
-the central role played by different approaches
-to dealing with time in computational models.
-Its unique approach makes it appropriate for
-an introduction to computer science courses,
-as well as programming languages and program design.
-#+end_quote
-
-~html~ available through
-[[https://mitpress.mit.edu/sites/default/files/sicp/index.html][the MIT press]]
-and ~pdf~ available through
-[[https://github.com/sarabander/sicp-pdf][GitHub]].
-
 *** *“Sebesta”*
 :PROPERTIES:
 :CUSTOM_ID: *“Sebesta”*
@@ -300,48 +384,71 @@ of a simple imperative and a simple functional language.
 :CUSTOM_ID: Course-description
 :END:
 
-:TODO:
-
-# In the past, I simply pulled this section from the first set of notes.
-
-# INCLUDE: "./notes/1-intro.org::*Purpose and goals of this course"
+#+INCLUDE: "./1--Introduction-and-overview.org::*Purpose and goals of this course" :only-contents t
 
 * Grading
 :PROPERTIES:
 :CUSTOM_ID: Grading
 :END:
 
-:TODO:
+The graded work for this course consists of
+- weekly short homeworks, which may include
+  - short written answers and
+  - relatively small programming tasks.
+- three larger programming assignments
+  - involving several “medium size” programming tasks each.
 
-** COMMENT Last year's scheme
+*There will not be midterm or final examinations for this course.*
+
+Portions of your grade for both the homeworks and the assignments
+may be calculated by automated unit tests.
+A limited sample of such unit tests will be provided
+before the deadline, at least for the assignments.
+
+Each student's final grade will be calculated using the scheme
++--------------+---------------+
+|   Homework   |      25%      |
++--------------+---------------+
+| Assignment 1 |      20%      |
++--------------+---------------+
+| Assignment 2 |      25%      |
++--------------+---------------+
+| Assignment 3 |      30%      |
++--------------+---------------+
+
+** Accomodations for SAS and conflicts with other courses
 :PROPERTIES:
-:CUSTOM_ID: COMMENT-Last-year's-scheme
+:CUSTOM_ID: Accomodations-for-SAS-and-conflicts-with-other-courses
 :END:
 
-The graded work for this course is:
-- Weekly short homeworks, marked for completion,
-  - (each student is permitted to miss 2 homeworks without penalty)
-- +four+ programming/written answer assignments,
-  - (Updated as of October 15th, 2019)
-- two midterm examinations, and
-- the final examination.
+If you require accommodation regarding course work deadlines,
+either with regards to SAS or with regards to course work
+in other courses, please contact Mark
+no later than *two weeks* before
+the deadline of the relevant course work deadline.
 
-Each student's final grade will be the maximum grade
-among three grading schemes.
-+-------------+---------------+---------------+---------------+
-|             |   Scheme 1    |   Scheme 2    |   Scheme 3    |
-+-------------+---------------+---------------+---------------+
-|  Homework   |      10%      |      10%      |      10%      |
-+-------------+---------------+---------------+---------------+
-| Assignments | 3 * 10% = 30% | 3 * 10% = 30% | 3 * 10% = 30% |
-+-------------+---------------+---------------+---------------+
-|  Midterm 1  |      10%      |      20%      |      10%      |
-+-------------+---------------+---------------+---------------+
-|  Midterm 2  |      20%      |      10%      |      10%      |
-+-------------+---------------+---------------+---------------+
-| Final Exam  |      30%      |      30%      |      40%      |
-+-------------+---------------+---------------+---------------+
-In this way, your best examination is weighted more heavily.
+** Missed work
+:PROPERTIES:
+:CUSTOM_ID: Missed-work
+:END:
+
+A student who would like to receive accommodation
+for missed academic work due to an absence
+needs to complete a McMaster Student Absence Form (MSAF) on-line at
+http://www.mcmaster.ca/msaf/.
+When the MSAF tool asks you for the party
+who should receive your request for accommodation,
+enter ~armstmp@mcmaster.ca~.
+MSAFs sent to any other email address will be ignored.
+
+*Students are reminded that they are expected to contact*
+*the instructor after filling out an MSAF*.
+
+For this course, the accomodation for any missed work will be
+a 4 day extension.
+#+begin_center
+*The missed work must still be submitted*.
+#+end_center
 
 * Approved advisory statements
 :PROPERTIES:
