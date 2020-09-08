@@ -12,6 +12,17 @@ better viewed at
 
 ## September
 
+  - September 7  
+    I have decided to cancel the Wednesday lecture for this week, in
+    support of [Scholar Strike Canada](https://scholarstrikecanada.ca/)
+    and their mission “to protest anti-Black, racist and colonial police
+    brutality in the U.S., Canada and elsewhere.”
+    
+    The scholar strike is planned for September 9<sup>th</sup> and
+    10<sup>th</sup>. Note that the Friday lecture on the 11<sup>th</sup>
+    will still take place as scheduled. Note also that there are no
+    tutorials scheduled this week.
+
   - September 6  
     As of this point, I am waiting on UTS to allow me access to the
     course Microsoft Teams team. If this is not done by Wednesday, we
@@ -143,5 +154,3 @@ The course outline is available as
   - a text-editor friendly [Org](./notes/0--Course-outline.org) file.
 
 The PDF is also embedded here for convenience.
-
-# <span class="todo TODO">TODO</span> other subpages

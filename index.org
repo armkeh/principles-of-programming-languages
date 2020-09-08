@@ -18,11 +18,30 @@
 :CUSTOM_ID: September
 :END:
 
+# TODO: Announce tutorials for week starting 
+
+- September 7 :: I have decided to cancel
+  the Wednesday lecture for this week, in support
+  of [[https://scholarstrikecanada.ca/][Scholar Strike Canada]] and their mission
+  “to protest anti-Black, racist and colonial police brutality
+  in the U.S., Canada and elsewhere.”
+  I encourage everyone to spend the lecture time
+  and any other time you have that day on
+  the public digital teach-ins they are offering.
+
+  The scholar strike is planned for September 9^{th} and 10^{th}.
+  Note that the Friday lecture on the 11^{th}
+  will still take place as scheduled.
+  Note also that there are no tutorials scheduled this week.
+
+
 - September 6 :: As of this point, I am waiting on UTS to allow me
   access to the course Microsoft Teams team.
   If this is not done by Wednesday,
   we will be using Zoom for lectures until I am able
   to activate  the team.
+
+
 - September 6 :: The course outline is in near complete state;
   I am still waiting for confirmation of the teaching assistants.
   - In particular, please review the information on grading;
@@ -204,10 +223,3 @@ The course outline is available as
 
 The PDF is also embedded here for convenience.
 @@html:<iframe src="notes/0--Course-outline.pdf" style="width: 100%; height: 75vh"></iframe>@@
-
-* Appendices
-:PROPERTIES:
-:CUSTOM_ID: Appendices
-:END:
-
-:TODO:
