@@ -1,0 +1,29 @@
+#+Title: 3mi3, Principles of Programming languages, logo
+#+Author: Mark Armstrong
+#+Description: A simple logo for the course, for use on Teams, etc.
+
+#+begin_src ditaa :file 3mi3-logo.png :cmdline --scale 0.01
+/-----------------------------\
+| c9F9                        |
+|                             |
+| /----\              /----\  |
+| |    |           .  |    |  |
+|   ---+ +--+--\   |    ---+  |
+| |    | |  |  |   |  |    |  |
+| \----/ |  |  |   |  \----/  |
+|                             |
+| /----\         /----\ |     |
+| |c9F9|         |c9F9| |     |
+| |    |         |    | |     |
+| +----/ /----\  +----/ |     |
+| |      |c9F9|  |      |     |
+| |      |    |  |      |     |
+| |      \----/  |      \---- |
+|                             |
+\-----------------------------/
+#+end_src
+
+#+RESULTS:
+[[file:3mi3-logo.png]]
+
+
