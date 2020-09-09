@@ -16,7 +16,9 @@ better viewed at
     I have decided to cancel the Wednesday lecture for this week, in
     support of [Scholar Strike Canada](https://scholarstrikecanada.ca/)
     and their mission “to protest anti-Black, racist and colonial police
-    brutality in the U.S., Canada and elsewhere.”
+    brutality in the U.S., Canada and elsewhere.” I encourage everyone
+    to spend the lecture time and any other time you have that day on
+    the public digital teach-ins they are offering.
     
     The scholar strike is planned for September 9<sup>th</sup> and
     10<sup>th</sup>. Note that the Friday lecture on the 11<sup>th</sup>
