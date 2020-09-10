@@ -1,4 +1,4 @@
-% Created 2020-09-05 Sat 19:13
+% Created 2020-09-10 Thu 02:11
 % Intended LaTeX compiler: lualatex
 \documentclass[11pt]{article}
 \usepackage{graphicx}
@@ -45,7 +45,7 @@
 \maketitle
 
 \section{Preamble}
-\label{sec:org32b6f5f}
+\label{sec:org78ddc8d}
 The preamble section of each notes will include
 \begin{itemize}
 \item notable references,
@@ -62,30 +62,30 @@ record of upates.
 \end{itemize}
 
 \subsection{{\bfseries\sffamily TODO} Notable references}
-\label{sec:org583a82b}
+\label{sec:org534e54f}
 :TODO:
 
 \subsection{{\bfseries\sffamily TODO} Table of contents}
-\label{sec:orgc96bb03}
+\label{sec:org3c3dc4d}
 \begin{scriptsize}
 \begin{itemize}
-\item \hyperref[sec:org32b6f5f]{Preamble}
+\item \hyperref[sec:org78ddc8d]{Preamble}
 \end{itemize}
 \end{scriptsize}
 
 \section{Introduction}
-\label{sec:orge59eff7}
+\label{sec:org192cf72}
 This section of notes introduces the course and the staff,
 and lays out a few central concepts.
 
 \section{Welcome}
-\label{sec:org4eab0a7}
+\label{sec:org9b6f799}
 \begin{center}
 Welcome to the course!
 \end{center}
 
 \subsection{Instructor: Mark Armstrong}
-\label{sec:orgc2ed85e}
+\label{sec:orgf535182}
 \begin{quote}
 \includegraphics[width=200px]{./media/markarmstrong.jpg}
 \end{quote}
@@ -96,22 +96,23 @@ Welcome to the course!
 \end{itemize}
 
 \subsection{Teaching assistants}
-\label{sec:org4cb5b42}
+\label{sec:orge8ec45e}
 :TODO:
 
 \section{Purpose and goals of this course}
-\label{sec:org180a47b}
+\label{sec:orgf607cd6}
 \subsection{Calendar description}
-\label{sec:orgd3e33b0}
+\label{sec:org4ea5367}
 Design space of programming languages;
 abstraction and modularization concepts and mechanisms;
 programming in non-procedural (functional and logic) paradigms;
 introduction to programming language semantics.
 
 \subsection{Informal objectives}
-\label{sec:orgfa83981}
+\label{sec:org313558c}
 \begin{itemize}
-\item Investigate several programming languages.
+\item Investigate a number of programming languages
+which exemplify different paradigms.
 \begin{itemize}
 \item A relatively shallow but comprehensive survey.
 \item Focusing on general-purpose languages.
@@ -120,71 +121,58 @@ introduction to programming language semantics.
 \begin{itemize}
 \item An application of theory learned previously.
 \end{itemize}
-\item Learn informal criteria by which to judge languages.
+\item Apply various abstraction and modularisation techniques,
 \begin{itemize}
-\item Identify what languages fit what tasks.
-\end{itemize}
-\item Examine the origins of certain languages/groups of languages.
-\begin{itemize}
-\item Historical context provides insight into why languages
-are designed the way they are.
+\item Learning how to apply them and
+to which situations they are best applied.
 \end{itemize}
 \end{itemize}
 
 \subsection{Course preconditions}
-\label{sec:org99995fc}
+\label{sec:org160979b}
 Before beginning this course:
 
 \begin{enumerate}
 \item Students should know and understand:
-\begin{enumerate}
-\item Basic concepts about integers, sets, functions, \& relations.
-\item Induction and recursion.
-\item First order logic, axiomatic theories \& simple proof techniques.
-\item Regular expressions \& context-free grammars.
-\item Programming in imperative language
-\item Basic concepts of functional programming languages.
-\end{enumerate}
+a. Basic concepts about integers, sets, functions, \& relations.
+b. Induction and recursion.
+c. First order logic, axiomatic theories \& simple proof techniques.
+d. Regular expressions \& context-free grammars.
+e. Programming in imperative languages.
+f. Basic concepts of functional programming languages.
 \item Students should be able to:
-\begin{enumerate}
-\item Produce proofs involving quantifiers and/or induction.
-\item Understand the meaning of a given axiomatic theory.
-\item Construct regular sets \& context-free languages.
-\item Produce small to medium scale programs in imperative languages.
-\item Produce small scale programs in functional languages.
-\end{enumerate}
+a. Produce proofs involving quantifiers and/or induction.
+b. Understand the meaning of a given axiomatic theory.
+c. Construct regular sets \& context-free languages.
+d. Produce small to medium scale programs in imperative languages.
+e. Produce small scale programs in functional languages.
 \end{enumerate}
 
 \subsection{Course postconditions}
-\label{sec:org67e1e33}
+\label{sec:org55bc488}
 After completion of this course:
 
 \begin{enumerate}
 \item Students should know and understand:
-\begin{enumerate}
-\item The basics of several programming languages.
-\item Formal definitions of syntax \& semantics for various
-simple programming languages.
-\item Various abstraction \& modularisation techniques
-employed in programming languages.
-\end{enumerate}
+a. Programming in functional languages.
+b. Programming in logical languages.
+c. Formal definitions of syntax \& semantics for various
+   simple programming languages.
+d. Various abstraction \& modularisation techniques
+   employed in programming languages.
 \item Students should be able to:
-\begin{enumerate}
-\item Reason about the design space of programming languages,
-in particular tradeoffs \& design issues.
-\item Produce formal descriptions of syntax \& semantics
-from informal descriptions, identifying ambiguities.
-\item Select appropriate abstraction \& modularisation techniques
-for a given problem.
-\item Produce (relatively simple) programs in various languages,
-including languages from non-procedural paradigms.
-\end{enumerate}
+a. Reason about the design space of programming languages,
+   in particular tradeoffs \& design issues.
+b. Produce formal descriptions of syntax \& semantics
+   from informal descriptions, identifying ambiguities.
+c. Select appropriate abstraction \& modularisation techniques
+   for a given problem.
+d. Produce tools for domain-specific languages
+   in imperative, functional and logical languages.
 \end{enumerate}
 
-\subsection{{\bfseries\sffamily TODO} Formal rubric for the course}
-\label{sec:org35f090c}
-This was last year's rubric. It needs tweaking.
-
+\subsection{Formal rubric for the course}
+\label{sec:org05d35b3}
 \begin{scriptsize}
 \begin{center}
 \begin{tabular}{|l|l|l|l|l|}
@@ -195,7 +183,7 @@ Familiarity & Shows some & Shows & Achieves & Achieves \\
 with various & competence & competence & competence & competence \\
 programming & in & in & with the & with \\
 languages & procedural & procedural & basic & intermediate \\
-(PLs) & languages, & languages & usage of & usage of \\
+ & languages, & languages & usage of & usage of \\
  & but not & and limited & various & various \\
  & languages & competence & languages & languages \\
  & from other & in & & \\
@@ -235,22 +223,162 @@ simple PLs & descriptions & consistently & them with & them without \\
  & & produce them & only minor & errors \\
  & & & errors & \\
 \hline
-Ability to & Rarely or & Inconsistently & Consistently & Consistently \\
-comprehend & never & comprehends & comprehends & comprehends \\
-denotational & comprehends & such semantic & such & and can \\
-and axiomatic & such & descriptions & semantic & produce some \\
-semantics for & semantic & & descriptions & simple \\
-simple PLs & descriptions & & & semantic \\
- & & & & descriptions \\
-\hline
 \end{tabular}
 \end{center}
 \end{scriptsize}
 
-\section{{\bfseries\sffamily TODO} “Principles of programming languages”}
-\label{sec:orgf4f9590}
-\section{{\bfseries\sffamily TODO} Abstraction}
-\label{sec:orge9a1c9d}
+\section{“Principles of programming languages”}
+\label{sec:org7e487cb}
+We begin the course with these fundamental questions.
+
+\begin{itemize}
+\item What is a \emph{programming language}?
+\item What are the \emph{components} of a programming language?
+\item How do we \emph{classify} a programming language?
+\end{itemize}
+
+\subsection{What is a programming language?}
+\label{sec:orgf770cc7}
+
+\begin{itemize}
+\item A \emph{formal}, \emph{finitely described} language used for
+describing (in most cases, potentially infinite) \emph{processes}.
+\begin{itemize}
+\item \emph{Formal} meaning described by a mathematical tool.
+\begin{itemize}
+\item Formality is necessary for a machine to understand the language.
+\item Natural (human-spoken) languages are not formal.
+\end{itemize}
+\item A \emph{process} being some sequence of actions or steps.
+\end{itemize}
+\end{itemize}
+
+\subsubsection{Example of a process}
+\label{sec:org5f1ccbc}
+
+Consider the mathematical function \(f(x) = x + 10\).
+\begin{itemize}
+\item On its own, this function is not a process;
+\begin{itemize}
+\item it is only a \emph{rule} that \(f(x)\) is related to \(x + 10\).
+\end{itemize}
+\end{itemize}
+
+However, you likely learned as a child
+a “program” describing the process for calculating \(f(x)\).
+\begin{minted}[breaklines=true]{text}
+start with all your fingers down
+say “x” 
+repeat until you run out of fingers:
+  say the result of adding one to the number you just said
+  put up one finger
+the answer is the last number you said
+\end{minted}
+
+In computing, we sometimes conflate programs and (mathematical) functions.
+\begin{itemize}
+\item Sometimes, we must remember they are not the same.
+\item Mathematical functions are rules. They do no computing.
+\item Programs describe a sequences of steps.
+They may tell us how to compute
+the results of mathematical functions.
+\end{itemize}
+
+\subsection{What are the components of a programming language?}
+\label{sec:org2c78087}
+
+Just like a natural language, a programming language consists of
+\begin{itemize}
+\item \emph{syntactic} rules
+\begin{itemize}
+\item which describe the legal forms of programs, and
+\end{itemize}
+\item \emph{semantics} rules
+\begin{itemize}
+\item which describe the meaning of legal programs,
+\begin{itemize}
+\item if they in fact have a meaning!
+\end{itemize}
+\end{itemize}
+\end{itemize}
+
+\subsubsection{Syntax and semantics example}
+\label{sec:org62d8d92}
+
+For example, English syntax tells us a sentence structured
+\begin{minted}[breaklines=true]{text}
+adjective adjective (plural noun) (plural verb) adverb
+\end{minted}
+is grammatically correct.
+
+In the same way, a Python compiler tells us a program of the form
+\begin{minted}[breaklines=true]{python}
+expression + expression
+\end{minted}
+is syntactically correct.
+
+Note that in both cases, though, such sentences/programs
+may be meaningless!
+Noam Chomsky gave the example
+\begin{quote}
+Colourless green ideas sleep furiously.
+\end{quote}
+
+And we could construct the Python program
+\begin{minted}[breaklines=true]{python}
+1 + "hello"
+\end{minted}
+which crashes when run.
+
+\subsubsection{Exercise: a meaningless C or Java program}
+\label{sec:orgbf367d0}
+
+Our example Python program above
+\begin{minted}[breaklines=true]{python}
+1 + "hello"
+\end{minted}
+is syntactically correct because Python is \emph{dynamically typed},
+meaning that type errors such as this are not caught until runtime.
+
+As an exercise, can you construct a similar example
+of a program which is syntactically correct
+but semantically meaningless in the \emph{statically typed} languages
+C and Java?
+
+Hint: consider using a value which does not have just one type.
+
+\subsection{How do we classify a programming language?}
+\label{sec:orgfc2da29}
+
+First and foremost, we classify languages into \emph{paradigms},
+\begin{itemize}
+\item characterised by the set of \emph{abstractions} the language makes available.
+\end{itemize}
+
+But also in many other ways, such as:
+\begin{itemize}
+\item Typing properties, including
+\begin{itemize}
+\item static or dynamic (runtime) typechecking,
+\item “weak” or “strong” typing discipline,
+\item polymorphism support, builtin types, methods of defining new types, etc.
+\end{itemize}
+\item (Primary) implementation strategy: compiled or interpreted?
+\item Ancestery or culture.
+\begin{itemize}
+\item “Scripting languages”
+\item “JVM languages”
+\item “The C-family”
+\begin{itemize}
+\item \url{https://en.wikipedia.org/wiki/List\_of\_C-family\_programming\_languages}
+\end{itemize}
+\end{itemize}
+\end{itemize}
+
+\section{Abstraction}
+\label{sec:org1815e28}
+:TODO:
+
 \section{{\bfseries\sffamily TODO} Exercises}
-\label{sec:org149b6a4}
+\label{sec:org366191f}
 \end{document}

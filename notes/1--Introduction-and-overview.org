@@ -237,14 +237,127 @@ After completion of this course:
 #+end_scriptsize
 #+HTML: </font>
 
-* TODO “Principles of programming languages”
+* “Principles of programming languages”
 :PROPERTIES:
 :CUSTOM_ID: “Principles-of-programming-languages”
 :END:
+
+We begin the course with these fundamental questions.
+
+- What is a /programming language/?
+- What are the /components/ of a programming language?
+- How do we /classify/ a programming language?
+
+** What is a programming language?
+
+- A /formal/, /finitely described/ language used for
+  describing (in most cases, potentially infinite) /processes/.
+  - /Formal/ meaning described by a mathematical tool.
+    - Formality is necessary for a machine to understand the language.
+    - Natural (human-spoken) languages are not formal.
+  - A /process/ being some sequence of actions or steps.
+
+*** Example of a process
+
+Consider the mathematical function $f(x) = x + 10$.
+- On its own, this function is not a process;
+  - it is only a /rule/ that $f(x)$ is related to $x + 10$.
+
+However, you likely learned as a child
+a “program” describing the process for calculating $f(x)$.
+#+begin_src text
+start with all your fingers down
+say “x” 
+repeat until you run out of fingers:
+  say the result of adding one to the number you just said
+  put up one finger
+the answer is the last number you said
+#+end_src
+
+In computing, we sometimes conflate programs and (mathematical) functions.
+- Sometimes, we must remember they are not the same.
+- Mathematical functions are rules. They do no computing.
+- Programs describe a sequences of steps.
+  They may tell us how to compute
+  the results of mathematical functions.
+
+** What are the components of a programming language?
+
+Just like a natural language, a programming language consists of
+- /syntactic/ rules
+  - which describe the legal forms of programs, and
+- /semantics/ rules
+  - which describe the meaning of legal programs,
+    - if they in fact have a meaning!
+
+*** Syntax and semantics example
+
+For example, English syntax tells us a sentence structured
+#+begin_src text
+adjective adjective (plural noun) (plural verb) adverb
+#+end_src
+is grammatically correct.
+
+In the same way, a Python compiler tells us a program of the form
+#+begin_src python
+expression + expression
+#+end_src
+is syntactically correct.
+
+Note that in both cases, though, such sentences/programs
+may be meaningless!
+Noam Chomsky gave the example
+#+begin_quote
+Colourless green ideas sleep furiously.
+#+end_quote
+
+And we could construct the Python program
+#+begin_src python
+1 + "hello"
+#+end_src
+which crashes when run.
+
+*** Exercise: a meaningless C or Java program
+
+Our example Python program above
+#+begin_src python
+1 + "hello"
+#+end_src
+is syntactically correct because Python is /dynamically typed/,
+meaning that type errors such as this are not caught until runtime.
+
+As an exercise, can you construct a similar example
+of a program which is syntactically correct
+but semantically meaningless in the /statically typed/ languages
+C and Java?
+
+Hint: consider using a value which does not have just one type.
+
+** How do we classify a programming language?
+
+First and foremost, we classify languages into /paradigms/,
+- characterised by the set of /abstractions/ the language makes available.
+
+But also in many other ways, such as:
+- Typing properties, including
+  - static or dynamic (runtime) typechecking,
+  - “weak” or “strong” typing discipline,
+  - polymorphism support, builtin types, methods of defining new types, etc.
+- (Primary) implementation strategy: compiled or interpreted?
+- Ancestery or culture.
+  - “Scripting languages”
+  - “JVM languages”
+  - “The C-family”
+    - https://en.wikipedia.org/wiki/List_of_C-family_programming_languages
+
 * TODO Abstraction
 :PROPERTIES:
 :CUSTOM_ID: Abstraction
 :END:
+
+
+:TODO:
+
 * TODO Exercises
 :PROPERTIES:
 :CUSTOM_ID: Exercises
