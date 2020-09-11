@@ -43,14 +43,15 @@ discuss in the course."/>
 The preamble section of each notes will include
 </p>
 <ul>
-<li>notable references,
+<li>an introduction to the material covered in the section,</li>
+<li>any notable references,
 <ul>
 <li>i.e., specific chapters of our recommended/additional texts
 from which the notes are derived, or which expand on the notes,</li>
 
 </ul></li>
 <li>a table of contents, and</li>
-<li>an update history, chronicling any major changes.
+<li>if necessary, an update history, chronicling any major changes.
 <ul>
 <li>Note the git commit history will provide a more fine-grained
 record of upates.</li>
@@ -60,19 +61,80 @@ record of upates.</li>
 </ul>
 
 </section>
-<section id="slide-Notable-references">
-<h3 id="Notable-references"><span class="section-number-3">1.1</span> <span class="todo TODO">TODO</span> Notable references</h3>
+<section id="slide-Introduction">
+<h3 id="Introduction"><span class="section-number-3">1.1</span> Introduction</h3>
 <p>
-:TODO:
+This section of notes introduces the course and the staff,
+and lays out a few central concepts.
 </p>
 
 </section>
-<section id="slide-Table-of-contents">
-<h3 id="Table-of-contents"><span class="section-number-3">1.2</span> <span class="todo TODO">TODO</span> Table of contents</h3>
+<section id="slide-Notable-references">
+<h3 id="Notable-references"><span class="section-number-3">1.2</span> Notable references</h3>
+<ul>
+<li>Peter Van Roy and Seif Haridi,
+“<a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.102.7366&amp;rep=rep1&amp;type=pdf">Concepts, Techniques, and Models of Computer Programming</a>”,
+Preface</li>
+<li>Peter Van Roy, “<a href="https://www.info.ucl.ac.be/~pvr/VanRoyChapter.pdf">Programming Paradigms for Dummies: What Every Programmer Should Know</a>”</li>
+<li>Robert W. Sebesta, “Concepts of Programming Languages” (10th edition)</li>
+
+</ul>
+
+</section>
+<section id="slide-orgf6ea957">
+<h3 id="orgf6ea957"><span class="section-number-3">1.3</span> Table of comments</h3>
 <font size="-1">
 <div class="scriptsize">
 <ul>
+<li><a href="#/slide-Preamble">Preamble</a>
+<ul>
+<li><a href="#/slide-Introduction">Introduction</a></li>
+<li><a href="#/slide-Notable-references">Notable references</a></li>
+<li><a href="#/slide-orgf6ea957">Table of comments</a></li>
+
+</ul></li>
+<li><a href="#/slide-Welcome">Welcome</a>
+<ul>
+<li><a href="#/slide-Instructor:-Mark-Armstrong">Instructor: Mark Armstrong</a></li>
+<li><a href="#/slide-Teaching-assistants">Teaching assistant: Habib Ghaffari-Hadigheh</a></li>
+
+</ul></li>
+<li><a href="#/slide-Purpose-and-goals-of-this-course">Purpose and goals of this course</a>
+<ul>
+<li><a href="#/slide-Calendar-description">Calendar description</a></li>
+<li><a href="#/slide-Informal-objectives">Informal objectives</a></li>
+<li><a href="#/slide-Course-preconditions">Course preconditions</a></li>
+<li><a href="#/slide-Course-postconditions">Course postconditions</a></li>
+<li><a href="#/slide-Formal-rubric-for-the-course">Formal rubric for the course</a></li>
+
+</ul></li>
+<li><a href="#/slide-“Principles-of-programming-languages”">“Principles of programming languages”</a>
+<ul>
+<li><a href="#/slide-org1112736">What is a programming language?</a>
+<ul>
+<li><a href="#/slide-org0bfd55f">Example of a process</a></li>
+
+</ul></li>
+<li><a href="#/slide-org773e242">What are the components of a programming language?</a>
+<ul>
+<li><a href="#/slide-org7db96c1">Syntax and semantics example</a></li>
+<li><a href="#/slide-org88a05c9">Exercise: a meaningless C or Java program</a></li>
+
+</ul></li>
+<li><a href="#/slide-org61205e2">How do we classify a programming language?</a></li>
+
+</ul></li>
+<li><a href="#/slide-Abstraction">Abstraction</a>
+<ul>
 <li><a href="#/slide-Preamble">Preamble</a></li>
+<li><a href="#/slide-org3dfee8c">Dijkstra on abstraction</a></li>
+<li><a href="#/slide-org21ec395">Example: sorting</a></li>
+<li><a href="#/slide-org0b87473">“Leaky” abstractions</a></li>
+<li><a href="#/slide-org3db723a">A taxonomy of programming paradigms by abstraction support</a></li>
+<li><a href="#/slide-orgd632469">Abstractions throughout this course</a></li>
+
+</ul></li>
+<li><a href="#/slide-Exercises">Exercises</a></li>
 
 </ul>
 
@@ -82,18 +144,8 @@ record of upates.</li>
 </section>
 </section>
 <section>
-<section id="slide-Introduction">
-<h2 id="Introduction"><span class="section-number-2">2</span> Introduction</h2>
-<p>
-This section of notes introduces the course and the staff,
-and lays out a few central concepts.
-</p>
-
-</section>
-</section>
-<section>
 <section id="slide-Welcome">
-<h2 id="Welcome"><span class="section-number-2">3</span> Welcome</h2>
+<h2 id="Welcome"><span class="section-number-2">2</span> Welcome</h2>
 <div class="org-center">
 <p style="text-align:center">
 Welcome to the course!
@@ -102,7 +154,7 @@ Welcome to the course!
 
 </section>
 <section id="slide-Instructor:-Mark-Armstrong">
-<h3 id="Instructor:-Mark-Armstrong"><span class="section-number-3">3.1</span> Instructor: Mark Armstrong</h3>
+<h3 id="Instructor:-Mark-Armstrong"><span class="section-number-3">2.1</span> Instructor: Mark Armstrong</h3>
 <blockquote >
 
 <div class="figure">
@@ -112,26 +164,49 @@ Welcome to the course!
 </blockquote>
 
 <ul>
-<li>Email: <a href="mailto:armstmp@mcmaster.ca">mailto:armstmp@mcmaster.ca</a></li>
+<li>Email: <a href="mailto:armstmp@mcmaster.ca">armstmp@mcmaster.ca</a></li>
 <li>Website: <a href="https://armkeh.github.io">https://armkeh.github.io</a></li>
 
 </ul>
 
+<p>
+(Digital) office/student conference hours available on request.
+</p>
+
 </section>
 <section id="slide-Teaching-assistants">
-<h3 id="Teaching-assistants"><span class="section-number-3">3.2</span> Teaching assistants</h3>
+<h3 id="Teaching-assistants"><span class="section-number-3">2.2</span> Teaching assistant: Habib Ghaffari-Hadigheh</h3>
+<blockquote >
+
+<div class="figure">
+<p><img src="./media/habibghaffarihadigheh.jpg" alt="Habib Ghaffari-Hadigheh" width="200px" />
+</p>
+</div>
+</blockquote>
+
+<ul>
+<li>Email: <a href="mailto:ghaff1@mcmaster.ca">ghaffh1@mcmaster.ca</a></li>
+<li>Website: <a href="https://ghhabib.me/">https://ghhabib.me/</a></li>
+
+</ul>
+
 <p>
-:TODO:
+(Digital) office/student conference hours available on request.
 </p>
 
 </section>
 </section>
 <section>
 <section id="slide-Purpose-and-goals-of-this-course">
-<h2 id="Purpose-and-goals-of-this-course"><span class="section-number-2">4</span> Purpose and goals of this course</h2>
+<h2 id="Purpose-and-goals-of-this-course"><span class="section-number-2">3</span> Purpose and goals of this course</h2>
+<p>
+Here we provide both formal and informal descriptions
+and goals for this course.
+</p>
+
 </section>
 <section id="slide-Calendar-description">
-<h3 id="Calendar-description"><span class="section-number-3">4.1</span> Calendar description</h3>
+<h3 id="Calendar-description"><span class="section-number-3">3.1</span> Calendar description</h3>
 <p>
 Design space of programming languages;
 abstraction and modularization concepts and mechanisms;
@@ -141,7 +216,7 @@ introduction to programming language semantics.
 
 </section>
 <section id="slide-Informal-objectives">
-<h3 id="Informal-objectives"><span class="section-number-3">4.2</span> Informal objectives</h3>
+<h3 id="Informal-objectives"><span class="section-number-3">3.2</span> Informal objectives</h3>
 <ul>
 <li>Investigate a number of programming languages
 which exemplify different paradigms.
@@ -166,58 +241,70 @@ to which situations they are best applied.</li>
 
 </section>
 <section id="slide-Course-preconditions">
-<h3 id="Course-preconditions"><span class="section-number-3">4.3</span> Course preconditions</h3>
+<h3 id="Course-preconditions"><span class="section-number-3">3.3</span> Course preconditions</h3>
 <p>
 Before beginning this course:
 </p>
 
 <ol>
 <li>Students should know and understand:
-a. Basic concepts about integers, sets, functions, &amp; relations.
-b. Induction and recursion.
-c. First order logic, axiomatic theories &amp; simple proof techniques.
-d. Regular expressions &amp; context-free grammars.
-e. Programming in imperative languages.
-f. Basic concepts of functional programming languages.</li>
+<ol>
+<li>Basic concepts about integers, sets, functions, &amp; relations.</li>
+<li>Induction and recursion.</li>
+<li>First order logic, axiomatic theories &amp; simple proof techniques.</li>
+<li>Regular expressions &amp; context-free grammars.</li>
+<li>Programming in imperative languages.</li>
+<li>Basic concepts of functional programming languages.</li>
+
+</ol></li>
 <li>Students should be able to:
-a. Produce proofs involving quantifiers and/or induction.
-b. Understand the meaning of a given axiomatic theory.
-c. Construct regular sets &amp; context-free languages.
-d. Produce small to medium scale programs in imperative languages.
-e. Produce small scale programs in functional languages.</li>
+<ol>
+<li>Produce proofs involving quantifiers and/or induction.</li>
+<li>Understand the meaning of a given axiomatic theory.</li>
+<li>Construct regular sets &amp; context-free languages.</li>
+<li>Produce small to medium scale programs in imperative languages.</li>
+<li>Produce small scale programs in functional languages.</li>
+
+</ol></li>
 
 </ol>
 
 </section>
 <section id="slide-Course-postconditions">
-<h3 id="Course-postconditions"><span class="section-number-3">4.4</span> Course postconditions</h3>
+<h3 id="Course-postconditions"><span class="section-number-3">3.4</span> Course postconditions</h3>
 <p>
 After completion of this course:
 </p>
 
 <ol>
 <li>Students should know and understand:
-a. Programming in functional languages.
-b. Programming in logical languages.
-c. Formal definitions of syntax &amp; semantics for various
-   simple programming languages.
-d. Various abstraction &amp; modularisation techniques
-   employed in programming languages.</li>
+<ol>
+<li>Programming in functional languages.</li>
+<li>Programming in logical languages.</li>
+<li>Formal definitions of syntax &amp; semantics for various
+simple programming languages.</li>
+<li>Various abstraction &amp; modularisation techniques
+employed in programming languages.</li>
+
+</ol></li>
 <li>Students should be able to:
-a. Reason about the design space of programming languages,
-   in particular tradeoffs &amp; design issues.
-b. Produce formal descriptions of syntax &amp; semantics
-   from informal descriptions, identifying ambiguities.
-c. Select appropriate abstraction &amp; modularisation techniques
-   for a given problem.
-d. Produce tools for domain-specific languages
-   in imperative, functional and logical languages.</li>
+<ol>
+<li>Reason about the design space of programming languages,
+in particular tradeoffs &amp; design issues.</li>
+<li>Produce formal descriptions of syntax &amp; semantics
+from informal descriptions, identifying ambiguities.</li>
+<li>Select appropriate abstraction &amp; modularisation techniques
+for a given problem.</li>
+<li>Produce tools for domain-specific languages
+in imperative, functional and logical languages.</li>
+
+</ol></li>
 
 </ol>
 
 </section>
 <section id="slide-Formal-rubric-for-the-course">
-<h3 id="Formal-rubric-for-the-course"><span class="section-number-3">4.5</span> Formal rubric for the course</h3>
+<h3 id="Formal-rubric-for-the-course"><span class="section-number-3">3.5</span> Formal rubric for the course</h3>
 <font size="-1">
 <div class="scriptsize">
 <!-- This HTML table template is generated by emacs 27.0.90 -->
@@ -496,7 +583,7 @@ d. Produce tools for domain-specific languages
 </section>
 <section>
 <section id="slide-“Principles-of-programming-languages”">
-<h2 id="“Principles-of-programming-languages”"><span class="section-number-2">5</span> “Principles of programming languages”</h2>
+<h2 id="“Principles-of-programming-languages”"><span class="section-number-2">4</span> “Principles of programming languages”</h2>
 <p>
 We begin the course with these fundamental questions.
 </p>
@@ -509,8 +596,8 @@ We begin the course with these fundamental questions.
 </ul>
 
 </section>
-<section id="slide-org4415bf1">
-<h3 id="org4415bf1"><span class="section-number-3">5.1</span> What is a programming language?</h3>
+<section id="slide-org1112736">
+<h3 id="org1112736"><span class="section-number-3">4.1</span> What is a programming language?</h3>
 <ul>
 <li>A <i>formal</i>, <i>finitely described</i> language used for
 describing (in most cases, potentially infinite) <i>processes</i>.
@@ -528,8 +615,26 @@ describing (in most cases, potentially infinite) <i>processes</i>.
 </ul>
 
 </section>
-<section id="slide-orgeb03873">
-<h4 id="orgeb03873"><span class="section-number-4">5.1.1</span> Example of a process</h4>
+<section id="slide-org9c0bf5b">
+<h4 id="org9c0bf5b"><span class="section-number-4">4.1.1</span> “I know what I mean!”</h4>
+<p>
+Sometimes, the requirement of a formal language is a pain.
+</p>
+
+<blockquote >
+
+<div class="figure">
+<p><img src="./media/comics/well_2.png" alt="well_2.png" />
+</p>
+</div>
+</blockquote>
+<p>
+From the <code>xkcd</code> comic “<a href="https://xkcd.com/568/">Well 2</a>” 
+</p>
+
+</section>
+<section id="slide-org0bfd55f">
+<h4 id="org0bfd55f"><span class="section-number-4">4.1.2</span> Example of a process</h4>
 <p>
 Consider the mathematical function \(f(x) = x + 10\).
 </p>
@@ -570,8 +675,8 @@ the results of mathematical functions.</li>
 </ul>
 
 </section>
-<section id="slide-org7ff4415">
-<h3 id="org7ff4415"><span class="section-number-3">5.2</span> What are the components of a programming language?</h3>
+<section id="slide-org773e242">
+<h3 id="org773e242"><span class="section-number-3">4.2</span> What are the components of a programming language?</h3>
 <p>
 Just like a natural language, a programming language consists of
 </p>
@@ -594,8 +699,8 @@ Just like a natural language, a programming language consists of
 </ul>
 
 </section>
-<section id="slide-orga6ee036">
-<h4 id="orga6ee036"><span class="section-number-4">5.2.1</span> Syntax and semantics example</h4>
+<section id="slide-org7db96c1">
+<h4 id="org7db96c1"><span class="section-number-4">4.2.1</span> Syntax and semantics example</h4>
 <p>
 For example, English syntax tells us a sentence structured
 </p>
@@ -644,8 +749,8 @@ which crashes when run.
 </p>
 
 </section>
-<section id="slide-orgb2caa46">
-<h4 id="orgb2caa46"><span class="section-number-4">5.2.2</span> Exercise: a meaningless C or Java program</h4>
+<section id="slide-org88a05c9">
+<h4 id="org88a05c9"><span class="section-number-4">4.2.2</span> Exercise: a meaningless C or Java program</h4>
 <p>
 Our example Python program above
 </p>
@@ -671,8 +776,8 @@ Hint: consider using a value which does not have just one type.
 </p>
 
 </section>
-<section id="slide-org20684f8">
-<h3 id="org20684f8"><span class="section-number-3">5.3</span> How do we classify a programming language?</h3>
+<section id="slide-org61205e2">
+<h3 id="org61205e2"><span class="section-number-3">4.3</span> How do we classify a programming language?</h3>
 <p>
 First and foremost, we classify languages into <i>paradigms</i>,
 </p>
@@ -692,6 +797,7 @@ But also in many other ways, such as:
 <li>polymorphism support, builtin types, methods of defining new types, etc.</li>
 
 </ul></li>
+<li>“High” or “low” level languages.</li>
 <li>(Primary) implementation strategy: compiled or interpreted?</li>
 <li>Ancestery or culture.
 <ul>
@@ -711,16 +817,195 @@ But also in many other ways, such as:
 </section>
 <section>
 <section id="slide-Abstraction">
-<h2 id="Abstraction"><span class="section-number-2">6</span> Abstraction</h2>
+<h2 id="Abstraction"><span class="section-number-2">5</span> Abstraction</h2>
 <p>
-:TODO:
+In “Concepts, Techniques and Models of Computer Programming”,
+Peter Van Roy and Seif Haridi offer this definition of abstraction.
 </p>
+<blockquote >
+<p>
+We define an
+abstraction loosely as a tool or device that solves a particular problem. Usually the
+same abstraction can be used to solve many different problems. This versatility
+is one of the key properties of abstractions.
+</p>
+</blockquote>
+
+<p>
+In “Concepts of Programming Languages” (10th edition), Robert W. Sebesta
+defines it so.
+</p>
+<blockquote >
+<p>
+Briefly, abstraction means the ability to define and then use
+complicated structures or operations in ways
+that allow many of the details to be ignored.
+</p>
+</blockquote>
+
+</section>
+<section id="slide-org3dfee8c">
+<h3 id="org3dfee8c"><span class="section-number-3">5.1</span> Dijkstra on abstraction</h3>
+<ul>
+<li>A key feature of abstractions is that they let us set aside details
+and work at a <i>higher level</i>.</li>
+<li>It is a common misconception that abstractions simply ignore details,
+and in doing so lose precision.
+<ul>
+<li>This thinking makes abstraction seem harmful.</li>
+
+</ul></li>
+<li>Instead, abstraction involves selecting
+<ul>
+<li>which details are relevant to the problem at hand, and</li>
+<li>which details are irrelevant to the problem at hand.</li>
+
+</ul></li>
+<li>When we set aside details that are irrelevant to a problem,
+we can create solutions which will work for other problems
+which share the same important details.</li>
+
+</ul>
+
+<p>
+In his ACM Turing Lecture, “The Humble Programmer” in 1972, Dijkstra said
+</p>
+<blockquote >
+<p>
+The purpose of abstraction is not to be vague, but to create
+a new semantic level in which one can be absolutely precise.
+</p>
+</blockquote>
+
+</section>
+<section id="slide-org21ec395">
+<h3 id="org21ec395"><span class="section-number-3">5.2</span> Example: sorting</h3>
+<p>
+Consider a programer who is assigned the following tasks.
+</p>
+<ol>
+<li>Design a program which sorts a list of
+dollar amounts in increasing order.</li>
+<li>Design a program which sorts a list of
+bank accounts in increasing order of the amount in the account.</li>
+<li>Design a program which sorts a list of
+bank customers in increasing order of the sum of the amounts
+across all of their accounts.</li>
+
+</ol>
+
+<p>
+This programmer may write three programs which all look very similar,
+except for
+</p>
+<ul>
+<li>the type of the input and</li>
+<li>the method of access the values compared during sorting.</li>
+
+</ul>
+
+<p>
+Or the programmer may realise that if abstract away these details,
+so the program is made
+</p>
+<ul>
+<li>to accept any type (is made polymorphic) and</li>
+<li>to take as an additional input the method of comparison,</li>
+
+</ul>
+<p>
+the same code may be reused for all three tasks!
+</p>
+
+</section>
+<section id="slide-org0b87473">
+<h3 id="org0b87473"><span class="section-number-3">5.3</span> “Leaky” abstractions</h3>
+<p>
+When we use an abstraction, we intend to hide unimportant details.
+But in some cases, those details may still be exposed.
+</p>
+<ul>
+<li>We say they “leak through”, so we have a “leaky abstraction”.</li>
+
+</ul>
+
+<p>
+A classic example is iterating over a two-dimensional array.
+</p>
+<ul>
+<li>Two-dimensional arrays allow us to reason about a square made of memory cells.
+<ul>
+<li>In a two-dimensional array <code>A</code>, it would seem <code>A[1][1]</code> is adjacent
+to <code>A[0][1]</code>, <code>A[2][1]</code>, <code>A[1][2]</code>, and <code>A[1][0]</code>.</li>
+
+</ul></li>
+<li>But computer memory is one-dimensional.
+<ul>
+<li>A cell of memory cannot be adjacent to four others; only two.</li>
+
+</ul></li>
+<li>Iterating through two-dimensional arrays in the wrong direction
+can be very inefficient when the array is large.
+<ul>
+<li>If <code>A[1][1]</code> and <code>A[2][1]</code> are in fact not adjacent,
+and are in separate caches or on separate pages,
+we will trigger a cache miss or page fault
+by iterating through in the second dimension.</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-org3db723a">
+<h3 id="org3db723a"><span class="section-number-3">5.4</span> A taxonomy of programming paradigms by abstraction support</h3>
+<p>
+From Peter Van Roy's 2012 paper,
+“<a href="https://www.info.ucl.ac.be/~pvr/VanRoyChapter.pdf">Programming Paradigms for Dummies: What Every Programmer Should Know</a>”.
+</p>
+
+
+<div class="figure">
+<p><img src="./media/vanroy-paradigm-chart.png" alt="vanroy-paradigm-chart.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-orgd632469">
+<h3 id="orgd632469"><span class="section-number-3">5.5</span> Abstractions throughout this course</h3>
+<p>
+We will see numerous abstractions throughout this course.
+</p>
+<ul>
+<li>Functions, methods, procedures and subroutines abstract away from
+managing control flow.</li>
+<li>Variables abstract away from reasoning about the contents of
+registers and memory.</li>
+<li>Abstract data types abstract away from the form of data in memory.</li>
+<li>Reference types abstract away from reasoning about memory addresses.</li>
+
+</ul>
+
+<p>
+We will also try to de-mystify some abstractions
+which are often considered difficult to understand.
+</p>
+<ul>
+<li>Algebras abstract away from sets together with operations on those sets.</li>
+<li>Closures abstract away from the concept of a function
+existing alongside some state.</li>
+<li>Monads abstract away from choosing a particular computation strategy.</li>
+
+</ul>
 
 </section>
 </section>
 <section>
 <section id="slide-Exercises">
-<h2 id="Exercises"><span class="section-number-2">7</span> <span class="todo TODO">TODO</span> Exercises</h2>
+<h2 id="Exercises"><span class="section-number-2">6</span> Exercises</h2>
+<p>
+<a href="#/slide-org88a05c9">Exercise: a meaningless C or Java program</a>
+</p>
 </section>
 </section>
 </div>

@@ -44,7 +44,7 @@ and how they will be assessed.”
 :END:
 
 #+INCLUDE: "./1--Introduction-and-overview.org::*Instructor: Mark Armstrong"
-#+INCLUDE: "./1--Introduction-and-overview.org::*Teaching assistants"
+#+INCLUDE: "./1--Introduction-and-overview.org::*Teaching assistant: Habib Ghaffari-Hadigheh"
 
 * Schedule
 :PROPERTIES:

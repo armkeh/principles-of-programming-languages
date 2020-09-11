@@ -34,25 +34,35 @@
 ** Explanation of preamble                     :ignore:
 
 The preamble section of each notes will include
-- notable references,
+- an introduction to the material covered in the section,
+- any notable references,
   - i.e., specific chapters of our recommended/additional texts
     from which the notes are derived, or which expand on the notes,
 - a table of contents, and
-- an update history, chronicling any major changes.
+- if necessary, an update history, chronicling any major changes.
   - Note the git commit history will provide a more fine-grained
     record of upates.
 
-** TODO Notable references
+** Introduction
+:PROPERTIES:
+:CUSTOM_ID: Introduction
+:END:
+
+This section of notes introduces the course and the staff,
+and lays out a few central concepts.
+
+** Notable references
 :PROPERTIES:
 :CUSTOM_ID: Notable-references
 :END:
 
-:TODO:
+- Peter Van Roy and Seif Haridi,
+  “[[http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.102.7366&rep=rep1&type=pdf][Concepts, Techniques, and Models of Computer Programming]]”,
+  Preface
+- Peter Van Roy, “[[https://www.info.ucl.ac.be/~pvr/VanRoyChapter.pdf][Programming Paradigms for Dummies: What Every Programmer Should Know]]”
+- Robert W. Sebesta, “Concepts of Programming Languages” (10th edition)
 
-** TODO Table of contents
-:PROPERTIES:
-:CUSTOM_ID: Table-of-contents
-:END:
+** Table of comments
 
 # The table of contents are added using org-reveal-manual-toc,
 # and so must be updated upon changes or added last.
@@ -61,16 +71,35 @@ The preamble section of each notes will include
 #+HTML: <font size="-1">
 #+begin_scriptsize
   - [[Preamble][Preamble]]
+    - [[Introduction][Introduction]]
+    - [[Notable references][Notable references]]
+    - [[Table of comments][Table of comments]]
+  - [[Welcome][Welcome]]
+    - [[Instructor: Mark Armstrong][Instructor: Mark Armstrong]]
+    - [[Teaching assistant: Habib Ghaffari-Hadigheh][Teaching assistant: Habib Ghaffari-Hadigheh]]
+  - [[Purpose and goals of this course][Purpose and goals of this course]]
+    - [[Calendar description][Calendar description]]
+    - [[Informal objectives][Informal objectives]]
+    - [[Course preconditions][Course preconditions]]
+    - [[Course postconditions][Course postconditions]]
+    - [[Formal rubric for the course][Formal rubric for the course]]
+  - [[“Principles of programming languages”][“Principles of programming languages”]]
+    - [[What is a programming language?][What is a programming language?]]
+      - [[Example of a process][Example of a process]]
+    - [[What are the components of a programming language?][What are the components of a programming language?]]
+      - [[Syntax and semantics example][Syntax and semantics example]]
+      - [[Exercise: a meaningless C or Java program][Exercise: a meaningless C or Java program]]
+    - [[How do we classify a programming language?][How do we classify a programming language?]]
+  - [[Abstraction][Abstraction]]
+    - [[Preamble][Preamble]]
+    - [[Dijkstra on abstraction][Dijkstra on abstraction]]
+    - [[Example: sorting][Example: sorting]]
+    - [[“Leaky” abstractions][“Leaky” abstractions]]
+    - [[A taxonomy of programming paradigms by abstraction support][A taxonomy of programming paradigms by abstraction support]]
+    - [[Abstractions throughout this course][Abstractions throughout this course]]
+  - [[Exercises][Exercises]]
 #+end_scriptsize
 #+HTML: </font>
-
-* Introduction
-:PROPERTIES:
-:CUSTOM_ID: Introduction
-:END:
-
-This section of notes introduces the course and the staff,
-and lays out a few central concepts.
 
 * Welcome
 :PROPERTIES:
@@ -95,20 +124,38 @@ Welcome to the course!
 [[./media/markarmstrong.jpg]]
 #+end_quote
 
-- Email: [[mailto:armstmp@mcmaster.ca]]
+- Email: [[mailto:armstmp@mcmaster.ca][armstmp@mcmaster.ca]]
 - Website: https://armkeh.github.io
 
-** Teaching assistants
+(Digital) office/student conference hours available on request.
+
+** Teaching assistant: Habib Ghaffari-Hadigheh
 :PROPERTIES:
 :CUSTOM_ID: Teaching-assistants
 :END:
 
-:TODO:
+#+begin_quote
+#+attr_org: :width 200px
+#+attr_html: :width 200px
+#+attr_latex: :width 200px
+#+attr_html: :alt Habib Ghaffari-Hadigheh
+[[./media/habibghaffarihadigheh.jpg]]
+#+end_quote
+
+- Email: [[mailto:ghaff1@mcmaster.ca][ghaffh1@mcmaster.ca]]
+- Website: https://ghhabib.me/
+
+(Digital) office/student conference hours available on request.
 
 * Purpose and goals of this course
 :PROPERTIES:
 :CUSTOM_ID: Purpose-and-goals-of-this-course
 :END:
+
+** Preamble                                    :ignore:
+
+Here we provide both formal and informal descriptions
+and goals for this course.
 
 ** Calendar description
 :PROPERTIES:
@@ -143,18 +190,18 @@ introduction to programming language semantics.
 Before beginning this course:
 
 1. Students should know and understand:
-   a. Basic concepts about integers, sets, functions, & relations.
-   b. Induction and recursion.
-   c. First order logic, axiomatic theories & simple proof techniques.
-   d. Regular expressions & context-free grammars.
-   e. Programming in imperative languages.
-   f. Basic concepts of functional programming languages.
+   1. Basic concepts about integers, sets, functions, & relations.
+   2. Induction and recursion.
+   3. First order logic, axiomatic theories & simple proof techniques.
+   4. Regular expressions & context-free grammars.
+   5. Programming in imperative languages.
+   6. Basic concepts of functional programming languages.
 2. Students should be able to:
-   a. Produce proofs involving quantifiers and/or induction.
-   b. Understand the meaning of a given axiomatic theory.
-   c. Construct regular sets & context-free languages.
-   d. Produce small to medium scale programs in imperative languages.
-   e. Produce small scale programs in functional languages.
+   1. Produce proofs involving quantifiers and/or induction.
+   2. Understand the meaning of a given axiomatic theory.
+   3. Construct regular sets & context-free languages.
+   4. Produce small to medium scale programs in imperative languages.
+   5. Produce small scale programs in functional languages.
 
 ** Course postconditions
 :PROPERTIES:
@@ -164,20 +211,20 @@ Before beginning this course:
 After completion of this course:
 
 1. Students should know and understand:
-   a. Programming in functional languages.
-   b. Programming in logical languages.
-   c. Formal definitions of syntax & semantics for various
+   1. Programming in functional languages.
+   2. Programming in logical languages.
+   3. Formal definitions of syntax & semantics for various
       simple programming languages.
-   d. Various abstraction & modularisation techniques
+   4. Various abstraction & modularisation techniques
       employed in programming languages.
 2. Students should be able to:
-   a. Reason about the design space of programming languages,
+   1. Reason about the design space of programming languages,
       in particular tradeoffs & design issues.
-   b. Produce formal descriptions of syntax & semantics
+   2. Produce formal descriptions of syntax & semantics
       from informal descriptions, identifying ambiguities.
-   c. Select appropriate abstraction & modularisation techniques
+   3. Select appropriate abstraction & modularisation techniques
       for a given problem.
-   d. Produce tools for domain-specific languages
+   4. Produce tools for domain-specific languages
       in imperative, functional and logical languages.
 
 ** Formal rubric for the course
@@ -242,6 +289,8 @@ After completion of this course:
 :CUSTOM_ID: “Principles-of-programming-languages”
 :END:
 
+** Preamble                                    :ignore:
+
 We begin the course with these fundamental questions.
 
 - What is a /programming language/?
@@ -256,6 +305,15 @@ We begin the course with these fundamental questions.
     - Formality is necessary for a machine to understand the language.
     - Natural (human-spoken) languages are not formal.
   - A /process/ being some sequence of actions or steps.
+
+*** “I know what I mean!”
+
+Sometimes, the requirement of a formal language is a pain.
+
+#+begin_quote
+[[./media/comics/well_2.png]]
+#+end_quote
+From the ~xkcd~ comic “[[https://xkcd.com/568/][Well 2]]” 
 
 *** Example of a process
 
@@ -343,6 +401,7 @@ But also in many other ways, such as:
   - static or dynamic (runtime) typechecking,
   - “weak” or “strong” typing discipline,
   - polymorphism support, builtin types, methods of defining new types, etc.
+- “High” or “low” level languages.
 - (Primary) implementation strategy: compiled or interpreted?
 - Ancestery or culture.
   - “Scripting languages”
@@ -350,15 +409,120 @@ But also in many other ways, such as:
   - “The C-family”
     - https://en.wikipedia.org/wiki/List_of_C-family_programming_languages
 
-* TODO Abstraction
+* Abstraction
 :PROPERTIES:
 :CUSTOM_ID: Abstraction
 :END:
 
+** Preamble                                    :ignore:
 
-:TODO:
+In “Concepts, Techniques and Models of Computer Programming”,
+Peter Van Roy and Seif Haridi offer this definition of abstraction.
+#+begin_quote
+We define an
+abstraction loosely as a tool or device that solves a particular problem. Usually the
+same abstraction can be used to solve many different problems. This versatility
+is one of the key properties of abstractions.
+#+end_quote
 
-* TODO Exercises
+In “Concepts of Programming Languages” (10th edition), Robert W. Sebesta
+defines it so.
+#+begin_quote
+Briefly, abstraction means the ability to define and then use
+complicated structures or operations in ways
+that allow many of the details to be ignored.
+#+end_quote
+
+** Dijkstra on abstraction
+
+- A key feature of abstractions is that they let us set aside details
+  and work at a /higher level/.
+- It is a common misconception that abstractions simply ignore details,
+  and in doing so lose precision.
+  - This thinking makes abstraction seem harmful.
+- Instead, abstraction involves selecting
+  - which details are relevant to the problem at hand, and
+  - which details are irrelevant to the problem at hand.
+- When we set aside details that are irrelevant to a problem,
+  we can create solutions which will work for other problems
+  which share the same important details.
+
+In his ACM Turing Lecture, “The Humble Programmer” in 1972, Dijkstra said
+#+begin_quote
+The purpose of abstraction is not to be vague, but to create
+a new semantic level in which one can be absolutely precise.
+#+end_quote
+
+** Example: sorting
+
+Consider a programer who is assigned the following tasks.
+1. Design a program which sorts a list of
+   dollar amounts in increasing order.
+2. Design a program which sorts a list of
+   bank accounts in increasing order of the amount in the account.
+3. Design a program which sorts a list of
+   bank customers in increasing order of the sum of the amounts
+   across all of their accounts.
+
+This programmer may write three programs which all look very similar,
+except for
+  - the type of the input and
+  - the method of access the values compared during sorting.
+
+Or the programmer may realise that if abstract away these details,
+so the program is made
+- to accept any type (is made polymorphic) and
+- to take as an additional input the method of comparison,
+the same code may be reused for all three tasks!
+
+** “Leaky” abstractions
+
+
+When we use an abstraction, we intend to hide unimportant details.
+But in some cases, those details may still be exposed.
+- We say they “leak through”, so we have a “leaky abstraction”.
+
+A classic example is iterating over a two-dimensional array.
+- Two-dimensional arrays allow us to reason about a square made of memory cells.
+  - In a two-dimensional array ~A~, it would seem ~A[1][1]~ is adjacent
+    to ~A[0][1]~, ~A[2][1]~, ~A[1][2]~, and ~A[1][0]~.
+- But computer memory is one-dimensional.
+  - A cell of memory cannot be adjacent to four others; only two.
+- Iterating through two-dimensional arrays in the wrong direction
+  can be very inefficient when the array is large.
+  - If ~A[1][1]~ and ~A[2][1]~ are in fact not adjacent,
+    and are in separate caches or on separate pages,
+    we will trigger a cache miss or page fault
+    by iterating through in the second dimension.
+
+** A taxonomy of programming paradigms by abstraction support
+
+From Peter Van Roy's 2012 paper,
+“[[https://www.info.ucl.ac.be/~pvr/VanRoyChapter.pdf][Programming Paradigms for Dummies: What Every Programmer Should Know]]”.
+
+#+attr_LaTeX: :width \textwidth
+[[./media/vanroy-paradigm-chart.png]]
+
+** Abstractions throughout this course
+
+We will see numerous abstractions throughout this course.
+- Functions, methods, procedures and subroutines abstract away from
+  managing control flow.
+- Variables abstract away from reasoning about the contents of
+  registers and memory.
+- Abstract data types abstract away from the form of data in memory.
+- Reference types abstract away from reasoning about memory addresses.
+
+We will also try to de-mystify some abstractions
+which are often considered difficult to understand.
+- Algebras abstract away from sets together with operations on those sets.
+- Closures abstract away from the concept of a function
+  existing alongside some state.
+- Monads abstract away from choosing a particular computation strategy.
+
+* Exercises
 :PROPERTIES:
 :CUSTOM_ID: Exercises
 :END:
+
+[[Exercise: a meaningless C or Java program][Exercise: a meaningless C or Java program]]
