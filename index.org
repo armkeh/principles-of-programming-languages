@@ -20,6 +20,12 @@
 
 # TODO: Announce tutorials for week starting 
 
+- September 11 :: Reminder that the first lecture is today, at 1:30pm.
+  It will be in the lectures and tutorials channel in Microsoft Teams.
+
+- September 11 :: The first section of notes,
+  [[1 – Introduction and overview]], is now complete and uploaded.
+
 - September 9 :: The Microsoft Teams team for the course
   has been activated. Please ensure you have access,
   and contact me ASAP if you do not.
@@ -73,7 +79,7 @@ The slides are available as
 - printable PDFs, or
 - text-editor friendly plaintext Org files.
 
-*** 1 – Introduction and Overview
+*** 1 – Introduction and overview
 :PROPERTIES:
 :CUSTOM_ID: 1-–-Introduction-and-Overview
 :END:

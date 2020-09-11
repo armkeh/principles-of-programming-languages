@@ -12,6 +12,19 @@ better viewed at
 
 ## September
 
+  - September 11  
+    Reminder that the first lecture is today, at 1:30pm. It will be in
+    the lectures and tutorials channel in Microsoft Teams.
+
+  - September 11  
+    The first section of notes, [1 – Introduction and
+    overview](#1%20–%20Introduction%20and%20overview), is now complete
+    and uploaded.
+
+  - September 9  
+    The Microsoft Teams team for the course has been activated. Please
+    ensure you have access, and contact me ASAP if you do not.
+
   - September 7  
     I have decided to cancel the Wednesday lecture for this week, in
     support of [Scholar Strike Canada](https://scholarstrikecanada.ca/)
@@ -53,7 +66,7 @@ The slides are available as
   - printable PDFs, or
   - text-editor friendly plaintext Org files.
 
-### 1 – Introduction and Overview
+### 1 – Introduction and overview
 
   - [Online slides](./notes/1--Introduction-and-overview.html)
   - [PDF](./notes/1--Introduction-and-overview.pdf)
