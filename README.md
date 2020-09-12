@@ -187,3 +187,55 @@ The course outline is available as
   - a text-editor friendly [Org](./notes/0--Course-outline.org) file.
 
 The PDF is also embedded here for convenience.
+
+# Scala
+
+## Installation instructions
+
+In this course, we will be targetting
+
+  - [Scala](https://scala-lang.org) version 2.13 and
+  - [Ammonite](https://ammonite.io), an “improved” Scala REPL (read,
+    evaluate, print loop), version 1.7.1,
+
+as used in the
+[lolhens/ammonite](https://hub.docker.com/r/lolhens/ammonite/) Docker
+image.
+
+<div class="center">
+
+**If there is any update to the Docker image,** **or if fir any other
+reason we change our targeted versions**, **we will make an announcement
+on the homepage.**
+
+</div>
+
+All of that said, any recent version of Scala and Ammonite should
+suffice for our purposes; it is unlikely we will be using any features
+which could have compatability issues. You may install whatever is most
+convenient on your system, and later run tests in the Docker image to
+verify there are no compatability issues.
+
+So, we recommend whatever installation method that seems appropriate for
+your operating system, and we link to guides to get you started below.
+
+### Installation guides
+
+  - The [Ammonite](https://ammonite.io) homepage.
+  - [Chapter 2](https://www.handsonscala.com/chapter-2-setting-up.html)
+    of the online “Hands-on Scala”, titled “Setting Up”.
+      - “[Hands-on Scala](https://www.handsonscala.com/index.html)”, by
+        Li Haoyi, is a very recent book on Scala using Ammonite. Its
+        first 5 chapters are free to read online.
+
+# Prolog
+
+:TODO:
+
+# Ruby
+
+:TODO:
+
+# Clojure
+
+:TODO:
