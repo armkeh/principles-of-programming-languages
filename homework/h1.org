@@ -1,0 +1,281 @@
+#+Title: Computer Science 3MI3 – 2020 homework 1
+#+Subtitle: Implementing trees in Scala
+#+Author: Mark Armstrong
+#+Date: September 11th, 2020
+#+Description: Introductory homework on Scala and trees
+#+Options: num:nil
+#+SETUPFILE: ../org-html-themes/setup/theme-readtheorg-local.setup
+
+# TODO: LaTeX image sizes and remove the contents heading
+
+* Introduction
+:PROPERTIES:
+:CUSTOM_ID: Introduction
+:END:
+
+Scala is a purely object-oriented language on the JVM,
+and in addition to object-oriented abstractions
+it fully supports the abstractions of /functional programming/.
+We are interested in it because of this functional programming support.
+
+Herein we implement several types of trees,
+the de facto example of an /algebraic datatype/,
+along with ~flatten~-ing functions
+which convert those trees to the less structured type of lists.
+
+* Boilerplate
+:PROPERTIES:
+:CUSTOM_ID: Boilerplate
+:END:
+
+** Submission procedures
+:PROPERTIES:
+:CUSTOM_ID: Submission-procedures
+:END:
+
+:TODO:
+
+** Proper conduct for coursework
+:PROPERTIES:
+:CUSTOM_ID: Proper-conduct-for-coursework
+:END:
+
+:TODO:
+
+* Part 0.1: Installing Scala                  [0 points]
+:PROPERTIES:
+:CUSTOM_ID: Part-0.1:-Installing-Scala
+:END:
+In this course, we will be targetting
+- [[https://scala-lang.org][Scala]] version 2.13 and
+- [[https://ammonite.io][Ammonite]], an “improved” Scala REPL (read, evaluate, print loop),
+  version 1.7.1,
+as used in the
+[[https://hub.docker.com/r/lolhens/ammonite/][lolhens/ammonite]]
+Docker image.
+
+#+begin_center
+*If there is any update to the Docker image,*
+*or if fir any other reason we change our targeted versions*,
+*we will make an announcement on the homepage.*
+#+end_center
+
+All of that said, any recent version of Scala and Ammonite
+should suffice for our purposes; it is unlikely we will
+be using any features which could have compatability issues.
+You may install whatever is most convenient on your system,
+and later run tests in the Docker image
+to verify there are no compatability issues.
+
+So, we recommend whatever installation method
+that seems appropriate for your operating system,
+and we link to guides to get you started below.
+
+** Installation guides
+:PROPERTIES:
+:CUSTOM_ID: Installation-guides
+:END:
+
+- The [[https://ammonite.io][Ammonite]] homepage.
+- [[https://www.handsonscala.com/chapter-2-setting-up.html][Chapter 2]] of
+  the online “Hands-on Scala”, titled “Setting Up”.
+  - “[[https://www.handsonscala.com/index.html][Hands-on Scala]]”, by Li Haoyi,
+    is a very recent book on Scala using Ammonite.
+    Its first 5 chapters are free to read online.
+
+* Part 0.2: Basic Scala programming           [0 points]
+:PROPERTIES:
+:CUSTOM_ID: Part-0.2:-Basic-Scala-programming
+:END:
+
+Some basic tutorial on Scala will be given
+in an upcoming lecture, and also in the tutorials,
+and should provide you with the knowledge you need
+to complete this homework.
+
+In the meantime, there are numerous useful guides online
+which can get you started.
+In particular, the introductory chapters
+of the aforementioned “[[https://www.handsonscala.com/table-of-contents.html][Hands-on Scala]]”,
+which are freely available online.
+
+* Part 1: Representations of two tree types  [20 points]
+:PROPERTIES:
+:CUSTOM_ID: Part-1:-Representations-of-two-tree-types
+:END:
+
+In Scala, implement the following types.
+1. The type of unordered binary trees which,
+   given an arbitrary type ~A~,
+   carry elements of ~A~ in their leaves
+   (nodes without children) only.
+   Call this type ~LeafTree~.
+2. The type of unordered binary which,
+   given an arbitrary type ~A~,
+   carry elements of ~A~ on each node.
+   Call this type ~BinTree~.
+
+There are multiple ways you could implement these types in Scala,
+and we will not force you to choose a particular implementation here.
+But we recommend implementing them using ~sealed traits~ and ~case class~-es,
+as discussion in “Hands-on Scala”
+[[https://www.handsonscala.com/chapter-5-notable-scala-features.html#section-5-1-case-classes-and-sealed-traits][section 5.1]].
+~case class~-es in Scala are used to implement algebraic datatypes,
+which you may have seen in Haskell
+#+begin_src haskell
+data LeafTree a = Leaf a | Branch (Tree a) (Tree a)
+#+end_src
+or Elm
+#+begin_src elm
+type LeafTree a = Leaf a | Branch (Tree a) (Tree a)
+#+end_src
+
+The type ~LeafTree~ on ~Int~ represents trees such as
+#+begin_src dot :file media/LeafTree.png :exports results
+digraph T {
+  S [shape=point]
+  A [shape=point]
+  B [shape=point]
+
+  l1 [label="1", shape=plaintext]
+  l2 [label="2", shape=plaintext]
+  l3 [label="3", shape=plaintext]
+  l4 [label="4", shape=plaintext]
+  
+  S -> A -> l1
+       A -> l2
+  S -> B -> l3
+       B -> l4
+}
+#+end_src
+
+#+RESULTS:
+[[file:media/LeafTree.png]]
+
+While the type ~BinTree~ on ~Int~ represents trees such as
+#+begin_src dot :file media/BinTree.png :exports results
+digraph T {
+  S [label="1"]
+  A [label="2"]
+  B [label="3"]
+  C [label="4"]
+  D [label="5"]
+  l1 [shape=point]
+  l2 [shape=point]
+  l3 [shape=point]
+  l4 [shape=point]
+  l5 [shape=point]
+  l6 [shape=point]
+
+  S -> A -> l1
+       A -> l2
+  S -> B -> C -> l3
+            C -> l4
+       B -> D -> l5
+            D -> l6
+}
+#+end_src
+
+#+RESULTS:
+[[file:media/BinTree.png]]
+
+* Part 2: Flattening trees to lists          [20 points]
+:PROPERTIES:
+:CUSTOM_ID: Part-2:-Flattening-trees-to-lists
+:END:
+
+Implement a function named ~flatten~ for our two tree types
+defined avoid, each of which convert the trees to lists,
+discarding the tree structure.
+Note that we are able to reuse the name ~flatten~ for two different
+functions so long as the type signatures are different.
+Specifically,
+1. the first ~flatten~ should have type ~LeafTree[A] => List[A]~, and
+2. the second ~flatten~ should have type ~BinTree[A] => List[A]~.
+
+For the ~LeafTree~ type, the elements should appear in the same
+left-to-right order as they did in the tree.
+So the above example tree would flatten to the list ~[1,2,3,4]~.
+
+For the ~BinTree~ type, for a given node ~N~,
+all elements in the left subtree of ~N~
+should appear in the list /before/ the element of said node, and
+all elements in the right subtree of that node
+should appear in the list /after/ the element of said node.
+So the above example tree would flatten to ~[2,1,4,3,5]~.
+
+* Part 3: Elements of a ~Tree[Int]~ in order   [20 points]
+:PROPERTIES:
+:CUSTOM_ID: Part-3:-Elements-of-a-~Tree[Int]~-in-order
+:END:
+
+For each of the two tree types we have implemented, implement
+a function ~orderedElems~ which converts trees containing integers
+into lists /which are sorted in *increasing* order/. So,
+1. the first ~orderedElems~ should have type ~LeafTree[Int] => List[Int]~, and
+2. the second ~orderedElems~ should have type ~BinTree[Int] => List[Int]~
+and in each case you must ensure the result is ordered
+in increasing order.
+
+You must implement your own sorting function on integer lists,
+not use any builtin or library functions.
+
+The marking of these functions will take into account
+the /elegance/ of the solution.
+#+begin_center
+*Try to avoid unnecessary or repeated work.*
+#+end_center
+
+* Part 4: Trees which describe structure     [10 points]
+:PROPERTIES:
+:CUSTOM_ID: Part-4:-Trees-which-describe-structure
+:END:
+
+Implement one additional type of unordered binary trees which,
+given arbitrary types ~A~ and ~B~,
+carry elements of ~A~ in their non-leaf nodes
+and elements of ~B~ in their leaf nodes.
+Call this type ~StructTree~.
+- This naming is inspired by the fact that these trees
+  can be seen as an ~A~ labelled structure
+  on top of elements of ~B~.
+  Note the similarity to parse trees.
+
+The type ~StructTree[String][Int]~ could be used
+to represent trees such as
+#+begin_src dot :file media/StructTree.png :exports results
+digraph T {
+  S [label="\"times\""]
+  A [label="\"plus\""]
+  B [label="\"minus\""]
+
+  l1 [label="1", shape=plaintext]
+  l2 [label="2", shape=plaintext]
+  l3 [label="3", shape=plaintext]
+  l4 [label="4", shape=plaintext]
+  
+  S -> A -> l1
+       A -> l2
+  S -> B -> l3
+       B -> l4
+}
+#+end_src
+
+#+RESULTS:
+[[file:media/StructTree.png]]
+
+* Part 5: Flattening structure trees   [bonus 20 points]
+:PROPERTIES:
+:CUSTOM_ID: Part-5:-Flattening-structure-trees
+:END:
+
+Define an appropriate ~flatten~ operation for the ~StructTree~ type.
+
+As this is a bonus question, there are many possible
+interpretations of “appropriate”, and the marks for this question
+will heavily depend upon which interpretation you use.
+
+Try to come up with an implementation
+which discards /as little structure as possible/,
+bearing in mind that the transformation to lists
+necessitates discarding at least some structure.

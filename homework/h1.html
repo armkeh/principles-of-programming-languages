@@ -1,0 +1,590 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2020-09-11 Fri 23:46 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Computer Science 3MI3 – 2020 homework 1</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Mark Armstrong" />
+<meta name="description" content="Introductory homework on Scala and trees"
+ />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="styles/readtheorg/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="styles/readtheorg/css/readtheorg.css"/>
+<script type="text/javascript" src="styles/lib/js/jquery.min.js"></script>
+<script type="text/javascript" src="styles/lib/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="styles/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" src="styles/readtheorg/js/readtheorg.js"></script>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2020 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Computer Science 3MI3 – 2020 homework 1
+<br />
+<span class="subtitle">Implementing trees in Scala</span>
+</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#Introduction">Introduction</a></li>
+<li><a href="#Boilerplate">Boilerplate</a>
+<ul>
+<li><a href="#Submission-procedures">Submission procedures</a></li>
+<li><a href="#Proper-conduct-for-coursework">Proper conduct for coursework</a></li>
+</ul>
+</li>
+<li><a href="#Part-0.1:-Installing-Scala">Part 0.1: Installing Scala                  [0 points]</a>
+<ul>
+<li><a href="#Installation-guides">Installation guides</a></li>
+</ul>
+</li>
+<li><a href="#Part-0.2:-Basic-Scala-programming">Part 0.2: Basic Scala programming           [0 points]</a></li>
+<li><a href="#Part-1:-Representations-of-two-tree-types">Part 1: Representations of two tree types  [20 points]</a></li>
+<li><a href="#Part-2:-Flattening-trees-to-lists">Part 2: Flattening trees to lists          [20 points]</a></li>
+<li><a href="#Part-3:-Elements-of-a-~Tree[Int]~-in-order">Part 3: Elements of a <code>Tree[Int]</code> in order   [20 points]</a></li>
+<li><a href="#Part-4:-Trees-which-describe-structure">Part 4: Trees which describe structure     [10 points]</a></li>
+<li><a href="#Part-5:-Flattening-structure-trees">Part 5: Flattening structure trees   [bonus 20 points]</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org412b61f" class="outline-2">
+<h2 id="Introduction">Introduction</h2>
+<div class="outline-text-2" id="text-Introduction">
+<p>
+Scala is a purely object-oriented language on the JVM,
+and in addition to object-oriented abstractions
+it fully supports the abstractions of <i>functional programming</i>.
+We are interested in it because of this functional programming support.
+</p>
+
+<p>
+Herein we implement several types of trees,
+the de facto example of an <i>algebraic datatype</i>,
+along with <code>flatten</code>-ing functions
+which convert those trees to the less structured type of lists.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org990200d" class="outline-2">
+<h2 id="Boilerplate">Boilerplate</h2>
+<div class="outline-text-2" id="text-Boilerplate">
+</div>
+
+<div id="outline-container-orgcce2e4b" class="outline-3">
+<h3 id="Submission-procedures">Submission procedures</h3>
+<div class="outline-text-3" id="text-Submission-procedures">
+<p>
+:TODO:
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgb348c5e" class="outline-3">
+<h3 id="Proper-conduct-for-coursework">Proper conduct for coursework</h3>
+<div class="outline-text-3" id="text-Proper-conduct-for-coursework">
+<p>
+:TODO:
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgede8c04" class="outline-2">
+<h2 id="Part-0.1:-Installing-Scala">Part 0.1: Installing Scala                  [0 points]</h2>
+<div class="outline-text-2" id="text-Part-0.1:-Installing-Scala">
+<p>
+In this course, we will be targetting
+</p>
+<ul class="org-ul">
+<li><a href="https://scala-lang.org">Scala</a> version 2.13 and</li>
+<li><a href="https://ammonite.io">Ammonite</a>, an “improved” Scala REPL (read, evaluate, print loop),
+version 1.7.1,</li>
+</ul>
+<p>
+as used in the
+<a href="https://hub.docker.com/r/lolhens/ammonite/">lolhens/ammonite</a>
+Docker image.
+</p>
+
+<div class="org-center">
+<p>
+<b>If there is any update to the Docker image,</b>
+<b>or if fir any other reason we change our targeted versions</b>,
+<b>we will make an announcement on the homepage.</b>
+</p>
+</div>
+
+<p>
+All of that said, any recent version of Scala and Ammonite
+should suffice for our purposes; it is unlikely we will
+be using any features which could have compatability issues.
+You may install whatever is most convenient on your system,
+and later run tests in the Docker image
+to verify there are no compatability issues.
+</p>
+
+<p>
+So, we recommend whatever installation method
+that seems appropriate for your operating system,
+and we link to guides to get you started below.
+</p>
+</div>
+
+<div id="outline-container-org0ae54e5" class="outline-3">
+<h3 id="Installation-guides">Installation guides</h3>
+<div class="outline-text-3" id="text-Installation-guides">
+<ul class="org-ul">
+<li>The <a href="https://ammonite.io">Ammonite</a> homepage.</li>
+<li><a href="https://www.handsonscala.com/chapter-2-setting-up.html">Chapter 2</a> of
+the online “Hands-on Scala”, titled “Setting Up”.
+<ul class="org-ul">
+<li>“<a href="https://www.handsonscala.com/index.html">Hands-on Scala</a>”, by Li Haoyi,
+is a very recent book on Scala using Ammonite.
+Its first 5 chapters are free to read online.</li>
+</ul></li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgc46ea24" class="outline-2">
+<h2 id="Part-0.2:-Basic-Scala-programming">Part 0.2: Basic Scala programming           [0 points]</h2>
+<div class="outline-text-2" id="text-Part-0.2:-Basic-Scala-programming">
+<p>
+Some basic tutorial on Scala will be given
+in an upcoming lecture, and also in the tutorials,
+and should provide you with the knowledge you need
+to complete this homework.
+</p>
+
+<p>
+In the meantime, there are numerous useful guides online
+which can get you started.
+In particular, the introductory chapters
+of the aforementioned “<a href="https://www.handsonscala.com/table-of-contents.html">Hands-on Scala</a>”,
+which are freely available online.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org6667e6e" class="outline-2">
+<h2 id="Part-1:-Representations-of-two-tree-types">Part 1: Representations of two tree types  [20 points]</h2>
+<div class="outline-text-2" id="text-Part-1:-Representations-of-two-tree-types">
+<p>
+In Scala, implement the following types.
+</p>
+<ol class="org-ol">
+<li>The type of unordered binary trees which,
+given an arbitrary type <code>A</code>,
+carry elements of <code>A</code> in their leaves
+(nodes without children) only.
+Call this type <code>LeafTree</code>.</li>
+<li>The type of unordered binary which,
+given an arbitrary type <code>A</code>,
+carry elements of <code>A</code> on each node.
+Call this type <code>BinTree</code>.</li>
+</ol>
+
+<p>
+There are multiple ways you could implement these types in Scala,
+and we will not force you to choose a particular implementation here.
+But we recommend implementing them using <code>sealed traits</code> and <code>case class</code>-es,
+as discussion in “Hands-on Scala”
+<a href="https://www.handsonscala.com/chapter-5-notable-scala-features.html#section-5-1-case-classes-and-sealed-traits">section 5.1</a>.
+<code>case class</code>-es in Scala are used to implement algebraic datatypes,
+which you may have seen in Haskell
+</p>
+<div class="org-src-container">
+<pre class="src src-haskell">data LeafTree a = Leaf a | Branch (Tree a) (Tree a)
+</pre>
+</div>
+<p>
+or Elm
+</p>
+<div class="org-src-container">
+<pre class="src src-elm"><span style="color: #b6a0ff;">type</span> <span style="color: #f78fe7;">LeafTree</span> a <span style="color: #f78fe7;">=</span> <span style="color: #f78fe7;">Leaf</span> a <span style="color: #f78fe7;">|</span> <span style="color: #f78fe7;">Branch</span> <span style="color: #00cd68;">(</span><span style="color: #f78fe7;">Tree</span> a<span style="color: #00cd68;">)</span> <span style="color: #00cd68;">(</span><span style="color: #f78fe7;">Tree</span> a<span style="color: #00cd68;">)</span>
+</pre>
+</div>
+
+<p>
+The type <code>LeafTree</code> on <code>Int</code> represents trees such as
+</p>
+
+<div class="figure">
+<p><img src="media/LeafTree.png" alt="LeafTree.png" />
+</p>
+</div>
+
+<p>
+While the type <code>BinTree</code> on <code>Int</code> represents trees such as
+</p>
+
+<div class="figure">
+<p><img src="media/BinTree.png" alt="BinTree.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org937f686" class="outline-2">
+<h2 id="Part-2:-Flattening-trees-to-lists">Part 2: Flattening trees to lists          [20 points]</h2>
+<div class="outline-text-2" id="text-Part-2:-Flattening-trees-to-lists">
+<p>
+Implement a function named <code>flatten</code> for our two tree types
+defined avoid, each of which convert the trees to lists,
+discarding the tree structure.
+Note that we are able to reuse the name <code>flatten</code> for two different
+functions so long as the type signatures are different.
+Specifically,
+</p>
+<ol class="org-ol">
+<li>the first <code>flatten</code> should have type <code>LeafTree[A] =&gt; List[A]</code>, and</li>
+<li>the second <code>flatten</code> should have type <code>BinTree[A] =&gt; List[A]</code>.</li>
+</ol>
+
+<p>
+For the <code>LeafTree</code> type, the elements should appear in the same
+left-to-right order as they did in the tree.
+So the above example tree would flatten to the list <code>[1,2,3,4]</code>.
+</p>
+
+<p>
+For the <code>BinTree</code> type, for a given node <code>N</code>,
+all elements in the left subtree of <code>N</code>
+should appear in the list <i>before</i> the element of said node, and
+all elements in the right subtree of that node
+should appear in the list <i>after</i> the element of said node.
+So the above example tree would flatten to <code>[2,1,4,3,5]</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orga7b3263" class="outline-2">
+<h2 id="Part-3:-Elements-of-a-~Tree[Int]~-in-order">Part 3: Elements of a <code>Tree[Int]</code> in order   [20 points]</h2>
+<div class="outline-text-2" id="text-Part-3:-Elements-of-a-~Tree[Int]~-in-order">
+<p>
+For each of the two tree types we have implemented, implement
+a function <code>orderedElems</code> which converts trees containing integers
+into lists <i>which are sorted in <b>increasing</b> order</i>. So,
+</p>
+<ol class="org-ol">
+<li>the first <code>orderedElems</code> should have type <code>LeafTree[Int] =&gt; List[Int]</code>, and</li>
+<li>the second <code>orderedElems</code> should have type <code>BinTree[Int] =&gt; List[Int]</code></li>
+</ol>
+<p>
+and in each case you must ensure the result is ordered
+in increasing order.
+</p>
+
+<p>
+You must implement your own sorting function on integer lists,
+not use any builtin or library functions.
+</p>
+
+<p>
+The marking of these functions will take into account
+the <i>elegance</i> of the solution.
+</p>
+<div class="org-center">
+<p>
+<b>Try to avoid unnecessary or repeated work.</b>
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9c7586e" class="outline-2">
+<h2 id="Part-4:-Trees-which-describe-structure">Part 4: Trees which describe structure     [10 points]</h2>
+<div class="outline-text-2" id="text-Part-4:-Trees-which-describe-structure">
+<p>
+Implement one additional type of unordered binary trees which,
+given arbitrary types <code>A</code> and <code>B</code>,
+carry elements of <code>A</code> in their non-leaf nodes
+and elements of <code>B</code> in their leaf nodes.
+Call this type <code>StructTree</code>.
+</p>
+<ul class="org-ul">
+<li>This naming is inspired by the fact that these trees
+can be seen as an <code>A</code> labelled structure
+on top of elements of <code>B</code>.
+Note the similarity to parse trees.</li>
+</ul>
+
+<p>
+The type <code>StructTree[String][Int]</code> could be used
+to represent trees such as
+</p>
+
+<div class="figure">
+<p><img src="media/StructTree.png" alt="StructTree.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3f2813d" class="outline-2">
+<h2 id="Part-5:-Flattening-structure-trees">Part 5: Flattening structure trees   [bonus 20 points]</h2>
+<div class="outline-text-2" id="text-Part-5:-Flattening-structure-trees">
+<p>
+Define an appropriate <code>flatten</code> operation for the <code>StructTree</code> type.
+</p>
+
+<p>
+As this is a bonus question, there are many possible
+interpretations of “appropriate”, and the marks for this question
+will heavily depend upon which interpretation you use.
+</p>
+
+<p>
+Try to come up with an implementation
+which discards <i>as little structure as possible</i>,
+bearing in mind that the transformation to lists
+necessitates discarding at least some structure.
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Mark Armstrong</p>
+     <p class="author">Contact: <a href="mailto:markparmstrong@gmail.com">markparmstrong@gmail.com</a></p>
+     <p class="date">Original date: September 11th, 2020</p>
+     <p class="date">Last updated: 2020-09-11 Fri 23:46</p>
+     <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.90 (<a href="https://orgmode.org">Org</a> mode 9.3.7)</p>
+     <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
