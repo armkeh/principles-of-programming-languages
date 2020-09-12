@@ -13,6 +13,20 @@ better viewed at
 ## September
 
   - September 11  
+    Homework 1 has been uploaded and can be found under the homework
+    section.
+    
+      - I am aware of the issues with the images in the PDF version;
+        they will be fixed shortly.
+    
+    Also of note:
+    
+      - The Monday lecture will be a live coding session introducing
+        some basic Scala concepts.
+      - The tutorials will be running next week, and will be used to
+        discuss Scala further.
+
+  - September 11  
     Reminder that the first lecture is today, at 1:30pm. It will be in
     the lectures and tutorials channel in Microsoft Teams.
 
@@ -154,7 +168,11 @@ When possible, those notes are scanned and made available here.
 
 # Homework
 
-:TODO:
+## Homework 1 – Implementing Trees in Scala – Sept 11th to Sept 20th
+
+  - [HTML](./homework/h1.html)
+  - [PDF](./homework/h1.pdf)
+  - [Org plaintext](./homework/h1.org)
 
 # Assignments
 
