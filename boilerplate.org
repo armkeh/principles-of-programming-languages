@@ -1,0 +1,131 @@
+#+Title: 
+#+Author: Mark Armstrong
+#+Description: 
+
+* Homework submission
+
+** Submission method
+
+Homework should be submitted to your McMaster CAS Gitlab respository
+in the ~cs3mi3-fall2020~ project.
+
+Ensure that you have *pushed* the commits to the remote repository
+in time for the deadline, and not just committed to your local copy.
+
+** Naming requirements
+
+Place all files for the homework
+inside a folder titled ~hn~, where ~n~ is the number of the homework.
+So, for homework 1, the use the folder ~h1~, for homework 2 the folder ~h2~, etc.
+Ensure you do not capitalise the ~h~.
+
+Unless otherwise instructed in the homework questions,
+place all of your code for the homework
+in a single file in the ~hn~ folder named ~hn.ext~,
+where ~ext~ is the appropriate extension for the language used
+according to this list:
+- For Scala, ~ext~ is ~sc~.
+- For Prolog, ~ext~ is ~pl~.
+- For Ruby, ~ext~ is ~rb~.
+- For Clojure, ~ext~ is ~clg~.
+If multiple languages are used in the homework,
+submit a ~hn.ext~ file for each language.
+
+#+begin_center
+*If the language supports multiple different file extensions,*
+*you must still follow the extension conventions above.*
+#+end_center
+
+#+begin_center
+*Incorrect naming of files may result in up to a 10% deduction in your grade.*
+#+end_center
+
+** Do not submit testing or diagnostic code
+
+Unless you are instructed to do so in the homework questions,
+*you should not submit testing code with your homework submission*.
+
+This includes
+- any ~main~ function,
+- any ~print~ statements which output information
+  *that is not directly requested as console output*
+  *in the homework questions*.
+
+If you do not wish to remove diagnostic print statements manually,
+you will have to find a way to ensure that they disabled
+in your final submission.
+
+For instance, by using a wrapper on the print function or macros.
+
+** Due date and allowance for technical difficulties
+
+Homework is due on the second Sunday following its release,
+by the end of the day (midnight).
+Submissions past 00:00 may not be considered.
+
+If you experience technical difficulties
+leading up to the submission time,
+please contact Mark *ASAP* with the details of the problem
+and, if possible, attach the current state of your homework
+to the communication.
+This information will help ensure we are able
+to accept your submission once the technical difficulties are resolved.
+
+* Homework conduct
+
+** Individual work
+
+Unless explicitely stated in the homework questions,
+all homework in this course is intended
+to be /individually completed/.
+
+You are welcome to discuss the content of the homework in
+the public forum of the class Microsoft Teams team homework channel,
+though obviously solutions or partial solutions should not
+be posted or described.
+
+Private discussions about the homework cannot reasonably be
+forbidden, but such discussions should follow the same guidelines
+as public discussions.
+
+#+begin_center
+*Inappopriate collaboration via private discussions*
+*which is later discovered by course staff*
+*may be considered academic dishonesty.*
+
+When in doubt, make the discussion private, or report its contents
+to the course staff by making a note of it
+in your homework.
+#+end_center
+
+To clarify what is considered appropriate discussions
+of homework content, here are some examples:
+1. Discussing the language features introduced or needed for the homework.
+   - Such as relevant builtin datatypes
+     and datatype definition methods and their general use.
+   - Code snippets that are not partial solutions to the homework
+     are welcome and encouraged.
+2. Questions of the form “What is meant by ~x~?”,
+   “Does ~x~ really mean ~y~?” or “Is there a mistake with ~x~?”
+   - Of course, questions of those form which would be answered
+     by partial solutions are not considered appropriate.
+3. Questions or advice about errors that may be encountered.
+   - Such as “If you see a ~scala.MatchError~ you should
+     probably add a catch-all ~_~ case to your ~match~ expressions.”
+
+** Language library resources
+
+Unless explicitely stated in the questions,
+it is not expected that you will use any language library resources
+in the homeworks.
+
+Possible exceptions to this rule include implementations
+of datatypes we discuss in this course, such as lists
+or options/maybes, if they are included in a standard library
+instead of being builtin.
+
+/Basic/ operations on such types would also be allowed.
+- For instance, ~head~, ~tail~, ~append~, etc. on lists
+  would not require explicit permission to be used.
+- More complex operations such as sorting procedures
+  would require permission before you used them.

@@ -52,14 +52,14 @@ which convert those trees to the less structured type of lists.
 :CUSTOM_ID: Submission-procedures
 :END:
 
-:TODO:
+#+INCLUDE: "./../boilerplate.org::*Homework submission" :only-contents t
 
 ** Proper conduct for coursework
 :PROPERTIES:
 :CUSTOM_ID: Proper-conduct-for-coursework
 :END:
 
-:TODO:
+#+INCLUDE: "./../boilerplate.org::*Homework conduct" :only-contents t
 
 * Part 0.1: Installing Scala                  [0 points]
 :PROPERTIES:

@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-09-13 Sun 13:54 -->
+<!-- 2020-09-13 Sun 14:55 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Computer Science 3MI3 – 2020 homework 1</title>
@@ -263,12 +263,16 @@ for the JavaScript code in this tag.
 <ul>
 <li><a href="#Submission-procedures">Submission procedures</a>
 <ul>
-<li><a href="#org9dce5e2">Homework submission</a></li>
+<li><a href="#orgcb0a070">Submission method</a></li>
+<li><a href="#orgbad8ba3">Naming requirements</a></li>
+<li><a href="#org1603dce">Do not submit testing or diagnostic code</a></li>
+<li><a href="#orgd7e97b0">Due date and allowance for technical difficulties</a></li>
 </ul>
 </li>
 <li><a href="#Proper-conduct-for-coursework">Proper conduct for coursework</a>
 <ul>
-<li><a href="#org79f22a7">Homework conduct</a></li>
+<li><a href="#orgef87270">Individual work</a></li>
+<li><a href="#orgd5f1c81">Language library resources</a></li>
 </ul>
 </li>
 </ul>
@@ -288,7 +292,7 @@ for the JavaScript code in this tag.
 </div>
 </div>
 
-<div id="outline-container-orga39d0ed" class="outline-2">
+<div id="outline-container-org4cc040c" class="outline-2">
 <h2 id="Introduction">Introduction</h2>
 <div class="outline-text-2" id="text-Introduction">
 <p>
@@ -307,33 +311,225 @@ which convert those trees to the less structured type of lists.
 </div>
 </div>
 
-<div id="outline-container-org1e8e3cc" class="outline-2">
+<div id="outline-container-org21f1721" class="outline-2">
 <h2 id="Boilerplate">Boilerplate</h2>
 <div class="outline-text-2" id="text-Boilerplate">
 </div>
 
-<div id="outline-container-orga95467e" class="outline-3">
+<div id="outline-container-org5650f19" class="outline-3">
 <h3 id="Submission-procedures">Submission procedures</h3>
 <div class="outline-text-3" id="text-Submission-procedures">
 </div>
 
-<div id="outline-container-org9dce5e2" class="outline-4">
-<h4 id="org9dce5e2">Homework submission</h4>
+<div id="outline-container-orgcb0a070" class="outline-4">
+<h4 id="orgcb0a070">Submission method</h4>
+<div class="outline-text-4" id="text-orgcb0a070">
+<p>
+Homework should be submitted to your McMaster CAS Gitlab respository
+in the <code>cs3mi3-fall2020</code> project.
+</p>
+
+<p>
+Ensure that you have <b>pushed</b> the commits to the remote repository
+in time for the deadline, and not just committed to your local copy.
+</p>
 </div>
 </div>
 
-<div id="outline-container-org14baedb" class="outline-3">
+<div id="outline-container-orgbad8ba3" class="outline-4">
+<h4 id="orgbad8ba3">Naming requirements</h4>
+<div class="outline-text-4" id="text-orgbad8ba3">
+<p>
+Place all files for the homework
+inside a folder titled <code>hn</code>, where <code>n</code> is the number of the homework.
+So, for homework 1, the use the folder <code>h1</code>, for homework 2 the folder <code>h2</code>, etc.
+Ensure you do not capitalise the <code>h</code>.
+</p>
+
+<p>
+Unless otherwise instructed in the homework questions,
+place all of your code for the homework
+in a single file in the <code>hn</code> folder named <code>hn.ext</code>,
+where <code>ext</code> is the appropriate extension for the language used
+according to this list:
+</p>
+<ul class="org-ul">
+<li>For Scala, <code>ext</code> is <code>sc</code>.</li>
+<li>For Prolog, <code>ext</code> is <code>pl</code>.</li>
+<li>For Ruby, <code>ext</code> is <code>rb</code>.</li>
+<li>For Clojure, <code>ext</code> is <code>clg</code>.</li>
+</ul>
+<p>
+If multiple languages are used in the homework,
+submit a <code>hn.ext</code> file for each language.
+</p>
+
+<div class="org-center">
+<p>
+<b>If the language supports multiple different file extensions,</b>
+<b>you must still follow the extension conventions above.</b>
+</p>
+</div>
+
+<div class="org-center">
+<p>
+<b>Incorrect naming of files may result in up to a 10% deduction in your grade.</b>
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1603dce" class="outline-4">
+<h4 id="org1603dce">Do not submit testing or diagnostic code</h4>
+<div class="outline-text-4" id="text-org1603dce">
+<p>
+Unless you are instructed to do so in the homework questions,
+<b>you should not submit testing code with your homework submission</b>.
+</p>
+
+<p>
+This includes
+</p>
+<ul class="org-ul">
+<li>any <code>main</code> function,</li>
+<li>any <code>print</code> statements which output information
+<b>that is not directly requested as console output</b>
+<b>in the homework questions</b>.</li>
+</ul>
+
+<p>
+If you do not wish to remove diagnostic print statements manually,
+you will have to find a way to ensure that they disabled
+in your final submission.
+</p>
+
+<p>
+For instance, by using a wrapper on the print function or macros.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgd7e97b0" class="outline-4">
+<h4 id="orgd7e97b0">Due date and allowance for technical difficulties</h4>
+<div class="outline-text-4" id="text-orgd7e97b0">
+<p>
+Homework is due on the second Sunday following its release,
+by the end of the day (midnight).
+Submissions past 00:00 may not be considered.
+</p>
+
+<p>
+If you experience technical difficulties
+leading up to the submission time,
+please contact Mark <b>ASAP</b> with the details of the problem
+and, if possible, attach the current state of your homework
+to the communication.
+This information will help ensure we are able
+to accept your submission once the technical difficulties are resolved.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgb8d3e30" class="outline-3">
 <h3 id="Proper-conduct-for-coursework">Proper conduct for coursework</h3>
 <div class="outline-text-3" id="text-Proper-conduct-for-coursework">
 </div>
 
-<div id="outline-container-org79f22a7" class="outline-4">
-<h4 id="org79f22a7">Homework conduct</h4>
+<div id="outline-container-orgef87270" class="outline-4">
+<h4 id="orgef87270">Individual work</h4>
+<div class="outline-text-4" id="text-orgef87270">
+<p>
+Unless explicitely stated in the homework questions,
+all homework in this course is intended
+to be <i>individually completed</i>.
+</p>
+
+<p>
+You are welcome to discuss the content of the homework in
+the public forum of the class Microsoft Teams team homework channel,
+though obviously solutions or partial solutions should not
+be posted or described.
+</p>
+
+<p>
+Private discussions about the homework cannot reasonably be
+forbidden, but such discussions should follow the same guidelines
+as public discussions.
+</p>
+
+<div class="org-center">
+<p>
+<b>Inappopriate collaboration via private discussions</b>
+<b>which is later discovered by course staff</b>
+<b>may be considered academic dishonesty.</b>
+</p>
+
+<p>
+When in doubt, make the discussion private, or report its contents
+to the course staff by making a note of it
+in your homework.
+</p>
+</div>
+
+<p>
+To clarify what is considered appropriate discussions
+of homework content, here are some examples:
+</p>
+<ol class="org-ol">
+<li>Discussing the language features introduced or needed for the homework.
+<ul class="org-ul">
+<li>Such as relevant builtin datatypes
+and datatype definition methods and their general use.</li>
+<li>Code snippets that are not partial solutions to the homework
+are welcome and encouraged.</li>
+</ul></li>
+<li>Questions of the form “What is meant by <code>x</code>?”,
+“Does <code>x</code> really mean <code>y</code>?” or “Is there a mistake with <code>x</code>?”
+<ul class="org-ul">
+<li>Of course, questions of those form which would be answered
+by partial solutions are not considered appropriate.</li>
+</ul></li>
+<li>Questions or advice about errors that may be encountered.
+<ul class="org-ul">
+<li>Such as “If you see a <code>scala.MatchError</code> you should
+probably add a catch-all <code>_</code> case to your <code>match</code> expressions.”</li>
+</ul></li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orgd5f1c81" class="outline-4">
+<h4 id="orgd5f1c81">Language library resources</h4>
+<div class="outline-text-4" id="text-orgd5f1c81">
+<p>
+Unless explicitely stated in the questions,
+it is not expected that you will use any language library resources
+in the homeworks.
+</p>
+
+<p>
+Possible exceptions to this rule include implementations
+of datatypes we discuss in this course, such as lists
+or options/maybes, if they are included in a standard library
+instead of being builtin.
+</p>
+
+<p>
+<i>Basic</i> operations on such types would also be allowed.
+</p>
+<ul class="org-ul">
+<li>For instance, <code>head</code>, <code>tail</code>, <code>append</code>, etc. on lists
+would not require explicit permission to be used.</li>
+<li>More complex operations such as sorting procedures
+would require permission before you used them.</li>
+</ul>
+</div>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org047425e" class="outline-2">
+<div id="outline-container-org9f1621e" class="outline-2">
 <h2 id="Part-0.1:-Installing-Scala">Part 0.1: Installing Scala                  [0 points]</h2>
 <div class="outline-text-2" id="text-Part-0.1:-Installing-Scala">
 <p>
@@ -374,7 +570,7 @@ and we link to guides to get you started below.
 </p>
 </div>
 
-<div id="outline-container-org34e0049" class="outline-3">
+<div id="outline-container-org960a265" class="outline-3">
 <h3 id="Installation-guides">Installation guides</h3>
 <div class="outline-text-3" id="text-Installation-guides">
 <ul class="org-ul">
@@ -391,7 +587,7 @@ Its first 5 chapters are free to read online.</li>
 </div>
 </div>
 
-<div id="outline-container-org9ddeb98" class="outline-2">
+<div id="outline-container-orgf3cb631" class="outline-2">
 <h2 id="Part-0.2:-Basic-Scala-programming">Part 0.2: Basic Scala programming           [0 points]</h2>
 <div class="outline-text-2" id="text-Part-0.2:-Basic-Scala-programming">
 <p>
@@ -411,7 +607,7 @@ which are freely available online.
 </div>
 </div>
 
-<div id="outline-container-org03e1dc7" class="outline-2">
+<div id="outline-container-org466ceb4" class="outline-2">
 <h2 id="Part-1:-Representations-of-two-tree-types">Part 1: Representations of two tree types  [20 points]</h2>
 <div class="outline-text-2" id="text-Part-1:-Representations-of-two-tree-types">
 <p>
@@ -470,7 +666,7 @@ While the type <code>BinTree</code> on <code>Int</code> represents trees such as
 </div>
 </div>
 
-<div id="outline-container-org3f6d1ce" class="outline-2">
+<div id="outline-container-org3631c93" class="outline-2">
 <h2 id="Part-2:-Flattening-trees-to-lists">Part 2: Flattening trees to lists          [20 points]</h2>
 <div class="outline-text-2" id="text-Part-2:-Flattening-trees-to-lists">
 <p>
@@ -503,7 +699,7 @@ So the above example tree would flatten to <code>[2,1,4,3,5]</code>.
 </div>
 </div>
 
-<div id="outline-container-org5b1e4c9" class="outline-2">
+<div id="outline-container-orgda40017" class="outline-2">
 <h2 id="Part-3:-Elements-of-a-~Tree[Int]~-in-order">Part 3: Elements of a <code>Tree[Int]</code> in order   [20 points]</h2>
 <div class="outline-text-2" id="text-Part-3:-Elements-of-a-~Tree[Int]~-in-order">
 <p>
@@ -537,7 +733,7 @@ the <i>elegance</i> of the solution.
 </div>
 </div>
 
-<div id="outline-container-orgee0a6b5" class="outline-2">
+<div id="outline-container-org45161d8" class="outline-2">
 <h2 id="Part-4:-Trees-which-describe-structure">Part 4: Trees which describe structure     [10 points]</h2>
 <div class="outline-text-2" id="text-Part-4:-Trees-which-describe-structure">
 <p>
@@ -566,7 +762,7 @@ to represent trees such as
 </div>
 </div>
 
-<div id="outline-container-orga99fecc" class="outline-2">
+<div id="outline-container-org0c30533" class="outline-2">
 <h2 id="Part-5:-Flattening-structure-trees">Part 5: Flattening structure trees   [bonus 20 points]</h2>
 <div class="outline-text-2" id="text-Part-5:-Flattening-structure-trees">
 <p>
@@ -592,7 +788,7 @@ necessitates discarding at least some structure.
 <p class="author">Author: Mark Armstrong</p>
      <p class="author">Contact: <a href="mailto:markparmstrong@gmail.com">markparmstrong@gmail.com</a></p>
      <p class="date">Original date: September 11th, 2020</p>
-     <p class="date">Last updated: 2020-09-13 Sun 13:54</p>
+     <p class="date">Last updated: 2020-09-13 Sun 13:56</p>
      <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.90 (<a href="https://orgmode.org">Org</a> mode 9.3.7)</p>
      <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
