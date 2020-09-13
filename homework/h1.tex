@@ -1,4 +1,4 @@
-% Created 2020-09-11 Fri 23:46
+% Created 2020-09-13 Sun 13:55
 % Intended LaTeX compiler: lualatex
 \documentclass[11pt]{article}
 \usepackage{graphicx}
@@ -42,7 +42,7 @@
 
 
 \section*{Introduction}
-\label{sec:org3247574}
+\label{sec:org60cd27c}
 Scala is a purely object-oriented language on the JVM,
 and in addition to object-oriented abstractions
 it fully supports the abstractions of \emph{functional programming}.
@@ -54,17 +54,19 @@ along with \texttt{flatten}-ing functions
 which convert those trees to the less structured type of lists.
 
 \section*{Boilerplate}
-\label{sec:org06668ae}
+\label{sec:org698cada}
 \subsection*{Submission procedures}
-\label{sec:orgb5e75e7}
-:TODO:
+\label{sec:orgea1138f}
+\subsubsection*{Homework submission}
+\label{sec:org6be5327}
 
 \subsection*{Proper conduct for coursework}
-\label{sec:org74fbd20}
-:TODO:
+\label{sec:org7d3298f}
+\subsubsection*{Homework conduct}
+\label{sec:org4e7d5d6}
 
 \section*{Part 0.1: Installing Scala                  [0 points]}
-\label{sec:org4d37ae4}
+\label{sec:orgfc4cb71}
 In this course, we will be targetting
 \begin{itemize}
 \item \href{https://scala-lang.org}{Scala} version 2.13 and
@@ -93,7 +95,7 @@ that seems appropriate for your operating system,
 and we link to guides to get you started below.
 
 \subsection*{Installation guides}
-\label{sec:org1d6a96f}
+\label{sec:orgf05a29f}
 \begin{itemize}
 \item The \href{https://ammonite.io}{Ammonite} homepage.
 \item \href{https://www.handsonscala.com/chapter-2-setting-up.html}{Chapter 2} of
@@ -106,7 +108,7 @@ Its first 5 chapters are free to read online.
 \end{itemize}
 
 \section*{Part 0.2: Basic Scala programming           [0 points]}
-\label{sec:orgf23068c}
+\label{sec:org0a64573}
 Some basic tutorial on Scala will be given
 in an upcoming lecture, and also in the tutorials,
 and should provide you with the knowledge you need
@@ -119,7 +121,7 @@ of the aforementioned “\href{https://www.handsonscala.com/table-of-contents.ht
 which are freely available online.
 
 \section*{Part 1: Representations of two tree types  [20 points]}
-\label{sec:orgdd7e0cc}
+\label{sec:orgfd3b69b}
 In Scala, implement the following types.
 \begin{enumerate}
 \item The type of unordered binary trees which,
@@ -149,13 +151,17 @@ type LeafTree a = Leaf a | Branch (Tree a) (Tree a)
 \end{minted}
 
 The type \texttt{LeafTree} on \texttt{Int} represents trees such as
-\includegraphics{media/LeafTree.png}
+\begin{center}
+\includegraphics[width=\textwidth]{media/LeafTree.png}
+\end{center}
 
 While the type \texttt{BinTree} on \texttt{Int} represents trees such as
-\includegraphics{media/BinTree.png}
+\begin{center}
+\includegraphics[width=\textwidth]{media/BinTree.png}
+\end{center}
 
 \section*{Part 2: Flattening trees to lists          [20 points]}
-\label{sec:org1e1e694}
+\label{sec:org3d58f6c}
 Implement a function named \texttt{flatten} for our two tree types
 defined avoid, each of which convert the trees to lists,
 discarding the tree structure.
@@ -179,7 +185,7 @@ should appear in the list \emph{after} the element of said node.
 So the above example tree would flatten to \texttt{[2,1,4,3,5]}.
 
 \section*{Part 3: Elements of a \texttt{Tree[Int]} in order   [20 points]}
-\label{sec:org5c4b57b}
+\label{sec:orga2360fd}
 For each of the two tree types we have implemented, implement
 a function \texttt{orderedElems} which converts trees containing integers
 into lists \emph{which are sorted in \textbf{increasing} order}. So,
@@ -200,7 +206,7 @@ the \emph{elegance} of the solution.
 \end{center}
 
 \section*{Part 4: Trees which describe structure     [10 points]}
-\label{sec:org91767b7}
+\label{sec:orgaeba83e}
 Implement one additional type of unordered binary trees which,
 given arbitrary types \texttt{A} and \texttt{B},
 carry elements of \texttt{A} in their non-leaf nodes
@@ -215,10 +221,12 @@ Note the similarity to parse trees.
 
 The type \texttt{StructTree[String][Int]} could be used
 to represent trees such as
-\includegraphics{media/StructTree.png}
+\begin{center}
+\includegraphics[width=\textwidth]{media/StructTree.png}
+\end{center}
 
 \section*{Part 5: Flattening structure trees   [bonus 20 points]}
-\label{sec:org5c2b864}
+\label{sec:org22e2c78}
 Define an appropriate \texttt{flatten} operation for the \texttt{StructTree} type.
 
 As this is a bonus question, there are many possible

@@ -8,6 +8,25 @@
 
 # TODO: LaTeX image sizes and remove the contents heading
 
+* Setup                                         :noexport:
+
+** Image creation post-processing
+
+We need to prepend the images resulting from ~dot~ code blocks
+with a LaTeX attribute to resize them, or else they run off the page.
+This named code block for this task is taken from
+[[https://orgmode.org/manual/Results-of-Evaluation.html][the Org manual]], augmented to allow for centering.
+We should always provide ~*this*~ for the ~data~ argument.
+as in ~:post attr_wrap(data=*this*)~,
+and also always set ~:exports results :results drawer~.
+If we don't put the results in the drawer, they will pile up
+as we evaluate the code block.
+#+NAME: attr_wrap
+#+BEGIN_SRC sh :var data="" :var width="\\\\textwidth" :var center="t" :results output
+  echo "#+ATTR_LATEX: :width $width :center $center"
+  echo "$data"
+#+END_SRC
+
 * Introduction
 :PROPERTIES:
 :CUSTOM_ID: Introduction
@@ -131,7 +150,7 @@ type LeafTree a = Leaf a | Branch (Tree a) (Tree a)
 #+end_src
 
 The type ~LeafTree~ on ~Int~ represents trees such as
-#+begin_src dot :file media/LeafTree.png :exports results
+#+begin_src dot :file media/LeafTree.png :exports results :results drawer :post attr_wrap(data=*this*)
 digraph T {
   S [shape=point]
   A [shape=point]
@@ -150,10 +169,13 @@ digraph T {
 #+end_src
 
 #+RESULTS:
+:results:
+#+ATTR_LATEX: :width \textwidth
 [[file:media/LeafTree.png]]
+:end:
 
 While the type ~BinTree~ on ~Int~ represents trees such as
-#+begin_src dot :file media/BinTree.png :exports results
+#+begin_src dot :file media/BinTree.png :exports results :results drawer :post attr_wrap(data=*this*)
 digraph T {
   S [label="1"]
   A [label="2"]
@@ -177,7 +199,10 @@ digraph T {
 #+end_src
 
 #+RESULTS:
+:results:
+#+ATTR_LATEX: :width \textwidth :center t
 [[file:media/BinTree.png]]
+:end:
 
 * Part 2: Flattening trees to lists          [20 points]
 :PROPERTIES:
@@ -243,7 +268,7 @@ Call this type ~StructTree~.
 
 The type ~StructTree[String][Int]~ could be used
 to represent trees such as
-#+begin_src dot :file media/StructTree.png :exports results
+#+begin_src dot :file media/StructTree.png :exports results :results drawer :post attr_wrap(data=*this*)
 digraph T {
   S [label="\"times\""]
   A [label="\"plus\""]
@@ -262,7 +287,10 @@ digraph T {
 #+end_src
 
 #+RESULTS:
+:results:
+#+ATTR_LATEX: :width \textwidth :center t
 [[file:media/StructTree.png]]
+:end:
 
 * Part 5: Flattening structure trees   [bonus 20 points]
 :PROPERTIES:
