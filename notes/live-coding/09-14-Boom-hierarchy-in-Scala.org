@@ -304,14 +304,14 @@ Our final, correct implementation
 - ensures there is only one way to construct a given (abstract) list,
   by using more concrete constructors,
 - marks the ~trait~ as ~sealed~, so no further constuctors may be added, and
-#+begin_src amm :results none
-  sealed trait ConsList[A]
-  case class Empty[A]() extends ConsList[A]
-  case class Cons[A](hd: A, tl: ConsList[A]) extends ConsList[A]
+#+begin_src amm :results none :tangle ./src/ConsList.sc
+sealed trait ConsList[A]
+case class Empty[A]() extends ConsList[A]
+case class Cons[A](hd: A, tl: ConsList[A]) extends ConsList[A]
 #+end_src
 
 We can try out some definitions on this type.
-#+begin_src amm :results none
+#+begin_src amm :results none :tangle ./src/ConsList.sc
 def sum(xs: ConsList[Int]): Int = xs match {
   case Empty() => 0
   case Cons(hd, tl) => hd + sum(tl)

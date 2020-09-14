@@ -199,21 +199,38 @@ The slides are available as
   - [PDF](./notes/A3--External-resources.pdf)
   - [Org plaintext](./notes/A3--External-resources.org)
 
-## Lecture literate programs
-
-The last lecture of each week is usually a hands-on live programming
-session.
-
-Literate copies of the programs developed in those lectures are
-available here.
-
 ## Lecture hand-written notes
 
 In some cases, some handwritten notes accompany the slides during
 lecture. This term, those notes will be written on paper that can be
 seen during the online lecture.
 
-When possible, those notes are scanned and made available here.
+When necessary and possible, those notes are scanned and made available
+here. If any are missing that you would like to see, please ask.
+
+# Literate programs
+
+The last lecture of each week is usually a hands-on live programming
+session. Sometimes the same document is used for tutorials the following
+week.
+
+Literate copies of the programs developed in those lectures and
+tutorials are available here. Particularly relevant portions of raw code
+are also included.
+
+## Lectures
+
+### September 14th – The Boom hierarchy in Scala
+
+  - [HTML](./notes/live-coding/09-14-Boom-hierarchy-in-Scala.html)
+  - PDF generation temporarily broken; will post soon
+  - [Org
+    plaintext](./notes/live-coding/09-14-Boom-hierarchy-in-Scala.org)
+
+Relevant raw code:
+
+  - [The `ConsList` type](./notes/live-coding/src/ConsList.sc) and some
+    operations on it.
 
 ## Tutorials
 

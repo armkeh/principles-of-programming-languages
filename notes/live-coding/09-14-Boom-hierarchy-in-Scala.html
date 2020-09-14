@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-09-14 Mon 14:14 -->
+<!-- 2020-09-14 Mon 14:27 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>The Boom hierarchy in Scala</title>
@@ -372,7 +372,7 @@ except that they “can spin” (the branching order is arbitrary).</li>
 We can visualise the layout of some of these structures:
 </p>
 
-<div id="org99dff73" class="figure">
+<div id="org0fedfc3" class="figure">
 <p><img src="media/BOOM.png" alt="BOOM.png" />
 </p>
 </div>
@@ -586,9 +586,9 @@ by using more concrete constructors,</li>
 <li>marks the <code>trait</code> as <code>sealed</code>, so no further constuctors may be added, and</li>
 </ul>
 <div class="org-src-container">
-<pre class="src src-amm">  <span style="color: #f78fe7;">sealed</span> <span style="color: #b6a0ff;">trait</span> <span style="color: #f78fe7;">ConsList</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">]</span>
-  <span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">Empty</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">]()</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">ConsList</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">]</span>
-  <span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">Cons</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">](</span>hd<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">A</span>, tl<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">ConsList</span><span style="color: #b6a0ff;">[</span><span style="color: #00bdfa;">A</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">ConsList</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">]</span>
+<pre class="src src-amm"><span style="color: #f78fe7;">sealed</span> <span style="color: #b6a0ff;">trait</span> <span style="color: #f78fe7;">ConsList</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">]</span>
+<span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">Empty</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">]()</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">ConsList</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">]</span>
+<span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">Cons</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">](</span>hd<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">A</span>, tl<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">ConsList</span><span style="color: #b6a0ff;">[</span><span style="color: #00bdfa;">A</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">ConsList</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">]</span>
 </pre>
 </div>
 
@@ -684,7 +684,7 @@ of saved states.
 <p class="author">Author: Mark Armstrong</p>
      <p class="author">Contact: <a href="mailto:markparmstrong@gmail.com">markparmstrong@gmail.com</a></p>
      <p class="date">Original date: </p>
-     <p class="date">Last updated: 2020-09-14 Mon 14:14</p>
+     <p class="date">Last updated: 2020-09-14 Mon 14:27</p>
      <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.90 (<a href="https://orgmode.org">Org</a> mode 9.3.8)</p>
      <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
