@@ -18,7 +18,54 @@
 :CUSTOM_ID: September
 :END:
 
-# TODO: Announce tutorials for week starting 
+- September 14 :: To address some questions which have come up
+  in lectures and tutorials so far:
+  - “Are we going to alternate between different programming languages
+    or will we stick to Scala for a while?”
+    - A good question, and something I meant to discuss
+      but never got to.
+      
+      The rough timeline for introducing languages is intended to be
+      - September 14th: introduce Scala (today)
+      - September 18th: introduce Prolog (Friday)
+      - October 7th: introduce Ruby
+      - November 6th: introduce Clojure
+      Assignment 1 will use Scala and Prolog,
+      assignment 2 will use Scala and Ruby, and
+      assignment 3 will use Prolog and Clojure.
+      Homeworks may alternate sometimes, but I intend to focus on
+      the languages which are being used for the current assignment
+      in each homework.
+
+      This is a much faster pace for
+      picking up a language than previous courses,
+      but we are usually focusing on a relatively small number
+      of ideas in each language.
+
+      Leverage what you know from previous courses,
+      ask lots of questions (please!),
+      and when in doubt, look closely at provided examples.
+
+  - “Can we use IntelliJ for Scala?”, “Do we have to use Ammonite?”, etc.
+    - You can use whatever tools you wish to for writing your code
+      and interacting with Scala.
+      On our end, we will be using Ammonite, but
+      there should not be conflicts,
+      and I intend to release a Docker image you can use
+      to test for conflicts later this week.
+  - “Do we have to use Docker?”
+    - Not explicitely, though it's /strongly/ encouraged.
+      Docker images will be provided so you can ensure
+      your code works on the system it will be marked on.
+      It is unlikely we will encounter conflicts in any case,
+      but it is better to be certain by using the Docker images.
+  - “Will live coding lecture and tutorial notes be posted?”
+    - Yes, they will be posted, and should be available
+      in the usual set of formats.
+  Also,
+  - Note that homework 1 was updated over the weekend
+    with submission guidelines and a homework code of conduct
+    related to collaboration. Please review it.
 
 - September 11 :: Homework 1 has been uploaded and can be found
   under the homework section.

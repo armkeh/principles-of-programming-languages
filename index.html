@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-09-12 Sat 00:03 -->
+<!-- 2020-09-14 Mon 14:10 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Computer Science 3MI3 - Principles of Programming Languages</title>
@@ -42,7 +42,7 @@
   }
   pre.src {
     position: relative;
-    overflow: visible;
+    overflow: auto;
     padding-top: 1.2em;
   }
   pre.src:before {
@@ -207,50 +207,26 @@
 <script type="text/javascript" src="styles/bigblow/js/hideshow.js"></script>
 <script type="text/javascript" src="styles/lib/js/jquery.stickytableheaders.min.js"></script>
 <script type="text/javascript">
-/*
-@licstart  The following is the entire license notice for the
-JavaScript code in this tag.
-
-Copyright (C) 2012-2020 Free Software Foundation, Inc.
-
-The JavaScript code in this tag is free software: you can
-redistribute it and/or modify it under the terms of the GNU
-General Public License (GNU GPL) as published by the Free Software
-Foundation, either version 3 of the License, or (at your option)
-any later version.  The code is distributed WITHOUT ANY WARRANTY;
-without even the implied warranty of MERCHANTABILITY or FITNESS
-FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
-
-As additional permission under GNU GPL version 3 section 7, you
-may distribute non-source (e.g., minimized or compacted) forms of
-that code without the copy of the GNU GPL normally required by
-section 4, provided you include this license notice and a URL
-through which recipients can access the Corresponding Source.
-
-
-@licend  The above is the entire license notice
-for the JavaScript code in this tag.
-*/
+// @license magnet:?xt=urn:btih:e95b018ef3580986a04669f1b5879592219e2a7a&dn=public-domain.txt Public Domain
 <!--/*--><![CDATA[/*><!--*/
- function CodeHighlightOn(elem, id)
- {
-   var target = document.getElementById(id);
-   if(null != target) {
-     elem.cacheClassElem = elem.className;
-     elem.cacheClassTarget = target.className;
-     target.className = "code-highlighted";
-     elem.className   = "code-highlighted";
-   }
- }
- function CodeHighlightOff(elem, id)
- {
-   var target = document.getElementById(id);
-   if(elem.cacheClassElem)
-     elem.className = elem.cacheClassElem;
-   if(elem.cacheClassTarget)
-     target.className = elem.cacheClassTarget;
- }
-/*]]>*///-->
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.add("code-highlighted");
+         target.classList.add("code-highlighted");
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.remove("code-highlighted");
+         target.classList.remove("code-highlighted");
+       }
+     }
+    /*]]>*///-->
+// @license-end
 </script>
 </head>
 <body>
@@ -314,15 +290,92 @@ for the JavaScript code in this tag.
 </div>
 </div>
 
-<div id="outline-container-org4387196" class="outline-2">
+<div id="outline-container-Communications/Announcements" class="outline-2">
 <h2 id="Communications/Announcements">Communication</h2>
 <div class="outline-text-2" id="text-Communications/Announcements">
 </div>
 
-<div id="outline-container-org26f655b" class="outline-3">
+<div id="outline-container-September" class="outline-3">
 <h3 id="September">September</h3>
 <div class="outline-text-3" id="text-September">
 <dl class="org-dl">
+<dt>September 14</dt><dd><p>
+To address some questions which have come up
+in lectures and tutorials so far:
+</p>
+<ul class="org-ul">
+<li>“Are we going to alternate between different programming languages
+or will we stick to Scala for a while?”
+<ul class="org-ul">
+<li><p>
+A good question, and something I meant to discuss
+but never got to.
+</p>
+
+<p>
+The rough timeline for introducing languages is intended to be
+</p>
+<ul class="org-ul">
+<li>September 14th: introduce Scala (today)</li>
+<li>September 18th: introduce Prolog (Friday)</li>
+<li>October 7th: introduce Ruby</li>
+<li>November 6th: introduce Clojure</li>
+</ul>
+<p>
+Assignment 1 will use Scala and Prolog,
+assignment 2 will use Scala and Ruby, and
+assignment 3 will use Prolog and Clojure.
+Homeworks may alternate sometimes, but I intend to focus on
+the languages which are being used for the current assignment
+in each homework.
+</p>
+
+<p>
+This is a much faster pace for
+picking up a language than previous courses,
+but we are usually focusing on a relatively small number
+of ideas in each language.
+</p>
+
+<p>
+Leverage what you know from previous courses,
+ask lots of questions (please!),
+and when in doubt, look closely at provided examples.
+</p></li>
+</ul></li>
+
+<li>“Can we use IntelliJ for Scala?”, “Do we have to use Ammonite?”, etc.
+<ul class="org-ul">
+<li>You can use whatever tools you wish to for writing your code
+and interacting with Scala.
+On our end, we will be using Ammonite, but
+there should not be conflicts,
+and I intend to release a Docker image you can use
+to test for conflicts later this week.</li>
+</ul></li>
+<li>“Do we have to use Docker?”
+<ul class="org-ul">
+<li>Not explicitely, though it's <i>strongly</i> encouraged.
+Docker images will be provided so you can ensure
+your code works on the system it will be marked on.
+It is unlikely we will encounter conflicts in any case,
+but it is better to be certain by using the Docker images.</li>
+</ul></li>
+<li>“Will live coding lecture and tutorial notes be posted?”
+<ul class="org-ul">
+<li>Yes, they will be posted, and should be available
+in the usual set of formats.</li>
+</ul></li>
+</ul>
+<p>
+Also,
+</p>
+<ul class="org-ul">
+<li>Note that homework 1 was updated over the weekend
+with submission guidelines and a homework code of conduct
+related to collaboration. Please review it.</li>
+</ul></dd>
+
 <dt>September 11</dt><dd><p>
 Homework 1 has been uploaded and can be found
 under the homework section.
@@ -391,7 +444,7 @@ we will not be having midterm or final exams for this course.</li>
 </div>
 </div>
 
-<div id="outline-container-orgae56b16" class="outline-3">
+<div id="outline-container-August" class="outline-3">
 <h3 id="August">August</h3>
 <div class="outline-text-3" id="text-August">
 <dl class="org-dl">
@@ -401,12 +454,12 @@ we will not be having midterm or final exams for this course.</li>
 </div>
 </div>
 
-<div id="outline-container-orga737d05" class="outline-2">
+<div id="outline-container-Lecture-notes" class="outline-2">
 <h2 id="Lecture-notes">Notes</h2>
 <div class="outline-text-2" id="text-Lecture-notes">
 </div>
 
-<div id="outline-container-orgd55d7f2" class="outline-3">
+<div id="outline-container-Lecture-slides" class="outline-3">
 <h3 id="Lecture-slides">Lecture slides</h3>
 <div class="outline-text-3" id="text-Lecture-slides">
 <p>
@@ -419,7 +472,7 @@ The slides are available as
 </ul>
 </div>
 
-<div id="outline-container-org40d6f9e" class="outline-4">
+<div id="outline-container-1-–-Introduction-and-Overview" class="outline-4">
 <h4 id="1-–-Introduction-and-Overview">1 – Introduction and overview</h4>
 <div class="outline-text-4" id="text-1-–-Introduction-and-Overview">
 <ul class="org-ul">
@@ -430,7 +483,7 @@ The slides are available as
 </div>
 </div>
 
-<div id="outline-container-org0fc0f14" class="outline-4">
+<div id="outline-container-2-–-Formal-languages" class="outline-4">
 <h4 id="2-–-Formal-languages">2 – Formal languages</h4>
 <div class="outline-text-4" id="text-2-–-Formal-languages">
 <ul class="org-ul">
@@ -441,7 +494,7 @@ The slides are available as
 </div>
 </div>
 
-<div id="outline-container-orgd9aaa00" class="outline-4">
+<div id="outline-container-3-–-An-untyped-λ-calculus,-/UL/" class="outline-4">
 <h4 id="3-–-An-untyped-λ-calculus,-/UL/">3 – An untyped λ-calculus, <i>UL</i></h4>
 <div class="outline-text-4" id="text-3-–-An-untyped-λ-calculus,-/UL/">
 <ul class="org-ul">
@@ -452,7 +505,7 @@ The slides are available as
 </div>
 </div>
 
-<div id="outline-container-org389674d" class="outline-4">
+<div id="outline-container-4-–-Bindings-and-scope" class="outline-4">
 <h4 id="4-–-Bindings-and-scope">4 – Bindings and scope</h4>
 <div class="outline-text-4" id="text-4-–-Bindings-and-scope">
 <ul class="org-ul">
@@ -463,7 +516,7 @@ The slides are available as
 </div>
 </div>
 
-<div id="outline-container-org2b51438" class="outline-4">
+<div id="outline-container-5-–-Types" class="outline-4">
 <h4 id="5-–-Types">5 – Types</h4>
 <div class="outline-text-4" id="text-5-–-Types">
 <ul class="org-ul">
@@ -474,7 +527,7 @@ The slides are available as
 </div>
 </div>
 
-<div id="outline-container-org320b53d" class="outline-4">
+<div id="outline-container-6-–-A-typed-λ-calculus,-/TL/" class="outline-4">
 <h4 id="6-–-A-typed-λ-calculus,-/TL/">6 – A typed λ-calculus, <i>TL</i></h4>
 <div class="outline-text-4" id="text-6-–-A-typed-λ-calculus,-/TL/">
 <ul class="org-ul">
@@ -485,7 +538,7 @@ The slides are available as
 </div>
 </div>
 
-<div id="outline-container-org5667bbb" class="outline-4">
+<div id="outline-container-7-–-Imperativeness" class="outline-4">
 <h4 id="7-–-Imperativeness">7 – Imperativeness</h4>
 <div class="outline-text-4" id="text-7-–-Imperativeness">
 <ul class="org-ul">
@@ -496,7 +549,7 @@ The slides are available as
 </div>
 </div>
 
-<div id="outline-container-org2103e1b" class="outline-4">
+<div id="outline-container-8-–-An-imperative-core,-/WHILE/" class="outline-4">
 <h4 id="8-–-An-imperative-core,-/WHILE/">8 – An imperative core, <i>WHILE</i></h4>
 <div class="outline-text-4" id="text-8-–-An-imperative-core,-/WHILE/">
 <ul class="org-ul">
@@ -507,7 +560,7 @@ The slides are available as
 </div>
 </div>
 
-<div id="outline-container-org3749130" class="outline-4">
+<div id="outline-container-Appendix-1-–" class="outline-4">
 <h4 id="Appendix-1-–">Appendix 1 – Notation and conventions</h4>
 <div class="outline-text-4" id="text-Appendix-1-–">
 <ul class="org-ul">
@@ -518,7 +571,7 @@ The slides are available as
 </div>
 </div>
 
-<div id="outline-container-org683f55d" class="outline-4">
+<div id="outline-container-Appendix-2-–" class="outline-4">
 <h4 id="Appendix-2-–">Appendix 2 – Software and tools</h4>
 <div class="outline-text-4" id="text-Appendix-2-–">
 <ul class="org-ul">
@@ -529,7 +582,7 @@ The slides are available as
 </div>
 </div>
 
-<div id="outline-container-org5a3ae22" class="outline-4">
+<div id="outline-container-Appendix-3-–" class="outline-4">
 <h4 id="Appendix-3-–">Appendix 3 – External resources</h4>
 <div class="outline-text-4" id="text-Appendix-3-–">
 <ul class="org-ul">
@@ -541,7 +594,7 @@ The slides are available as
 </div>
 </div>
 
-<div id="outline-container-orga55d113" class="outline-3">
+<div id="outline-container-Lecture-literate-programs" class="outline-3">
 <h3 id="Lecture-literate-programs">Lecture literate programs</h3>
 <div class="outline-text-3" id="text-Lecture-literate-programs">
 <p>
@@ -556,7 +609,7 @@ are available here.
 </div>
 </div>
 
-<div id="outline-container-org624cb2e" class="outline-3">
+<div id="outline-container-Lecture-hand-written-notes" class="outline-3">
 <h3 id="Lecture-hand-written-notes">Lecture hand-written notes</h3>
 <div class="outline-text-3" id="text-Lecture-hand-written-notes">
 <p>
@@ -571,7 +624,7 @@ When possible, those notes are scanned and made available here.
 </div>
 </div>
 
-<div id="outline-container-orgf4deaca" class="outline-3">
+<div id="outline-container-Tutorials" class="outline-3">
 <h3 id="Tutorials">Tutorials</h3>
 <div class="outline-text-3" id="text-Tutorials">
 <p>
@@ -581,12 +634,12 @@ When possible, those notes are scanned and made available here.
 </div>
 </div>
 
-<div id="outline-container-org4e06340" class="outline-2">
+<div id="outline-container-Course-Work" class="outline-2">
 <h2 id="Course-Work">Homework</h2>
 <div class="outline-text-2" id="text-Course-Work">
 </div>
 
-<div id="outline-container-org8b4c3b5" class="outline-3">
+<div id="outline-container-Homework-1-–-Implementing-Trees-in-Scala-–-Sept-11th-to-Sept-20th" class="outline-3">
 <h3 id="Homework-1-–-Implementing-Trees-in-Scala-–-Sept-11th-to-Sept-20th">Homework 1 – Implementing Trees in Scala – Sept 11th to Sept 20th</h3>
 <div class="outline-text-3" id="text-Homework-1-–-Implementing-Trees-in-Scala-–-Sept-11th-to-Sept-20th">
 <ul class="org-ul">
@@ -598,7 +651,7 @@ When possible, those notes are scanned and made available here.
 </div>
 </div>
 
-<div id="outline-container-org6c7f2b5" class="outline-2">
+<div id="outline-container-Assignments" class="outline-2">
 <h2 id="Assignments">Assignments</h2>
 <div class="outline-text-2" id="text-Assignments">
 <p>
@@ -607,7 +660,7 @@ When possible, those notes are scanned and made available here.
 </div>
 </div>
 
-<div id="outline-container-orge7b4a4f" class="outline-2">
+<div id="outline-container-Course-outline" class="outline-2">
 <h2 id="Course-outline">Course outline</h2>
 <div class="outline-text-2" id="text-Course-outline">
 <p>
@@ -626,12 +679,12 @@ The PDF is also embedded here for convenience.
 </div>
 </div>
 
-<div id="outline-container-org0a80c72" class="outline-2">
+<div id="outline-container-Scala" class="outline-2">
 <h2 id="Scala">Scala</h2>
 <div class="outline-text-2" id="text-Scala">
 </div>
 
-<div id="outline-container-org16da819" class="outline-3">
+<div id="outline-container-Installation-instructions" class="outline-3">
 <h3 id="Installation-instructions">Installation instructions</h3>
 <div class="outline-text-3" id="text-Installation-instructions">
 <p>
@@ -672,7 +725,7 @@ and we link to guides to get you started below.
 </p>
 </div>
 
-<div id="outline-container-orgf783f2b" class="outline-4">
+<div id="outline-container-Installation-guides" class="outline-4">
 <h4 id="Installation-guides">Installation guides</h4>
 <div class="outline-text-4" id="text-Installation-guides">
 <ul class="org-ul">
@@ -690,7 +743,7 @@ Its first 5 chapters are free to read online.</li>
 </div>
 </div>
 
-<div id="outline-container-orgb72f8eb" class="outline-2">
+<div id="outline-container-Prolog" class="outline-2">
 <h2 id="Prolog">Prolog</h2>
 <div class="outline-text-2" id="text-Prolog">
 <p>
@@ -699,7 +752,7 @@ Its first 5 chapters are free to read online.</li>
 </div>
 </div>
 
-<div id="outline-container-org30671e7" class="outline-2">
+<div id="outline-container-Ruby" class="outline-2">
 <h2 id="Ruby">Ruby</h2>
 <div class="outline-text-2" id="text-Ruby">
 <p>
@@ -708,7 +761,7 @@ Its first 5 chapters are free to read online.</li>
 </div>
 </div>
 
-<div id="outline-container-org91e05c6" class="outline-2">
+<div id="outline-container-Clojure" class="outline-2">
 <h2 id="Clojure">Clojure</h2>
 <div class="outline-text-2" id="text-Clojure">
 <p>
@@ -721,8 +774,8 @@ Its first 5 chapters are free to read online.</li>
 <p class="author">Author: Mark Armstrong</p>
      <p class="author">Contact: <a href="mailto:markparmstrong@gmail.com">markparmstrong@gmail.com</a></p>
      <p class="date">Original date: July 31st, 2020</p>
-     <p class="date">Last updated: 2020-09-12 Sat 00:03</p>
-     <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.90 (<a href="https://orgmode.org">Org</a> mode 9.3.7)</p>
+     <p class="date">Last updated: 2020-09-14 Mon 14:10</p>
+     <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.90 (<a href="https://orgmode.org">Org</a> mode 9.3.8)</p>
      <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
