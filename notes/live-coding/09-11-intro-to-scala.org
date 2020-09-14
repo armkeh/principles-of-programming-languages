@@ -1,0 +1,377 @@
+#+Title: The Boom hierarchy in Scala
+#+Author: Mark Armstrong
+#+Description: A brief background on the Boom hierarchy family of datatypes,
+#+Description: followed by a (in the end, flawed) implementation in Scala.
+#+SETUPFILE: ../../org-html-themes/setup/theme-readtheorg-local.setup
+
+* Setup                                         :noexport:
+
+** Image creation post-processing
+
+We need to prepend the images resulting from ~dot~ code blocks
+with a LaTeX attribute to resize them, or else they run off the page.
+This named code block for this task is taken from
+[[https://orgmode.org/manual/Results-of-Evaluation.html][the Org manual]], augmented to allow for centering.
+We should always provide ~*this*~ for the ~data~ argument.
+as in ~:post attr_wrap(data=*this*)~,
+and also always set ~:exports results :results drawer~.
+If we don't put the results in the drawer, they will pile up
+as we evaluate the code block.
+#+NAME: attr_wrap
+#+BEGIN_SRC sh :var data="" :var width="\\\\textwidth" :var center="t" :results output
+  echo "#+ATTR_LATEX: :width $width :center $center"
+  echo "$data"
+#+END_SRC
+
+* Introduction
+:PROPERTIES:
+:CUSTOM_ID: Introduction
+:END:
+
+These notes were created for, and in some parts *during*,
+the lecture on September 14th and the following tutorials.
+
+:TODO: There are still some parts without commentary or with incomplete examples.
+They will be fixed, and another announcement made when this file is complete.
+
+* The (extended) Boom hierarchy                 :theory:
+:PROPERTIES:
+:CUSTOM_ID: The-(extended)-Boom-hierarchy
+:END:
+
+** Introduction
+:PROPERTIES:
+:CUSTOM_ID: Introduction
+:END:
+
+We begin with some (relatively brief) theory.
+
+The Boom hierarchy was introduced
+by [[https://www.kestrel.edu/people/meertens/publications/][Lambert Meertens]] in
+[[https://www.kestrel.edu/people/meertens/publications/papers/Algorithmics.pdf][Algorithmics — Towards programming as a mathematical activity]];
+Meertens attributes the concept to H. J. Boom, hence the name.
+
+The Boom hierachy is a family of data structures
+—namely trees, lists, bags and sets—
+for which we have an ~empty~ value and can construct ~singleton~ values,
+and which include a ~join~ operation
+(for sets and bags also called ~union~, written ~∪~,
+and for lists also called ~append~, ~++~).
+
+:TODO:
+Notation:
+- ~[]~ for empty,
+- ~[a]~ for a singleton containing ~a~,
+- ~++~ for append.
+
+The basic idea of the hierarchy is that
+- sets have a ~join~ operation which
+  - has an identity ~A ∪ ∅ = A~,
+  - is idempotent ~A ∪ A = A~,
+  - is commutative ~A ∪ B = B ∪ A~, and
+  - is associative ~A ∪ (B ∪ C) = (A ∪ B) ∪ C~. Then,
+- bags are like sets, except the ~join~ operation is not idempotent,
+- lists are like bags, except the ~join~ operation is not commutative, and
+- trees are like lists, except the ~join~ operation is not associative.
+
+The paper is interested in laws satisfied by the
+higher-order functions ~reduce~ (often called ~fold~),
+~map~ and ~filter~ over those structures.
+
+** Extending the Boom hierarchy
+:PROPERTIES:
+:CUSTOM_ID: Extending-the-Boom-hierarchy
+:END:
+
+Alexander Bunkenburg's later paper
+“[[https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.49.3252&rep=rep1&type=pdf][The Boom Hierarchy]]” 
+investigates this area further, by considering
+what data structures can be obtained by taking different combinations
+of the above listed features of the ~join~ operation.
+The abstract of that paper reads
+#+begin_quote
+“The Boom Hierarchy is the family of data structures tree, list, bag, set.
+By combining their properties in other ways,
+more data structures can be made, like mobiles.
+The paper defines the data structures of this extended Boom Hierarchy
+and shows how the functions reduce, map, and filter are applied to them.”
+#+end_quote
+
+For instance, through this process we arrive at
+- the ~nonempty list~ data structure or ~nonempty tree~ data structure,
+  which lack an identity.
+- the ~mobile~ data structure, which are like trees
+  except that they “can spin” (the branching order is arbitrary).
+
+** Visualising the Boom hierarchy
+:PROPERTIES:
+:CUSTOM_ID: Visualising-the-Boom-hierarchy
+:END:
+
+We can visualise the layout of some of these structures:
+#+begin_src dot :file media/BOOM.png :exports results :results drawer :post attr_wrap(data=*this*)
+digraph T {
+  Set    [label="Sets\n\nJoin ∪ has unit ∅ and is\nidempotent, commutative\nand associative",    style=dashed]
+  Bag    [label="Bags\n\nJoin ∪ has unit ∅ and is\ncommutative and\nassociative",    style=dashed]
+  Mobile [label="Mobiles\n\nJoin “branch” has unit “empty” and\nis commutative", style=dashed]
+  List   [label="Lists\n\nJoin ++ has unit [] and is\nassociative."]
+  NEList [label="Nonempty lists\n\nJoin ++ is\nassociative."]
+  Tree   [label="Trees (with values in leaves)\n\nJoin “branch” has unit “empty”."]
+  NETree   [label="Nonempty trees (with values in leaves)\n\nJoin “branch” has none of the properties."]
+
+  Count      [label="Add counting",    shape=rectangle]
+  Order1     [label="Add ordering",    shape=rectangle]
+  Order2     [label="Add ordering",    shape=rectangle]
+  Structure1 [label="Add “structure”", shape=rectangle]
+  Structure2 [label="Add “structure”", shape=rectangle]
+  Nonempty1  [label="Require an element", shape=rectangle]
+  Nonempty2  [label="Require an element", shape=rectangle]
+
+  Set    -> Count      [dir=none]; Count      -> Bag
+  Bag    -> Order1     [dir=none]; Order1     -> List
+  Bag    -> Structure1 [dir=none]; Structure1 -> Mobile
+  List   -> Structure2 [dir=none]; Structure2 -> Tree
+  List   -> Nonempty1  [dir=none]; Nonempty1  -> NEList
+  Mobile -> Order2     [dir=none]; Order2     -> Tree
+  Tree   -> Nonempty2  [dir=none]; Nonempty2  -> NETree
+}
+#+end_src
+
+#+RESULTS:
+:results:
+#+ATTR_LATEX: :width \textwidth :center t
+[[file:media/BOOM.png]]
+:end:
+
+Not all of these types are easily representable in most programming languages;
+we can say they are /abstract/ types instead of /concrete/ types.
+I've highlighted the ones which are not in the diagram using dashed lines.
+
+Exercise: Why are those types not easily represented in standard
+programming languages?
+
+Exercise: Is it impossible for those types to be easily represented
+in a programming language?
+
+* The Boom hierarchy in Scala                   :application:
+:PROPERTIES:
+:CUSTOM_ID: The-Boom-hierarchy-in-Scala
+:END:
+
+#+begin_center
+*Heads up: this section consists of failed attempts*
+*and subsequent corrections. Read carefully, and double check*
+*before borrowing any code. Or skip to the next section.*
+#+end_center
+
+** The ~AppendList~ type
+:PROPERTIES:
+:CUSTOM_ID: The-AppendList-type
+:END:
+
+Let us implement the list type as described in the Boom hierarchy paper
+in Scala. We'll call these ~AppendList~, as they take ~Append~ as
+the basic operation.
+
+#+begin_center
+*Extra heads up: there's a big flaw in defining lists this way,*
+*so even when we get it right we're wrong.*
+*We'll discuss the problem at the end.*
+#+end_center
+
+Those lists have three cases;
+- the ~Empty~ list,
+- the ~Single~-ton lists, and
+- the ~Concat~-enation of two lists.
+
+The Scala convention for implementing such types
+has us start with a super-type from which a type
+for each case will be derived.
+This super-type should not be instatiable,
+because we want to restrict to a number of cases :TODO:.
+
+A ~trait~ is similar to a ~class~, except it cannot be instantiated.
+It is similar to an ~interface~ in Java.
+(This also makes it similar to an ~abstract class~,
+except it's more flexible; see
+[[https://docs.scala-lang.org/overviews/scala-book/abstract-classes.html][the Scala docs]].)
+#+begin_src amm :results none
+trait AppendList[A]
+#+end_src
+
+** Attempt 1 at defining cases of lists: basic classes
+:PROPERTIES:
+:CUSTOM_ID: Attempt-1-at-defining-cases-of-lists:-basic-classes
+:END:
+
+Now we need to add sub-types which are instantiable.
+Then since every element of the sub-type is also an element
+of the super-type, we can create elements of ~List~.
+
+As Scala is object oriented, this means we want
+a class definition for each case.
+
+We can jump right to it.
+#+begin_src amm :results none
+class Empty[A]() extends AppendList[A]
+class Single[A](a: A) extends AppendList[A]
+class Concat[A](l: AppendList[A], r: AppendList[A]) extends AppendList[A]
+#+end_src
+
+But if we try out this definition, we may be disappointed.
+#+begin_src amm :results none
+val empty1 = new Empty[Int]
+val empty2 = new Empty[Int]
+
+val list1 = new Concat(new Single(1), new Single(2))
+
+empty1 == empty2  // equality check
+empty1.eq(empty2) // reference equality check
+#+end_src
+
+** Attempt 2 at defining cases of lists: case classes
+:PROPERTIES:
+:CUSTOM_ID: Attempt-2-at-defining-cases-of-lists:-case-classes
+:END:
+
+The reason why our classes above allowed multiple instances
+of “the same” list is because, although we are not including any,
+a regular ~class~ may have mutable data (non-constant fields).
+So the runtime is aware that ~empty1~ and ~empty2~ could
+actually be different (even though, with just our definitions above,
+there isn't a way to make them significantly different).
+
+When defining this sort of /algebraic datatype/ in a
+functional style, we want /immutability/, to ensure that
+two objects which are constructed the same way
+are in fact the same.
+
+Scala provides ~case~ classes for this.
+A ~case~ class has no mutable state (no non-constant fields),
+and all its fields are public.
+#+begin_src amm :results none
+case class Empty[A]() extends AppendList[A]
+case class Single[A](a: A) extends AppendList[A]
+case class Concat[A](l: AppendList[A], r: AppendList[A]) extends AppendList[A]
+#+end_src
+
+The name ~case class~ is used because,
+given this immutable nature,
+/pattern matching/ (or /case splitting/)
+makes sense.
+
+** The inherent problem with ~AppendList~
+:PROPERTIES:
+:CUSTOM_ID: The-inherent-problem-with-~AppendList~
+:END:
+
+:TODO: discuss sealed
+
+:TODO: no junk, no confusion
+
+#+begin_src amm :results none
+sealed trait AppendList[A]
+case class Empty[A]() extends AppendList[A]
+case class Single[A](a: A) extends AppendList[A]
+case class Concat[A](l: AppendList[A], r: AppendList[A]) extends AppendList[A]
+
+val x1 = Empty[Int]()
+val x2 = Empty[Int]()
+#+end_src
+
+#+begin_src amm
+val listofone = Single(1)
+val anotherlistofone = Concat(listofone, Empty())
+
+listofone == anotherlistofone
+#+end_src
+
+#+RESULTS:
+: listofone: Single[Int] = Single(1)
+: anotherlistofone: Concat[Int] = Concat(Single(1), Empty())
+: res18_2: Boolean = false
+
+* A proper implementation of lists in Scala.
+:PROPERTIES:
+:CUSTOM_ID: A-proper-implementation-of-lists-in-Scala.
+:END:
+
+#+begin_src elm
+type List a = Empty | Cons a (List a)
+#+end_src
+
+Our final, correct implementation
+- ensures there is only one way to construct a given (abstract) list,
+  by using more concrete constructors,
+- marks the ~trait~ as ~sealed~, so no further constuctors may be added, and
+#+begin_src amm :results none
+  sealed trait ConsList[A]
+  case class Empty[A]() extends ConsList[A]
+  case class Cons[A](hd: A, tl: ConsList[A]) extends ConsList[A]
+#+end_src
+
+We can try out some definitions on this type.
+#+begin_src amm :results none
+def sum(xs: ConsList[Int]): Int = xs match {
+  case Empty() => 0
+  case Cons(hd, tl) => hd + sum(tl)
+}
+
+def append[A](xs: ConsList[A], ys: ConsList[A]): ConsList[A] =
+  xs match {
+    case Empty() => ys
+    case Cons(hd, tl) => Cons(hd, append(tl, ys))
+  }
+#+end_src
+
+#+begin_src amm :results none
+val test = Cons(1,Cons(2,Cons(3,Empty())))
+val test2 = Cons(1,Cons(2,Cons(3,Empty())))
+
+append(test,test2)
+#+end_src
+
+* Reset the REPL!
+:PROPERTIES:
+:CUSTOM_ID: Reset-the-REPL!
+:END:
+
+A nice feature of the Ammonite REPL for Scala
+is that you can save and load the session state,
+allowing you to more safely try things out
+and then restore to an earlier state if you need to.
+See https://ammonite.io/#Save/LoadSession
+
+To save, run
+#+begin_src amm :results none
+repl.sess.save()
+#+end_src
+
+To load, run
+#+begin_src amm :results none
+repl.sess.load()
+#+end_src
+
+Note you can provide strings as arguments to name the states
+being saved/loaded.
+
+If you don't use names, and need to restore an older state,
+you can use ~repl.sess.pop(n)~ to pop ~n~ saved states off the session.
+
+If you simply want to restart, just off an extreme number
+of saved states.
+#+begin_src amm :results none
+repl.sess.pop(999)
+#+end_src
+
+* Scratch
+:PROPERTIES:
+:CUSTOM_ID: Scratch
+:END:
+
+#+begin_src amm :results none
+case class test() {
+  var x = 1
+  def hello() = 1
+}
+#+end_src

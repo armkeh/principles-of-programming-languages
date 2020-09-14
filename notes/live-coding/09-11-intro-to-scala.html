@@ -1,0 +1,692 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2020-09-14 Mon 14:14 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The Boom hierarchy in Scala</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Mark Armstrong" />
+<meta name="description" content="A brief background on the Boom hierarchy family of datatypes,
+followed by a (in the end, flawed) implementation in Scala."
+ />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="styles/readtheorg/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="styles/readtheorg/css/readtheorg.css"/>
+<script type="text/javascript" src="styles/lib/js/jquery.min.js"></script>
+<script type="text/javascript" src="styles/lib/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="styles/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" src="styles/readtheorg/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:e95b018ef3580986a04669f1b5879592219e2a7a&dn=public-domain.txt Public Domain
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.add("code-highlighted");
+         target.classList.add("code-highlighted");
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.remove("code-highlighted");
+         target.classList.remove("code-highlighted");
+       }
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">The Boom hierarchy in Scala</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#Introduction">1. Introduction</a></li>
+<li><a href="#The-(extended)-Boom-hierarchy">2. The (extended) Boom hierarchy&#xa0;&#xa0;&#xa0;<span class="tag"><span class="theory">theory</span></span></a>
+<ul>
+<li><a href="#Introduction">2.1. Introduction</a></li>
+<li><a href="#Extending-the-Boom-hierarchy">2.2. Extending the Boom hierarchy</a></li>
+<li><a href="#Visualising-the-Boom-hierarchy">2.3. Visualising the Boom hierarchy</a></li>
+</ul>
+</li>
+<li><a href="#The-Boom-hierarchy-in-Scala">3. The Boom hierarchy in Scala&#xa0;&#xa0;&#xa0;<span class="tag"><span class="application">application</span></span></a>
+<ul>
+<li><a href="#The-AppendList-type">3.1. The <code>AppendList</code> type</a></li>
+<li><a href="#Attempt-1-at-defining-cases-of-lists:-basic-classes">3.2. Attempt 1 at defining cases of lists: basic classes</a></li>
+<li><a href="#Attempt-2-at-defining-cases-of-lists:-case-classes">3.3. Attempt 2 at defining cases of lists: case classes</a></li>
+<li><a href="#The-inherent-problem-with-~AppendList~">3.4. The inherent problem with <code>AppendList</code></a></li>
+</ul>
+</li>
+<li><a href="#A-proper-implementation-of-lists-in-Scala.">4. A proper implementation of lists in Scala.</a></li>
+<li><a href="#Reset-the-REPL!">5. Reset the REPL!</a></li>
+<li><a href="#Scratch">6. Scratch</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-Introduction" class="outline-2">
+<h2 id="Introduction"><span class="section-number-2">1</span> Introduction</h2>
+<div class="outline-text-2" id="text-Introduction">
+<p>
+These notes were created for, and in some parts <b>during</b>,
+the lecture on September 14th and the following tutorials.
+</p>
+
+<p>
+:TODO: There are still some parts without commentary or with incomplete examples.
+They will be fixed, and another announcement made when this file is complete.
+</p>
+</div>
+</div>
+
+<div id="outline-container-The-(extended)-Boom-hierarchy" class="outline-2">
+<h2 id="The-(extended)-Boom-hierarchy"><span class="section-number-2">2</span> The (extended) Boom hierarchy&#xa0;&#xa0;&#xa0;<span class="tag"><span class="theory">theory</span></span></h2>
+<div class="outline-text-2" id="text-The-(extended)-Boom-hierarchy">
+</div>
+
+<div id="outline-container-Introduction" class="outline-3">
+<h3 id="Introduction"><span class="section-number-3">2.1</span> Introduction</h3>
+<div class="outline-text-3" id="text-Introduction">
+<p>
+We begin with some (relatively brief) theory.
+</p>
+
+<p>
+The Boom hierarchy was introduced
+by <a href="https://www.kestrel.edu/people/meertens/publications/">Lambert Meertens</a> in
+<a href="https://www.kestrel.edu/people/meertens/publications/papers/Algorithmics.pdf">Algorithmics — Towards programming as a mathematical activity</a>;
+Meertens attributes the concept to H. J. Boom, hence the name.
+</p>
+
+<p>
+The Boom hierachy is a family of data structures
+—namely trees, lists, bags and sets—
+for which we have an <code>empty</code> value and can construct <code>singleton</code> values,
+and which include a <code>join</code> operation
+(for sets and bags also called <code>union</code>, written <code>∪</code>,
+and for lists also called <code>append</code>, <code>++</code>).
+</p>
+
+<p>
+:TODO:
+Notation:
+</p>
+<ul class="org-ul">
+<li><code>[]</code> for empty,</li>
+<li><code>[a]</code> for a singleton containing <code>a</code>,</li>
+<li><code>++</code> for append.</li>
+</ul>
+
+<p>
+The basic idea of the hierarchy is that
+</p>
+<ul class="org-ul">
+<li>sets have a <code>join</code> operation which
+<ul class="org-ul">
+<li>has an identity <code>A ∪ ∅ = A</code>,</li>
+<li>is idempotent <code>A ∪ A = A</code>,</li>
+<li>is commutative <code>A ∪ B = B ∪ A</code>, and</li>
+<li>is associative <code>A ∪ (B ∪ C) = (A ∪ B) ∪ C</code>. Then,</li>
+</ul></li>
+<li>bags are like sets, except the <code>join</code> operation is not idempotent,</li>
+<li>lists are like bags, except the <code>join</code> operation is not commutative, and</li>
+<li>trees are like lists, except the <code>join</code> operation is not associative.</li>
+</ul>
+
+<p>
+The paper is interested in laws satisfied by the
+higher-order functions <code>reduce</code> (often called <code>fold</code>),
+<code>map</code> and <code>filter</code> over those structures.
+</p>
+</div>
+</div>
+
+<div id="outline-container-Extending-the-Boom-hierarchy" class="outline-3">
+<h3 id="Extending-the-Boom-hierarchy"><span class="section-number-3">2.2</span> Extending the Boom hierarchy</h3>
+<div class="outline-text-3" id="text-Extending-the-Boom-hierarchy">
+<p>
+Alexander Bunkenburg's later paper
+“<a href="https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.49.3252&amp;rep=rep1&amp;type=pdf">The Boom Hierarchy</a>” 
+investigates this area further, by considering
+what data structures can be obtained by taking different combinations
+of the above listed features of the <code>join</code> operation.
+The abstract of that paper reads
+</p>
+<blockquote>
+<p>
+“The Boom Hierarchy is the family of data structures tree, list, bag, set.
+By combining their properties in other ways,
+more data structures can be made, like mobiles.
+The paper defines the data structures of this extended Boom Hierarchy
+and shows how the functions reduce, map, and filter are applied to them.”
+</p>
+</blockquote>
+
+<p>
+For instance, through this process we arrive at
+</p>
+<ul class="org-ul">
+<li>the <code>nonempty list</code> data structure or <code>nonempty tree</code> data structure,
+which lack an identity.</li>
+<li>the <code>mobile</code> data structure, which are like trees
+except that they “can spin” (the branching order is arbitrary).</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-Visualising-the-Boom-hierarchy" class="outline-3">
+<h3 id="Visualising-the-Boom-hierarchy"><span class="section-number-3">2.3</span> Visualising the Boom hierarchy</h3>
+<div class="outline-text-3" id="text-Visualising-the-Boom-hierarchy">
+<p>
+We can visualise the layout of some of these structures:
+</p>
+
+<div id="org99dff73" class="figure">
+<p><img src="media/BOOM.png" alt="BOOM.png" />
+</p>
+</div>
+
+<p>
+Not all of these types are easily representable in most programming languages;
+we can say they are <i>abstract</i> types instead of <i>concrete</i> types.
+I've highlighted the ones which are not in the diagram using dashed lines.
+</p>
+
+<p>
+Exercise: Why are those types not easily represented in standard
+programming languages?
+</p>
+
+<p>
+Exercise: Is it impossible for those types to be easily represented
+in a programming language?
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-The-Boom-hierarchy-in-Scala" class="outline-2">
+<h2 id="The-Boom-hierarchy-in-Scala"><span class="section-number-2">3</span> The Boom hierarchy in Scala&#xa0;&#xa0;&#xa0;<span class="tag"><span class="application">application</span></span></h2>
+<div class="outline-text-2" id="text-The-Boom-hierarchy-in-Scala">
+<div class="org-center">
+<p>
+<b>Heads up: this section consists of failed attempts</b>
+<b>and subsequent corrections. Read carefully, and double check</b>
+<b>before borrowing any code. Or skip to the next section.</b>
+</p>
+</div>
+</div>
+
+<div id="outline-container-The-AppendList-type" class="outline-3">
+<h3 id="The-AppendList-type"><span class="section-number-3">3.1</span> The <code>AppendList</code> type</h3>
+<div class="outline-text-3" id="text-The-AppendList-type">
+<p>
+Let us implement the list type as described in the Boom hierarchy paper
+in Scala. We'll call these <code>AppendList</code>, as they take <code>Append</code> as
+the basic operation.
+</p>
+
+<div class="org-center">
+<p>
+<b>Extra heads up: there's a big flaw in defining lists this way,</b>
+<b>so even when we get it right we're wrong.</b>
+<b>We'll discuss the problem at the end.</b>
+</p>
+</div>
+
+<p>
+Those lists have three cases;
+</p>
+<ul class="org-ul">
+<li>the <code>Empty</code> list,</li>
+<li>the <code>Single</code>-ton lists, and</li>
+<li>the <code>Concat</code>-enation of two lists.</li>
+</ul>
+
+<p>
+The Scala convention for implementing such types
+has us start with a super-type from which a type
+for each case will be derived.
+This super-type should not be instatiable,
+because we want to restrict to a number of cases :TODO:.
+</p>
+
+<p>
+A <code>trait</code> is similar to a <code>class</code>, except it cannot be instantiated.
+It is similar to an <code>interface</code> in Java.
+(This also makes it similar to an <code>abstract class</code>,
+except it's more flexible; see
+<a href="https://docs.scala-lang.org/overviews/scala-book/abstract-classes.html">the Scala docs</a>.)
+</p>
+<div class="org-src-container">
+<pre class="src src-amm"><span style="color: #b6a0ff;">trait</span> <span style="color: #f78fe7;">AppendList</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">]</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-Attempt-1-at-defining-cases-of-lists:-basic-classes" class="outline-3">
+<h3 id="Attempt-1-at-defining-cases-of-lists:-basic-classes"><span class="section-number-3">3.2</span> Attempt 1 at defining cases of lists: basic classes</h3>
+<div class="outline-text-3" id="text-Attempt-1-at-defining-cases-of-lists:-basic-classes">
+<p>
+Now we need to add sub-types which are instantiable.
+Then since every element of the sub-type is also an element
+of the super-type, we can create elements of <code>List</code>.
+</p>
+
+<p>
+As Scala is object oriented, this means we want
+a class definition for each case.
+</p>
+
+<p>
+We can jump right to it.
+</p>
+<div class="org-src-container">
+<pre class="src src-amm"><span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">Empty</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">]()</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">AppendList</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">]</span>
+<span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">Single</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">](</span>a<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">A</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">AppendList</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">]</span>
+<span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">Concat</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">](</span>l<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">AppendList</span><span style="color: #b6a0ff;">[</span><span style="color: #00bdfa;">A</span><span style="color: #b6a0ff;">]</span>, r<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">AppendList</span><span style="color: #b6a0ff;">[</span><span style="color: #00bdfa;">A</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">AppendList</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">]</span>
+</pre>
+</div>
+
+<p>
+But if we try out this definition, we may be disappointed.
+</p>
+<div class="org-src-container">
+<pre class="src src-amm"><span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">empty1</span> <span style="color: #b6a0ff;">=</span> <span style="color: #b6a0ff;">new</span> <span style="color: #f78fe7;">Empty</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">Int</span><span style="color: #00cd68;">]</span>
+<span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">empty2</span> <span style="color: #b6a0ff;">=</span> <span style="color: #b6a0ff;">new</span> <span style="color: #f78fe7;">Empty</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">Int</span><span style="color: #00cd68;">]</span>
+
+<span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">list1</span> <span style="color: #b6a0ff;">=</span> <span style="color: #b6a0ff;">new</span> <span style="color: #f78fe7;">Concat</span><span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">new</span> <span style="color: #f78fe7;">Single</span><span style="color: #b6a0ff;">(</span><span style="color: #00bdfa;">1</span><span style="color: #b6a0ff;">)</span>, <span style="color: #b6a0ff;">new</span> <span style="color: #f78fe7;">Single</span><span style="color: #b6a0ff;">(</span><span style="color: #00bdfa;">2</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+
+empty1 == empty2  <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">equality check</span>
+empty1.eq<span style="color: #00cd68;">(</span>empty2<span style="color: #00cd68;">)</span> <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">reference equality check</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-Attempt-2-at-defining-cases-of-lists:-case-classes" class="outline-3">
+<h3 id="Attempt-2-at-defining-cases-of-lists:-case-classes"><span class="section-number-3">3.3</span> Attempt 2 at defining cases of lists: case classes</h3>
+<div class="outline-text-3" id="text-Attempt-2-at-defining-cases-of-lists:-case-classes">
+<p>
+The reason why our classes above allowed multiple instances
+of “the same” list is because, although we are not including any,
+a regular <code>class</code> may have mutable data (non-constant fields).
+So the runtime is aware that <code>empty1</code> and <code>empty2</code> could
+actually be different (even though, with just our definitions above,
+there isn't a way to make them significantly different).
+</p>
+
+<p>
+When defining this sort of <i>algebraic datatype</i> in a
+functional style, we want <i>immutability</i>, to ensure that
+two objects which are constructed the same way
+are in fact the same.
+</p>
+
+<p>
+Scala provides <code>case</code> classes for this.
+A <code>case</code> class has no mutable state (no non-constant fields),
+and all its fields are public.
+</p>
+<div class="org-src-container">
+<pre class="src src-amm"><span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">Empty</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">]()</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">AppendList</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">]</span>
+<span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">Single</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">](</span>a<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">A</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">AppendList</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">]</span>
+<span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">Concat</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">](</span>l<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">AppendList</span><span style="color: #b6a0ff;">[</span><span style="color: #00bdfa;">A</span><span style="color: #b6a0ff;">]</span>, r<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">AppendList</span><span style="color: #b6a0ff;">[</span><span style="color: #00bdfa;">A</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">AppendList</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">]</span>
+</pre>
+</div>
+
+<p>
+The name <code>case class</code> is used because,
+given this immutable nature,
+<i>pattern matching</i> (or <i>case splitting</i>)
+makes sense.
+</p>
+</div>
+</div>
+
+<div id="outline-container-The-inherent-problem-with-~AppendList~" class="outline-3">
+<h3 id="The-inherent-problem-with-~AppendList~"><span class="section-number-3">3.4</span> The inherent problem with <code>AppendList</code></h3>
+<div class="outline-text-3" id="text-The-inherent-problem-with-~AppendList~">
+<p>
+:TODO: discuss sealed
+</p>
+
+<p>
+:TODO: no junk, no confusion
+</p>
+
+<div class="org-src-container">
+<pre class="src src-amm"><span style="color: #f78fe7;">sealed</span> <span style="color: #b6a0ff;">trait</span> <span style="color: #f78fe7;">AppendList</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">]</span>
+<span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">Empty</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">]()</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">AppendList</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">]</span>
+<span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">Single</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">](</span>a<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">A</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">AppendList</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">]</span>
+<span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">Concat</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">](</span>l<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">AppendList</span><span style="color: #b6a0ff;">[</span><span style="color: #00bdfa;">A</span><span style="color: #b6a0ff;">]</span>, r<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">AppendList</span><span style="color: #b6a0ff;">[</span><span style="color: #00bdfa;">A</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">AppendList</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">]</span>
+
+<span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">x1</span> <span style="color: #b6a0ff;">=</span> <span style="color: #00bdfa;">Empty</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">Int</span><span style="color: #00cd68;">]()</span>
+<span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">x2</span> <span style="color: #b6a0ff;">=</span> <span style="color: #00bdfa;">Empty</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">Int</span><span style="color: #00cd68;">]()</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-amm"><span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">listofone</span> <span style="color: #b6a0ff;">=</span> <span style="color: #00bdfa;">Single</span><span style="color: #00cd68;">(</span><span style="color: #00bdfa;">1</span><span style="color: #00cd68;">)</span>
+<span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">anotherlistofone</span> <span style="color: #b6a0ff;">=</span> <span style="color: #00bdfa;">Concat</span><span style="color: #00cd68;">(</span>listofone, <span style="color: #00bdfa;">Empty</span><span style="color: #b6a0ff;">()</span><span style="color: #00cd68;">)</span>
+
+listofone == anotherlistofone
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-A-proper-implementation-of-lists-in-Scala." class="outline-2">
+<h2 id="A-proper-implementation-of-lists-in-Scala."><span class="section-number-2">4</span> A proper implementation of lists in Scala.</h2>
+<div class="outline-text-2" id="text-A-proper-implementation-of-lists-in-Scala.">
+<div class="org-src-container">
+<pre class="src src-elm"><span style="color: #b6a0ff;">type</span> <span style="color: #f78fe7;">List</span> a <span style="color: #f78fe7;">=</span> <span style="color: #f78fe7;">Empty</span> <span style="color: #f78fe7;">|</span> <span style="color: #f78fe7;">Cons</span> a <span style="color: #00cd68;">(</span><span style="color: #f78fe7;">List</span> a<span style="color: #00cd68;">)</span>
+</pre>
+</div>
+
+<p>
+Our final, correct implementation
+</p>
+<ul class="org-ul">
+<li>ensures there is only one way to construct a given (abstract) list,
+by using more concrete constructors,</li>
+<li>marks the <code>trait</code> as <code>sealed</code>, so no further constuctors may be added, and</li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-amm">  <span style="color: #f78fe7;">sealed</span> <span style="color: #b6a0ff;">trait</span> <span style="color: #f78fe7;">ConsList</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">]</span>
+  <span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">Empty</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">]()</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">ConsList</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">]</span>
+  <span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">Cons</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">](</span>hd<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">A</span>, tl<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">ConsList</span><span style="color: #b6a0ff;">[</span><span style="color: #00bdfa;">A</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">ConsList</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">]</span>
+</pre>
+</div>
+
+<p>
+We can try out some definitions on this type.
+</p>
+<div class="org-src-container">
+<pre class="src src-amm"><span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">sum</span><span style="color: #00cd68;">(</span>xs<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">ConsList</span><span style="color: #b6a0ff;">[</span><span style="color: #00bdfa;">Int</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Int</span> <span style="color: #b6a0ff;">=</span> xs <span style="color: #b6a0ff;">match</span> <span style="color: #00cd68;">{</span>
+  <span style="color: #b6a0ff;">case</span> <span style="color: #f78fe7;">Empty</span><span style="color: #b6a0ff;">()</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bdfa;">0</span>
+  <span style="color: #b6a0ff;">case</span> <span style="color: #f78fe7;">Cons</span><span style="color: #b6a0ff;">(</span><span style="color: #00d3d0;">hd</span>, <span style="color: #00d3d0;">tl</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">=&gt;</span> hd + sum<span style="color: #b6a0ff;">(</span>tl<span style="color: #b6a0ff;">)</span>
+<span style="color: #00cd68;">}</span>
+
+<span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">append</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">](</span>xs<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">ConsList</span><span style="color: #b6a0ff;">[</span><span style="color: #00bdfa;">A</span><span style="color: #b6a0ff;">]</span>, ys<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">ConsList</span><span style="color: #b6a0ff;">[</span><span style="color: #00bdfa;">A</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">ConsList</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">]</span> <span style="color: #b6a0ff;">=</span>
+  xs <span style="color: #b6a0ff;">match</span> <span style="color: #00cd68;">{</span>
+    <span style="color: #b6a0ff;">case</span> <span style="color: #f78fe7;">Empty</span><span style="color: #b6a0ff;">()</span> <span style="color: #b6a0ff;">=&gt;</span> ys
+    <span style="color: #b6a0ff;">case</span> <span style="color: #f78fe7;">Cons</span><span style="color: #b6a0ff;">(</span><span style="color: #00d3d0;">hd</span>, <span style="color: #00d3d0;">tl</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bdfa;">Cons</span><span style="color: #b6a0ff;">(</span>hd, append<span style="color: #6ae4b9;">(</span>tl, ys<span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span>
+  <span style="color: #00cd68;">}</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-amm"><span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">test</span> <span style="color: #b6a0ff;">=</span> <span style="color: #00bdfa;">Cons</span><span style="color: #00cd68;">(</span><span style="color: #00bdfa;">1</span>,<span style="color: #00bdfa;">Cons</span><span style="color: #b6a0ff;">(</span><span style="color: #00bdfa;">2</span>,<span style="color: #00bdfa;">Cons</span><span style="color: #6ae4b9;">(</span><span style="color: #00bdfa;">3</span>,<span style="color: #00bdfa;">Empty</span><span style="color: #f0ce43;">()</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+<span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">test2</span> <span style="color: #b6a0ff;">=</span> <span style="color: #00bdfa;">Cons</span><span style="color: #00cd68;">(</span><span style="color: #00bdfa;">1</span>,<span style="color: #00bdfa;">Cons</span><span style="color: #b6a0ff;">(</span><span style="color: #00bdfa;">2</span>,<span style="color: #00bdfa;">Cons</span><span style="color: #6ae4b9;">(</span><span style="color: #00bdfa;">3</span>,<span style="color: #00bdfa;">Empty</span><span style="color: #f0ce43;">()</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+
+append<span style="color: #00cd68;">(</span>test,test2<span style="color: #00cd68;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-Reset-the-REPL!" class="outline-2">
+<h2 id="Reset-the-REPL!"><span class="section-number-2">5</span> Reset the REPL!</h2>
+<div class="outline-text-2" id="text-Reset-the-REPL!">
+<p>
+A nice feature of the Ammonite REPL for Scala
+is that you can save and load the session state,
+allowing you to more safely try things out
+and then restore to an earlier state if you need to.
+See <a href="https://ammonite.io/#Save/LoadSession">https://ammonite.io/#Save/LoadSession</a>
+</p>
+
+<p>
+To save, run
+</p>
+<div class="org-src-container">
+<pre class="src src-amm">repl.sess.save<span style="color: #00cd68;">()</span>
+</pre>
+</div>
+
+<p>
+To load, run
+</p>
+<div class="org-src-container">
+<pre class="src src-amm">repl.sess.load<span style="color: #00cd68;">()</span>
+</pre>
+</div>
+
+<p>
+Note you can provide strings as arguments to name the states
+being saved/loaded.
+</p>
+
+<p>
+If you don't use names, and need to restore an older state,
+you can use <code>repl.sess.pop(n)</code> to pop <code>n</code> saved states off the session.
+</p>
+
+<p>
+If you simply want to restart, just off an extreme number
+of saved states.
+</p>
+<div class="org-src-container">
+<pre class="src src-amm">repl.sess.pop<span style="color: #00cd68;">(</span><span style="color: #00bdfa;">999</span><span style="color: #00cd68;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-Scratch" class="outline-2">
+<h2 id="Scratch"><span class="section-number-2">6</span> Scratch</h2>
+<div class="outline-text-2" id="text-Scratch">
+<div class="org-src-container">
+<pre class="src src-amm"><span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">test</span><span style="color: #00cd68;">()</span> <span style="color: #00cd68;">{</span>
+  <span style="color: #b6a0ff;">var</span> <span style="color: #efdf00;">x</span> <span style="color: #b6a0ff;">=</span> <span style="color: #00bdfa;">1</span>
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">hello</span><span style="color: #b6a0ff;">()</span> <span style="color: #b6a0ff;">=</span> <span style="color: #00bdfa;">1</span>
+<span style="color: #00cd68;">}</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Mark Armstrong</p>
+     <p class="author">Contact: <a href="mailto:markparmstrong@gmail.com">markparmstrong@gmail.com</a></p>
+     <p class="date">Original date: </p>
+     <p class="date">Last updated: 2020-09-14 Mon 14:14</p>
+     <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.90 (<a href="https://orgmode.org">Org</a> mode 9.3.8)</p>
+     <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
