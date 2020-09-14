@@ -12,7 +12,8 @@
 
 #+Reveal_root: ./reveal.js
 #+Reveal_init_options: width:1600, height:900, controlsLayout:'edges',
-#+Reveal_init_options: margin: 0.1, minScale:0.125, maxScale:5
+#+Reveal_init_options: margin: 0.1, minScale:0.125, maxScale:5,
+#+Reveal_init_options: mouseWheel: true
 #+Reveal_extra_css: local.css
 
 # #+HTML: <script src="https://cdnjs.cloudflare.com/ajax/libs/headjs/0.96/head.min.js"></script>
