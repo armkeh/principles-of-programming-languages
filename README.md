@@ -13,6 +13,11 @@ better viewed at
 ## September
 
   - September 14  
+    The (still a bit incomplete) live coding notes from lecture and
+    tutorial today have been posted. Note the new section along the top
+    for these notes. They'll be cleaned up after Wednesday's tutorial.
+
+  - September 14  
     To address some questions which have come up in lectures and
     tutorials so far:
     
