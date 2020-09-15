@@ -13,6 +13,27 @@ better viewed at
 ## September
 
   - September 15  
+    Each student of this course should now have a (private) GitLab
+    repository, at the address
+    <https://gitlab.cas.mcmaster.ca/cs3mi3-2020-student-repos/macid>
+    where `macid` is your McMaster ID.
+    
+    There were some initial issues with the `master` branch being
+    protected, so you could not `push` to it; those should be resolved
+    now.
+    
+    Please `commit` and `push` to your repo ASAP, even if it's just some
+    placeholder files, to confirm everything is working.
+    
+    Please *do* use the `master` branch for submitting homework. There
+    is no need to create other branches for this course, though you are
+    free to do so if you want to.
+    
+    If you seem unable to log in to the CAS GitLab, please try to follow
+    the instructions to reset your CAS password that are located to the
+    left of the login form.
+
+  - September 15  
     A recordings section has been added to this website with links to
     the recordings of lectures and tutorials on Streams (which I hope
     work for everyone, and not just me).
