@@ -12,6 +12,11 @@ better viewed at
 
 ## September
 
+  - September 15  
+    A recordings section has been added to this website with links to
+    the recordings of lectures and tutorials on Streams (which I hope
+    work for everyone, and not just me).
+
   - September 14  
     The (still a bit incomplete) live coding notes from lecture and
     tutorial today have been posted. Note the new section along the top
@@ -240,6 +245,28 @@ Relevant raw code:
 ## Tutorials
 
 :TODO:
+
+# Recordings
+
+Lecture and tutorial recordings are available on Microsoft Stream. As
+long as you are registered in the course, the full list should be
+available
+[here](https://web.microsoftstream.com/group/16cec1b5-2ab3-4af9-9120-2ea9091b20c5?view=videos).
+
+Links directly to specific lectures/tutorials are also included below,
+but this may not be updated quickly after lectures/tutorials.
+
+## Lectures
+
+  - [September 14th (Monday) – The Boom hierarchy in
+    Scala](https://web.microsoftstream.com/video/fe0b46f8-2512-4084-a399-f9d1b33257b6)
+  - [September 11th (Friday) – Introduction and
+    Overview](https://web.microsoftstream.com/video/af55c09e-00dc-4d7c-a048-166907b6abd7)
+
+## Tutorials
+
+  - [Week 2 Monday, September 14th – Algebraic data in
+    Scala](https://web.microsoftstream.com/video/1f99aa1e-ee5e-4bb4-a27c-6c32175332fd)
 
 # Homework
 

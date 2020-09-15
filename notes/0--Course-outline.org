@@ -74,11 +74,8 @@ and how they will be assessed.”
 :END:
 
 Lectures and tutorials will be made available as recordings
-shortly after said lectures and tutorials.
-
-The platform for said recordings will be announced
-after the start of classes.
-:TODO:
+shortly after said lectures and tutorials,
+via Microsoft Stream (or if Zoom is used, via Zoom).
 
 ** Homework due dates
 :PROPERTIES:
