@@ -228,7 +228,7 @@ are also included.
 ### September 14th – The Boom hierarchy in Scala
 
   - [HTML](./notes/live-coding/09-14-Boom-hierarchy-in-Scala.html)
-  - PDF generation temporarily broken; will post soon
+  - [PDF](./notes/live-coding/09-14-Boom-hierarchy-in-Scala.pdf)
   - [Org
     plaintext](./notes/live-coding/09-14-Boom-hierarchy-in-Scala.org)
 

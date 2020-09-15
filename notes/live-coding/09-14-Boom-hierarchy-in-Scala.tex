@@ -1,4 +1,4 @@
-% Created 2020-09-14 Mon 14:54
+% Created 2020-09-14 Mon 22:27
 % Intended LaTeX compiler: lualatex
 \documentclass[11pt]{article}
 \usepackage{graphicx}
@@ -41,7 +41,7 @@
 
 
 \section{Introduction}
-\label{sec:orgce555ad}
+\label{sec:org40cc4c2}
 These notes were created for, and in some parts \textbf{during},
 the lecture on September 14th and the following tutorials.
 
@@ -49,9 +49,9 @@ the lecture on September 14th and the following tutorials.
 They will be fixed, and another announcement made when this file is complete.
 
 \section{The (extended) Boom hierarchy\hfill{}\textsc{theory}}
-\label{sec:orgb792d1b}
+\label{sec:orge831d1d}
 \subsection{Introduction}
-\label{sec:org1a6ed54}
+\label{sec:org61a7a7d}
 We begin with some (relatively brief) theory.
 
 The Boom hierarchy was introduced
@@ -93,7 +93,7 @@ higher-order functions \texttt{reduce} (often called \texttt{fold}),
 \texttt{map} and \texttt{filter} over those structures.
 
 \subsection{Extending the Boom hierarchy}
-\label{sec:orga9a3e5d}
+\label{sec:org9ae7b15}
 Alexander Bunkenburg's later paper
 “\href{https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.49.3252\&rep=rep1\&type=pdf}{The Boom Hierarchy}” 
 investigates this area further, by considering
@@ -117,7 +117,7 @@ except that they “can spin” (the branching order is arbitrary).
 \end{itemize}
 
 \subsection{Visualising the Boom hierarchy}
-\label{sec:orgd497cc0}
+\label{sec:org22694a5}
 We can visualise the layout of some of these structures:
 \begin{center}
 \includegraphics[width=\textwidth]{media/BOOM.png}
@@ -134,7 +134,7 @@ Exercise: Is it impossible for those types to be easily represented
 in a programming language?
 
 \section{The Boom hierarchy in Scala\hfill{}\textsc{application}}
-\label{sec:org8a88c76}
+\label{sec:org72c6e31}
 \begin{center}
 \textbf{Heads up: this section consists of failed attempts}
 \textbf{and subsequent corrections. Read carefully, and double check}
@@ -142,7 +142,7 @@ in a programming language?
 \end{center}
 
 \subsection{The \texttt{AppendList} type}
-\label{sec:org8c839c0}
+\label{sec:org9ba44a3}
 Let us implement the list type as described in the Boom hierarchy paper
 in Scala. We'll call these \texttt{AppendList}, as they take \texttt{Append} as
 the basic operation.
@@ -171,12 +171,12 @@ It is similar to an \texttt{interface} in Java.
 (This also makes it similar to an \texttt{abstract class},
 except it's more flexible; see
 \href{https://docs.scala-lang.org/overviews/scala-book/abstract-classes.html}{the Scala docs}.)
-\begin{minted}[breaklines=true]{amm}
+\begin{minted}[breaklines=true]{scala}
 trait AppendList[A]
 \end{minted}
 
 \subsection{Attempt 1 at defining cases of lists: basic classes}
-\label{sec:orge599669}
+\label{sec:orgaad6acd}
 Now we need to add sub-types which are instantiable.
 Then since every element of the sub-type is also an element
 of the super-type, we can create elements of \texttt{List}.
@@ -185,14 +185,14 @@ As Scala is object oriented, this means we want
 a class definition for each case.
 
 We can jump right to it.
-\begin{minted}[breaklines=true]{amm}
+\begin{minted}[breaklines=true]{scala}
 class Empty[A]() extends AppendList[A]
 class Single[A](a: A) extends AppendList[A]
 class Concat[A](l: AppendList[A], r: AppendList[A]) extends AppendList[A]
 \end{minted}
 
 But if we try out this definition, we may be disappointed.
-\begin{minted}[breaklines=true]{amm}
+\begin{minted}[breaklines=true]{scala}
 val empty1 = new Empty[Int]
 val empty2 = new Empty[Int]
 
@@ -203,7 +203,7 @@ empty1.eq(empty2) // reference equality check
 \end{minted}
 
 \subsection{Attempt 2 at defining cases of lists: case classes}
-\label{sec:orgc117080}
+\label{sec:orga23a99c}
 The reason why our classes above allowed multiple instances
 of “the same” list is because, although we are not including any,
 a regular \texttt{class} may have mutable data (non-constant fields).
@@ -219,7 +219,7 @@ are in fact the same.
 Scala provides \texttt{case} classes for this.
 A \texttt{case} class has no mutable state (no non-constant fields),
 and all its fields are public.
-\begin{minted}[breaklines=true]{amm}
+\begin{minted}[breaklines=true]{scala}
 case class Empty[A]() extends AppendList[A]
 case class Single[A](a: A) extends AppendList[A]
 case class Concat[A](l: AppendList[A], r: AppendList[A]) extends AppendList[A]
@@ -231,12 +231,12 @@ given this immutable nature,
 makes sense.
 
 \subsection{The inherent problem with \texttt{AppendList}}
-\label{sec:org7293ef1}
+\label{sec:org06c4efd}
 :TODO: discuss sealed
 
 :TODO: no junk, no confusion
 
-\begin{minted}[breaklines=true]{amm}
+\begin{minted}[breaklines=true]{scala}
 sealed trait AppendList[A]
 case class Empty[A]() extends AppendList[A]
 case class Single[A](a: A) extends AppendList[A]
@@ -246,7 +246,7 @@ val x1 = Empty[Int]()
 val x2 = Empty[Int]()
 \end{minted}
 
-\begin{minted}[breaklines=true]{amm}
+\begin{minted}[breaklines=true]{scala}
 val listofone = Single(1)
 val anotherlistofone = Concat(listofone, Empty())
 
@@ -254,7 +254,7 @@ listofone == anotherlistofone
 \end{minted}
 
 \section{A proper implementation of lists in Scala.}
-\label{sec:org8922f55}
+\label{sec:org566911e}
 \begin{minted}[breaklines=true]{elm}
 type List a = Empty | Cons a (List a)
 \end{minted}
@@ -293,7 +293,7 @@ append(test,test2)
 \end{minted}
 
 \section{Reset the REPL!}
-\label{sec:org5b179d5}
+\label{sec:org3faca14}
 A nice feature of the Ammonite REPL for Scala
 is that you can save and load the session state,
 allowing you to more safely try things out
@@ -301,12 +301,12 @@ and then restore to an earlier state if you need to.
 See \url{https://ammonite.io/\#Save/LoadSession}
 
 To save, run
-\begin{minted}[breaklines=true]{amm}
+\begin{minted}[breaklines=true]{scala}
 repl.sess.save()
 \end{minted}
 
 To load, run
-\begin{minted}[breaklines=true]{amm}
+\begin{minted}[breaklines=true]{scala}
 repl.sess.load()
 \end{minted}
 
@@ -318,13 +318,13 @@ you can use \texttt{repl.sess.pop(n)} to pop \texttt{n} saved states off the ses
 
 If you simply want to restart, just off an extreme number
 of saved states.
-\begin{minted}[breaklines=true]{amm}
+\begin{minted}[breaklines=true]{scala}
 repl.sess.pop(999)
 \end{minted}
 
 \section{Scratch}
-\label{sec:orgcb5c03e}
-\begin{minted}[breaklines=true]{amm}
+\label{sec:org5e195e6}
+\begin{minted}[breaklines=true]{scala}
 case class test() {
   var x = 1
   def hello() = 1

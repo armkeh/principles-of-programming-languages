@@ -277,9 +277,9 @@ Particularly relevant portions of raw code are also included.
 :END:
 
 - [[./notes/live-coding/09-14-Boom-hierarchy-in-Scala.html][HTML]]
-- PDF generation temporarily broken; will post soon
+- [[./notes/live-coding/09-14-Boom-hierarchy-in-Scala.pdf][PDF]]
 - [[./notes/live-coding/09-14-Boom-hierarchy-in-Scala.org][Org plaintext]]
-
+h
 Relevant raw code:
 - [[./notes/live-coding/src/ConsList.sc][The ~ConsList~ type]] and some operations on it.
 
