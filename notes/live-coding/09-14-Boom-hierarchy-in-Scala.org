@@ -31,20 +31,139 @@ as we evaluate the code block.
 These notes were created for, and in some parts *during*,
 the lecture on September 14th and the following tutorials.
 
-:TODO: There are still some parts without commentary or with incomplete examples.
-They will be fixed, and another announcement made when this file is complete.
+* Motivation
+:PROPERTIES:
+:CUSTOM_ID: Motivation
+:END:
+
+** Scala as an object-oriented language
+:PROPERTIES:
+:CUSTOM_ID: Scala-as-an-object-oriented-language
+:END:
+
+Scala is a purely-object oriented language,
+meaning that every value is an object (contrast this
+with languages such as Java where some values
+are “basic” and not objects).
+
+Scala interops with Java, meaning that Java libraries can be used
+in Scala code. It also supports many Java abstractions/constructs,
+so it can be a (fairly) comfortable transition for Java programmers.
+
+For instance, if we want to define a linked list type in Scala,
+we can take an approach similar to what we might do in Java.
+(This is a very naive definition and usage,
+but it serves to prove the point.)
+#+begin_src amm :results none
+// Type annotations come after names, and are separated by a `:`.
+// The `var` keyword indicates a variable.
+class LinkedList[A](var hd: A, var tl: LinkedList[A]) {
+
+  // Methods/functions are type annotated like values.
+  // Scala uses an `=` in method/function declarations.
+  // to emphasise that they should return a value.
+  def head: A = {
+    hd   // No semicolons necessary; a newline will do.
+  }
+
+  // No braces are needed if the right side's a single expression.
+  def tail: LinkedList[A] = tl
+}
+
+// `val`'s are constant, unlike `var`'s.
+val l1: LinkedList[Int] = new LinkedList[Int](1, null)
+
+// There's no need to specify a type if Scala can infer it.
+// Here it can see that the type parameter `A` is `Int` on the right.
+val l2: LinkedList[Int] = new LinkedList(2, l1)
+
+// In fact, it can tell the type of the `val` too.
+val l3 = new LinkedList(3, l2)
+
+
+// Let's define a value as a quick sanity test.
+val test1 = l1.head == 1
+#+end_src
+
+But this is only one part of Scala,
+and for our purposes it's the less interesting part.
+(We could just use Java for this much.)
+
+** Scala as a functional language
+:PROPERTIES:
+:CUSTOM_ID: Scala-as-a-functional-language
+:END:
+
+We are interested in Scala primarily because it supports
+functional abstractions.
+
+The distinguishing abstractions of
+functional programming languages are:
+1. Functions are values, i.e., data.
+  - This is referred to by the term “first-class functions”,
+    implying that functions are not excluded
+    from being treated as data.
+  - This allows for /higher-order/ functions;
+    functions which take other functions as argument.
+2. All values (data) are /immutable/.
+   - (At least in “pure” functional languages.)
+   - Variables still change throughout the program,
+     but only because they are bound to different values
+     at different points in the runtime.
+     Not because an assignment/update was carried out.
+     - For instance, in a recursive call, the arguments change.
+
+We will concern ourselves with (1) another time.
+For today, we are considering (2).
+
+Briefly, the advantage to immutable data is that
+enables the programmer a level of certainty that is not available
+if data is mutable.
+
+Consider for a moment this pseudocode regarding our earlier linked lists.
+#+begin_example amm
+// This is pseudocode
+val l1: LinkedList[Int] = null
+
+somebodyElsesFunction(l1)
+#+end_example
+What can I say about my list ~l1~ after I run “somebody else's”
+function on it?
+
+:TODO:
+
+*** Aside: Downside to immutability
+:PROPERTIES:
+:CUSTOM_ID: Aside:-Downside-to-immutability
+:END:
+
+There is a not insignificant downside to enforcing immutability
+in a language/code base.
+
+If all data is immutable, then to “make changes” to a value
+(such as a list or a tree),
+we must in fact make a copy of that value
+with the changes we want applied.
+
+As you can imagine, this copying is expensive,
+both in terms of space and time.
+
+/However/, well-designed languages can mitigate this
+in various ways, including by having values “share”
+some pieces of themselves.
 
 * The (extended) Boom hierarchy                 :theory:
 :PROPERTIES:
 :CUSTOM_ID: The-(extended)-Boom-hierarchy
 :END:
 
+We now briefly take with a (relatively brief) dive into some theory,
+to give us an example type to consider in Scala.
+
 ** Introduction
 :PROPERTIES:
 :CUSTOM_ID: Introduction
 :END:
-
-We begin with some (relatively brief) theory.
 
 The Boom hierarchy was introduced
 by [[https://www.kestrel.edu/people/meertens/publications/][Lambert Meertens]] in
@@ -164,6 +283,10 @@ in a programming language?
 *before borrowing any code. Or skip to the next section.*
 #+end_center
 
+Let us try to implement the lists discussed in the Boom hierarchy
+in Scala, and make them /immutable/, for the reasons discussed in
+[[Scala as a functional language][Scala as a functional langauge]].
+
 ** The ~AppendList~ type
 :PROPERTIES:
 :CUSTOM_ID: The-AppendList-type
@@ -184,20 +307,32 @@ Those lists have three cases;
 - the ~Single~-ton lists, and
 - the ~Concat~-enation of two lists.
 
-The Scala convention for implementing such types
-has us start with a super-type from which a type
-for each case will be derived.
-This super-type should not be instatiable,
-because we want to restrict to a number of cases :TODO:.
+The Scala convention for implementing types such as this
+that consist of a number of cases by first giving
+a /super-type/ which a /sub-type/
+for each case will /extend/ (extending is also called inheriting).
 
-A ~trait~ is similar to a ~class~, except it cannot be instantiated.
+This super-type should not be instatiable,
+because we want to restrict instatiability to the given cases.
+(Recall from 2fa3: types should have *no junk* and no confusion.) 
+
+A ~trait~ is similar to a ~class~, except it cannot be instantiated
+—meaning it cannot be constructed.
 It is similar to an ~interface~ in Java.
 (This also makes it similar to an ~abstract class~,
 except it's more flexible; see
 [[https://docs.scala-lang.org/overviews/scala-book/abstract-classes.html][the Scala docs]].)
-#+begin_src amm :results none
+#+begin_example amm :results none
 trait AppendList[A]
-#+end_src
+// sub-class definitions yet to come
+#+end_example
+
+In fact, in the interest of not introducing “junk”,
+we should use the ~sealed~ keyword which prevents code
+from outside this block from extending ~AppendList~.
+#+begin_example amm
+sealed trait AppendList[A]
+#+end_example
 
 ** Attempt 1 at defining cases of lists: basic classes
 :PROPERTIES:
@@ -205,14 +340,18 @@ trait AppendList[A]
 :END:
 
 Now we need to add sub-types which are instantiable.
-Then since every element of the sub-type is also an element
-of the super-type, we can create elements of ~List~.
+Note that every instance (value) of one of the sub-types
+is also a value of the super-type.
+So even though ~AppendList~ cannot be instantiated,
+we can create ~AppendList~ values.
 
-As Scala is object oriented, this means we want
-a class definition for each case.
+(Yes, this means a single value can have many types;
+specifically, it has a chain of types, each one a sub-type of the next).
+:TODO: where does the chain end?
 
-We can jump right to it.
+We can fill in a ~class~ for each case.
 #+begin_src amm :results none
+trait AppendList[A]
 class Empty[A]() extends AppendList[A]
 class Single[A](a: A) extends AppendList[A]
 class Concat[A](l: AppendList[A], r: AppendList[A]) extends AppendList[A]
@@ -226,48 +365,59 @@ val empty2 = new Empty[Int]
 val list1 = new Concat(new Single(1), new Single(2))
 
 empty1 == empty2  // equality check
-empty1.eq(empty2) // reference equality check
 #+end_src
+:TODO: why? what's so bad about the result of the equality check?
+
+*** Aside: Notions of equality
+:PROPERTIES:
+:CUSTOM_ID: Aside:-Notions-of-equality
+:END:
+
+:TODO:
 
 ** Attempt 2 at defining cases of lists: case classes
 :PROPERTIES:
 :CUSTOM_ID: Attempt-2-at-defining-cases-of-lists:-case-classes
 :END:
 
-The reason why our classes above allowed multiple instances
-of “the same” list is because, although we are not including any,
-a regular ~class~ may have mutable data (non-constant fields).
+Our ~class~ based definition above caused two instances
+of the same list (same in the sense that their construction was the same)
+as different (unequal) lists.
+
+The reason comes back to mutability.
+A regular ~class~ may have mutable data (non-constant fields).
 So the runtime is aware that ~empty1~ and ~empty2~ could
 actually be different (even though, with just our definitions above,
 there isn't a way to make them significantly different).
 
-When defining this sort of /algebraic datatype/ in a
-functional style, we want /immutability/, to ensure that
-two objects which are constructed the same way
-are in fact the same.
+Since we intend to work with immutable data,
+we need something more than just ~class~.
 
-Scala provides ~case~ classes for this.
-A ~case~ class has no mutable state (no non-constant fields),
-and all its fields are public.
+Specifically, what we want is provided in
+Scala by a ~case class~.
+A ~case~ class has no mutable state (no non-constant fields).
+(Additionally all its fields are public).
 #+begin_src amm :results none
+sealed trait AppendList[A]
 case class Empty[A]() extends AppendList[A]
 case class Single[A](a: A) extends AppendList[A]
 case class Concat[A](l: AppendList[A], r: AppendList[A]) extends AppendList[A]
 #+end_src
 
-The name ~case class~ is used because,
-given this immutable nature,
-/pattern matching/ (or /case splitting/)
-makes sense.
+The name ~case class~ is used because
+we often /pattern match/ (or, equivalently, /case split/)
+over types defined this way.
 
 ** The inherent problem with ~AppendList~
 :PROPERTIES:
 :CUSTOM_ID: The-inherent-problem-with-~AppendList~
 :END:
 
-:TODO: discuss sealed
+#+begin_quote
+“Each data structure is the free algebra of its binary operation ~++.~”
+#+end_quote
 
-:TODO: no junk, no confusion
+:TODO: *no confusion*!
 
 #+begin_src amm :results none
 sealed trait AppendList[A]
@@ -301,9 +451,8 @@ type List a = Empty | Cons a (List a)
 #+end_src
 
 Our final, correct implementation
-- ensures there is only one way to construct a given (abstract) list,
-  by using more concrete constructors,
-- marks the ~trait~ as ~sealed~, so no further constuctors may be added, and
+ensures there is only one way to construct a given (abstract) list,
+by using “more concrete” constructors.
 #+begin_src amm :results none :tangle ./src/ConsList.sc
 sealed trait ConsList[A]
 case class Empty[A]() extends ConsList[A]
@@ -362,16 +511,4 @@ If you simply want to restart, just off an extreme number
 of saved states.
 #+begin_src amm :results none
 repl.sess.pop(999)
-#+end_src
-
-* Scratch
-:PROPERTIES:
-:CUSTOM_ID: Scratch
-:END:
-
-#+begin_src amm :results none
-case class test() {
-  var x = 1
-  def hello() = 1
-}
 #+end_src

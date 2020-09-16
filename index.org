@@ -312,7 +312,8 @@ Relevant raw code:
 :CUSTOM_ID: Tutorials
 :END:
 
-:TODO:
+Files are only added here if they differ from the previous week's
+live coding lecture. In many cases, the content will be shared.
 
 * Recordings
 :PROPERTIES:

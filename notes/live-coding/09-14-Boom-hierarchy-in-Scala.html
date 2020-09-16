@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-09-14 Mon 14:27 -->
+<!-- 2020-09-16 Wed 04:40 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>The Boom hierarchy in Scala</title>
@@ -233,24 +233,37 @@ followed by a (in the end, flawed) implementation in Scala."
 <div id="text-table-of-contents">
 <ul>
 <li><a href="#Introduction">1. Introduction</a></li>
-<li><a href="#The-(extended)-Boom-hierarchy">2. The (extended) Boom hierarchy&#xa0;&#xa0;&#xa0;<span class="tag"><span class="theory">theory</span></span></a>
+<li><a href="#Motivation">2. Motivation</a>
 <ul>
-<li><a href="#Introduction">2.1. Introduction</a></li>
-<li><a href="#Extending-the-Boom-hierarchy">2.2. Extending the Boom hierarchy</a></li>
-<li><a href="#Visualising-the-Boom-hierarchy">2.3. Visualising the Boom hierarchy</a></li>
+<li><a href="#Scala-as-an-object-oriented-language">2.1. Scala as an object-oriented language</a></li>
+<li><a href="#Scala-as-a-functional-language">2.2. Scala as a functional language</a>
+<ul>
+<li><a href="#Aside:-Downside-to-immutability">2.2.1. Aside: Downside to immutability</a></li>
 </ul>
 </li>
-<li><a href="#The-Boom-hierarchy-in-Scala">3. The Boom hierarchy in Scala&#xa0;&#xa0;&#xa0;<span class="tag"><span class="application">application</span></span></a>
-<ul>
-<li><a href="#The-AppendList-type">3.1. The <code>AppendList</code> type</a></li>
-<li><a href="#Attempt-1-at-defining-cases-of-lists:-basic-classes">3.2. Attempt 1 at defining cases of lists: basic classes</a></li>
-<li><a href="#Attempt-2-at-defining-cases-of-lists:-case-classes">3.3. Attempt 2 at defining cases of lists: case classes</a></li>
-<li><a href="#The-inherent-problem-with-~AppendList~">3.4. The inherent problem with <code>AppendList</code></a></li>
 </ul>
 </li>
-<li><a href="#A-proper-implementation-of-lists-in-Scala.">4. A proper implementation of lists in Scala.</a></li>
-<li><a href="#Reset-the-REPL!">5. Reset the REPL!</a></li>
-<li><a href="#Scratch">6. Scratch</a></li>
+<li><a href="#The-(extended)-Boom-hierarchy">3. The (extended) Boom hierarchy&#xa0;&#xa0;&#xa0;<span class="tag"><span class="theory">theory</span></span></a>
+<ul>
+<li><a href="#Introduction">3.1. Introduction</a></li>
+<li><a href="#Extending-the-Boom-hierarchy">3.2. Extending the Boom hierarchy</a></li>
+<li><a href="#Visualising-the-Boom-hierarchy">3.3. Visualising the Boom hierarchy</a></li>
+</ul>
+</li>
+<li><a href="#The-Boom-hierarchy-in-Scala">4. The Boom hierarchy in Scala&#xa0;&#xa0;&#xa0;<span class="tag"><span class="application">application</span></span></a>
+<ul>
+<li><a href="#The-AppendList-type">4.1. The <code>AppendList</code> type</a></li>
+<li><a href="#Attempt-1-at-defining-cases-of-lists:-basic-classes">4.2. Attempt 1 at defining cases of lists: basic classes</a>
+<ul>
+<li><a href="#Aside:-Notions-of-equality">4.2.1. Aside: Notions of equality</a></li>
+</ul>
+</li>
+<li><a href="#Attempt-2-at-defining-cases-of-lists:-case-classes">4.3. Attempt 2 at defining cases of lists: case classes</a></li>
+<li><a href="#The-inherent-problem-with-~AppendList~">4.4. The inherent problem with <code>AppendList</code></a></li>
+</ul>
+</li>
+<li><a href="#A-proper-implementation-of-lists-in-Scala.">5. A proper implementation of lists in Scala.</a></li>
+<li><a href="#Reset-the-REPL!">6. Reset the REPL!</a></li>
 </ul>
 </div>
 </div>
@@ -262,26 +275,182 @@ followed by a (in the end, flawed) implementation in Scala."
 These notes were created for, and in some parts <b>during</b>,
 the lecture on September 14th and the following tutorials.
 </p>
+</div>
+</div>
+
+<div id="outline-container-Motivation" class="outline-2">
+<h2 id="Motivation"><span class="section-number-2">2</span> Motivation</h2>
+<div class="outline-text-2" id="text-Motivation">
+</div>
+
+<div id="outline-container-Scala-as-an-object-oriented-language" class="outline-3">
+<h3 id="Scala-as-an-object-oriented-language"><span class="section-number-3">2.1</span> Scala as an object-oriented language</h3>
+<div class="outline-text-3" id="text-Scala-as-an-object-oriented-language">
+<p>
+Scala is a purely-object oriented language,
+meaning that every value is an object (contrast this
+with languages such as Java where some values
+are “basic” and not objects).
+</p>
 
 <p>
-:TODO: There are still some parts without commentary or with incomplete examples.
-They will be fixed, and another announcement made when this file is complete.
+Scala interops with Java, meaning that Java libraries can be used
+in Scala code. It also supports many Java abstractions/constructs,
+so it can be a (fairly) comfortable transition for Java programmers.
 </p>
+
+<p>
+For instance, if we want to define a linked list type in Scala,
+we can take an approach similar to what we might do in Java.
+(This is a very naive definition and usage,
+but it serves to prove the point.)
+</p>
+<div class="org-src-container">
+<pre class="src src-amm"><span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Type annotations come after names, and are separated by a `:`.</span>
+<span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">The `var` keyword indicates a variable.</span>
+<span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">LinkedList</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">](</span><span style="color: #b6a0ff;">var</span> <span style="color: #efdf00;">hd</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">A</span>, <span style="color: #b6a0ff;">var</span> <span style="color: #efdf00;">tl</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">LinkedList</span><span style="color: #b6a0ff;">[</span><span style="color: #00bdfa;">A</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span> <span style="color: #00cd68;">{</span>
+
+  <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Methods/functions are type annotated like values.</span>
+  <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Scala uses an `=` in method/function declarations.</span>
+  <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">to emphasise that they should return a value.</span>
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">head</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">A</span> <span style="color: #b6a0ff;">=</span> <span style="color: #b6a0ff;">{</span>
+    hd   <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">No semicolons necessary; a newline will do.</span>
+  <span style="color: #b6a0ff;">}</span>
+
+  <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">No braces are needed if the right side's a single expression.</span>
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">tail</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">LinkedList</span><span style="color: #b6a0ff;">[</span><span style="color: #00bdfa;">A</span><span style="color: #b6a0ff;">]</span> <span style="color: #b6a0ff;">=</span> tl
+<span style="color: #00cd68;">}</span>
+
+<span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">`val`'s are constant, unlike `var`'s.</span>
+<span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">l1</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">LinkedList</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">Int</span><span style="color: #00cd68;">]</span> <span style="color: #b6a0ff;">=</span> <span style="color: #b6a0ff;">new</span> <span style="color: #f78fe7;">LinkedList</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">Int</span><span style="color: #00cd68;">](</span><span style="color: #00bdfa;">1</span>, <span style="color: #00bdfa;">null</span><span style="color: #00cd68;">)</span>
+
+<span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">There's no need to specify a type if Scala can infer it.</span>
+<span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Here it can see that the type parameter `A` is `Int` on the right.</span>
+<span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">l2</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">LinkedList</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">Int</span><span style="color: #00cd68;">]</span> <span style="color: #b6a0ff;">=</span> <span style="color: #b6a0ff;">new</span> <span style="color: #f78fe7;">LinkedList</span><span style="color: #00cd68;">(</span><span style="color: #00bdfa;">2</span>, l1<span style="color: #00cd68;">)</span>
+
+<span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">In fact, it can tell the type of the `val` too.</span>
+<span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">l3</span> <span style="color: #b6a0ff;">=</span> <span style="color: #b6a0ff;">new</span> <span style="color: #f78fe7;">LinkedList</span><span style="color: #00cd68;">(</span><span style="color: #00bdfa;">3</span>, l2<span style="color: #00cd68;">)</span>
+
+
+<span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Let's define a value as a quick sanity test.</span>
+<span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">test1</span> <span style="color: #b6a0ff;">=</span> l1.head == <span style="color: #00bdfa;">1</span>
+</pre>
+</div>
+
+<p>
+But this is only one part of Scala,
+and for our purposes it's the less interesting part.
+(We could just use Java for this much.)
+</p>
+</div>
+</div>
+
+<div id="outline-container-Scala-as-a-functional-language" class="outline-3">
+<h3 id="Scala-as-a-functional-language"><span class="section-number-3">2.2</span> Scala as a functional language</h3>
+<div class="outline-text-3" id="text-Scala-as-a-functional-language">
+<p>
+We are interested in Scala primarily because it supports
+functional abstractions.
+</p>
+
+<p>
+The distinguishing abstractions of
+functional programming languages are:
+</p>
+<ol class="org-ol">
+<li>Functions are values, i.e., data.
+<ul class="org-ul">
+<li>This is referred to by the term “first-class functions”,
+implying that functions are not excluded
+from being treated as data.</li>
+<li>This allows for <i>higher-order</i> functions;
+functions which take other functions as argument.</li>
+</ul></li>
+<li>All values (data) are <i>immutable</i>.
+<ul class="org-ul">
+<li>(At least in “pure” functional languages.)</li>
+<li>Variables still change throughout the program,
+but only because they are bound to different values
+at different points in the runtime.
+Not because an assignment/update was carried out.
+<ul class="org-ul">
+<li>For instance, in a recursive call, the arguments change.</li>
+</ul></li>
+</ul></li>
+</ol>
+
+<p>
+We will concern ourselves with (1) another time.
+For today, we are considering (2).
+</p>
+
+<p>
+Briefly, the advantage to immutable data is that
+enables the programmer a level of certainty that is not available
+if data is mutable.
+</p>
+
+<p>
+Consider for a moment this pseudocode regarding our earlier linked lists.
+</p>
+<pre class="example" id="orgd672c61">
+// This is pseudocode
+val l1: LinkedList[Int] = null
+
+somebodyElsesFunction(l1)
+</pre>
+<p>
+What can I say about my list <code>l1</code> after I run “somebody else's”
+function on it?
+</p>
+
+<p>
+:TODO:
+</p>
+</div>
+
+<div id="outline-container-Aside:-Downside-to-immutability" class="outline-4">
+<h4 id="Aside:-Downside-to-immutability"><span class="section-number-4">2.2.1</span> Aside: Downside to immutability</h4>
+<div class="outline-text-4" id="text-Aside:-Downside-to-immutability">
+<p>
+There is a not insignificant downside to enforcing immutability
+in a language/code base.
+</p>
+
+<p>
+If all data is immutable, then to “make changes” to a value
+(such as a list or a tree),
+we must in fact make a copy of that value
+with the changes we want applied.
+</p>
+
+<p>
+As you can imagine, this copying is expensive,
+both in terms of space and time.
+</p>
+
+<p>
+<i>However</i>, well-designed languages can mitigate this
+in various ways, including by having values “share”
+some pieces of themselves.
+</p>
+</div>
+</div>
 </div>
 </div>
 
 <div id="outline-container-The-(extended)-Boom-hierarchy" class="outline-2">
-<h2 id="The-(extended)-Boom-hierarchy"><span class="section-number-2">2</span> The (extended) Boom hierarchy&#xa0;&#xa0;&#xa0;<span class="tag"><span class="theory">theory</span></span></h2>
+<h2 id="The-(extended)-Boom-hierarchy"><span class="section-number-2">3</span> The (extended) Boom hierarchy&#xa0;&#xa0;&#xa0;<span class="tag"><span class="theory">theory</span></span></h2>
 <div class="outline-text-2" id="text-The-(extended)-Boom-hierarchy">
+<p>
+We now briefly take with a (relatively brief) dive into some theory,
+to give us an example type to consider in Scala.
+</p>
 </div>
 
 <div id="outline-container-Introduction" class="outline-3">
-<h3 id="Introduction"><span class="section-number-3">2.1</span> Introduction</h3>
+<h3 id="Introduction"><span class="section-number-3">3.1</span> Introduction</h3>
 <div class="outline-text-3" id="text-Introduction">
-<p>
-We begin with some (relatively brief) theory.
-</p>
-
 <p>
 The Boom hierarchy was introduced
 by <a href="https://www.kestrel.edu/people/meertens/publications/">Lambert Meertens</a> in
@@ -333,7 +502,7 @@ higher-order functions <code>reduce</code> (often called <code>fold</code>),
 </div>
 
 <div id="outline-container-Extending-the-Boom-hierarchy" class="outline-3">
-<h3 id="Extending-the-Boom-hierarchy"><span class="section-number-3">2.2</span> Extending the Boom hierarchy</h3>
+<h3 id="Extending-the-Boom-hierarchy"><span class="section-number-3">3.2</span> Extending the Boom hierarchy</h3>
 <div class="outline-text-3" id="text-Extending-the-Boom-hierarchy">
 <p>
 Alexander Bunkenburg's later paper
@@ -366,13 +535,13 @@ except that they “can spin” (the branching order is arbitrary).</li>
 </div>
 
 <div id="outline-container-Visualising-the-Boom-hierarchy" class="outline-3">
-<h3 id="Visualising-the-Boom-hierarchy"><span class="section-number-3">2.3</span> Visualising the Boom hierarchy</h3>
+<h3 id="Visualising-the-Boom-hierarchy"><span class="section-number-3">3.3</span> Visualising the Boom hierarchy</h3>
 <div class="outline-text-3" id="text-Visualising-the-Boom-hierarchy">
 <p>
 We can visualise the layout of some of these structures:
 </p>
 
-<div id="org0fedfc3" class="figure">
+<div id="org8e6fe99" class="figure">
 <p><img src="media/BOOM.png" alt="BOOM.png" />
 </p>
 </div>
@@ -397,7 +566,7 @@ in a programming language?
 </div>
 
 <div id="outline-container-The-Boom-hierarchy-in-Scala" class="outline-2">
-<h2 id="The-Boom-hierarchy-in-Scala"><span class="section-number-2">3</span> The Boom hierarchy in Scala&#xa0;&#xa0;&#xa0;<span class="tag"><span class="application">application</span></span></h2>
+<h2 id="The-Boom-hierarchy-in-Scala"><span class="section-number-2">4</span> The Boom hierarchy in Scala&#xa0;&#xa0;&#xa0;<span class="tag"><span class="application">application</span></span></h2>
 <div class="outline-text-2" id="text-The-Boom-hierarchy-in-Scala">
 <div class="org-center">
 <p>
@@ -406,10 +575,16 @@ in a programming language?
 <b>before borrowing any code. Or skip to the next section.</b>
 </p>
 </div>
+
+<p>
+Let us try to implement the lists discussed in the Boom hierarchy
+in Scala, and make them <i>immutable</i>, for the reasons discussed in
+<a href="#Scala-as-a-functional-language">Scala as a functional langauge</a>.
+</p>
 </div>
 
 <div id="outline-container-The-AppendList-type" class="outline-3">
-<h3 id="The-AppendList-type"><span class="section-number-3">3.1</span> The <code>AppendList</code> type</h3>
+<h3 id="The-AppendList-type"><span class="section-number-3">4.1</span> The <code>AppendList</code> type</h3>
 <div class="outline-text-3" id="text-The-AppendList-type">
 <p>
 Let us implement the list type as described in the Boom hierarchy paper
@@ -435,46 +610,65 @@ Those lists have three cases;
 </ul>
 
 <p>
-The Scala convention for implementing such types
-has us start with a super-type from which a type
-for each case will be derived.
-This super-type should not be instatiable,
-because we want to restrict to a number of cases :TODO:.
+The Scala convention for implementing types such as this
+that consist of a number of cases by first giving
+a <i>super-type</i> which a <i>sub-type</i>
+for each case will <i>extend</i> (extending is also called inheriting).
 </p>
 
 <p>
-A <code>trait</code> is similar to a <code>class</code>, except it cannot be instantiated.
+This super-type should not be instatiable,
+because we want to restrict instatiability to the given cases.
+(Recall from 2fa3: types should have <b>no junk</b> and no confusion.) 
+</p>
+
+<p>
+A <code>trait</code> is similar to a <code>class</code>, except it cannot be instantiated
+—meaning it cannot be constructed.
 It is similar to an <code>interface</code> in Java.
 (This also makes it similar to an <code>abstract class</code>,
 except it's more flexible; see
 <a href="https://docs.scala-lang.org/overviews/scala-book/abstract-classes.html">the Scala docs</a>.)
 </p>
-<div class="org-src-container">
-<pre class="src src-amm"><span style="color: #b6a0ff;">trait</span> <span style="color: #f78fe7;">AppendList</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">]</span>
+<pre class="example" id="orgaf12942">
+trait AppendList[A]
+// sub-class definitions yet to come
 </pre>
-</div>
+
+<p>
+In fact, in the interest of not introducing “junk”,
+we should use the <code>sealed</code> keyword which prevents code
+from outside this block from extending <code>AppendList</code>.
+</p>
+<pre class="example" id="org27d7197">
+sealed trait AppendList[A]
+</pre>
 </div>
 </div>
 
 <div id="outline-container-Attempt-1-at-defining-cases-of-lists:-basic-classes" class="outline-3">
-<h3 id="Attempt-1-at-defining-cases-of-lists:-basic-classes"><span class="section-number-3">3.2</span> Attempt 1 at defining cases of lists: basic classes</h3>
+<h3 id="Attempt-1-at-defining-cases-of-lists:-basic-classes"><span class="section-number-3">4.2</span> Attempt 1 at defining cases of lists: basic classes</h3>
 <div class="outline-text-3" id="text-Attempt-1-at-defining-cases-of-lists:-basic-classes">
 <p>
 Now we need to add sub-types which are instantiable.
-Then since every element of the sub-type is also an element
-of the super-type, we can create elements of <code>List</code>.
+Note that every instance (value) of one of the sub-types
+is also a value of the super-type.
+So even though <code>AppendList</code> cannot be instantiated,
+we can create <code>AppendList</code> values.
 </p>
 
 <p>
-As Scala is object oriented, this means we want
-a class definition for each case.
+(Yes, this means a single value can have many types;
+specifically, it has a chain of types, each one a sub-type of the next).
+:TODO: where does the chain end?
 </p>
 
 <p>
-We can jump right to it.
+We can fill in a <code>class</code> for each case.
 </p>
 <div class="org-src-container">
-<pre class="src src-amm"><span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">Empty</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">]()</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">AppendList</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">]</span>
+<pre class="src src-amm"><span style="color: #b6a0ff;">trait</span> <span style="color: #f78fe7;">AppendList</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">]</span>
+<span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">Empty</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">]()</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">AppendList</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">]</span>
 <span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">Single</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">](</span>a<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">A</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">AppendList</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">]</span>
 <span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">Concat</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">](</span>l<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">AppendList</span><span style="color: #b6a0ff;">[</span><span style="color: #00bdfa;">A</span><span style="color: #b6a0ff;">]</span>, r<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">AppendList</span><span style="color: #b6a0ff;">[</span><span style="color: #00bdfa;">A</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">AppendList</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">]</span>
 </pre>
@@ -490,61 +684,78 @@ But if we try out this definition, we may be disappointed.
 <span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">list1</span> <span style="color: #b6a0ff;">=</span> <span style="color: #b6a0ff;">new</span> <span style="color: #f78fe7;">Concat</span><span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">new</span> <span style="color: #f78fe7;">Single</span><span style="color: #b6a0ff;">(</span><span style="color: #00bdfa;">1</span><span style="color: #b6a0ff;">)</span>, <span style="color: #b6a0ff;">new</span> <span style="color: #f78fe7;">Single</span><span style="color: #b6a0ff;">(</span><span style="color: #00bdfa;">2</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
 
 empty1 == empty2  <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">equality check</span>
-empty1.eq<span style="color: #00cd68;">(</span>empty2<span style="color: #00cd68;">)</span> <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">reference equality check</span>
 </pre>
+</div>
+<p>
+:TODO: why? what's so bad about the result of the equality check?
+</p>
+</div>
+
+<div id="outline-container-Aside:-Notions-of-equality" class="outline-4">
+<h4 id="Aside:-Notions-of-equality"><span class="section-number-4">4.2.1</span> Aside: Notions of equality</h4>
+<div class="outline-text-4" id="text-Aside:-Notions-of-equality">
+<p>
+:TODO:
+</p>
 </div>
 </div>
 </div>
 
 <div id="outline-container-Attempt-2-at-defining-cases-of-lists:-case-classes" class="outline-3">
-<h3 id="Attempt-2-at-defining-cases-of-lists:-case-classes"><span class="section-number-3">3.3</span> Attempt 2 at defining cases of lists: case classes</h3>
+<h3 id="Attempt-2-at-defining-cases-of-lists:-case-classes"><span class="section-number-3">4.3</span> Attempt 2 at defining cases of lists: case classes</h3>
 <div class="outline-text-3" id="text-Attempt-2-at-defining-cases-of-lists:-case-classes">
 <p>
-The reason why our classes above allowed multiple instances
-of “the same” list is because, although we are not including any,
-a regular <code>class</code> may have mutable data (non-constant fields).
+Our <code>class</code> based definition above caused two instances
+of the same list (same in the sense that their construction was the same)
+as different (unequal) lists.
+</p>
+
+<p>
+The reason comes back to mutability.
+A regular <code>class</code> may have mutable data (non-constant fields).
 So the runtime is aware that <code>empty1</code> and <code>empty2</code> could
 actually be different (even though, with just our definitions above,
 there isn't a way to make them significantly different).
 </p>
 
 <p>
-When defining this sort of <i>algebraic datatype</i> in a
-functional style, we want <i>immutability</i>, to ensure that
-two objects which are constructed the same way
-are in fact the same.
+Since we intend to work with immutable data,
+we need something more than just <code>class</code>.
 </p>
 
 <p>
-Scala provides <code>case</code> classes for this.
-A <code>case</code> class has no mutable state (no non-constant fields),
-and all its fields are public.
+Specifically, what we want is provided in
+Scala by a <code>case class</code>.
+A <code>case</code> class has no mutable state (no non-constant fields).
+(Additionally all its fields are public).
 </p>
 <div class="org-src-container">
-<pre class="src src-amm"><span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">Empty</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">]()</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">AppendList</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">]</span>
+<pre class="src src-amm"><span style="color: #f78fe7;">sealed</span> <span style="color: #b6a0ff;">trait</span> <span style="color: #f78fe7;">AppendList</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">]</span>
+<span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">Empty</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">]()</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">AppendList</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">]</span>
 <span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">Single</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">](</span>a<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">A</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">AppendList</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">]</span>
 <span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">Concat</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">](</span>l<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">AppendList</span><span style="color: #b6a0ff;">[</span><span style="color: #00bdfa;">A</span><span style="color: #b6a0ff;">]</span>, r<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">AppendList</span><span style="color: #b6a0ff;">[</span><span style="color: #00bdfa;">A</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">AppendList</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">]</span>
 </pre>
 </div>
 
 <p>
-The name <code>case class</code> is used because,
-given this immutable nature,
-<i>pattern matching</i> (or <i>case splitting</i>)
-makes sense.
+The name <code>case class</code> is used because
+we often <i>pattern match</i> (or, equivalently, <i>case split</i>)
+over types defined this way.
 </p>
 </div>
 </div>
 
 <div id="outline-container-The-inherent-problem-with-~AppendList~" class="outline-3">
-<h3 id="The-inherent-problem-with-~AppendList~"><span class="section-number-3">3.4</span> The inherent problem with <code>AppendList</code></h3>
+<h3 id="The-inherent-problem-with-~AppendList~"><span class="section-number-3">4.4</span> The inherent problem with <code>AppendList</code></h3>
 <div class="outline-text-3" id="text-The-inherent-problem-with-~AppendList~">
+<blockquote>
 <p>
-:TODO: discuss sealed
+“Each data structure is the free algebra of its binary operation <code>++.</code>”
 </p>
+</blockquote>
 
 <p>
-:TODO: no junk, no confusion
+:TODO: <b>no confusion</b>!
 </p>
 
 <div class="org-src-container">
@@ -570,7 +781,7 @@ listofone == anotherlistofone
 </div>
 
 <div id="outline-container-A-proper-implementation-of-lists-in-Scala." class="outline-2">
-<h2 id="A-proper-implementation-of-lists-in-Scala."><span class="section-number-2">4</span> A proper implementation of lists in Scala.</h2>
+<h2 id="A-proper-implementation-of-lists-in-Scala."><span class="section-number-2">5</span> A proper implementation of lists in Scala.</h2>
 <div class="outline-text-2" id="text-A-proper-implementation-of-lists-in-Scala.">
 <div class="org-src-container">
 <pre class="src src-elm"><span style="color: #b6a0ff;">type</span> <span style="color: #f78fe7;">List</span> a <span style="color: #f78fe7;">=</span> <span style="color: #f78fe7;">Empty</span> <span style="color: #f78fe7;">|</span> <span style="color: #f78fe7;">Cons</span> a <span style="color: #00cd68;">(</span><span style="color: #f78fe7;">List</span> a<span style="color: #00cd68;">)</span>
@@ -579,12 +790,9 @@ listofone == anotherlistofone
 
 <p>
 Our final, correct implementation
+ensures there is only one way to construct a given (abstract) list,
+by using “more concrete” constructors.
 </p>
-<ul class="org-ul">
-<li>ensures there is only one way to construct a given (abstract) list,
-by using more concrete constructors,</li>
-<li>marks the <code>trait</code> as <code>sealed</code>, so no further constuctors may be added, and</li>
-</ul>
 <div class="org-src-container">
 <pre class="src src-amm"><span style="color: #f78fe7;">sealed</span> <span style="color: #b6a0ff;">trait</span> <span style="color: #f78fe7;">ConsList</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">]</span>
 <span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">Empty</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">]()</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">ConsList</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">]</span>
@@ -620,7 +828,7 @@ append<span style="color: #00cd68;">(</span>test,test2<span style="color: #00cd6
 </div>
 
 <div id="outline-container-Reset-the-REPL!" class="outline-2">
-<h2 id="Reset-the-REPL!"><span class="section-number-2">5</span> Reset the REPL!</h2>
+<h2 id="Reset-the-REPL!"><span class="section-number-2">6</span> Reset the REPL!</h2>
 <div class="outline-text-2" id="text-Reset-the-REPL!">
 <p>
 A nice feature of the Ammonite REPL for Scala
@@ -666,25 +874,12 @@ of saved states.
 </div>
 </div>
 </div>
-
-<div id="outline-container-Scratch" class="outline-2">
-<h2 id="Scratch"><span class="section-number-2">6</span> Scratch</h2>
-<div class="outline-text-2" id="text-Scratch">
-<div class="org-src-container">
-<pre class="src src-amm"><span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">test</span><span style="color: #00cd68;">()</span> <span style="color: #00cd68;">{</span>
-  <span style="color: #b6a0ff;">var</span> <span style="color: #efdf00;">x</span> <span style="color: #b6a0ff;">=</span> <span style="color: #00bdfa;">1</span>
-  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">hello</span><span style="color: #b6a0ff;">()</span> <span style="color: #b6a0ff;">=</span> <span style="color: #00bdfa;">1</span>
-<span style="color: #00cd68;">}</span>
-</pre>
-</div>
-</div>
-</div>
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Mark Armstrong</p>
      <p class="author">Contact: <a href="mailto:markparmstrong@gmail.com">markparmstrong@gmail.com</a></p>
      <p class="date">Original date: </p>
-     <p class="date">Last updated: 2020-09-14 Mon 14:27</p>
+     <p class="date">Last updated: 2020-09-16 Wed 04:39</p>
      <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.90 (<a href="https://orgmode.org">Org</a> mode 9.3.8)</p>
      <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
