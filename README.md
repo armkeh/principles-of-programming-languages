@@ -12,6 +12,23 @@ better viewed at
 
 ## September
 
+  - September 16  
+    The typos encountered in today's lecture have all been corrected (if
+    I missed any, let me know.)
+    
+      - The first parse tree example has been corrected, and I've also
+        massaged the definition of parse tree's a bit so that we don't
+        need to draw the “pointless nodes” I mentioned. The first
+        example shows what we omit.
+    
+    Also note, especially for those in the Monday tutorial, the live
+    coding notes on Scala have been updated.
+    
+      - A motivation section has been added which should better describe
+        why we are coding the way we are in Scala.
+      - One further update will be coming with some changes that came up
+        during today's tutorial.
+
   - September 15  
     Each student of this course should now have a (private) GitLab
     repository, at the address
@@ -265,7 +282,8 @@ Relevant raw code:
 
 ## Tutorials
 
-:TODO:
+Files are only added here if they differ from the previous week's live
+coding lecture. In many cases, the content will be shared.
 
 # Recordings
 
@@ -327,7 +345,7 @@ image.
 
 <div class="center">
 
-**If there is any update to the Docker image,** **or if fir any other
+**If there is any update to the Docker image,** **or if for any other
 reason we change our targeted versions**, **we will make an announcement
 on the homepage.**
 

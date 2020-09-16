@@ -54,6 +54,20 @@ are used as examples of the use of these tools.
 
 :TODO:
 
+** Version history
+
+*** September 16th
+
+More complete version posted. Nearly complete up to Parsing.
+
+After lecture, several typos fixed.
+First parse tree example also fixed
+(the nodes were in the wrong order.)
+
+*** Beginning of course
+
+Very incomplete version of the notes in place.
+
 * Formal languages
 
 ** Preamble                                    :ignore:
@@ -134,7 +148,7 @@ the set of regular expressions (over $Σ$),
 denoted $RE(Σ)$, is given
 by the following rules.
 1. $∅$, $ε$ and $a$ (for each $a ∈ Σ$) are regular expressions.
-2. $(α | β)$, $(αβ)$ and $(α*)$ are regular expressions
+2. $(α | β)$, $(αβ)$ and $(α^{*})$ are regular expressions
    - for any regular expressions α and β.
 
 Respectively, the three operations in (2) are called
@@ -152,7 +166,7 @@ defined as follows.
 - $L(a) = \{ a \}$
 - $L(α | β) = L(α) ∪ L(β)$
 - $L(αβ) = \{ uv | u ∈ L(α) ∧ v ∈ L(b) \}$
-- $L(α*) = (L(α))^{*}$
+- $L(α^*) = (L(α))^*$
 
 ** Additional operators for more expressive regular expressions
 
@@ -165,11 +179,11 @@ along with their equivalent “basic” form or,
 where that is infeasible to write,
 its language.
 1. $α^{+} \ \ \ ≈ \ \ \ αα^{*}$
-1. $α? \ \ \ ≈ \ \ \ α | ε$
-1. $\text{.} \ \ \ ≈ \ \ \ a | b | c | …$ where $Σ = {a, b, c, …}$; i.e., $L(.) = Σ$
-1. $[c_{1}…c_{n}] \ \ \ ≈ \ \ \ c_{1} | … | c_{n}$, where each $c_{i}$ is a character.
-1. $[\text{\^{}}c_{1}…c_{n}]$, where $L([\text{\^{}}c_{1}…c_{n}]) = Σ - [c_{1}…c_{n}]$.
-1. $α\{m,n\}$, where $L(α\{m,n\}) = ⋃_{i=m}^{n} L(α)^{i}$
+2. $α? \ \ \ ≈ \ \ \ α | ε$
+3. $\text{.} \ \ \ ≈ \ \ \ a | b | c | …$ where $Σ = {a, b, c, …}$; i.e., $L(.) = Σ$
+4. $[c_{1}…c_{n}] \ \ \ ≈ \ \ \ c_{1} | … | c_{n}$, where each $c_{i}$ is a character.
+5. $[\verb!^!c_{1}…c_{n}]$, where $L([\verb!^!c_{1}…c_{n}]) = Σ - [c_{1}…c_{n}]$.
+6. $α\{m,n\}$, where $L(α\{m,n\}) = ⋃_{i=m}^{n} L(α)^{i}$
       
 ** Regular expression examples
 
@@ -292,7 +306,7 @@ We have discussed the facts that a grammar can
 
 Then for a grammar $G$ we might think of functions
 - $generateᴳ : ℕ → Σ^{*}$
-  - with the intention that $generateᴳ n$ generates the $n^{th}$
+  - with the intention that $generateᴳ(n)$ generates the $n^{th}$
     string in the grammar's language is lexicographic order
 - $recogniseᴳ : Σ^{*} → Bool$
 That is, we have two functions, which output a ~String~ or
@@ -307,37 +321,46 @@ A parse tree's
 - nodes (which have children) are
   labelled by a nonterminal of the grammar,
 - leaves (which do not have children) are
-  labelled by a terminal of the grammar
-  (or a nonterminal which may produce $ε$), and
+  labelled by a terminal of the grammar, and
 - if a node is labelled by a nonterminal ~A~,
-  the children of that node must correspond
+  the children of that node must correspond to
   (in order from left to right)
-  the nonterminals appearing in a production of ~A~.
+  the terminals and nonterminals appearing in a production of ~A~.
+  If a non-terminal would produce ~ε~, it is omitted.
 
 ** Example parse tree
 
-For example, if we consider the grammar
+For example, consider the grammar
 #+begin_src text
 S ⟶ AB
 A ⟶ aA | ε
 B ⟶ Bb | b
 #+end_src
-the following are valid parse trees.
 
-First, for the string ~aab~.
+We have the following parse tree for the string ~aab~.
+- Note the dashed portions, which show part of how the tree
+  was derived from the grammar,
+  but which will usually be omitted by our rules for parse trees.
 #+begin_src dot :file media/parse-tree-example-aab.png
 digraph T {
   S  [label="S"]
   A1 [label="A"]
   A2 [label="A"]
+  A3 [label="A", style=dashed]
   B  [label="B"]
 
   a1 [label="a", shape=plaintext]
   a2 [label="a", shape=plaintext]
   b  [label="b", shape=plaintext]
-
+  eps [label="ε", style=dashed]
+  
   S -> A1 -> a1
+  { rank=same; a1 -> A2 [style=invis] }
        A1 -> A2 -> a2
+  { rank=same; a2 -> A3 [style=invis] }
+       A2 -> A3 [style=dashed]
+       A3 -> eps [style=dashed]
+  
   S -> B  -> b
 }
 #+end_src
@@ -404,7 +427,7 @@ In Backus-Naur form,
 - additional whitespace is permitted on the right side
   of a production between terminals and nonterminals,
   without changing the meaning of the production
-  - So $⟨A⟩ ∷= a a ⟨A⟩$ is treated the same as $⟨A⟩ ∷= aa⟨A⟩$.
+  - So $⟨A⟩ ∷= a\ a\ ⟨A⟩$ is treated the same as $⟨A⟩ ∷= aa⟨A⟩$.
 
 ** Aside: ALGOL
 
@@ -414,7 +437,7 @@ was a contemporary of Fortran, Lisp, and Cobol.
   still in (fairly) common use today.
   - Granted, not the same versions.
 
-Specifically, there were several iterations of ALCOL,
+Specifically, there were several iterations of ALGOL,
 the three major ones being ALGOL 58, ALGOL 60 and ALGOL 68.
 
 ALGOL is not in common use, but it was
@@ -443,8 +466,7 @@ it is what is convenient for our use.
 - (Curly) braces, ~{}~, surrounding a string
   indicate that string may be repeated any number of times,
   including zero.
-  - $⟨A⟩ ∷= α₁ { α₂ } α₃ \ \ \ ≈ \ \ \ ⟨A⟩ ∷= α₁ ⟨A′⟩ α₃$ together
-    with $⟨A′⟩ ∷= α₂ ⟨A′⟩ | ε$.
+  - $⟨A⟩ ∷= α₁ { α₂ } α₃ \ \ \ ≈ \ \ \ ⟨A⟩ ∷= α₁ ⟨A′⟩ α₃$, $⟨A′⟩ ∷= α₂ ⟨A′⟩ | ε$.
 - Parentheses, ~()~, may group parts of a string.
 - The “alternative” pipe, ~|~, may be used /inside/ of productions,
   to indicate alternatives inside a set of brackets, braces
@@ -452,7 +474,7 @@ it is what is convenient for our use.
   - $⟨A⟩ ∷= α₁ (α₂ | α₃) α₄ \ \ \ ≈ \ \ \ ⟨A⟩ ∷= α₁ α₂ α₄ | α₁ α₃ α₄$.
 - Where necessary, terminals may be single or double quoted,
   such as to indicate a whitespace character, pipe or quote.
-  - $⟨ebnfprods⟩ ∷= ⟨string⟩ | ⟨string⟩ ⟨optws⟩ “|” ⟨optws⟩ ⟨ebnfprods⟩$
+  - $⟨\text{ebnfprods}⟩ ∷= ⟨\text{string}⟩ | ⟨\text{string}⟩ ⟨\text{optws}⟩ “|” ⟨\text{optws}⟩ ⟨\text{ebnfprods}⟩$
 
 ** Exercise – translating to EBNF
 
