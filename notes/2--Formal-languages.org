@@ -129,12 +129,48 @@ the /practical expressiveness/ of the tool.
 
 ** Regular expressions as in formal language theory
 
-:TODO:
+Given a finite alphabet $Σ$,
+the set of regular expressions (over $Σ$),
+denoted $RE(Σ)$, is given
+by the following rules.
+1. $∅$, $ε$ and $a$ (for each $a ∈ Σ$) are regular expressions.
+2. $(α | β)$, $(αβ)$ and $(α*)$ are regular expressions
+   - for any regular expressions α and β.
+
+Respectively, the three operations in (2) are called
+- “or”,
+- “append”, and
+- “star” or “repeat”.  
+
+** The language for a regular expression
+
+The language generated/recognised by a regular expression
+is defined via a (semantic) function $L : RE(Σ) → Σ^{*}$,
+defined as follows.
+- $L(∅) = ∅$
+- $L(ε) = \{ ε \}$
+- $L(a) = \{ a \}$
+- $L(α | β) = L(α) ∪ L(β)$
+- $L(αβ) = \{ uv | u ∈ L(α) ∧ v ∈ L(b) \}$
+- $L(α*) = (L(α))^{*}$
 
 ** Additional operators for more expressive regular expressions
 
-:TODO:
+Regular expressions come up frequently in programming,
+and there is a rich set of extensions
+to make them easier to construct.
 
+We will not try to extensively list them, but some are listed below,
+along with their equivalent “basic” form or,
+where that is infeasible to write,
+its language.
+1. $α^{+} \ \ \ ≈ \ \ \ αα^{*}$
+1. $α? \ \ \ ≈ \ \ \ α | ε$
+1. $\text{.} \ \ \ ≈ \ \ \ a | b | c | …$ where $Σ = {a, b, c, …}$; i.e., $L(.) = Σ$
+1. $[c_{1}…c_{n}] \ \ \ ≈ \ \ \ c_{1} | … | c_{n}$, where each $c_{i}$ is a character.
+1. $[\text{\^{}}c_{1}…c_{n}]$, where $L([\text{\^{}}c_{1}…c_{n}]) = Σ - [c_{1}…c_{n}]$.
+1. $α\{m,n\}$, where $L(α\{m,n\}) = ⋃_{i=m}^{n} L(α)^{i}$
+      
 ** Regular expression examples
 
 :TODO:
