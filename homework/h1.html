@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-09-13 Sun 14:55 -->
+<!-- 2020-09-16 Wed 02:06 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Computer Science 3MI3 – 2020 homework 1</title>
@@ -42,7 +42,7 @@
   }
   pre.src {
     position: relative;
-    overflow: visible;
+    overflow: auto;
     padding-top: 1.2em;
   }
   pre.src:before {
@@ -263,16 +263,16 @@ for the JavaScript code in this tag.
 <ul>
 <li><a href="#Submission-procedures">Submission procedures</a>
 <ul>
-<li><a href="#orgcb0a070">Submission method</a></li>
-<li><a href="#orgbad8ba3">Naming requirements</a></li>
-<li><a href="#org1603dce">Do not submit testing or diagnostic code</a></li>
-<li><a href="#orgd7e97b0">Due date and allowance for technical difficulties</a></li>
+<li><a href="#org07784a2">Submission method</a></li>
+<li><a href="#org066e1de">Naming requirements</a></li>
+<li><a href="#orgfab6ef7">Do not submit testing or diagnostic code</a></li>
+<li><a href="#orgec07c1f">Due date and allowance for technical difficulties</a></li>
 </ul>
 </li>
 <li><a href="#Proper-conduct-for-coursework">Proper conduct for coursework</a>
 <ul>
-<li><a href="#orgef87270">Individual work</a></li>
-<li><a href="#orgd5f1c81">Language library resources</a></li>
+<li><a href="#org84ea1f1">Individual work</a></li>
+<li><a href="#org4b2c7db">Language library resources</a></li>
 </ul>
 </li>
 </ul>
@@ -288,11 +288,17 @@ for the JavaScript code in this tag.
 <li><a href="#Part-3:-Elements-of-a-~Tree[Int]~-in-order">Part 3: Elements of a <code>Tree[Int]</code> in order   [20 points]</a></li>
 <li><a href="#Part-4:-Trees-which-describe-structure">Part 4: Trees which describe structure     [10 points]</a></li>
 <li><a href="#Part-5:-Flattening-structure-trees">Part 5: Flattening structure trees   [bonus 20 points]</a></li>
+<li><a href="#More-~LeafTree~-and-~BinTree~-examples">More <code>LeafTree</code> and <code>BinTree</code> examples</a>
+<ul>
+<li><a href="#~LeafTree~"><code>LeafTree</code></a></li>
+<li><a href="#~BinTree~"><code>BinTree</code></a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org4cc040c" class="outline-2">
+<div id="outline-container-org7252c4a" class="outline-2">
 <h2 id="Introduction">Introduction</h2>
 <div class="outline-text-2" id="text-Introduction">
 <p>
@@ -311,19 +317,19 @@ which convert those trees to the less structured type of lists.
 </div>
 </div>
 
-<div id="outline-container-org21f1721" class="outline-2">
+<div id="outline-container-org258f7d8" class="outline-2">
 <h2 id="Boilerplate">Boilerplate</h2>
 <div class="outline-text-2" id="text-Boilerplate">
 </div>
 
-<div id="outline-container-org5650f19" class="outline-3">
+<div id="outline-container-orgc704608" class="outline-3">
 <h3 id="Submission-procedures">Submission procedures</h3>
 <div class="outline-text-3" id="text-Submission-procedures">
 </div>
 
-<div id="outline-container-orgcb0a070" class="outline-4">
-<h4 id="orgcb0a070">Submission method</h4>
-<div class="outline-text-4" id="text-orgcb0a070">
+<div id="outline-container-org07784a2" class="outline-4">
+<h4 id="org07784a2">Submission method</h4>
+<div class="outline-text-4" id="text-org07784a2">
 <p>
 Homework should be submitted to your McMaster CAS Gitlab respository
 in the <code>cs3mi3-fall2020</code> project.
@@ -336,9 +342,9 @@ in time for the deadline, and not just committed to your local copy.
 </div>
 </div>
 
-<div id="outline-container-orgbad8ba3" class="outline-4">
-<h4 id="orgbad8ba3">Naming requirements</h4>
-<div class="outline-text-4" id="text-orgbad8ba3">
+<div id="outline-container-org066e1de" class="outline-4">
+<h4 id="org066e1de">Naming requirements</h4>
+<div class="outline-text-4" id="text-org066e1de">
 <p>
 Place all files for the homework
 inside a folder titled <code>hn</code>, where <code>n</code> is the number of the homework.
@@ -379,9 +385,9 @@ submit a <code>hn.ext</code> file for each language.
 </div>
 </div>
 
-<div id="outline-container-org1603dce" class="outline-4">
-<h4 id="org1603dce">Do not submit testing or diagnostic code</h4>
-<div class="outline-text-4" id="text-org1603dce">
+<div id="outline-container-orgfab6ef7" class="outline-4">
+<h4 id="orgfab6ef7">Do not submit testing or diagnostic code</h4>
+<div class="outline-text-4" id="text-orgfab6ef7">
 <p>
 Unless you are instructed to do so in the homework questions,
 <b>you should not submit testing code with your homework submission</b>.
@@ -409,9 +415,9 @@ For instance, by using a wrapper on the print function or macros.
 </div>
 </div>
 
-<div id="outline-container-orgd7e97b0" class="outline-4">
-<h4 id="orgd7e97b0">Due date and allowance for technical difficulties</h4>
-<div class="outline-text-4" id="text-orgd7e97b0">
+<div id="outline-container-orgec07c1f" class="outline-4">
+<h4 id="orgec07c1f">Due date and allowance for technical difficulties</h4>
+<div class="outline-text-4" id="text-orgec07c1f">
 <p>
 Homework is due on the second Sunday following its release,
 by the end of the day (midnight).
@@ -431,14 +437,14 @@ to accept your submission once the technical difficulties are resolved.
 </div>
 </div>
 
-<div id="outline-container-orgb8d3e30" class="outline-3">
+<div id="outline-container-org56436e0" class="outline-3">
 <h3 id="Proper-conduct-for-coursework">Proper conduct for coursework</h3>
 <div class="outline-text-3" id="text-Proper-conduct-for-coursework">
 </div>
 
-<div id="outline-container-orgef87270" class="outline-4">
-<h4 id="orgef87270">Individual work</h4>
-<div class="outline-text-4" id="text-orgef87270">
+<div id="outline-container-org84ea1f1" class="outline-4">
+<h4 id="org84ea1f1">Individual work</h4>
+<div class="outline-text-4" id="text-org84ea1f1">
 <p>
 Unless explicitely stated in the homework questions,
 all homework in this course is intended
@@ -499,9 +505,9 @@ probably add a catch-all <code>_</code> case to your <code>match</code> expressi
 </div>
 </div>
 
-<div id="outline-container-orgd5f1c81" class="outline-4">
-<h4 id="orgd5f1c81">Language library resources</h4>
-<div class="outline-text-4" id="text-orgd5f1c81">
+<div id="outline-container-org4b2c7db" class="outline-4">
+<h4 id="org4b2c7db">Language library resources</h4>
+<div class="outline-text-4" id="text-org4b2c7db">
 <p>
 Unless explicitely stated in the questions,
 it is not expected that you will use any language library resources
@@ -529,7 +535,7 @@ would require permission before you used them.</li>
 </div>
 </div>
 
-<div id="outline-container-org9f1621e" class="outline-2">
+<div id="outline-container-org8a04a24" class="outline-2">
 <h2 id="Part-0.1:-Installing-Scala">Part 0.1: Installing Scala                  [0 points]</h2>
 <div class="outline-text-2" id="text-Part-0.1:-Installing-Scala">
 <p>
@@ -549,7 +555,7 @@ Docker image.
 <div class="org-center">
 <p>
 <b>If there is any update to the Docker image,</b>
-<b>or if fir any other reason we change our targeted versions</b>,
+<b>or if for any other reason we change our targeted versions</b>,
 <b>we will make an announcement on the homepage.</b>
 </p>
 </div>
@@ -570,7 +576,7 @@ and we link to guides to get you started below.
 </p>
 </div>
 
-<div id="outline-container-org960a265" class="outline-3">
+<div id="outline-container-org0083223" class="outline-3">
 <h3 id="Installation-guides">Installation guides</h3>
 <div class="outline-text-3" id="text-Installation-guides">
 <ul class="org-ul">
@@ -587,7 +593,7 @@ Its first 5 chapters are free to read online.</li>
 </div>
 </div>
 
-<div id="outline-container-orgf3cb631" class="outline-2">
+<div id="outline-container-orgb4ae337" class="outline-2">
 <h2 id="Part-0.2:-Basic-Scala-programming">Part 0.2: Basic Scala programming           [0 points]</h2>
 <div class="outline-text-2" id="text-Part-0.2:-Basic-Scala-programming">
 <p>
@@ -607,7 +613,7 @@ which are freely available online.
 </div>
 </div>
 
-<div id="outline-container-org466ceb4" class="outline-2">
+<div id="outline-container-org40175a8" class="outline-2">
 <h2 id="Part-1:-Representations-of-two-tree-types">Part 1: Representations of two tree types  [20 points]</h2>
 <div class="outline-text-2" id="text-Part-1:-Representations-of-two-tree-types">
 <p>
@@ -663,10 +669,14 @@ While the type <code>BinTree</code> on <code>Int</code> represents trees such as
 <p><img src="media/BinTree.png" alt="BinTree.png" />
 </p>
 </div>
+
+<p>
+Also see <a href="#More-~LeafTree~-and-~BinTree~-examples">More <code>LeafTree</code> and <code>BinTree</code> examples</a>.
+</p>
 </div>
 </div>
 
-<div id="outline-container-org3631c93" class="outline-2">
+<div id="outline-container-org6833e5d" class="outline-2">
 <h2 id="Part-2:-Flattening-trees-to-lists">Part 2: Flattening trees to lists          [20 points]</h2>
 <div class="outline-text-2" id="text-Part-2:-Flattening-trees-to-lists">
 <p>
@@ -699,7 +709,7 @@ So the above example tree would flatten to <code>[2,1,4,3,5]</code>.
 </div>
 </div>
 
-<div id="outline-container-orgda40017" class="outline-2">
+<div id="outline-container-org6805e60" class="outline-2">
 <h2 id="Part-3:-Elements-of-a-~Tree[Int]~-in-order">Part 3: Elements of a <code>Tree[Int]</code> in order   [20 points]</h2>
 <div class="outline-text-2" id="text-Part-3:-Elements-of-a-~Tree[Int]~-in-order">
 <p>
@@ -733,7 +743,7 @@ the <i>elegance</i> of the solution.
 </div>
 </div>
 
-<div id="outline-container-org45161d8" class="outline-2">
+<div id="outline-container-orgd5ef980" class="outline-2">
 <h2 id="Part-4:-Trees-which-describe-structure">Part 4: Trees which describe structure     [10 points]</h2>
 <div class="outline-text-2" id="text-Part-4:-Trees-which-describe-structure">
 <p>
@@ -762,7 +772,7 @@ to represent trees such as
 </div>
 </div>
 
-<div id="outline-container-org0c30533" class="outline-2">
+<div id="outline-container-org9bbf3a7" class="outline-2">
 <h2 id="Part-5:-Flattening-structure-trees">Part 5: Flattening structure trees   [bonus 20 points]</h2>
 <div class="outline-text-2" id="text-Part-5:-Flattening-structure-trees">
 <p>
@@ -783,13 +793,66 @@ necessitates discarding at least some structure.
 </p>
 </div>
 </div>
+<div id="outline-container-orge9cb811" class="outline-2">
+<h2 id="More-~LeafTree~-and-~BinTree~-examples">More <code>LeafTree</code> and <code>BinTree</code> examples</h2>
+<div class="outline-text-2" id="text-More-~LeafTree~-and-~BinTree~-examples">
+<p>
+Motivated by discussion of what is a proper <code>BinTree</code> or <code>LeafTree</code>,
+I have produced a few more examples here.
+</p>
+</div>
+
+<div id="outline-container-org0024385" class="outline-3">
+<h3 id="~LeafTree~"><code>LeafTree</code></h3>
+<div class="outline-text-3" id="text-~LeafTree~">
+<p>
+The <code>LeafTree</code> type still consists of binary trees.
+Every (non-leaf) node must have two children,
+and they are either non-leaf nodes or leaves.
+</p>
+
+<p>
+Note that nothing says the tree must be balanced or ordered
+in any way, as this example should hopefully convey.
+</p>
+
+<div class="figure">
+<p><img src="media/LeafTree2.png" alt="LeafTree2.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgee0f0d6" class="outline-3">
+<h3 id="~BinTree~"><code>BinTree</code></h3>
+<div class="outline-text-3" id="text-~BinTree~">
+<p>
+It is possible to think of our <code>BinTree</code> type allowing each node
+to have 0, 1 or 2 children.
+But it is likely easier to represent and perhaps understand
+if we think of every (non-leaf) having exactly two children,
+with the possibility that one or both of them are the “empty tree”.
+</p>
+
+<p>
+This example shows several nodes which seem to have one child only
+in this way.
+</p>
+
+<div class="figure">
+<p><img src="./media/BinTree2.png" alt="BinTree2.png" />
+</p>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Mark Armstrong</p>
      <p class="author">Contact: <a href="mailto:markparmstrong@gmail.com">markparmstrong@gmail.com</a></p>
      <p class="date">Original date: September 11th, 2020</p>
-     <p class="date">Last updated: 2020-09-13 Sun 13:56</p>
-     <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.90 (<a href="https://orgmode.org">Org</a> mode 9.3.7)</p>
+     <p class="date">Last updated: 2020-09-16 Wed 02:06</p>
+     <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.90 (<a href="https://orgmode.org">Org</a> mode 9.3.8)</p>
      <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

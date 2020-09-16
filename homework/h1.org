@@ -75,7 +75,7 @@ Docker image.
 
 #+begin_center
 *If there is any update to the Docker image,*
-*or if fir any other reason we change our targeted versions*,
+*or if for any other reason we change our targeted versions*,
 *we will make an announcement on the homepage.*
 #+end_center
 
@@ -204,6 +204,8 @@ digraph T {
 [[file:media/BinTree.png]]
 :end:
 
+Also see [[More ~LeafTree~ and ~BinTree~ examples]].
+
 * Part 2: Flattening trees to lists          [20 points]
 :PROPERTIES:
 :CUSTOM_ID: Part-2:-Flattening-trees-to-lists
@@ -307,3 +309,106 @@ Try to come up with an implementation
 which discards /as little structure as possible/,
 bearing in mind that the transformation to lists
 necessitates discarding at least some structure.
+* More ~LeafTree~ and ~BinTree~ examples
+:PROPERTIES:
+:CUSTOM_ID: More-~LeafTree~-and-~BinTree~-examples
+:END:
+
+Motivated by discussion of what is a proper ~BinTree~ or ~LeafTree~,
+I have produced a few more examples here.
+
+** ~LeafTree~
+:PROPERTIES:
+:CUSTOM_ID: ~LeafTree~
+:END:
+
+The ~LeafTree~ type still consists of binary trees.
+Every (non-leaf) node must have two children,
+and they are either non-leaf nodes or leaves.
+
+Note that nothing says the tree must be balanced or ordered
+in any way, as this example should hopefully convey.
+#+begin_src dot :file media/LeafTree2.png :exports results :results drawer :post attr_wrap(data=*this*)
+digraph T {
+  S [shape=point]
+  A [shape=point]
+  B [shape=point]
+  C [shape=point]
+  D [shape=point]
+
+  l1 [label="False", shape=plaintext]
+  l2 [label="False", shape=plaintext]
+  l3 [label="True", shape=plaintext]
+  l4 [label="False", shape=plaintext]
+  l5 [label="True", shape=plaintext]
+  l6 [label="False", shape=plaintext]
+  
+  S -> A -> l1
+       A -> B -> C -> l2
+                 C -> l3
+            B -> l4
+  S -> D -> l5
+       D -> l6
+}
+#+end_src
+
+#+RESULTS:
+:results:
+#+ATTR_LATEX: :width \textwidth :center t
+[[file:media/LeafTree2.png]]
+:end:
+
+** ~BinTree~
+:PROPERTIES:
+:CUSTOM_ID: ~BinTree~
+:END:
+
+It is possible to think of our ~BinTree~ type allowing each node
+to have 0, 1 or 2 children.
+But it is likely easier to represent and perhaps understand
+if we think of every (non-leaf) having exactly two children,
+with the possibility that one or both of them are the “empty tree”.
+
+This example shows several nodes which seem to have one child only
+in this way.
+#+begin_src dot :file ./media/BinTree2.png  :exports results :results drawer :post attr_wrap(data=*this*)
+digraph T {
+  I       [label="\"I\""]
+  Lean    [label="\"Lean\""]
+  To      [label="\"To\""]
+  The     [label="\"The\""]
+  Right   [label="\"Right\""]
+
+  l1 [shape=point]
+  l2 [shape=point]
+  l3 [shape=point]
+  l4 [shape=point]
+  l5 [shape=point]
+  l6 [shape=point]
+
+  I -> l1
+  I -> Lean
+  { rank=same l1 -> Lean [style=invis] }
+
+  Lean -> l2
+  Lean -> To
+  { rank=same l2 -> To [style=invis] }
+
+  To -> l3
+  To -> The
+  { rank=same l3 -> The [style=invis] }
+
+  The -> l4
+  The -> Right
+  { rank=same l4 -> Right [style=invis] }
+
+  Right -> l5
+  Right -> l6
+}
+#+end_src
+
+#+RESULTS:
+:results:
+#+ATTR_LATEX: :width \textwidth :center t
+[[file:./media/BinTree2.png]]
+:end:
