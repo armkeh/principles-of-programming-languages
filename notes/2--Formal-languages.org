@@ -29,23 +29,7 @@
 
 * Preamble
 
-** TODO Table of contents                      :ignore:
-
-# The table of contents are added using org-reveal-manual-toc,
-# and so must be updated upon changes or added last.
-# Note that hidden headings are included, and so must be deleted!
-
-#+HTML: <font size="-1">
-#+begin_scriptsize
-  - [[Preamble][Preamble]]
-#+end_scriptsize
-#+HTML: </font>
-
-** TODO Notable references
-
-:TODO:
-
-* Introduction
+** Introduction                                :ignore:
 
 This section introduces the mathematical tools
 we will use in the discussion of programming languages
@@ -54,9 +38,27 @@ as a /formal/ language.
 Several small formal languages (not full programming languages)
 are used as examples of the use of these tools.
 
+** TODO Table of contents
+
+# The table of contents are added using org-reveal-manual-toc,
+# and so must be updated upon changes or added last.
+# Note that hidden headings are included, and so must be deleted!
+
+#+HTML: <font size="-1">
+#+begin_scriptsize
+
+#+end_scriptsize
+#+HTML: </font>
+
+** TODO Notable references
+
+:TODO:
+
 * Formal languages
 
 ** Preamble                                    :ignore:
+
+Recall, from formal language theory:
 
 A language over an /alphabet/ (set of symbols) $Σ$
 is a subset of $Σ^{*}$.
@@ -78,23 +80,15 @@ Examples of such mathematical tools include
 
 Formal languages, unlike /natural/ languages, are well-suited
 for comprehension by computers.
-- Computers require unambiguous steps to follow.
+- Machines require unambiguous steps to follow.
 - Hence, all programming languages are formal languages.
 
 In particular, in most cases:
-- The sets of keywords, names, etc. form several /regular languages/,
-  and so can be recognised[fn:recogniser]
-  by regular expressions.
+- The sets of keywords, names, etc., form several /regular languages/,
+  and so can be recognised by regular expressions.
 - The set of valid (in terms of form) programs forms
   a /context-free/ language, and so can be recognised by
   a (context-free) grammar.
-
-[fn:recogniser]
-The computer must recognise (accept) valid programs.
-Conveniently, both regular expressions and grammars
-can also be viewed as generators (derivers),
-which is a useful point of view
-for humans reading the grammar/expression.
 
 ** Strings
 
@@ -118,7 +112,7 @@ Given an element $e ∈ Σ$, we write
 
 ** Preamble                                    :ignore:
 
-Here, we will
+In this section, we will
 - briefly review regular expressions and grammars as
   they are presented in formal language theory, and then
 - introduce more practical syntax for each
@@ -126,7 +120,7 @@ Here, we will
 
 In both cases, the additional syntax only adds to
 the /practical expressiveness/ of the tool.
-- It does not change the /theoretical expressiveness/ of the tool.
+- It does not change the tool's /theoretical expressiveness/.
   - The same set of languages can be described,
     but many languages can be described “more easily”.
 - We will present brief arguments to this effect
@@ -137,7 +131,7 @@ the /practical expressiveness/ of the tool.
 
 :TODO:
 
-** Additional operators for more expression regexps
+** Additional operators for more expressive regular expressions
 
 :TODO:
 
@@ -158,17 +152,36 @@ where
   also called the /terminals/ of the grammar,
 - $N$ and $Σ$ must be distinct,
 - $P$ is a set of /productions/ i.e.,
-  a binary relation between $N$ and \[ (N ∪ Σ)^{*} \],
+  a binary relation between $N$ and $(N ∪ Σ)^{*}$,
   - In other words, a multi-valued function from
     nonterminals to strings of non-terminals and terminals,
 - $S$ is a distinguished element of $N$, called the /starting nonterminal/.
 
-Given \[ (A, α) ∈ P \], we write \[ A ⟶ α \] and read it as
+** Notations for grammar productions in formal language theory
+
+Given
+#+begin_center
+$(A, α) ∈ P$,
+#+end_center
+we write
+#+begin_center
+$A ⟶ α$
+#+end_center
+and read it as
+#+begin_center
 “$A$ produces $α$” or “$A$ expands to $α$”.
+#+end_center
 
 Given a number of
-productions $(A, α₁) ∈ P$, $(A, α₂) ∈ P$, …, $(A, αₘ) ∈ P$, 
-we write $A ⟶ α₁ | α₂ | … | αₘ$ as a shorthand.
+productions
+#+begin_center
+$(A, α₁) ∈ P$, $(A, α₂) ∈ P$, …, $(A, αₘ) ∈ P$,
+#+end_center
+we write
+#+begin_center
+$A ⟶ α₁ | α₂ | … | αₘ$
+#+end_center
+as a shorthand.
 
 ** Conventions for grammars
 
@@ -176,12 +189,11 @@ Writing the 4-tuple each time we produce a grammar is tedious.
 
 For this reason, we adopt the following conventions
 in order to allow us to omit the 4-tuple.
-1. We write /only/ the list of production,
-   using /BNF/ (discussed shortly).
+1. We write /only/ the list of productions.
 2. The set $N$ is taken to be the set of all symbols
    appearing to the left of a list of productions.
    - Note that this requires each nonterminal have
-     at least one production[fn:nonterminal-w/o-production].
+     at least one production.
 3. The set $Σ$ is usually understood by the context
    in which we are defining the grammer.
    - For our purposes, it will usually be the set of
@@ -191,16 +203,9 @@ in order to allow us to omit the 4-tuple.
       we are defining (it may be uncapitalised or abbreviated),
    2. otherwise, the non-terminal named $S$, or
    3. otherwise, the nonterminal to the left of
-      the first production in the list,.
-
-As a rule of thumb, we try to write grammars “top down”,
-so that most nonterminals appearing to the right of a production
-have their rules listed below that production.
-
-[fn:nonterminal-w/o-production]
-A nonterminal without productions has no practical use in any case;
-it only serves to making parsing “get stuck”.
-
+      the first production in the list.
+      - (We usually attempt to write grammars “top down”.)
+      
 ** A simple example grammar
 
 #+begin_src text
@@ -210,7 +215,10 @@ C ⟶ cCc | ε
 #+end_src
 
 This produces the language of strings of
-the form ~a~^{/i/}~b~^{/j/}~c~^{/k/}~c~^{/k/}~b~^{/j/}~a~^{/i/}.
+the form
+#+begin_center
+$a^{i}b^{j}c^{k}c^{k}b^{j}a^{i}$
+#+end_center
 
 ** Exercise – reading grammars
 
@@ -232,13 +240,15 @@ C ⟶ cA | A
 A ⟶ aA | B
 B ⟶ bB
 #+end_src
-*What's the tricky part with this one?*
+
+*What's the tricky part with the last one?*
 
 Extra exercise: can you simplify any of them?
-If you believe so, be careful that
+For instance, by having less non-terminals or less productions?
+If you believe so, just be careful that
 your simplification accepts the same string!
 
-** Parse trees
+** Grammars generate or recognise strings
 
 We have discussed the facts that a grammar can
 - generate strings or
@@ -255,16 +265,20 @@ a ~Bool~ respectively.
 But there is a useful byproduct which may be obtained during
 during either process: a /parse tree/.
 
+** Parse trees
+
 A parse tree's
 - nodes (which have children) are
   labelled by a nonterminal of the grammar,
 - leaves (which do not have children) are
   labelled by a terminal of the grammar
-  or a nonterminal which may produce $ε$, and
+  (or a nonterminal which may produce $ε$), and
 - if a node is labelled by a nonterminal ~A~,
   the children of that node must correspond
   (in order from left to right)
   the nonterminals appearing in a production of ~A~.
+
+** Example parse tree
 
 For example, if we consider the grammar
 #+begin_src text
@@ -295,7 +309,10 @@ digraph T {
 #+RESULTS:
 [[file:media/parse-tree-example-aab.png]]
 
-Similarly, we have the following parse tree for ~abb~.
+** Another example parse tree
+
+Similarly, working with the same grammar,
+we have the following parse tree for ~abb~.
 #+begin_src dot :file media/parse-tree-example-abb.png
 digraph T {
   S  [label="S"]
@@ -316,6 +333,8 @@ digraph T {
 #+RESULTS:
 [[file:media/parse-tree-example-abb.png]]
 
+** Exercise: creating parse trees
+
 Exercise: provide a parse tree for the string ~aaa~ using this grammar.
 Is there a valid parse tree for the string ~bbb~?
 
@@ -335,57 +354,69 @@ for our production lists.
 Commonly in the study of programming languages,
 an alternative syntax called /Backus-Naur/ form (BNF)
 is used.
-- Named for two members of the Algol[fn:algol] design committee,
+- Named for two members of the ALGOL design committee,
   who created the first formal definition for a programming language,
-  namely Algol.
+  namely ALGOL.
+
+** BNF details
 
 In Backus-Naur form,
 - all nonterminals names are delimited by
-  angle brackets[fn:angle-brackets], ~⟨⟩~,
+  angle brackets, ~⟨⟩~,
+  - (if using ASCII characters, ~<>~)
 - the ~⟶~ is replaced by ~∷=~,
 - additional whitespace is permitted on the right side
   of a production between terminals and nonterminals,
   without changing the meaning of the production
-  - So ~⟨A⟩ ∷= a a ⟨A⟩~ is treated the same as ~⟨A⟩ ∷= aa⟨A⟩~.
+  - So $⟨A⟩ ∷= a a ⟨A⟩$ is treated the same as $⟨A⟩ ∷= aa⟨A⟩$.
 
-[fn:algol]
-Algol was a contemporary of Fortran, Lisp, and Cobol,
-together the oldest languages still in (fairly) common use today.
-Algol is not in common use, but it was the most influential on
-modern programming language syntax, introducing concepts such as
-the block.
+** Aside: ALGOL
 
-[fn:angle-brackets]
-In notes and assignments, I use unicode angle brackets.
-Many other sources use the less-than and greater-than symbols,
-as they are avaiable in ASCII.
+ALGOL (for “ALGOrithmic Language”)
+was a contemporary of Fortran, Lisp, and Cobol.
+- Together, those three are the oldest languages
+  still in (fairly) common use today.
+  - Granted, not the same versions.
+
+Specifically, there were several iterations of ALCOL,
+the three major ones being ALGOL 58, ALGOL 60 and ALGOL 68.
+
+ALGOL is not in common use, but it was
+the most influential on modern programming language syntax,
+introducing concepts such as the block.
+- The “C family” can trace its lineage directly to ALGOL.
 
 ** Extended Backus-Naur form (EBNF)
 
-We also extend our grammar notation to include several
+We further extend our grammar notation to include several
 several additional operators.
-- (Square) brackets, ~[]~, surrounding a string
-  indicate that string may or may not be included in a production.
-  - I.e., they make part of a production optional.
-  - ~⟨A⟩ ∷= α₁ [ α₂ ] α₃~ ≈ ~⟨A⟩ ∷= α₁ α₂ α₃ | α₁ α₃~.
-- (Curly) braces, ~{}~, surrounding a string
-  indicate that string may be repeated any number of times,
-  including zero.
-  - ~⟨A⟩ ∷= α₁ { α₂ } α₃~ ≈ ~⟨A⟩ ∷= α₁ ⟨A′⟩ α₃~ together
-    with ~⟨A′⟩ ∷= α₂ ⟨A′⟩ | ε~.
-- Parentheses, ~()~, may group parts of a string.
-- The “alternative” pipe, ~|~, may be used /inside/ of productions,
-  to indicate alternatives inside a set of brackets, braces
-  or parentheses.
-  - ~⟨A⟩ ∷= α₁ (α₂ | α₃) α₄~ ≈ ~⟨A⟩ ∷= α₁ α₂ α₄ | α₁ α₃ α₄~.
-- Where necessary, terminals may be single or double quoted,
-  such as to indicate a whitespace character, pipe or quote.
-  - ~⟨ebnf-prod-list⟩ ∷= ⟨string⟩ | ⟨string⟩ ⟨opt-ws⟩ '|' ⟨opt-ws⟩ ⟨ebnf-prod-list⟩~
+- These extensions are part of the /extended/ Backus-Naur form.
+- Once again, this is only an extension in the /practicality/ sense.
 
 There is an [[https://www.iso.org/standard/26153.html][ISO standard]] for EBNF.
 Our syntax and inclusion of features is
 not chosen to match the standard;
 it is what is convenient for our use.
+
+** EBNF details
+
+- (Square) brackets, ~[]~, surrounding a string
+  indicate that string may or may not be included in a production.
+  - I.e., they make part of a production optional.
+  - $⟨A⟩ ∷= α₁ [ α₂ ] α₃ \ \ \ ≈ \ \ \ ⟨A⟩ ∷= α₁ α₂ α₃ | α₁ α₃$.
+- (Curly) braces, ~{}~, surrounding a string
+  indicate that string may be repeated any number of times,
+  including zero.
+  - $⟨A⟩ ∷= α₁ { α₂ } α₃ \ \ \ ≈ \ \ \ ⟨A⟩ ∷= α₁ ⟨A′⟩ α₃$ together
+    with $⟨A′⟩ ∷= α₂ ⟨A′⟩ | ε$.
+- Parentheses, ~()~, may group parts of a string.
+- The “alternative” pipe, ~|~, may be used /inside/ of productions,
+  to indicate alternatives inside a set of brackets, braces
+  or parentheses.
+  - $⟨A⟩ ∷= α₁ (α₂ | α₃) α₄ \ \ \ ≈ \ \ \ ⟨A⟩ ∷= α₁ α₂ α₄ | α₁ α₃ α₄$.
+- Where necessary, terminals may be single or double quoted,
+  such as to indicate a whitespace character, pipe or quote.
+  - $⟨ebnfprods⟩ ∷= ⟨string⟩ | ⟨string⟩ ⟨optws⟩ “|” ⟨optws⟩ ⟨ebnfprods⟩$
 
 ** Exercise – translating to EBNF
 
@@ -419,7 +450,7 @@ we will usually omit constructs which are syntactic sugar.
 - If anything, we may note how to represent them
   in a “core” language which includes less constructs.
 
-** Exercise – a very small language
+** Exercise – a small language C-like language
 
 Consider the following context-free language.
 #+begin_example text
@@ -429,12 +460,12 @@ Consider the following context-free language.
 ⟨var⟩    ∷= ('x' | 'y' | 'z') {⟨var⟩}
 ⟨const⟩  ∷= (1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 0) {⟨const⟩}
 ⟨op⟩     ∷= '+' | '-' | '*' | '/' | '<' | '>' | '='
-⟨ws⟩  ∷= {' '} | {'\n'}
+⟨ws⟩     ∷= {' '} | {'\n'}
 #+end_example
 
 Provide some example programs in this language.
 
-Consider trying to precisely describe the language in English.
+Can you precisely describe the language in English?
 
 ** Example – EBNF for C++
 
@@ -452,36 +483,36 @@ a real-world programming language.
 
 ** Preamble                                    :ignore:
 
-We will briefly summarise the parsing process.
+We will briefly summarise the parsing process,
+beginning with some important terms.
 - In this course, we are primarily interested in
   the beginning of this process, up to the
   construction of parse trees.
-- The reality of 
 
-** Lexemes and tokens
+** Atomic syntactic units
 
 We have mentioned that both regular expressions and
 context-free grammars are used in the description of
 the syntax of programming languages.
 
-However, up until this point,
-our example programming languages have been described exclusively
-by context-free grammars.
-- Even the smallest syntactic units of the language
-  have been described by the grammars.
-  - For instance, we have used productions such as
+However, our example programming language earlier
+was described exclusively by a context-free grammar.
+- Even the smallest syntactic units of the language,
+  the /atomic/ syntactic units, have been described by the grammars.
+  - For instance, we have used the production
     $⟨const⟩  ∷= (1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 0) \{⟨const⟩\}$
     which describes numerical constants.
 
 This is not done in practice.
 
+** Lexemes and tokens
+
 In practice,
 - regular expressions are instead used to describe the
-  smallest syntactic units of languages.
+  atomic syntactic units of languages.
   - For example,
-    - keywords such as ~if~ and ~while~,
-    - or constant values, such as ~0~ or ~"abc"~,
-    - or names such as ~height~ or ~sqrt~.
+    - keywords such as ~if~ and ~while~, constant values such as ~0~ or ~"abc"~,
+      or names such as ~height~ or ~sqrt~.
   - Lexemes cannot be broken down into meaningful pieces.
 - Grammars are then used to describe the possible arrangements
   of lexemes.
@@ -491,13 +522,9 @@ In practice,
     - the token ~while~ for the set containing only the
       keyword ~while~,
     - or the token ~int_literal~ for the set $\{ 0, 1, -1, 2, … \}$,
-    - or the tohen ~var~ for the set of valid variable names.
+    - or the token ~var~ for the set of valid variable names.
 
-** The zeroth step – preprocessing
-
-In some programming languages
-
-** The first step – lexical analysis
+** Parsing
 
 Parsing is the process of translating a program
 from plaintext
@@ -506,6 +533,22 @@ to executable instructions
   - ahead of time (compiling) or
   - when the program is to be run (interpreting),
   parsing is a necessary step before execution.
+- A computer cannot run unparsed higher level language code.
+  
+** The zeroth step – preprocessing
+
+Many programming languages support some form
+of /preprocessing directives/ which are
+to be carried out before the parsing process
+properly begins.
+- Commonly, “macros”, which often are simply
+  textual substitutions to be carried out.
+  - But they can be used for significantly more;
+    in some instances, macros form a whole language themselves.
+
+** The first step – lexical analysis
+
+:TODO: There's a break in the narrative here.
 
 We now know the first step in parsing.
 - Convert the plaintext source code into a sequence of tokens.

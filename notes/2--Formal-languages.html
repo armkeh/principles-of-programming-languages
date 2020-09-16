@@ -37,30 +37,8 @@ Introduction to semantics."/>
 </section>
 
 <section>
-<section id="slide-org1e3886b">
-<h2 id="org1e3886b"><span class="section-number-2">1</span> Preamble</h2>
-<font size="-1">
-<div class="scriptsize" id="org9dcf090">
-<ul>
-<li><a href="#/slide-org1e3886b">Preamble</a></li>
-
-</ul>
-
-</div>
-</font>
-
-</section>
-<section id="slide-orgcedcc4d">
-<h3 id="orgcedcc4d"><span class="section-number-3">1.1</span> <span class="todo TODO">TODO</span> Notable references</h3>
-<p>
-:TODO:
-</p>
-
-</section>
-</section>
-<section>
-<section id="slide-org68eb9d9">
-<h2 id="org68eb9d9"><span class="section-number-2">2</span> Introduction</h2>
+<section id="slide-org2c96c89">
+<h2 id="org2c96c89"><span class="section-number-2">1</span> Preamble</h2>
 <p>
 This section introduces the mathematical tools
 we will use in the discussion of programming languages
@@ -73,10 +51,33 @@ are used as examples of the use of these tools.
 </p>
 
 </section>
+<section id="slide-org219479e">
+<h3 id="org219479e"><span class="section-number-3">1.1</span> <span class="todo TODO">TODO</span> Table of contents</h3>
+<font size="-1">
+<div class="scriptsize" id="org7587bf1">
+<p>
+
+</p>
+
+</div>
+</font>
+
+</section>
+<section id="slide-org8f83956">
+<h3 id="org8f83956"><span class="section-number-3">1.2</span> <span class="todo TODO">TODO</span> Notable references</h3>
+<p>
+:TODO:
+</p>
+
+</section>
 </section>
 <section>
-<section id="slide-org6bb5b21">
-<h2 id="org6bb5b21"><span class="section-number-2">3</span> Formal languages</h2>
+<section id="slide-org09396e7">
+<h2 id="org09396e7"><span class="section-number-2">2</span> Formal languages</h2>
+<p>
+Recall, from formal language theory:
+</p>
+
 <p>
 A language over an <i>alphabet</i> (set of symbols) \(Σ\)
 is a subset of \(Σ^{*}\).
@@ -106,14 +107,14 @@ Examples of such mathematical tools include
 </ul>
 
 </section>
-<section id="slide-org85b122b">
-<h3 id="org85b122b"><span class="section-number-3">3.1</span> The usefulness of formal languages</h3>
+<section id="slide-org46e3ea0">
+<h3 id="org46e3ea0"><span class="section-number-3">2.1</span> The usefulness of formal languages</h3>
 <p>
 Formal languages, unlike <i>natural</i> languages, are well-suited
 for comprehension by computers.
 </p>
 <ul>
-<li>Computers require unambiguous steps to follow.</li>
+<li>Machines require unambiguous steps to follow.</li>
 <li>Hence, all programming languages are formal languages.</li>
 
 </ul>
@@ -122,9 +123,8 @@ for comprehension by computers.
 In particular, in most cases:
 </p>
 <ul>
-<li>The sets of keywords, names, etc. form several <i>regular languages</i>,
-and so can be recognised<sup><a id="fnr.1" class="footref" href="#fn.1">1</a></sup>
-by regular expressions.</li>
+<li>The sets of keywords, names, etc., form several <i>regular languages</i>,
+and so can be recognised by regular expressions.</li>
 <li>The set of valid (in terms of form) programs forms
 a <i>context-free</i> language, and so can be recognised by
 a (context-free) grammar.</li>
@@ -132,8 +132,8 @@ a (context-free) grammar.</li>
 </ul>
 
 </section>
-<section id="slide-orgef18fc8">
-<h3 id="orgef18fc8"><span class="section-number-3">3.2</span> Strings</h3>
+<section id="slide-org6526986">
+<h3 id="org6526986"><span class="section-number-3">2.2</span> Strings</h3>
 <p>
 Recall that given a set \(Σ\), the set of strings over \(Σ\),
 written \(Σ^{*}\), is the set of all finite sequences
@@ -166,10 +166,10 @@ Given an element \(e ∈ Σ\), we write
 </section>
 </section>
 <section>
-<section id="slide-orgc18195b">
-<h2 id="orgc18195b"><span class="section-number-2">4</span> Describing the <i>syntax</i> of formal languages</h2>
+<section id="slide-orgb75a242">
+<h2 id="orgb75a242"><span class="section-number-2">3</span> Describing the <i>syntax</i> of formal languages</h2>
 <p>
-Here, we will
+In this section, we will
 </p>
 <ul>
 <li>briefly review regular expressions and grammars as
@@ -184,7 +184,7 @@ In both cases, the additional syntax only adds to
 the <i>practical expressiveness</i> of the tool.
 </p>
 <ul>
-<li>It does not change the <i>theoretical expressiveness</i> of the tool.
+<li>It does not change the tool's <i>theoretical expressiveness</i>.
 <ul>
 <li>The same set of languages can be described,
 but many languages can be described “more easily”.</li>
@@ -197,29 +197,29 @@ to the restricted syntax.</li>
 </ul>
 
 </section>
-<section id="slide-org3ec107a">
-<h3 id="org3ec107a"><span class="section-number-3">4.1</span> Regular expressions as in formal language theory</h3>
+<section id="slide-org8a96b89">
+<h3 id="org8a96b89"><span class="section-number-3">3.1</span> Regular expressions as in formal language theory</h3>
 <p>
 :TODO:
 </p>
 
 </section>
-<section id="slide-orgd89a1c5">
-<h3 id="orgd89a1c5"><span class="section-number-3">4.2</span> Additional operators for more expression regexps</h3>
+<section id="slide-org2cfef41">
+<h3 id="org2cfef41"><span class="section-number-3">3.2</span> Additional operators for more expressive regular expressions</h3>
 <p>
 :TODO:
 </p>
 
 </section>
-<section id="slide-orgad74b46">
-<h3 id="orgad74b46"><span class="section-number-3">4.3</span> Regular expression examples</h3>
+<section id="slide-org4891714">
+<h3 id="org4891714"><span class="section-number-3">3.3</span> Regular expression examples</h3>
 <p>
 :TODO:
 </p>
 
 </section>
-<section id="slide-org4211dce">
-<h3 id="org4211dce"><span class="section-number-3">4.4</span> Grammars as in formal language theory</h3>
+<section id="slide-org8bf0ee5">
+<h3 id="org8bf0ee5"><span class="section-number-3">3.4</span> Grammars as in formal language theory</h3>
 <p>
 Formally, a context-free grammar is a 4-tuple
 </p>
@@ -238,7 +238,7 @@ where
 also called the <i>terminals</i> of the grammar,</li>
 <li>\(N\) and \(Σ\) must be distinct,</li>
 <li>\(P\) is a set of <i>productions</i> i.e.,
-a binary relation between \(N\) and \[ (N ∪ Σ)^{*} \],
+a binary relation between \(N\) and \((N ∪ Σ)^{*}\),
 <ul>
 <li>In other words, a multi-valued function from
 nonterminals to strings of non-terminals and terminals,</li>
@@ -248,20 +248,58 @@ nonterminals to strings of non-terminals and terminals,</li>
 
 </ul>
 
+</section>
+<section id="slide-orga191832">
+<h3 id="orga191832"><span class="section-number-3">3.5</span> Notations for grammar productions in formal language theory</h3>
 <p>
-Given \[ (A, α) ∈ P \], we write \[ A ⟶ α \] and read it as
+Given
+</p>
+<div class="org-center">
+<p>
+\((A, α) ∈ P\),
+</p>
+</div>
+<p>
+we write
+</p>
+<div class="org-center">
+<p>
+\(A ⟶ α\)
+</p>
+</div>
+<p>
+and read it as
+</p>
+<div class="org-center">
+<p>
 “\(A\) produces \(α\)” or “\(A\) expands to \(α\)”.
 </p>
+</div>
 
 <p>
 Given a number of
-productions \((A, α₁) ∈ P\), \((A, α₂) ∈ P\), …, \((A, αₘ) ∈ P\), 
-we write \(A ⟶ α₁ | α₂ | … | αₘ\) as a shorthand.
+productions
+</p>
+<div class="org-center">
+<p>
+\((A, α₁) ∈ P\), \((A, α₂) ∈ P\), …, \((A, αₘ) ∈ P\),
+</p>
+</div>
+<p>
+we write
+</p>
+<div class="org-center">
+<p>
+\(A ⟶ α₁ | α₂ | … | αₘ\)
+</p>
+</div>
+<p>
+as a shorthand.
 </p>
 
 </section>
-<section id="slide-orga70b0e9">
-<h3 id="orga70b0e9"><span class="section-number-3">4.5</span> Conventions for grammars</h3>
+<section id="slide-org8139bb7">
+<h3 id="org8139bb7"><span class="section-number-3">3.6</span> Conventions for grammars</h3>
 <p>
 Writing the 4-tuple each time we produce a grammar is tedious.
 </p>
@@ -271,13 +309,12 @@ For this reason, we adopt the following conventions
 in order to allow us to omit the 4-tuple.
 </p>
 <ol>
-<li>We write <i>only</i> the list of production,
-using <i>BNF</i> (discussed shortly).</li>
+<li>We write <i>only</i> the list of productions.</li>
 <li>The set \(N\) is taken to be the set of all symbols
 appearing to the left of a list of productions.
 <ul>
 <li>Note that this requires each nonterminal have
-at least one production[fn:nonterminal-w/o-production].</li>
+at least one production.</li>
 
 </ul></li>
 <li>The set \(Σ\) is usually understood by the context
@@ -293,27 +330,19 @@ all ASCII symbols.</li>
 we are defining (it may be uncapitalised or abbreviated),</li>
 <li>otherwise, the non-terminal named \(S\), or</li>
 <li>otherwise, the nonterminal to the left of
-the first production in the list,.</li>
+the first production in the list.
+<ul>
+<li>(We usually attempt to write grammars “top down”.)</li>
+
+</ul></li>
 
 </ol></li>
 
 </ol>
 
-<p>
-As a rule of thumb, we try to write grammars “top down”,
-so that most nonterminals appearing to the right of a production
-have their rules listed below that production.
-</p>
-
-<p>
-[fn:nonterminal-w/o-production]
-A nonterminal without productions has no practical use in any case;
-it only serves to making parsing “get stuck”.
-</p>
-
 </section>
-<section id="slide-orga2c4b8d">
-<h3 id="orga2c4b8d"><span class="section-number-3">4.6</span> A simple example grammar</h3>
+<section id="slide-orgbf9011d">
+<h3 id="orgbf9011d"><span class="section-number-3">3.7</span> A simple example grammar</h3>
 <div class="org-src-container">
 
 <pre  class="src src-text"><code trim>A &#10230; aAa | B
@@ -324,12 +353,17 @@ C &#10230; cCc | &#949;
 
 <p>
 This produces the language of strings of
-the form ~a~<sup><i>i</i></sup>~b~<sup><i>j</i></sup>~c~<sup><i>k</i></sup>~c~<sup><i>k</i></sup>~b~<sup><i>j</i></sup>~a~<sup><i>i</i></sup>.
+the form
 </p>
+<div class="org-center">
+<p>
+\(a^{i}b^{j}c^{k}c^{k}b^{j}a^{i}\)
+</p>
+</div>
 
 </section>
-<section id="slide-orgd107c5f">
-<h3 id="orgd107c5f"><span class="section-number-3">4.7</span> Exercise – reading grammars</h3>
+<section id="slide-orgff253c8">
+<h3 id="orgff253c8"><span class="section-number-3">3.8</span> Exercise – reading grammars</h3>
 <p>
 What languages do the following grammars produce?
 </p>
@@ -356,19 +390,21 @@ C &#10230; cA | A
 B &#10230; bB
 </code></pre>
 </div>
+
 <p>
-<b>What's the tricky part with this one?</b>
+<b>What's the tricky part with the last one?</b>
 </p>
 
 <p>
 Extra exercise: can you simplify any of them?
-If you believe so, be careful that
+For instance, by having less non-terminals or less productions?
+If you believe so, just be careful that
 your simplification accepts the same string!
 </p>
 
 </section>
-<section id="slide-org69afccc">
-<h3 id="org69afccc"><span class="section-number-3">4.8</span> Parse trees</h3>
+<section id="slide-org75c4e59">
+<h3 id="org75c4e59"><span class="section-number-3">3.9</span> Grammars generate or recognise strings</h3>
 <p>
 We have discussed the facts that a grammar can
 </p>
@@ -401,6 +437,9 @@ But there is a useful byproduct which may be obtained during
 during either process: a <i>parse tree</i>.
 </p>
 
+</section>
+<section id="slide-org5057f59">
+<h3 id="org5057f59"><span class="section-number-3">3.10</span> Parse trees</h3>
 <p>
 A parse tree's
 </p>
@@ -409,7 +448,7 @@ A parse tree's
 labelled by a nonterminal of the grammar,</li>
 <li>leaves (which do not have children) are
 labelled by a terminal of the grammar
-or a nonterminal which may produce \(ε\), and</li>
+(or a nonterminal which may produce \(ε\)), and</li>
 <li>if a node is labelled by a nonterminal <code>A</code>,
 the children of that node must correspond
 (in order from left to right)
@@ -417,6 +456,9 @@ the nonterminals appearing in a production of <code>A</code>.</li>
 
 </ul>
 
+</section>
+<section id="slide-org60a3bac">
+<h3 id="org60a3bac"><span class="section-number-3">3.11</span> Example parse tree</h3>
 <p>
 For example, if we consider the grammar
 </p>
@@ -435,20 +477,27 @@ the following are valid parse trees.
 First, for the string <code>aab</code>.
 </p>
 
-<div id="org9d1dc4a" class="figure">
+<div id="orgb2ccd7f" class="figure">
 <p><img src="media/parse-tree-example-aab.png" alt="parse-tree-example-aab.png" />
 </p>
 </div>
 
+</section>
+<section id="slide-org1c18029">
+<h3 id="org1c18029"><span class="section-number-3">3.12</span> Another example parse tree</h3>
 <p>
-Similarly, we have the following parse tree for <code>abb</code>.
+Similarly, working with the same grammar,
+we have the following parse tree for <code>abb</code>.
 </p>
 
-<div id="org6ea8419" class="figure">
+<div id="org05f9799" class="figure">
 <p><img src="media/parse-tree-example-abb.png" alt="parse-tree-example-abb.png" />
 </p>
 </div>
 
+</section>
+<section id="slide-org6a67125">
+<h3 id="org6a67125"><span class="section-number-3">3.13</span> Exercise: creating parse trees</h3>
 <p>
 Exercise: provide a parse tree for the string <code>aaa</code> using this grammar.
 Is there a valid parse tree for the string <code>bbb</code>?
@@ -461,12 +510,12 @@ can you provide a different parse tree
 </p>
 
 </section>
-<section id="slide-orgdc50931">
-<h3 id="orgdc50931"><span class="section-number-3">4.9</span> Backus-Naur form (BNF)</h3>
+<section id="slide-org3515a89">
+<h3 id="org3515a89"><span class="section-number-3">3.14</span> Backus-Naur form (BNF)</h3>
 <p>
 Up until now, we have used the form
 </p>
-<pre class="example" id="orgb37d954">
+<pre class="example" id="orgf0b7351">
 N₁ ⟶ P₁ | P₂ | …
    ⋮
 </pre>
@@ -480,66 +529,78 @@ an alternative syntax called <i>Backus-Naur</i> form (BNF)
 is used.
 </p>
 <ul>
-<li>Named for two members of the Algol<sup><a id="fnr.2" class="footref" href="#fn.2">2</a></sup> design committee,
+<li>Named for two members of the ALGOL design committee,
 who created the first formal definition for a programming language,
-namely Algol.</li>
+namely ALGOL.</li>
 
 </ul>
 
+</section>
+<section id="slide-orgcdab7ac">
+<h3 id="orgcdab7ac"><span class="section-number-3">3.15</span> BNF details</h3>
 <p>
 In Backus-Naur form,
 </p>
 <ul>
 <li>all nonterminals names are delimited by
-angle brackets<sup><a id="fnr.3" class="footref" href="#fn.3">3</a></sup>, <code>⟨⟩</code>,</li>
+angle brackets, <code>⟨⟩</code>,
+<ul>
+<li>(if using ASCII characters, <code>&lt;&gt;</code>)</li>
+
+</ul></li>
 <li>the <code>⟶</code> is replaced by <code>∷=</code>,</li>
 <li>additional whitespace is permitted on the right side
 of a production between terminals and nonterminals,
 without changing the meaning of the production
 <ul>
-<li>So <code>⟨A⟩ ∷= a a ⟨A⟩</code> is treated the same as <code>⟨A⟩ ∷= aa⟨A⟩</code>.</li>
+<li>So \(⟨A⟩ ∷= a a ⟨A⟩\) is treated the same as \(⟨A⟩ ∷= aa⟨A⟩\).</li>
 
 </ul></li>
 
 </ul>
 
 </section>
-<section id="slide-orgcf13b67">
-<h3 id="orgcf13b67"><span class="section-number-3">4.10</span> Extended Backus-Naur form (EBNF)</h3>
+<section id="slide-orgc91e08a">
+<h3 id="orgc91e08a"><span class="section-number-3">3.16</span> Aside: ALGOL</h3>
 <p>
-We also extend our grammar notation to include several
+ALGOL (for “ALGOrithmic Language”)
+was a contemporary of Fortran, Lisp, and Cobol.
+</p>
+<ul>
+<li>Together, those three are the oldest languages
+still in (fairly) common use today.
+<ul>
+<li>Granted, not the same versions.</li>
+
+</ul></li>
+
+</ul>
+
+<p>
+Specifically, there were several iterations of ALCOL,
+the three major ones being ALGOL 58, ALGOL 60 and ALGOL 68.
+</p>
+
+<p>
+ALGOL is not in common use, but it was
+the most influential on modern programming language syntax,
+introducing concepts such as the block.
+</p>
+<ul>
+<li>The “C family” can trace its lineage directly to ALGOL.</li>
+
+</ul>
+
+</section>
+<section id="slide-org41d2330">
+<h3 id="org41d2330"><span class="section-number-3">3.17</span> Extended Backus-Naur form (EBNF)</h3>
+<p>
+We further extend our grammar notation to include several
 several additional operators.
 </p>
 <ul>
-<li>(Square) brackets, <code>[]</code>, surrounding a string
-indicate that string may or may not be included in a production.
-<ul>
-<li>I.e., they make part of a production optional.</li>
-<li><code>⟨A⟩ ∷= α₁ [ α₂ ] α₃</code> ≈ <code>⟨A⟩ ∷= α₁ α₂ α₃ | α₁ α₃</code>.</li>
-
-</ul></li>
-<li>(Curly) braces, <code>{}</code>, surrounding a string
-indicate that string may be repeated any number of times,
-including zero.
-<ul>
-<li><code>⟨A⟩ ∷= α₁ { α₂ } α₃</code> ≈ <code>⟨A⟩ ∷= α₁ ⟨A′⟩ α₃</code> together
-with <code>⟨A′⟩ ∷= α₂ ⟨A′⟩ | ε</code>.</li>
-
-</ul></li>
-<li>Parentheses, <code>()</code>, may group parts of a string.</li>
-<li>The “alternative” pipe, <code>|</code>, may be used <i>inside</i> of productions,
-to indicate alternatives inside a set of brackets, braces
-or parentheses.
-<ul>
-<li><code>⟨A⟩ ∷= α₁ (α₂ | α₃) α₄</code> ≈ <code>⟨A⟩ ∷= α₁ α₂ α₄ | α₁ α₃ α₄</code>.</li>
-
-</ul></li>
-<li>Where necessary, terminals may be single or double quoted,
-such as to indicate a whitespace character, pipe or quote.
-<ul>
-<li><code>⟨ebnf-prod-list⟩ ∷= ⟨string⟩ | ⟨string⟩ ⟨opt-ws⟩ '|' ⟨opt-ws⟩ ⟨ebnf-prod-list⟩</code></li>
-
-</ul></li>
+<li>These extensions are part of the <i>extended</i> Backus-Naur form.</li>
+<li>Once again, this is only an extension in the <i>practicality</i> sense.</li>
 
 </ul>
 
@@ -551,8 +612,44 @@ it is what is convenient for our use.
 </p>
 
 </section>
-<section id="slide-org35aa082">
-<h3 id="org35aa082"><span class="section-number-3">4.11</span> Exercise – translating to EBNF</h3>
+<section id="slide-org620b5a6">
+<h3 id="org620b5a6"><span class="section-number-3">3.18</span> EBNF details</h3>
+<ul>
+<li>(Square) brackets, <code>[]</code>, surrounding a string
+indicate that string may or may not be included in a production.
+<ul>
+<li>I.e., they make part of a production optional.</li>
+<li>\(⟨A⟩ ∷= α₁ [ α₂ ] α₃ \ \ \ ≈ \ \ \ ⟨A⟩ ∷= α₁ α₂ α₃ | α₁ α₃\).</li>
+
+</ul></li>
+<li>(Curly) braces, <code>{}</code>, surrounding a string
+indicate that string may be repeated any number of times,
+including zero.
+<ul>
+<li>\(⟨A⟩ ∷= α₁ { α₂ } α₃ \ \ \ ≈ \ \ \ ⟨A⟩ ∷= α₁ ⟨A′⟩ α₃\) together
+with \(⟨A′⟩ ∷= α₂ ⟨A′⟩ | ε\).</li>
+
+</ul></li>
+<li>Parentheses, <code>()</code>, may group parts of a string.</li>
+<li>The “alternative” pipe, <code>|</code>, may be used <i>inside</i> of productions,
+to indicate alternatives inside a set of brackets, braces
+or parentheses.
+<ul>
+<li>\(⟨A⟩ ∷= α₁ (α₂ | α₃) α₄ \ \ \ ≈ \ \ \ ⟨A⟩ ∷= α₁ α₂ α₄ | α₁ α₃ α₄\).</li>
+
+</ul></li>
+<li>Where necessary, terminals may be single or double quoted,
+such as to indicate a whitespace character, pipe or quote.
+<ul>
+<li>\(⟨ebnfprods⟩ ∷= ⟨string⟩ | ⟨string⟩ ⟨optws⟩ “|” ⟨optws⟩ ⟨ebnfprods⟩\)</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-org421360b">
+<h3 id="org421360b"><span class="section-number-3">3.19</span> Exercise – translating to EBNF</h3>
 <p>
 Translate this grammar from an earlier exercise to EBNF syntax.
 </p>
@@ -573,8 +670,8 @@ Can you use only one production when using EBNF?
 </p>
 
 </section>
-<section id="slide-org7fc51a2">
-<h3 id="org7fc51a2"><span class="section-number-3">4.12</span> EBNF's syntactic sugar</h3>
+<section id="slide-org3622bac">
+<h3 id="org3622bac"><span class="section-number-3">3.20</span> EBNF's syntactic sugar</h3>
 <p>
 EBNF gives us our first example of <i>syntactic sugar</i>;
 syntax that does not add new features to a language,
@@ -611,19 +708,19 @@ in a “core” language which includes less constructs.</li>
 </ul>
 
 </section>
-<section id="slide-org1160d11">
-<h3 id="org1160d11"><span class="section-number-3">4.13</span> Exercise – a very small language</h3>
+<section id="slide-org2eade58">
+<h3 id="org2eade58"><span class="section-number-3">3.21</span> Exercise – a small language C-like language</h3>
 <p>
 Consider the following context-free language.
 </p>
-<pre class="example" id="org59c12f0">
+<pre class="example" id="orge3fef7b">
 ⟨stmt⟩   ∷= ⟨assign⟩ | ⟨stmt⟩ "; " ⟨stmt⟩ | "while " ⟨expr⟩ " do " ⟨stmt⟩ | ⟨ws⟩ ⟨stmt⟩ ⟨ws⟩
 ⟨assign⟩ ∷= ⟨var⟩ ⟨ws⟩ " := " ⟨expr⟩
 ⟨expr⟩   ∷= ⟨var⟩ | ⟨const⟩ | ⟨expr⟩ ⟨op⟩ ⟨expr⟩ | ⟨ws⟩ ⟨expr⟩ ⟨ws⟩
 ⟨var⟩    ∷= ('x' | 'y' | 'z') {⟨var⟩}
 ⟨const⟩  ∷= (1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 0) {⟨const⟩}
 ⟨op⟩     ∷= '+' | '-' | '*' | '/' | '&lt;' | '&gt;' | '='
-⟨ws⟩  ∷= {' '} | {'\n'}
+⟨ws⟩     ∷= {' '} | {'\n'}
 </pre>
 
 <p>
@@ -631,12 +728,12 @@ Provide some example programs in this language.
 </p>
 
 <p>
-Consider trying to precisely describe the language in English.
+Can you precisely describe the language in English?
 </p>
 
 </section>
-<section id="slide-org4d99a81">
-<h3 id="org4d99a81"><span class="section-number-3">4.14</span> Example – EBNF for C++</h3>
+<section id="slide-orgc595fdf">
+<h3 id="orgc595fdf"><span class="section-number-3">3.22</span> Example – EBNF for C++</h3>
 <p>
 A good example of the practicality EBNF for specifying
 the syntax of languages is this
@@ -654,22 +751,22 @@ a real-world programming language.
 </section>
 </section>
 <section>
-<section id="slide-org9896073">
-<h2 id="org9896073"><span class="section-number-2">5</span> Parsing and executable code</h2>
+<section id="slide-org2bee3cf">
+<h2 id="org2bee3cf"><span class="section-number-2">4</span> Parsing and executable code</h2>
 <p>
-We will briefly summarise the parsing process.
+We will briefly summarise the parsing process,
+beginning with some important terms.
 </p>
 <ul>
 <li>In this course, we are primarily interested in
 the beginning of this process, up to the
 construction of parse trees.</li>
-<li>The reality of</li>
 
 </ul>
 
 </section>
-<section id="slide-orgcf385a2">
-<h3 id="orgcf385a2"><span class="section-number-3">5.1</span> Lexemes and tokens</h3>
+<section id="slide-org2e1cc14">
+<h3 id="org2e1cc14"><span class="section-number-3">4.1</span> Atomic syntactic units</h3>
 <p>
 We have mentioned that both regular expressions and
 context-free grammars are used in the description of
@@ -677,15 +774,14 @@ the syntax of programming languages.
 </p>
 
 <p>
-However, up until this point,
-our example programming languages have been described exclusively
-by context-free grammars.
+However, our example programming language earlier
+was described exclusively by a context-free grammar.
 </p>
 <ul>
-<li>Even the smallest syntactic units of the language
-have been described by the grammars.
+<li>Even the smallest syntactic units of the language,
+the <i>atomic</i> syntactic units, have been described by the grammars.
 <ul>
-<li>For instance, we have used productions such as
+<li>For instance, we have used the production
 \(⟨const⟩  ∷= (1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 0) \{⟨const⟩\}\)
 which describes numerical constants.</li>
 
@@ -697,18 +793,20 @@ which describes numerical constants.</li>
 This is not done in practice.
 </p>
 
+</section>
+<section id="slide-org4597c8a">
+<h3 id="org4597c8a"><span class="section-number-3">4.2</span> Lexemes and tokens</h3>
 <p>
 In practice,
 </p>
 <ul>
 <li>regular expressions are instead used to describe the
-smallest syntactic units of languages.
+atomic syntactic units of languages.
 <ul>
 <li>For example,
 <ul>
-<li>keywords such as <code>if</code> and <code>while</code>,</li>
-<li>or constant values, such as <code>0</code> or <code>"abc"</code>,</li>
-<li>or names such as <code>height</code> or <code>sqrt</code>.</li>
+<li>keywords such as <code>if</code> and <code>while</code>, constant values such as <code>0</code> or <code>"abc"</code>,
+or names such as <code>height</code> or <code>sqrt</code>.</li>
 
 </ul></li>
 <li>Lexemes cannot be broken down into meaningful pieces.</li>
@@ -724,7 +822,7 @@ called <i>tokens</i>, rather than elements of \(Σ\).</li>
 <li>the token <code>while</code> for the set containing only the
 keyword <code>while</code>,</li>
 <li>or the token <code>int_literal</code> for the set \(\{ 0, 1, -1, 2, … \}\),</li>
-<li>or the tohen <code>var</code> for the set of valid variable names.</li>
+<li>or the token <code>var</code> for the set of valid variable names.</li>
 
 </ul></li>
 
@@ -733,15 +831,8 @@ keyword <code>while</code>,</li>
 </ul>
 
 </section>
-<section id="slide-org20c7b81">
-<h3 id="org20c7b81"><span class="section-number-3">5.2</span> The zeroth step – preprocessing</h3>
-<p>
-In some programming languages
-</p>
-
-</section>
-<section id="slide-org9fedfe6">
-<h3 id="org9fedfe6"><span class="section-number-3">5.3</span> The first step – lexical analysis</h3>
+<section id="slide-org2e8f68e">
+<h3 id="org2e8f68e"><span class="section-number-3">4.3</span> Parsing</h3>
 <p>
 Parsing is the process of translating a program
 from plaintext
@@ -759,8 +850,36 @@ whether this is done
 <p>
 parsing is a necessary step before execution.
 </p></li>
+<li>A computer cannot run unparsed higher level language code.</li>
 
 </ul>
+
+</section>
+<section id="slide-org74b7840">
+<h3 id="org74b7840"><span class="section-number-3">4.4</span> The zeroth step – preprocessing</h3>
+<p>
+Many programming languages support some form
+of <i>preprocessing directives</i> which are
+to be carried out before the parsing process
+properly begins.
+</p>
+<ul>
+<li>Commonly, “macros”, which often are simply
+textual substitutions to be carried out.
+<ul>
+<li>But they can be used for significantly more;
+in some instances, macros form a whole language themselves.</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-org069ebfa">
+<h3 id="org069ebfa"><span class="section-number-3">4.5</span> The first step – lexical analysis</h3>
+<p>
+:TODO: There's a break in the narrative here.
+</p>
 
 <p>
 We now know the first step in parsing.
@@ -780,8 +899,8 @@ irrelevant text.</li>
 </ul>
 
 </section>
-<section id="slide-org5d6a1a1">
-<h3 id="org5d6a1a1"><span class="section-number-3">5.4</span> The second step – parsing (syntactic analysis)</h3>
+<section id="slide-org2327a87">
+<h3 id="org2327a87"><span class="section-number-3">4.6</span> The second step – parsing (syntactic analysis)</h3>
 <p>
 After converting from plaintext to a string of tokens, the next
 step of parsing is to construct the parse tree.
@@ -797,24 +916,24 @@ but it is also usually called parsing.
 </ul>
 
 </section>
-<section id="slide-org95b3a45">
-<h3 id="org95b3a45"><span class="section-number-3">5.5</span> The third step – (static) semantic analysis</h3>
+<section id="slide-orgd253df7">
+<h3 id="orgd253df7"><span class="section-number-3">4.7</span> The third step – (static) semantic analysis</h3>
 <p>
 :TODO:
 </p>
 
 </section>
-<section id="slide-org6643471">
-<h3 id="org6643471"><span class="section-number-3">5.6</span> The fourth step – intermediate code generation</h3>
+<section id="slide-org6e91282">
+<h3 id="org6e91282"><span class="section-number-3">4.8</span> The fourth step – intermediate code generation</h3>
 <p>
 :TODO:
 </p>
 
 </section>
-<section id="slide-org1bd287f">
-<h3 id="org1bd287f"><span class="section-number-3">5.7</span> Visualising the entire parsing process</h3>
+<section id="slide-org97d76ad">
+<h3 id="org97d76ad"><span class="section-number-3">4.9</span> Visualising the entire parsing process</h3>
 
-<div id="org7df2d13" class="figure">
+<div id="orgd0708b8" class="figure">
 <p><img src="media/parsing-whole.png" alt="parsing-whole.png" />
 </p>
 </div>
@@ -822,13 +941,13 @@ but it is also usually called parsing.
 </section>
 </section>
 <section>
-<section id="slide-org6ecb99e">
-<h2 id="org6ecb99e"><span class="section-number-2">6</span> Ambiguity</h2>
-<div class="outline-text-2" id="text-6">
+<section id="slide-orge9dc98f">
+<h2 id="orge9dc98f"><span class="section-number-2">5</span> Ambiguity</h2>
+<div class="outline-text-2" id="text-5">
 </div>
 </section>
-<section id="slide-org65c6ed1">
-<h3 id="org65c6ed1"><span class="section-number-3">6.1</span> Ambiguity</h3>
+<section id="slide-org3d84563">
+<h3 id="org3d84563"><span class="section-number-3">5.1</span> Ambiguity</h3>
 <p>
 Recall that parsing a string (or deriving a string)
 using a grammar gives rise to a <i>parse tree</i> or <i>derivation tree</i>.
@@ -855,8 +974,8 @@ grammar.
 </p>
 
 </section>
-<section id="slide-org9543c61">
-<h3 id="org9543c61"><span class="section-number-3">6.2</span> Removing ambiguity</h3>
+<section id="slide-orga898da7">
+<h3 id="orga898da7"><span class="section-number-3">5.2</span> Removing ambiguity</h3>
 <p>
 It is desirable to have a single parse tree for every program.
 </p>
@@ -876,8 +995,8 @@ Three tools for removing ambiguity are
 </ul>
 
 </section>
-<section id="slide-org898a5a4">
-<h3 id="org898a5a4"><span class="section-number-3">6.3</span> Enforcing precedence and associativity with grammars</h3>
+<section id="slide-orgc8e7ce2">
+<h3 id="orgc8e7ce2"><span class="section-number-3">5.3</span> Enforcing precedence and associativity with grammars</h3>
 <p>
 To enforce precedence using a grammar:
 </p>
@@ -906,8 +1025,8 @@ non-terminals.</li>
 </ul>
 
 </section>
-<section id="slide-org072003e">
-<h3 id="org072003e"><span class="section-number-3">6.4</span> Is addition associative?</h3>
+<section id="slide-org9035df7">
+<h3 id="org9035df7"><span class="section-number-3">5.4</span> Is addition associative?</h3>
 <p>
 Recall that addition is an associative operator.
 </p>
@@ -934,8 +1053,8 @@ upon parenthesisation.</li>
 </ul>
 
 </section>
-<section id="slide-org5b04da7">
-<h3 id="org5b04da7"><span class="section-number-3">6.5</span> Abstract syntax</h3>
+<section id="slide-org8654009">
+<h3 id="org8654009"><span class="section-number-3">5.5</span> Abstract syntax</h3>
 <p>
 “Simple”, ambiguous grammars do have a place in describing
 programming language syntax.
@@ -962,8 +1081,8 @@ for the abstract syntax of the language.
 </ul>
 
 </section>
-<section id="slide-orgf3613aa">
-<h3 id="orgf3613aa"><span class="section-number-3">6.6</span> Beyond context-free grammars: “static semantics”</h3>
+<section id="slide-org7fadf32">
+<h3 id="org7fadf32"><span class="section-number-3">5.6</span> Beyond context-free grammars: “static semantics”</h3>
 <p>
 For most interesting languages,
 context-free grammars are not quite sufficient
@@ -1011,8 +1130,8 @@ reasoning about those attributes.</li>
 </ul>
 
 </section>
-<section id="slide-orga6307c0">
-<h3 id="orga6307c0"><span class="section-number-3">6.7</span> An example attribute grammar</h3>
+<section id="slide-org5e03404">
+<h3 id="org5e03404"><span class="section-number-3">5.7</span> An example attribute grammar</h3>
 <p>
 Consider this simple grammar.
 </p>
@@ -1041,9 +1160,9 @@ a rule to compute the <code>length</code>.</li>
 </ul>
 
 </section>
-<section id="slide-orga6307c0-split">
+<section id="slide-org5e03404-split">
 
-<h3><span class="section-number-3">6.7</span> An example attribute grammar</h3>
+<h3><span class="section-number-3">5.7</span> An example attribute grammar</h3>
 
 <div class="org-src-container">
 
@@ -1079,13 +1198,13 @@ in the rules/predicates.
 </section>
 </section>
 <section>
-<section id="slide-orgf55a38b">
-<h2 id="orgf55a38b"><span class="section-number-2">7</span> Abstract and concrete syntax; ignoring ambiguity</h2>
+<section id="slide-orgc8a0d3c">
+<h2 id="orgc8a0d3c"><span class="section-number-2">6</span> Abstract and concrete syntax; ignoring ambiguity</h2>
 </section>
 </section>
 <section>
-<section id="slide-orge77e6a5">
-<h2 id="orge77e6a5"><span class="section-number-2">8</span> The <i>semantics</i> of formal languages</h2>
+<section id="slide-orge73cc6b">
+<h2 id="orge73cc6b"><span class="section-number-2">7</span> The <i>semantics</i> of formal languages</h2>
 <p>
 The <i>semantics</i> of a language assigns a meaning to each sentence.
 </p>
@@ -1133,8 +1252,8 @@ the three most well known are
 </ul>
 
 </section>
-<section id="slide-org31c5a1a">
-<h3 id="org31c5a1a"><span class="section-number-3">8.1</span> Example – semantics of a language of natural numbers</h3>
+<section id="slide-orga12ccaf">
+<h3 id="orga12ccaf"><span class="section-number-3">7.1</span> Example – semantics of a language of natural numbers</h3>
 <p>
 Consider again a language of terms intended to represent
 natural numbers.
@@ -1169,8 +1288,8 @@ the language and the semantic domain are not so directly related.</li>
 </ul>
 
 </section>
-<section id="slide-orga0bf4c9">
-<h3 id="orga0bf4c9"><span class="section-number-3">8.2</span> Example – semantics of propositional logic</h3>
+<section id="slide-orgdc697f1">
+<h3 id="orgdc697f1"><span class="section-number-3">7.2</span> Example – semantics of propositional logic</h3>
 <p>
 As a more complex example, we can map propositional logic terms
 into the set of booleans.
@@ -1205,8 +1324,8 @@ Exercise: Complete this evaluation function.
 </p>
 
 </section>
-<section id="slide-orgca4e782">
-<h3 id="orgca4e782"><span class="section-number-3">8.3</span> Example – small-step semantics of propositional logic</h3>
+<section id="slide-org40b3d04">
+<h3 id="org40b3d04"><span class="section-number-3">7.3</span> Example – small-step semantics of propositional logic</h3>
 <p>
 The evaluation function defined above can be considered
 to be a <i>big-step</i> semantics.
