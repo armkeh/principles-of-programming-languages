@@ -142,11 +142,11 @@ as discussion in “Hands-on Scala”
 ~case class~-es in Scala are used to implement algebraic datatypes,
 which you may have seen in Haskell
 #+begin_src haskell
-data LeafTree a = Leaf a | Branch (Tree a) (Tree a)
+data LeafTree a = Leaf a | Branch (LeafTree a) (LeafTree a)
 #+end_src
 or Elm
 #+begin_src elm
-type LeafTree a = Leaf a | Branch (Tree a) (Tree a)
+type LeafTree a = Leaf a | Branch (LeafTree a) (LeafTree a)
 #+end_src
 
 The type ~LeafTree~ on ~Int~ represents trees such as
@@ -253,6 +253,12 @@ the /elegance/ of the solution.
 *Try to avoid unnecessary or repeated work.*
 #+end_center
 
+*Edited September 17th*: that said, based on statements I (Mark)
+have made to inquiring students, and because this is the first homework,
+the marking of this homework will still assign
+at least a “good” mark to any solution
+which matches the description in the first two paragraphs.
+
 * Part 4: Trees which describe structure     [10 points]
 :PROPERTIES:
 :CUSTOM_ID: Part-4:-Trees-which-describe-structure
@@ -268,7 +274,11 @@ Call this type ~StructTree~.
   on top of elements of ~B~.
   Note the similarity to parse trees.
 
-The type ~StructTree[String][Int]~ could be used
+*Edited September 17th*: The correct way to write two type parameters
+on a definition is ~StructTree[A,B]~, not ~StructTree[A][B]~ as
+I previously used below.
+
+The type ~StructTree[String,Int]~ could be used
 to represent trees such as
 #+begin_src dot :file media/StructTree.png :exports results :results drawer :post attr_wrap(data=*this*)
 digraph T {

@@ -18,6 +18,11 @@
 :CUSTOM_ID: September
 :END:
 
+- September 17 :: A note was added to homework 1
+  regarding the marking of the ~orderedElems~ question.
+  And a small error regarding usage of two type parameters
+  was fixed in the ~StructTree~ problem.
+
 - September 16 :: The typos encountered in today's lecture
   have all been corrected (if I missed any, let me know.)
   - The first parse tree example has been corrected,

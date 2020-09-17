@@ -120,17 +120,19 @@ Briefly, the advantage to immutable data is that
 enables the programmer a level of certainty that is not available
 if data is mutable.
 
-Consider for a moment this pseudocode regarding our earlier linked lists.
+Consider for a moment this pseudocode regarding
+our earlier linked lists.
 #+begin_example amm
 // This is pseudocode
-val l1: LinkedList[Int] = null
+val l1: LinkedList[Int] = … // Some complicated list creation
 
 somebodyElsesFunction(l1)
 #+end_example
 What can I say about my list ~l1~ after I run “somebody else's”
 function on it?
 
-:TODO:
+Answer: not much! It could have changed in many ways,
+so anything I knew about it may no longer be true.
 
 *** Aside: Downside to immutability
 :PROPERTIES:
@@ -332,6 +334,7 @@ we should use the ~sealed~ keyword which prevents code
 from outside this block from extending ~AppendList~.
 #+begin_example amm
 sealed trait AppendList[A]
+// sub-class definitions yet to come
 #+end_example
 
 ** Attempt 1 at defining cases of lists: basic classes
@@ -346,8 +349,10 @@ So even though ~AppendList~ cannot be instantiated,
 we can create ~AppendList~ values.
 
 (Yes, this means a single value can have many types;
-specifically, it has a chain of types, each one a sub-type of the next).
-:TODO: where does the chain end?
+specifically, it has a chain of types,
+each one a sub-type of the next).
+
+Exercise: where does the chain end?
 
 We can fill in a ~class~ for each case.
 #+begin_src amm :results none
@@ -368,6 +373,8 @@ empty1 == empty2  // equality check
 #+end_src
 :TODO: why? what's so bad about the result of the equality check?
 
+:TODO: The fact that this check failed tells me these are not the same in memory.
+
 *** Aside: Notions of equality
 :PROPERTIES:
 :CUSTOM_ID: Aside:-Notions-of-equality
@@ -381,7 +388,8 @@ empty1 == empty2  // equality check
 :END:
 
 Our ~class~ based definition above caused two instances
-of the same list (same in the sense that their construction was the same)
+of the same list (same in the sense that their
+construction was the same)
 as different (unequal) lists.
 
 The reason comes back to mutability.
@@ -414,32 +422,26 @@ over types defined this way.
 :END:
 
 #+begin_quote
-“Each data structure is the free algebra of its binary operation ~++.~”
+“Each data structure is the
+free algebra of its binary operation ~++.~”
 #+end_quote
+This means, since ~a ++ [] = a~ by the identity law,
+in the paper, ~a ++ []~ and ~a~ will both be the same value of ~List~.
 
-:TODO: *no confusion*!
-
+Let's try that in Scala.
 #+begin_src amm :results none
 sealed trait AppendList[A]
 case class Empty[A]() extends AppendList[A]
 case class Single[A](a: A) extends AppendList[A]
 case class Concat[A](l: AppendList[A], r: AppendList[A]) extends AppendList[A]
 
-val x1 = Empty[Int]()
-val x2 = Empty[Int]()
-#+end_src
-
-#+begin_src amm
 val listofone = Single(1)
 val anotherlistofone = Concat(listofone, Empty())
 
 listofone == anotherlistofone
 #+end_src
 
-#+RESULTS:
-: listofone: Single[Int] = Single(1)
-: anotherlistofone: Concat[Int] = Concat(Single(1), Empty())
-: res18_2: Boolean = false
+:TODO: We have confusion!
 
 * A proper implementation of lists in Scala.
 :PROPERTIES:
