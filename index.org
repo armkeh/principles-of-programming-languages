@@ -18,7 +18,15 @@
 :CUSTOM_ID: September
 :END:
 
-- September 17 :: A note was added to homework 1
+- September 17 :: A note has been added to the course outline
+  regarding use of *plaintext* or *code snippet markup*
+  when sharing code in discussions with staff and on Teams,
+  *instead of screenshots*.
+  Also see the post in the general chat on Teams
+  regarding how to use the code snippet formatting tool.
+
+  Additionally:
+  - A note was added to homework 1
   regarding the marking of the ~orderedElems~ question.
   And a small error regarding usage of two type parameters
   was fixed in the ~StructTree~ problem.

@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-09-11 Fri 01:56 -->
+<!-- 2020-09-17 Thu 15:06 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Computer Science 3MI3 - Principles of Programming Languages</title>
@@ -42,7 +42,7 @@
   }
   pre.src {
     position: relative;
-    overflow: visible;
+    overflow: auto;
     padding-top: 1.2em;
   }
   pre.src:before {
@@ -202,50 +202,26 @@
 <script type="text/javascript" src="styles/lib/js/jquery.stickytableheaders.min.js"></script>
 <script type="text/javascript" src="styles/readtheorg/js/readtheorg.js"></script>
 <script type="text/javascript">
-/*
-@licstart  The following is the entire license notice for the
-JavaScript code in this tag.
-
-Copyright (C) 2012-2020 Free Software Foundation, Inc.
-
-The JavaScript code in this tag is free software: you can
-redistribute it and/or modify it under the terms of the GNU
-General Public License (GNU GPL) as published by the Free Software
-Foundation, either version 3 of the License, or (at your option)
-any later version.  The code is distributed WITHOUT ANY WARRANTY;
-without even the implied warranty of MERCHANTABILITY or FITNESS
-FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
-
-As additional permission under GNU GPL version 3 section 7, you
-may distribute non-source (e.g., minimized or compacted) forms of
-that code without the copy of the GNU GPL normally required by
-section 4, provided you include this license notice and a URL
-through which recipients can access the Corresponding Source.
-
-
-@licend  The above is the entire license notice
-for the JavaScript code in this tag.
-*/
+// @license magnet:?xt=urn:btih:e95b018ef3580986a04669f1b5879592219e2a7a&dn=public-domain.txt Public Domain
 <!--/*--><![CDATA[/*><!--*/
- function CodeHighlightOn(elem, id)
- {
-   var target = document.getElementById(id);
-   if(null != target) {
-     elem.cacheClassElem = elem.className;
-     elem.cacheClassTarget = target.className;
-     target.className = "code-highlighted";
-     elem.className   = "code-highlighted";
-   }
- }
- function CodeHighlightOff(elem, id)
- {
-   var target = document.getElementById(id);
-   if(elem.cacheClassElem)
-     elem.className = elem.cacheClassElem;
-   if(elem.cacheClassTarget)
-     target.className = elem.cacheClassTarget;
- }
-/*]]>*///-->
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.add("code-highlighted");
+         target.classList.add("code-highlighted");
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.remove("code-highlighted");
+         target.classList.remove("code-highlighted");
+       }
+     }
+    /*]]>*///-->
+// @license-end
 </script>
 </head>
 <body>
@@ -317,7 +293,7 @@ for the JavaScript code in this tag.
 </div>
 </div>
 
-<div id="outline-container-org02f770c" class="outline-2">
+<div id="outline-container-TL;DR" class="outline-2">
 <h2 id="TL;DR"><span class="section-number-2">1</span> TL;DR (Too Long, Didn't Read)</h2>
 <div class="outline-text-2" id="text-TL;DR">
 <p>
@@ -338,7 +314,7 @@ At the very least, please review these sections of the outline.
 </div>
 </div>
 
-<div id="outline-container-orgc6d045a" class="outline-2">
+<div id="outline-container-The-purpose-of-an-outline" class="outline-2">
 <h2 id="The-purpose-of-an-outline"><span class="section-number-2">2</span> The purpose of an outline</h2>
 <div class="outline-text-2" id="text-The-purpose-of-an-outline">
 <blockquote>
@@ -358,17 +334,17 @@ and how they will be assessed.”
 </div>
 </div>
 
-<div id="outline-container-orgb64ff82" class="outline-2">
+<div id="outline-container-Course-staff" class="outline-2">
 <h2 id="Course-staff"><span class="section-number-2">3</span> Course staff</h2>
 <div class="outline-text-2" id="text-Course-staff">
 </div>
 
-<div id="outline-container-org1e071f4" class="outline-3">
+<div id="outline-container-Instructor:-Mark-Armstrong" class="outline-3">
 <h3 id="Instructor:-Mark-Armstrong"><span class="section-number-3">3.1</span> Instructor: Mark Armstrong</h3>
 <div class="outline-text-3" id="text-Instructor:-Mark-Armstrong">
 <blockquote>
 
-<div class="figure">
+<div id="org4a29bd9" class="figure">
 <p><img src="./media/markarmstrong.jpg" alt="Mark Armstrong photo" width="200px" />
 </p>
 </div>
@@ -384,12 +360,12 @@ and how they will be assessed.”
 </p>
 </div>
 </div>
-<div id="outline-container-orgedc2adb" class="outline-3">
+<div id="outline-container-Teaching-assistants" class="outline-3">
 <h3 id="Teaching-assistants"><span class="section-number-3">3.2</span> Teaching assistant: Habib Ghaffari-Hadigheh</h3>
 <div class="outline-text-3" id="text-Teaching-assistants">
 <blockquote>
 
-<div class="figure">
+<div id="orge270155" class="figure">
 <p><img src="./media/habibghaffarihadigheh.jpg" alt="Habib Ghaffari-Hadigheh" width="200px" />
 </p>
 </div>
@@ -407,7 +383,7 @@ and how they will be assessed.”
 </div>
 </div>
 
-<div id="outline-container-orgf20de50" class="outline-2">
+<div id="outline-container-Schedule" class="outline-2">
 <h2 id="Schedule"><span class="section-number-2">4</span> Schedule</h2>
 <div class="outline-text-2" id="text-Schedule">
 <!-- This HTML table template is generated by emacs 27.0.90 -->
@@ -605,23 +581,18 @@ and how they will be assessed.”
 </table>
 </div>
 
-<div id="outline-container-org26f6dea" class="outline-3">
+<div id="outline-container-Lecture-recordings" class="outline-3">
 <h3 id="Lecture-recordings"><span class="section-number-3">4.1</span> Lecture recordings</h3>
 <div class="outline-text-3" id="text-Lecture-recordings">
 <p>
 Lectures and tutorials will be made available as recordings
-shortly after said lectures and tutorials.
-</p>
-
-<p>
-The platform for said recordings will be announced
-after the start of classes.
-:TODO:
+shortly after said lectures and tutorials,
+via Microsoft Stream (or if Zoom is used, via Zoom).
 </p>
 </div>
 </div>
 
-<div id="outline-container-org647bc23" class="outline-3">
+<div id="outline-container-Homework-due-dates" class="outline-3">
 <h3 id="Homework-due-dates"><span class="section-number-3">4.2</span> Homework due dates</h3>
 <div class="outline-text-3" id="text-Homework-due-dates">
 <p>
@@ -639,7 +610,7 @@ the Monday following the recess instead.
 </div>
 </div>
 
-<div id="outline-container-orgb692a6e" class="outline-3">
+<div id="outline-container-Assignment-due-dates" class="outline-3">
 <h3 id="Assignment-due-dates"><span class="section-number-3">4.3</span> Assignment due dates</h3>
 <div class="outline-text-3" id="text-Assignment-due-dates">
 <p>
@@ -667,12 +638,12 @@ of other third year computer science courses.
 </div>
 </div>
 
-<div id="outline-container-org2d3d1db" class="outline-2">
+<div id="outline-container-Administration-tools" class="outline-2">
 <h2 id="Administration-tools"><span class="section-number-2">5</span> Administration tools</h2>
 <div class="outline-text-2" id="text-Administration-tools">
 </div>
 
-<div id="outline-container-orgadf86c7" class="outline-3">
+<div id="outline-container-The-tools" class="outline-3">
 <h3 id="The-tools"><span class="section-number-3">5.1</span> The tools</h3>
 <div class="outline-text-3" id="text-The-tools">
 <p>
@@ -728,7 +699,7 @@ may go unnoticed and unanswered.
 </div>
 </div>
 
-<div id="outline-container-org1799734" class="outline-3">
+<div id="outline-container-Your-responsibilities-regarding-course-administration-tools" class="outline-3">
 <h3 id="Your-responsibilities-regarding-course-administration-tools"><span class="section-number-3">5.2</span> Your responsibilities regarding course administration tools</h3>
 <div class="outline-text-3" id="text-Your-responsibilities-regarding-course-administration-tools">
 <p>
@@ -752,7 +723,7 @@ changes to content.
 </div>
 </div>
 
-<div id="outline-container-org274a5e9" class="outline-2">
+<div id="outline-container-Communicating-with-course-staff" class="outline-2">
 <h2 id="Communicating-with-course-staff"><span class="section-number-2">6</span> Communicating with course staff</h2>
 <div class="outline-text-2" id="text-Communicating-with-course-staff">
 <p>
@@ -783,7 +754,7 @@ on urgent issues, and up to two business days for non-urgent issues.
 </p>
 </div>
 
-<div id="outline-container-org7ec69ec" class="outline-3">
+<div id="outline-container-Asking-“smart”-questions" class="outline-3">
 <h3 id="Asking-“smart”-questions"><span class="section-number-3">6.1</span> Asking well-posed questions</h3>
 <div class="outline-text-3" id="text-Asking-“smart”-questions">
 <p>
@@ -816,6 +787,13 @@ for your answers.</li>
 </ul>
 
 <p>
+Additionally, any time that code is being shared,
+students are asked to share plain text or markup code snippets
+(in the case of Microsoft Teams, using the code snippet formatting option)
+rather than sharing screenshots.
+</p>
+
+<p>
 Failure to follow these practices may result in
 terse answers from course staff, such as
 “Please check the course outline.” 
@@ -824,7 +802,7 @@ terse answers from course staff, such as
 </div>
 </div>
 
-<div id="outline-container-orgcb05fe7" class="outline-2">
+<div id="outline-container-Resources" class="outline-2">
 <h2 id="Resources"><span class="section-number-2">7</span> Resources</h2>
 <div class="outline-text-2" id="text-Resources">
 <p>
@@ -881,12 +859,12 @@ needs of implementations
 </blockquote>
 </div>
 
-<div id="outline-container-org672faff" class="outline-3">
+<div id="outline-container-Additional-textbooks" class="outline-3">
 <h3 id="Additional-textbooks"><span class="section-number-3">7.1</span> Additional textbooks</h3>
 <div class="outline-text-3" id="text-Additional-textbooks">
 </div>
 
-<div id="outline-container-orgf513b5e" class="outline-4">
+<div id="outline-container-*“SICP”*;-“The-Wizard-Book”" class="outline-4">
 <h4 id="*“SICP”*;-“The-Wizard-Book”"><span class="section-number-4">7.1.1</span> <b>“SICP”</b>; “The Wizard Book”</h4>
 <div class="outline-text-4" id="text-*“SICP”*;-“The-Wizard-Book”">
 <p>
@@ -924,7 +902,7 @@ and <code>pdf</code> available through
 </p>
 </div>
 </div>
-<div id="outline-container-orgd589866" class="outline-4">
+<div id="outline-container-*“Van-Roy-&-Haridi”*" class="outline-4">
 <h4 id="*“Van-Roy-&-Haridi”*"><span class="section-number-4">7.1.2</span> <b>“Van Roy &amp; Haridi”</b></h4>
 <div class="outline-text-4" id="text-*“Van-Roy-&-Haridi”*">
 <p>
@@ -956,7 +934,7 @@ to use them together.
 </div>
 </div>
 
-<div id="outline-container-orgabbb91f" class="outline-4">
+<div id="outline-container-*“Dowek”*" class="outline-4">
 <h4 id="*“Dowek”*"><span class="section-number-4">7.1.3</span> <b>“Dowek”</b></h4>
 <div class="outline-text-4" id="text-*“Dowek”*">
 <p>
@@ -989,7 +967,7 @@ reference, dynamic data types, objects and more.
 </div>
 </div>
 
-<div id="outline-container-org28d17e7" class="outline-4">
+<div id="outline-container-*“Sebesta”*" class="outline-4">
 <h4 id="*“Sebesta”*"><span class="section-number-4">7.1.4</span> <b>“Sebesta”</b></h4>
 <div class="outline-text-4" id="text-*“Sebesta”*">
 <p>
@@ -1009,7 +987,7 @@ An encyclopedic text on the construction of programming languages.
 </div>
 </div>
 
-<div id="outline-container-orgcff526f" class="outline-4">
+<div id="outline-container-*“Fernández”*" class="outline-4">
 <h4 id="*“Fernández”*"><span class="section-number-4">7.1.5</span> <b>“Fernández”</b></h4>
 <div class="outline-text-4" id="text-*“Fernández”*">
 <p>
@@ -1039,7 +1017,7 @@ of a simple imperative and a simple functional language.
 </div>
 </div>
 
-<div id="outline-container-orgf94e325" class="outline-2">
+<div id="outline-container-Course-description" class="outline-2">
 <h2 id="Course-description"><span class="section-number-2">8</span> Course description</h2>
 <div class="outline-text-2" id="text-Course-description">
 <p>
@@ -1048,7 +1026,7 @@ and goals for this course.
 </p>
 </div>
 
-<div id="outline-container-orgd61a4e7" class="outline-3">
+<div id="outline-container-Calendar-description" class="outline-3">
 <h3 id="Calendar-description"><span class="section-number-3">8.1</span> Calendar description</h3>
 <div class="outline-text-3" id="text-Calendar-description">
 <p>
@@ -1060,7 +1038,7 @@ introduction to programming language semantics.
 </div>
 </div>
 
-<div id="outline-container-org184c277" class="outline-3">
+<div id="outline-container-Informal-objectives" class="outline-3">
 <h3 id="Informal-objectives"><span class="section-number-3">8.2</span> Informal objectives</h3>
 <div class="outline-text-3" id="text-Informal-objectives">
 <ul class="org-ul">
@@ -1083,7 +1061,7 @@ to which situations they are best applied.</li>
 </div>
 </div>
 
-<div id="outline-container-org0bee42f" class="outline-3">
+<div id="outline-container-Course-preconditions" class="outline-3">
 <h3 id="Course-preconditions"><span class="section-number-3">8.3</span> Course preconditions</h3>
 <div class="outline-text-3" id="text-Course-preconditions">
 <p>
@@ -1112,7 +1090,7 @@ Before beginning this course:
 </div>
 </div>
 
-<div id="outline-container-orgbe1d664" class="outline-3">
+<div id="outline-container-Course-postconditions" class="outline-3">
 <h3 id="Course-postconditions"><span class="section-number-3">8.4</span> Course postconditions</h3>
 <div class="outline-text-3" id="text-Course-postconditions">
 <p>
@@ -1144,11 +1122,11 @@ in imperative, functional and logical languages.</li>
 </div>
 </div>
 
-<div id="outline-container-orgffc588f" class="outline-3">
+<div id="outline-container-Formal-rubric-for-the-course" class="outline-3">
 <h3 id="Formal-rubric-for-the-course"><span class="section-number-3">8.5</span> Formal rubric for the course</h3>
 <div class="outline-text-3" id="text-Formal-rubric-for-the-course">
 <font size="-1">
-<div class="scriptsize">
+<div class="scriptsize" id="orgfe0ab6b">
 <!-- This HTML table template is generated by emacs 27.0.90 -->
 <table border="1">
   <tr>
@@ -1424,7 +1402,7 @@ in imperative, functional and logical languages.</li>
 </div>
 </div>
 
-<div id="outline-container-org4170412" class="outline-2">
+<div id="outline-container-Grading" class="outline-2">
 <h2 id="Grading"><span class="section-number-2">9</span> Grading</h2>
 <div class="outline-text-2" id="text-Grading">
 <p>
@@ -1493,7 +1471,7 @@ Each student's final grade will be calculated using the scheme
 </table>
 </div>
 
-<div id="outline-container-org417bad3" class="outline-3">
+<div id="outline-container-Accomodations-for-SAS-and-conflicts-with-other-courses" class="outline-3">
 <h3 id="Accomodations-for-SAS-and-conflicts-with-other-courses"><span class="section-number-3">9.1</span> Accomodations for SAS and conflicts with other courses</h3>
 <div class="outline-text-3" id="text-Accomodations-for-SAS-and-conflicts-with-other-courses">
 <p>
@@ -1506,7 +1484,7 @@ the deadline of the relevant course work deadline.
 </div>
 </div>
 
-<div id="outline-container-orgdd5c3dc" class="outline-3">
+<div id="outline-container-Missed-work" class="outline-3">
 <h3 id="Missed-work"><span class="section-number-3">9.2</span> Missed work</h3>
 <div class="outline-text-3" id="text-Missed-work">
 <p>
@@ -1538,7 +1516,7 @@ a 4 day extension.
 </div>
 </div>
 
-<div id="outline-container-orgb123754" class="outline-2">
+<div id="outline-container-Approved-statements" class="outline-2">
 <h2 id="Approved-statements"><span class="section-number-2">10</span> Approved advisory statements</h2>
 <div class="outline-text-2" id="text-Approved-statements">
 <p>
@@ -1559,10 +1537,10 @@ Please review them.
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Mark Armstrong</p>
-     <p class="author">Contact: <a href="mailto:markparmstrong@gmail.com">markparmstrong@gmail.com</a></p>
+     <p class="author">Contact: <a href="mailto:armstmp@mcmaster.ca">armstmp@mcmaster.ca</a></p>
      <p class="date">Original date: August 2nd, 2020</p>
-     <p class="date">Last updated: 2020-09-11 Fri 01:56</p>
-     <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.90 (<a href="https://orgmode.org">Org</a> mode 9.3.7)</p>
+     <p class="date">Last updated: 2020-09-17 Thu 15:06</p>
+     <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.90 (<a href="https://orgmode.org">Org</a> mode 9.3.8)</p>
      <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

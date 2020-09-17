@@ -220,6 +220,11 @@ do your own research first, and describe this research to the staff.
   reference the portions of the notes you have checked
   for your answers.
 
+Additionally, any time that code is being shared,
+students are asked to share plain text or markup code snippets
+(in the case of Microsoft Teams, using the code snippet formatting option)
+rather than sharing screenshots.
+
 Failure to follow these practices may result in
 terse answers from course staff, such as
 “Please check the course outline.” 
