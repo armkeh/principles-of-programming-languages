@@ -12,6 +12,29 @@ better viewed at
 
 ## September
 
+  - September 18  
+    Testing code has been uploaded for homework 1, in the homework file
+    itself. **For this homework, it is optional that you complete the**
+    **testing interface and submit it with your homework**. For future
+    homeworks and assignments, tests will be provided in a more timely
+    manner and required.
+    
+    Also note, the requirement to name both instances of your `flatten`
+    and `orderedElems` function the same has been dropped.
+
+  - September 17  
+    A note has been added to the course outline regarding use of
+    **plaintext** or **code snippet markup** when sharing code in
+    discussions with staff and on Teams, **instead of screenshots**.
+    Also see the post in the general chat on Teams regarding how to use
+    the code snippet formatting tool.
+    
+    Additionally:
+    
+      - A note was added to homework 1 regarding the marking of the
+        `orderedElems` question. And a small error regarding usage of
+        two type parameters was fixed in the `StructTree` problem.
+
   - September 16  
     The typos encountered in today's lecture have all been corrected (if
     I missed any, let me know.)

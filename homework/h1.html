@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-09-17 Thu 15:00 -->
+<!-- 2020-09-18 Fri 00:34 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Computer Science 3MI3 – 2020 homework 1</title>
@@ -239,16 +239,16 @@
 <ul>
 <li><a href="#Submission-procedures">Submission procedures</a>
 <ul>
-<li><a href="#orge7884a5">Submission method</a></li>
-<li><a href="#orgb30444b">Naming requirements</a></li>
-<li><a href="#orgff7c46e">Do not submit testing or diagnostic code</a></li>
-<li><a href="#org4f1f219">Due date and allowance for technical difficulties</a></li>
+<li><a href="#org78cc75e">Submission method</a></li>
+<li><a href="#org163bd86">Naming requirements</a></li>
+<li><a href="#org7732f7f">Do not submit testing or diagnostic code</a></li>
+<li><a href="#org09b9e4d">Due date and allowance for technical difficulties</a></li>
 </ul>
 </li>
 <li><a href="#Proper-conduct-for-coursework">Proper conduct for coursework</a>
 <ul>
-<li><a href="#org5878db8">Individual work</a></li>
-<li><a href="#org22a3e18">Language library resources</a></li>
+<li><a href="#org2b333b1">Individual work</a></li>
+<li><a href="#org34002fa">Language library resources</a></li>
 </ul>
 </li>
 </ul>
@@ -264,6 +264,12 @@
 <li><a href="#Part-3:-Elements-of-a-~Tree[Int]~-in-order">Part 3: Elements of a <code>Tree[Int]</code> in order   [20 points]</a></li>
 <li><a href="#Part-4:-Trees-which-describe-structure">Part 4: Trees which describe structure     [10 points]</a></li>
 <li><a href="#Part-5:-Flattening-structure-trees">Part 5: Flattening structure trees   [bonus 20 points]</a></li>
+<li><a href="#Testing">Testing</a>
+<ul>
+<li><a href="#Instructions">Instructions</a></li>
+<li><a href="#The-scripts">The scripts</a></li>
+</ul>
+</li>
 <li><a href="#More-~LeafTree~-and-~BinTree~-examples">More <code>LeafTree</code> and <code>BinTree</code> examples</a>
 <ul>
 <li><a href="#~LeafTree~"><code>LeafTree</code></a></li>
@@ -303,9 +309,9 @@ which convert those trees to the less structured type of lists.
 <div class="outline-text-3" id="text-Submission-procedures">
 </div>
 
-<div id="outline-container-orge7884a5" class="outline-4">
-<h4 id="orge7884a5">Submission method</h4>
-<div class="outline-text-4" id="text-orge7884a5">
+<div id="outline-container-org78cc75e" class="outline-4">
+<h4 id="org78cc75e">Submission method</h4>
+<div class="outline-text-4" id="text-org78cc75e">
 <p>
 Homework should be submitted to your McMaster CAS Gitlab respository
 in the <code>cs3mi3-fall2020</code> project.
@@ -318,9 +324,9 @@ in time for the deadline, and not just committed to your local copy.
 </div>
 </div>
 
-<div id="outline-container-orgb30444b" class="outline-4">
-<h4 id="orgb30444b">Naming requirements</h4>
-<div class="outline-text-4" id="text-orgb30444b">
+<div id="outline-container-org163bd86" class="outline-4">
+<h4 id="org163bd86">Naming requirements</h4>
+<div class="outline-text-4" id="text-org163bd86">
 <p>
 Place all files for the homework
 inside a folder titled <code>hn</code>, where <code>n</code> is the number of the homework.
@@ -361,9 +367,9 @@ submit a <code>hn.ext</code> file for each language.
 </div>
 </div>
 
-<div id="outline-container-orgff7c46e" class="outline-4">
-<h4 id="orgff7c46e">Do not submit testing or diagnostic code</h4>
-<div class="outline-text-4" id="text-orgff7c46e">
+<div id="outline-container-org7732f7f" class="outline-4">
+<h4 id="org7732f7f">Do not submit testing or diagnostic code</h4>
+<div class="outline-text-4" id="text-org7732f7f">
 <p>
 Unless you are instructed to do so in the homework questions,
 <b>you should not submit testing code with your homework submission</b>.
@@ -391,9 +397,9 @@ For instance, by using a wrapper on the print function or macros.
 </div>
 </div>
 
-<div id="outline-container-org4f1f219" class="outline-4">
-<h4 id="org4f1f219">Due date and allowance for technical difficulties</h4>
-<div class="outline-text-4" id="text-org4f1f219">
+<div id="outline-container-org09b9e4d" class="outline-4">
+<h4 id="org09b9e4d">Due date and allowance for technical difficulties</h4>
+<div class="outline-text-4" id="text-org09b9e4d">
 <p>
 Homework is due on the second Sunday following its release,
 by the end of the day (midnight).
@@ -418,9 +424,9 @@ to accept your submission once the technical difficulties are resolved.
 <div class="outline-text-3" id="text-Proper-conduct-for-coursework">
 </div>
 
-<div id="outline-container-org5878db8" class="outline-4">
-<h4 id="org5878db8">Individual work</h4>
-<div class="outline-text-4" id="text-org5878db8">
+<div id="outline-container-org2b333b1" class="outline-4">
+<h4 id="org2b333b1">Individual work</h4>
+<div class="outline-text-4" id="text-org2b333b1">
 <p>
 Unless explicitely stated in the homework questions,
 all homework in this course is intended
@@ -481,9 +487,9 @@ probably add a catch-all <code>_</code> case to your <code>match</code> expressi
 </div>
 </div>
 
-<div id="outline-container-org22a3e18" class="outline-4">
-<h4 id="org22a3e18">Language library resources</h4>
-<div class="outline-text-4" id="text-org22a3e18">
+<div id="outline-container-org34002fa" class="outline-4">
+<h4 id="org34002fa">Language library resources</h4>
+<div class="outline-text-4" id="text-org34002fa">
 <p>
 Unless explicitely stated in the questions,
 it is not expected that you will use any language library resources
@@ -632,7 +638,7 @@ or Elm
 The type <code>LeafTree</code> on <code>Int</code> represents trees such as
 </p>
 
-<div id="orge488d25" class="figure">
+<div id="orgc29a7c1" class="figure">
 <p><img src="media/LeafTree.png" alt="LeafTree.png" />
 </p>
 </div>
@@ -641,7 +647,7 @@ The type <code>LeafTree</code> on <code>Int</code> represents trees such as
 While the type <code>BinTree</code> on <code>Int</code> represents trees such as
 </p>
 
-<div id="org0b5dedf" class="figure">
+<div id="orge2b4771" class="figure">
 <p><img src="media/BinTree.png" alt="BinTree.png" />
 </p>
 </div>
@@ -659,14 +665,20 @@ Also see <a href="#More-~LeafTree~-and-~BinTree~-examples">More <code>LeafTree</
 Implement a function named <code>flatten</code> for our two tree types
 defined avoid, each of which convert the trees to lists,
 discarding the tree structure.
-Note that we are able to reuse the name <code>flatten</code> for two different
-functions so long as the type signatures are different.
 Specifically,
 </p>
 <ol class="org-ol">
 <li>the first <code>flatten</code> should have type <code>LeafTree[A] =&gt; List[A]</code>, and</li>
 <li>the second <code>flatten</code> should have type <code>BinTree[A] =&gt; List[A]</code>.</li>
 </ol>
+
+<p>
+Note that we are able to reuse the name <code>flatten</code> for two different
+functions so long as the type signatures are different.
+<b>Edited September 18th</b>:
+If this is not possible in your implementation of Scala,
+name the two functions something similar instead, such as <code>flattenBT</code>.
+</p>
 
 <p>
 For the <code>LeafTree</code> type, the elements should appear in the same
@@ -700,6 +712,13 @@ into lists <i>which are sorted in <b>increasing</b> order</i>. So,
 <p>
 and in each case you must ensure the result is ordered
 in increasing order.
+</p>
+
+<p>
+<b>Edited September 18th</b>:
+As in part 2, if your implementation of Scala does not support
+giving these two functions the same name,
+name them something similar instead.
 </p>
 
 <p>
@@ -755,7 +774,7 @@ The type <code>StructTree[String,Int]</code> could be used
 to represent trees such as
 </p>
 
-<div id="org57d896b" class="figure">
+<div id="org7ebe81b" class="figure">
 <p><img src="media/StructTree.png" alt="StructTree.png" />
 </p>
 </div>
@@ -783,6 +802,135 @@ necessitates discarding at least some structure.
 </p>
 </div>
 </div>
+<div id="outline-container-Testing" class="outline-2">
+<h2 id="Testing">Testing</h2>
+<div class="outline-text-2" id="text-Testing">
+<p>
+:TODO: A Docker container which automates this.
+</p>
+</div>
+
+<div id="outline-container-Instructions" class="outline-3">
+<h3 id="Instructions">Instructions</h3>
+<div class="outline-text-3" id="text-Instructions">
+<p>
+To test your solution, first complete
+<a href="./src/h1_interface.sc">this</a> interface script
+by filling in the appropriate constructor/method invocations
+in place of the <code>???</code>.
+Save it in the same directory as your <code>h1.sc</code>,
+with the name <code>h1_interface.sc</code>.
+</p>
+
+<p>
+If you choose to complete the interface, you may also
+choose to submit it along with your <code>h1.sc</code> file.
+</p>
+
+<p>
+Then, save <a href="./src/h1_test.sc">this</a> testing script
+in the same directory, naming it <code>h1_test.sc</code>, and invoke it with
+</p>
+<div class="org-src-container">
+<pre class="src src-shell">amm h1_test.sc
+</pre>
+</div>
+
+<p>
+You do not need to submit the <code>h1_test.sc</code> file.
+</p>
+
+<p>
+If you are not using Ammonite, you will need to modify the tests
+to work with your Scala implementation.
+Simply placing their contents into your <code>h1.sc</code> file should work,
+but be sure to remove them before submission.
+</p>
+</div>
+</div>
+
+<div id="outline-container-The-scripts" class="outline-3">
+<h3 id="The-scripts">The scripts</h3>
+<div class="outline-text-3" id="text-The-scripts">
+<p>
+The scripts are also shown here. First, the interface script.
+</p>
+<div class="org-src-container">
+<pre class="src src-amm"><span style="color: #b6a0ff;">import</span> $file.h1, h1.<span style="color: #b6a0ff;">_</span>
+<span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Fill in your constructors here.</span>
+
+<span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">BT_node</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">](</span>l<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">BinTree</span><span style="color: #b6a0ff;">[</span><span style="color: #00bdfa;">A</span><span style="color: #b6a0ff;">]</span>, a<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">A</span>, r<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">BinTree</span><span style="color: #b6a0ff;">[</span><span style="color: #00bdfa;">A</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">BinTree</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">]</span> <span style="color: #b6a0ff;">=</span> ???
+<span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">BT_leaf</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">]</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">BinTree</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">]</span> <span style="color: #b6a0ff;">=</span> ???
+<span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">BT_flatten</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">](</span>t<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">BinTree</span><span style="color: #b6a0ff;">[</span><span style="color: #00bdfa;">A</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">List</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">]</span> <span style="color: #b6a0ff;">=</span> ???
+<span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">BT_orderedElems</span><span style="color: #00cd68;">(</span>t<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">BinTree</span><span style="color: #b6a0ff;">[</span><span style="color: #00bdfa;">Int</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">List</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">Int</span><span style="color: #00cd68;">]</span> <span style="color: #b6a0ff;">=</span> ???
+
+<span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">LT_node</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">](</span>l <span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">LeafTree</span><span style="color: #b6a0ff;">[</span><span style="color: #00bdfa;">A</span><span style="color: #b6a0ff;">]</span>, r<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">LeafTree</span><span style="color: #b6a0ff;">[</span><span style="color: #00bdfa;">A</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">LeafTree</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">]</span> <span style="color: #b6a0ff;">=</span> ???
+<span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">LT_leaf</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">](</span>a<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">A</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">LeafTree</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">]</span> <span style="color: #b6a0ff;">=</span> ???
+<span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">LT_flatten</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">](</span>t<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">LeafTree</span><span style="color: #b6a0ff;">[</span><span style="color: #00bdfa;">A</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">List</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">]</span> <span style="color: #b6a0ff;">=</span> ???
+<span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">LT_orderedElems</span><span style="color: #00cd68;">(</span>t<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">LeafTree</span><span style="color: #b6a0ff;">[</span><span style="color: #00bdfa;">Int</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">List</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">Int</span><span style="color: #00cd68;">]</span> <span style="color: #b6a0ff;">=</span> ???
+</pre>
+</div>
+<p>
+And the testing script.
+</p>
+<div class="org-src-container">
+<pre class="src src-amm"><span style="color: #b6a0ff;">import</span> $file.h1_interface, h1_interface.<span style="color: #b6a0ff;">_</span>
+
+<span style="color: #a8a8a8;">/* </span><span style="color: #a8a8a8;">Given an expected result and a computed result,</span>
+<span style="color: #a8a8a8;">   check if they are equal in value.</span>
+<span style="color: #a8a8a8;">   If so, return 0. Otherwise, inform the user, and return 1,</span>
+<span style="color: #a8a8a8;">   so the number of failures can be counted. */</span>
+<span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">test</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">](</span>given<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">A</span>, expected<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">A</span>, the_test<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">String</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">=</span>
+  <span style="color: #b6a0ff;">if</span> <span style="color: #00cd68;">(</span>!<span style="color: #b6a0ff;">(</span>given equals expected<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span> <span style="color: #00cd68;">{</span>
+    println<span style="color: #b6a0ff;">(</span><span style="color: #72a4ff;">"+---------------------------------------------------"</span><span style="color: #b6a0ff;">)</span>
+    println<span style="color: #b6a0ff;">(</span><span style="color: #72a4ff;">"| "</span> + the_test + <span style="color: #72a4ff;">" failed."</span><span style="color: #b6a0ff;">)</span>
+    println<span style="color: #b6a0ff;">(</span><span style="color: #72a4ff;">"| Expected "</span> + expected + <span style="color: #72a4ff;">", got "</span> + given + <span style="color: #72a4ff;">"."</span><span style="color: #b6a0ff;">)</span>
+    println<span style="color: #b6a0ff;">(</span><span style="color: #72a4ff;">"+---------------------------------------------------"</span><span style="color: #b6a0ff;">)</span>
+    <span style="color: #00bdfa;">1</span>
+  <span style="color: #00cd68;">}</span> <span style="color: #b6a0ff;">else</span> <span style="color: #00cd68;">{</span>
+    <span style="color: #00bdfa;">0</span>
+  <span style="color: #00cd68;">}</span>
+
+
+
+<span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Construct some simple trees of each type.</span>
+<span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">bt_empty</span> <span style="color: #b6a0ff;">=</span> <span style="color: #00bdfa;">BT_leaf</span>
+<span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">bt_1</span> <span style="color: #b6a0ff;">=</span> <span style="color: #00bdfa;">BT_node</span><span style="color: #00cd68;">(</span><span style="color: #00bdfa;">BT_leaf</span>, <span style="color: #00bdfa;">1</span>, <span style="color: #00bdfa;">BT_leaf</span><span style="color: #00cd68;">)</span>
+<span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">bt_231</span> <span style="color: #b6a0ff;">=</span> <span style="color: #00bdfa;">BT_node</span><span style="color: #00cd68;">(</span><span style="color: #00bdfa;">BT_node</span><span style="color: #b6a0ff;">(</span><span style="color: #00bdfa;">BT_leaf</span>, <span style="color: #00bdfa;">2</span>, <span style="color: #00bdfa;">BT_leaf</span><span style="color: #b6a0ff;">)</span>, <span style="color: #00bdfa;">3</span>, <span style="color: #00bdfa;">BT_node</span><span style="color: #b6a0ff;">(</span><span style="color: #00bdfa;">BT_leaf</span>, <span style="color: #00bdfa;">1</span>, <span style="color: #00bdfa;">BT_leaf</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+
+<span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">lt_1</span> <span style="color: #b6a0ff;">=</span> <span style="color: #00bdfa;">LT_leaf</span><span style="color: #00cd68;">(</span><span style="color: #00bdfa;">1</span><span style="color: #00cd68;">)</span>
+<span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">lt_231</span> <span style="color: #b6a0ff;">=</span> <span style="color: #00bdfa;">LT_node</span><span style="color: #00cd68;">(</span><span style="color: #00bdfa;">LT_leaf</span><span style="color: #b6a0ff;">(</span><span style="color: #00bdfa;">2</span><span style="color: #b6a0ff;">)</span>, <span style="color: #00bdfa;">LT_node</span><span style="color: #b6a0ff;">(</span><span style="color: #00bdfa;">LT_leaf</span><span style="color: #6ae4b9;">(</span><span style="color: #00bdfa;">3</span><span style="color: #6ae4b9;">)</span>, <span style="color: #00bdfa;">LT_leaf</span><span style="color: #6ae4b9;">(</span><span style="color: #00bdfa;">1</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+
+<span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">The tests are saved as tuples, the pieces of which will be passed</span>
+<span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">to test.</span>
+<span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">tests</span> <span style="color: #b6a0ff;">=</span> <span style="color: #00bdfa;">List</span><span style="color: #00cd68;">(</span>
+  <span style="color: #b6a0ff;">(</span><span style="color: #00bdfa;">BT_flatten</span><span style="color: #6ae4b9;">(</span>bt_empty<span style="color: #6ae4b9;">)</span>, <span style="color: #00bdfa;">List</span><span style="color: #6ae4b9;">()</span>, <span style="color: #72a4ff;">"Flattening an empty BinTree"</span><span style="color: #b6a0ff;">)</span>,
+  <span style="color: #b6a0ff;">(</span><span style="color: #00bdfa;">BT_flatten</span><span style="color: #6ae4b9;">(</span>bt_1<span style="color: #6ae4b9;">)</span>, <span style="color: #00bdfa;">List</span><span style="color: #6ae4b9;">(</span><span style="color: #00bdfa;">1</span><span style="color: #6ae4b9;">)</span>, <span style="color: #72a4ff;">"Flattening a BinTree singleton"</span><span style="color: #b6a0ff;">)</span>,
+  <span style="color: #b6a0ff;">(</span><span style="color: #00bdfa;">BT_flatten</span><span style="color: #6ae4b9;">(</span>bt_231<span style="color: #6ae4b9;">)</span>, <span style="color: #00bdfa;">List</span><span style="color: #6ae4b9;">(</span><span style="color: #00bdfa;">2</span>,<span style="color: #00bdfa;">3</span>,<span style="color: #00bdfa;">1</span><span style="color: #6ae4b9;">)</span>, <span style="color: #72a4ff;">"Flattening 2 / 3 </span><span style="color: #00bdfa;">\\</span><span style="color: #72a4ff;"> 1"</span><span style="color: #b6a0ff;">)</span>,
+  <span style="color: #b6a0ff;">(</span><span style="color: #00bdfa;">BT_orderedElems</span><span style="color: #6ae4b9;">(</span>bt_231<span style="color: #6ae4b9;">)</span>, <span style="color: #00bdfa;">List</span><span style="color: #6ae4b9;">(</span><span style="color: #00bdfa;">1</span>,<span style="color: #00bdfa;">2</span>,<span style="color: #00bdfa;">3</span><span style="color: #6ae4b9;">)</span>, <span style="color: #72a4ff;">"Ordering elements of 2 / 3 </span><span style="color: #00bdfa;">\\</span><span style="color: #72a4ff;"> 1"</span><span style="color: #b6a0ff;">)</span>,
+  <span style="color: #b6a0ff;">(</span><span style="color: #00bdfa;">LT_flatten</span><span style="color: #6ae4b9;">(</span>lt_1<span style="color: #6ae4b9;">)</span>, <span style="color: #00bdfa;">List</span><span style="color: #6ae4b9;">(</span><span style="color: #00bdfa;">1</span><span style="color: #6ae4b9;">)</span>, <span style="color: #72a4ff;">"Flattening a LeafTree singleton"</span><span style="color: #b6a0ff;">)</span>,
+  <span style="color: #b6a0ff;">(</span><span style="color: #00bdfa;">LT_flatten</span><span style="color: #6ae4b9;">(</span>lt_231<span style="color: #6ae4b9;">)</span>, <span style="color: #00bdfa;">List</span><span style="color: #6ae4b9;">(</span><span style="color: #00bdfa;">2</span>,<span style="color: #00bdfa;">3</span>,<span style="color: #00bdfa;">1</span><span style="color: #6ae4b9;">)</span>, <span style="color: #72a4ff;">"Flattening 2 /</span><span style="color: #00bdfa;">\\</span><span style="color: #72a4ff;"> (3 /</span><span style="color: #00bdfa;">\\</span><span style="color: #72a4ff;"> 1)"</span><span style="color: #b6a0ff;">)</span>,
+  <span style="color: #b6a0ff;">(</span><span style="color: #00bdfa;">LT_orderedElems</span><span style="color: #6ae4b9;">(</span>lt_231<span style="color: #6ae4b9;">)</span>, <span style="color: #00bdfa;">List</span><span style="color: #6ae4b9;">(</span><span style="color: #00bdfa;">1</span>,<span style="color: #00bdfa;">2</span>,<span style="color: #00bdfa;">3</span><span style="color: #6ae4b9;">)</span>, <span style="color: #72a4ff;">"Ordering elements of 2 /</span><span style="color: #00bdfa;">\\</span><span style="color: #72a4ff;"> (3 /</span><span style="color: #00bdfa;">\\</span><span style="color: #72a4ff;"> 1)"</span><span style="color: #b6a0ff;">)</span>,
+  <span style="color: #00cd68;">)</span>
+
+<span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Apply test to each element of tests, and sum the return values.</span>
+<span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">This is essentially a for loop.</span>
+<span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">failed</span> <span style="color: #b6a0ff;">=</span> tests.foldLeft<span style="color: #00cd68;">(</span><span style="color: #00bdfa;">0</span><span style="color: #00cd68;">)</span> <span style="color: #00cd68;">{</span>
+  <span style="color: #b6a0ff;">(</span>failures, next<span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">=&gt;</span> next <span style="color: #b6a0ff;">match</span> <span style="color: #b6a0ff;">{</span>
+    <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Deconstruct the tuple to get its parts</span>
+    <span style="color: #b6a0ff;">case</span> <span style="color: #6ae4b9;">(</span><span style="color: #00d3d0;">given</span>, <span style="color: #00d3d0;">expected</span>, <span style="color: #00d3d0;">the_test</span><span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">=&gt;</span> failures + test<span style="color: #6ae4b9;">(</span>given, expected, the_test<span style="color: #6ae4b9;">)</span>
+  <span style="color: #b6a0ff;">}</span>
+<span style="color: #00cd68;">}</span>
+
+println<span style="color: #00cd68;">(</span><span style="color: #72a4ff;">"+---------------------------------------------------"</span><span style="color: #00cd68;">)</span>
+println<span style="color: #00cd68;">(</span><span style="color: #72a4ff;">"| "</span> + failed + <span style="color: #72a4ff;">" tests failed"</span><span style="color: #00cd68;">)</span>
+println<span style="color: #00cd68;">(</span><span style="color: #72a4ff;">"+---------------------------------------------------"</span><span style="color: #00cd68;">)</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+
 <div id="outline-container-More-~LeafTree~-and-~BinTree~-examples" class="outline-2">
 <h2 id="More-~LeafTree~-and-~BinTree~-examples">More <code>LeafTree</code> and <code>BinTree</code> examples</h2>
 <div class="outline-text-2" id="text-More-~LeafTree~-and-~BinTree~-examples">
@@ -806,7 +954,7 @@ Note that nothing says the tree must be balanced or ordered
 in any way, as this example should hopefully convey.
 </p>
 
-<div id="org804f61c" class="figure">
+<div id="orgbe260ae" class="figure">
 <p><img src="media/LeafTree2.png" alt="LeafTree2.png" />
 </p>
 </div>
@@ -829,7 +977,7 @@ This example shows several nodes which seem to have one child only
 in this way.
 </p>
 
-<div id="org56c7380" class="figure">
+<div id="orgc5fa496" class="figure">
 <p><img src="./media/BinTree2.png" alt="BinTree2.png" />
 </p>
 </div>
@@ -839,9 +987,9 @@ in this way.
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Mark Armstrong</p>
-     <p class="author">Contact: <a href="mailto:armstmp@mcmaster.ca">armstmp@mcmaster.ca</a></p>
+     <p class="author">Contact: <a href="mailto:markparmstrong@gmail.com">markparmstrong@gmail.com</a></p>
      <p class="date">Original date: September 11th, 2020</p>
-     <p class="date">Last updated: 2020-09-17 Thu 15:00</p>
+     <p class="date">Last updated: 2020-09-18 Fri 00:34</p>
      <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.90 (<a href="https://orgmode.org">Org</a> mode 9.3.8)</p>
      <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

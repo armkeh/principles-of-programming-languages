@@ -214,11 +214,15 @@ Also see [[More ~LeafTree~ and ~BinTree~ examples]].
 Implement a function named ~flatten~ for our two tree types
 defined avoid, each of which convert the trees to lists,
 discarding the tree structure.
-Note that we are able to reuse the name ~flatten~ for two different
-functions so long as the type signatures are different.
 Specifically,
 1. the first ~flatten~ should have type ~LeafTree[A] => List[A]~, and
 2. the second ~flatten~ should have type ~BinTree[A] => List[A]~.
+
+Note that we are able to reuse the name ~flatten~ for two different
+functions so long as the type signatures are different.
+*Edited September 18th*:
+If this is not possible in your implementation of Scala,
+name the two functions something similar instead, such as ~flattenBT~.
 
 For the ~LeafTree~ type, the elements should appear in the same
 left-to-right order as they did in the tree.
@@ -243,6 +247,11 @@ into lists /which are sorted in *increasing* order/. So,
 2. the second ~orderedElems~ should have type ~BinTree[Int] => List[Int]~
 and in each case you must ensure the result is ordered
 in increasing order.
+
+*Edited September 18th*:
+As in part 2, if your implementation of Scala does not support
+giving these two functions the same name,
+name them something similar instead.
 
 You must implement your own sorting function on integer lists,
 not use any builtin or library functions.
@@ -319,6 +328,116 @@ Try to come up with an implementation
 which discards /as little structure as possible/,
 bearing in mind that the transformation to lists
 necessitates discarding at least some structure.
+* Testing
+:PROPERTIES:
+:CUSTOM_ID: Testing
+:END:
+
+:TODO: A Docker container which automates this.
+
+** Instructions
+:PROPERTIES:
+:CUSTOM_ID: Instructions
+:END:
+
+To test your solution, first complete
+[[./src/h1_interface.sc][this]] interface script
+by filling in the appropriate constructor/method invocations
+in place of the ~???~.
+Save it in the same directory as your ~h1.sc~,
+with the name ~h1_interface.sc~.
+
+If you choose to complete the interface, you may also
+choose to submit it along with your ~h1.sc~ file.
+
+Then, save [[./src/h1_test.sc][this]] testing script
+in the same directory, naming it ~h1_test.sc~, and invoke it with
+#+begin_src shell
+amm h1_test.sc
+#+end_src
+
+You do not need to submit the ~h1_test.sc~ file.
+
+If you are not using Ammonite, you will need to modify the tests
+to work with your Scala implementation.
+Simply placing their contents into your ~h1.sc~ file should work,
+but be sure to remove them before submission.
+
+** The scripts
+:PROPERTIES:
+:CUSTOM_ID: The-scripts
+:END:
+
+The scripts are also shown here. First, the interface script.
+#+begin_src amm :results none :tangle ./src/h1-interface.sc
+import $file.h1, h1._
+// Fill in your constructors here.
+
+def BT_node[A](l: BinTree[A], a: A, r: BinTree[A]): BinTree[A] = ???
+def BT_leaf[A]: BinTree[A] = ???
+def BT_flatten[A](t: BinTree[A]): List[A] = ???
+def BT_orderedElems(t: BinTree[Int]): List[Int] = ???
+
+def LT_node[A](l : LeafTree[A], r: LeafTree[A]): LeafTree[A] = ???
+def LT_leaf[A](a: A): LeafTree[A] = ???
+def LT_flatten[A](t: LeafTree[A]): List[A] = ???
+def LT_orderedElems(t: LeafTree[Int]): List[Int] = ???
+#+end_src
+And the testing script.
+#+begin_src amm :results none :tangle ./src/h1_test.sc
+import $file.h1_interface, h1_interface._
+
+/* Given an expected result and a computed result,
+   check if they are equal in value.
+   If so, return 0. Otherwise, inform the user, and return 1,
+   so the number of failures can be counted. */
+def test[A](given: A, expected: A, the_test: String) =
+  if (!(given equals expected)) {
+    println("+---------------------------------------------------")
+    println("| " + the_test + " failed.")
+    println("| Expected " + expected + ", got " + given + ".")
+    println("+---------------------------------------------------")
+    1
+  } else {
+    0
+  }
+
+
+
+// Construct some simple trees of each type.
+val bt_empty = BT_leaf
+val bt_1 = BT_node(BT_leaf, 1, BT_leaf)
+val bt_231 = BT_node(BT_node(BT_leaf, 2, BT_leaf), 3, BT_node(BT_leaf, 1, BT_leaf))
+
+val lt_1 = LT_leaf(1)
+val lt_231 = LT_node(LT_leaf(2), LT_node(LT_leaf(3), LT_leaf(1)))
+
+// The tests are saved as tuples, the pieces of which will be passed
+// to test.
+val tests = List(
+  (BT_flatten(bt_empty), List(), "Flattening an empty BinTree"),
+  (BT_flatten(bt_1), List(1), "Flattening a BinTree singleton"),
+  (BT_flatten(bt_231), List(2,3,1), "Flattening 2 / 3 \\ 1"),
+  (BT_orderedElems(bt_231), List(1,2,3), "Ordering elements of 2 / 3 \\ 1"),
+  (LT_flatten(lt_1), List(1), "Flattening a LeafTree singleton"),
+  (LT_flatten(lt_231), List(2,3,1), "Flattening 2 /\\ (3 /\\ 1)"),
+  (LT_orderedElems(lt_231), List(1,2,3), "Ordering elements of 2 /\\ (3 /\\ 1)"),
+  )
+
+// Apply test to each element of tests, and sum the return values.
+// This is essentially a for loop.
+val failed = tests.foldLeft(0) {
+  (failures, next) => next match {
+    // Deconstruct the tuple to get its parts
+    case (given, expected, the_test) => failures + test(given, expected, the_test)
+  }
+}
+
+println("+---------------------------------------------------")
+println("| " + failed + " tests failed")
+println("+---------------------------------------------------")
+#+end_src
+
 * More ~LeafTree~ and ~BinTree~ examples
 :PROPERTIES:
 :CUSTOM_ID: More-~LeafTree~-and-~BinTree~-examples
