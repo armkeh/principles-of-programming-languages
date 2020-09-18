@@ -369,7 +369,7 @@ but be sure to remove them before submission.
 :END:
 
 The scripts are also shown here. First, the interface script.
-#+begin_src amm :results none :tangle ./src/h1-interface.sc
+#+begin_src amm :results none :tangle ./src/h1_interface.sc
 import $file.h1, h1._
 // Fill in your constructors here.
 
