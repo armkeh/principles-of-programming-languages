@@ -18,6 +18,12 @@
 :CUSTOM_ID: September
 :END:
 
+- September 18 :: The notes from the live coding lecture
+  have been properly placed in that section.
+
+  They will be updated ASAP to include relevant code
+  for the upcoming homework.
+
 - September 18 :: Testing code has been uploaded for homework 1,
   in the homework file itself.
   *For this homework, it is optional that you complete the*
@@ -333,9 +339,17 @@ Particularly relevant portions of raw code are also included.
 :CUSTOM_ID: Lectures
 :END:
 
+*** September 18th – Puzzles in Prolog
+:PROPERTIES:
+:CUSTOM_ID: September-18th-–-Puzzles-in-Prolog
+:END:
+
 - [[./notes/live-coding/09-18-puzzles-in-Prolog.html][HTML]]
 - [[./notes/live-coding/09-18-puzzles-in-Prolog.pdf][PDF]]
 - [[./notes/live-coding/09-18-puzzles-in-Prolog.org][Org plaintext]]
+
+Relevant raw code:
+:TODO:
 
 *** September 14th – The Boom hierarchy in Scala
 :PROPERTIES:

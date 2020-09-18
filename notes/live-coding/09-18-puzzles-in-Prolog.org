@@ -64,7 +64,7 @@ Recall: an inference rule has the form
 ————————————————————————————————————— Rule Name
             Conclusion
 #+end_src
-where ~Premise₁~, ~Premise₂~, …, and ~Premiseₙ~ are some statement in our
+where ~Premise₁~, ~Premise₂~, …, and ~Premiseₙ~ are some statements in our
 domain, and ~Conclusion~ is a statement
 that can be concluded from the premise statements.
 
@@ -74,7 +74,7 @@ boolean constants, predicates and propositional connectors),
 and we may have rules such as
 #+begin_src text
   P     Q
-——————————–— ∧-Introduction
+———————————— ∧-Introduction
    P ∧ Q
 #+end_src
 which says “given ~P~ and ~Q~, we may conclude ~P ∧ Q~”,
@@ -130,12 +130,12 @@ and the connections between nodes correspond to the use of rules.
 For instance, we have the following silly proof of ~true~ which
 uses the rules given above.
 #+begin_src text
-—————— ⊤-introduction        —————— ⊤ introduction
+—————— ⊤-Introduction        —————— ⊤-Introduction
  true                         true
-——————————————————————————————————— ∧-Eliminationˡ
+——————————————————————————————————— ∧-Introductionˡ
           true ∧ true
        ————————————————— ∧-Eliminationˡ
-              true
+             true
 #+end_src
 
 Notice, by convention, we write proof trees
@@ -149,7 +149,7 @@ Proof trees may be read from the top down,
 to see how the conclusion follows from the axioms and assumptions.
 It is generally better to read from the bottom up, though;
 otherwise the proof often seems to make
-unwarrented steps, or informally, it “pulls a rabbit from its hat”.
+unwarranted steps, or informally, it “pulls a rabbit from its hat”.
    
 * Inference rules in other domains
 :PROPERTIES:
@@ -166,12 +166,12 @@ the rules and axioms, what can we obtain?
 
 For instance, consider the following problem.
 
-*** The two bucket problem
+** The two bucket problem
 :PROPERTIES:
 :CUSTOM_ID: The-two-bucket-problem
 :END:
 
-**** The problem
+*** The problem
 :PROPERTIES:
 :CUSTOM_ID: The-problem
 :END:
@@ -186,14 +186,14 @@ You begin with 0 units in both buckets.
 
 You may at any point
 - fill one bucket entirely from a tap,
-- pour the water out of a bucket, emptying it entirely.
+- pour the water out of a bucket, emptying it entirely, or
 - pour one bucket into another until either the first is empty
-  or the second is full, or
+  or the second is full.
 
 You are tasked with collecting exactly 4 units of water
 using only those three kinds of actions.
 
-**** The rules
+*** The rules
 :PROPERTIES:
 :CUSTOM_ID: The-rules
 :END:
@@ -220,23 +220,25 @@ with the maximum amount.
   5 , Y                  X , 3
 #+end_src
 
-:TODO:
+The action of emptying a bucket replaces its current amount
+with 0.
 #+begin_src text
   X , Y                  X , Y
 ––––––––— Emptyˡ       ––––––––– Emptyʳ
-  ? , ?                  ? , ?  
+  0 , Y                  X , 0  
 #+end_src
 
 :TODO:
 #+begin_src text
-  X , Y        
-––––––––— Pourˡ   (provided ???)
-  ? , ?        
+     X , Y        
+–—–––––––————–– Pourˡ   (provided (X + D = 5) ∨ (Y - D = 0))
+ X + D , Y - D
 
   X , Y        
-––––––––– Pourʳ   (provided ???)
-  ? , ?
+––––––––––––––— Pourʳ   (provided (X - D = 0) ∨ (Y + D = 3))
+ X - D , Y + D
 #+end_src
+
 * Prolog
 :PROPERTIES:
 :CUSTOM_ID: Prolog
@@ -281,12 +283,13 @@ c.
 
 We can begin only if we have 0 units in both buckets.
 #+begin_src prolog :tangle src/sept18-buckets.pl
-bucket(0,0).
+buckets(0,0).
 #+end_src
 
 The action of filling a bucket replaces its current amount
 with the maximum amount.
 #+begin_src prolog :tangle src/sept18-buckets.pl
-
+buckets(0,Y) :- buckets(_X,Y).
+buckets(X,0) :- buckets(X,_Y).
 #+end_src
 

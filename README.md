@@ -13,6 +13,13 @@ better viewed at
 ## September
 
   - September 18  
+    The notes from the live coding lecture have been properly placed in
+    that section.
+    
+    They will be updated ASAP to include relevant code for the upcoming
+    homework.
+
+  - September 18  
     Testing code has been uploaded for homework 1, in the homework file
     itself. **For this homework, it is optional that you complete the**
     **testing interface and submit it with your homework**. For future
@@ -290,6 +297,16 @@ tutorials are available here. Particularly relevant portions of raw code
 are also included.
 
 ## Lectures
+
+### September 18th – Puzzles in Prolog
+
+  - [HTML](./notes/live-coding/09-18-puzzles-in-Prolog.html)
+  - [PDF](./notes/live-coding/09-18-puzzles-in-Prolog.pdf)
+  - [Org plaintext](./notes/live-coding/09-18-puzzles-in-Prolog.org)
+
+Relevant raw code:
+
+:TODO:
 
 ### September 14th – The Boom hierarchy in Scala
 
