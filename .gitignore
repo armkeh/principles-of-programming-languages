@@ -11,3 +11,4 @@
 # LaTeX generation artifacts
 *.aux
 *.log
+*_minted*
