@@ -3,6 +3,11 @@
 #+Description: An introduction to Prolog by playing some logic games.
 #+SETUPFILE: ../../org-html-themes/setup/theme-readtheorg-local.setup
 
+* LaTeX settings                                :noexport:
+
+#+LaTeX_header: \usepackage{unicode-math}
+#+LaTeX_header: \usepackage{unicode}
+
 * Introduction
 :PROPERTIES:
 :CUSTOM_ID: Introduction

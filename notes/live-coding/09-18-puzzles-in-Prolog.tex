@@ -1,4 +1,4 @@
-% Created 2020-09-18 Fri 13:38
+% Created 2020-09-18 Fri 17:02
 % Intended LaTeX compiler: lualatex
 \documentclass[11pt]{article}
 \usepackage{graphicx}
@@ -19,6 +19,8 @@
 \AtBeginEnvironment{minted}{\dontdofcolorbox}
 \makeatother
 \usepackage[newfloat]{minted}
+\usepackage{unicode-math}
+\usepackage{unicode}
 \author{Mark Armstrong}
 \date{\today}
 \title{Some logic puzzles in Prolog}
@@ -41,12 +43,12 @@
 
 
 \section{Introduction}
-\label{sec:org9d76867}
+\label{sec:org1ebc1ba}
 These notes were created for, and in some parts \textbf{during},
 the lecture on September 18th and the following tutorials.
 
 \section{Motivation}
-\label{sec:org1f1908b}
+\label{sec:org11b124d}
 Today, we begin investigating another non-imperative paradigm
 other than functional programming: \emph{logical programming}.
 
@@ -70,7 +72,7 @@ To put it simply, in logical programming, you describe the problem,
 rather than the solution.
 
 \section{A note about fonts}
-\label{sec:org9d3ba11}
+\label{sec:org827b8a0}
 In these notes, I use plaintext blocks in order to write the
 inference rules, and use em-dashes (—) to create the horizontal rules.
 
@@ -82,14 +84,14 @@ may not show at all (they work in my install of Chrome, at least.)
 Apologies for any issues reading these notes caused by this.
 
 \section{(Re)introduction to inference rules}
-\label{sec:org094e8ff}
+\label{sec:orgf6e3cbd}
 Recall: an inference rule has the form
 \begin{minted}[breaklines=true]{text}
  Premise₁   Premise₂   …   Premiseₙ
 ————————————————————————————————————— Rule Name
             Conclusion
 \end{minted}
-where \texttt{Premise₁}, \texttt{Premise₂}, …, and \texttt{Premiseₙ} are some statement in our
+where \texttt{Premise₁}, \texttt{Premise₂}, …, and \texttt{Premiseₙ} are some statements in our
 domain, and \texttt{Conclusion} is a statement
 that can be concluded from the premise statements.
 
@@ -99,7 +101,7 @@ boolean constants, predicates and propositional connectors),
 and we may have rules such as
 \begin{minted}[breaklines=true]{text}
   P     Q
-——————————–— ∧-Introduction
+———————————— ∧-Introduction
    P ∧ Q
 \end{minted}
 which says “given \texttt{P} and \texttt{Q}, we may conclude \texttt{P ∧ Q}”,
@@ -157,12 +159,12 @@ and the connections between nodes correspond to the use of rules.
 For instance, we have the following silly proof of \texttt{true} which
 uses the rules given above.
 \begin{minted}[breaklines=true]{text}
-—————— ⊤-introduction        —————— ⊤ introduction
+—————— ⊤-Introduction        —————— ⊤-Introduction
  true                         true
-——————————————————————————————————— ∧-Eliminationˡ
+——————————————————————————————————— ∧-Introductionˡ
           true ∧ true
        ————————————————— ∧-Eliminationˡ
-              true
+             true
 \end{minted}
 
 Notice, by convention, we write proof trees
@@ -178,10 +180,10 @@ Proof trees may be read from the top down,
 to see how the conclusion follows from the axioms and assumptions.
 It is generally better to read from the bottom up, though;
 otherwise the proof often seems to make
-unwarrented steps, or informally, it “pulls a rabbit from its hat”.
+unwarranted steps, or informally, it “pulls a rabbit from its hat”.
 
 \section{Inference rules in other domains}
-\label{sec:org10c0c45}
+\label{sec:org2d82588}
 The use of inference rules is not limited to the domain of logics.
 
 It is perhaps better not to think of inference rules
@@ -192,11 +194,10 @@ the rules and axioms, what can we obtain?
 
 For instance, consider the following problem.
 
-\subsubsection{The two bucket problem}
-\label{sec:org0a88bdd}
-\begin{enumerate}
-\item The problem
-\label{sec:org47dc42e}
+\subsection{The two bucket problem}
+\label{sec:org8f2c935}
+\subsubsection{The problem}
+\label{sec:orgf49d294}
 Suppose you are given two buckets,
 \begin{itemize}
 \item one of which holds 5 units of water, and
@@ -210,16 +211,16 @@ You begin with 0 units in both buckets.
 You may at any point
 \begin{itemize}
 \item fill one bucket entirely from a tap,
-\item pour the water out of a bucket, emptying it entirely.
+\item pour the water out of a bucket, emptying it entirely, or
 \item pour one bucket into another until either the first is empty
-or the second is full, or
+or the second is full.
 \end{itemize}
 
 You are tasked with collecting exactly 4 units of water
 using only those three kinds of actions.
 
-\item The rules
-\label{sec:orgb3c3f00}
+\subsubsection{The rules}
+\label{sec:orgd3c2a37}
 Let us represent the state of the bucket by a pair of numbers.
 In these rules, we will use
 \begin{itemize}
@@ -244,26 +245,27 @@ with the maximum amount.
   5 , Y                  X , 3
 \end{minted}
 
-:TODO:
+The action of emptying a bucket replaces its current amount
+with 0.
 \begin{minted}[breaklines=true]{text}
   X , Y                  X , Y
 ––––––––— Emptyˡ       ––––––––– Emptyʳ
-  ? , ?                  ? , ?  
+  0 , Y                  X , 0  
 \end{minted}
 
 :TODO:
 \begin{minted}[breaklines=true]{text}
-  X , Y        
-––––––––— Pourˡ   (provided ???)
-  ? , ?        
+     X , Y        
+–—–––––––————–– Pourˡ   (provided (X + D = 5) ∨ (Y - D = 0))
+ X + D , Y - D
 
   X , Y        
-––––––––– Pourʳ   (provided ???)
-  ? , ?
+––––––––––––––— Pourʳ   (provided (X - D = 0) ∨ (Y + D = 3))
+ X - D , Y + D
 \end{minted}
-\end{enumerate}
+
 \section{Prolog}
-\label{sec:org24a924d}
+\label{sec:org7111e3f}
 Prolog programs are simply databases of inference rules.
 An inference rule
 \begin{minted}[breaklines=true]{text}
@@ -297,12 +299,16 @@ c.
 :TODO:
 
 \subsection{The two bucket problem in Prolog}
-\label{sec:org0563ba6}
+\label{sec:orga8baaa7}
 We can begin only if we have 0 units in both buckets.
 \begin{minted}[breaklines=true]{prolog}
-bucket(0,0).
+buckets(0,0).
 \end{minted}
 
 The action of filling a bucket replaces its current amount
 with the maximum amount.
+\begin{minted}[breaklines=true]{prolog}
+buckets(0,Y) :- buckets(_X,Y).
+buckets(X,0) :- buckets(X,_Y).
+\end{minted}
 \end{document}
