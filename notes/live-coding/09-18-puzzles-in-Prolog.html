@@ -1,0 +1,670 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2020-09-18 Fri 13:38 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Some logic puzzles in Prolog</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Mark Armstrong" />
+<meta name="description" content="An introduction to Prolog by playing some logic games."
+ />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="styles/readtheorg/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="styles/readtheorg/css/readtheorg.css"/>
+<script type="text/javascript" src="styles/lib/js/jquery.min.js"></script>
+<script type="text/javascript" src="styles/lib/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="styles/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" src="styles/readtheorg/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:e95b018ef3580986a04669f1b5879592219e2a7a&dn=public-domain.txt Public Domain
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.add("code-highlighted");
+         target.classList.add("code-highlighted");
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.remove("code-highlighted");
+         target.classList.remove("code-highlighted");
+       }
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Some logic puzzles in Prolog</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#Introduction">1. Introduction</a></li>
+<li><a href="#Motivation">2. Motivation</a></li>
+<li><a href="#A-note-about-fonts">3. A note about fonts</a></li>
+<li><a href="#(Re)introduction-to-inference-rules">4. (Re)introduction to inference rules</a></li>
+<li><a href="#Inference-rules-in-other-domains">5. Inference rules in other domains</a>
+<ul>
+<li>
+<ul>
+<li><a href="#The-two-bucket-problem">5.0.1. The two bucket problem</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#Prolog">6. Prolog</a>
+<ul>
+<li><a href="#The-two-bucket-problem-in-Prolog">6.1. The two bucket problem in Prolog</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-Introduction" class="outline-2">
+<h2 id="Introduction"><span class="section-number-2">1</span> Introduction</h2>
+<div class="outline-text-2" id="text-Introduction">
+<p>
+These notes were created for, and in some parts <b>during</b>,
+the lecture on September 18th and the following tutorials.
+</p>
+</div>
+</div>
+
+<div id="outline-container-Motivation" class="outline-2">
+<h2 id="Motivation"><span class="section-number-2">2</span> Motivation</h2>
+<div class="outline-text-2" id="text-Motivation">
+<p>
+Today, we begin investigating another non-imperative paradigm
+other than functional programming: <i>logical programming</i>.
+</p>
+
+<p>
+As we've seen in the previous hands-on lecture,
+functional programming takes advantage of <i>immutability</i> in order
+to make reasoning about programs easier.
+It also focuses on <i>compositionality</i>, including
+in its use of <i>higher-order functions</i>, all of which
+makes programming very much like writing functions in mathematics
+(where there is no mutable state).
+</p>
+
+<p>
+Logical programming also assumes immutability,
+but instead of compositionality as a method of computation,
+it uses a (Turing-complete) subset of first-order predicate logic.
+Programs are databases of <i>inference rules</i> describing the problem domain,
+and programs are initiated by <i>queries</i> about the problem domain which
+the system tries to prove are true (a logical consequence of the rules)
+or false (refutable by the rules).
+</p>
+
+<p>
+To put it simply, in logical programming, you describe the problem,
+rather than the solution.
+</p>
+</div>
+</div>
+
+<div id="outline-container-A-note-about-fonts" class="outline-2">
+<h2 id="A-note-about-fonts"><span class="section-number-2">3</span> A note about fonts</h2>
+<div class="outline-text-2" id="text-A-note-about-fonts">
+<p>
+In these notes, I use plaintext blocks in order to write the
+inference rules, and use em-dashes (—) to create the horizontal rules.
+</p>
+
+<p>
+In some cases, the em-dashes may not show quite correctly.
+For instance, in the PDF version of these notes, there is
+a small space between each dash. In some browsers, they
+may not show at all (they work in my install of Chrome, at least.)
+</p>
+
+<p>
+Apologies for any issues reading these notes caused by this.
+</p>
+</div>
+</div>
+
+<div id="outline-container-(Re)introduction-to-inference-rules" class="outline-2">
+<h2 id="(Re)introduction-to-inference-rules"><span class="section-number-2">4</span> (Re)introduction to inference rules</h2>
+<div class="outline-text-2" id="text-(Re)introduction-to-inference-rules">
+<p>
+Recall: an inference rule has the form
+</p>
+<div class="org-src-container">
+<pre class="src src-text"> Premise&#8321;   Premise&#8322;   &#8230;   Premise&#8345;
+&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212; Rule Name
+            Conclusion
+</pre>
+</div>
+<p>
+where <code>Premise₁</code>, <code>Premise₂</code>, …, and <code>Premiseₙ</code> are some statement in our
+domain, and <code>Conclusion</code> is a statement
+that can be concluded from the premise statements.
+</p>
+
+<p>
+In the domains of logics, the statements range over formulae
+(i.e., boolean expressions built up from
+boolean constants, predicates and propositional connectors),
+and we may have rules such as
+</p>
+<div class="org-src-container">
+<pre class="src src-text">  P     Q
+&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8211;&#8212; &#8743;-Introduction
+   P &#8743; Q
+</pre>
+</div>
+<p>
+which says “given <code>P</code> and <code>Q</code>, we may conclude <code>P ∧ Q</code>”,
+</p>
+<div class="org-src-container">
+<pre class="src src-text">   P &#8743; Q
+&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212; &#8743;-Elimination&#737;
+     P
+</pre>
+</div>
+<p>
+which says “given <code>P ∧ Q</code>, we may conclude <code>P</code>”, and
+</p>
+<div class="org-src-container">
+<pre class="src src-text">  P     P &#8658; Q
+&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212; Modus Ponens
+     Q
+</pre>
+</div>
+<p>
+which says, by translating the <code>⇒</code> to English,
+“given <code>P</code> and if <code>Q</code> follows from <code>P</code>, then we can conclude <code>Q</code>”.
+</p>
+
+<p>
+(Technically, these are <i>rule schemas</i>;
+the <i>meta-variables</i> <code>P</code> and <code>Q</code> can be instantiated
+to obtain specific rules.)
+</p>
+
+<p>
+Note that in these rules, we have the following <i>meta-syntax</i>:
+</p>
+<ol class="org-ol">
+<li>Whitespace between premises is understood as a form of conjunction.</li>
+<li>The horizontal rule is understood as a form of implication.</li>
+</ol>
+
+<p>
+Any rule which does not have a premise is called an <i>axiom</i>;
+axioms are the known results of our domain, which do not need to be proven.
+For instance,
+</p>
+<div class="org-src-container">
+<pre class="src src-text">&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212; &#8868;-Introduction
+  true
+</pre>
+</div>
+
+<p>
+A collection of inference rules (or rule schemas)
+and axioms gives us a <i>proof system</i>.
+</p>
+
+<p>
+See, for instance,
+the <a href="https://cs.uwaterloo.ca/~david/cl/natural-deduction-pfenning.pdf">natural deduction</a> proof calculus
+for classical logic.
+</p>
+
+<p>
+You have likely seen the <i>equational</i> approach to proofs
+which is favoured by Gries and Schneider's
+“A Logical Approach to Discrete Math”, and used in
+<a href="https://www.cas.mcmaster.ca/~kahl/CS2DM3/2020/">CS/SE 2dm3 at McMaster</a>
+using the <a href="http://calccheck.mcmaster.ca/">CalcCheck tool</a>.
+Proof systems are an alternate approach to proof;
+see <a href="https://alhassy.github.io/CalcCheck/LectureNotes.html#Rules-of-Equality-and-Proof-Trees-vs-Calculational-Proofs">Musa's notes on the relationship</a> from this year's 2dm3.
+</p>
+
+<p>
+Inside of a proof system, we may construct proofs of statements
+via <i>proof trees</i>, which are trees where every node is a statement,
+and the connections between nodes correspond to the use of rules.
+</p>
+
+<p>
+For instance, we have the following silly proof of <code>true</code> which
+uses the rules given above.
+</p>
+<div class="org-src-container">
+<pre class="src src-text">&#8212;&#8212;&#8212;&#8212;&#8212;&#8212; &#8868;-introduction        &#8212;&#8212;&#8212;&#8212;&#8212;&#8212; &#8868; introduction
+ true                         true
+&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212; &#8743;-Elimination&#737;
+          true &#8743; true
+       &#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212; &#8743;-Elimination&#737;
+              true
+</pre>
+</div>
+
+<p>
+Notice, by convention, we write proof trees
+from the <b>bottom up</b>.
+The root, at the bottom, is what we intend to prove.
+The leaves, at the top, must either
+</p>
+<ol class="org-ol">
+<li>be axioms, or</li>
+<li>be local assumptions.</li>
+</ol>
+
+<p>
+Proof trees may be read from the top down,
+to see how the conclusion follows from the axioms and assumptions.
+It is generally better to read from the bottom up, though;
+otherwise the proof often seems to make
+unwarrented steps, or informally, it “pulls a rabbit from its hat”.
+</p>
+</div>
+</div>
+
+<div id="outline-container-Inference-rules-in-other-domains" class="outline-2">
+<h2 id="Inference-rules-in-other-domains"><span class="section-number-2">5</span> Inference rules in other domains</h2>
+<div class="outline-text-2" id="text-Inference-rules-in-other-domains">
+<p>
+The use of inference rules is not limited to the domain of logics.
+</p>
+
+<p>
+It is perhaps better not to think of inference rules
+as defining a <i>proof system</i> (which makes us think
+of truth values and logics),
+but as defining a <i>game</i>: starting from
+the rules and axioms, what can we obtain?
+</p>
+
+<p>
+For instance, consider the following problem.
+</p>
+</div>
+
+<div id="outline-container-The-two-bucket-problem" class="outline-4">
+<h4 id="The-two-bucket-problem"><span class="section-number-4">5.0.1</span> The two bucket problem</h4>
+<div class="outline-text-4" id="text-The-two-bucket-problem">
+</div>
+
+<ol class="org-ol">
+<li><a id="The-problem"></a>The problem<br />
+<div class="outline-text-5" id="text-The-problem">
+<p>
+Suppose you are given two buckets,
+</p>
+<ul class="org-ul">
+<li>one of which holds 5 units of water, and</li>
+<li>one of which holds 3 units of water.</li>
+</ul>
+
+<p>
+You are tasked with collecting exactly 4 units of water;
+no more, and no less.
+You begin with 0 units in both buckets.
+</p>
+
+<p>
+You may at any point
+</p>
+<ul class="org-ul">
+<li>fill one bucket entirely from a tap,</li>
+<li>pour the water out of a bucket, emptying it entirely.</li>
+<li>pour one bucket into another until either the first is empty
+or the second is full, or</li>
+</ul>
+
+<p>
+You are tasked with collecting exactly 4 units of water
+using only those three kinds of actions.
+</p>
+</div>
+</li>
+
+<li><a id="The-rules"></a>The rules<br />
+<div class="outline-text-5" id="text-The-rules">
+<p>
+Let us represent the state of the bucket by a pair of numbers.
+In these rules, we will use
+</p>
+<ul class="org-ul">
+<li><code>x</code> as a meta-variable for the amount
+in the bucket which can hold 5 units, and</li>
+<li><code>y</code> as a meta-variable for the amount
+in the bucket which can hold 3 units.</li>
+</ul>
+
+<p>
+We can begin only if we have 0 units in both buckets.
+</p>
+<div class="org-src-container">
+<pre class="src src-text">
+          &#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8212; Start
+            0 , 0
+</pre>
+</div>
+
+<p>
+The action of filling a bucket replaces its current amount
+with the maximum amount.
+</p>
+<div class="org-src-container">
+<pre class="src src-text">  X , Y                  X , Y
+&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8212; Fill&#737;        &#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; Fill&#691;
+  5 , Y                  X , 3
+</pre>
+</div>
+
+<p>
+:TODO:
+</p>
+<div class="org-src-container">
+<pre class="src src-text">  X , Y                  X , Y
+&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8212; Empty&#737;       &#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; Empty&#691;
+  ? , ?                  ? , ?  
+</pre>
+</div>
+
+<p>
+:TODO:
+</p>
+<div class="org-src-container">
+<pre class="src src-text">  X , Y        
+&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8212; Pour&#737;   <span style="color: #00cd68;">(</span>provided ???<span style="color: #00cd68;">)</span>
+  ? , ?        
+
+  X , Y        
+&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; Pour&#691;   <span style="color: #00cd68;">(</span>provided ???<span style="color: #00cd68;">)</span>
+  ? , ?
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-Prolog" class="outline-2">
+<h2 id="Prolog"><span class="section-number-2">6</span> Prolog</h2>
+<div class="outline-text-2" id="text-Prolog">
+<p>
+Prolog programs are simply databases of inference rules.
+An inference rule
+</p>
+<div class="org-src-container">
+<pre class="src src-text"> A&#8321;   A&#8322;   &#8230;   A&#8345;
+&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;
+      B
+</pre>
+</div>
+<p>
+is written in Prolog
+</p>
+<div class="org-src-container">
+<pre class="src src-prolog"><span style="color: #feacd0;">b</span> :- a1, a2, &#8230;, an.
+</pre>
+</div>
+<p>
+(notice the period ending the rule).
+As with our inference rule, this rule states that
+<code>b</code> is true if all of the <code>aᵢ</code> are true.
+So we can think of <code>:-</code> as <code>⇐</code>, and <code>,</code> as <code>∧</code>.
+</p>
+
+<p>
+An axiom
+</p>
+<div class="org-src-container">
+<pre class="src src-text">&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;
+      C
+</pre>
+</div>
+<p>
+can be written in Prolog as
+</p>
+<div class="org-src-container">
+<pre class="src src-prolog"><span style="color: #feacd0;">c</span> :- true.
+</pre>
+</div>
+<p>
+or, more simply,
+</p>
+<div class="org-src-container">
+<pre class="src src-prolog">c.
+</pre>
+</div>
+
+<p>
+:TODO:
+</p>
+</div>
+
+<div id="outline-container-The-two-bucket-problem-in-Prolog" class="outline-3">
+<h3 id="The-two-bucket-problem-in-Prolog"><span class="section-number-3">6.1</span> The two bucket problem in Prolog</h3>
+<div class="outline-text-3" id="text-The-two-bucket-problem-in-Prolog">
+<p>
+We can begin only if we have 0 units in both buckets.
+</p>
+<div class="org-src-container">
+<pre class="src src-prolog"><span style="color: #feacd0;">bucket</span><span style="color: #00cd68;">(</span>0,0<span style="color: #00cd68;">)</span>.
+</pre>
+</div>
+
+<p>
+The action of filling a bucket replaces its current amount
+with the maximum amount.
+</p>
+<div class="org-src-container">
+<pre class="src src-prolog">
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Mark Armstrong</p>
+     <p class="author">Contact: <a href="mailto:markparmstrong@gmail.com">markparmstrong@gmail.com</a></p>
+     <p class="date">Original date: </p>
+     <p class="date">Last updated: 2020-09-18 Fri 13:38</p>
+     <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.90 (<a href="https://orgmode.org">Org</a> mode 9.3.8)</p>
+     <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

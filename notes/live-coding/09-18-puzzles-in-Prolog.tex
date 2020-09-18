@@ -1,0 +1,308 @@
+% Created 2020-09-18 Fri 13:38
+% Intended LaTeX compiler: lualatex
+\documentclass[11pt]{article}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{etoolbox}
+\makeatletter
+\def\dontdofcolorbox{\renewcommand\fcolorbox[4][]{##4}}
+\AtBeginEnvironment{minted}{\dontdofcolorbox}
+\makeatother
+\usepackage[newfloat]{minted}
+\author{Mark Armstrong}
+\date{\today}
+\title{Some logic puzzles in Prolog}
+\hypersetup{
+   pdfauthor={Mark Armstrong},
+   pdftitle={Some logic puzzles in Prolog},
+   pdfkeywords={},
+   pdfsubject={An introduction to Prolog by playing some logic games.},
+   pdfcreator={Emacs 27.0.90 (Org mode 9.3.8)},
+   pdflang={English},
+   colorlinks,
+   linkcolor=blue,
+   citecolor=blue,
+   urlcolor=blue
+   }
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+
+\section{Introduction}
+\label{sec:org9d76867}
+These notes were created for, and in some parts \textbf{during},
+the lecture on September 18th and the following tutorials.
+
+\section{Motivation}
+\label{sec:org1f1908b}
+Today, we begin investigating another non-imperative paradigm
+other than functional programming: \emph{logical programming}.
+
+As we've seen in the previous hands-on lecture,
+functional programming takes advantage of \emph{immutability} in order
+to make reasoning about programs easier.
+It also focuses on \emph{compositionality}, including
+in its use of \emph{higher-order functions}, all of which
+makes programming very much like writing functions in mathematics
+(where there is no mutable state).
+
+Logical programming also assumes immutability,
+but instead of compositionality as a method of computation,
+it uses a (Turing-complete) subset of first-order predicate logic.
+Programs are databases of \emph{inference rules} describing the problem domain,
+and programs are initiated by \emph{queries} about the problem domain which
+the system tries to prove are true (a logical consequence of the rules)
+or false (refutable by the rules).
+
+To put it simply, in logical programming, you describe the problem,
+rather than the solution.
+
+\section{A note about fonts}
+\label{sec:org9d3ba11}
+In these notes, I use plaintext blocks in order to write the
+inference rules, and use em-dashes (—) to create the horizontal rules.
+
+In some cases, the em-dashes may not show quite correctly.
+For instance, in the PDF version of these notes, there is
+a small space between each dash. In some browsers, they
+may not show at all (they work in my install of Chrome, at least.)
+
+Apologies for any issues reading these notes caused by this.
+
+\section{(Re)introduction to inference rules}
+\label{sec:org094e8ff}
+Recall: an inference rule has the form
+\begin{minted}[breaklines=true]{text}
+ Premise₁   Premise₂   …   Premiseₙ
+————————————————————————————————————— Rule Name
+            Conclusion
+\end{minted}
+where \texttt{Premise₁}, \texttt{Premise₂}, …, and \texttt{Premiseₙ} are some statement in our
+domain, and \texttt{Conclusion} is a statement
+that can be concluded from the premise statements.
+
+In the domains of logics, the statements range over formulae
+(i.e., boolean expressions built up from
+boolean constants, predicates and propositional connectors),
+and we may have rules such as
+\begin{minted}[breaklines=true]{text}
+  P     Q
+——————————–— ∧-Introduction
+   P ∧ Q
+\end{minted}
+which says “given \texttt{P} and \texttt{Q}, we may conclude \texttt{P ∧ Q}”,
+\begin{minted}[breaklines=true]{text}
+   P ∧ Q
+——————————— ∧-Eliminationˡ
+     P
+\end{minted}
+which says “given \texttt{P ∧ Q}, we may conclude \texttt{P}”, and
+\begin{minted}[breaklines=true]{text}
+  P     P ⇒ Q
+——————————————— Modus Ponens
+     Q
+\end{minted}
+which says, by translating the \texttt{⇒} to English,
+“given \texttt{P} and if \texttt{Q} follows from \texttt{P}, then we can conclude \texttt{Q}”.
+
+(Technically, these are \emph{rule schemas};
+the \emph{meta-variables} \texttt{P} and \texttt{Q} can be instantiated
+to obtain specific rules.)
+
+Note that in these rules, we have the following \emph{meta-syntax}:
+\begin{enumerate}
+\item Whitespace between premises is understood as a form of conjunction.
+\item The horizontal rule is understood as a form of implication.
+\end{enumerate}
+
+Any rule which does not have a premise is called an \emph{axiom};
+axioms are the known results of our domain, which do not need to be proven.
+For instance,
+\begin{minted}[breaklines=true]{text}
+————————— ⊤-Introduction
+  true
+\end{minted}
+
+A collection of inference rules (or rule schemas)
+and axioms gives us a \emph{proof system}.
+
+See, for instance,
+the \href{https://cs.uwaterloo.ca/\~david/cl/natural-deduction-pfenning.pdf}{natural deduction} proof calculus
+for classical logic.
+
+You have likely seen the \emph{equational} approach to proofs
+which is favoured by Gries and Schneider's
+“A Logical Approach to Discrete Math”, and used in
+\href{https://www.cas.mcmaster.ca/\~kahl/CS2DM3/2020/}{CS/SE 2dm3 at McMaster}
+using the \href{http://calccheck.mcmaster.ca/}{CalcCheck tool}.
+Proof systems are an alternate approach to proof;
+see \href{https://alhassy.github.io/CalcCheck/LectureNotes.html\#Rules-of-Equality-and-Proof-Trees-vs-Calculational-Proofs}{Musa's notes on the relationship} from this year's 2dm3.
+
+Inside of a proof system, we may construct proofs of statements
+via \emph{proof trees}, which are trees where every node is a statement,
+and the connections between nodes correspond to the use of rules.
+
+For instance, we have the following silly proof of \texttt{true} which
+uses the rules given above.
+\begin{minted}[breaklines=true]{text}
+—————— ⊤-introduction        —————— ⊤ introduction
+ true                         true
+——————————————————————————————————— ∧-Eliminationˡ
+          true ∧ true
+       ————————————————— ∧-Eliminationˡ
+              true
+\end{minted}
+
+Notice, by convention, we write proof trees
+from the \textbf{bottom up}.
+The root, at the bottom, is what we intend to prove.
+The leaves, at the top, must either
+\begin{enumerate}
+\item be axioms, or
+\item be local assumptions.
+\end{enumerate}
+
+Proof trees may be read from the top down,
+to see how the conclusion follows from the axioms and assumptions.
+It is generally better to read from the bottom up, though;
+otherwise the proof often seems to make
+unwarrented steps, or informally, it “pulls a rabbit from its hat”.
+
+\section{Inference rules in other domains}
+\label{sec:org10c0c45}
+The use of inference rules is not limited to the domain of logics.
+
+It is perhaps better not to think of inference rules
+as defining a \emph{proof system} (which makes us think
+of truth values and logics),
+but as defining a \emph{game}: starting from
+the rules and axioms, what can we obtain?
+
+For instance, consider the following problem.
+
+\subsubsection{The two bucket problem}
+\label{sec:org0a88bdd}
+\begin{enumerate}
+\item The problem
+\label{sec:org47dc42e}
+Suppose you are given two buckets,
+\begin{itemize}
+\item one of which holds 5 units of water, and
+\item one of which holds 3 units of water.
+\end{itemize}
+
+You are tasked with collecting exactly 4 units of water;
+no more, and no less.
+You begin with 0 units in both buckets.
+
+You may at any point
+\begin{itemize}
+\item fill one bucket entirely from a tap,
+\item pour the water out of a bucket, emptying it entirely.
+\item pour one bucket into another until either the first is empty
+or the second is full, or
+\end{itemize}
+
+You are tasked with collecting exactly 4 units of water
+using only those three kinds of actions.
+
+\item The rules
+\label{sec:orgb3c3f00}
+Let us represent the state of the bucket by a pair of numbers.
+In these rules, we will use
+\begin{itemize}
+\item \texttt{x} as a meta-variable for the amount
+in the bucket which can hold 5 units, and
+\item \texttt{y} as a meta-variable for the amount
+in the bucket which can hold 3 units.
+\end{itemize}
+
+We can begin only if we have 0 units in both buckets.
+\begin{minted}[breaklines=true]{text}
+
+          ––––––––— Start
+            0 , 0
+\end{minted}
+
+The action of filling a bucket replaces its current amount
+with the maximum amount.
+\begin{minted}[breaklines=true]{text}
+  X , Y                  X , Y
+––––––––— Fillˡ        ––––––––– Fillʳ
+  5 , Y                  X , 3
+\end{minted}
+
+:TODO:
+\begin{minted}[breaklines=true]{text}
+  X , Y                  X , Y
+––––––––— Emptyˡ       ––––––––– Emptyʳ
+  ? , ?                  ? , ?  
+\end{minted}
+
+:TODO:
+\begin{minted}[breaklines=true]{text}
+  X , Y        
+––––––––— Pourˡ   (provided ???)
+  ? , ?        
+
+  X , Y        
+––––––––– Pourʳ   (provided ???)
+  ? , ?
+\end{minted}
+\end{enumerate}
+\section{Prolog}
+\label{sec:org24a924d}
+Prolog programs are simply databases of inference rules.
+An inference rule
+\begin{minted}[breaklines=true]{text}
+ A₁   A₂   …   Aₙ
+––––––––––––––––––––
+      B
+\end{minted}
+is written in Prolog
+\begin{minted}[breaklines=true]{prolog}
+b :- a1, a2, …, an.
+\end{minted}
+(notice the period ending the rule).
+As with our inference rule, this rule states that
+\texttt{b} is true if all of the \texttt{aᵢ} are true.
+So we can think of \texttt{:-} as \texttt{⇐}, and \texttt{,} as \texttt{∧}.
+
+An axiom
+\begin{minted}[breaklines=true]{text}
+––––––––––––––
+      C
+\end{minted}
+can be written in Prolog as
+\begin{minted}[breaklines=true]{prolog}
+c :- true.
+\end{minted}
+or, more simply,
+\begin{minted}[breaklines=true]{prolog}
+c.
+\end{minted}
+
+:TODO:
+
+\subsection{The two bucket problem in Prolog}
+\label{sec:org0563ba6}
+We can begin only if we have 0 units in both buckets.
+\begin{minted}[breaklines=true]{prolog}
+bucket(0,0).
+\end{minted}
+
+The action of filling a bucket replaces its current amount
+with the maximum amount.
+\end{document}
