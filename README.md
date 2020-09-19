@@ -13,6 +13,9 @@ better viewed at
 ## September
 
   - September 18  
+    Homework 2 has been posted.
+
+  - September 18  
     The notes from the live coding lecture have been properly placed in
     that section.
     
@@ -348,6 +351,12 @@ but this may not be updated quickly after lectures/tutorials.
     Scala](https://web.microsoftstream.com/video/1f99aa1e-ee5e-4bb4-a27c-6c32175332fd)
 
 # Homework
+
+## Homework 2 – Solving problems in Prolog – Sept 18th to Sept 27th
+
+  - [HTML](./homework/h2.html)
+  - [PDF](./homework/h2.pdf)
+  - [Org plaintext](./homework/h2.org)
 
 ## Homework 1 – Implementing Trees in Scala – Sept 11th to Sept 20th
 

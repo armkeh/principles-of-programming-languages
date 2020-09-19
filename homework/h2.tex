@@ -1,0 +1,350 @@
+% Created 2020-09-18 Fri 23:42
+% Intended LaTeX compiler: lualatex
+\documentclass[11pt]{article}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{etoolbox}
+\makeatletter
+\def\dontdofcolorbox{\renewcommand\fcolorbox[4][]{##4}}
+\AtBeginEnvironment{minted}{\dontdofcolorbox}
+\makeatother
+\usepackage[newfloat]{minted}
+\author{Mark Armstrong}
+\date{September 18th, 2020}
+\title{Computer Science 3MI3 – 2020 homework 2\\\medskip
+\large Solving problems in Prolog}
+\hypersetup{
+   pdfauthor={Mark Armstrong},
+   pdftitle={Computer Science 3MI3 – 2020 homework 2},
+   pdfkeywords={},
+   pdfsubject={Introductory homework on Prolog and predicates},
+   pdfcreator={Emacs 27.0.90 (Org mode 9.3.8)},
+   pdflang={English},
+   colorlinks,
+   linkcolor=blue,
+   citecolor=blue,
+   urlcolor=blue
+   }
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+
+\section*{Introduction}
+\label{sec:orgf1b7c61}
+Prolog is a \emph{logical programming} language,
+in which the task of the programmer
+is to precisely describe the possible solution space,
+rather than an algorithm to generate the solution.
+The language runtime then performs a search
+to find a solution fitting the description.
+
+\begin{center}
+Put simply, the programmer describes the problem, not the solution.
+\end{center}
+
+\section*{Boilerplate}
+\label{sec:org49e4d31}
+\subsection*{Submission procedures}
+\label{sec:orga16b0c9}
+\subsubsection*{Submission method}
+\label{sec:orgaae1a68}
+
+Homework should be submitted to your McMaster CAS Gitlab respository
+in the \texttt{cs3mi3-fall2020} project.
+
+Ensure that you have \textbf{pushed} the commits to the remote repository
+in time for the deadline, and not just committed to your local copy.
+
+\subsubsection*{Naming requirements}
+\label{sec:org72a6b75}
+
+Place all files for the homework
+inside a folder titled \texttt{hn}, where \texttt{n} is the number of the homework.
+So, for homework 1, the use the folder \texttt{h1}, for homework 2 the folder \texttt{h2}, etc.
+Ensure you do not capitalise the \texttt{h}.
+
+Unless otherwise instructed in the homework questions,
+place all of your code for the homework
+in a single file in the \texttt{hn} folder named \texttt{hn.ext},
+where \texttt{ext} is the appropriate extension for the language used
+according to this list:
+\begin{itemize}
+\item For Scala, \texttt{ext} is \texttt{sc}.
+\item For Prolog, \texttt{ext} is \texttt{pl}.
+\item For Ruby, \texttt{ext} is \texttt{rb}.
+\item For Clojure, \texttt{ext} is \texttt{clg}.
+\end{itemize}
+If multiple languages are used in the homework,
+submit a \texttt{hn.ext} file for each language.
+
+\begin{center}
+\textbf{If the language supports multiple different file extensions,}
+\textbf{you must still follow the extension conventions above.}
+\end{center}
+
+\begin{center}
+\textbf{Incorrect naming of files may result in up to a 10\% deduction in your grade.}
+\end{center}
+
+\subsubsection*{Do not submit testing or diagnostic code}
+\label{sec:orga0f6480}
+
+Unless you are instructed to do so in the homework questions,
+\textbf{you should not submit testing code with your homework submission}.
+
+This includes
+\begin{itemize}
+\item any \texttt{main} function,
+\item any \texttt{print} statements which output information
+\textbf{that is not directly requested as console output}
+\textbf{in the homework questions}.
+\end{itemize}
+
+If you do not wish to remove diagnostic print statements manually,
+you will have to find a way to ensure that they disabled
+in your final submission.
+
+For instance, by using a wrapper on the print function or macros.
+
+\subsubsection*{Due date and allowance for technical difficulties}
+\label{sec:org651bde8}
+
+Homework is due on the second Sunday following its release,
+by the end of the day (midnight).
+Submissions past 00:00 may not be considered.
+
+If you experience technical difficulties
+leading up to the submission time,
+please contact Mark \textbf{ASAP} with the details of the problem
+and, if possible, attach the current state of your homework
+to the communication.
+This information will help ensure we are able
+to accept your submission once the technical difficulties are resolved.
+
+\subsection*{Proper conduct for coursework}
+\label{sec:org30e5efb}
+\subsubsection*{Individual work}
+\label{sec:org5bc9d83}
+
+Unless explicitely stated in the homework questions,
+all homework in this course is intended
+to be \emph{individually completed}.
+
+You are welcome to discuss the content of the homework in
+the public forum of the class Microsoft Teams team homework channel,
+though obviously solutions or partial solutions should not
+be posted or described.
+
+Private discussions about the homework cannot reasonably be
+forbidden, but such discussions should follow the same guidelines
+as public discussions.
+
+\begin{center}
+\textbf{Inappopriate collaboration via private discussions}
+\textbf{which is later discovered by course staff}
+\textbf{may be considered academic dishonesty.}
+
+When in doubt, make the discussion private, or report its contents
+to the course staff by making a note of it
+in your homework.
+\end{center}
+
+To clarify what is considered appropriate discussions
+of homework content, here are some examples:
+\begin{enumerate}
+\item Discussing the language features introduced or needed for the homework.
+\begin{itemize}
+\item Such as relevant builtin datatypes
+and datatype definition methods and their general use.
+\item Code snippets that are not partial solutions to the homework
+are welcome and encouraged.
+\end{itemize}
+\item Questions of the form “What is meant by \texttt{x}?”,
+“Does \texttt{x} really mean \texttt{y}?” or “Is there a mistake with \texttt{x}?”
+\begin{itemize}
+\item Of course, questions of those form which would be answered
+by partial solutions are not considered appropriate.
+\end{itemize}
+\item Questions or advice about errors that may be encountered.
+\begin{itemize}
+\item Such as “If you see a \texttt{scala.MatchError} you should
+probably add a catch-all \texttt{\_} case to your \texttt{match} expressions.”
+\end{itemize}
+\end{enumerate}
+
+\subsubsection*{Language library resources}
+\label{sec:org5782729}
+
+Unless explicitely stated in the questions,
+it is not expected that you will use any language library resources
+in the homeworks.
+
+Possible exceptions to this rule include implementations
+of datatypes we discuss in this course, such as lists
+or options/maybes, if they are included in a standard library
+instead of being builtin.
+
+\emph{Basic} operations on such types would also be allowed.
+\begin{itemize}
+\item For instance, \texttt{head}, \texttt{tail}, \texttt{append}, etc. on lists
+would not require explicit permission to be used.
+\item More complex operations such as sorting procedures
+would require permission before you used them.
+\end{itemize}
+
+\section*{Part 0.1: Installing Prolog                            [0 points]}
+\label{sec:orga833cec}
+In this course, we will be targetting
+\href{https://www.swi-prolog.org/}{SWI Prolog} version 8.2.0,
+as used in the
+\href{https://hub.docker.com/\_/swipl/}{swipl}
+Docker image.
+
+\begin{center}
+\textbf{If there is any update to the Docker image,}
+\textbf{or if for any other reason we change our targeted versions},
+\textbf{we will make an announcement on the homepage.}
+\end{center}
+
+That said, any recent version should suffice. 
+
+\subsection*{Installation guides}
+\label{sec:orgb86221b}
+\begin{itemize}
+\item Linux and MacOS users should be able to install SWI Prolog
+via their package manager.
+\item The \href{https://www.swi-prolog.org/download/stable}{SWI Prolog website}
+provides downloads of prebuilt binaries for SWI Prolog 8.2.1.
+\end{itemize}
+
+\section*{Part 0.2: Basic Prolog programming                     [0 points]}
+\label{sec:org329de18}
+Some basic tutorial on Scala will be given
+in an upcoming lecture, and also in the tutorials,
+and should provide you with the knowledge you need
+to complete this homework.
+
+\section*{Prolog specific instructions}
+\label{sec:orgb925ab9}
+In your Prolog code in this course,
+you are allowed to use all builtin predicates;
+in particular, see the following entries of the
+SWI Prolog documentation:
+\begin{itemize}
+\item \href{https://www.swi-prolog.org/pldoc/man?section=arith}{Arithmetic} and
+\item \href{https://www.swi-prolog.org/pldoc/man?section=builtinlist}{Built-in list operations}
+\end{itemize}
+
+\href{https://github.com/alhassy/PrologCheatSheet}{Musa AlHassy's Prolog cheat sheet}
+(developed in part for this course last year.)
+is also a useful resource, and
+includes links to several other resources.
+
+\section*{Part 1: Prime checker                                  [5 points]}
+\label{sec:orgd3af735}
+Here we define a predicate “has divisor less than or equal to”
+which checks, for a given \texttt{X}, if there exists a divisor
+of \texttt{X} less than the given \texttt{Y} which is greater than 1.
+\begin{minted}[breaklines=true]{prolog}
+hasDivisorLessThanOrEqualTo(_,1) :- !, false.
+hasDivisorLessThanOrEqualTo(X,Y) :- 0 is X mod Y, !.
+hasDivisorLessThanOrEqualTo(X,Y) :- Z is Y - 1, hasDivisorLessThanOrEqualTo(X,Z).
+\end{minted}
+Roughly, this works as follows:
+\begin{enumerate}
+\item If \texttt{Y} is 1, end the search (don't backtrack to look for other proofs)
+and fail (search turns up \texttt{false}).
+\item Otherwise, if \texttt{Y} does divide \texttt{X}, end the search immediately
+(don't backtrack looking for other proofs)
+(and the search will return \texttt{true}).
+\item Otherwise, check if there is a divisor of \texttt{X} which is less than \texttt{Y - 1}.
+\end{enumerate}
+
+Using this predicate, define a \texttt{isPrime} predicate
+such that \texttt{isPrime(X)} returns true if \texttt{X} is a prime number.
+
+\section*{Part 2: From number to list of digits (and vice versa) [15 points]}
+\label{sec:org8343568}
+Complete the following definition of predicate that checks
+if a given list is a list of the digits in a given integer.
+We have filled in code to fetch the last element of the list
+as a starting point.
+\begin{minted}[breaklines=true]{prolog}
+isDigitList(_,[]) :- !, false.
+isDigitList(X,[X]). % Your code here; change the . to :-
+isDigitList(X,L) :-
+  last(L,F). % F is the final element of the list
+  % Your code here; change the above . to a ,
+\end{minted}
+
+Your definition must enforce that
+\begin{itemize}
+\item the last element of the list (\texttt{F}) is the same
+as the first digit of \texttt{X}, and
+\item the remaining portion of the list matches the remaining
+digits of \texttt{X}.
+\end{itemize}
+
+(Note this predicate can be thought of as checking if the given list contains
+the digits for the given integer, or as checking if the given integer
+has the digits contained in a given list; hence, the “vice versa”.)
+
+You may use this code to “drop the last element” of the list
+if you wish (in this part and the rest of the homework.)
+\begin{minted}[breaklines=true]{prolog}
+% dropLast(L1,L2) if L2 is the list L1, leaving off the last item.
+dropLast([_],[]). % The last element is dropped.
+dropLast([H|T],[H|T2]) :-
+  % Aside from the base case above, the lists must match.
+  dropLast(T,T2).
+\end{minted}
+
+\section*{Part 3: Palindrome                                     [10 points]}
+\label{sec:orged00da3}
+Define a predicate \texttt{isPalindrome} which checks that a given
+list is a palindrome.
+
+Note you can use pattern matching with the list “cons” operator, \texttt{|},
+to refer to the head and tail of a list, as in
+\begin{verbatim}
+palindrome([H|T]) :- ??? % H is the first element, L is the rest
+\end{verbatim}
+
+\section*{Part 4: Prime palindromes                              [15 points]}
+\label{sec:org766c370}
+
+Define a predicate \texttt{primePalindrome} which checks
+if a given integer is both
+\begin{enumerate}
+\item prime, and
+\item a palindrome (in terms of the list of its digits).
+\end{enumerate}
+
+\section*{Part 5: Efficiency                                     [10 bonus\_points]}
+\label{sec:org2df926c}
+
+For extra marks, research how to make your above definitions more efficient.
+
+In particular, look into the use of the “cut” operator, \texttt{!},
+to prevent backtracking.
+
+The unit tests will include some (optional for your use) “large”
+versions of these problems in order to test the efficiency
+of your solutions.
+
+\section*{Testing}
+\label{sec:org8842d75}
+:TODO:
+\end{document}

@@ -1,0 +1,735 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2020-09-18 Fri 23:42 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Computer Science 3MI3 – 2020 homework 2</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Mark Armstrong" />
+<meta name="description" content="Introductory homework on Prolog and predicates"
+ />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="styles/readtheorg/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="styles/readtheorg/css/readtheorg.css"/>
+<script type="text/javascript" src="styles/lib/js/jquery.min.js"></script>
+<script type="text/javascript" src="styles/lib/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="styles/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" src="styles/readtheorg/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:e95b018ef3580986a04669f1b5879592219e2a7a&dn=public-domain.txt Public Domain
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.add("code-highlighted");
+         target.classList.add("code-highlighted");
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.remove("code-highlighted");
+         target.classList.remove("code-highlighted");
+       }
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Computer Science 3MI3 – 2020 homework 2
+<br />
+<span class="subtitle">Solving problems in Prolog</span>
+</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#Introduction">Introduction</a></li>
+<li><a href="#Boilerplate">Boilerplate</a>
+<ul>
+<li><a href="#Submission-procedures">Submission procedures</a>
+<ul>
+<li><a href="#org59ea166">Submission method</a></li>
+<li><a href="#orgae9b6d8">Naming requirements</a></li>
+<li><a href="#org66f0ebb">Do not submit testing or diagnostic code</a></li>
+<li><a href="#org3b96bc2">Due date and allowance for technical difficulties</a></li>
+</ul>
+</li>
+<li><a href="#Proper-conduct-for-coursework">Proper conduct for coursework</a>
+<ul>
+<li><a href="#org005d6ac">Individual work</a></li>
+<li><a href="#org31f56c2">Language library resources</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#Part-0.1:-Installing-Scala">Part 0.1: Installing Prolog                            [0 points]</a>
+<ul>
+<li><a href="#Installation-guides">Installation guides</a></li>
+</ul>
+</li>
+<li><a href="#Part-0.2:-Basic-Scala-programming">Part 0.2: Basic Prolog programming                     [0 points]</a></li>
+<li><a href="#Prolog-specific-instructions">Prolog specific instructions</a></li>
+<li><a href="#Part-1:-Prime-checker----------------------------------[5 points]">Part 1: Prime checker                                  [5 points]</a></li>
+<li><a href="#Part-2:-From-number-to-list-of-digits-(and-vice-versa)-[15 points]">Part 2: From number to list of digits (and vice versa) [15 points]</a></li>
+<li><a href="#Part-3:-Palindrome-------------------------------------[10 points]">Part 3: Palindrome                                     [10 points]</a></li>
+<li><a href="#orgec98ad9">Part 4: Prime palindromes                              [15 points]</a></li>
+<li><a href="#org41e67bb">Part 5: Efficiency                                     [10 bonus_points]</a></li>
+<li><a href="#Testing">Testing</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-Introduction" class="outline-2">
+<h2 id="Introduction">Introduction</h2>
+<div class="outline-text-2" id="text-Introduction">
+<p>
+Prolog is a <i>logical programming</i> language,
+in which the task of the programmer
+is to precisely describe the possible solution space,
+rather than an algorithm to generate the solution.
+The language runtime then performs a search
+to find a solution fitting the description.
+</p>
+
+<div class="org-center">
+<p>
+Put simply, the programmer describes the problem, not the solution.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-Boilerplate" class="outline-2">
+<h2 id="Boilerplate">Boilerplate</h2>
+<div class="outline-text-2" id="text-Boilerplate">
+</div>
+
+<div id="outline-container-Submission-procedures" class="outline-3">
+<h3 id="Submission-procedures">Submission procedures</h3>
+<div class="outline-text-3" id="text-Submission-procedures">
+</div>
+
+<div id="outline-container-org59ea166" class="outline-4">
+<h4 id="org59ea166">Submission method</h4>
+<div class="outline-text-4" id="text-org59ea166">
+<p>
+Homework should be submitted to your McMaster CAS Gitlab respository
+in the <code>cs3mi3-fall2020</code> project.
+</p>
+
+<p>
+Ensure that you have <b>pushed</b> the commits to the remote repository
+in time for the deadline, and not just committed to your local copy.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgae9b6d8" class="outline-4">
+<h4 id="orgae9b6d8">Naming requirements</h4>
+<div class="outline-text-4" id="text-orgae9b6d8">
+<p>
+Place all files for the homework
+inside a folder titled <code>hn</code>, where <code>n</code> is the number of the homework.
+So, for homework 1, the use the folder <code>h1</code>, for homework 2 the folder <code>h2</code>, etc.
+Ensure you do not capitalise the <code>h</code>.
+</p>
+
+<p>
+Unless otherwise instructed in the homework questions,
+place all of your code for the homework
+in a single file in the <code>hn</code> folder named <code>hn.ext</code>,
+where <code>ext</code> is the appropriate extension for the language used
+according to this list:
+</p>
+<ul class="org-ul">
+<li>For Scala, <code>ext</code> is <code>sc</code>.</li>
+<li>For Prolog, <code>ext</code> is <code>pl</code>.</li>
+<li>For Ruby, <code>ext</code> is <code>rb</code>.</li>
+<li>For Clojure, <code>ext</code> is <code>clg</code>.</li>
+</ul>
+<p>
+If multiple languages are used in the homework,
+submit a <code>hn.ext</code> file for each language.
+</p>
+
+<div class="org-center">
+<p>
+<b>If the language supports multiple different file extensions,</b>
+<b>you must still follow the extension conventions above.</b>
+</p>
+</div>
+
+<div class="org-center">
+<p>
+<b>Incorrect naming of files may result in up to a 10% deduction in your grade.</b>
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org66f0ebb" class="outline-4">
+<h4 id="org66f0ebb">Do not submit testing or diagnostic code</h4>
+<div class="outline-text-4" id="text-org66f0ebb">
+<p>
+Unless you are instructed to do so in the homework questions,
+<b>you should not submit testing code with your homework submission</b>.
+</p>
+
+<p>
+This includes
+</p>
+<ul class="org-ul">
+<li>any <code>main</code> function,</li>
+<li>any <code>print</code> statements which output information
+<b>that is not directly requested as console output</b>
+<b>in the homework questions</b>.</li>
+</ul>
+
+<p>
+If you do not wish to remove diagnostic print statements manually,
+you will have to find a way to ensure that they disabled
+in your final submission.
+</p>
+
+<p>
+For instance, by using a wrapper on the print function or macros.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org3b96bc2" class="outline-4">
+<h4 id="org3b96bc2">Due date and allowance for technical difficulties</h4>
+<div class="outline-text-4" id="text-org3b96bc2">
+<p>
+Homework is due on the second Sunday following its release,
+by the end of the day (midnight).
+Submissions past 00:00 may not be considered.
+</p>
+
+<p>
+If you experience technical difficulties
+leading up to the submission time,
+please contact Mark <b>ASAP</b> with the details of the problem
+and, if possible, attach the current state of your homework
+to the communication.
+This information will help ensure we are able
+to accept your submission once the technical difficulties are resolved.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-Proper-conduct-for-coursework" class="outline-3">
+<h3 id="Proper-conduct-for-coursework">Proper conduct for coursework</h3>
+<div class="outline-text-3" id="text-Proper-conduct-for-coursework">
+</div>
+
+<div id="outline-container-org005d6ac" class="outline-4">
+<h4 id="org005d6ac">Individual work</h4>
+<div class="outline-text-4" id="text-org005d6ac">
+<p>
+Unless explicitely stated in the homework questions,
+all homework in this course is intended
+to be <i>individually completed</i>.
+</p>
+
+<p>
+You are welcome to discuss the content of the homework in
+the public forum of the class Microsoft Teams team homework channel,
+though obviously solutions or partial solutions should not
+be posted or described.
+</p>
+
+<p>
+Private discussions about the homework cannot reasonably be
+forbidden, but such discussions should follow the same guidelines
+as public discussions.
+</p>
+
+<div class="org-center">
+<p>
+<b>Inappopriate collaboration via private discussions</b>
+<b>which is later discovered by course staff</b>
+<b>may be considered academic dishonesty.</b>
+</p>
+
+<p>
+When in doubt, make the discussion private, or report its contents
+to the course staff by making a note of it
+in your homework.
+</p>
+</div>
+
+<p>
+To clarify what is considered appropriate discussions
+of homework content, here are some examples:
+</p>
+<ol class="org-ol">
+<li>Discussing the language features introduced or needed for the homework.
+<ul class="org-ul">
+<li>Such as relevant builtin datatypes
+and datatype definition methods and their general use.</li>
+<li>Code snippets that are not partial solutions to the homework
+are welcome and encouraged.</li>
+</ul></li>
+<li>Questions of the form “What is meant by <code>x</code>?”,
+“Does <code>x</code> really mean <code>y</code>?” or “Is there a mistake with <code>x</code>?”
+<ul class="org-ul">
+<li>Of course, questions of those form which would be answered
+by partial solutions are not considered appropriate.</li>
+</ul></li>
+<li>Questions or advice about errors that may be encountered.
+<ul class="org-ul">
+<li>Such as “If you see a <code>scala.MatchError</code> you should
+probably add a catch-all <code>_</code> case to your <code>match</code> expressions.”</li>
+</ul></li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org31f56c2" class="outline-4">
+<h4 id="org31f56c2">Language library resources</h4>
+<div class="outline-text-4" id="text-org31f56c2">
+<p>
+Unless explicitely stated in the questions,
+it is not expected that you will use any language library resources
+in the homeworks.
+</p>
+
+<p>
+Possible exceptions to this rule include implementations
+of datatypes we discuss in this course, such as lists
+or options/maybes, if they are included in a standard library
+instead of being builtin.
+</p>
+
+<p>
+<i>Basic</i> operations on such types would also be allowed.
+</p>
+<ul class="org-ul">
+<li>For instance, <code>head</code>, <code>tail</code>, <code>append</code>, etc. on lists
+would not require explicit permission to be used.</li>
+<li>More complex operations such as sorting procedures
+would require permission before you used them.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-Part-0.1:-Installing-Scala" class="outline-2">
+<h2 id="Part-0.1:-Installing-Scala">Part 0.1: Installing Prolog                            [0 points]</h2>
+<div class="outline-text-2" id="text-Part-0.1:-Installing-Scala">
+<p>
+In this course, we will be targetting
+<a href="https://www.swi-prolog.org/">SWI Prolog</a> version 8.2.0,
+as used in the
+<a href="https://hub.docker.com/_/swipl/">swipl</a>
+Docker image.
+</p>
+
+<div class="org-center">
+<p>
+<b>If there is any update to the Docker image,</b>
+<b>or if for any other reason we change our targeted versions</b>,
+<b>we will make an announcement on the homepage.</b>
+</p>
+</div>
+
+<p>
+That said, any recent version should suffice. 
+</p>
+</div>
+
+<div id="outline-container-Installation-guides" class="outline-3">
+<h3 id="Installation-guides">Installation guides</h3>
+<div class="outline-text-3" id="text-Installation-guides">
+<ul class="org-ul">
+<li>Linux and MacOS users should be able to install SWI Prolog
+via their package manager.</li>
+<li>The <a href="https://www.swi-prolog.org/download/stable">SWI Prolog website</a>
+provides downloads of prebuilt binaries for SWI Prolog 8.2.1.</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-Part-0.2:-Basic-Scala-programming" class="outline-2">
+<h2 id="Part-0.2:-Basic-Scala-programming">Part 0.2: Basic Prolog programming                     [0 points]</h2>
+<div class="outline-text-2" id="text-Part-0.2:-Basic-Scala-programming">
+<p>
+Some basic tutorial on Scala will be given
+in an upcoming lecture, and also in the tutorials,
+and should provide you with the knowledge you need
+to complete this homework.
+</p>
+</div>
+</div>
+
+<div id="outline-container-Prolog-specific-instructions" class="outline-2">
+<h2 id="Prolog-specific-instructions">Prolog specific instructions</h2>
+<div class="outline-text-2" id="text-Prolog-specific-instructions">
+<p>
+In your Prolog code in this course,
+you are allowed to use all builtin predicates;
+in particular, see the following entries of the
+SWI Prolog documentation:
+</p>
+<ul class="org-ul">
+<li><a href="https://www.swi-prolog.org/pldoc/man?section=arith">Arithmetic</a> and</li>
+<li><a href="https://www.swi-prolog.org/pldoc/man?section=builtinlist">Built-in list operations</a></li>
+</ul>
+
+<p>
+<a href="https://github.com/alhassy/PrologCheatSheet">Musa AlHassy's Prolog cheat sheet</a>
+(developed in part for this course last year.)
+is also a useful resource, and
+includes links to several other resources.
+</p>
+</div>
+</div>
+
+<div id="outline-container-Part-1:-Prime-checker----------------------------------[5 points]" class="outline-2">
+<h2 id="Part-1:-Prime-checker----------------------------------[5 points]">Part 1: Prime checker                                  [5 points]</h2>
+<div class="outline-text-2" id="text-Part-1:-Prime-checker----------------------------------[5 points]">
+<p>
+Here we define a predicate “has divisor less than or equal to”
+which checks, for a given <code>X</code>, if there exists a divisor
+of <code>X</code> less than the given <code>Y</code> which is greater than 1.
+</p>
+<div class="org-src-container">
+<pre class="src src-prolog"><span style="color: #feacd0;">hasDivisorLessThanOrEqualTo</span><span style="color: #00cd68;">(</span><span style="color: #00d3d0;">_</span>,1<span style="color: #00cd68;">)</span> :- <span style="color: #b6a0ff;">!</span>, false.
+<span style="color: #feacd0;">hasDivisorLessThanOrEqualTo</span><span style="color: #00cd68;">(</span><span style="color: #00d3d0;">X</span>,<span style="color: #00d3d0;">Y</span><span style="color: #00cd68;">)</span> :- 0 is <span style="color: #00d3d0;">X</span> mod <span style="color: #00d3d0;">Y</span>, <span style="color: #b6a0ff;">!</span>.
+<span style="color: #feacd0;">hasDivisorLessThanOrEqualTo</span><span style="color: #00cd68;">(</span><span style="color: #00d3d0;">X</span>,<span style="color: #00d3d0;">Y</span><span style="color: #00cd68;">)</span> :- <span style="color: #00d3d0;">Z</span> is <span style="color: #00d3d0;">Y</span> - 1, hasDivisorLessThanOrEqualTo<span style="color: #00cd68;">(</span><span style="color: #00d3d0;">X</span>,<span style="color: #00d3d0;">Z</span><span style="color: #00cd68;">)</span>.
+</pre>
+</div>
+<p>
+Roughly, this works as follows:
+</p>
+<ol class="org-ol">
+<li>If <code>Y</code> is 1, end the search (don't backtrack to look for other proofs)
+and fail (search turns up <code>false</code>).</li>
+<li>Otherwise, if <code>Y</code> does divide <code>X</code>, end the search immediately
+(don't backtrack looking for other proofs)
+(and the search will return <code>true</code>).</li>
+<li>Otherwise, check if there is a divisor of <code>X</code> which is less than <code>Y - 1</code>.</li>
+</ol>
+
+<p>
+Using this predicate, define a <code>isPrime</code> predicate
+such that <code>isPrime(X)</code> returns true if <code>X</code> is a prime number.
+</p>
+</div>
+</div>
+
+<div id="outline-container-Part-2:-From-number-to-list-of-digits-(and-vice-versa)-[15 points]" class="outline-2">
+<h2 id="Part-2:-From-number-to-list-of-digits-(and-vice-versa)-[15 points]">Part 2: From number to list of digits (and vice versa) [15 points]</h2>
+<div class="outline-text-2" id="text-Part-2:-From-number-to-list-of-digits-(and-vice-versa)-[15 points]">
+<p>
+Complete the following definition of predicate that checks
+if a given list is a list of the digits in a given integer.
+We have filled in code to fetch the last element of the list
+as a starting point.
+</p>
+<div class="org-src-container">
+<pre class="src src-prolog"><span style="color: #feacd0;">isDigitList</span><span style="color: #00cd68;">(</span><span style="color: #00d3d0;">_</span>,<span style="color: #b6a0ff;">[]</span><span style="color: #00cd68;">)</span> :- <span style="color: #b6a0ff;">!</span>, false.
+<span style="color: #feacd0;">isDigitList</span><span style="color: #00cd68;">(</span><span style="color: #00d3d0;">X</span>,<span style="color: #b6a0ff;">[</span><span style="color: #00d3d0;">X</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span>. <span style="color: #a8a8a8;">% </span><span style="color: #a8a8a8;">Your code here; change the . to :-</span>
+<span style="color: #feacd0;">isDigitList</span><span style="color: #00cd68;">(</span><span style="color: #00d3d0;">X</span>,<span style="color: #00d3d0;">L</span><span style="color: #00cd68;">)</span> :-
+  last<span style="color: #00cd68;">(</span><span style="color: #00d3d0;">L</span>,<span style="color: #00d3d0;">F</span><span style="color: #00cd68;">)</span>. <span style="color: #a8a8a8;">% </span><span style="color: #a8a8a8;">F is the final element of the list</span>
+  <span style="color: #a8a8a8;">% </span><span style="color: #a8a8a8;">Your code here; change the above . to a ,</span>
+</pre>
+</div>
+
+<p>
+Your definition must enforce that
+</p>
+<ul class="org-ul">
+<li>the last element of the list (<code>F</code>) is the same
+as the first digit of <code>X</code>, and</li>
+<li>the remaining portion of the list matches the remaining
+digits of <code>X</code>.</li>
+</ul>
+
+<p>
+(Note this predicate can be thought of as checking if the given list contains
+the digits for the given integer, or as checking if the given integer
+has the digits contained in a given list; hence, the “vice versa”.)
+</p>
+
+<p>
+You may use this code to “drop the last element” of the list
+if you wish (in this part and the rest of the homework.)
+</p>
+<div class="org-src-container">
+<pre class="src src-prolog"><span style="color: #a8a8a8;">% </span><span style="color: #a8a8a8;">dropLast(L1,L2) if L2 is the list L1, leaving off the last item.</span>
+<span style="color: #feacd0;">dropLast</span><span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">[</span><span style="color: #00d3d0;">_</span><span style="color: #b6a0ff;">]</span>,<span style="color: #b6a0ff;">[]</span><span style="color: #00cd68;">)</span>. <span style="color: #a8a8a8;">% </span><span style="color: #a8a8a8;">The last element is dropped.</span>
+<span style="color: #feacd0;">dropLast</span><span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">[</span><span style="color: #00d3d0;">H</span><span style="color: #b6a0ff;">|</span><span style="color: #00d3d0;">T</span><span style="color: #b6a0ff;">]</span>,<span style="color: #b6a0ff;">[</span><span style="color: #00d3d0;">H</span><span style="color: #b6a0ff;">|</span><span style="color: #00d3d0;">T2</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span> :-
+  <span style="color: #a8a8a8;">% </span><span style="color: #a8a8a8;">Aside from the base case above, the lists must match.</span>
+  dropLast<span style="color: #00cd68;">(</span><span style="color: #00d3d0;">T</span>,<span style="color: #00d3d0;">T2</span><span style="color: #00cd68;">)</span>.
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-Part-3:-Palindrome-------------------------------------[10 points]" class="outline-2">
+<h2 id="Part-3:-Palindrome-------------------------------------[10 points]">Part 3: Palindrome                                     [10 points]</h2>
+<div class="outline-text-2" id="text-Part-3:-Palindrome-------------------------------------[10 points]">
+<p>
+Define a predicate <code>isPalindrome</code> which checks that a given
+list is a palindrome.
+</p>
+
+<p>
+Note you can use pattern matching with the list “cons” operator, <code>|</code>,
+to refer to the head and tail of a list, as in
+</p>
+<pre class="example" id="org6328db9">
+palindrome([H|T]) :- ??? % H is the first element, L is the rest
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgec98ad9" class="outline-2">
+<h2 id="orgec98ad9">Part 4: Prime palindromes                              [15 points]</h2>
+<div class="outline-text-2" id="text-orgec98ad9">
+<p>
+Define a predicate <code>primePalindrome</code> which checks
+if a given integer is both
+</p>
+<ol class="org-ol">
+<li>prime, and</li>
+<li>a palindrome (in terms of the list of its digits).</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org41e67bb" class="outline-2">
+<h2 id="org41e67bb">Part 5: Efficiency                                     [10 bonus_points]</h2>
+<div class="outline-text-2" id="text-org41e67bb">
+<p>
+For extra marks, research how to make your above definitions more efficient.
+</p>
+
+<p>
+In particular, look into the use of the “cut” operator, <code>!</code>,
+to prevent backtracking.
+</p>
+
+<p>
+The unit tests will include some (optional for your use) “large”
+versions of these problems in order to test the efficiency
+of your solutions.
+</p>
+</div>
+</div>
+
+<div id="outline-container-Testing" class="outline-2">
+<h2 id="Testing">Testing</h2>
+<div class="outline-text-2" id="text-Testing">
+<p>
+:TODO:
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Mark Armstrong</p>
+     <p class="author">Contact: <a href="mailto:markparmstrong@gmail.com">markparmstrong@gmail.com</a></p>
+     <p class="date">Original date: September 18th, 2020</p>
+     <p class="date">Last updated: 2020-09-18 Fri 23:42</p>
+     <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.90 (<a href="https://orgmode.org">Org</a> mode 9.3.8)</p>
+     <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

@@ -1,0 +1,198 @@
+#+Title: Computer Science 3MI3 – 2020 homework 2
+#+Subtitle: Solving problems in Prolog
+#+Author: Mark Armstrong
+#+Date: September 18th, 2020
+#+Description: Introductory homework on Prolog and predicates
+#+Options: num:nil
+#+SETUPFILE: ../org-html-themes/setup/theme-readtheorg-local.setup
+
+* Introduction
+:PROPERTIES:
+:CUSTOM_ID: Introduction
+:END:
+
+Prolog is a /logical programming/ language,
+in which the task of the programmer
+is to precisely describe the possible solution space,
+rather than an algorithm to generate the solution.
+The language runtime then performs a search
+to find a solution fitting the description.
+
+#+begin_center
+Put simply, the programmer describes the problem, not the solution.
+#+end_center
+
+* Boilerplate
+:PROPERTIES:
+:CUSTOM_ID: Boilerplate
+:END:
+
+** Submission procedures
+:PROPERTIES:
+:CUSTOM_ID: Submission-procedures
+:END:
+
+#+INCLUDE: "./../boilerplate.org::*Homework submission" :only-contents t
+
+** Proper conduct for coursework
+:PROPERTIES:
+:CUSTOM_ID: Proper-conduct-for-coursework
+:END:
+
+#+INCLUDE: "./../boilerplate.org::*Homework conduct" :only-contents t
+
+* Part 0.1: Installing Prolog                            [0 points]
+:PROPERTIES:
+:CUSTOM_ID: Part-0.1:-Installing-Scala
+:END:
+
+In this course, we will be targetting
+[[https://www.swi-prolog.org/][SWI Prolog]] version 8.2.0,
+as used in the
+[[https://hub.docker.com/_/swipl/][swipl]]
+Docker image.
+
+#+begin_center
+*If there is any update to the Docker image,*
+*or if for any other reason we change our targeted versions*,
+*we will make an announcement on the homepage.*
+#+end_center
+
+That said, any recent version should suffice. 
+
+** Installation guides
+:PROPERTIES:
+:CUSTOM_ID: Installation-guides
+:END:
+
+- Linux and MacOS users should be able to install SWI Prolog
+  via their package manager.
+- The [[https://www.swi-prolog.org/download/stable][SWI Prolog website]]
+  provides downloads of prebuilt binaries for SWI Prolog 8.2.1.
+
+* Part 0.2: Basic Prolog programming                     [0 points]
+:PROPERTIES:
+:CUSTOM_ID: Part-0.2:-Basic-Scala-programming
+:END:
+
+Some basic tutorial on Scala will be given
+in an upcoming lecture, and also in the tutorials,
+and should provide you with the knowledge you need
+to complete this homework.
+
+* Prolog specific instructions
+:PROPERTIES:
+:CUSTOM_ID: Prolog-specific-instructions
+:END:
+
+In your Prolog code in this course,
+you are allowed to use all builtin predicates;
+in particular, see the following entries of the
+SWI Prolog documentation:
+- [[https://www.swi-prolog.org/pldoc/man?section=arith][Arithmetic]] and
+- [[https://www.swi-prolog.org/pldoc/man?section=builtinlist][Built-in list operations]]
+
+[[https://github.com/alhassy/PrologCheatSheet][Musa AlHassy's Prolog cheat sheet]]
+(developed in part for this course last year.)
+is also a useful resource, and
+includes links to several other resources.
+
+* Part 1: Prime checker                                  [5 points]
+:PROPERTIES:
+:CUSTOM_ID: Part-1:-Prime-checker----------------------------------[5 points]
+:END:
+
+Here we define a predicate “has divisor less than or equal to”
+which checks, for a given ~X~, if there exists a divisor
+of ~X~ less than the given ~Y~ which is greater than 1.
+#+begin_src prolog
+hasDivisorLessThanOrEqualTo(_,1) :- !, false.
+hasDivisorLessThanOrEqualTo(X,Y) :- 0 is X mod Y, !.
+hasDivisorLessThanOrEqualTo(X,Y) :- Z is Y - 1, hasDivisorLessThanOrEqualTo(X,Z).
+#+end_src
+Roughly, this works as follows:
+1. If ~Y~ is 1, end the search (don't backtrack to look for other proofs)
+   and fail (search turns up ~false~).
+2. Otherwise, if ~Y~ does divide ~X~, end the search immediately
+   (don't backtrack looking for other proofs)
+   (and the search will return ~true~).
+3. Otherwise, check if there is a divisor of ~X~ which is less than ~Y - 1~.
+
+Using this predicate, define a ~isPrime~ predicate
+such that ~isPrime(X)~ returns true if ~X~ is a prime number.
+
+* Part 2: From number to list of digits (and vice versa) [15 points]
+:PROPERTIES:
+:CUSTOM_ID: Part-2:-From-number-to-list-of-digits-(and-vice-versa)-[15 points]
+:END:
+
+Complete the following definition of predicate that checks
+if a given list is a list of the digits in a given integer.
+We have filled in code to fetch the last element of the list
+as a starting point.
+#+begin_src prolog
+isDigitList(_,[]) :- !, false.
+isDigitList(X,[X]). % Your code here; change the . to :-
+isDigitList(X,L) :-
+  last(L,F). % F is the final element of the list
+  % Your code here; change the above . to a ,
+#+end_src
+
+Your definition must enforce that
+- the last element of the list (~F~) is the same
+  as the first digit of ~X~, and
+- the remaining portion of the list matches the remaining
+  digits of ~X~.
+
+(Note this predicate can be thought of as checking if the given list contains
+the digits for the given integer, or as checking if the given integer
+has the digits contained in a given list; hence, the “vice versa”.)
+
+You may use this code to “drop the last element” of the list
+if you wish (in this part and the rest of the homework.)
+#+begin_src prolog
+% dropLast(L1,L2) if L2 is the list L1, leaving off the last item.
+dropLast([_],[]). % The last element is dropped.
+dropLast([H|T],[H|T2]) :-
+  % Aside from the base case above, the lists must match.
+  dropLast(T,T2).
+#+end_src
+
+* Part 3: Palindrome                                     [10 points]
+:PROPERTIES:
+:CUSTOM_ID: Part-3:-Palindrome-------------------------------------[10 points]
+:END:
+
+Define a predicate ~isPalindrome~ which checks that a given
+list is a palindrome.
+
+Note you can use pattern matching with the list “cons” operator, ~|~,
+to refer to the head and tail of a list, as in
+#+begin_example prolog
+palindrome([H|T]) :- ??? % H is the first element, L is the rest
+#+end_example
+
+* Part 4: Prime palindromes                              [15 points]
+
+Define a predicate ~primePalindrome~ which checks
+if a given integer is both
+1. prime, and
+2. a palindrome (in terms of the list of its digits).
+
+* Part 5: Efficiency                                     [10 bonus_points]
+
+For extra marks, research how to make your above definitions more efficient.
+
+In particular, look into the use of the “cut” operator, ~!~,
+to prevent backtracking.
+
+The unit tests will include some (optional for your use) “large”
+versions of these problems in order to test the efficiency
+of your solutions.
+
+* Testing
+:PROPERTIES:
+:CUSTOM_ID: Testing
+:END:
+
+:TODO:
