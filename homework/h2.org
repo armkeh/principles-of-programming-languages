@@ -104,7 +104,9 @@ includes links to several other resources.
 
 Here we define a predicate “has divisor less than or equal to”
 which checks, for a given ~X~, if there exists a divisor
-of ~X~ less than the given ~Y~ which is greater than 1.
+of ~X~ less than *or equal to* the given ~Y~ which is greater than 1.
+(Edited September 20th: previously the preceding description
+incorrectly said only “less than”.)
 #+begin_src prolog
 hasDivisorLessThanOrEqualTo(_,1) :- !, false.
 hasDivisorLessThanOrEqualTo(X,Y) :- 0 is X mod Y, !.
