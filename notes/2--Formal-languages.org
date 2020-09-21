@@ -28,6 +28,9 @@
 #+LaTeX_header: \usepackage{unicode}
 
 * Preamble
+:PROPERTIES:
+:CUSTOM_ID: Preamble
+:END:
 
 ** Introduction                                :ignore:
 
@@ -39,6 +42,9 @@ Several small formal languages (not full programming languages)
 are used as examples of the use of these tools.
 
 ** TODO Table of contents
+:PROPERTIES:
+:CUSTOM_ID: Table-of-contents
+:END:
 
 # The table of contents are added using org-reveal-manual-toc,
 # and so must be updated upon changes or added last.
@@ -51,12 +57,21 @@ are used as examples of the use of these tools.
 #+HTML: </font>
 
 ** TODO Notable references
+:PROPERTIES:
+:CUSTOM_ID: Notable-references
+:END:
 
 :TODO:
 
 ** Version history
+:PROPERTIES:
+:CUSTOM_ID: Version-history
+:END:
 
 *** September 16th
+:PROPERTIES:
+:CUSTOM_ID: September-16th
+:END:
 
 More complete version posted. Nearly complete up to Parsing.
 
@@ -65,10 +80,16 @@ First parse tree example also fixed
 (the nodes were in the wrong order.)
 
 *** Beginning of course
+:PROPERTIES:
+:CUSTOM_ID: Beginning-of-course
+:END:
 
 Very incomplete version of the notes in place.
 
 * Formal languages
+:PROPERTIES:
+:CUSTOM_ID: Formal-languages
+:END:
 
 ** Preamble                                    :ignore:
 
@@ -91,6 +112,9 @@ Examples of such mathematical tools include
 - grammars.
 
 ** The usefulness of formal languages
+:PROPERTIES:
+:CUSTOM_ID: The-usefulness-of-formal-languages
+:END:
 
 Formal languages, unlike /natural/ languages, are well-suited
 for comprehension by computers.
@@ -105,6 +129,9 @@ In particular, in most cases:
   a (context-free) grammar.
 
 ** Strings
+:PROPERTIES:
+:CUSTOM_ID: Strings
+:END:
 
 Recall that given a set $Σ$, the set of strings over $Σ$,
 written $Σ^{*}$, is the set of all finite sequences
@@ -123,6 +150,9 @@ Given an element $e ∈ Σ$, we write
 - $e^{*}$ for the set $\{ n ∈ ℕ ∣ e^{n} \}$.
 
 * Describing the /syntax/ of formal languages
+:PROPERTIES:
+:CUSTOM_ID: Describing-the-/syntax/-of-formal-languages
+:END:
 
 ** Preamble                                    :ignore:
 
@@ -142,6 +172,9 @@ the /practical expressiveness/ of the tool.
   to the restricted syntax.
 
 ** Regular expressions as in formal language theory
+:PROPERTIES:
+:CUSTOM_ID: Regular-expressions-as-in-formal-language-theory
+:END:
 
 Given a finite alphabet $Σ$,
 the set of regular expressions (over $Σ$),
@@ -157,6 +190,9 @@ Respectively, the three operations in (2) are called
 - “star” or “repeat”.  
 
 ** The language for a regular expression
+:PROPERTIES:
+:CUSTOM_ID: The-language-for-a-regular-expression
+:END:
 
 The language generated/recognised by a regular expression
 is defined via a (semantic) function $L : RE(Σ) → Σ^{*}$,
@@ -169,6 +205,9 @@ defined as follows.
 - $L(α^*) = (L(α))^*$
 
 ** Additional operators for more expressive regular expressions
+:PROPERTIES:
+:CUSTOM_ID: Additional-operators-for-more-expressive-regular-expressions
+:END:
 
 Regular expressions come up frequently in programming,
 and there is a rich set of extensions
@@ -186,10 +225,16 @@ its language.
 6. $α\{m,n\}$, where $L(α\{m,n\}) = ⋃_{i=m}^{n} L(α)^{i}$
       
 ** Regular expression examples
+:PROPERTIES:
+:CUSTOM_ID: Regular-expression-examples
+:END:
 
 :TODO:
 
 ** Grammars as in formal language theory
+:PROPERTIES:
+:CUSTOM_ID: Grammars-as-in-formal-language-theory
+:END:
 
 Formally, a context-free grammar is a 4-tuple
 #+begin_center
@@ -208,6 +253,9 @@ where
 - $S$ is a distinguished element of $N$, called the /starting nonterminal/.
 
 ** Notations for grammar productions in formal language theory
+:PROPERTIES:
+:CUSTOM_ID: Notations-for-grammar-productions-in-formal-language-theory
+:END:
 
 Given
 #+begin_center
@@ -234,6 +282,9 @@ $A ⟶ α₁ | α₂ | … | αₘ$
 as a shorthand.
 
 ** Conventions for grammars
+:PROPERTIES:
+:CUSTOM_ID: Conventions-for-grammars
+:END:
 
 Writing the 4-tuple each time we produce a grammar is tedious.
 
@@ -257,6 +308,9 @@ in order to allow us to omit the 4-tuple.
       - (We usually attempt to write grammars “top down”.)
       
 ** A simple example grammar
+:PROPERTIES:
+:CUSTOM_ID: A-simple-example-grammar
+:END:
 
 #+begin_src text
 A ⟶ aAa | B
@@ -271,6 +325,9 @@ $a^{i}b^{j}c^{k}c^{k}b^{j}a^{i}$
 #+end_center
 
 ** Exercise – reading grammars
+:PROPERTIES:
+:CUSTOM_ID: Exercise-–-reading-grammars
+:END:
 
 What languages do the following grammars produce?
 
@@ -299,6 +356,9 @@ If you believe so, just be careful that
 your simplification accepts the same string!
 
 ** Grammars generate or recognise strings
+:PROPERTIES:
+:CUSTOM_ID: Grammars-generate-or-recognise-strings
+:END:
 
 We have discussed the facts that a grammar can
 - generate strings or
@@ -316,6 +376,9 @@ But there is a useful byproduct which may be obtained during
 during either process: a /parse tree/.
 
 ** Parse trees
+:PROPERTIES:
+:CUSTOM_ID: Parse-trees
+:END:
 
 A parse tree's
 - nodes (which have children) are
@@ -329,6 +392,9 @@ A parse tree's
   If a non-terminal would produce ~ε~, it is omitted.
 
 ** Example parse tree
+:PROPERTIES:
+:CUSTOM_ID: Example-parse-tree
+:END:
 
 For example, consider the grammar
 #+begin_src text
@@ -369,6 +435,9 @@ digraph T {
 [[file:media/parse-tree-example-aab.png]]
 
 ** Another example parse tree
+:PROPERTIES:
+:CUSTOM_ID: Another-example-parse-tree
+:END:
 
 Similarly, working with the same grammar,
 we have the following parse tree for ~abb~.
@@ -393,6 +462,9 @@ digraph T {
 [[file:media/parse-tree-example-abb.png]]
 
 ** Exercise: creating parse trees
+:PROPERTIES:
+:CUSTOM_ID: Exercise:-creating-parse-trees
+:END:
 
 Exercise: provide a parse tree for the string ~aaa~ using this grammar.
 Is there a valid parse tree for the string ~bbb~?
@@ -402,6 +474,9 @@ can you provide a different parse tree
 (or multiple different parse trees) for ~aaa~?
 
 ** Backus-Naur form (BNF)
+:PROPERTIES:
+:CUSTOM_ID: Backus-Naur-form-(BNF)
+:END:
 
 Up until now, we have used the form
 #+begin_example text
@@ -418,6 +493,9 @@ is used.
   namely ALGOL.
 
 ** BNF details
+:PROPERTIES:
+:CUSTOM_ID: BNF-details
+:END:
 
 In Backus-Naur form,
 - all nonterminals names are delimited by
@@ -430,6 +508,9 @@ In Backus-Naur form,
   - So $⟨A⟩ ∷= a\ a\ ⟨A⟩$ is treated the same as $⟨A⟩ ∷= aa⟨A⟩$.
 
 ** Aside: ALGOL
+:PROPERTIES:
+:CUSTOM_ID: Aside:-ALGOL
+:END:
 
 ALGOL (for “ALGOrithmic Language”)
 was a contemporary of Fortran, Lisp, and Cobol.
@@ -446,6 +527,9 @@ introducing concepts such as the block.
 - The “C family” can trace its lineage directly to ALGOL.
 
 ** Extended Backus-Naur form (EBNF)
+:PROPERTIES:
+:CUSTOM_ID: Extended-Backus-Naur-form-(EBNF)
+:END:
 
 We further extend our grammar notation to include several
 several additional operators.
@@ -458,6 +542,9 @@ not chosen to match the standard;
 it is what is convenient for our use.
 
 ** EBNF details
+:PROPERTIES:
+:CUSTOM_ID: EBNF-details
+:END:
 
 - (Square) brackets, ~[]~, surrounding a string
   indicate that string may or may not be included in a production.
@@ -477,6 +564,9 @@ it is what is convenient for our use.
   - $⟨\text{ebnfprods}⟩ ∷= ⟨\text{string}⟩ | ⟨\text{string}⟩ ⟨\text{optws}⟩ “|” ⟨\text{optws}⟩ ⟨\text{ebnfprods}⟩$
 
 ** Exercise – translating to EBNF
+:PROPERTIES:
+:CUSTOM_ID: Exercise-–-translating-to-EBNF
+:END:
 
 Translate this grammar from an earlier exercise to EBNF syntax.
 #+begin_src text
@@ -490,6 +580,9 @@ while maintaining the language defined.
 Can you use only one production when using EBNF?
 
 ** EBNF's syntactic sugar
+:PROPERTIES:
+:CUSTOM_ID: EBNF's-syntactic-sugar
+:END:
 
 EBNF gives us our first example of /syntactic sugar/;
 syntax that does not add new features to a language,
@@ -509,6 +602,9 @@ we will usually omit constructs which are syntactic sugar.
   in a “core” language which includes less constructs.
 
 ** Exercise – a small language C-like language
+:PROPERTIES:
+:CUSTOM_ID: Exercise-–-a-small-language-C-like-language
+:END:
 
 Consider the following context-free language.
 #+begin_example text
@@ -526,6 +622,9 @@ Provide some example programs in this language.
 Can you precisely describe the language in English?
 
 ** Example – EBNF for C++
+:PROPERTIES:
+:CUSTOM_ID: Example-–-EBNF-for-C++
+:END:
 
 A good example of the practicality EBNF for specifying
 the syntax of languages is this
@@ -538,6 +637,9 @@ but it is still quite concise for describing
 a real-world programming language.
 
 * Parsing and executable code
+:PROPERTIES:
+:CUSTOM_ID: Parsing-and-executable-code
+:END:
 
 ** Preamble                                    :ignore:
 
@@ -548,6 +650,9 @@ beginning with some important terms.
   construction of parse trees.
 
 ** Atomic syntactic units
+:PROPERTIES:
+:CUSTOM_ID: Atomic-syntactic-units
+:END:
 
 We have mentioned that both regular expressions and
 context-free grammars are used in the description of
@@ -564,6 +669,9 @@ was described exclusively by a context-free grammar.
 This is not done in practice.
 
 ** Lexemes and tokens
+:PROPERTIES:
+:CUSTOM_ID: Lexemes-and-tokens
+:END:
 
 In practice,
 - regular expressions are instead used to describe the
@@ -583,6 +691,9 @@ In practice,
     - or the token ~var~ for the set of valid variable names.
 
 ** Parsing
+:PROPERTIES:
+:CUSTOM_ID: Parsing
+:END:
 
 Parsing is the process of translating a program
 from plaintext
@@ -594,6 +705,9 @@ to executable instructions
 - A computer cannot run unparsed higher level language code.
   
 ** The zeroth step – preprocessing
+:PROPERTIES:
+:CUSTOM_ID: The-zeroth-step-–-preprocessing
+:END:
 
 Many programming languages support some form
 of /preprocessing directives/ which are
@@ -602,22 +716,28 @@ properly begins.
 - Commonly, “macros”, which often are simply
   textual substitutions to be carried out.
   - But they can be used for significantly more;
-    in some instances, macros form a whole language themselves.
+    in some instances, these directives
+    form a programming language themselves.
 
 ** The first step – lexical analysis
+:PROPERTIES:
+:CUSTOM_ID: The-first-step-–-lexical-analysis
+:END:
 
-:TODO: There's a break in the narrative here.
-
-We now know the first step in parsing.
-- Convert the plaintext source code into a sequence of tokens.
-  - This process may be
-    called /lexical analysis/, /lexing/ or /tokenising/.
-  - The program to carry this process out may be
-    called a /lexer/ or /tokeniser/.
-  - Lexical analysis discards whitespace, comments, and any other
-    irrelevant text.
+After preprocessing, if it is present, comes the
+the conversion of the plaintext source code
+into a sequence of /tokens/.
+- This process may be
+  called /lexical analysis/, /lexing/ or /tokenising/.
+- The program to carry this process out may be
+  called a /lexer/ or /tokeniser/.
+- Lexical analysis discards whitespace, comments, and any other
+  text which is irrelevant to the machine.
 
 ** The second step – parsing (syntactic analysis)
+:PROPERTIES:
+:CUSTOM_ID: The-second-step-–-parsing-(syntactic-analysis)
+:END:
 
 After converting from plaintext to a string of tokens, the next
 step of parsing is to construct the parse tree.
@@ -627,16 +747,44 @@ but it is also usually called parsing.
 - It may also be called /syntactic analysis/.
 
 ** The third step – (static) semantic analysis
+:PROPERTIES:
+:CUSTOM_ID: The-third-step-–-(static)-semantic-analysis
+:END:
 
-:TODO:
+Once the parse tree is constructed,
+rules about the form of programs
+which cannot be (or cannot easily be)
+described by a grammar are enforced
+by /(static) semantic analysis/.
+
+These rules include type checking and variable scope checking,
+issues we will discuss later in the course.
+
+This process produces the /symbol table/, which maps
+each identifier to its relevant information,
+such as
+- where it is declared in the source and
+- its type.
 
 ** The fourth step – intermediate code generation
+:PROPERTIES:
+:CUSTOM_ID: The-fourth-step-–-intermediate-code-generation
+:END:
 
-:TODO:
+Most high-level languages are not translated directly to machine code;
+instead, they are translated to some /intermediate code/,
+which is closer to machine code than the high-level language.
 
-# Mention optimisation
+For instance, languages on the JVM are translated
+to Java bytecode during compilation/interpretation.
+
+This intermediate code can then be translated
+into machine code by later steps.
 
 ** Visualising the entire parsing process
+:PROPERTIES:
+:CUSTOM_ID: Visualising-the-entire-parsing-process
+:END:
 
 #+begin_src ditaa :file media/parsing-whole.png :exports results
 +-----------+    /--------------\    +--------------------+
@@ -658,8 +806,8 @@ but it is also usually called parsing.
              |
 /------------+---------------\    +----------------------+
 |                            |    | {d}                  |
-|          Parser            |    |                      |
-| (constructed from grammar) +--->|  +-\
+|          Parser            |    |      Parse tree      |
+| (constructed from grammar) +--->|                      +-\
 | cFDD                       |    | cDFD                 | |
 \----------------------------/    +----------------------+ |
                                                            |
@@ -667,8 +815,8 @@ but it is also usually called parsing.
               |
 /-------------+--------------\    +-------------------------+
 |                            |    | {d}                     |
-| (Static) semantic analysis |    | Attributed syntax tree, |
-|                            +--->|    symbol table         +-\
+| (Static) semantic analysis |    | Attributed parse tree,  |
+|                            +--->|     symbol table        +-\
 | cFDD                       |    | cDFD                    | |
 \----------------------------/    +-------------------------+ |
                                                               |
@@ -694,15 +842,84 @@ but it is also usually called parsing.
 #+RESULTS:
 [[file:media/parsing-whole.png]]
 
+* Compilation, interpretation, and hybrid appraoches
+:PROPERTIES:
+:CUSTOM_ID: Compilation,-interpretation,-and-hybrid-appraoches
+:END:
+
+We have mentioned above during the discussion of parsing
+the notions of compilation and interpretation.
+
+Let us define those terms.
+
+** Compilation
+:PROPERTIES:
+:CUSTOM_ID: Compilation
+:END:
+
+A /compiler/ translates the whole program
+(and any libraries or other code resources needed)
+ahead of running it.
+- High upfront cost (time), for increased efficiency at runtime
+- Not portable; machine code is machine dependent.
+  
+** Interpreters
+:PROPERTIES:
+:CUSTOM_ID: Interpreters
+:END:
+
+An /interpreter/ translates the program /as we are running it/.
+- No upfront cost, but less efficient.
+- Portable; can be run on any machine with an interpreter.
+  - Alleviates some of the programmer's responsibility.
+    - One user (or group) writes the interpreter /once/
+      (per machine type);
+      it can be used by any number of users for any number programs.
+- Efficiency is improved by using *just-in-time compilation*.
+  - Store the result of interpretation so it can be used again.
+- Can achieve better error reporting.
+  - Relationship between original and translated codes is known at runtime.
+  - This relationship is discarded when compiling code.
+    
+** Hybrid methods
+:PROPERTIES:
+:CUSTOM_ID: Hybrid-methods
+:END:
+
+/Hybrid methods/ compile into a special intermediate language,
+which is then interpreted into machine code when the program is run.
+- This intermediate language is usually similar to assembly.
+  - But targets a virtual machine, not actual hardware!
+- Usually called /bytecode/.
+- Greatly offsets efficiency cost of interpretation.
+- More portable than compiled code; just need
+  a bytecode interpreter for each target machine.
+
 * Ambiguity
+:PROPERTIES:
+:CUSTOM_ID: Ambiguity
+:END:
 
-** Ambiguity
+We have discussed parse trees as a representation
+of programs used during the parsing process.
 
-Recall that parsing a string (or deriving a string)
-using a grammar gives rise to a /parse tree/ or /derivation tree/.
+Parse trees are extremely helpful because they allow us
+to discard irrelevant details about program text,
+and focus on the form of programs.
 
-In many cases, there is more than one parse tree
-for a given string in the language produced by a grammar.
+However, there is one significant problem which can occur:
+what if a program has *multiple* parse trees?
+
+It is desirable to have a single parse tree for every program.
+- We should not admit two syntactic interpretations for a program!
+
+This can happen quite frequently, and we must discuss
+methods of eliminating such /ambiguity/.
+
+** An example of ambiguity
+:PROPERTIES:
+:CUSTOM_ID: An-example-of-ambiguity
+:END:
 
 For instance, the string ~aa~ has four valid parse trees
 under the grammar
@@ -714,16 +931,19 @@ Exercise: find all four valid parse trees for ~aa~ with the above
 grammar.
 
 ** Removing ambiguity
-
-It is desirable to have a single parse tree for every program.
-- We should not admit two syntactic interpretations for a program!
+:PROPERTIES:
+:CUSTOM_ID: Removing-ambiguity
+:END:
 
 Three tools for removing ambiguity are
 - requiring parentheses,
 - introducing precedence rules, and
 - introducing associativity rules.
 
-** Enforcing precedence and associativity with grammars
+** Enforcing precedence with a grammar
+:PROPERTIES:
+:CUSTOM_ID: Enforcing-precedence-with-a-grammar
+:END:
 
 To enforce precedence using a grammar:
 - Create a hierarchy of non-terminals.
@@ -733,27 +953,63 @@ To enforce precedence using a grammar:
     which is an addition of literals, which can be the negation
     of a constant, variable or term.
 
+** Example grammar which enforces precedence
+:PROPERTIES:
+:CUSTOM_ID: Example-grammar-which-enforces-precedence
+:END:
+
+:TODO:
+
+** Enforcing associativity with a grammar
+:PROPERTIES:
+:CUSTOM_ID: Enforcing-associativity-with-a-grammar
+:END:
+
 To enforce associativity using a grammar:
 - Left associative operators should be produced by left recursive
   non-terminals.
 - And right associative operators by right recursive non-terminals.
 - Operators of the same precedence must associate the same way!
 
-** Is addition associative?
+** Example grammar which enforces associativity
+:PROPERTIES:
+:CUSTOM_ID: Example-grammar-which-enforces-associativity
+:END:
+
+:TODO:
+
+** What about “associative” operations?
+:PROPERTIES:
+:CUSTOM_ID: What-about-“associative”-operations?
+:END:
+
+You know that in mathematics,
+we often avoid parentheses by declaring operations
+to be /left associative/ or /right associative/.
+- For a left associative operator ~⊕~,
+  ~a ⊕ b ⊕ c = (a ⊕ b) ⊕ c~.
+  - Examples include subtraction.
+- For a right associative operator ~⊕~,
+  ~a ⊕ b ⊕ c = a ⊕ (b ⊕ c)~.
+  - Examples include exponentiation.
+- An /associative/ operator is a ~⊕~ for which
+  ~a ⊕ b ⊕ c = (a ⊕ b) ⊕ c = a ⊕ (b ⊕ c)~.
 
 Recall that addition is an associative operator.
-- Meaning it is both left and right associative.
-
-So the choice of whether addition in a language associates to
-the right or to the left may seem arbitrary.
+- So the choice of whether addition in a language associates to
+  the right or to the left may seem arbitrary.
 - But numerical types in programming are not necessarily
   the same as numerical types in math!
 - Addition of floating point numbers /is not associative/.
   - Consider a binary representation with two-digit coefficients.
   - 1.0₂ × 2⁰ + 1.0₂ × 2⁰ + 1.0₂ × 2² has a different value depending
     upon parenthesisation.
-
-** Abstract syntax
+    - :TODO:
+    
+* Abstract and concrete syntax; ignoring ambiguity
+:PROPERTIES:
+:CUSTOM_ID: Abstract-and-concrete-syntax;-ignoring-ambiguity
+:END:
 
 “Simple”, ambiguous grammars do have a place in describing
 programming language syntax.
@@ -766,86 +1022,17 @@ programming language syntax.
     - The shape of the tree expresses structure.
     - Other unnecessary details may be left out.
 
-** Beyond context-free grammars: “static semantics”
+:TODO:
 
-For most interesting languages,
-context-free grammars are not quite sufficient
-to describe well-formed programs.
-- They cannot express conditions such as
-  “variables must be declared before use”, and
-  typing rules.
-- It has been /proven/ that CFGs are not sufficient.
-  - At least some typing rules are possible to express,
-    but prohibitively difficult.
-
-Recall the Chomsky hierarchy of languages.
-#+begin_src text
-Regular ⊂ Context-free ⊂ Context-sensitive ⊂ Recursive ⊂ Recursively enumberable
-#+end_src
-- The properties we need could be described by /context-sensitive/ grammars.
-  - But they are unwieldy!
-- Instead, use /attribute grammars/;
-  a relatively small augmentation to CFGs.
-  - Each non-terminal and terminal may have a collection
-    of /attributes/ (named values).
-  - Each production may have a collection of
-    rules defining the values of the attributes
-    and a collection of predicates
-    reasoning about those attributes.
-
-** An example attribute grammar
-
-Consider this simple grammar.
-#+begin_src text
-⟨S⟩ ∷= ⟨A⟩ ⟨B⟩ ⟨C⟩
-⟨A⟩ ∷= ε ∣ a ⟨A⟩
-⟨B⟩ ∷= ε ∣ b ⟨B⟩
-⟨C⟩ ∷= ε ∣ c ⟨C⟩
-#+end_src
-
-Suppose we want to allow only strings of the form ~aⁿbⁿcⁿ~.
-There is no CFG that can produce exactly such strings.
-But we can enforce this condition using the above grammar
-augmented with attributes.
-- Each of the non-terminals ~⟨A⟩~, ~⟨B⟩~ and ~⟨C⟩~ are given an attribute
-  ~length~.
-- To each production with ~⟨A⟩~, ~⟨B⟩~ or ~⟨C⟩~ on the left side, we attach
-  a rule to compute the ~length~.
-- The production ~⟨S⟩ ∷= ⟨A⟩ ⟨B⟩ ⟨C⟩~ enforces the condition with a predicate.
-
-#+REVEAL: split:t
-
-#+begin_src text
-⟨S⟩ ∷= ⟨A⟩ ⟨B⟩ ⟨C⟩
-Predicate: ⟨A⟩.length = ⟨B⟩.length = ⟨C⟩.length
-
-⟨A⟩ ∷= ε
-Rule: ⟨A⟩.length ≔ 0
-
-⟨A⟩₁ ∷= a ⟨A⟩₂
-Rule: ⟨A⟩₁.length ≔ ⟨A⟩₂.length + 1
-
-⟨B⟩ ∷= ε
-Rule: ⟨B⟩.length ≔ 0
-
-⟨B⟩₁ ∷= b ⟨B⟩₂
-Rule: ⟨B⟩₁.length ≔ ⟨B⟩₂.length + 1
-
-⟨C⟩ ∷= ε
-Rule: ⟨C⟩.length ≔ 0
-
-⟨C⟩₁ ∷= c ⟨C⟩₂
-Rule: ⟨C⟩₁.length ≔ ⟨C⟩₂.length + 1
-#+end_src
-
-In productions with multiple occurrences of the same non-terminal,
-we number the occurrences so we can easily refer to them
-in the rules/predicates.
-
-* Abstract and concrete syntax; ignoring ambiguity
 * The /semantics/ of formal languages
+:PROPERTIES:
+:CUSTOM_ID: The-/semantics/-of-formal-languages
+:END:
 
 ** COMMENT Old notes
+:PROPERTIES:
+:CUSTOM_ID: COMMENT-Old-notes
+:END:
 
 Unlike with syntax, there is not one universally used tool
 for describing programming language semantics.
@@ -870,6 +1057,9 @@ Additional approaches include
   - Very useful for specification.
 
 *** The kernel language approach
+:PROPERTIES:
+:CUSTOM_ID: The-kernel-language-approach
+:END:
 
 The “kernel language” approach to semantics can be used
 for languages with many features and constructs.
@@ -881,6 +1071,9 @@ for languages with many features and constructs.
   takes this approach.
 
 *** More to come...
+:PROPERTIES:
+:CUSTOM_ID: More-to-come...
+:END:
 
 We will return to the discussion of semantics later in the course.
 
@@ -908,6 +1101,9 @@ We may also have several semantic domains for a given language.
     - this is known as /axiomatic semantics/
 
 ** Example – semantics of a language of natural numbers
+:PROPERTIES:
+:CUSTOM_ID: Example-–-semantics-of-a-language-of-natural-numbers
+:END:
 
 Consider again a language of terms intended to represent
 natural numbers.
@@ -930,6 +1126,9 @@ of the semantic domain.
   the language and the semantic domain are not so directly related.
 
 ** Example – semantics of propositional logic
+:PROPERTIES:
+:CUSTOM_ID: Example-–-semantics-of-propositional-logic
+:END:
 
 As a more complex example, we can map propositional logic terms
 into the set of booleans.
@@ -955,6 +1154,9 @@ eval (p ∧ q) = eval q   if eval p
 Exercise: Complete this evaluation function.
 
 ** Example – small-step semantics of propositional logic
+:PROPERTIES:
+:CUSTOM_ID: Example-–-small-step-semantics-of-propositional-logic
+:END:
 
 The evaluation function defined above can be considered
 to be a /big-step/ semantics.
