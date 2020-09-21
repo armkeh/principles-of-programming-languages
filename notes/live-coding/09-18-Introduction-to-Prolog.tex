@@ -1,4 +1,4 @@
-% Created 2020-09-21 Mon 10:36
+% Created 2020-09-21 Mon 10:51
 % Intended LaTeX compiler: lualatex
 \documentclass[11pt]{article}
 \usepackage{graphicx}
@@ -23,12 +23,12 @@
 \usepackage{unicode}
 \author{Mark Armstrong}
 \date{\today}
-\title{Some logic puzzles in Prolog}
+\title{Introduction to Prolog}
 \hypersetup{
    pdfauthor={Mark Armstrong},
-   pdftitle={Some logic puzzles in Prolog},
+   pdftitle={Introduction to Prolog},
    pdfkeywords={},
-   pdfsubject={An introduction to Prolog by playing some logic games.},
+   pdfsubject={An introduction to Prolog and the logical programming paradigm.},
    pdfcreator={Emacs 27.0.90 (Org mode 9.3.8)},
    pdflang={English},
    colorlinks,
@@ -43,12 +43,12 @@
 
 
 \section{Introduction}
-\label{sec:org8f4cf23}
+\label{sec:org60741fd}
 These notes were created for, and in some parts \textbf{during},
 the lecture on September 18th and the following tutorials.
 
 \section{Motivation}
-\label{sec:org3011554}
+\label{sec:orge39c809}
 Today, we begin investigating another non-imperative paradigm
 other than functional programming: \emph{logical programming}.
 
@@ -72,7 +72,7 @@ To put it simply, in logical programming, you describe the problem,
 rather than the solution.
 
 \section{A note about fonts}
-\label{sec:org2782286}
+\label{sec:org16e64f4}
 In these notes, I use plaintext blocks in order to write the
 inference rules, and use em-dashes (—) to create the horizontal rules.
 
@@ -84,7 +84,7 @@ may not show at all (they work in my install of Chrome, at least.)
 Apologies for any issues reading these notes caused by this.
 
 \section{(Re)introduction to inference rules}
-\label{sec:org8344160}
+\label{sec:org570f157}
 Recall: an inference rule has the form
 \begin{minted}[breaklines=true]{text}
  Premise₁   Premise₂   …   Premiseₙ
@@ -183,7 +183,7 @@ otherwise the proof often seems to make
 unwarranted steps, or informally, it “pulls a rabbit from its hat”.
 
 \section{Inference rules in other domains}
-\label{sec:org9e821fd}
+\label{sec:org3640b3e}
 The use of inference rules is not limited to the domain of logics.
 
 It is perhaps better not to think of inference rules
@@ -195,9 +195,9 @@ the rules and axioms, what can we obtain?
 For instance, consider the following problem.
 
 \subsection{The two bucket problem}
-\label{sec:orgb51e98c}
+\label{sec:org2cc191c}
 \subsubsection{The problem}
-\label{sec:org3778e8c}
+\label{sec:org713a611}
 Suppose you are given two buckets,
 \begin{itemize}
 \item one of which holds 5 units of water, and
@@ -220,7 +220,7 @@ You are tasked with collecting exactly 4 units of water
 using only those three kinds of actions.
 
 \subsubsection{The rules}
-\label{sec:org59f720c}
+\label{sec:orgeef47ac}
 Let us represent the state of the bucket by a pair of numbers.
 In these rules, we will use
 \begin{itemize}
@@ -265,9 +265,9 @@ with 0.
 \end{minted}
 
 \section{Prolog}
-\label{sec:orga213310}
+\label{sec:org15c1a6c}
 \subsection{Programs are databases of inference rules}
-\label{sec:org10a2993}
+\label{sec:org7944f7b}
 Prolog programs are simply databases of inference rules,
 also called \emph{clauses}.
 An inference rule
@@ -301,7 +301,7 @@ c.
 \end{minted}
 
 \subsection{Get “output” by making queries}
-\label{sec:org1c5bff9}
+\label{sec:org2f342d3}
 To interact with Prolog programs, we make \emph{queries}, to which Prolog
 responds by checking its inference rule database to determine
 possible answers.
@@ -339,7 +339,7 @@ Note: in this way, we get several “functions” from one predicate,
 depending upon what question(s) we ask!
 
 \subsection{Names, kinds of terms}
-\label{sec:orga0990ce}
+\label{sec:orgf67953e}
 In Prolog, any name beginning with an upper case letter
 denotes a variable.
 
@@ -365,7 +365,7 @@ atom(term1, …, term1)
 (again, the … is pseudocode.)
 
 \subsection{Interacting with Prolog}
-\label{sec:org4730f93}
+\label{sec:org77d794a}
 As we've said, a Prolog program consists of clauses
 (inference rules.)
 For instance
@@ -396,7 +396,7 @@ We can also \texttt{assert} or \texttt{retract} rules in the query REPL, if need
 or clauses about the \texttt{name} predicate.)
 
 \subsection{Unification}
-\label{sec:org12b29fc}
+\label{sec:org664540d}
 
 The computation model of Prolog involves \emph{unification} of terms.
 Terms unify if either
@@ -411,7 +411,7 @@ variable bindings, by making use of the clauses
 and \emph{modus ponens} (\((P ∧ P ⇒ Q) ⇒ Q\)).
 
 \subsubsection{The goal list}
-\label{sec:org3611a03}
+\label{sec:org8cd46c3}
 
 Through this process, the single goal presented by a query
 will usually turn into a collection of goals;
@@ -422,15 +422,15 @@ p(X) :- q(X), r(X).
 then we now have as goals \texttt{q(X)} and \texttt{r(X,Y)}.
 
 \subsubsection{Backtracking}
-\label{sec:org0603a91}
+\label{sec:org90f7827}
 :TODO:
 
 \subsubsection{SWI Prolog's search strategy}
-\label{sec:org48719ec}
+\label{sec:orgbb07203}
 :TODO:
 
 \subsubsection{Examining the search strategy}
-\label{sec:org799d82b}
+\label{sec:org0663483}
 In order to interactively see the process Prolog is using
 during unification,
 use the \texttt{trace.} command in the REPL.
@@ -438,7 +438,7 @@ Then each query will result in a log of calls made and
 failures encountered.
 
 \subsection{Equality}
-\label{sec:org5091c5e}
+\label{sec:org6ec4c1d}
 Prolog does have an equality comparison , written simply \texttt{=} (not \texttt{==}).
 \textbf{However}, this equality does no simplification.
 So, for instance, if a variable \texttt{X} has been unified to value \texttt{5},
@@ -462,15 +462,15 @@ X is 2 + 3
 will evaluate to \texttt{true}.
 
 \subsection{Failure}
-\label{sec:orgdb4bb9a}
+\label{sec:org929b371}
 :TODO:
 
 \subsection{Exerting control over the search; the cut operator}
-\label{sec:org67d0c36}
+\label{sec:org8ddaa0a}
 :TODO:
 
 \subsection{Trying to write the two bucket problem}
-\label{sec:org89af7b8}
+\label{sec:org4614fb2}
 In an ideal world, we would be able to almost directly translate
 the above inference rules into Prolog, like so.
 \begin{verbatim}
@@ -502,7 +502,7 @@ we can quickly see a problem with the order of these clauses.
 :TODO:
 
 \subsection{Checking for divisors of a number}
-\label{sec:org9432f78}
+\label{sec:org6e80478}
 \begin{minted}[breaklines=true]{prolog}
 hasDivisorLessThanOrEqualTo(_,1) :- !, false.
 hasDivisorLessThanOrEqualTo(X,Y) :- 0 is X mod Y, !.
@@ -510,7 +510,7 @@ hasDivisorLessThanOrEqualTo(X,Y) :- Z is Y - 1, hasDivisorLessThanOrEqualTo(X,Z)
 \end{minted}
 
 \section{Resources}
-\label{sec:orgf3fa77b}
+\label{sec:orgcbc96e8}
 \begin{itemize}
 \item \href{https://github.com/alhassy/PrologCheatSheet}{Prolog cheat sheet},
 by Musa Al-hassy.

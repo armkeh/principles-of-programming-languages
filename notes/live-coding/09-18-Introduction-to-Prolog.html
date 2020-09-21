@@ -3,13 +3,13 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-09-21 Mon 10:35 -->
+<!-- 2020-09-21 Mon 10:51 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Some logic puzzles in Prolog</title>
+<title>Introduction to Prolog</title>
 <meta name="generator" content="Org mode" />
 <meta name="author" content="Mark Armstrong" />
-<meta name="description" content="An introduction to Prolog by playing some logic games."
+<meta name="description" content="An introduction to Prolog and the logical programming paradigm."
  />
 <style type="text/css">
  <!--/*--><![CDATA[/*><!--*/
@@ -248,7 +248,7 @@
 </head>
 <body>
 <div id="content">
-<h1 class="title">Some logic puzzles in Prolog</h1>
+<h1 class="title">Introduction to Prolog</h1>
 <div id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
@@ -273,9 +273,9 @@
 <li><a href="#Get-“output”-by-making-queries">6.2. Get “output” by making queries</a></li>
 <li><a href="#Names,-kinds-of-terms">6.3. Names, kinds of terms</a></li>
 <li><a href="#Interacting-with-Prolog">6.4. Interacting with Prolog</a></li>
-<li><a href="#org47fb137">6.5. Unification</a>
+<li><a href="#org8b52d6e">6.5. Unification</a>
 <ul>
-<li><a href="#orgd52e801">6.5.1. The goal list</a></li>
+<li><a href="#org863d85e">6.5.1. The goal list</a></li>
 <li><a href="#Backtracking">6.5.2. Backtracking</a></li>
 <li><a href="#SWI-Prolog's-search-strategy">6.5.3. SWI Prolog's search strategy</a></li>
 <li><a href="#Examining-the-search-strategy">6.5.4. Examining the search strategy</a></li>
@@ -693,7 +693,7 @@ possible answers.
 <p>
 For instance, list catenation in SWI Prolog is a ternary predicate
 </p>
-<pre class="example" id="org2b47293">
+<pre class="example" id="org58e71c0">
 concat(X,Y,Z)
 </pre>
 <p>
@@ -704,7 +704,7 @@ of catenating <code>X</code> and <code>Y</code>.
 <p>
 So we can make queries about catenation, such as
 </p>
-<pre class="example" id="org5cb394a">
+<pre class="example" id="org3f4aeb6">
 % Is [1,2,3,4,5,6] the result of catenating [1,2,3] and [4,5,6]?
 ?- concat([1,2,3], [4,5,6], [1,2,3,4,5,6])
 % Response:
@@ -750,7 +750,7 @@ Atoms may be used as the name of predicates.
 Character strings surrounded by single quotes, <code>'</code>,
 are also atoms. So we can write
 </p>
-<pre class="example" id="org172e4d5">
+<pre class="example" id="org28d0131">
 'is an empty list'([]).
 </pre>
 
@@ -764,7 +764,7 @@ Aside from variables and constants,
 the remaining kind of Prolog term is a <i>structure</i>,
 which has the form
 </p>
-<pre class="example" id="org0149ad6">
+<pre class="example" id="org6452280">
 atom(term1, …, term1)
 </pre>
 <p>
@@ -781,7 +781,7 @@ As we've said, a Prolog program consists of clauses
 (inference rules.)
 For instance
 </p>
-<pre class="example" id="org300e4ee">
+<pre class="example" id="orgbab5f4c">
 head(X) :- body(X,Y)
 </pre>
 <p>
@@ -809,7 +809,7 @@ either by running
 <p>
 from the command line, or
 </p>
-<pre class="example" id="org0b0e432">
+<pre class="example" id="orge6b5b87">
 ?- consult('my-program.pl')
 </pre>
 <p>
@@ -821,8 +821,8 @@ or clauses about the <code>name</code> predicate.)
 </div>
 </div>
 
-<div id="outline-container-org47fb137" class="outline-3">
-<h3 id="org47fb137"><span class="section-number-3">6.5</span> Unification</h3>
+<div id="outline-container-org8b52d6e" class="outline-3">
+<h3 id="org8b52d6e"><span class="section-number-3">6.5</span> Unification</h3>
 <div class="outline-text-3" id="text-6-5">
 <p>
 The computation model of Prolog involves <i>unification</i> of terms.
@@ -841,15 +841,15 @@ and <i>modus ponens</i> (\((P ∧ P ⇒ Q) ⇒ Q\)).
 </p>
 </div>
 
-<div id="outline-container-orgd52e801" class="outline-4">
-<h4 id="orgd52e801"><span class="section-number-4">6.5.1</span> The goal list</h4>
+<div id="outline-container-org863d85e" class="outline-4">
+<h4 id="org863d85e"><span class="section-number-4">6.5.1</span> The goal list</h4>
 <div class="outline-text-4" id="text-6-5-1">
 <p>
 Through this process, the single goal presented by a query
 will usually turn into a collection of goals;
 for instance, if we query <code>?- p(5)</code> and the search uses a clause
 </p>
-<pre class="example" id="orgdc3f6e6">
+<pre class="example" id="org4cedaec">
 p(X) :- q(X), r(X).
 </pre>
 <p>
@@ -898,13 +898,13 @@ Prolog does have an equality comparison , written simply <code>=</code> (not <co
 <b>However</b>, this equality does no simplification.
 So, for instance, if a variable <code>X</code> has been unified to value <code>5</code>,
 </p>
-<pre class="example" id="org1713607">
+<pre class="example" id="org2981092">
 X = 5
 </pre>
 <p>
 would be <code>true</code>, but
 </p>
-<pre class="example" id="org5ae24a3">
+<pre class="example" id="org9c63e45">
 X = 2 + 3
 </pre>
 <p>
@@ -918,7 +918,7 @@ But in case we want to actually carry out arithmetic
 or calculate other values,
 we can use the <code>is</code> comparison.
 </p>
-<pre class="example" id="org2280c4a">
+<pre class="example" id="org081321f">
 X is 2 + 3
 </pre>
 <p>
@@ -952,7 +952,7 @@ will evaluate to <code>true</code>.
 In an ideal world, we would be able to almost directly translate
 the above inference rules into Prolog, like so.
 </p>
-<pre class="example" id="orgf791150">
+<pre class="example" id="orgddf5c07">
 buckets(0,0).
 buckets(5,Y) :- buckets(_,Y).
 buckets(X,3) :- buckets(X,_).
@@ -1018,7 +1018,7 @@ by Joseph Goguen, UC San Diego.</li>
 <p class="author">Author: Mark Armstrong</p>
      <p class="author">Contact: <a href="mailto:armstmp@mcmaster.ca">armstmp@mcmaster.ca</a></p>
      <p class="date">Original date: </p>
-     <p class="date">Last updated: 2020-09-21 Mon 10:35</p>
+     <p class="date">Last updated: 2020-09-21 Mon 10:51</p>
      <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.90 (<a href="https://orgmode.org">Org</a> mode 9.3.8)</p>
      <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

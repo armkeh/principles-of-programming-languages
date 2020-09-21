@@ -1,6 +1,6 @@
-#+Title: Some logic puzzles in Prolog
+#+Title: Introduction to Prolog
 #+Author: Mark Armstrong
-#+Description: An introduction to Prolog by playing some logic games.
+#+Description: An introduction to Prolog and the logical programming paradigm.
 #+SETUPFILE: ../../org-html-themes/setup/theme-readtheorg-local.setup
 
 * LaTeX settings                                :noexport:
