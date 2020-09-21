@@ -236,11 +236,11 @@ with 0.
 :TODO:
 #+begin_src text
      X , Y        
-–—–––––––————–– Pourˡ   (provided (X + D = 5) ∨ (Y - D = 0))
+–—–––––––————–– Pourˡ (provided X + D ≤ 5 ∧ Y - D ≥ 0 ∧ (X + D = 5 ∨ Y - D = 0))
  X + D , Y - D
 
-  X , Y        
-––––––––––––––— Pourʳ   (provided (X - D = 0) ∨ (Y + D = 3))
+     X , Y        
+––––––––––––––— Pourʳ (provided X - D ≥ 5 ∧ Y + D ≤ 0 ∧ (X - D = 0 ∨ Y + D = 3))
  X - D , Y + D
 #+end_src
 
@@ -249,17 +249,24 @@ with 0.
 :CUSTOM_ID: Prolog
 :END:
 
-Prolog programs are simply databases of inference rules.
+** Programs are databases of inference rules
+:PROPERTIES:
+:CUSTOM_ID: Programs-are-databases-of-inference-rules
+:END:
+
+Prolog programs are simply databases of inference rules,
+also called /clauses/.
 An inference rule
 #+begin_src text
  A₁   A₂   …   Aₙ
 ––––––––––––––––––––
       B
 #+end_src
-is written in Prolog
+is written in Prolog as the clause
 #+begin_src prolog
 b :- a1, a2, …, an.
 #+end_src
+(the … is pseudocode, not Prolog syntax)
 (notice the period ending the rule).
 As with our inference rule, this rule states that
 ~b~ is true if all of the ~aᵢ~ are true.
@@ -279,22 +286,253 @@ or, more simply,
 c.
 #+end_src
 
-:TODO:
-
-** The two bucket problem in Prolog
+** Get “output” by making queries
 :PROPERTIES:
-:CUSTOM_ID: The-two-bucket-problem-in-Prolog
+:CUSTOM_ID: Get-“output”-by-making-queries
 :END:
 
-We can begin only if we have 0 units in both buckets.
-#+begin_src prolog :tangle src/sept18-buckets.pl
+To interact with Prolog programs, we make /queries/, to which Prolog
+responds by checking its inference rule database to determine
+possible answers.
+
+For instance, list catenation in SWI Prolog is a ternary predicate
+#+begin_example prolog
+concat(X,Y,Z)
+#+end_example
+the rules of which enforce that ~Z~ is the result
+of catenating ~X~ and ~Y~.
+
+So we can make queries about catenation, such as
+#+begin_example prolog
+% Is [1,2,3,4,5,6] the result of catenating [1,2,3] and [4,5,6]?
+?- concat([1,2,3], [4,5,6], [1,2,3,4,5,6])
+% Response:
+% :TODO:
+
+
+% What are all the possible values of Z for which
+% Z is the catenation of [1,2,3] and [4,5,6]?
+?- concat([1,2,3], [4,5,6], Z)
+% Response:
+% :TODO:
+
+
+% What are the possible values of X and Y so that,
+% when they are catenated, the result is [1,2,3,4,5,6]?
+?- concat(X, Y, [1,2,3,4,5,6])
+% Response:
+% :TODO:
+#+end_example
+
+Note: in this way, we get several “functions” from one predicate,
+depending upon what question(s) we ask!
+
+** Names, kinds of terms
+:PROPERTIES:
+:CUSTOM_ID: Names,-kinds-of-terms
+:END:
+
+In Prolog, any name beginning with an upper case letter
+denotes a variable.
+
+Names which begin with lower case letters are /atoms/,
+which are a type of constant value.
+Atoms may be used as the name of predicates.
+
+Character strings surrounded by single quotes, ~'~,
+are also atoms. So we can write
+#+begin_example prolog
+'is an empty list'([]).
+#+end_example
+
+As you would expect, Prolog also has numerical constants,
+such as ~1~ or ~3.14~.
+
+Aside from variables and constants,
+the remaining kind of Prolog term is a /structure/,
+which has the form
+#+begin_example prolog
+atom(term1, …, term1)
+#+end_example
+(again, the … is pseudocode.)
+
+** Interacting with Prolog
+:PROPERTIES:
+:CUSTOM_ID: Interacting-with-Prolog
+:END:
+
+As we've said, a Prolog program consists of clauses
+(inference rules.)
+For instance
+#+begin_example prolog
+head(X) :- body(X,Y)
+#+end_example
+which can be interpreted as having meaning
+#+begin_src text
+∀ X ‌∙ head(X) ⇐ (∃ Y • body(X,Y))
+#+end_src
+Then during computation, given this clause and the goal ~head(X)~,
+the Prolog runtime is tasked with finding a substitution for ~Y~
+which makes ~body(X,Y)~ true.
+
+We provide Prolog with goals through queries,
+usually by loading our programs into the interactive query REPL,
+either by running
+#+begin_src shell
+$ swipl my-program.pl
+#+end_src
+from the command line, or
+#+begin_example prolog
+?- consult('my-program.pl')
+#+end_example
+once running SWI Prolog.
+We can also ~assert~ or ~retract~ rules in the query REPL, if needed.
+(Also, use ~listing~ or ~listing(name)~ to see all given clauses
+or clauses about the ~name~ predicate.)
+
+** Unification
+
+The computation model of Prolog involves /unification/ of terms.
+Terms unify if either
+1. they are equal, or
+2. they contain variables that can be instantiated in a way
+   that makes the terms equal.
+
+So in general, unification involves /searching/ for possible
+variable bindings, by making use of the clauses
+and /modus ponens/ ($(P ∧ P ⇒ Q) ⇒ Q$).
+
+*** The goal list
+
+Through this process, the single goal presented by a query
+will usually turn into a collection of goals;
+for instance, if we query ~?- p(5)~ and the search uses a clause
+#+begin_example prolog
+p(X) :- q(X), r(X).
+#+end_example
+then we now have as goals ~q(X)~ and ~r(X,Y)~.
+
+*** Backtracking
+:PROPERTIES:
+:CUSTOM_ID: Backtracking
+:END:
+
+:TODO:
+
+# Untried rules
+
+*** SWI Prolog's search strategy
+:PROPERTIES:
+:CUSTOM_ID: SWI-Prolog's-search-strategy
+:END:
+
+:TODO:
+
+*** Examining the search strategy
+:PROPERTIES:
+:CUSTOM_ID: Examining-the-search-strategy
+:END:
+
+In order to interactively see the process Prolog is using
+during unification,
+use the ~trace.~ command in the REPL.
+Then each query will result in a log of calls made and
+failures encountered.
+
+** Equality
+:PROPERTIES:
+:CUSTOM_ID: Equality
+:END:
+
+Prolog does have an equality comparison , written simply ~=~ (not ~==~).
+*However*, this equality does no simplification.
+So, for instance, if a variable ~X~ has been unified to value ~5~,
+#+begin_example prolog
+X = 5
+#+end_example
+would be ~true~, but
+#+begin_example prolog
+X = 2 + 3
+#+end_example
+would be ~false~.
+
+This non-simplifying equality allows us to consider
+the /construction/ of terms, rather than just their value.
+But in case we want to actually carry out arithmetic
+or calculate other values,
+we can use the ~is~ comparison.
+#+begin_example prolog
+X is 2 + 3
+#+end_example
+will evaluate to ~true~.
+
+** Failure
+:PROPERTIES:
+:CUSTOM_ID: Failure
+:END:
+
+:TODO:
+
+** Exerting control over the search; the cut operator
+:PROPERTIES:
+:CUSTOM_ID: Exerting-control-over-the-search;-the-cut-operator
+:END:
+
+:TODO:
+
+** Trying to write the two bucket problem
+:PROPERTIES:
+:CUSTOM_ID: Trying-to-write-the-two-bucket-problem
+:END:
+
+In an ideal world, we would be able to almost directly translate
+the above inference rules into Prolog, like so.
+#+begin_example prolog
 buckets(0,0).
+buckets(5,Y) :- buckets(_,Y).
+buckets(X,3) :- buckets(X,_).
+buckets(0,Y) :- buckets(_,Y).
+buckets(X,0) :- buckets(X,_).
+buckets(DX,DY) :-
+  DX is X + D, DY is Y - D,
+  buckets(X,Y),
+  DX <= 5,
+  DY >= 0,
+  DX is 5 or DY is 0.
+buckets(DX,DY) :-
+  DX is X - D, DY is Y + D,
+  buckets(X,Y),
+  DX >= 0,
+  DY <= 3,
+  DX is 0 or DY is 3.
+#+end_example
+(Note the ~_~ is used where we would have a “singleton” variable,
+i.e., a variable which appears nowhere else in a clause.
+The ~_~ is simply an anonymous variable name, and using it
+reassures Prolog that we didn't mean to refer to another variable.)
+
+But using our knowledge of SWI Prolog's search strategy,
+we can quickly see a problem with the order of these clauses.
+:TODO:
+
+** Checking for divisors of a number
+:PROPERTIES:
+:CUSTOM_ID: Checking-for-divisors-of-a-number
+:END:
+
+#+begin_src prolog :tangle ./src/sept21-divisors.pl
+hasDivisorLessThanOrEqualTo(_,1) :- !, false.
+hasDivisorLessThanOrEqualTo(X,Y) :- 0 is X mod Y, !.
+hasDivisorLessThanOrEqualTo(X,Y) :- Z is Y - 1, hasDivisorLessThanOrEqualTo(X,Z).
 #+end_src
 
-The action of filling a bucket replaces its current amount
-with the maximum amount.
-#+begin_src prolog :tangle src/sept18-buckets.pl
-buckets(0,Y) :- buckets(_X,Y).
-buckets(X,0) :- buckets(X,_Y).
-#+end_src
+* Resources
+:PROPERTIES:
+:CUSTOM_ID: Resources
+:END:
 
+- [[https://github.com/alhassy/PrologCheatSheet][Prolog cheat sheet]],
+  by Musa Al-hassy.
+  - Includes links to several other resources.
+- [[https://cseweb.ucsd.edu/~goguen/courses/130w04/prolog.html][Lecture notes on Prolog]]
+  by Joseph Goguen, UC San Diego.

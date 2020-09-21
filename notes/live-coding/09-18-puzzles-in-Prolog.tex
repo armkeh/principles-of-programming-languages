@@ -1,4 +1,4 @@
-% Created 2020-09-18 Fri 17:02
+% Created 2020-09-21 Mon 10:36
 % Intended LaTeX compiler: lualatex
 \documentclass[11pt]{article}
 \usepackage{graphicx}
@@ -43,12 +43,12 @@
 
 
 \section{Introduction}
-\label{sec:org1ebc1ba}
+\label{sec:org8f4cf23}
 These notes were created for, and in some parts \textbf{during},
 the lecture on September 18th and the following tutorials.
 
 \section{Motivation}
-\label{sec:org11b124d}
+\label{sec:org3011554}
 Today, we begin investigating another non-imperative paradigm
 other than functional programming: \emph{logical programming}.
 
@@ -72,7 +72,7 @@ To put it simply, in logical programming, you describe the problem,
 rather than the solution.
 
 \section{A note about fonts}
-\label{sec:org827b8a0}
+\label{sec:org2782286}
 In these notes, I use plaintext blocks in order to write the
 inference rules, and use em-dashes (—) to create the horizontal rules.
 
@@ -84,7 +84,7 @@ may not show at all (they work in my install of Chrome, at least.)
 Apologies for any issues reading these notes caused by this.
 
 \section{(Re)introduction to inference rules}
-\label{sec:orgf6e3cbd}
+\label{sec:org8344160}
 Recall: an inference rule has the form
 \begin{minted}[breaklines=true]{text}
  Premise₁   Premise₂   …   Premiseₙ
@@ -183,7 +183,7 @@ otherwise the proof often seems to make
 unwarranted steps, or informally, it “pulls a rabbit from its hat”.
 
 \section{Inference rules in other domains}
-\label{sec:org2d82588}
+\label{sec:org9e821fd}
 The use of inference rules is not limited to the domain of logics.
 
 It is perhaps better not to think of inference rules
@@ -195,9 +195,9 @@ the rules and axioms, what can we obtain?
 For instance, consider the following problem.
 
 \subsection{The two bucket problem}
-\label{sec:org8f2c935}
+\label{sec:orgb51e98c}
 \subsubsection{The problem}
-\label{sec:orgf49d294}
+\label{sec:org3778e8c}
 Suppose you are given two buckets,
 \begin{itemize}
 \item one of which holds 5 units of water, and
@@ -220,7 +220,7 @@ You are tasked with collecting exactly 4 units of water
 using only those three kinds of actions.
 
 \subsubsection{The rules}
-\label{sec:orgd3c2a37}
+\label{sec:org59f720c}
 Let us represent the state of the bucket by a pair of numbers.
 In these rules, we will use
 \begin{itemize}
@@ -256,27 +256,31 @@ with 0.
 :TODO:
 \begin{minted}[breaklines=true]{text}
      X , Y        
-–—–––––––————–– Pourˡ   (provided (X + D = 5) ∨ (Y - D = 0))
+–—–––––––————–– Pourˡ (provided X + D ≤ 5 ∧ Y - D ≥ 0 ∧ (X + D = 5 ∨ Y - D = 0))
  X + D , Y - D
 
-  X , Y        
-––––––––––––––— Pourʳ   (provided (X - D = 0) ∨ (Y + D = 3))
+     X , Y        
+––––––––––––––— Pourʳ (provided X - D ≥ 5 ∧ Y + D ≤ 0 ∧ (X - D = 0 ∨ Y + D = 3))
  X - D , Y + D
 \end{minted}
 
 \section{Prolog}
-\label{sec:org7111e3f}
-Prolog programs are simply databases of inference rules.
+\label{sec:orga213310}
+\subsection{Programs are databases of inference rules}
+\label{sec:org10a2993}
+Prolog programs are simply databases of inference rules,
+also called \emph{clauses}.
 An inference rule
 \begin{minted}[breaklines=true]{text}
  A₁   A₂   …   Aₙ
 ––––––––––––––––––––
       B
 \end{minted}
-is written in Prolog
+is written in Prolog as the clause
 \begin{minted}[breaklines=true]{prolog}
 b :- a1, a2, …, an.
 \end{minted}
+(the … is pseudocode, not Prolog syntax)
 (notice the period ending the rule).
 As with our inference rule, this rule states that
 \texttt{b} is true if all of the \texttt{aᵢ} are true.
@@ -296,19 +300,224 @@ or, more simply,
 c.
 \end{minted}
 
+\subsection{Get “output” by making queries}
+\label{sec:org1c5bff9}
+To interact with Prolog programs, we make \emph{queries}, to which Prolog
+responds by checking its inference rule database to determine
+possible answers.
+
+For instance, list catenation in SWI Prolog is a ternary predicate
+\begin{verbatim}
+concat(X,Y,Z)
+\end{verbatim}
+the rules of which enforce that \texttt{Z} is the result
+of catenating \texttt{X} and \texttt{Y}.
+
+So we can make queries about catenation, such as
+\begin{verbatim}
+% Is [1,2,3,4,5,6] the result of catenating [1,2,3] and [4,5,6]?
+?- concat([1,2,3], [4,5,6], [1,2,3,4,5,6])
+% Response:
+% :TODO:
+
+
+% What are all the possible values of Z for which
+% Z is the catenation of [1,2,3] and [4,5,6]?
+?- concat([1,2,3], [4,5,6], Z)
+% Response:
+% :TODO:
+
+
+% What are the possible values of X and Y so that,
+% when they are catenated, the result is [1,2,3,4,5,6]?
+?- concat(X, Y, [1,2,3,4,5,6])
+% Response:
+% :TODO:
+\end{verbatim}
+
+Note: in this way, we get several “functions” from one predicate,
+depending upon what question(s) we ask!
+
+\subsection{Names, kinds of terms}
+\label{sec:orga0990ce}
+In Prolog, any name beginning with an upper case letter
+denotes a variable.
+
+Names which begin with lower case letters are \emph{atoms},
+which are a type of constant value.
+Atoms may be used as the name of predicates.
+
+Character strings surrounded by single quotes, \texttt{'},
+are also atoms. So we can write
+\begin{verbatim}
+'is an empty list'([]).
+\end{verbatim}
+
+As you would expect, Prolog also has numerical constants,
+such as \texttt{1} or \texttt{3.14}.
+
+Aside from variables and constants,
+the remaining kind of Prolog term is a \emph{structure},
+which has the form
+\begin{verbatim}
+atom(term1, …, term1)
+\end{verbatim}
+(again, the … is pseudocode.)
+
+\subsection{Interacting with Prolog}
+\label{sec:org4730f93}
+As we've said, a Prolog program consists of clauses
+(inference rules.)
+For instance
+\begin{verbatim}
+head(X) :- body(X,Y)
+\end{verbatim}
+which can be interpreted as having meaning
+\begin{minted}[breaklines=true]{text}
+∀ X ‌∙ head(X) ⇐ (∃ Y • body(X,Y))
+\end{minted}
+Then during computation, given this clause and the goal \texttt{head(X)},
+the Prolog runtime is tasked with finding a substitution for \texttt{Y}
+which makes \texttt{body(X,Y)} true.
+
+We provide Prolog with goals through queries,
+usually by loading our programs into the interactive query REPL,
+either by running
+\begin{minted}[breaklines=true]{shell}
+$ swipl my-program.pl
+\end{minted}
+from the command line, or
+\begin{verbatim}
+?- consult('my-program.pl')
+\end{verbatim}
+once running SWI Prolog.
+We can also \texttt{assert} or \texttt{retract} rules in the query REPL, if needed.
+(Also, use \texttt{listing} or \texttt{listing(name)} to see all given clauses
+or clauses about the \texttt{name} predicate.)
+
+\subsection{Unification}
+\label{sec:org12b29fc}
+
+The computation model of Prolog involves \emph{unification} of terms.
+Terms unify if either
+\begin{enumerate}
+\item they are equal, or
+\item they contain variables that can be instantiated in a way
+that makes the terms equal.
+\end{enumerate}
+
+So in general, unification involves \emph{searching} for possible
+variable bindings, by making use of the clauses
+and \emph{modus ponens} (\((P ∧ P ⇒ Q) ⇒ Q\)).
+
+\subsubsection{The goal list}
+\label{sec:org3611a03}
+
+Through this process, the single goal presented by a query
+will usually turn into a collection of goals;
+for instance, if we query \texttt{?- p(5)} and the search uses a clause
+\begin{verbatim}
+p(X) :- q(X), r(X).
+\end{verbatim}
+then we now have as goals \texttt{q(X)} and \texttt{r(X,Y)}.
+
+\subsubsection{Backtracking}
+\label{sec:org0603a91}
 :TODO:
 
-\subsection{The two bucket problem in Prolog}
-\label{sec:orga8baaa7}
-We can begin only if we have 0 units in both buckets.
-\begin{minted}[breaklines=true]{prolog}
+\subsubsection{SWI Prolog's search strategy}
+\label{sec:org48719ec}
+:TODO:
+
+\subsubsection{Examining the search strategy}
+\label{sec:org799d82b}
+In order to interactively see the process Prolog is using
+during unification,
+use the \texttt{trace.} command in the REPL.
+Then each query will result in a log of calls made and
+failures encountered.
+
+\subsection{Equality}
+\label{sec:org5091c5e}
+Prolog does have an equality comparison , written simply \texttt{=} (not \texttt{==}).
+\textbf{However}, this equality does no simplification.
+So, for instance, if a variable \texttt{X} has been unified to value \texttt{5},
+\begin{verbatim}
+X = 5
+\end{verbatim}
+would be \texttt{true}, but
+\begin{verbatim}
+X = 2 + 3
+\end{verbatim}
+would be \texttt{false}.
+
+This non-simplifying equality allows us to consider
+the \emph{construction} of terms, rather than just their value.
+But in case we want to actually carry out arithmetic
+or calculate other values,
+we can use the \texttt{is} comparison.
+\begin{verbatim}
+X is 2 + 3
+\end{verbatim}
+will evaluate to \texttt{true}.
+
+\subsection{Failure}
+\label{sec:orgdb4bb9a}
+:TODO:
+
+\subsection{Exerting control over the search; the cut operator}
+\label{sec:org67d0c36}
+:TODO:
+
+\subsection{Trying to write the two bucket problem}
+\label{sec:org89af7b8}
+In an ideal world, we would be able to almost directly translate
+the above inference rules into Prolog, like so.
+\begin{verbatim}
 buckets(0,0).
+buckets(5,Y) :- buckets(_,Y).
+buckets(X,3) :- buckets(X,_).
+buckets(0,Y) :- buckets(_,Y).
+buckets(X,0) :- buckets(X,_).
+buckets(DX,DY) :-
+  DX is X + D, DY is Y - D,
+  buckets(X,Y),
+  DX <= 5,
+  DY >= 0,
+  DX is 5 or DY is 0.
+buckets(DX,DY) :-
+  DX is X - D, DY is Y + D,
+  buckets(X,Y),
+  DX >= 0,
+  DY <= 3,
+  DX is 0 or DY is 3.
+\end{verbatim}
+(Note the \texttt{\_} is used where we would have a “singleton” variable,
+i.e., a variable which appears nowhere else in a clause.
+The \texttt{\_} is simply an anonymous variable name, and using it
+reassures Prolog that we didn't mean to refer to another variable.)
+
+But using our knowledge of SWI Prolog's search strategy,
+we can quickly see a problem with the order of these clauses.
+:TODO:
+
+\subsection{Checking for divisors of a number}
+\label{sec:org9432f78}
+\begin{minted}[breaklines=true]{prolog}
+hasDivisorLessThanOrEqualTo(_,1) :- !, false.
+hasDivisorLessThanOrEqualTo(X,Y) :- 0 is X mod Y, !.
+hasDivisorLessThanOrEqualTo(X,Y) :- Z is Y - 1, hasDivisorLessThanOrEqualTo(X,Z).
 \end{minted}
 
-The action of filling a bucket replaces its current amount
-with the maximum amount.
-\begin{minted}[breaklines=true]{prolog}
-buckets(0,Y) :- buckets(_X,Y).
-buckets(X,0) :- buckets(X,_Y).
-\end{minted}
+\section{Resources}
+\label{sec:orgf3fa77b}
+\begin{itemize}
+\item \href{https://github.com/alhassy/PrologCheatSheet}{Prolog cheat sheet},
+by Musa Al-hassy.
+\begin{itemize}
+\item Includes links to several other resources.
+\end{itemize}
+\item \href{https://cseweb.ucsd.edu/\~goguen/courses/130w04/prolog.html}{Lecture notes on Prolog}
+by Joseph Goguen, UC San Diego.
+\end{itemize}
 \end{document}
