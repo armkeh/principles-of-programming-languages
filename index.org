@@ -346,9 +346,9 @@ Particularly relevant portions of raw code are also included.
 :CUSTOM_ID: September-18th-–-Puzzles-in-Prolog
 :END:
 
-- [[./notes/live-coding/09-18-puzzles-in-Prolog.html][HTML]]
-- [[./notes/live-coding/09-18-puzzles-in-Prolog.pdf][PDF]]
-- [[./notes/live-coding/09-18-puzzles-in-Prolog.org][Org plaintext]]
+- [[./notes/live-coding/09-18-Introduction-to-Prolog.html][HTML]]
+- [[./notes/live-coding/09-18-Introduction-to-Prolog.pdf][PDF]]
+- [[./notes/live-coding/09-18-Introduction-to-Prolog.org][Org plaintext]]
 
 Relevant raw code:
 :TODO:

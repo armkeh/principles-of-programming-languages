@@ -303,9 +303,10 @@ are also included.
 
 ### September 18th – Puzzles in Prolog
 
-  - [HTML](./notes/live-coding/09-18-puzzles-in-Prolog.html)
-  - [PDF](./notes/live-coding/09-18-puzzles-in-Prolog.pdf)
-  - [Org plaintext](./notes/live-coding/09-18-puzzles-in-Prolog.org)
+  - [HTML](./notes/live-coding/09-18-Introduction-to-Prolog.html)
+  - [PDF](./notes/live-coding/09-18-Introduction-to-Prolog.pdf)
+  - [Org
+    plaintext](./notes/live-coding/09-18-Introduction-to-Prolog.org)
 
 Relevant raw code:
 
