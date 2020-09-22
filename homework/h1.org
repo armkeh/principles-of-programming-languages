@@ -333,8 +333,6 @@ necessitates discarding at least some structure.
 :CUSTOM_ID: Testing
 :END:
 
-:TODO: A Docker container which automates this.
-
 ** Instructions
 :PROPERTIES:
 :CUSTOM_ID: Instructions
@@ -363,13 +361,31 @@ to work with your Scala implementation.
 Simply placing their contents into your ~h1.sc~ file should work,
 but be sure to remove them before submission.
 
+*** Automated testing via Docker
+:PROPERTIES:
+:CUSTOM_ID: Automated-testing-via-Docker
+:END:
+
+You may use the ~Dockerfile~ and ~docker-compose.yml~ located at
+https://github.com/armkeh/principles-of-programming-languages/tree/master/homework/testing/h1
+to automate the system setup and testing.
+Consult the [[https://github.com/armkeh/principles-of-programming-languages/tree/master/homework/testing/h1/ReadMe.md][README]] located there for instructions.
+
+The use of the shell scripts does require a ~bash~-like shell.
+On Windows, you may need to execute the commands in the shell scripts
+manually instead.
+
+*As the README states, you will need to copy your source files*
+*to the ~src~ folder beneath the folder with the Docker setup*.
+(Or, alternatively, use symbolic links to your source files.)
+
 ** The scripts
 :PROPERTIES:
 :CUSTOM_ID: The-scripts
 :END:
 
 The scripts are also shown here. First, the interface script.
-#+begin_src amm :results none :tangle ./src/h1_interface.sc
+#+begin_src amm :results none :tangle ./testing/h1/src/h1_interface.sc
 import $file.h1, h1._
 // Fill in your constructors here.
 
@@ -383,8 +399,9 @@ def LT_leaf[A](a: A): LeafTree[A] = ???
 def LT_flatten[A](t: LeafTree[A]): List[A] = ???
 def LT_orderedElems(t: LeafTree[Int]): List[Int] = ???
 #+end_src
+
 And the testing script.
-#+begin_src amm :results none :tangle ./src/h1_test.sc
+#+begin_src amm :results none :tangle ./testing/h1/src/h1_test.sc
 import $file.h1_interface, h1_interface._
 
 /* Given an expected result and a computed result,

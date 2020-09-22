@@ -1,0 +1,9 @@
+version: '2'
+services:
+  service:
+    build: .
+    image: 3mi2_h1_docker_image
+    volumes:
+      - ./src:/opt/h1
+    container_name: 3mi2_h1_container
+    command: ['amm', 'h1_test.sc']
