@@ -129,3 +129,7 @@ instead of being builtin.
   would not require explicit permission to be used.
 - More complex operations such as sorting procedures
   would require permission before you used them.
+
+Additionally, the standard /higher-order/ operations
+including ~map~, ~reduce~, ~flatten~, and ~filter~ are permitted generally,
+unless the task is to implement such a higher-order operator.

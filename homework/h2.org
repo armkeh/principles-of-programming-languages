@@ -142,7 +142,7 @@ isDigitList(X,L) :-
 
 Your definition must enforce that
 - the last element of the list (~F~) is the same
-  as the first digit of ~X~, and
+  as the “ones” digit of ~X~, and
 - the remaining portion of the list matches the remaining
   digits of ~X~.
 
@@ -175,6 +175,9 @@ palindrome([H|T]) :- ??? % H is the first element, L is the rest
 #+end_example
 
 * Part 4: Prime palindromes                              [15 points]
+:PROPERTIES:
+:CUSTOM_ID: Part-4:-Prime-palindromes------------------------------[15 points]
+:END:
 
 Define a predicate ~primePalindrome~ which checks
 if a given integer is both
@@ -182,6 +185,9 @@ if a given integer is both
 2. a palindrome (in terms of the list of its digits).
 
 * Part 5: Efficiency                                     [10 bonus_points]
+:PROPERTIES:
+:CUSTOM_ID: Part-5:-Efficiency-------------------------------------[10 bonus_points]
+:END:
 
 For extra marks, research how to make your above definitions more efficient.
 

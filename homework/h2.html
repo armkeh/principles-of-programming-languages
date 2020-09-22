@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-09-20 Sun 13:28 -->
+<!-- 2020-09-22 Tue 10:21 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Computer Science 3MI3 – 2020 homework 2</title>
@@ -202,26 +202,50 @@
 <script type="text/javascript" src="styles/lib/js/jquery.stickytableheaders.min.js"></script>
 <script type="text/javascript" src="styles/readtheorg/js/readtheorg.js"></script>
 <script type="text/javascript">
-// @license magnet:?xt=urn:btih:e95b018ef3580986a04669f1b5879592219e2a7a&dn=public-domain.txt Public Domain
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2020 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
 <!--/*--><![CDATA[/*><!--*/
-     function CodeHighlightOn(elem, id)
-     {
-       var target = document.getElementById(id);
-       if(null != target) {
-         elem.classList.add("code-highlighted");
-         target.classList.add("code-highlighted");
-       }
-     }
-     function CodeHighlightOff(elem, id)
-     {
-       var target = document.getElementById(id);
-       if(null != target) {
-         elem.classList.remove("code-highlighted");
-         target.classList.remove("code-highlighted");
-       }
-     }
-    /*]]>*///-->
-// @license-end
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
 </script>
 </head>
 <body>
@@ -239,16 +263,16 @@
 <ul>
 <li><a href="#Submission-procedures">Submission procedures</a>
 <ul>
-<li><a href="#org660edd3">Submission method</a></li>
-<li><a href="#orgbd8d81e">Naming requirements</a></li>
-<li><a href="#orgc7d12a5">Do not submit testing or diagnostic code</a></li>
-<li><a href="#orgcf5231b">Due date and allowance for technical difficulties</a></li>
+<li><a href="#org1610053">Submission method</a></li>
+<li><a href="#org82ca886">Naming requirements</a></li>
+<li><a href="#org751b9d4">Do not submit testing or diagnostic code</a></li>
+<li><a href="#orge120b3b">Due date and allowance for technical difficulties</a></li>
 </ul>
 </li>
 <li><a href="#Proper-conduct-for-coursework">Proper conduct for coursework</a>
 <ul>
-<li><a href="#org06dc105">Individual work</a></li>
-<li><a href="#org32d26e6">Language library resources</a></li>
+<li><a href="#orga14a952">Individual work</a></li>
+<li><a href="#orgea8408d">Language library resources</a></li>
 </ul>
 </li>
 </ul>
@@ -263,14 +287,14 @@
 <li><a href="#Part-1:-Prime-checker----------------------------------[5 points]">Part 1: Prime checker                                  [5 points]</a></li>
 <li><a href="#Part-2:-From-number-to-list-of-digits-(and-vice-versa)-[15 points]">Part 2: From number to list of digits (and vice versa) [15 points]</a></li>
 <li><a href="#Part-3:-Palindrome-------------------------------------[10 points]">Part 3: Palindrome                                     [10 points]</a></li>
-<li><a href="#org35bb9d4">Part 4: Prime palindromes                              [15 points]</a></li>
-<li><a href="#orge9f7049">Part 5: Efficiency                                     [10 bonus_points]</a></li>
+<li><a href="#Part-4:-Prime-palindromes------------------------------[15 points]">Part 4: Prime palindromes                              [15 points]</a></li>
+<li><a href="#Part-5:-Efficiency-------------------------------------[10 bonus_points]">Part 5: Efficiency                                     [10 bonus_points]</a></li>
 <li><a href="#Testing">Testing</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-Introduction" class="outline-2">
+<div id="outline-container-orgd7077a3" class="outline-2">
 <h2 id="Introduction">Introduction</h2>
 <div class="outline-text-2" id="text-Introduction">
 <p>
@@ -290,19 +314,19 @@ Put simply, the programmer describes the problem, not the solution.
 </div>
 </div>
 
-<div id="outline-container-Boilerplate" class="outline-2">
+<div id="outline-container-orgdbe0da1" class="outline-2">
 <h2 id="Boilerplate">Boilerplate</h2>
 <div class="outline-text-2" id="text-Boilerplate">
 </div>
 
-<div id="outline-container-Submission-procedures" class="outline-3">
+<div id="outline-container-org94a7ac8" class="outline-3">
 <h3 id="Submission-procedures">Submission procedures</h3>
 <div class="outline-text-3" id="text-Submission-procedures">
 </div>
 
-<div id="outline-container-org660edd3" class="outline-4">
-<h4 id="org660edd3">Submission method</h4>
-<div class="outline-text-4" id="text-org660edd3">
+<div id="outline-container-org1610053" class="outline-4">
+<h4 id="org1610053">Submission method</h4>
+<div class="outline-text-4" id="text-org1610053">
 <p>
 Homework should be submitted to your McMaster CAS Gitlab respository
 in the <code>cs3mi3-fall2020</code> project.
@@ -315,9 +339,9 @@ in time for the deadline, and not just committed to your local copy.
 </div>
 </div>
 
-<div id="outline-container-orgbd8d81e" class="outline-4">
-<h4 id="orgbd8d81e">Naming requirements</h4>
-<div class="outline-text-4" id="text-orgbd8d81e">
+<div id="outline-container-org82ca886" class="outline-4">
+<h4 id="org82ca886">Naming requirements</h4>
+<div class="outline-text-4" id="text-org82ca886">
 <p>
 Place all files for the homework
 inside a folder titled <code>hn</code>, where <code>n</code> is the number of the homework.
@@ -358,9 +382,9 @@ submit a <code>hn.ext</code> file for each language.
 </div>
 </div>
 
-<div id="outline-container-orgc7d12a5" class="outline-4">
-<h4 id="orgc7d12a5">Do not submit testing or diagnostic code</h4>
-<div class="outline-text-4" id="text-orgc7d12a5">
+<div id="outline-container-org751b9d4" class="outline-4">
+<h4 id="org751b9d4">Do not submit testing or diagnostic code</h4>
+<div class="outline-text-4" id="text-org751b9d4">
 <p>
 Unless you are instructed to do so in the homework questions,
 <b>you should not submit testing code with your homework submission</b>.
@@ -388,9 +412,9 @@ For instance, by using a wrapper on the print function or macros.
 </div>
 </div>
 
-<div id="outline-container-orgcf5231b" class="outline-4">
-<h4 id="orgcf5231b">Due date and allowance for technical difficulties</h4>
-<div class="outline-text-4" id="text-orgcf5231b">
+<div id="outline-container-orge120b3b" class="outline-4">
+<h4 id="orge120b3b">Due date and allowance for technical difficulties</h4>
+<div class="outline-text-4" id="text-orge120b3b">
 <p>
 Homework is due on the second Sunday following its release,
 by the end of the day (midnight).
@@ -410,14 +434,14 @@ to accept your submission once the technical difficulties are resolved.
 </div>
 </div>
 
-<div id="outline-container-Proper-conduct-for-coursework" class="outline-3">
+<div id="outline-container-org8ced7f8" class="outline-3">
 <h3 id="Proper-conduct-for-coursework">Proper conduct for coursework</h3>
 <div class="outline-text-3" id="text-Proper-conduct-for-coursework">
 </div>
 
-<div id="outline-container-org06dc105" class="outline-4">
-<h4 id="org06dc105">Individual work</h4>
-<div class="outline-text-4" id="text-org06dc105">
+<div id="outline-container-orga14a952" class="outline-4">
+<h4 id="orga14a952">Individual work</h4>
+<div class="outline-text-4" id="text-orga14a952">
 <p>
 Unless explicitely stated in the homework questions,
 all homework in this course is intended
@@ -478,9 +502,9 @@ probably add a catch-all <code>_</code> case to your <code>match</code> expressi
 </div>
 </div>
 
-<div id="outline-container-org32d26e6" class="outline-4">
-<h4 id="org32d26e6">Language library resources</h4>
-<div class="outline-text-4" id="text-org32d26e6">
+<div id="outline-container-orgea8408d" class="outline-4">
+<h4 id="orgea8408d">Language library resources</h4>
+<div class="outline-text-4" id="text-orgea8408d">
 <p>
 Unless explicitely stated in the questions,
 it is not expected that you will use any language library resources
@@ -503,12 +527,18 @@ would not require explicit permission to be used.</li>
 <li>More complex operations such as sorting procedures
 would require permission before you used them.</li>
 </ul>
+
+<p>
+Additionally, the standard <i>higher-order</i> operations
+including <code>map</code>, <code>reduce</code>, <code>flatten</code>, and <code>filter</code> are permitted generally,
+unless the task is to implement such a higher-order operator.
+</p>
 </div>
 </div>
 </div>
 </div>
 
-<div id="outline-container-Part-0.1:-Installing-Scala" class="outline-2">
+<div id="outline-container-org7070903" class="outline-2">
 <h2 id="Part-0.1:-Installing-Scala">Part 0.1: Installing Prolog                            [0 points]</h2>
 <div class="outline-text-2" id="text-Part-0.1:-Installing-Scala">
 <p>
@@ -532,7 +562,7 @@ That said, any recent version should suffice.
 </p>
 </div>
 
-<div id="outline-container-Installation-guides" class="outline-3">
+<div id="outline-container-orga6b011b" class="outline-3">
 <h3 id="Installation-guides">Installation guides</h3>
 <div class="outline-text-3" id="text-Installation-guides">
 <ul class="org-ul">
@@ -545,7 +575,7 @@ provides downloads of prebuilt binaries for SWI Prolog 8.2.1.</li>
 </div>
 </div>
 
-<div id="outline-container-Part-0.2:-Basic-Scala-programming" class="outline-2">
+<div id="outline-container-org8c2c094" class="outline-2">
 <h2 id="Part-0.2:-Basic-Scala-programming">Part 0.2: Basic Prolog programming                     [0 points]</h2>
 <div class="outline-text-2" id="text-Part-0.2:-Basic-Scala-programming">
 <p>
@@ -557,7 +587,7 @@ to complete this homework.
 </div>
 </div>
 
-<div id="outline-container-Prolog-specific-instructions" class="outline-2">
+<div id="outline-container-orgff45830" class="outline-2">
 <h2 id="Prolog-specific-instructions">Prolog specific instructions</h2>
 <div class="outline-text-2" id="text-Prolog-specific-instructions">
 <p>
@@ -580,7 +610,7 @@ includes links to several other resources.
 </div>
 </div>
 
-<div id="outline-container-Part-1:-Prime-checker----------------------------------[5 points]" class="outline-2">
+<div id="outline-container-orgec8e446" class="outline-2">
 <h2 id="Part-1:-Prime-checker----------------------------------[5 points]">Part 1: Prime checker                                  [5 points]</h2>
 <div class="outline-text-2" id="text-Part-1:-Prime-checker----------------------------------[5 points]">
 <p>
@@ -591,9 +621,9 @@ of <code>X</code> less than <b>or equal to</b> the given <code>Y</code> which is
 incorrectly said only “less than”.)
 </p>
 <div class="org-src-container">
-<pre class="src src-prolog"><span style="color: #feacd0;">hasDivisorLessThanOrEqualTo</span><span style="color: #00cd68;">(</span><span style="color: #00d3d0;">_</span>,1<span style="color: #00cd68;">)</span> :- <span style="color: #b6a0ff;">!</span>, false.
-<span style="color: #feacd0;">hasDivisorLessThanOrEqualTo</span><span style="color: #00cd68;">(</span><span style="color: #00d3d0;">X</span>,<span style="color: #00d3d0;">Y</span><span style="color: #00cd68;">)</span> :- 0 is <span style="color: #00d3d0;">X</span> mod <span style="color: #00d3d0;">Y</span>, <span style="color: #b6a0ff;">!</span>.
-<span style="color: #feacd0;">hasDivisorLessThanOrEqualTo</span><span style="color: #00cd68;">(</span><span style="color: #00d3d0;">X</span>,<span style="color: #00d3d0;">Y</span><span style="color: #00cd68;">)</span> :- <span style="color: #00d3d0;">Z</span> is <span style="color: #00d3d0;">Y</span> - 1, hasDivisorLessThanOrEqualTo<span style="color: #00cd68;">(</span><span style="color: #00d3d0;">X</span>,<span style="color: #00d3d0;">Z</span><span style="color: #00cd68;">)</span>.
+<pre class="src src-prolog"><span style="color: #feacd0;">hasDivisorLessThanOrEqualTo</span>(<span style="color: #00d3d0;">_</span>,1) :- <span style="color: #b6a0ff;">!</span>, false.
+<span style="color: #feacd0;">hasDivisorLessThanOrEqualTo</span>(<span style="color: #00d3d0;">X</span>,<span style="color: #00d3d0;">Y</span>) :- 0 is <span style="color: #00d3d0;">X</span> mod <span style="color: #00d3d0;">Y</span>, <span style="color: #b6a0ff;">!</span>.
+<span style="color: #feacd0;">hasDivisorLessThanOrEqualTo</span>(<span style="color: #00d3d0;">X</span>,<span style="color: #00d3d0;">Y</span>) :- <span style="color: #00d3d0;">Z</span> is <span style="color: #00d3d0;">Y</span> - 1, hasDivisorLessThanOrEqualTo(<span style="color: #00d3d0;">X</span>,<span style="color: #00d3d0;">Z</span>).
 </pre>
 </div>
 <p>
@@ -615,7 +645,7 @@ such that <code>isPrime(X)</code> returns true if <code>X</code> is a prime numb
 </div>
 </div>
 
-<div id="outline-container-Part-2:-From-number-to-list-of-digits-(and-vice-versa)-[15 points]" class="outline-2">
+<div id="outline-container-orgdbb2be4" class="outline-2">
 <h2 id="Part-2:-From-number-to-list-of-digits-(and-vice-versa)-[15 points]">Part 2: From number to list of digits (and vice versa) [15 points]</h2>
 <div class="outline-text-2" id="text-Part-2:-From-number-to-list-of-digits-(and-vice-versa)-[15 points]">
 <p>
@@ -625,11 +655,11 @@ We have filled in code to fetch the last element of the list
 as a starting point.
 </p>
 <div class="org-src-container">
-<pre class="src src-prolog"><span style="color: #feacd0;">isDigitList</span><span style="color: #00cd68;">(</span><span style="color: #00d3d0;">_</span>,<span style="color: #b6a0ff;">[]</span><span style="color: #00cd68;">)</span> :- <span style="color: #b6a0ff;">!</span>, false.
-<span style="color: #feacd0;">isDigitList</span><span style="color: #00cd68;">(</span><span style="color: #00d3d0;">X</span>,<span style="color: #b6a0ff;">[</span><span style="color: #00d3d0;">X</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span>. <span style="color: #a8a8a8;">% </span><span style="color: #a8a8a8;">Your code here; change the . to :-</span>
-<span style="color: #feacd0;">isDigitList</span><span style="color: #00cd68;">(</span><span style="color: #00d3d0;">X</span>,<span style="color: #00d3d0;">L</span><span style="color: #00cd68;">)</span> :-
-  last<span style="color: #00cd68;">(</span><span style="color: #00d3d0;">L</span>,<span style="color: #00d3d0;">F</span><span style="color: #00cd68;">)</span>. <span style="color: #a8a8a8;">% </span><span style="color: #a8a8a8;">F is the final element of the list</span>
-  <span style="color: #a8a8a8;">% </span><span style="color: #a8a8a8;">Your code here; change the above . to a ,</span>
+<pre class="src src-prolog"><span style="color: #feacd0;">isDigitList</span>(<span style="color: #00d3d0;">_</span>,<span style="color: #b6a0ff;">[]</span>) :- <span style="color: #b6a0ff;">!</span>, false.
+<span style="color: #feacd0;">isDigitList</span>(<span style="color: #00d3d0;">X</span>,<span style="color: #b6a0ff;">[</span><span style="color: #00d3d0;">X</span><span style="color: #b6a0ff;">]</span>). <span style="color: #a8a8a8;">% Your code here; change the . to :-</span>
+<span style="color: #feacd0;">isDigitList</span>(<span style="color: #00d3d0;">X</span>,<span style="color: #00d3d0;">L</span>) :-
+  last(<span style="color: #00d3d0;">L</span>,<span style="color: #00d3d0;">F</span>). <span style="color: #a8a8a8;">% F is the final element of the list</span>
+  <span style="color: #a8a8a8;">% Your code here; change the above . to a ,</span>
 </pre>
 </div>
 
@@ -638,7 +668,7 @@ Your definition must enforce that
 </p>
 <ul class="org-ul">
 <li>the last element of the list (<code>F</code>) is the same
-as the first digit of <code>X</code>, and</li>
+as the “ones” digit of <code>X</code>, and</li>
 <li>the remaining portion of the list matches the remaining
 digits of <code>X</code>.</li>
 </ul>
@@ -655,16 +685,16 @@ if you wish (in this part and the rest of the homework.)
 </p>
 <div class="org-src-container">
 <pre class="src src-prolog"><span style="color: #a8a8a8;">% </span><span style="color: #a8a8a8;">dropLast(L1,L2) if L2 is the list L1, leaving off the last item.</span>
-<span style="color: #feacd0;">dropLast</span><span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">[</span><span style="color: #00d3d0;">_</span><span style="color: #b6a0ff;">]</span>,<span style="color: #b6a0ff;">[]</span><span style="color: #00cd68;">)</span>. <span style="color: #a8a8a8;">% </span><span style="color: #a8a8a8;">The last element is dropped.</span>
-<span style="color: #feacd0;">dropLast</span><span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">[</span><span style="color: #00d3d0;">H</span><span style="color: #b6a0ff;">|</span><span style="color: #00d3d0;">T</span><span style="color: #b6a0ff;">]</span>,<span style="color: #b6a0ff;">[</span><span style="color: #00d3d0;">H</span><span style="color: #b6a0ff;">|</span><span style="color: #00d3d0;">T2</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span> :-
-  <span style="color: #a8a8a8;">% </span><span style="color: #a8a8a8;">Aside from the base case above, the lists must match.</span>
-  dropLast<span style="color: #00cd68;">(</span><span style="color: #00d3d0;">T</span>,<span style="color: #00d3d0;">T2</span><span style="color: #00cd68;">)</span>.
+<span style="color: #feacd0;">dropLast</span>(<span style="color: #b6a0ff;">[</span><span style="color: #00d3d0;">_</span><span style="color: #b6a0ff;">]</span>,<span style="color: #b6a0ff;">[]</span>). <span style="color: #a8a8a8;">% The last element is dropped.</span>
+<span style="color: #feacd0;">dropLast</span>(<span style="color: #b6a0ff;">[</span><span style="color: #00d3d0;">H</span><span style="color: #b6a0ff;">|</span><span style="color: #00d3d0;">T</span><span style="color: #b6a0ff;">]</span>,<span style="color: #b6a0ff;">[</span><span style="color: #00d3d0;">H</span><span style="color: #b6a0ff;">|</span><span style="color: #00d3d0;">T2</span><span style="color: #b6a0ff;">]</span>) :-
+  <span style="color: #a8a8a8;">% Aside from the base case above, the lists must match.</span>
+  dropLast(<span style="color: #00d3d0;">T</span>,<span style="color: #00d3d0;">T2</span>).
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-Part-3:-Palindrome-------------------------------------[10 points]" class="outline-2">
+<div id="outline-container-org3dde3b1" class="outline-2">
 <h2 id="Part-3:-Palindrome-------------------------------------[10 points]">Part 3: Palindrome                                     [10 points]</h2>
 <div class="outline-text-2" id="text-Part-3:-Palindrome-------------------------------------[10 points]">
 <p>
@@ -676,15 +706,15 @@ list is a palindrome.
 Note you can use pattern matching with the list “cons” operator, <code>|</code>,
 to refer to the head and tail of a list, as in
 </p>
-<pre class="example" id="org9e62946">
+<pre class="example">
 palindrome([H|T]) :- ??? % H is the first element, L is the rest
 </pre>
 </div>
 </div>
 
-<div id="outline-container-org35bb9d4" class="outline-2">
-<h2 id="org35bb9d4">Part 4: Prime palindromes                              [15 points]</h2>
-<div class="outline-text-2" id="text-org35bb9d4">
+<div id="outline-container-org7781c44" class="outline-2">
+<h2 id="Part-4:-Prime-palindromes------------------------------[15 points]">Part 4: Prime palindromes                              [15 points]</h2>
+<div class="outline-text-2" id="text-Part-4:-Prime-palindromes------------------------------[15 points]">
 <p>
 Define a predicate <code>primePalindrome</code> which checks
 if a given integer is both
@@ -696,9 +726,9 @@ if a given integer is both
 </div>
 </div>
 
-<div id="outline-container-orge9f7049" class="outline-2">
-<h2 id="orge9f7049">Part 5: Efficiency                                     [10 bonus_points]</h2>
-<div class="outline-text-2" id="text-orge9f7049">
+<div id="outline-container-orgd05f9f1" class="outline-2">
+<h2 id="Part-5:-Efficiency-------------------------------------[10 bonus_points]">Part 5: Efficiency                                     [10 bonus_points]</h2>
+<div class="outline-text-2" id="text-Part-5:-Efficiency-------------------------------------[10 bonus_points]">
 <p>
 For extra marks, research how to make your above definitions more efficient.
 </p>
@@ -716,7 +746,7 @@ of your solutions.
 </div>
 </div>
 
-<div id="outline-container-Testing" class="outline-2">
+<div id="outline-container-org597d7b4" class="outline-2">
 <h2 id="Testing">Testing</h2>
 <div class="outline-text-2" id="text-Testing">
 <p>
@@ -727,9 +757,9 @@ of your solutions.
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Mark Armstrong</p>
-     <p class="author">Contact: <a href="mailto:armstmp@mcmaster.ca">armstmp@mcmaster.ca</a></p>
+     <p class="author">Contact: <a href="mailto:markparmstrong@gmail.com">markparmstrong@gmail.com</a></p>
      <p class="date">Original date: September 18th, 2020</p>
-     <p class="date">Last updated: 2020-09-20 Sun 13:28</p>
+     <p class="date">Last updated: 2020-09-21 Mon 13:46</p>
      <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.90 (<a href="https://orgmode.org">Org</a> mode 9.3.8)</p>
      <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
