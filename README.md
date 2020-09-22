@@ -12,6 +12,19 @@ better viewed at
 
 ## September
 
+  - September 22  
+    More recording links have been added to the list. Also,
+    
+      - The homework boilerplate has been updated to indicate that use
+        of the standard higher-order operators is always allowed.
+      - Instructions for testing homework 1 using Docker are now
+        uploaded (obviously too late to be useful, but added for
+        completion's sake.) Similar setup and instructions will be added
+        for homework 2 shortly.
+      - A poor choice of wording regarding `isDigitList` has been
+        changed in homework 2; “the first digit of `X` ⇒ the “ones”
+        digit of \~X\~”.
+
   - September 18  
     Homework 2 has been posted.
 
@@ -339,15 +352,31 @@ available
 Links directly to specific lectures/tutorials are also included below,
 but this may not be updated quickly after lectures/tutorials.
 
-## Lectures
+## Note lectures
 
+  - [September 21st (Monday) – Formal languages
+    (part 2)](https://web.microsoftstream.com/video/d7d61b56-b593-4c48-8890-b03e9ff71015)
+  - [September 16th (Wednesday) – Formal languages
+    (part 1)](https://web.microsoftstream.com/video/6aa707fa-3e68-4b61-8f6c-ed60e62f3b14)
   - [September 14th (Monday) – The Boom hierarchy in
     Scala](https://web.microsoftstream.com/video/fe0b46f8-2512-4084-a399-f9d1b33257b6)
+    (end of Introduction and Overview notes)
   - [September 11th (Friday) – Introduction and
     Overview](https://web.microsoftstream.com/video/af55c09e-00dc-4d7c-a048-166907b6abd7)
 
+## Live coding lectures
+
+  - [September 18th (Friday) – Logical games in
+    Prolog](https://web.microsoftstream.com/video/f29fc2dd-f3c0-40f6-9e67-a81eeb273065)
+  - [September 14th (Monday) – The Boom hierarchy in
+    Scala](https://web.microsoftstream.com/video/fe0b46f8-2512-4084-a399-f9d1b33257b6)
+
 ## Tutorials
 
+  - [Week 2 Monday, September 21st – Introduction to
+    Prolog](https://web.microsoftstream.com/video/dd31d267-6de5-4cc1-afae-8e81b126d3f8)
+  - [Week 2 Wednesday, September 16th – Algebraic data in
+    Scala](https://web.microsoftstream.com/video/da69ad32-13c9-4e26-904e-e06a66c3b537)
   - [Week 2 Monday, September 14th – Algebraic data in
     Scala](https://web.microsoftstream.com/video/1f99aa1e-ee5e-4bb4-a27c-6c32175332fd)
 
