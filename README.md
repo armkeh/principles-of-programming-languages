@@ -13,6 +13,9 @@ better viewed at
 ## September
 
   - September 23  
+    The completed version of notes 2 is now uploaded.
+
+  - September 23  
     There has been a change to the `isDigitList` question in homework 2.
     Please review that question. (For those who may have already
     completed it, reversing the list should adapt your current solution
