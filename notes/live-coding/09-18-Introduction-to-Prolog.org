@@ -305,23 +305,27 @@ of catenating ~X~ and ~Y~.
 So we can make queries about catenation, such as
 #+begin_example prolog
 % Is [1,2,3,4,5,6] the result of catenating [1,2,3] and [4,5,6]?
-?- concat([1,2,3], [4,5,6], [1,2,3,4,5,6])
+?- append([1,2,3], [4,5,6], [1,2,3,4,5,6])
 % Response:
-% :TODO:
+% true.
 
 
 % What are all the possible values of Z for which
 % Z is the catenation of [1,2,3] and [4,5,6]?
-?- concat([1,2,3], [4,5,6], Z)
+?- append([1,2,3], [4,5,6], Z)
 % Response:
-% :TODO:
+% Z = [1, 2, 3, 4, 5, 6]
 
 
 % What are the possible values of X and Y so that,
 % when they are catenated, the result is [1,2,3,4,5,6]?
-?- concat(X, Y, [1,2,3,4,5,6])
+?- append(X, Y, [1,2,3,4,5,6])
 % Response:
-% :TODO:
+% X = [],
+% Y = [1,2,3,4,5,6] ;
+% X = [1],
+% Y = [2,3,4,5,6] ;
+% …
 #+end_example
 
 Note: in this way, we get several “functions” from one predicate,
@@ -406,18 +410,35 @@ and /modus ponens/ ($(P ∧ P ⇒ Q) ⇒ Q$).
 
 Through this process, the single goal presented by a query
 will usually turn into a collection of goals;
-for instance, if we query ~?- p(5)~ and the search uses a clause
+for instance, if we query ~?- p(5).~ and the search uses a clause
 #+begin_example prolog
 p(X) :- q(X), r(X).
 #+end_example
-then we now have as goals ~q(X)~ and ~r(X,Y)~.
+then we now have as goals ~q(5)~ and ~r(5)~.
 
 *** Backtracking
 :PROPERTIES:
 :CUSTOM_ID: Backtracking
 :END:
 
-:TODO:
+Consider the program
+#+begin_src prolog :tangle ./src/sept20-backtracking.pl
+a :- b, c.
+a :- b.
+
+b.
+c :- false.
+#+end_src
+
+As the Prolog runtime tries to prove ~a~, it will use the first clause,
+and ~fail~ (because in trying to prove ~c~, it reaches ~false~,
+which it cannot prove.)
+At that point, it has to /backtrack/, and try a different
+clause to prove ~a~.
+
+In general, the runtime will backtrack several times
+during a proof, and it keeps track of which clauses
+have been tried.
 
 # Untried rules
 
@@ -426,7 +447,13 @@ then we now have as goals ~q(X)~ and ~r(X,Y)~.
 :CUSTOM_ID: SWI-Prolog's-search-strategy
 :END:
 
-:TODO:
+1. Attempt to apply clauses in order from top to bottom
+   (as in the source code.)
+   - Only backtrack and try other clauses
+     after success or failure.
+2. Perform a depth first search trying to prove each goal.
+   - So if the current goals are ~b~ and ~c~,
+     try to prove ~b~ before considering ~c~.
 
 *** Examining the search strategy
 :PROPERTIES:
@@ -466,16 +493,24 @@ X is 2 + 3
 #+end_example
 will evaluate to ~true~.
 
-** Failure
-:PROPERTIES:
-:CUSTOM_ID: Failure
-:END:
-
-:TODO:
-
 ** Exerting control over the search; the cut operator
 :PROPERTIES:
 :CUSTOM_ID: Exerting-control-over-the-search;-the-cut-operator
+:END:
+
+In part because Prolog's searching mechanism can be naive,
+the programmer is given a certain amount of control
+over the search.
+
+The most important mechanism for controlling the search
+that we will see is the /cut/.
+
+A cut is written ~!~, and can be understood as
+“no backtracking is allowed to go beyond this point”.
+
+** Failure
+:PROPERTIES:
+:CUSTOM_ID: Failure
 :END:
 
 :TODO:
