@@ -412,6 +412,14 @@ Relevant raw code:
 Files are only added here if they differ from the previous week's
 live coding lecture. In many cases, the content will be shared.
 
+*** Wednesday September 23rd – Docker and Prolog
+:PROPERTIES:
+:CUSTOM_ID: Wednesday-September-23rd-–-Docker-and-Prolog
+:END:
+
+- [[./notes/tutorial/Introduction to Docker and Prolog.ipynb][Jupyter notebook]]
+- [[./notes/tutorial/Introduction to Docker and Prolog.pdf][PDF]]
+
 * Recordings
 :PROPERTIES:
 :CUSTOM_ID: Recordings

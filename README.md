@@ -372,6 +372,12 @@ Relevant raw code:
 Files are only added here if they differ from the previous week's live
 coding lecture. In many cases, the content will be shared.
 
+### Wednesday September 23rd – Docker and Prolog
+
+  - [Jupyter
+    notebook](./notes/tutorial/Introduction%20to%20Docker%20and%20Prolog.ipynb)
+  - [PDF](./notes/tutorial/Introduction%20to%20Docker%20and%20Prolog.pdf)
+
 # Recordings
 
 Lecture and tutorial recordings are available on Microsoft Stream. As
