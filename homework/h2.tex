@@ -1,4 +1,4 @@
-% Created 2020-09-23 Wed 01:22
+% Created 2020-09-23 Wed 12:27
 % Intended LaTeX compiler: lualatex
 \documentclass[11pt]{article}
 \usepackage{graphicx}
@@ -42,7 +42,7 @@
 
 
 \section*{Introduction}
-\label{sec:org658e9a4}
+\label{sec:orgf8db8a3}
 Prolog is a \emph{logical programming} language,
 in which the task of the programmer
 is to precisely describe the possible solution space,
@@ -55,11 +55,11 @@ Put simply, the programmer describes the problem, not the solution.
 \end{center}
 
 \section*{Boilerplate}
-\label{sec:org02a6715}
+\label{sec:org5705b88}
 \subsection*{Submission procedures}
-\label{sec:org7d28104}
+\label{sec:org1c6155d}
 \subsubsection*{Submission method}
-\label{sec:org85591ff}
+\label{sec:org18c3ffb}
 
 Homework should be submitted to your McMaster CAS Gitlab respository
 in the \texttt{cs3mi3-fall2020} project.
@@ -68,7 +68,7 @@ Ensure that you have \textbf{pushed} the commits to the remote repository
 in time for the deadline, and not just committed to your local copy.
 
 \subsubsection*{Naming requirements}
-\label{sec:org03b4a70}
+\label{sec:org2e043c5}
 
 Place all files for the homework
 inside a folder titled \texttt{hn}, where \texttt{n} is the number of the homework.
@@ -99,7 +99,7 @@ submit a \texttt{hn.ext} file for each language.
 \end{center}
 
 \subsubsection*{Do not submit testing or diagnostic code}
-\label{sec:orgcad3c0b}
+\label{sec:org3398909}
 
 Unless you are instructed to do so in the homework questions,
 \textbf{you should not submit testing code with your homework submission}.
@@ -119,7 +119,7 @@ in your final submission.
 For instance, by using a wrapper on the print function or macros.
 
 \subsubsection*{Due date and allowance for technical difficulties}
-\label{sec:org64d0ded}
+\label{sec:org5ad82c5}
 
 Homework is due on the second Sunday following its release,
 by the end of the day (midnight).
@@ -134,9 +134,9 @@ This information will help ensure we are able
 to accept your submission once the technical difficulties are resolved.
 
 \subsection*{Proper conduct for coursework}
-\label{sec:org4ade44f}
+\label{sec:orgee31c9e}
 \subsubsection*{Individual work}
-\label{sec:org24c3b0f}
+\label{sec:orgc5bf70c}
 
 Unless explicitely stated in the homework questions,
 all homework in this course is intended
@@ -185,7 +185,7 @@ probably add a catch-all \texttt{\_} case to your \texttt{match} expressions.”
 \end{enumerate}
 
 \subsubsection*{Language library resources}
-\label{sec:org8c70f0e}
+\label{sec:orgf401b71}
 
 Unless explicitely stated in the questions,
 it is not expected that you will use any language library resources
@@ -209,7 +209,7 @@ including \texttt{map}, \texttt{reduce}, \texttt{flatten}, and \texttt{filter} a
 unless the task is to implement such a higher-order operator.
 
 \section*{Part 0.1: Installing Prolog                            [0 points]}
-\label{sec:org4b22075}
+\label{sec:org69f6da5}
 In this course, we will be targetting
 \href{https://www.swi-prolog.org/}{SWI Prolog} version 8.2.0,
 as used in the
@@ -225,7 +225,7 @@ Docker image.
 That said, any recent version should suffice. 
 
 \subsection*{Installation guides}
-\label{sec:org1d0e128}
+\label{sec:org363d8b3}
 \begin{itemize}
 \item Linux and MacOS users should be able to install SWI Prolog
 via their package manager.
@@ -234,14 +234,14 @@ provides downloads of prebuilt binaries for SWI Prolog 8.2.1.
 \end{itemize}
 
 \section*{Part 0.2: Basic Prolog programming                     [0 points]}
-\label{sec:org20e7f82}
+\label{sec:org402719c}
 Some basic tutorial on Scala will be given
 in an upcoming lecture, and also in the tutorials,
 and should provide you with the knowledge you need
 to complete this homework.
 
 \section*{Prolog specific instructions}
-\label{sec:orgbf8dbe1}
+\label{sec:orgb093e00}
 In your Prolog code in this course,
 you are allowed to use all builtin predicates;
 in particular, see the following entries of the
@@ -257,7 +257,7 @@ is also a useful resource, and
 includes links to several other resources.
 
 \section*{Part 1: Prime checker                                  [5 points]}
-\label{sec:org12545a8}
+\label{sec:org6b05e87}
 Here we define a predicate “has divisor less than or equal to”
 which checks, for a given \texttt{X}, if there exists a divisor
 of \texttt{X} less than \textbf{or equal to} the given \texttt{Y} which is greater than 1.
@@ -282,7 +282,7 @@ Using this predicate, define a \texttt{isPrime} predicate
 such that \texttt{isPrime(X)} returns true if \texttt{X} is a prime number.
 
 \section*{Part 2: From number to list of digits (and vice versa) [15 points]}
-\label{sec:org1493f1b}
+\label{sec:org86f4e52}
 Complete the following definition of predicate that checks
 if a given list is a list of the digits in a given integer,
 with the first element of the list being the “ones” digit,
@@ -293,12 +293,14 @@ the second element of the list being the “tens” digit, etc.
 \textbf{and the description of the list has been “reversed”.}
 \textbf{Previously, the ones digits would have been the last element.}
 \textbf{Now, it is the first element.}
+
+One further edit was added later; remove the cut in the first case below.
 \end{center}
 
 We have filled in code to fetch the last element of the list
 as a starting point.
 \begin{minted}[breaklines=true]{prolog}
-isDigitList(_,[]) :- !, false.
+isDigitList(_,[]) :- false.
 isDigitList(X,[X]). % Your code here; change the . to :-
 isDigitList(X,[H|T]). % Your code here; change the above . to a ,
 \end{minted}
@@ -320,7 +322,7 @@ dropLast([H|T],[H|T2]) :-
 \end{minted}
 
 \section*{Part 3: Palindrome                                     [10 points]}
-\label{sec:org4c0bf52}
+\label{sec:org7720ce1}
 Define a predicate \texttt{isPalindrome} which checks that a given
 list is a palindrome.
 
@@ -331,7 +333,7 @@ palindrome([H|T]) :- ??? % H is the first element, L is the rest
 \end{verbatim}
 
 \section*{Part 4: Prime palindromes                              [15 points]}
-\label{sec:orgedab955}
+\label{sec:org7c12051}
 Define a predicate \texttt{primePalindrome} which checks
 if a given integer is both
 \begin{enumerate}
@@ -340,7 +342,7 @@ if a given integer is both
 \end{enumerate}
 
 \section*{Part 5: Efficiency                                     [10 bonus\_points]}
-\label{sec:org12bb553}
+\label{sec:orga934e52}
 For extra marks, research how to make your above definitions more efficient.
 
 In particular, look into the use of the “cut” operator, \texttt{!},
@@ -351,7 +353,7 @@ versions of these problems in order to test the efficiency
 of your solutions.
 
 \section*{Testing}
-\label{sec:orgf2f7809}
+\label{sec:org47291a2}
 As of September 23rd, unit tests for the requested predicates
 can be found \href{./testing/h2/src/h2.plt}{here}. Their contents are also repeated below.
 
@@ -374,11 +376,11 @@ swipl -t "load_test_files([]), run_tests." -s h2.pl
 in your shell in that directory.
 
 \subsection*{Automated testing via Docker}
-\label{sec:orgd3a590e}
+\label{sec:orgd6b151c}
 :TODO: by end of day September 23rd
 
 \subsection*{The tests}
-\label{sec:orgd9cca81}
+\label{sec:org3a7a5ad}
 The contents of
 \href{./testing/h2/src/h2.plt}{the testing script}
 are repeated here.

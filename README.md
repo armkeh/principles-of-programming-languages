@@ -14,6 +14,11 @@ better viewed at
 
   - September 23  
     The completed version of notes 2 is now uploaded.
+    
+    Also,
+    
+      - **I've had to make one more edit to the provided code** **for
+        `isDigitList`; don't include the cut in the first case**.
 
   - September 23  
     There has been a change to the `isDigitList` question in homework 2.

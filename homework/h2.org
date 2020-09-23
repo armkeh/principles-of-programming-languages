@@ -138,12 +138,14 @@ the second element of the list being the “tens” digit, etc.
 *and the description of the list has been “reversed”.*
 *Previously, the ones digits would have been the last element.*
 *Now, it is the first element.*
+
+One further edit was added later; remove the cut in the first case below.
 #+end_center
 
 We have filled in code to fetch the last element of the list
 as a starting point.
 #+begin_src prolog
-isDigitList(_,[]) :- !, false.
+isDigitList(_,[]) :- false.
 isDigitList(X,[X]). % Your code here; change the . to :-
 isDigitList(X,[H|T]). % Your code here; change the above . to a ,
 #+end_src
