@@ -18,6 +18,28 @@
 :CUSTOM_ID: September
 :END:
 
+- September 23 :: There has been a change to the
+  ~isDigitList~ question in homework 2.
+  Please review that question.
+  (For those who may have already completed it,
+  reversing the list should adapt your current solution
+  to the new requirements.)
+
+  Also, unit tests for checking your homework 2
+  have now been provided in the homework 2 document.
+
+  Important notes regarding this testing:
+  1. Unlike homework 1, for homework 2 it is /mandatory/
+     that your code pass these tests.
+  2. There is no interface file that you need to complete.
+     You still only need submit your ~h2.pl~ file.
+  3. Passing these tests does not guarantee a particular grade.
+     What has been provided is intended to act as a /sanity check/,
+     and more thorough tests may be used in the grading process.
+
+  Instructions and files for using Docker to run the tests
+  will be provided later today.
+
 - September 22 :: More recording links have been added to the list.
   Also,
   - The homework boilerplate has been updated

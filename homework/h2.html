@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-09-22 Tue 10:21 -->
+<!-- 2020-09-23 Wed 01:22 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Computer Science 3MI3 – 2020 homework 2</title>
@@ -263,16 +263,16 @@ for the JavaScript code in this tag.
 <ul>
 <li><a href="#Submission-procedures">Submission procedures</a>
 <ul>
-<li><a href="#org1610053">Submission method</a></li>
-<li><a href="#org82ca886">Naming requirements</a></li>
-<li><a href="#org751b9d4">Do not submit testing or diagnostic code</a></li>
-<li><a href="#orge120b3b">Due date and allowance for technical difficulties</a></li>
+<li><a href="#org82051af">Submission method</a></li>
+<li><a href="#org2f92f57">Naming requirements</a></li>
+<li><a href="#org608420b">Do not submit testing or diagnostic code</a></li>
+<li><a href="#org8d3d259">Due date and allowance for technical difficulties</a></li>
 </ul>
 </li>
 <li><a href="#Proper-conduct-for-coursework">Proper conduct for coursework</a>
 <ul>
-<li><a href="#orga14a952">Individual work</a></li>
-<li><a href="#orgea8408d">Language library resources</a></li>
+<li><a href="#orga1689d1">Individual work</a></li>
+<li><a href="#orga7b39c4">Language library resources</a></li>
 </ul>
 </li>
 </ul>
@@ -289,12 +289,17 @@ for the JavaScript code in this tag.
 <li><a href="#Part-3:-Palindrome-------------------------------------[10 points]">Part 3: Palindrome                                     [10 points]</a></li>
 <li><a href="#Part-4:-Prime-palindromes------------------------------[15 points]">Part 4: Prime palindromes                              [15 points]</a></li>
 <li><a href="#Part-5:-Efficiency-------------------------------------[10 bonus_points]">Part 5: Efficiency                                     [10 bonus_points]</a></li>
-<li><a href="#Testing">Testing</a></li>
+<li><a href="#Testing">Testing</a>
+<ul>
+<li><a href="#Automated-testing-via-Docker">Automated testing via Docker</a></li>
+<li><a href="#The-tests">The tests</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-orgd7077a3" class="outline-2">
+<div id="outline-container-orge08b9ce" class="outline-2">
 <h2 id="Introduction">Introduction</h2>
 <div class="outline-text-2" id="text-Introduction">
 <p>
@@ -314,19 +319,19 @@ Put simply, the programmer describes the problem, not the solution.
 </div>
 </div>
 
-<div id="outline-container-orgdbe0da1" class="outline-2">
+<div id="outline-container-orge2d85bc" class="outline-2">
 <h2 id="Boilerplate">Boilerplate</h2>
 <div class="outline-text-2" id="text-Boilerplate">
 </div>
 
-<div id="outline-container-org94a7ac8" class="outline-3">
+<div id="outline-container-orgfc26c42" class="outline-3">
 <h3 id="Submission-procedures">Submission procedures</h3>
 <div class="outline-text-3" id="text-Submission-procedures">
 </div>
 
-<div id="outline-container-org1610053" class="outline-4">
-<h4 id="org1610053">Submission method</h4>
-<div class="outline-text-4" id="text-org1610053">
+<div id="outline-container-org82051af" class="outline-4">
+<h4 id="org82051af">Submission method</h4>
+<div class="outline-text-4" id="text-org82051af">
 <p>
 Homework should be submitted to your McMaster CAS Gitlab respository
 in the <code>cs3mi3-fall2020</code> project.
@@ -339,9 +344,9 @@ in time for the deadline, and not just committed to your local copy.
 </div>
 </div>
 
-<div id="outline-container-org82ca886" class="outline-4">
-<h4 id="org82ca886">Naming requirements</h4>
-<div class="outline-text-4" id="text-org82ca886">
+<div id="outline-container-org2f92f57" class="outline-4">
+<h4 id="org2f92f57">Naming requirements</h4>
+<div class="outline-text-4" id="text-org2f92f57">
 <p>
 Place all files for the homework
 inside a folder titled <code>hn</code>, where <code>n</code> is the number of the homework.
@@ -382,9 +387,9 @@ submit a <code>hn.ext</code> file for each language.
 </div>
 </div>
 
-<div id="outline-container-org751b9d4" class="outline-4">
-<h4 id="org751b9d4">Do not submit testing or diagnostic code</h4>
-<div class="outline-text-4" id="text-org751b9d4">
+<div id="outline-container-org608420b" class="outline-4">
+<h4 id="org608420b">Do not submit testing or diagnostic code</h4>
+<div class="outline-text-4" id="text-org608420b">
 <p>
 Unless you are instructed to do so in the homework questions,
 <b>you should not submit testing code with your homework submission</b>.
@@ -412,9 +417,9 @@ For instance, by using a wrapper on the print function or macros.
 </div>
 </div>
 
-<div id="outline-container-orge120b3b" class="outline-4">
-<h4 id="orge120b3b">Due date and allowance for technical difficulties</h4>
-<div class="outline-text-4" id="text-orge120b3b">
+<div id="outline-container-org8d3d259" class="outline-4">
+<h4 id="org8d3d259">Due date and allowance for technical difficulties</h4>
+<div class="outline-text-4" id="text-org8d3d259">
 <p>
 Homework is due on the second Sunday following its release,
 by the end of the day (midnight).
@@ -434,14 +439,14 @@ to accept your submission once the technical difficulties are resolved.
 </div>
 </div>
 
-<div id="outline-container-org8ced7f8" class="outline-3">
+<div id="outline-container-org67d7e07" class="outline-3">
 <h3 id="Proper-conduct-for-coursework">Proper conduct for coursework</h3>
 <div class="outline-text-3" id="text-Proper-conduct-for-coursework">
 </div>
 
-<div id="outline-container-orga14a952" class="outline-4">
-<h4 id="orga14a952">Individual work</h4>
-<div class="outline-text-4" id="text-orga14a952">
+<div id="outline-container-orga1689d1" class="outline-4">
+<h4 id="orga1689d1">Individual work</h4>
+<div class="outline-text-4" id="text-orga1689d1">
 <p>
 Unless explicitely stated in the homework questions,
 all homework in this course is intended
@@ -502,9 +507,9 @@ probably add a catch-all <code>_</code> case to your <code>match</code> expressi
 </div>
 </div>
 
-<div id="outline-container-orgea8408d" class="outline-4">
-<h4 id="orgea8408d">Language library resources</h4>
-<div class="outline-text-4" id="text-orgea8408d">
+<div id="outline-container-orga7b39c4" class="outline-4">
+<h4 id="orga7b39c4">Language library resources</h4>
+<div class="outline-text-4" id="text-orga7b39c4">
 <p>
 Unless explicitely stated in the questions,
 it is not expected that you will use any language library resources
@@ -538,7 +543,7 @@ unless the task is to implement such a higher-order operator.
 </div>
 </div>
 
-<div id="outline-container-org7070903" class="outline-2">
+<div id="outline-container-orgd64dde6" class="outline-2">
 <h2 id="Part-0.1:-Installing-Scala">Part 0.1: Installing Prolog                            [0 points]</h2>
 <div class="outline-text-2" id="text-Part-0.1:-Installing-Scala">
 <p>
@@ -562,7 +567,7 @@ That said, any recent version should suffice.
 </p>
 </div>
 
-<div id="outline-container-orga6b011b" class="outline-3">
+<div id="outline-container-org8bc0016" class="outline-3">
 <h3 id="Installation-guides">Installation guides</h3>
 <div class="outline-text-3" id="text-Installation-guides">
 <ul class="org-ul">
@@ -575,7 +580,7 @@ provides downloads of prebuilt binaries for SWI Prolog 8.2.1.</li>
 </div>
 </div>
 
-<div id="outline-container-org8c2c094" class="outline-2">
+<div id="outline-container-orga5cc46a" class="outline-2">
 <h2 id="Part-0.2:-Basic-Scala-programming">Part 0.2: Basic Prolog programming                     [0 points]</h2>
 <div class="outline-text-2" id="text-Part-0.2:-Basic-Scala-programming">
 <p>
@@ -587,7 +592,7 @@ to complete this homework.
 </div>
 </div>
 
-<div id="outline-container-orgff45830" class="outline-2">
+<div id="outline-container-org85d662d" class="outline-2">
 <h2 id="Prolog-specific-instructions">Prolog specific instructions</h2>
 <div class="outline-text-2" id="text-Prolog-specific-instructions">
 <p>
@@ -610,7 +615,7 @@ includes links to several other resources.
 </div>
 </div>
 
-<div id="outline-container-orgec8e446" class="outline-2">
+<div id="outline-container-org3949c5e" class="outline-2">
 <h2 id="Part-1:-Prime-checker----------------------------------[5 points]">Part 1: Prime checker                                  [5 points]</h2>
 <div class="outline-text-2" id="text-Part-1:-Prime-checker----------------------------------[5 points]">
 <p>
@@ -645,33 +650,35 @@ such that <code>isPrime(X)</code> returns true if <code>X</code> is a prime numb
 </div>
 </div>
 
-<div id="outline-container-orgdbb2be4" class="outline-2">
+<div id="outline-container-org8858b39" class="outline-2">
 <h2 id="Part-2:-From-number-to-list-of-digits-(and-vice-versa)-[15 points]">Part 2: From number to list of digits (and vice versa) [15 points]</h2>
 <div class="outline-text-2" id="text-Part-2:-From-number-to-list-of-digits-(and-vice-versa)-[15 points]">
 <p>
 Complete the following definition of predicate that checks
-if a given list is a list of the digits in a given integer.
+if a given list is a list of the digits in a given integer,
+with the first element of the list being the “ones” digit,
+the second element of the list being the “tens” digit, etc.
+</p>
+
+<div class="org-center">
+<p>
+<b>Updated September 23rd: the given code below has been changed,</b>
+<b>and the description of the list has been “reversed”.</b>
+<b>Previously, the ones digits would have been the last element.</b>
+<b>Now, it is the first element.</b>
+</p>
+</div>
+
+<p>
 We have filled in code to fetch the last element of the list
 as a starting point.
 </p>
 <div class="org-src-container">
 <pre class="src src-prolog"><span style="color: #feacd0;">isDigitList</span>(<span style="color: #00d3d0;">_</span>,<span style="color: #b6a0ff;">[]</span>) :- <span style="color: #b6a0ff;">!</span>, false.
 <span style="color: #feacd0;">isDigitList</span>(<span style="color: #00d3d0;">X</span>,<span style="color: #b6a0ff;">[</span><span style="color: #00d3d0;">X</span><span style="color: #b6a0ff;">]</span>). <span style="color: #a8a8a8;">% Your code here; change the . to :-</span>
-<span style="color: #feacd0;">isDigitList</span>(<span style="color: #00d3d0;">X</span>,<span style="color: #00d3d0;">L</span>) :-
-  last(<span style="color: #00d3d0;">L</span>,<span style="color: #00d3d0;">F</span>). <span style="color: #a8a8a8;">% F is the final element of the list</span>
-  <span style="color: #a8a8a8;">% Your code here; change the above . to a ,</span>
+<span style="color: #feacd0;">isDigitList</span>(<span style="color: #00d3d0;">X</span>,<span style="color: #b6a0ff;">[</span><span style="color: #00d3d0;">H</span><span style="color: #b6a0ff;">|</span><span style="color: #00d3d0;">T</span><span style="color: #b6a0ff;">]</span>). <span style="color: #a8a8a8;">% Your code here; change the above . to a ,</span>
 </pre>
 </div>
-
-<p>
-Your definition must enforce that
-</p>
-<ul class="org-ul">
-<li>the last element of the list (<code>F</code>) is the same
-as the “ones” digit of <code>X</code>, and</li>
-<li>the remaining portion of the list matches the remaining
-digits of <code>X</code>.</li>
-</ul>
 
 <p>
 (Note this predicate can be thought of as checking if the given list contains
@@ -682,6 +689,8 @@ has the digits contained in a given list; hence, the “vice versa”.)
 <p>
 You may use this code to “drop the last element” of the list
 if you wish (in this part and the rest of the homework.)
+Updated September 23rd: this predicate is unlikely to be necessary
+for the updated version of this question.
 </p>
 <div class="org-src-container">
 <pre class="src src-prolog"><span style="color: #a8a8a8;">% </span><span style="color: #a8a8a8;">dropLast(L1,L2) if L2 is the list L1, leaving off the last item.</span>
@@ -694,7 +703,7 @@ if you wish (in this part and the rest of the homework.)
 </div>
 </div>
 
-<div id="outline-container-org3dde3b1" class="outline-2">
+<div id="outline-container-orgf10723f" class="outline-2">
 <h2 id="Part-3:-Palindrome-------------------------------------[10 points]">Part 3: Palindrome                                     [10 points]</h2>
 <div class="outline-text-2" id="text-Part-3:-Palindrome-------------------------------------[10 points]">
 <p>
@@ -712,7 +721,7 @@ palindrome([H|T]) :- ??? % H is the first element, L is the rest
 </div>
 </div>
 
-<div id="outline-container-org7781c44" class="outline-2">
+<div id="outline-container-org8376b48" class="outline-2">
 <h2 id="Part-4:-Prime-palindromes------------------------------[15 points]">Part 4: Prime palindromes                              [15 points]</h2>
 <div class="outline-text-2" id="text-Part-4:-Prime-palindromes------------------------------[15 points]">
 <p>
@@ -726,7 +735,7 @@ if a given integer is both
 </div>
 </div>
 
-<div id="outline-container-orgd05f9f1" class="outline-2">
+<div id="outline-container-org4f68d21" class="outline-2">
 <h2 id="Part-5:-Efficiency-------------------------------------[10 bonus_points]">Part 5: Efficiency                                     [10 bonus_points]</h2>
 <div class="outline-text-2" id="text-Part-5:-Efficiency-------------------------------------[10 bonus_points]">
 <p>
@@ -746,12 +755,99 @@ of your solutions.
 </div>
 </div>
 
-<div id="outline-container-org597d7b4" class="outline-2">
+<div id="outline-container-org5da7663" class="outline-2">
 <h2 id="Testing">Testing</h2>
 <div class="outline-text-2" id="text-Testing">
 <p>
-:TODO:
+As of September 23rd, unit tests for the requested predicates
+can be found <a href="./testing/h2/src/h2.plt">here</a>. Their contents are also repeated below.
 </p>
+
+<p>
+Important notes regarding this testing:
+</p>
+<ol class="org-ol">
+<li>Unlike homework 1, for homework 2 it is <i>mandatory</i>
+that your code pass these tests.</li>
+<li>There is no interface file that you need to complete.
+You still only need submit your <code>h2.pl</code> file.</li>
+<li>Passing these tests does not guarantee a particular grade.
+What has been provided is intended to act as a <i>sanity check</i>,
+and more thorough tests may be used in the grading process.</li>
+</ol>
+
+<p>
+The tests can be run by placing the <code>h2.plt</code> unit test file
+in the same directory as your <code>h2.pl</code>, and running the command
+</p>
+<div class="org-src-container">
+<pre class="src src-shell">swipl -t <span style="color: #79a8ff;">"load_test_files([]), run_tests."</span> -s h2.pl
+</pre>
+</div>
+<p>
+in your shell in that directory.
+</p>
+</div>
+
+<div id="outline-container-orgb35dded" class="outline-3">
+<h3 id="Automated-testing-via-Docker">Automated testing via Docker</h3>
+<div class="outline-text-3" id="text-Automated-testing-via-Docker">
+<p>
+:TODO: by end of day September 23rd
+</p>
+</div>
+</div>
+
+<div id="outline-container-org6adf53f" class="outline-3">
+<h3 id="The-tests">The tests</h3>
+<div class="outline-text-3" id="text-The-tests">
+<p>
+The contents of
+<a href="./testing/h2/src/h2.plt">the testing script</a>
+are repeated here.
+</p>
+<div class="org-src-container">
+<pre class="src src-prolog">:- begin_tests(h2).
+:- include(h2).
+
+
+<span style="color: #a8a8a8;">% </span><span style="color: #a8a8a8;">isPrime tests</span>
+
+<span style="color: #feacd0;">test</span>(five_is_prime, nondet) :- isPrime(5).
+<span style="color: #feacd0;">test</span>(sixty_seven_is_prime, nondet) :- isPrime(67).
+<span style="color: #a8a8a8;">% </span><span style="color: #a8a8a8;">The \+ means &#8220;it is not provable that.&#8221;</span>
+<span style="color: #feacd0;">test</span>(four_is_not_prime, nondet) :- \+ isPrime(4).
+<span style="color: #feacd0;">test</span>(one_hundred_is_not_prime, nondet) :- \+ isPrime(100).
+<span style="color: #a8a8a8;">% </span><span style="color: #a8a8a8;">Also test there are no &#8220;bad&#8221; proofs that primes are not prime.</span>
+<span style="color: #feacd0;">test</span>(not_five_is_not_prime, nondet) :- \+ not(isPrime(5)).
+
+
+
+<span style="color: #a8a8a8;">% </span><span style="color: #a8a8a8;">isDigitList tests</span>
+
+<span style="color: #feacd0;">test</span>(digit_list_12345, nondet) :- isDigitList(12345,<span style="color: #b6a0ff;">[</span>5,4,3,2,1<span style="color: #b6a0ff;">]</span>).
+<span style="color: #feacd0;">test</span>(not_digit_list_12345_grouped, nondet) :- \+ isDigitList(12345,<span style="color: #b6a0ff;">[</span>5,43,2,1<span style="color: #b6a0ff;">]</span>).
+
+
+
+<span style="color: #a8a8a8;">% </span><span style="color: #a8a8a8;">isPalindrome tests</span>
+
+<span style="color: #feacd0;">test</span>(empty_palindrome, nondet) :- isPalindrome(<span style="color: #b6a0ff;">[]</span>).
+<span style="color: #feacd0;">test</span>(pair_palindrome, nondet) :- isPalindrome(<span style="color: #b6a0ff;">[</span>1,1<span style="color: #b6a0ff;">]</span>).
+<span style="color: #feacd0;">test</span>(steponnopets_palindrome, nondet) :- isPalindrome(<span style="color: #b6a0ff;">[</span>s,t,e,p,o,n,n,o,p,e,t,s<span style="color: #b6a0ff;">]</span>).
+<span style="color: #feacd0;">test</span>(palindrome_elements_atomic, nondet) :- \+ isPalindrome(<span style="color: #b6a0ff;">[</span>12, 21<span style="color: #b6a0ff;">]</span>).
+
+
+
+<span style="color: #a8a8a8;">% </span><span style="color: #a8a8a8;">primePalindrome tests</span>
+
+<span style="color: #feacd0;">test</span>(eleven_prime_palindrome, nondet) :- primePalindrome(11).
+<span style="color: #feacd0;">test</span>(nine_twenty_nine_prime_palindrome, nondet) :- primePalindrome(929).
+<span style="color: #feacd0;">test</span>(not_thirteen_prime_palindrome, nondet) :- \+ primePalindrome(13).
+<span style="color: #feacd0;">test</span>(not_twenty_two_prime_palindrome, nondet) :- \+ primePalindrome(22).
+</pre>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -759,7 +855,7 @@ of your solutions.
 <p class="author">Author: Mark Armstrong</p>
      <p class="author">Contact: <a href="mailto:markparmstrong@gmail.com">markparmstrong@gmail.com</a></p>
      <p class="date">Original date: September 18th, 2020</p>
-     <p class="date">Last updated: 2020-09-21 Mon 13:46</p>
+     <p class="date">Last updated: 2020-09-23 Wed 01:22</p>
      <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.90 (<a href="https://orgmode.org">Org</a> mode 9.3.8)</p>
      <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
