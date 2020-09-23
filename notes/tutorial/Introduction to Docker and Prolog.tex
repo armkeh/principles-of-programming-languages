@@ -1,0 +1,1054 @@
+\documentclass[11pt]{article}
+
+    \usepackage[breakable]{tcolorbox}
+    \usepackage{parskip} % Stop auto-indenting (to mimic markdown behaviour)
+    
+    \usepackage{iftex}
+    \ifPDFTeX
+    	\usepackage[T1]{fontenc}
+    	\usepackage{mathpazo}
+    \else
+    	\usepackage{fontspec}
+    \fi
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % Maintain compatibility with old templates. Remove in nbconvert 6.0
+    \let\Oldincludegraphics\includegraphics
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionFormat{nocaption}{}
+    \captionsetup{format=nocaption,aboveskip=0pt,belowskip=0pt}
+
+    \usepackage{float}
+    \floatplacement{figure}{H} % forces figures to be placed at the correct location
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics 
+                         % to support a larger range
+    \makeatletter % fix for old versions of grffile with XeLaTeX
+    \@ifpackagelater{grffile}{2019/11/01}
+    {
+      % Do nothing on new versions
+    }
+    {
+      \def\Gread@@xetex#1{%
+        \IfFileExists{"\Gin@base".bb}%
+        {\Gread@eps{\Gin@base.bb}}%
+        {\Gread@@xetex@aux#1}%
+      }
+    }
+    \makeatother
+    \usepackage[Export]{adjustbox} % Used to constrain images to a maximum size
+    \adjustboxset{max size={0.9\linewidth}{0.9\paperheight}}
+
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    % The default LaTeX title has an obnoxious amount of whitespace. By default,
+    % titling removes some of it. It also provides customization options.
+    \usepackage{titling}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{mathrsfs}
+    
+
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % common color for the border for error outputs.
+    \definecolor{outerrorbackground}{HTML}{FFDFDF}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+    
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    
+    
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \def\gt{>}
+    \def\lt{<}
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+    % Document parameters
+    % Document title
+    \title{Introduction to Docker and Prolog}
+    
+    
+    
+    
+    
+% Pygments definitions
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\expandafter\def\csname PY@tok@w\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\expandafter\def\csname PY@tok@c\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.74,0.48,0.00}{##1}}}
+\expandafter\def\csname PY@tok@k\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\expandafter\def\csname PY@tok@o\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ow\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@ne\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.82,0.25,0.23}{##1}}}
+\expandafter\def\csname PY@tok@nv\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@no\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ni\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.60,0.60,0.60}{##1}}}
+\expandafter\def\csname PY@tok@na\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.49,0.56,0.16}{##1}}}
+\expandafter\def\csname PY@tok@nt\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@s\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sd\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@si\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@se\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sr\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@ss\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sx\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@m\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gh\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gu\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gr\endcsname{\def\PY@tc##1{\textcolor[rgb]{1.00,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ge\endcsname{\let\PY@it=\textit}
+\expandafter\def\csname PY@tok@gs\endcsname{\let\PY@bf=\textbf}
+\expandafter\def\csname PY@tok@gp\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@go\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.53,0.53}{##1}}}
+\expandafter\def\csname PY@tok@gt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\expandafter\def\csname PY@tok@err\endcsname{\def\PY@bc##1{\setlength{\fboxsep}{0pt}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}
+\expandafter\def\csname PY@tok@kc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kd\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kr\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@bp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@fm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@vc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vg\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sa\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@dl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s2\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s1\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@mb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@il\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mo\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ch\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cm\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cpf\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@c1\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cs\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % For linebreaks inside Verbatim environment from package fancyvrb. 
+    \makeatletter
+        \newbox\Wrappedcontinuationbox 
+        \newbox\Wrappedvisiblespacebox 
+        \newcommand*\Wrappedvisiblespace {\textcolor{red}{\textvisiblespace}} 
+        \newcommand*\Wrappedcontinuationsymbol {\textcolor{red}{\llap{\tiny$\m@th\hookrightarrow$}}} 
+        \newcommand*\Wrappedcontinuationindent {3ex } 
+        \newcommand*\Wrappedafterbreak {\kern\Wrappedcontinuationindent\copy\Wrappedcontinuationbox} 
+        % Take advantage of the already applied Pygments mark-up to insert 
+        % potential linebreaks for TeX processing. 
+        %        {, <, #, %, $, ' and ": go to next line. 
+        %        _, }, ^, &, >, - and ~: stay at end of broken line. 
+        % Use of \textquotesingle for straight quote. 
+        \newcommand*\Wrappedbreaksatspecials {% 
+            \def\PYGZus{\discretionary{\char`\_}{\Wrappedafterbreak}{\char`\_}}% 
+            \def\PYGZob{\discretionary{}{\Wrappedafterbreak\char`\{}{\char`\{}}% 
+            \def\PYGZcb{\discretionary{\char`\}}{\Wrappedafterbreak}{\char`\}}}% 
+            \def\PYGZca{\discretionary{\char`\^}{\Wrappedafterbreak}{\char`\^}}% 
+            \def\PYGZam{\discretionary{\char`\&}{\Wrappedafterbreak}{\char`\&}}% 
+            \def\PYGZlt{\discretionary{}{\Wrappedafterbreak\char`\<}{\char`\<}}% 
+            \def\PYGZgt{\discretionary{\char`\>}{\Wrappedafterbreak}{\char`\>}}% 
+            \def\PYGZsh{\discretionary{}{\Wrappedafterbreak\char`\#}{\char`\#}}% 
+            \def\PYGZpc{\discretionary{}{\Wrappedafterbreak\char`\%}{\char`\%}}% 
+            \def\PYGZdl{\discretionary{}{\Wrappedafterbreak\char`\$}{\char`\$}}% 
+            \def\PYGZhy{\discretionary{\char`\-}{\Wrappedafterbreak}{\char`\-}}% 
+            \def\PYGZsq{\discretionary{}{\Wrappedafterbreak\textquotesingle}{\textquotesingle}}% 
+            \def\PYGZdq{\discretionary{}{\Wrappedafterbreak\char`\"}{\char`\"}}% 
+            \def\PYGZti{\discretionary{\char`\~}{\Wrappedafterbreak}{\char`\~}}% 
+        } 
+        % Some characters . , ; ? ! / are not pygmentized. 
+        % This macro makes them "active" and they will insert potential linebreaks 
+        \newcommand*\Wrappedbreaksatpunct {% 
+            \lccode`\~`\.\lowercase{\def~}{\discretionary{\hbox{\char`\.}}{\Wrappedafterbreak}{\hbox{\char`\.}}}% 
+            \lccode`\~`\,\lowercase{\def~}{\discretionary{\hbox{\char`\,}}{\Wrappedafterbreak}{\hbox{\char`\,}}}% 
+            \lccode`\~`\;\lowercase{\def~}{\discretionary{\hbox{\char`\;}}{\Wrappedafterbreak}{\hbox{\char`\;}}}% 
+            \lccode`\~`\:\lowercase{\def~}{\discretionary{\hbox{\char`\:}}{\Wrappedafterbreak}{\hbox{\char`\:}}}% 
+            \lccode`\~`\?\lowercase{\def~}{\discretionary{\hbox{\char`\?}}{\Wrappedafterbreak}{\hbox{\char`\?}}}% 
+            \lccode`\~`\!\lowercase{\def~}{\discretionary{\hbox{\char`\!}}{\Wrappedafterbreak}{\hbox{\char`\!}}}% 
+            \lccode`\~`\/\lowercase{\def~}{\discretionary{\hbox{\char`\/}}{\Wrappedafterbreak}{\hbox{\char`\/}}}% 
+            \catcode`\.\active
+            \catcode`\,\active 
+            \catcode`\;\active
+            \catcode`\:\active
+            \catcode`\?\active
+            \catcode`\!\active
+            \catcode`\/\active 
+            \lccode`\~`\~ 	
+        }
+    \makeatother
+
+    \let\OriginalVerbatim=\Verbatim
+    \makeatletter
+    \renewcommand{\Verbatim}[1][1]{%
+        %\parskip\z@skip
+        \sbox\Wrappedcontinuationbox {\Wrappedcontinuationsymbol}%
+        \sbox\Wrappedvisiblespacebox {\FV@SetupFont\Wrappedvisiblespace}%
+        \def\FancyVerbFormatLine ##1{\hsize\linewidth
+            \vtop{\raggedright\hyphenpenalty\z@\exhyphenpenalty\z@
+                \doublehyphendemerits\z@\finalhyphendemerits\z@
+                \strut ##1\strut}%
+        }%
+        % If the linebreak is at a space, the latter will be displayed as visible
+        % space at end of first line, and a continuation symbol starts next line.
+        % Stretch/shrink are however usually zero for typewriter font.
+        \def\FV@Space {%
+            \nobreak\hskip\z@ plus\fontdimen3\font minus\fontdimen4\font
+            \discretionary{\copy\Wrappedvisiblespacebox}{\Wrappedafterbreak}
+            {\kern\fontdimen2\font}%
+        }%
+        
+        % Allow breaks at special characters using \PYG... macros.
+        \Wrappedbreaksatspecials
+        % Breaks at punctuation characters . , ; ? ! and / need catcode=\active 	
+        \OriginalVerbatim[#1,codes*=\Wrappedbreaksatpunct]%
+    }
+    \makeatother
+
+    % Exact colors from NB
+    \definecolor{incolor}{HTML}{303F9F}
+    \definecolor{outcolor}{HTML}{D84315}
+    \definecolor{cellborder}{HTML}{CFCFCF}
+    \definecolor{cellbackground}{HTML}{F7F7F7}
+    
+    % prompt
+    \makeatletter
+    \newcommand{\boxspacing}{\kern\kvtcb@left@rule\kern\kvtcb@boxsep}
+    \makeatother
+    \newcommand{\prompt}[4]{
+        {\ttfamily\llap{{\color{#2}[#3]:\hspace{3pt}#4}}\vspace{-\baselineskip}}
+    }
+    
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy 
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+\begin{document}
+    
+    \maketitle
+    
+    
+
+    
+    \hypertarget{introduction-to-docker-and-how-to-use-it.}{%
+\section{Introduction to Docker and how to use
+it.}\label{introduction-to-docker-and-how-to-use-it.}}
+
+Docker is a set of platform as a service (PaaS) products that use
+OS-level virtualization to deliver software in packages called
+containers.Containers are isolated from one another and bundle their own
+software, libraries and configuration files; they can communicate with
+each other through well-defined channels. All containers are run by a
+single operating system kernel and therefore use fewer resources than
+virtual machines.
+
+\href{https://www.docker.com/}{Docker is free to download}.
+
+\hypertarget{install-docker}{%
+\subsection{Install Docker}\label{install-docker}}
+
+\hypertarget{how-to-install-docker-in-windows.}{%
+\subsubsection{How to install docker in
+windows.}\label{how-to-install-docker-in-windows.}}
+
+For this purpose it is better to install Ubuntu as a subsystem for
+windows. Then we can run docker using the terminal of the Subsystem we
+installed. Lets have a look and see how we can do this.
+
+\hypertarget{how-to-install-docker-in-mac.}{%
+\subsubsection{How to install docker in
+Mac.}\label{how-to-install-docker-in-mac.}}
+
+Installing docker desktop in Mac is straightforward. Lets have look at
+this process as well.
+
+\hypertarget{how-to-install-docker-in-ubuntu}{%
+\subsubsection{How to install docker in
+ubuntu}\label{how-to-install-docker-in-ubuntu}}
+
+\href{https://docs.docker.com/engine/install/ubuntu/}{Installing docker
+on Ubuntu}
+
+\hypertarget{interact-with-docker}{%
+\subsection{Interact with Docker}\label{interact-with-docker}}
+
+In order to use Docker we, need to first generate images with an OS
+kernel and configuration that necessary for an specific operation. We
+can do this by defining the \texttt{Dockerfile} Lets have a close look
+at an example to understand how it works:
+
+    \begin{Shaded}
+\begin{Highlighting}[]
+
+\CommentTok{\# This Dockerfile has two required ARGs to determine which base image}
+\CommentTok{\# to use for the JDK and which sbt version to install.}
+
+\CommentTok{\# Define the argument for openjdk version}
+\KeywordTok{ARG}\NormalTok{ OPENJDK\_TAG=8u232}
+\CommentTok{\# Do the packaging based on openjdk}
+\KeywordTok{FROM}\NormalTok{ openjdk:8u232}
+
+\CommentTok{\# Set the name of the maintainers}
+\KeywordTok{MAINTAINER}\NormalTok{ Habib Ghaffari Hadigheh, Mark Armstrong \textless{}ghaffh1@mcmaster.ca, armstmp@mcmaster.ca\textgreater{}}
+
+\KeywordTok{RUN}\NormalTok{ apt{-}get update \&\& \textbackslash{}}
+\NormalTok{  apt{-}get install scala {-}y \&\& \textbackslash{}}
+\NormalTok{  apt{-}get install {-}y curl \&\& \textbackslash{}}
+\NormalTok{  sh {-}c }\StringTok{\textquotesingle{}(echo "\#!/usr/bin/env sh" \&\& \textbackslash{}}
+\StringTok{  curl {-}L https://github.com/lihaoyi/Ammonite/releases/download/2.1.1/2.12{-}2.1.1) \textgreater{} /usr/local/bin/amm \&\& \textbackslash{}}
+\StringTok{  chmod +x /usr/local/bin/amm\textquotesingle{}}
+
+\CommentTok{\# Set the working directory}
+\KeywordTok{WORKDIR}\NormalTok{ /opt/h1}
+\end{Highlighting}
+\end{Shaded}
+
+    \hypertarget{basic-commands-to-work-with-docker}{%
+\subsection{Basic commands to work with
+Docker}\label{basic-commands-to-work-with-docker}}
+
+If you want to use docker as tool for implementation, you may need to
+know lots of commands, here is
+\href{https://www.docker.com/sites/default/files/d8/2019-09/docker-cheat-sheet.pdf}{cheat
+sheet} for this purpose. But in this course it is not necessery to learn
+and remeber many complicated processes. Here is a short list of command
+you may/may not use in this course:
+
+\begin{itemize}
+\tightlist
+\item
+  Build
+\end{itemize}
+
+\begin{verbatim}
+docker build [OPTIONS] PATH | URL | -
+\end{verbatim}
+
+\begin{itemize}
+\tightlist
+\item
+  Run
+\end{itemize}
+
+\begin{verbatim}
+docker run [OPTIONS] IMAGE [COMMAND] [ARG...]
+\end{verbatim}
+
+\begin{itemize}
+\tightlist
+\item
+  See the list of images:
+\end{itemize}
+
+\begin{verbatim}
+docker images
+\end{verbatim}
+
+\begin{itemize}
+\tightlist
+\item
+  See the list of containers
+\end{itemize}
+
+\begin{verbatim}
+docker ps [OPTIONS]
+\end{verbatim}
+
+Learning all the commands and optoins take time. The best resource for
+biggners to start with docker is
+\href{https://kodekloud.com/p/docker-for-the-absolute-beginner-hands-on}{this}
+online free course.
+
+\hypertarget{how-to-use-it-for-the-purpose-of-this-course}{%
+\subsection{How to use it for the purpose of this
+course}\label{how-to-use-it-for-the-purpose-of-this-course}}
+
+We already defined the \texttt{Dockerfile} with all necessary packages
+and library necassery for you. We also definde a
+\texttt{docker-compose.yml} file that will help you in the process of
+building the images, as well as running/stoping the containers.
+
+Lets see how you can do that.
+
+\href{https://armkeh.github.io/principles-of-programming-languages/homework/h1.html\#Testing}{Here}
+is the link of the Docker test for h1.
+
+Now we are going to build and run the test to see how it works.
+
+\href{https://github.com/armkeh/principles-of-programming-languages/tree/master/homework/testing/h1}{h1
+test using docker}
+
+    \hypertarget{learning-inference-rules}{%
+\section{Learning Inference Rules}\label{learning-inference-rules}}
+
+We are using inference rules in this course for two main reasons:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  To understand the semantics of programming languages.
+\item
+  Discuss the type systems.
+\end{enumerate}
+
+\begin{itemize}
+\tightlist
+\item
+  Prolog is a programming language that is all about inference rules.
+  That is why we are covering it at the begging of the course this year.
+\end{itemize}
+
+\hypertarget{prolog}{%
+\subsection{Prolog}\label{prolog}}
+
+Prolog programs are simply databases of inference rules, also called
+clauses. Let have a look at a simple inference rule.
+
+\(\cfrac{A_1\text{ }A_2\text{ }...\text{ }A_n}{B}\)
+
+Lets see how we can write it down in Prolog:
+
+    \begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{b }\KeywordTok{:{-}}\NormalTok{ a1}\KeywordTok{,}\NormalTok{ a2}\KeywordTok{,}\NormalTok{ a3}\KeywordTok{,}\NormalTok{ a4}\KeywordTok{,}\NormalTok{ a5}\KeywordTok{.}
+\end{Highlighting}
+\end{Shaded}
+
+    We can seperate the permisis by \texttt{,}. This rule states that \(b\)
+is true if all of the \(a_i\) are true. So we can think of \texttt{:-}
+as \(\leftarrow\). Notice the \textbf{period} ending the rule.
+
+Now lets have a look at a very simple axiom:
+
+\(\begin{array}{c}  \\  \hline  C  \end{array}\)
+
+We can write this in prolog as
+
+    \begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{c }\KeywordTok{:{-}} \KeywordTok{true.}
+\end{Highlighting}
+\end{Shaded}
+
+or more simply,
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{c}\KeywordTok{.}
+\end{Highlighting}
+\end{Shaded}
+
+    How we can get output from sequence of inference rules?
+
+\hypertarget{get-output-from-sequence-of-inference-rules}{%
+\subsection{Get output from sequence of inference
+rules}\label{get-output-from-sequence-of-inference-rules}}
+
+To interact with prolog programs, we make queries, to which Prolog
+reponds by checking its inference rule database to determine possible
+anwsers. Lets have a look at one example:
+
+\hypertarget{list-catenatoin}{%
+\subsubsection{List catenatoin}\label{list-catenatoin}}
+
+List catenation in SWI prolog is a \textbf{ternary predicate}. Here is
+how it's written
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{append(}\DataTypeTok{X}\KeywordTok{,}\DataTypeTok{Y}\KeywordTok{,}\DataTypeTok{Z}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+the rule of which enforce that \texttt{Z} is the result of catenating
+\texttt{X} and \texttt{Y}.
+
+lets have a look and see which kinds of queries we cand make:
+
+\begin{itemize}
+\tightlist
+\item
+  Is \texttt{{[}1,2,3,4{]}} the result of catenating \texttt{{[}1,2{]}},
+  and \texttt{{[}3,4{]}}?
+\end{itemize}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{1}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}}\PY{k}{script} swipl \PYZhy{}q
+append([1,2],[3,4],[1,2,3,4]).
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+true.
+
+
+    \end{Verbatim}
+
+    \begin{itemize}
+\tightlist
+\item
+  What are the possible values of \texttt{Z} for which \texttt{Z} is the
+  catenation of \texttt{{[}1,2,3{]}} and \texttt{{[}4,5,6{]}}?
+\end{itemize}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{2}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}}\PY{k}{script} swipl \PYZhy{}q
+append([1,2,3],[4,5,6],Z).
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Z = [1, 2, 3, 4, 5, 6].
+
+
+    \end{Verbatim}
+
+    What are the possible values of \texttt{X} and \texttt{Y} so that, when
+they are catenated, the result is \texttt{{[}1,2,3,4,5,6{]}}?
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{3}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}}\PY{k}{script} swipl \PYZhy{}q
+append(X,Y, [1,2,3,4,5,6]).
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+X = [],
+Y = [1, 2, 3, 4, 5, 6]
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+ERROR: Type error: `character\_code' expected, found `-1' (an integer)
+ERROR: In:
+ERROR:   [11] char\_code(\_23930,-1)
+ERROR:   [10] '\$in\_reply'(-1,'?h') at /usr/local/Cellar/swi-
+prolog/8.2.1/libexec/lib/swipl/boot/init.pl:911
+    \end{Verbatim}
+
+    The reponse will be:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+
+\DataTypeTok{X} \KeywordTok{=}\NormalTok{ []}\KeywordTok{,}
+\DataTypeTok{Y} \KeywordTok{=}\NormalTok{ [}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{5}\NormalTok{, }\DecValTok{6}\NormalTok{] }\KeywordTok{;}
+\DataTypeTok{X} \KeywordTok{=}\NormalTok{ [}\DecValTok{1}\NormalTok{]}\KeywordTok{,}
+\DataTypeTok{Y} \KeywordTok{=}\NormalTok{ [}\DecValTok{2}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{5}\NormalTok{, }\DecValTok{6}\NormalTok{] }\KeywordTok{;}
+\DataTypeTok{X} \KeywordTok{=}\NormalTok{ [}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{]}\KeywordTok{,}
+\DataTypeTok{Y} \KeywordTok{=}\NormalTok{ [}\DecValTok{3}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{5}\NormalTok{, }\DecValTok{6}\NormalTok{] }\KeywordTok{;}
+\DataTypeTok{X} \KeywordTok{=}\NormalTok{ [}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{3}\NormalTok{]}\KeywordTok{,}
+\DataTypeTok{Y} \KeywordTok{=}\NormalTok{ [}\DecValTok{4}\NormalTok{, }\DecValTok{5}\NormalTok{, }\DecValTok{6}\NormalTok{] }\KeywordTok{;}
+\DataTypeTok{X} \KeywordTok{=}\NormalTok{ [}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{4}\NormalTok{]}\KeywordTok{,}
+\DataTypeTok{Y} \KeywordTok{=}\NormalTok{ [}\DecValTok{5}\NormalTok{, }\DecValTok{6}\NormalTok{] }\KeywordTok{;}
+\DataTypeTok{X} \KeywordTok{=}\NormalTok{ [}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{5}\NormalTok{]}\KeywordTok{,}
+\DataTypeTok{Y} \KeywordTok{=}\NormalTok{ [}\DecValTok{6}\NormalTok{] }\KeywordTok{;}
+\DataTypeTok{X} \KeywordTok{=}\NormalTok{ [}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{5}\NormalTok{, }\DecValTok{6}\NormalTok{]}\KeywordTok{,}
+\DataTypeTok{Y} \KeywordTok{=}\NormalTok{ [] }\KeywordTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+    \textbf{Note:} In this way, we get several ``functions'' from one
+predicate, depending upon what question(s) we ask!
+
+    \hypertarget{names-kinds-of-tems}{%
+\subsection{Names, kinds of tems}\label{names-kinds-of-tems}}
+
+\begin{itemize}
+\item
+  In Prolog, any \textbf{name} begining with an upper case letter
+  denotes a variable.
+\item
+  Names which begin with lower case letters are \textbf{atoms}. which
+  are a type of constant value. Atoms may be used as the name of
+  predicates.
+\end{itemize}
+
+\textbf{Note:} You should avoid calling atome functions, because they
+are relations. Functions are special kind of relations/predicates that
+are single-value.
+
+\begin{itemize}
+\tightlist
+\item
+  Character strings surrounded by single quotes, are also atoms. So we
+  can write
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\StringTok{\textquotesingle{}}\ErrorTok{is}\AlertTok{ }\ErrorTok{an}\AlertTok{ }\ErrorTok{empty}\AlertTok{ }\ErrorTok{list}\StringTok{\textquotesingle{}}\NormalTok{([])}\KeywordTok{.}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{itemize}
+\item
+  As you would expect, Prolog also has numerical constants, such as
+  \texttt{1} or \texttt{3.14}.
+\item
+  Aside from what described above, the remianing kind or Prolog term is
+  a \emph{structure}, which has the fome below:
+\end{itemize}
+
+\begin{verbatim}
+atom(term1,...,terml)
+\end{verbatim}
+
+As you can see the syntax is simple, the main important and probably
+problmatic part of Prolog is simantics of it.
+
+\hypertarget{interacting-with-prolog}{%
+\subsection{Interacting with Prolog}\label{interacting-with-prolog}}
+
+As we've said, a Prolog program consist of clauses (inference rules.) As
+an example have a look at this clause:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+
+\NormalTok{head(}\DataTypeTok{X}\NormalTok{) }\KeywordTok{:{-}}\NormalTok{ body(}\DataTypeTok{X}\KeywordTok{,}\DataTypeTok{Y}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Which can be interpreted as below:
+
+\(\forall X, head(X) \leftarrow (\exists Y, body(X,Y))\)
+
+Then during computation, given this cluase and the goal
+\texttt{head(X)}, the Prolog runtime is tasked with finding a
+substitution for \texttt{Y} which makes \texttt{body(X,Y)} true.
+
+We provide Prolog with goals through queries, usually by loading our
+programs into the interactive query REPL, either by running
+
+\begin{verbatim}
+swipl my_program.pl
+\end{verbatim}
+
+from the command line, or
+
+\begin{Shaded}
+\begin{Highlighting}[]
+
+\FunctionTok{?{-}}\NormalTok{ consult(}\StringTok{\textquotesingle{}}\ErrorTok{my\_program}\StringTok{.}\ErrorTok{pl}\StringTok{\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+once runing SWI Prolog.
+
+We can also \texttt{assert} or \texttt{retract} rules in the query REPL.
+if needed. Let have look at that.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{4}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}}\PY{k}{script} swipl \PYZhy{}q
+assert(c).
+c.
+retract(c).
+c.
+assert(d).
+assert(c :\PYZhy{} d).
+c.
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+true.
+
+true.
+
+true.
+
+false.
+
+true.
+
+true.
+
+true.
+
+
+    \end{Verbatim}
+
+    Also, use \texttt{listing} or \texttt{listing(name)} to see all given
+clauses or clauses about the \texttt{name} predicate.
+
+\hypertarget{unification}{%
+\subsection{Unification}\label{unification}}
+
+The computation of model of Prolog involves \emph{unification} of terms.
+Terms unify if either: 1. They are equal, or 1. They contain variables
+that can be \textbf{instantiated} in a way that makes the terms equal.
+
+We saw an example of this when we are using
+\texttt{append(X,Y,{[}1,2,3,4{]}}). Prolog tries to find us a possible
+bining. If it cannot then it reply false.
+
+So in general, unification involves searching for possible variable
+binings, by making use of the clauses, and modus ponens
+
+\((P \land P\Rightarrow Q) \Rightarrow Q\)
+
+\hypertarget{the-goal-list}{%
+\subsubsection{The goal list}\label{the-goal-list}}
+
+Through this process, the single goal presented by a quey will usually
+turn into a collection of goals; For instance if we query
+\texttt{?-\ P(5).} and the search uses a clause
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{p(}\DataTypeTok{X}\NormalTok{) }\KeywordTok{:{-}} \DataTypeTok{Q}\NormalTok{(}\DataTypeTok{X}\NormalTok{)}\KeywordTok{,} \DataTypeTok{R}\NormalTok{(}\DataTypeTok{X}\NormalTok{)}\KeywordTok{.}
+\end{Highlighting}
+\end{Shaded}
+
+then we now have as goals \texttt{q(X)} and \texttt{r(X)}.
+
+Now the goals will change to \texttt{q(5)} and \texttt{r(5)}.
+
+\hypertarget{backtracking}{%
+\subsubsection{Backtracking}\label{backtracking}}
+
+Now we are defining a small program:
+
+$ a \leftarrow b \land c $
+
+$ a \leftarrow b$
+
+$ b = \top$
+
+$ c = \bot$
+
+Here is how we write it in prolog:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{a }\KeywordTok{:{-}}\NormalTok{ b}\KeywordTok{,}\NormalTok{ c}\KeywordTok{.}
+\NormalTok{a }\KeywordTok{:{-}}\NormalTok{ b}\KeywordTok{.}
+
+\NormalTok{b}\KeywordTok{.}
+\NormalTok{c }\KeywordTok{:{-}} \KeywordTok{false.}
+\end{Highlighting}
+\end{Shaded}
+
+This will be the result of \texttt{?-\ trace.} command:
+
+\begin{verbatim}
+[trace]  ?- a.
+   Call: (10) a ? creep
+   Call: (11) b ? creep
+   Exit: (11) b ? creep
+   Call: (11) c ? creep
+   Call: (12) false ? creep
+   Fail: (12) false ? creep
+   Fail: (11) c ? creep
+   Redo: (10) a ? creep
+   Call: (11) b ? creep
+   Exit: (11) b ? creep
+   Exit: (10) a ? creep
+true.
+
+\end{verbatim}
+
+As Prolog runtime tries to prove a, it will use the first rule, and
+\texttt{fail} (because in trying to prove \texttt{c}, it reaches
+\texttt{false}, which it cannot prove.). At that point it has to
+\textbf{backtrack}, and try a different clause to prove \texttt{a}.
+
+In general runtime will backtrac serveral times during a proof, and it
+keeps track of which clauses have been tried.
+
+\hypertarget{swi-prologs-search-strategy}{%
+\subsubsection{SWI Prolog's search
+strategy}\label{swi-prologs-search-strategy}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Attempt to apply clauses in order from top to bottom (as in the source
+  code).
+\end{enumerate}
+
+\begin{itemize}
+\tightlist
+\item
+  Only backtrack and try other clauses after success and failure.
+\end{itemize}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Perform a depth first search to prove each goal.
+\end{enumerate}
+
+\begin{itemize}
+\tightlist
+\item
+  So if the current goal are \texttt{b} and \texttt{c}, try to prove
+  \texttt{b} before considering \texttt{c}.
+\end{itemize}
+
+\hypertarget{examining-the-search-strategy}{%
+\subsubsection{Examining the search
+strategy}\label{examining-the-search-strategy}}
+
+In order to interactively see the process Prologe is using during
+unification, use the trace. command in the REPL. Then each query will
+result in a log of calls made and failures encoutered.
+
+\hypertarget{equality}{%
+\subsection{Equality}\label{equality}}
+
+Prolog has an equality comparision, written simply \texttt{=} (not
+\texttt{==}). \textbf{However}, this equality does not simplification.
+So. for instance, if a variable \texttt{X} has been unified to value
+\texttt{5}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DataTypeTok{X} \KeywordTok{=} \DecValTok{5}
+\end{Highlighting}
+\end{Shaded}
+
+would be \texttt{true}. but
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DataTypeTok{X}\KeywordTok{=} \DecValTok{2} \FunctionTok{+} \DecValTok{3}
+\end{Highlighting}
+\end{Shaded}
+
+would be \texttt{false}.
+
+Lets try it out very quickly:
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{5}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}}\PY{k}{script} swipl \PYZhy{}q
+5 = 2 + 3.
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+false.
+
+
+    \end{Verbatim}
+
+    How we can do this comparison?
+
+    This non-simplifying equality allows us to conisder construction of
+terms, rather that just their value. But in case we want to actually
+carry out arithmetic or calculate other values, we can use the
+\texttt{is} comparison.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{6}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{o}{\PYZpc{}\PYZpc{}}\PY{k}{script} swipl \PYZhy{}q
+5 is 2 + 3.
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+true.
+
+
+    \end{Verbatim}
+
+    \hypertarget{exerting-control-over-the-search-the-cut-operator}{%
+\subsection{Exerting control over the search; the cut
+operator}\label{exerting-control-over-the-search-the-cut-operator}}
+
+In part because Prolog's searching mechanism can be naive, the
+programmer is given a certain amount of control over the search.
+
+The most important mechanism for controlling the search that we will see
+is the cut.
+
+A cut is written \texttt{!}, and can be understood as "no backtracking
+is allowed to go beyond this point
+
+\hypertarget{checking-for-divisors-of-a-number}{%
+\subsection{Checking for divisors of a
+number}\label{checking-for-divisors-of-a-number}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{hasDivisorLessThanOrEqualTo(}\DataTypeTok{\_}\KeywordTok{,}\DecValTok{1}\NormalTok{) }\KeywordTok{:{-}} \KeywordTok{!,} \KeywordTok{false.}
+\NormalTok{hasDivisorLessThanOrEqualTo(}\DataTypeTok{X}\KeywordTok{,}\DataTypeTok{Y}\NormalTok{) }\KeywordTok{:{-}} \DecValTok{0} \DataTypeTok{is} \DataTypeTok{X} \DecValTok{mod} \DataTypeTok{Y}\KeywordTok{,} \KeywordTok{!.}
+\NormalTok{hasDivisorLessThanOrEqualTo(}\DataTypeTok{X}\KeywordTok{,}\DataTypeTok{Y}\NormalTok{) }\KeywordTok{:{-}} \DataTypeTok{Z} \DataTypeTok{is} \DataTypeTok{Y} \DataTypeTok{{-}} \DecValTok{1}\KeywordTok{,}\NormalTok{ hasDivisorLessThanOrEqualTo(}\DataTypeTok{X}\KeywordTok{,}\DataTypeTok{Z}\NormalTok{)}\KeywordTok{.}
+\end{Highlighting}
+\end{Shaded}
+
+Lets try this out to see what is the results:
+
+\begin{verbatim}
+\end{verbatim}
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+\end{document}
