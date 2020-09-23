@@ -19,6 +19,8 @@ better viewed at
     
       - **I've had to make one more edit to the provided code** **for
         `isDigitList`; don't include the cut in the first case**.
+      - Habib's tutorial notes are now posted in the literate programs
+        section of the homepage.
 
   - September 23  
     There has been a change to the `isDigitList` question in homework 2.
@@ -374,8 +376,10 @@ coding lecture. In many cases, the content will be shared.
 
 ### Wednesday September 23rd – Docker and Prolog
 
-  - [Jupyter
-    notebook](./notes/tutorial/Introduction%20to%20Docker%20and%20Prolog.ipynb)
+  - [Prettified Jupyter notebook on
+    GitHub](https://github.com/armkeh/principles-of-programming-languages/blob/master/notes/tutorial/Introduction%20to%20Docker%20and%20Prolog.ipynb)
+  - [Jupyter notebook
+    source](./notes/tutorial/Introduction%20to%20Docker%20and%20Prolog.ipynb)
   - [PDF](./notes/tutorial/Introduction%20to%20Docker%20and%20Prolog.pdf)
 
 # Recordings
