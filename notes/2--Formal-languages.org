@@ -27,6 +27,25 @@
 #+LaTeX_header: \usepackage{unicode-math}
 #+LaTeX_header: \usepackage{unicode}
 
+* Setup                                         :noexport:
+
+** Image creation post-processing
+
+We need to prepend the images resulting from ~dot~ code blocks
+with a LaTeX attribute to resize them, or else they run off the page.
+This named code block for this task is taken from
+[[https://orgmode.org/manual/Results-of-Evaluation.html][the Org manual]], augmented to allow for centering.
+We should always provide ~*this*~ for the ~data~ argument.
+as in ~:post attr_wrap(data=*this*)~,
+and also always set ~:exports results :results drawer~.
+If we don't put the results in the drawer, they will pile up
+as we evaluate the code block.
+#+NAME: attr_wrap
+#+BEGIN_SRC sh :var data="" :var width="\\\\textwidth" :var center="t" :results output
+  echo "#+ATTR_LATEX: :width $width :center $center"
+  echo "$data"
+#+END_SRC
+
 * Preamble
 :PROPERTIES:
 :CUSTOM_ID: Preamble
@@ -41,7 +60,7 @@ as a /formal/ language.
 Several small formal languages (not full programming languages)
 are used as examples of the use of these tools.
 
-** TODO Table of contents
+** Table of contents
 :PROPERTIES:
 :CUSTOM_ID: Table-of-contents
 :END:
@@ -52,21 +71,112 @@ are used as examples of the use of these tools.
 
 #+HTML: <font size="-1">
 #+begin_scriptsize
-
+  - [[Preamble][Preamble]]
+    - [[Table of contents][Table of contents]]
+    - [[Notable references][Notable references]]
+    - [[Version history][Version history]]
+      - [[September 23rd][September 23rd]]
+      - [[September 21st][September 21st]]
+      - [[September 16th][September 16th]]
+      - [[Beginning of course][Beginning of course]]
+  - [[Formal languages][Formal languages]]
+    - [[The usefulness of formal languages][The usefulness of formal languages]]
+    - [[Strings][Strings]]
+  - [[Describing the /syntax/ of formal languages][Describing the /syntax/ of formal languages]]
+    - [[Regular expressions as in formal language theory][Regular expressions as in formal language theory]]
+    - [[The language for a regular expression][The language for a regular expression]]
+    - [[Additional operators for more expressive regular expressions][Additional operators for more expressive regular expressions]]
+    - [[Regular expression examples][Regular expression examples]]
+    - [[Grammars as in formal language theory][Grammars as in formal language theory]]
+    - [[Notations for grammar productions in formal language theory][Notations for grammar productions in formal language theory]]
+    - [[Conventions for grammars][Conventions for grammars]]
+    - [[A simple example grammar][A simple example grammar]]
+    - [[Exercise – reading grammars][Exercise – reading grammars]]
+    - [[Grammars generate or recognise strings][Grammars generate or recognise strings]]
+    - [[Parse trees][Parse trees]]
+    - [[Example parse tree][Example parse tree]]
+    - [[Another example parse tree][Another example parse tree]]
+    - [[Exercise: creating parse trees][Exercise: creating parse trees]]
+    - [[Backus-Naur form (BNF)][Backus-Naur form (BNF)]]
+    - [[BNF details][BNF details]]
+    - [[Aside: ALGOL][Aside: ALGOL]]
+    - [[Extended Backus-Naur form (EBNF)][Extended Backus-Naur form (EBNF)]]
+    - [[EBNF details][EBNF details]]
+    - [[Exercise – translating to EBNF][Exercise – translating to EBNF]]
+    - [[EBNF's syntactic sugar][EBNF's syntactic sugar]]
+    - [[Exercise – a small language C-like language][Exercise – a small language C-like language]]
+    - [[Example – EBNF for C++][Example – EBNF for C++]]
+  - [[Parsing and executable code][Parsing and executable code]]
+    - [[Atomic syntactic units][Atomic syntactic units]]
+    - [[Lexemes and tokens][Lexemes and tokens]]
+    - [[Parsing][Parsing]]
+    - [[The zeroth step – preprocessing][The zeroth step – preprocessing]]
+    - [[The first step – lexical analysis][The first step – lexical analysis]]
+    - [[The second step – parsing (syntactic analysis)][The second step – parsing (syntactic analysis)]]
+    - [[The third step – (static) semantic analysis][The third step – (static) semantic analysis]]
+    - [[The fourth step – intermediate code generation][The fourth step – intermediate code generation]]
+    - [[Visualising the entire parsing process][Visualising the entire parsing process]]
+  - [[Compilation, interpretation, and hybrid appraoches][Compilation, interpretation, and hybrid appraoches]]
+    - [[Compilation][Compilation]]
+    - [[Interpreters][Interpreters]]
+    - [[Hybrid methods][Hybrid methods]]
+  - [[Ambiguity][Ambiguity]]
+    - [[An example of ambiguity][An example of ambiguity]]
+    - [[Removing ambiguity][Removing ambiguity]]
+    - [[Parentheses make structure clear][Parentheses make structure clear]]
+    - [[Enforcing precedence with a grammar][Enforcing precedence with a grammar]]
+    - [[Enforcing associativity with a grammar][Enforcing associativity with a grammar]]
+    - [[“Associative” operations][“Associative” operations]]
+    - [[Addition is not associative… in some cases][Addition is not associative… in some cases]]
+  - [[Abstract and concrete syntax; setting ambiguity aside][Abstract and concrete syntax; setting ambiguity aside]]
+    - [[Abstract syntax trees are parse trees.][Abstract syntax trees are parse trees.]]
+    - [[We are interested in abstract syntax][We are interested in abstract syntax]]
+  - [[The /semantics/ of formal languages][The /semantics/ of formal languages]]
+    - [[Semantic domains][Semantic domains]]
+    - [[Example – semantics of a language of natural numbers][Example – semantics of a language of natural numbers]]
+    - [[Example – semantics of propositional logic][Example – semantics of propositional logic]]
+    - [[Example – small-step semantics of propositional logic][Example – small-step semantics of propositional logic]]
 #+end_scriptsize
 #+HTML: </font>
 
-** TODO Notable references
+** Notable references
 :PROPERTIES:
 :CUSTOM_ID: Notable-references
 :END:
 
-:TODO:
+- Benjamin Pierce,
+  “[[https://ebookcentral.proquest.com/lib/mcmu/detail.action?docID=3338823][Types and Programming Languages]]”
+  - Chapter 3, Untyped Arithmetic Expressions
+    - Grammars. Alternative syntactic descriptions. Semantics.
+  - Chapter 5, The Untyped Lambda-Calculus
+    - Abstract syntax.
+
+- Peter Van Roy and Seif Haridi,
+  “[[http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.102.7366&rep=rep1&type=pdf][Concepts, Techniques, and Models of Computer Programming]]”
+  - Section 2.1, Defining practical programming languages
+    - Grammars. Alternative semantic approach (the kernel approach.)
+
+- Maribel Fernández,
+  “[[https://discovery.mcmaster.ca/iii/encore/record/C__Rb2200622?lang=eng][Programming Languages and Operational Semantics: A Concise Overview]]” 
+  - Section 1.3, Components of a Programming Language
+
+- Robert W. Sebesta, “Concepts of Programming Languages” (10th edition)
+  - Chapter 3, Describing Syntax and Semantics
+  - Chapter 4, Lexical and Syntax Analysis
 
 ** Version history
 :PROPERTIES:
 :CUSTOM_ID: Version-history
 :END:
+
+*** September 23rd
+
+Notes completed.
+
+*** September 21st
+
+More complete version posting. Nearly complete up to
+Ambiguity.
 
 *** September 16th
 :PROPERTIES:
@@ -201,7 +311,7 @@ defined as follows.
 - $L(ε) = \{ ε \}$
 - $L(a) = \{ a \}$
 - $L(α | β) = L(α) ∪ L(β)$
-- $L(αβ) = \{ uv | u ∈ L(α) ∧ v ∈ L(b) \}$
+- $L(αβ) = \{ uv | u ∈ L(α) ∧ v ∈ L(β) \}$
 - $L(α^*) = (L(α))^*$
 
 ** Additional operators for more expressive regular expressions
@@ -229,7 +339,24 @@ its language.
 :CUSTOM_ID: Regular-expression-examples
 :END:
 
-:TODO:
+The set of all non-empty strings over the alphabet
+can be described by this regular expression.
+- Note that if $Σ$ includes whitespace characters,
+  this regular expression will allow strings made only of whitespace.
+#+begin_src text
+.⁺
+#+end_src
+
+The set of all non-empty strings which do not include
+the letters ~a~, ~b~ or ~c~ can be described by this regular expression.
+#+begin_src text
+[^abc]⁺
+#+end_src
+
+The set ~{na,nana,banana}~ can be described by
+#+begin_src text
+(bana|na)(na)?
+#+end_src
 
 ** Grammars as in formal language theory
 :PROPERTIES:
@@ -549,19 +676,19 @@ it is what is convenient for our use.
 - (Square) brackets, ~[]~, surrounding a string
   indicate that string may or may not be included in a production.
   - I.e., they make part of a production optional.
-  - $⟨A⟩ ∷= α₁ [ α₂ ] α₃ \ \ \ ≈ \ \ \ ⟨A⟩ ∷= α₁ α₂ α₃ | α₁ α₃$.
+  - $⟨A⟩ ∷= α₁\ [\ α₂\ ]\ α₃\ \ \ \ ≈ \ \ \ ⟨A⟩ ∷= α₁\ α₂\ α₃\ |\ α₁\ α₃$.
 - (Curly) braces, ~{}~, surrounding a string
   indicate that string may be repeated any number of times,
   including zero.
-  - $⟨A⟩ ∷= α₁ { α₂ } α₃ \ \ \ ≈ \ \ \ ⟨A⟩ ∷= α₁ ⟨A′⟩ α₃$, $⟨A′⟩ ∷= α₂ ⟨A′⟩ | ε$.
+  - $⟨A⟩ ∷= α₁\ \{\ α₂\ \}\ α₃\ \ \ \ ≈ \ \ \ ⟨A⟩ ∷= α₁\ ⟨A′⟩\ α₃$, $⟨A′⟩ ∷= α₂\ ⟨A′⟩\ |\ ε$.
 - Parentheses, ~()~, may group parts of a string.
 - The “alternative” pipe, ~|~, may be used /inside/ of productions,
   to indicate alternatives inside a set of brackets, braces
   or parentheses.
-  - $⟨A⟩ ∷= α₁ (α₂ | α₃) α₄ \ \ \ ≈ \ \ \ ⟨A⟩ ∷= α₁ α₂ α₄ | α₁ α₃ α₄$.
+  - $⟨A⟩ ∷= α₁\ (α₂\ |\ α₃)\ α₄ \ \ \ ≈ \ \ \ ⟨A⟩ ∷= α₁\ α₂\ α₄\ |\ α₁\ α₃\ α₄$.
 - Where necessary, terminals may be single or double quoted,
   such as to indicate a whitespace character, pipe or quote.
-  - $⟨\text{ebnfprods}⟩ ∷= ⟨\text{string}⟩ | ⟨\text{string}⟩ ⟨\text{optws}⟩ “|” ⟨\text{optws}⟩ ⟨\text{ebnfprods}⟩$
+  - $⟨\text{ebnfprods}⟩ ∷= ⟨\text{string}⟩\ |\ ⟨\text{string}⟩\ ⟨\text{optws}⟩\ “|”\ ⟨\text{optws}⟩\ ⟨\text{ebnfprods}⟩$
 
 ** Exercise – translating to EBNF
 :PROPERTIES:
@@ -584,7 +711,8 @@ Can you use only one production when using EBNF?
 :CUSTOM_ID: EBNF's-syntactic-sugar
 :END:
 
-EBNF gives us our first example of /syntactic sugar/;
+EBNF and our extended regular expressions syntax
+give us our first example of /syntactic sugar/;
 syntax that does not add new features to a language,
 only more convenient notation.
 - As shown above, any grammar using the additional operators
@@ -608,7 +736,8 @@ we will usually omit constructs which are syntactic sugar.
 
 Consider the following context-free language.
 #+begin_example text
-⟨stmt⟩   ∷= ⟨assign⟩ | ⟨stmt⟩ "; " ⟨stmt⟩ | "while " ⟨expr⟩ " do " ⟨stmt⟩ | ⟨ws⟩ ⟨stmt⟩ ⟨ws⟩
+⟨stmt⟩   ∷= ⟨assign⟩ | ⟨stmt⟩ "; " ⟨stmt⟩
+⟨stmt⟩   ∷= "while " ⟨expr⟩ " do " ⟨stmt⟩ | ⟨ws⟩ ⟨stmt⟩ ⟨ws⟩
 ⟨assign⟩ ∷= ⟨var⟩ ⟨ws⟩ " := " ⟨expr⟩
 ⟨expr⟩   ∷= ⟨var⟩ | ⟨const⟩ | ⟨expr⟩ ⟨op⟩ ⟨expr⟩ | ⟨ws⟩ ⟨expr⟩ ⟨ws⟩
 ⟨var⟩    ∷= ('x' | 'y' | 'z') {⟨var⟩}
@@ -696,8 +825,7 @@ In practice,
 :END:
 
 Parsing is the process of translating a program
-from plaintext
-to executable instructions
+from plaintext to executable instructions
 - whether this is done
   - ahead of time (compiling) or
   - when the program is to be run (interpreting),
@@ -746,6 +874,10 @@ This step is part of the parsing process,
 but it is also usually called parsing.
 - It may also be called /syntactic analysis/.
 
+More information about the program may be discarded here,
+as the structure of the tree makes certain text
+irrelevant (such as parentheses).
+
 ** The third step – (static) semantic analysis
 :PROPERTIES:
 :CUSTOM_ID: The-third-step-–-(static)-semantic-analysis
@@ -786,7 +918,7 @@ into machine code by later steps.
 :CUSTOM_ID: Visualising-the-entire-parsing-process
 :END:
 
-#+begin_src ditaa :file media/parsing-whole.png :exports results
+#+begin_src ditaa :file media/parsing-whole.png :exports results :results drawer :post attr_wrap(data=*this*)
 +-----------+    /--------------\    +--------------------+
 | {d}       |    |              |    | {d}                |
 | Plaintext +----+ Preprocesser +--->+ Expanded plaintext +-\
@@ -840,7 +972,10 @@ into machine code by later steps.
 #+end_src
 
 #+RESULTS:
+:results:
+#+ATTR_LATEX: :width \textwidth :center t
 [[file:media/parsing-whole.png]]
+:end:
 
 * Compilation, interpretation, and hybrid appraoches
 :PROPERTIES:
@@ -900,6 +1035,8 @@ which is then interpreted into machine code when the program is run.
 :CUSTOM_ID: Ambiguity
 :END:
 
+** Preamble                                    :ignore:
+
 We have discussed parse trees as a representation
 of programs used during the parsing process.
 
@@ -940,6 +1077,18 @@ Three tools for removing ambiguity are
 - introducing precedence rules, and
 - introducing associativity rules.
 
+The first option takes the least work on the language designer's part.
+- But users of a language usually do not appreciate
+  “unnecessary” mandatory parenthesisation.
+
+** Parentheses make structure clear
+
+#+begin_quote
+#+ATTR_LATEX: :width \textwidth :center t
+[[file:./media/comics/language.png]]
+#+end_quote
+From the SMBC comic “[[http://smbc-comics.com/comic/language][Language]]”
+
 ** Enforcing precedence with a grammar
 :PROPERTIES:
 :CUSTOM_ID: Enforcing-precedence-with-a-grammar
@@ -949,16 +1098,19 @@ To enforce precedence using a grammar:
 - Create a hierarchy of non-terminals.
 - Higher-precedence operators are produced lower in the hierarchy.
 - For instance,
-  - An additive term can be a addition of multiplicative terms,
-    which is an addition of literals, which can be the negation
-    of a constant, variable or term.
+  - An additive term can be an addition of multiplicative terms,
+    which is a multiplication of atoms, which in turn are
+    either a constant, variable or a *parenthesised term*.
+  - Note that there is recursion in the above,
+    but it's “guarded” with parentheses!
 
-** Example grammar which enforces precedence
-:PROPERTIES:
-:CUSTOM_ID: Example-grammar-which-enforces-precedence
-:END:
-
-:TODO:
+For instance, if we call an additive term simply a ~⟨term⟩~ and
+a multiplicative term a ~⟨factor⟩~, we might have a grammar
+#+begin_src text
+⟨term⟩ ∷= ⟨term⟩ + ⟨term⟩ | ⟨term⟩ - ⟨term⟩ | ⟨factor⟩
+⟨factor⟩ ∷= ⟨factor⟩ * ⟨factor⟩ | ⟨factor⟩ / ⟨factor⟩
+⟨atom⟩ ∷= constant | variable | '(' ⟨term⟩ ')'
+#+end_src
 
 ** Enforcing associativity with a grammar
 :PROPERTIES:
@@ -971,14 +1123,17 @@ To enforce associativity using a grammar:
 - And right associative operators by right recursive non-terminals.
 - Operators of the same precedence must associate the same way!
 
-** Example grammar which enforces associativity
-:PROPERTIES:
-:CUSTOM_ID: Example-grammar-which-enforces-associativity
-:END:
+For instance, to iterate on our previous example grammar,
+we might write
+#+begin_src text
+⟨term⟩ ∷= ⟨factor⟩ + ⟨term⟩ | ⟨term⟩ - ⟨factor⟩ | ⟨factor⟩
+⟨factor⟩ ∷= ⟨atom⟩ * ⟨factor⟩ | ⟨factor⟩ / ⟨atom⟩
+⟨atom⟩ ∷= constant | variable | '(' ⟨term⟩ ')'
+#+end_src
+Then ~+~ is right associative, ~-~ is left associative,
+and similarly ~*~ is right associative and ~/~ is left associative.
 
-:TODO:
-
-** What about “associative” operations?
+** “Associative” operations
 :PROPERTIES:
 :CUSTOM_ID: What-about-“associative”-operations?
 :END:
@@ -995,6 +1150,11 @@ to be /left associative/ or /right associative/.
 - An /associative/ operator is a ~⊕~ for which
   ~a ⊕ b ⊕ c = (a ⊕ b) ⊕ c = a ⊕ (b ⊕ c)~.
 
+But in computing, some operators behave differently than
+their mathematical “selves”.
+
+** Addition is not associative… in some cases
+
 Recall that addition is an associative operator.
 - So the choice of whether addition in a language associates to
   the right or to the left may seem arbitrary.
@@ -1002,11 +1162,20 @@ Recall that addition is an associative operator.
   the same as numerical types in math!
 - Addition of floating point numbers /is not associative/.
   - Consider a binary representation with two-digit coefficients.
-  - 1.0₂ × 2⁰ + 1.0₂ × 2⁰ + 1.0₂ × 2² has a different value depending
+  - We will suffix the base with a subscript ~b~ to indicate
+    these are binary numbers.
+  - $1.0_{b} × 2^{0} + 1.0_{b} × 2^{0} + 1.0_{b} × 2^{2}$ has a different value depending
     upon parenthesisation.
-    - :TODO:
+
+#+begin_center
+$(1.0_{b} × 2^{0} + 1.0_{b} × 2^{0}) + 1.0_{b} × 2^{2}\ \ =\ \ 1.0_{b} × 2^{1} + 1.0_{b} × 2^{2}\ \ =\ \ 1.1_{b} × 2^{2}$
+#+end_center
+
+#+begin_center
+$1.0_{b} × 2^{0} + (1.0_{b} × 2^{0} + 1.0_{b} × 2^{2})\ \ =\ \ 1.0_{b} × 2^{0} + 1.0_{b} × 2^{2}\ \ =\ \ 1.0_{b} × 2^{2}$
+#+end_center
     
-* Abstract and concrete syntax; ignoring ambiguity
+* Abstract and concrete syntax; setting ambiguity aside
 :PROPERTIES:
 :CUSTOM_ID: Abstract-and-concrete-syntax;-ignoring-ambiguity
 :END:
@@ -1017,65 +1186,41 @@ programming language syntax.
   - As opposed to /concrete syntax/.
 - Consider programs as /trees/ generated by the grammar
   for the abstract syntax of the language.
-  - Trees do not admit ambiguity!
+  - There may be ambiguity when translating a plaintext program to a tree.
+  - But once a tree representation is chosen,
+    *there is no ambiguity*!
+    - It may be that two different trees “flatten” to the same program,
+      but one tree cannot “flatten” to two different programs.
   - Such trees more efficiently represent programs.
     - The shape of the tree expresses structure.
     - Other unnecessary details may be left out.
 
-:TODO:
+** Abstract syntax trees are parse trees.
+
+We have already discussed how /parse trees/ are used
+as an internal representation of programs
+after parsing.
+- We also stated that we discard irrelevant details during
+  lexical analysis and parsing (syntactic analysis.)
+  - Such as whitespace, comments, and *during parsing*, parentheses!
+
+It is common to give two grammars for a language.
+- The concrete grammar describes the written form of programs.
+- The abstract grammar describes the internal representation of programs.
+
+For this reason, /parse trees/ are also called /abstract syntax trees/ (ASTs.)
+
+** We are interested in abstract syntax
+
+For the remainder of the course, we will focus on abstract syntax.
+
+In particular, in the discussion of the semantics of formal languages,
+concrete syntactic details are not of interest to us.
 
 * The /semantics/ of formal languages
 :PROPERTIES:
 :CUSTOM_ID: The-/semantics/-of-formal-languages
 :END:
-
-** COMMENT Old notes
-:PROPERTIES:
-:CUSTOM_ID: COMMENT-Old-notes
-:END:
-
-Unlike with syntax, there is not one universally used tool
-for describing programming language semantics.
-
-In this course we will primarily consider /operational semantics/.
-- A formal description of the meaning programs as
-  a series of computation steps on an abstract machine.
-  - The machine should be more abstract, and more easily understood,
-    than assembly language.
-  - But still “simpler” than the language.
-  - Stack machines and state diagrams are good candidates.
-
-Additional approaches include
-- Denotational semantics.
-  - The meaning of programs are /denoted/ by mathematical objects.
-    - Such as partial functions.
-  - Have to consider /limits/ and non-termination.
-- Axiomatic semantics.
-  - The meaning of a program is given by a precondition/postcondition
-    calculus.
-    - Such as ~wp~; the “weakest-precondition” calculus.
-  - Very useful for specification.
-
-*** The kernel language approach
-:PROPERTIES:
-:CUSTOM_ID: The-kernel-language-approach
-:END:
-
-The “kernel language” approach to semantics can be used
-for languages with many features and constructs.
-- Choose a small “kernel” set of features/constructs.
-- Describe the remainder of the language in terms of that kernal language.
-- The kernel language may be described using the formal approaches
-  mentioned.
-- /Concepts, Techniques, and Models of Computer Programming/
-  takes this approach.
-
-*** More to come...
-:PROPERTIES:
-:CUSTOM_ID: More-to-come...
-:END:
-
-We will return to the discussion of semantics later in the course.
 
 ** Preamble                                    :ignore:
 
@@ -1088,6 +1233,8 @@ The /semantics/ of a language assigns a meaning to each sentence.
 - Or map elements of a languages of propositions into ~𝔹~.
 - We may often provide several different definitions of
   a particular mapping, to emphasise different details.
+
+** Semantic domains
 
 We may also have several semantic domains for a given language.
 - In the case of programming languages,
@@ -1105,10 +1252,10 @@ We may also have several semantic domains for a given language.
 :CUSTOM_ID: Example-–-semantics-of-a-language-of-natural-numbers
 :END:
 
-Consider again a language of terms intended to represent
+Consider a language of terms intended to represent
 natural numbers.
 #+begin_src text
-⟨nat⟩ ∷= "zero" | "suc" ⟨nat⟩ 
+⟨nat⟩ ∷= zero | suc ⟨nat⟩ 
 #+end_src
 
 To assign meaning to these terms,
@@ -1120,7 +1267,7 @@ eval (suc n) = (eval n) + 1
 #+end_src
 
 The evaluation function in this case is very obvious and trivial,
-because with this language is simply a concrete representation
+because this language is simply a concrete representation
 of the semantic domain.
 - In comparison, when defining the semantics of programming languages,
   the language and the semantic domain are not so directly related.
@@ -1133,7 +1280,7 @@ of the semantic domain.
 As a more complex example, we can map propositional logic terms
 into the set of booleans.
 #+begin_src text
-⟨prop⟩ ∷= "tt" | "ff" | ¬ ⟨prop⟩ | ⟨prop⟩ (∧ | ∨ | ⇒ | ⇔) ⟨prop⟩
+⟨prop⟩ ∷= tt | ff | ¬ ⟨prop⟩ | ⟨prop⟩ (∧ | ∨ | ⇒ | ⇔) ⟨prop⟩
 #+end_src
 
 In order to make the mapping less trivial, let us define it
@@ -1143,8 +1290,8 @@ and “if-then-else” statements.
 eval tt = true
 eval ff = false
 
-eval (¬ p) = true    if eval p
-             false   otherwise
+eval (¬ p) = false   if eval p
+             true    otherwise
 
 eval (p ∧ q) = eval q   if eval p
                false    otherwise
