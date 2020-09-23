@@ -1,4 +1,4 @@
-% Created 2020-09-21 Mon 10:51
+% Created 2020-09-23 Wed 01:39
 % Intended LaTeX compiler: lualatex
 \documentclass[11pt]{article}
 \usepackage{graphicx}
@@ -43,12 +43,12 @@
 
 
 \section{Introduction}
-\label{sec:org60741fd}
+\label{sec:org39e7144}
 These notes were created for, and in some parts \textbf{during},
 the lecture on September 18th and the following tutorials.
 
 \section{Motivation}
-\label{sec:orge39c809}
+\label{sec:org0cd1665}
 Today, we begin investigating another non-imperative paradigm
 other than functional programming: \emph{logical programming}.
 
@@ -72,7 +72,7 @@ To put it simply, in logical programming, you describe the problem,
 rather than the solution.
 
 \section{A note about fonts}
-\label{sec:org16e64f4}
+\label{sec:org9f777a2}
 In these notes, I use plaintext blocks in order to write the
 inference rules, and use em-dashes (—) to create the horizontal rules.
 
@@ -84,7 +84,7 @@ may not show at all (they work in my install of Chrome, at least.)
 Apologies for any issues reading these notes caused by this.
 
 \section{(Re)introduction to inference rules}
-\label{sec:org570f157}
+\label{sec:org45143a1}
 Recall: an inference rule has the form
 \begin{minted}[breaklines=true]{text}
  Premise₁   Premise₂   …   Premiseₙ
@@ -183,7 +183,7 @@ otherwise the proof often seems to make
 unwarranted steps, or informally, it “pulls a rabbit from its hat”.
 
 \section{Inference rules in other domains}
-\label{sec:org3640b3e}
+\label{sec:orga95765d}
 The use of inference rules is not limited to the domain of logics.
 
 It is perhaps better not to think of inference rules
@@ -195,9 +195,9 @@ the rules and axioms, what can we obtain?
 For instance, consider the following problem.
 
 \subsection{The two bucket problem}
-\label{sec:org2cc191c}
+\label{sec:org2e4c8d8}
 \subsubsection{The problem}
-\label{sec:org713a611}
+\label{sec:org49f6d66}
 Suppose you are given two buckets,
 \begin{itemize}
 \item one of which holds 5 units of water, and
@@ -220,7 +220,7 @@ You are tasked with collecting exactly 4 units of water
 using only those three kinds of actions.
 
 \subsubsection{The rules}
-\label{sec:orgeef47ac}
+\label{sec:org86deef5}
 Let us represent the state of the bucket by a pair of numbers.
 In these rules, we will use
 \begin{itemize}
@@ -265,9 +265,9 @@ with 0.
 \end{minted}
 
 \section{Prolog}
-\label{sec:org15c1a6c}
+\label{sec:orgcad28d4}
 \subsection{Programs are databases of inference rules}
-\label{sec:org7944f7b}
+\label{sec:orgc1cad92}
 Prolog programs are simply databases of inference rules,
 also called \emph{clauses}.
 An inference rule
@@ -301,14 +301,14 @@ c.
 \end{minted}
 
 \subsection{Get “output” by making queries}
-\label{sec:org2f342d3}
+\label{sec:orgafaf846}
 To interact with Prolog programs, we make \emph{queries}, to which Prolog
 responds by checking its inference rule database to determine
 possible answers.
 
 For instance, list catenation in SWI Prolog is a ternary predicate
 \begin{verbatim}
-concat(X,Y,Z)
+append(X,Y,Z)
 \end{verbatim}
 the rules of which enforce that \texttt{Z} is the result
 of catenating \texttt{X} and \texttt{Y}.
@@ -316,30 +316,34 @@ of catenating \texttt{X} and \texttt{Y}.
 So we can make queries about catenation, such as
 \begin{verbatim}
 % Is [1,2,3,4,5,6] the result of catenating [1,2,3] and [4,5,6]?
-?- concat([1,2,3], [4,5,6], [1,2,3,4,5,6])
+?- append([1,2,3], [4,5,6], [1,2,3,4,5,6])
 % Response:
-% :TODO:
+% true.
 
 
 % What are all the possible values of Z for which
 % Z is the catenation of [1,2,3] and [4,5,6]?
-?- concat([1,2,3], [4,5,6], Z)
+?- append([1,2,3], [4,5,6], Z)
 % Response:
-% :TODO:
+% Z = [1, 2, 3, 4, 5, 6]
 
 
 % What are the possible values of X and Y so that,
 % when they are catenated, the result is [1,2,3,4,5,6]?
-?- concat(X, Y, [1,2,3,4,5,6])
+?- append(X, Y, [1,2,3,4,5,6])
 % Response:
-% :TODO:
+% X = [],
+% Y = [1,2,3,4,5,6] ;
+% X = [1],
+% Y = [2,3,4,5,6] ;
+% …
 \end{verbatim}
 
 Note: in this way, we get several “functions” from one predicate,
 depending upon what question(s) we ask!
 
 \subsection{Names, kinds of terms}
-\label{sec:orgf67953e}
+\label{sec:org7b251a2}
 In Prolog, any name beginning with an upper case letter
 denotes a variable.
 
@@ -365,7 +369,7 @@ atom(term1, …, term1)
 (again, the … is pseudocode.)
 
 \subsection{Interacting with Prolog}
-\label{sec:org77d794a}
+\label{sec:orgdf12f0c}
 As we've said, a Prolog program consists of clauses
 (inference rules.)
 For instance
@@ -396,8 +400,7 @@ We can also \texttt{assert} or \texttt{retract} rules in the query REPL, if need
 or clauses about the \texttt{name} predicate.)
 
 \subsection{Unification}
-\label{sec:org664540d}
-
+\label{sec:orgd5db950}
 The computation model of Prolog involves \emph{unification} of terms.
 Terms unify if either
 \begin{enumerate}
@@ -411,26 +414,60 @@ variable bindings, by making use of the clauses
 and \emph{modus ponens} (\((P ∧ P ⇒ Q) ⇒ Q\)).
 
 \subsubsection{The goal list}
-\label{sec:org8cd46c3}
-
+\label{sec:org7ab4224}
 Through this process, the single goal presented by a query
 will usually turn into a collection of goals;
-for instance, if we query \texttt{?- p(5)} and the search uses a clause
+for instance, if we query \texttt{?- p(5).} and the search uses a clause
 \begin{verbatim}
 p(X) :- q(X), r(X).
 \end{verbatim}
-then we now have as goals \texttt{q(X)} and \texttt{r(X,Y)}.
+then we now have as goals \texttt{q(5)} and \texttt{r(5)}.
 
 \subsubsection{Backtracking}
-\label{sec:org90f7827}
-:TODO:
+\label{sec:org7203683}
+Consider the program
+\begin{minted}[breaklines=true]{prolog}
+a :- b, c.
+a :- b.
+
+b.
+c :- false.
+\end{minted}
+
+As the Prolog runtime tries to prove \texttt{a}, it will use the first clause,
+and \texttt{fail} (because in trying to prove \texttt{c}, it reaches \texttt{false},
+which it cannot prove.)
+At that point, it has to \emph{backtrack}, and try a different
+clause to prove \texttt{a}.
+
+In general, the runtime will backtrack several times
+during a proof, and it keeps track of which clauses
+have been tried.
+
+:TODO: Aside: contradictory clauses
+\begin{verbatim}
+a :- false.
+a.
+\end{verbatim}
 
 \subsubsection{SWI Prolog's search strategy}
-\label{sec:orgbb07203}
-:TODO:
+\label{sec:org3926926}
+\begin{enumerate}
+\item Attempt to apply clauses in order from top to bottom
+(as in the source code.)
+\begin{itemize}
+\item Only backtrack and try other clauses
+after success or failure.
+\end{itemize}
+\item Perform a depth first search trying to prove each goal.
+\begin{itemize}
+\item So if the current goals are \texttt{b} and \texttt{c},
+try to prove \texttt{b} before considering \texttt{c}.
+\end{itemize}
+\end{enumerate}
 
 \subsubsection{Examining the search strategy}
-\label{sec:org0663483}
+\label{sec:org5fa59c9}
 In order to interactively see the process Prolog is using
 during unification,
 use the \texttt{trace.} command in the REPL.
@@ -438,7 +475,7 @@ Then each query will result in a log of calls made and
 failures encountered.
 
 \subsection{Equality}
-\label{sec:org6ec4c1d}
+\label{sec:orga92b26f}
 Prolog does have an equality comparison , written simply \texttt{=} (not \texttt{==}).
 \textbf{However}, this equality does no simplification.
 So, for instance, if a variable \texttt{X} has been unified to value \texttt{5},
@@ -461,16 +498,39 @@ X is 2 + 3
 \end{verbatim}
 will evaluate to \texttt{true}.
 
-\subsection{Failure}
-\label{sec:org929b371}
-:TODO:
-
 \subsection{Exerting control over the search; the cut operator}
-\label{sec:org8ddaa0a}
-:TODO:
+\label{sec:orgd1555d3}
+In part because Prolog's searching mechanism can be naive,
+the programmer is given a certain amount of control
+over the search.
+
+The most important mechanism for controlling the search
+that we will see is the \emph{cut}.
+
+A cut is written \texttt{!}, and can be understood as
+“no backtracking is allowed to go beyond this point”.
+
+\subsection{Failure}
+\label{sec:org125e4e3}
+In order to force a search to fail, we can use a strategic cut
+along with the \texttt{false} predicate (which cannot be proven),
+as in
+\begin{minted}[breaklines=true]{prolog}
+p :- !, false.
+\end{minted}
+
+When this clause is used, the cut is encountered,
+preventing any backtracking.
+Then, we immediately state the goal \texttt{false},
+which cannot be proven.
+So, the runtime must give up here, and return \texttt{false}.
+
+Note that we are not really specifying the return value
+by writing \texttt{false}; instead, we are exerting our control
+over the search to ensure a \texttt{false} result.
 
 \subsection{Trying to write the two bucket problem}
-\label{sec:org4614fb2}
+\label{sec:org31d4f83}
 In an ideal world, we would be able to almost directly translate
 the above inference rules into Prolog, like so.
 \begin{verbatim}
@@ -502,7 +562,7 @@ we can quickly see a problem with the order of these clauses.
 :TODO:
 
 \subsection{Checking for divisors of a number}
-\label{sec:org6e80478}
+\label{sec:orgaf79093}
 \begin{minted}[breaklines=true]{prolog}
 hasDivisorLessThanOrEqualTo(_,1) :- !, false.
 hasDivisorLessThanOrEqualTo(X,Y) :- 0 is X mod Y, !.
@@ -510,7 +570,7 @@ hasDivisorLessThanOrEqualTo(X,Y) :- Z is Y - 1, hasDivisorLessThanOrEqualTo(X,Z)
 \end{minted}
 
 \section{Resources}
-\label{sec:orgcbc96e8}
+\label{sec:org1afa97c}
 \begin{itemize}
 \item \href{https://github.com/alhassy/PrologCheatSheet}{Prolog cheat sheet},
 by Musa Al-hassy.

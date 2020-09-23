@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-09-21 Mon 10:51 -->
+<!-- 2020-09-23 Wed 01:39 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Introduction to Prolog</title>
@@ -202,26 +202,50 @@
 <script type="text/javascript" src="styles/lib/js/jquery.stickytableheaders.min.js"></script>
 <script type="text/javascript" src="styles/readtheorg/js/readtheorg.js"></script>
 <script type="text/javascript">
-// @license magnet:?xt=urn:btih:e95b018ef3580986a04669f1b5879592219e2a7a&dn=public-domain.txt Public Domain
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2020 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
 <!--/*--><![CDATA[/*><!--*/
-     function CodeHighlightOn(elem, id)
-     {
-       var target = document.getElementById(id);
-       if(null != target) {
-         elem.classList.add("code-highlighted");
-         target.classList.add("code-highlighted");
-       }
-     }
-     function CodeHighlightOff(elem, id)
-     {
-       var target = document.getElementById(id);
-       if(null != target) {
-         elem.classList.remove("code-highlighted");
-         target.classList.remove("code-highlighted");
-       }
-     }
-    /*]]>*///-->
-// @license-end
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
 </script>
 <script type="text/x-mathjax-config">
     MathJax.Hub.Config({
@@ -273,17 +297,17 @@
 <li><a href="#Get-“output”-by-making-queries">6.2. Get “output” by making queries</a></li>
 <li><a href="#Names,-kinds-of-terms">6.3. Names, kinds of terms</a></li>
 <li><a href="#Interacting-with-Prolog">6.4. Interacting with Prolog</a></li>
-<li><a href="#org8b52d6e">6.5. Unification</a>
+<li><a href="#Unification">6.5. Unification</a>
 <ul>
-<li><a href="#org863d85e">6.5.1. The goal list</a></li>
+<li><a href="#The-goal-list">6.5.1. The goal list</a></li>
 <li><a href="#Backtracking">6.5.2. Backtracking</a></li>
 <li><a href="#SWI-Prolog's-search-strategy">6.5.3. SWI Prolog's search strategy</a></li>
 <li><a href="#Examining-the-search-strategy">6.5.4. Examining the search strategy</a></li>
 </ul>
 </li>
 <li><a href="#Equality">6.6. Equality</a></li>
-<li><a href="#Failure">6.7. Failure</a></li>
-<li><a href="#Exerting-control-over-the-search;-the-cut-operator">6.8. Exerting control over the search; the cut operator</a></li>
+<li><a href="#Exerting-control-over-the-search;-the-cut-operator">6.7. Exerting control over the search; the cut operator</a></li>
+<li><a href="#Failure">6.8. Failure</a></li>
 <li><a href="#Trying-to-write-the-two-bucket-problem">6.9. Trying to write the two bucket problem</a></li>
 <li><a href="#Checking-for-divisors-of-a-number">6.10. Checking for divisors of a number</a></li>
 </ul>
@@ -293,7 +317,7 @@
 </div>
 </div>
 
-<div id="outline-container-Introduction" class="outline-2">
+<div id="outline-container-org96ea849" class="outline-2">
 <h2 id="Introduction"><span class="section-number-2">1</span> Introduction</h2>
 <div class="outline-text-2" id="text-Introduction">
 <p>
@@ -303,7 +327,7 @@ the lecture on September 18th and the following tutorials.
 </div>
 </div>
 
-<div id="outline-container-Motivation" class="outline-2">
+<div id="outline-container-orge3fc008" class="outline-2">
 <h2 id="Motivation"><span class="section-number-2">2</span> Motivation</h2>
 <div class="outline-text-2" id="text-Motivation">
 <p>
@@ -338,7 +362,7 @@ rather than the solution.
 </div>
 </div>
 
-<div id="outline-container-A-note-about-fonts" class="outline-2">
+<div id="outline-container-orgf574f8e" class="outline-2">
 <h2 id="A-note-about-fonts"><span class="section-number-2">3</span> A note about fonts</h2>
 <div class="outline-text-2" id="text-A-note-about-fonts">
 <p>
@@ -359,7 +383,7 @@ Apologies for any issues reading these notes caused by this.
 </div>
 </div>
 
-<div id="outline-container-(Re)introduction-to-inference-rules" class="outline-2">
+<div id="outline-container-org923d2f2" class="outline-2">
 <h2 id="(Re)introduction-to-inference-rules"><span class="section-number-2">4</span> (Re)introduction to inference rules</h2>
 <div class="outline-text-2" id="text-(Re)introduction-to-inference-rules">
 <p>
@@ -499,7 +523,7 @@ unwarranted steps, or informally, it “pulls a rabbit from its hat”.
 </div>
 </div>
 
-<div id="outline-container-Inference-rules-in-other-domains" class="outline-2">
+<div id="outline-container-org892cde1" class="outline-2">
 <h2 id="Inference-rules-in-other-domains"><span class="section-number-2">5</span> Inference rules in other domains</h2>
 <div class="outline-text-2" id="text-Inference-rules-in-other-domains">
 <p>
@@ -519,12 +543,12 @@ For instance, consider the following problem.
 </p>
 </div>
 
-<div id="outline-container-The-two-bucket-problem" class="outline-3">
+<div id="outline-container-org7ec88b2" class="outline-3">
 <h3 id="The-two-bucket-problem"><span class="section-number-3">5.1</span> The two bucket problem</h3>
 <div class="outline-text-3" id="text-The-two-bucket-problem">
 </div>
 
-<div id="outline-container-The-problem" class="outline-4">
+<div id="outline-container-org1d81464" class="outline-4">
 <h4 id="The-problem"><span class="section-number-4">5.1.1</span> The problem</h4>
 <div class="outline-text-4" id="text-The-problem">
 <p>
@@ -558,7 +582,7 @@ using only those three kinds of actions.
 </div>
 </div>
 
-<div id="outline-container-The-rules" class="outline-4">
+<div id="outline-container-org09ebee2" class="outline-4">
 <h4 id="The-rules"><span class="section-number-4">5.1.2</span> The rules</h4>
 <div class="outline-text-4" id="text-The-rules">
 <p>
@@ -622,12 +646,12 @@ with 0.
 </div>
 </div>
 
-<div id="outline-container-Prolog" class="outline-2">
+<div id="outline-container-org3d80628" class="outline-2">
 <h2 id="Prolog"><span class="section-number-2">6</span> Prolog</h2>
 <div class="outline-text-2" id="text-Prolog">
 </div>
 
-<div id="outline-container-Programs-are-databases-of-inference-rules" class="outline-3">
+<div id="outline-container-orgdd352ef" class="outline-3">
 <h3 id="Programs-are-databases-of-inference-rules"><span class="section-number-3">6.1</span> Programs are databases of inference rules</h3>
 <div class="outline-text-3" id="text-Programs-are-databases-of-inference-rules">
 <p>
@@ -681,7 +705,7 @@ or, more simply,
 </div>
 </div>
 
-<div id="outline-container-Get-“output”-by-making-queries" class="outline-3">
+<div id="outline-container-org3db3553" class="outline-3">
 <h3 id="Get-“output”-by-making-queries"><span class="section-number-3">6.2</span> Get “output” by making queries</h3>
 <div class="outline-text-3" id="text-Get-“output”-by-making-queries">
 <p>
@@ -693,8 +717,8 @@ possible answers.
 <p>
 For instance, list catenation in SWI Prolog is a ternary predicate
 </p>
-<pre class="example" id="org58e71c0">
-concat(X,Y,Z)
+<pre class="example">
+append(X,Y,Z)
 </pre>
 <p>
 the rules of which enforce that <code>Z</code> is the result
@@ -704,25 +728,29 @@ of catenating <code>X</code> and <code>Y</code>.
 <p>
 So we can make queries about catenation, such as
 </p>
-<pre class="example" id="org3f4aeb6">
+<pre class="example">
 % Is [1,2,3,4,5,6] the result of catenating [1,2,3] and [4,5,6]?
-?- concat([1,2,3], [4,5,6], [1,2,3,4,5,6])
+?- append([1,2,3], [4,5,6], [1,2,3,4,5,6])
 % Response:
-% :TODO:
+% true.
 
 
 % What are all the possible values of Z for which
 % Z is the catenation of [1,2,3] and [4,5,6]?
-?- concat([1,2,3], [4,5,6], Z)
+?- append([1,2,3], [4,5,6], Z)
 % Response:
-% :TODO:
+% Z = [1, 2, 3, 4, 5, 6]
 
 
 % What are the possible values of X and Y so that,
 % when they are catenated, the result is [1,2,3,4,5,6]?
-?- concat(X, Y, [1,2,3,4,5,6])
+?- append(X, Y, [1,2,3,4,5,6])
 % Response:
-% :TODO:
+% X = [],
+% Y = [1,2,3,4,5,6] ;
+% X = [1],
+% Y = [2,3,4,5,6] ;
+% …
 </pre>
 
 <p>
@@ -732,7 +760,7 @@ depending upon what question(s) we ask!
 </div>
 </div>
 
-<div id="outline-container-Names,-kinds-of-terms" class="outline-3">
+<div id="outline-container-org50d4629" class="outline-3">
 <h3 id="Names,-kinds-of-terms"><span class="section-number-3">6.3</span> Names, kinds of terms</h3>
 <div class="outline-text-3" id="text-Names,-kinds-of-terms">
 <p>
@@ -750,7 +778,7 @@ Atoms may be used as the name of predicates.
 Character strings surrounded by single quotes, <code>'</code>,
 are also atoms. So we can write
 </p>
-<pre class="example" id="org28d0131">
+<pre class="example">
 'is an empty list'([]).
 </pre>
 
@@ -764,7 +792,7 @@ Aside from variables and constants,
 the remaining kind of Prolog term is a <i>structure</i>,
 which has the form
 </p>
-<pre class="example" id="org6452280">
+<pre class="example">
 atom(term1, …, term1)
 </pre>
 <p>
@@ -773,7 +801,7 @@ atom(term1, …, term1)
 </div>
 </div>
 
-<div id="outline-container-Interacting-with-Prolog" class="outline-3">
+<div id="outline-container-orge32bc31" class="outline-3">
 <h3 id="Interacting-with-Prolog"><span class="section-number-3">6.4</span> Interacting with Prolog</h3>
 <div class="outline-text-3" id="text-Interacting-with-Prolog">
 <p>
@@ -781,7 +809,7 @@ As we've said, a Prolog program consists of clauses
 (inference rules.)
 For instance
 </p>
-<pre class="example" id="orgbab5f4c">
+<pre class="example">
 head(X) :- body(X,Y)
 </pre>
 <p>
@@ -809,7 +837,7 @@ either by running
 <p>
 from the command line, or
 </p>
-<pre class="example" id="orge6b5b87">
+<pre class="example">
 ?- consult('my-program.pl')
 </pre>
 <p>
@@ -821,9 +849,9 @@ or clauses about the <code>name</code> predicate.)
 </div>
 </div>
 
-<div id="outline-container-org8b52d6e" class="outline-3">
-<h3 id="org8b52d6e"><span class="section-number-3">6.5</span> Unification</h3>
-<div class="outline-text-3" id="text-6-5">
+<div id="outline-container-orga25d12e" class="outline-3">
+<h3 id="Unification"><span class="section-number-3">6.5</span> Unification</h3>
+<div class="outline-text-3" id="text-Unification">
 <p>
 The computation model of Prolog involves <i>unification</i> of terms.
 Terms unify if either
@@ -841,42 +869,82 @@ and <i>modus ponens</i> (\((P ∧ P ⇒ Q) ⇒ Q\)).
 </p>
 </div>
 
-<div id="outline-container-org863d85e" class="outline-4">
-<h4 id="org863d85e"><span class="section-number-4">6.5.1</span> The goal list</h4>
-<div class="outline-text-4" id="text-6-5-1">
+<div id="outline-container-org60286ac" class="outline-4">
+<h4 id="The-goal-list"><span class="section-number-4">6.5.1</span> The goal list</h4>
+<div class="outline-text-4" id="text-The-goal-list">
 <p>
 Through this process, the single goal presented by a query
 will usually turn into a collection of goals;
-for instance, if we query <code>?- p(5)</code> and the search uses a clause
+for instance, if we query <code>?- p(5).</code> and the search uses a clause
 </p>
-<pre class="example" id="org4cedaec">
+<pre class="example">
 p(X) :- q(X), r(X).
 </pre>
 <p>
-then we now have as goals <code>q(X)</code> and <code>r(X,Y)</code>.
+then we now have as goals <code>q(5)</code> and <code>r(5)</code>.
 </p>
 </div>
 </div>
 
-<div id="outline-container-Backtracking" class="outline-4">
+<div id="outline-container-org864c015" class="outline-4">
 <h4 id="Backtracking"><span class="section-number-4">6.5.2</span> Backtracking</h4>
 <div class="outline-text-4" id="text-Backtracking">
 <p>
-:TODO:
+Consider the program
 </p>
+<div class="org-src-container">
+<pre class="src src-prolog"><span style="color: #feacd0;">a</span> :- b, c.
+<span style="color: #feacd0;">a</span> :- b.
+
+b.
+<span style="color: #feacd0;">c</span> :- false.
+</pre>
+</div>
+
+<p>
+As the Prolog runtime tries to prove <code>a</code>, it will use the first clause,
+and <code>fail</code> (because in trying to prove <code>c</code>, it reaches <code>false</code>,
+which it cannot prove.)
+At that point, it has to <i>backtrack</i>, and try a different
+clause to prove <code>a</code>.
+</p>
+
+<p>
+In general, the runtime will backtrack several times
+during a proof, and it keeps track of which clauses
+have been tried.
+</p>
+
+<p>
+:TODO: Aside: contradictory clauses
+</p>
+<pre class="example">
+a :- false.
+a.
+</pre>
 </div>
 </div>
 
-<div id="outline-container-SWI-Prolog's-search-strategy" class="outline-4">
+<div id="outline-container-orgd556f79" class="outline-4">
 <h4 id="SWI-Prolog's-search-strategy"><span class="section-number-4">6.5.3</span> SWI Prolog's search strategy</h4>
 <div class="outline-text-4" id="text-SWI-Prolog's-search-strategy">
-<p>
-:TODO:
-</p>
+<ol class="org-ol">
+<li>Attempt to apply clauses in order from top to bottom
+(as in the source code.)
+<ul class="org-ul">
+<li>Only backtrack and try other clauses
+after success or failure.</li>
+</ul></li>
+<li>Perform a depth first search trying to prove each goal.
+<ul class="org-ul">
+<li>So if the current goals are <code>b</code> and <code>c</code>,
+try to prove <code>b</code> before considering <code>c</code>.</li>
+</ul></li>
+</ol>
 </div>
 </div>
 
-<div id="outline-container-Examining-the-search-strategy" class="outline-4">
+<div id="outline-container-org18115d7" class="outline-4">
 <h4 id="Examining-the-search-strategy"><span class="section-number-4">6.5.4</span> Examining the search strategy</h4>
 <div class="outline-text-4" id="text-Examining-the-search-strategy">
 <p>
@@ -890,7 +958,7 @@ failures encountered.
 </div>
 </div>
 
-<div id="outline-container-Equality" class="outline-3">
+<div id="outline-container-org465a0c3" class="outline-3">
 <h3 id="Equality"><span class="section-number-3">6.6</span> Equality</h3>
 <div class="outline-text-3" id="text-Equality">
 <p>
@@ -898,13 +966,13 @@ Prolog does have an equality comparison , written simply <code>=</code> (not <co
 <b>However</b>, this equality does no simplification.
 So, for instance, if a variable <code>X</code> has been unified to value <code>5</code>,
 </p>
-<pre class="example" id="org2981092">
+<pre class="example">
 X = 5
 </pre>
 <p>
 would be <code>true</code>, but
 </p>
-<pre class="example" id="org9c63e45">
+<pre class="example">
 X = 2 + 3
 </pre>
 <p>
@@ -918,7 +986,7 @@ But in case we want to actually carry out arithmetic
 or calculate other values,
 we can use the <code>is</code> comparison.
 </p>
-<pre class="example" id="org081321f">
+<pre class="example">
 X is 2 + 3
 </pre>
 <p>
@@ -927,32 +995,64 @@ will evaluate to <code>true</code>.
 </div>
 </div>
 
-<div id="outline-container-Failure" class="outline-3">
-<h3 id="Failure"><span class="section-number-3">6.7</span> Failure</h3>
-<div class="outline-text-3" id="text-Failure">
-<p>
-:TODO:
-</p>
-</div>
-</div>
-
-<div id="outline-container-Exerting-control-over-the-search;-the-cut-operator" class="outline-3">
-<h3 id="Exerting-control-over-the-search;-the-cut-operator"><span class="section-number-3">6.8</span> Exerting control over the search; the cut operator</h3>
+<div id="outline-container-orgda85529" class="outline-3">
+<h3 id="Exerting-control-over-the-search;-the-cut-operator"><span class="section-number-3">6.7</span> Exerting control over the search; the cut operator</h3>
 <div class="outline-text-3" id="text-Exerting-control-over-the-search;-the-cut-operator">
 <p>
-:TODO:
+In part because Prolog's searching mechanism can be naive,
+the programmer is given a certain amount of control
+over the search.
+</p>
+
+<p>
+The most important mechanism for controlling the search
+that we will see is the <i>cut</i>.
+</p>
+
+<p>
+A cut is written <code>!</code>, and can be understood as
+“no backtracking is allowed to go beyond this point”.
 </p>
 </div>
 </div>
 
-<div id="outline-container-Trying-to-write-the-two-bucket-problem" class="outline-3">
+<div id="outline-container-org88a9d80" class="outline-3">
+<h3 id="Failure"><span class="section-number-3">6.8</span> Failure</h3>
+<div class="outline-text-3" id="text-Failure">
+<p>
+In order to force a search to fail, we can use a strategic cut
+along with the <code>false</code> predicate (which cannot be proven),
+as in
+</p>
+<div class="org-src-container">
+<pre class="src src-prolog"><span style="color: #feacd0;">p</span> :- <span style="color: #b6a0ff;">!</span>, false.
+</pre>
+</div>
+
+<p>
+When this clause is used, the cut is encountered,
+preventing any backtracking.
+Then, we immediately state the goal <code>false</code>,
+which cannot be proven.
+So, the runtime must give up here, and return <code>false</code>.
+</p>
+
+<p>
+Note that we are not really specifying the return value
+by writing <code>false</code>; instead, we are exerting our control
+over the search to ensure a <code>false</code> result.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org00f40a7" class="outline-3">
 <h3 id="Trying-to-write-the-two-bucket-problem"><span class="section-number-3">6.9</span> Trying to write the two bucket problem</h3>
 <div class="outline-text-3" id="text-Trying-to-write-the-two-bucket-problem">
 <p>
 In an ideal world, we would be able to almost directly translate
 the above inference rules into Prolog, like so.
 </p>
-<pre class="example" id="orgddf5c07">
+<pre class="example">
 buckets(0,0).
 buckets(5,Y) :- buckets(_,Y).
 buckets(X,3) :- buckets(X,_).
@@ -986,20 +1086,20 @@ we can quickly see a problem with the order of these clauses.
 </div>
 </div>
 
-<div id="outline-container-Checking-for-divisors-of-a-number" class="outline-3">
+<div id="outline-container-orgd50b1c3" class="outline-3">
 <h3 id="Checking-for-divisors-of-a-number"><span class="section-number-3">6.10</span> Checking for divisors of a number</h3>
 <div class="outline-text-3" id="text-Checking-for-divisors-of-a-number">
 <div class="org-src-container">
-<pre class="src src-prolog"><span style="color: #feacd0;">hasDivisorLessThanOrEqualTo</span><span style="color: #00cd68;">(</span><span style="color: #00d3d0;">_</span>,1<span style="color: #00cd68;">)</span> :- <span style="color: #b6a0ff;">!</span>, false.
-<span style="color: #feacd0;">hasDivisorLessThanOrEqualTo</span><span style="color: #00cd68;">(</span><span style="color: #00d3d0;">X</span>,<span style="color: #00d3d0;">Y</span><span style="color: #00cd68;">)</span> :- 0 is <span style="color: #00d3d0;">X</span> mod <span style="color: #00d3d0;">Y</span>, <span style="color: #b6a0ff;">!</span>.
-<span style="color: #feacd0;">hasDivisorLessThanOrEqualTo</span><span style="color: #00cd68;">(</span><span style="color: #00d3d0;">X</span>,<span style="color: #00d3d0;">Y</span><span style="color: #00cd68;">)</span> :- <span style="color: #00d3d0;">Z</span> is <span style="color: #00d3d0;">Y</span> - 1, hasDivisorLessThanOrEqualTo<span style="color: #00cd68;">(</span><span style="color: #00d3d0;">X</span>,<span style="color: #00d3d0;">Z</span><span style="color: #00cd68;">)</span>.
+<pre class="src src-prolog"><span style="color: #feacd0;">hasDivisorLessThanOrEqualTo</span>(<span style="color: #00d3d0;">_</span>,1) :- <span style="color: #b6a0ff;">!</span>, false.
+<span style="color: #feacd0;">hasDivisorLessThanOrEqualTo</span>(<span style="color: #00d3d0;">X</span>,<span style="color: #00d3d0;">Y</span>) :- 0 is <span style="color: #00d3d0;">X</span> mod <span style="color: #00d3d0;">Y</span>, <span style="color: #b6a0ff;">!</span>.
+<span style="color: #feacd0;">hasDivisorLessThanOrEqualTo</span>(<span style="color: #00d3d0;">X</span>,<span style="color: #00d3d0;">Y</span>) :- <span style="color: #00d3d0;">Z</span> is <span style="color: #00d3d0;">Y</span> - 1, hasDivisorLessThanOrEqualTo(<span style="color: #00d3d0;">X</span>,<span style="color: #00d3d0;">Z</span>).
 </pre>
 </div>
 </div>
 </div>
 </div>
 
-<div id="outline-container-Resources" class="outline-2">
+<div id="outline-container-org6f808bb" class="outline-2">
 <h2 id="Resources"><span class="section-number-2">7</span> Resources</h2>
 <div class="outline-text-2" id="text-Resources">
 <ul class="org-ul">
@@ -1016,9 +1116,9 @@ by Joseph Goguen, UC San Diego.</li>
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Mark Armstrong</p>
-     <p class="author">Contact: <a href="mailto:armstmp@mcmaster.ca">armstmp@mcmaster.ca</a></p>
+     <p class="author">Contact: <a href="mailto:markparmstrong@gmail.com">markparmstrong@gmail.com</a></p>
      <p class="date">Original date: </p>
-     <p class="date">Last updated: 2020-09-21 Mon 10:51</p>
+     <p class="date">Last updated: 2020-09-23 Wed 01:38</p>
      <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.90 (<a href="https://orgmode.org">Org</a> mode 9.3.8)</p>
      <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

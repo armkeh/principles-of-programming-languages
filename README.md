@@ -395,6 +395,8 @@ but this may not be updated quickly after lectures/tutorials.
 
 ## Tutorials
 
+  - [Week 2 Wednesday, September 23rd – Docker, Introduction to
+    Prolog](https://web.microsoftstream.com/video/8f852c44-7249-42ca-9fc0-acc21578ecd5)
   - [Week 2 Monday, September 21st – Introduction to
     Prolog](https://web.microsoftstream.com/video/dd31d267-6de5-4cc1-afae-8e81b126d3f8)
   - [Week 2 Wednesday, September 16th – Algebraic data in

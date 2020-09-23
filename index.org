@@ -443,6 +443,7 @@ but this may not be updated quickly after lectures/tutorials.
 :CUSTOM_ID: Tutorials
 :END:
 
+- [[https://web.microsoftstream.com/video/8f852c44-7249-42ca-9fc0-acc21578ecd5][Week 2 Wednesday, September 23rd – Docker, Introduction to Prolog]]
 - [[https://web.microsoftstream.com/video/dd31d267-6de5-4cc1-afae-8e81b126d3f8][Week 2 Monday, September 21st – Introduction to Prolog]]
 - [[https://web.microsoftstream.com/video/da69ad32-13c9-4e26-904e-e06a66c3b537][Week 2 Wednesday, September 16th – Algebraic data in Scala]]
 - [[https://web.microsoftstream.com/video/1f99aa1e-ee5e-4bb4-a27c-6c32175332fd][Week 2 Monday, September 14th – Algebraic data in Scala]]

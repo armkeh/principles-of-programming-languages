@@ -297,7 +297,7 @@ possible answers.
 
 For instance, list catenation in SWI Prolog is a ternary predicate
 #+begin_example prolog
-concat(X,Y,Z)
+append(X,Y,Z)
 #+end_example
 the rules of which enforce that ~Z~ is the result
 of catenating ~X~ and ~Y~.
@@ -395,6 +395,9 @@ We can also ~assert~ or ~retract~ rules in the query REPL, if needed.
 or clauses about the ~name~ predicate.)
 
 ** Unification
+:PROPERTIES:
+:CUSTOM_ID: Unification
+:END:
 
 The computation model of Prolog involves /unification/ of terms.
 Terms unify if either
@@ -407,6 +410,9 @@ variable bindings, by making use of the clauses
 and /modus ponens/ ($(P ∧ P ⇒ Q) ⇒ Q$).
 
 *** The goal list
+:PROPERTIES:
+:CUSTOM_ID: The-goal-list
+:END:
 
 Through this process, the single goal presented by a query
 will usually turn into a collection of goals;
@@ -440,7 +446,11 @@ In general, the runtime will backtrack several times
 during a proof, and it keeps track of which clauses
 have been tried.
 
-# Untried rules
+:TODO: Aside: contradictory clauses
+#+begin_example prolog
+a :- false.
+a.
+#+end_example
 
 *** SWI Prolog's search strategy
 :PROPERTIES:
@@ -513,7 +523,22 @@ A cut is written ~!~, and can be understood as
 :CUSTOM_ID: Failure
 :END:
 
-:TODO:
+In order to force a search to fail, we can use a strategic cut
+along with the ~false~ predicate (which cannot be proven),
+as in
+#+begin_src prolog
+p :- !, false.
+#+end_src
+
+When this clause is used, the cut is encountered,
+preventing any backtracking.
+Then, we immediately state the goal ~false~,
+which cannot be proven.
+So, the runtime must give up here, and return ~false~.
+
+Note that we are not really specifying the return value
+by writing ~false~; instead, we are exerting our control
+over the search to ensure a ~false~ result.
 
 ** Trying to write the two bucket problem
 :PROPERTIES:
