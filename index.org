@@ -364,6 +364,8 @@ When necessary and possible,
 those notes are scanned and made available here.
 If any are missing that you would like to see, please ask.
 
+- [[./notes/handwritten/sept23-trees.pdf][September 23rd – ambiguity in parse trees]]
+
 * Literate programs
 :PROPERTIES:
 :CUSTOM_ID: Lecture-literate-programs

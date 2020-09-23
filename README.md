@@ -334,6 +334,9 @@ seen during the online lecture.
 When necessary and possible, those notes are scanned and made available
 here. If any are missing that you would like to see, please ask.
 
+  - [September 23rd – ambiguity in parse
+    trees](./notes/handwritten/sept23-trees.pdf)
+
 # Literate programs
 
 The last lecture of each week is usually a hands-on live programming
