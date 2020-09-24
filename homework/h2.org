@@ -210,7 +210,7 @@ of your solutions.
 :END:
 
 As of September 23rd, unit tests for the requested predicates
-can be found [[./testing/h2/src/h2.plt][here]]. Their contents are also repeated below.
+can be found [[./testing/h2/h2.plt][here]]. The contents of the unit test file are also repeated below.
 
 Important notes regarding this testing:
 1. Unlike homework 1, for homework 2 it is /mandatory/
@@ -241,9 +241,9 @@ in your shell in that directory.
 :END:
 
 The contents of
-[[./testing/h2/src/h2.plt][the testing script]]
+[[./testing/h2/h2.plt][the testing script]]
 are repeated here.
-#+begin_src prolog :tangle testing/h2/src/h2.plt
+#+begin_src prolog :tangle testing/h2/h2.plt
 :- begin_tests(h2).
 :- include(h2).
 

@@ -1,0 +1,10 @@
+version: '2'
+services:
+  service:
+    build: .
+    image: 3mi3_h2_docker_image
+    volumes:
+      - ./:/opt/h2
+    container_name: 3mi3_h2_container
+    command: |
+      swipl -t "load_test_files([]), run_tests." -s h2.pl
