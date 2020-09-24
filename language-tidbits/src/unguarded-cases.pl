@@ -1,18 +1,3 @@
-#+Title: Computer Science 3MI3 – Prolog tidbits
-#+Author: Mark Armstrong
-#+Date: September 24th, 2020
-#+Description: Examples and code tidbits which help us understand Prolog
-#+Options: num:nil
-#+SETUPFILE: ../org-html-themes/setup/theme-readtheorg-local.setup
-
-* Unguarded cases
-:PROPERTIES:
-:CUSTOM_ID: Unguarded-cases
-:END:
-
-Not “guarding” the cases in your predicate definitions
-can result in slightly different behaviour when it comes to backtracking.
-#+begin_src prolog :tangle ./src/unguarded-cases.pl
 % This tidbit illustrates the effect of
 % not correctly restricting the application of different cases
 % in our predicate definitions.
@@ -32,10 +17,8 @@ fact2([_|T]) :- writeln('fact2, recursive case'), fact2(T).
 % But this will make the search continue and return `false`
 % as a second result. (Assuming the querier presses ; or <space>.)
 fact2(_) :- writeln('fact2, supposedly unreachable case'), false.
-#+end_src
 
-You can try out this example by loading the [[./src/unguarded-cases.pl][source code]] into your REPL.
-#+begin_src prolog :tangle ./src/unguarded-cases.pl
+
 % Query test to see how Prolog will pause after the query,
 % allowing you to to use ; or <space> to then get `false.`
 test :- fact2([1]).
@@ -45,4 +28,3 @@ test :- fact2([1]).
 % Querying expected will show what we would expect to happen instead;
 % the search returns `true.` and halts, not allowing `;` or `<space>`.
 expected :- fact1([1]).
-#+end_src
