@@ -13,6 +13,11 @@ better viewed at
 ## September
 
   - September 23  
+    The files and instructions for using Docker to test homework 2 are
+    now uploaded. The instructions and links can be found in the
+    homework 2 document.
+
+  - September 23  
     The completed version of notes 2 is now uploaded.
     
     Also,
