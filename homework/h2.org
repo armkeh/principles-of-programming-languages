@@ -233,7 +233,25 @@ in your shell in that directory.
 :CUSTOM_ID: Automated-testing-via-Docker
 :END:
 
-:TODO: by end of day September 23rd
+Once you have [[https://docs.docker.com/get-docker/][Docker]]
+and [[https://docs.docker.com/compose/install/][Docker Compose]]
+(installation guides linked here)
+installed, you can easily run the unit tests
+by copying the files
+- ~Dockerfile~,
+- ~docker-compose.yml~,
+- ~setup.sh~ and
+- ~run.sh~
+into your ~h2~ directory where your ~h2.pl~ file exists,
+and running ~setup.sh~ and ~run.sh~.
+
+See the README for this testing setup and those files
+[[https://github.com/armkeh/principles-of-programming-languages/tree/master/homework/testing/h2][on the course GitHub repo]].
+
+Note that the use of the ~setup.sh~ and ~run.sh~ scripts assumes
+that you are in a ~bash~ like shell; if you are on Windows,
+and not using WSL or WSL2, you may have
+to run the commands contained in those scripts manually.
 
 ** The tests
 :PROPERTIES:

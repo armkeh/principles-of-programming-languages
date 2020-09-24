@@ -1,4 +1,4 @@
-% Created 2020-09-23 Wed 23:04
+% Created 2020-09-23 Wed 23:50
 % Intended LaTeX compiler: lualatex
 \documentclass[11pt]{article}
 \usepackage{graphicx}
@@ -42,7 +42,7 @@
 
 
 \section*{Introduction}
-\label{sec:orgfe4907b}
+\label{sec:org9626276}
 Prolog is a \emph{logical programming} language,
 in which the task of the programmer
 is to precisely describe the possible solution space,
@@ -55,11 +55,11 @@ Put simply, the programmer describes the problem, not the solution.
 \end{center}
 
 \section*{Boilerplate}
-\label{sec:org223e34a}
+\label{sec:org0f345d1}
 \subsection*{Submission procedures}
-\label{sec:orgbdc5c8c}
+\label{sec:org9b57a5d}
 \subsubsection*{Submission method}
-\label{sec:org1f9ed74}
+\label{sec:org22dc08c}
 
 Homework should be submitted to your McMaster CAS Gitlab respository
 in the \texttt{cs3mi3-fall2020} project.
@@ -68,7 +68,7 @@ Ensure that you have \textbf{pushed} the commits to the remote repository
 in time for the deadline, and not just committed to your local copy.
 
 \subsubsection*{Naming requirements}
-\label{sec:org84e70e9}
+\label{sec:orga01fced}
 
 Place all files for the homework
 inside a folder titled \texttt{hn}, where \texttt{n} is the number of the homework.
@@ -99,7 +99,7 @@ submit a \texttt{hn.ext} file for each language.
 \end{center}
 
 \subsubsection*{Do not submit testing or diagnostic code}
-\label{sec:orgc6bf736}
+\label{sec:orge4ae036}
 
 Unless you are instructed to do so in the homework questions,
 \textbf{you should not submit testing code with your homework submission}.
@@ -119,7 +119,7 @@ in your final submission.
 For instance, by using a wrapper on the print function or macros.
 
 \subsubsection*{Due date and allowance for technical difficulties}
-\label{sec:org1e16a6b}
+\label{sec:org074b37d}
 
 Homework is due on the second Sunday following its release,
 by the end of the day (midnight).
@@ -134,9 +134,9 @@ This information will help ensure we are able
 to accept your submission once the technical difficulties are resolved.
 
 \subsection*{Proper conduct for coursework}
-\label{sec:org900c37d}
+\label{sec:org3dc1628}
 \subsubsection*{Individual work}
-\label{sec:orgea5aba8}
+\label{sec:org2c02081}
 
 Unless explicitely stated in the homework questions,
 all homework in this course is intended
@@ -185,7 +185,7 @@ probably add a catch-all \texttt{\_} case to your \texttt{match} expressions.”
 \end{enumerate}
 
 \subsubsection*{Language library resources}
-\label{sec:org1db6d93}
+\label{sec:org31e9929}
 
 Unless explicitely stated in the questions,
 it is not expected that you will use any language library resources
@@ -209,7 +209,7 @@ including \texttt{map}, \texttt{reduce}, \texttt{flatten}, and \texttt{filter} a
 unless the task is to implement such a higher-order operator.
 
 \section*{Part 0.1: Installing Prolog                            [0 points]}
-\label{sec:org9fcad37}
+\label{sec:orgc845f8d}
 In this course, we will be targetting
 \href{https://www.swi-prolog.org/}{SWI Prolog} version 8.2.0,
 as used in the
@@ -225,7 +225,7 @@ Docker image.
 That said, any recent version should suffice. 
 
 \subsection*{Installation guides}
-\label{sec:orgcdf51a4}
+\label{sec:org01c75de}
 \begin{itemize}
 \item Linux and MacOS users should be able to install SWI Prolog
 via their package manager.
@@ -234,14 +234,14 @@ provides downloads of prebuilt binaries for SWI Prolog 8.2.1.
 \end{itemize}
 
 \section*{Part 0.2: Basic Prolog programming                     [0 points]}
-\label{sec:org2bc2852}
+\label{sec:orgf6152f7}
 Some basic tutorial on Scala will be given
 in an upcoming lecture, and also in the tutorials,
 and should provide you with the knowledge you need
 to complete this homework.
 
 \section*{Prolog specific instructions}
-\label{sec:orge7141a9}
+\label{sec:org6d6b27a}
 In your Prolog code in this course,
 you are allowed to use all builtin predicates;
 in particular, see the following entries of the
@@ -257,7 +257,7 @@ is also a useful resource, and
 includes links to several other resources.
 
 \section*{Part 1: Prime checker                                  [5 points]}
-\label{sec:org80f57ca}
+\label{sec:orga949d47}
 Here we define a predicate “has divisor less than or equal to”
 which checks, for a given \texttt{X}, if there exists a divisor
 of \texttt{X} less than \textbf{or equal to} the given \texttt{Y} which is greater than 1.
@@ -282,7 +282,7 @@ Using this predicate, define a \texttt{isPrime} predicate
 such that \texttt{isPrime(X)} returns true if \texttt{X} is a prime number.
 
 \section*{Part 2: From number to list of digits (and vice versa) [15 points]}
-\label{sec:org296df7e}
+\label{sec:org34b8a95}
 Complete the following definition of predicate that checks
 if a given list is a list of the digits in a given integer,
 with the first element of the list being the “ones” digit,
@@ -322,7 +322,7 @@ dropLast([H|T],[H|T2]) :-
 \end{minted}
 
 \section*{Part 3: Palindrome                                     [10 points]}
-\label{sec:org6028e8e}
+\label{sec:org211882e}
 Define a predicate \texttt{isPalindrome} which checks that a given
 list is a palindrome.
 
@@ -333,7 +333,7 @@ palindrome([H|T]) :- ??? % H is the first element, T is the rest
 \end{verbatim}
 
 \section*{Part 4: Prime palindromes                              [15 points]}
-\label{sec:org7093d3e}
+\label{sec:org392f969}
 Define a predicate \texttt{primePalindrome} which checks
 if a given integer is both
 \begin{enumerate}
@@ -342,7 +342,7 @@ if a given integer is both
 \end{enumerate}
 
 \section*{Part 5: Efficiency                                     [10 bonus\_points]}
-\label{sec:orge4e5c6c}
+\label{sec:org399aec2}
 For extra marks, research how to make your above definitions more efficient.
 
 In particular, look into the use of the “cut” operator, \texttt{!},
@@ -353,9 +353,9 @@ versions of these problems in order to test the efficiency
 of your solutions.
 
 \section*{Testing}
-\label{sec:org8f8e3df}
+\label{sec:org630db39}
 As of September 23rd, unit tests for the requested predicates
-can be found \href{./testing/h2/src/h2.plt}{here}. Their contents are also repeated below.
+can be found \href{./testing/h2/h2.plt}{here}. The contents of the unit test file are also repeated below.
 
 Important notes regarding this testing:
 \begin{enumerate}
@@ -376,13 +376,33 @@ swipl -t "load_test_files([]), run_tests." -s h2.pl
 in your shell in that directory.
 
 \subsection*{Automated testing via Docker}
-\label{sec:org5faa338}
-:TODO: by end of day September 23rd
+\label{sec:org100e073}
+Once you have \href{https://docs.docker.com/get-docker/}{Docker}
+and \href{https://docs.docker.com/compose/install/}{Docker Compose}
+(installation guides linked here)
+installed, you can easily run the unit tests
+by copying the files
+\begin{itemize}
+\item \texttt{Dockerfile},
+\item \texttt{docker-compose.yml},
+\item \texttt{setup.sh} and
+\item \texttt{run.sh}
+\end{itemize}
+into your \texttt{h2} directory where your \texttt{h2.pl} file exists,
+and running \texttt{setup.sh} and \texttt{run.sh}.
+
+See the README for this testing setup and those files
+\href{https://github.com/armkeh/principles-of-programming-languages/tree/master/homework/testing/h2}{on the course GitHub repo}.
+
+Note that the use of the \texttt{setup.sh} and \texttt{run.sh} scripts assumes
+that you are in a \texttt{bash} like shell; if you are on Windows,
+and not using WSL or WSL2, you may have
+to run the commands contained in those scripts manually.
 
 \subsection*{The tests}
-\label{sec:orgdb5884d}
+\label{sec:org8d33ac8}
 The contents of
-\href{./testing/h2/src/h2.plt}{the testing script}
+\href{./testing/h2/h2.plt}{the testing script}
 are repeated here.
 \begin{minted}[breaklines=true]{prolog}
 :- begin_tests(h2).
