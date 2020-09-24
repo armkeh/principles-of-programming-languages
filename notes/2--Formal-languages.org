@@ -170,10 +170,16 @@ are used as examples of the use of these tools.
 :END:
 
 *** September 23rd
+:PROPERTIES:
+:CUSTOM_ID: September-23rd
+:END:
 
 Notes completed.
 
 *** September 21st
+:PROPERTIES:
+:CUSTOM_ID: September-21st
+:END:
 
 More complete version posting. Nearly complete up to
 Ambiguity.
@@ -1082,6 +1088,9 @@ The first option takes the least work on the language designer's part.
   “unnecessary” mandatory parenthesisation.
 
 ** Parentheses make structure clear
+:PROPERTIES:
+:CUSTOM_ID: Parentheses-make-structure-clear
+:END:
 
 #+begin_quote
 #+ATTR_LATEX: :width \textwidth :center t
@@ -1108,7 +1117,7 @@ For instance, if we call an additive term simply a ~⟨term⟩~ and
 a multiplicative term a ~⟨factor⟩~, we might have a grammar
 #+begin_src text
 ⟨term⟩ ∷= ⟨term⟩ + ⟨term⟩ | ⟨term⟩ - ⟨term⟩ | ⟨factor⟩
-⟨factor⟩ ∷= ⟨factor⟩ * ⟨factor⟩ | ⟨factor⟩ / ⟨factor⟩
+⟨factor⟩ ∷= ⟨factor⟩ * ⟨factor⟩ | ⟨factor⟩ / ⟨factor⟩ | ⟨atom⟩
 ⟨atom⟩ ∷= constant | variable | '(' ⟨term⟩ ')'
 #+end_src
 
@@ -1154,6 +1163,9 @@ But in computing, some operators behave differently than
 their mathematical “selves”.
 
 ** Addition is not associative… in some cases
+:PROPERTIES:
+:CUSTOM_ID: Addition-is-not-associative…-in-some-cases
+:END:
 
 Recall that addition is an associative operator.
 - So the choice of whether addition in a language associates to
@@ -1196,6 +1208,9 @@ programming language syntax.
     - Other unnecessary details may be left out.
 
 ** Abstract syntax trees are parse trees.
+:PROPERTIES:
+:CUSTOM_ID: Abstract-syntax-trees-are-parse-trees.
+:END:
 
 We have already discussed how /parse trees/ are used
 as an internal representation of programs
@@ -1211,6 +1226,9 @@ It is common to give two grammars for a language.
 For this reason, /parse trees/ are also called /abstract syntax trees/ (ASTs.)
 
 ** We are interested in abstract syntax
+:PROPERTIES:
+:CUSTOM_ID: We-are-interested-in-abstract-syntax
+:END:
 
 For the remainder of the course, we will focus on abstract syntax.
 
@@ -1235,6 +1253,9 @@ The /semantics/ of a language assigns a meaning to each sentence.
   a particular mapping, to emphasise different details.
 
 ** Semantic domains
+:PROPERTIES:
+:CUSTOM_ID: Semantic-domains
+:END:
 
 We may also have several semantic domains for a given language.
 - In the case of programming languages,

@@ -1,4 +1,4 @@
-% Created 2020-09-23 Wed 11:24
+% Created 2020-09-23 Wed 13:38
 % Intended LaTeX compiler: lualatex
 \documentclass[11pt]{article}
 \usepackage{graphicx}
@@ -45,7 +45,7 @@
 \maketitle
 
 \section{Preamble}
-\label{sec:orgb531786}
+\label{sec:orgc8be8c3}
 This section introduces the mathematical tools
 we will use in the discussion of programming languages
 as a \emph{formal} language.
@@ -54,97 +54,97 @@ Several small formal languages (not full programming languages)
 are used as examples of the use of these tools.
 
 \subsection{Table of contents}
-\label{sec:org9fed79f}
+\label{sec:orge311e4f}
 \begin{scriptsize}
 \begin{itemize}
-\item \hyperref[sec:orgb531786]{Preamble}
+\item \hyperref[sec:orgc8be8c3]{Preamble}
 \begin{itemize}
-\item \hyperref[sec:org9fed79f]{Table of contents}
-\item \hyperref[sec:orge39b6fa]{Notable references}
-\item \hyperref[sec:orgbf1b67c]{Version history}
+\item \hyperref[sec:orge311e4f]{Table of contents}
+\item \hyperref[sec:org1c87796]{Notable references}
+\item \hyperref[sec:orgffed929]{Version history}
 \begin{itemize}
-\item \hyperref[sec:orge322146]{September 23rd}
-\item \hyperref[sec:orgc7aa726]{September 21st}
-\item \hyperref[sec:org4c813c1]{September 16th}
-\item \hyperref[sec:org96611cc]{Beginning of course}
+\item \hyperref[sec:orgd6a7840]{September 23rd}
+\item \hyperref[sec:org309c1d6]{September 21st}
+\item \hyperref[sec:org06f0419]{September 16th}
+\item \hyperref[sec:org9541e3d]{Beginning of course}
 \end{itemize}
 \end{itemize}
-\item \hyperref[sec:org1abba4f]{Formal languages}
+\item \hyperref[sec:orge3162fa]{Formal languages}
 \begin{itemize}
-\item \hyperref[sec:orgb78d534]{The usefulness of formal languages}
-\item \hyperref[sec:org59c986c]{Strings}
+\item \hyperref[sec:org6284c09]{The usefulness of formal languages}
+\item \hyperref[sec:org382e0c9]{Strings}
 \end{itemize}
-\item \hyperref[sec:orgacaeba2]{Describing the \emph{syntax} of formal languages}
+\item \hyperref[sec:org30490de]{Describing the \emph{syntax} of formal languages}
 \begin{itemize}
-\item \hyperref[sec:org459a083]{Regular expressions as in formal language theory}
-\item \hyperref[sec:orgc996e04]{The language for a regular expression}
-\item \hyperref[sec:orga0426ee]{Additional operators for more expressive regular expressions}
-\item \hyperref[sec:org6d3548c]{Regular expression examples}
-\item \hyperref[sec:org775a78d]{Grammars as in formal language theory}
-\item \hyperref[sec:org8145865]{Notations for grammar productions in formal language theory}
-\item \hyperref[sec:org5527a2b]{Conventions for grammars}
-\item \hyperref[sec:org40e6ba4]{A simple example grammar}
-\item \hyperref[sec:org7e41844]{Exercise – reading grammars}
-\item \hyperref[sec:org4f12455]{Grammars generate or recognise strings}
-\item \hyperref[sec:orga475d8c]{Parse trees}
-\item \hyperref[sec:orgb22edea]{Example parse tree}
-\item \hyperref[sec:org7b65470]{Another example parse tree}
-\item \hyperref[sec:orgfb44648]{Exercise: creating parse trees}
-\item \hyperref[sec:org7201aab]{Backus-Naur form (BNF)}
-\item \hyperref[sec:orgcdc3693]{BNF details}
-\item \hyperref[sec:orgee8aa97]{Aside: ALGOL}
-\item \hyperref[sec:org41b6b47]{Extended Backus-Naur form (EBNF)}
-\item \hyperref[sec:org326949e]{EBNF details}
-\item \hyperref[sec:orgba7cfc1]{Exercise – translating to EBNF}
-\item \hyperref[sec:orge66946e]{EBNF's syntactic sugar}
-\item \hyperref[sec:org9cf9f20]{Exercise – a small language C-like language}
-\item \hyperref[sec:org01a9da9]{Example – EBNF for C++}
+\item \hyperref[sec:orgef114ec]{Regular expressions as in formal language theory}
+\item \hyperref[sec:orgf0651a3]{The language for a regular expression}
+\item \hyperref[sec:org869969e]{Additional operators for more expressive regular expressions}
+\item \hyperref[sec:org353bdbc]{Regular expression examples}
+\item \hyperref[sec:org118d6ea]{Grammars as in formal language theory}
+\item \hyperref[sec:orgf396016]{Notations for grammar productions in formal language theory}
+\item \hyperref[sec:orged8f2ad]{Conventions for grammars}
+\item \hyperref[sec:org7130b52]{A simple example grammar}
+\item \hyperref[sec:org68b8033]{Exercise – reading grammars}
+\item \hyperref[sec:org82cf952]{Grammars generate or recognise strings}
+\item \hyperref[sec:org79b8bae]{Parse trees}
+\item \hyperref[sec:org691da27]{Example parse tree}
+\item \hyperref[sec:org5b83cf4]{Another example parse tree}
+\item \hyperref[sec:org3c97218]{Exercise: creating parse trees}
+\item \hyperref[sec:orge898696]{Backus-Naur form (BNF)}
+\item \hyperref[sec:org73d6b60]{BNF details}
+\item \hyperref[sec:org6388b34]{Aside: ALGOL}
+\item \hyperref[sec:org44cd41d]{Extended Backus-Naur form (EBNF)}
+\item \hyperref[sec:org91db6d9]{EBNF details}
+\item \hyperref[sec:org6e7cf47]{Exercise – translating to EBNF}
+\item \hyperref[sec:org95bf709]{EBNF's syntactic sugar}
+\item \hyperref[sec:org84c6c90]{Exercise – a small language C-like language}
+\item \hyperref[sec:org769cdf0]{Example – EBNF for C++}
 \end{itemize}
-\item \hyperref[sec:org68cc17f]{Parsing and executable code}
+\item \hyperref[sec:org1f7a6b7]{Parsing and executable code}
 \begin{itemize}
-\item \hyperref[sec:orgc07fd9a]{Atomic syntactic units}
-\item \hyperref[sec:org0ea7aa0]{Lexemes and tokens}
-\item \hyperref[sec:org6f52ff9]{Parsing}
-\item \hyperref[sec:org9757a9b]{The zeroth step – preprocessing}
-\item \hyperref[sec:org5dd76c0]{The first step – lexical analysis}
-\item \hyperref[sec:org9e52d96]{The second step – parsing (syntactic analysis)}
-\item \hyperref[sec:orgd94f1ec]{The third step – (static) semantic analysis}
-\item \hyperref[sec:orge1d5e37]{The fourth step – intermediate code generation}
-\item \hyperref[sec:orgac6abb0]{Visualising the entire parsing process}
+\item \hyperref[sec:orgf631fa0]{Atomic syntactic units}
+\item \hyperref[sec:org06d40a8]{Lexemes and tokens}
+\item \hyperref[sec:org8c9badf]{Parsing}
+\item \hyperref[sec:org20ad543]{The zeroth step – preprocessing}
+\item \hyperref[sec:org566a16a]{The first step – lexical analysis}
+\item \hyperref[sec:org1db1ff2]{The second step – parsing (syntactic analysis)}
+\item \hyperref[sec:orgc9121d5]{The third step – (static) semantic analysis}
+\item \hyperref[sec:orgba3ffcd]{The fourth step – intermediate code generation}
+\item \hyperref[sec:org8c0506c]{Visualising the entire parsing process}
 \end{itemize}
-\item \hyperref[sec:orgf4bc1ae]{Compilation, interpretation, and hybrid appraoches}
+\item \hyperref[sec:org05f6599]{Compilation, interpretation, and hybrid appraoches}
 \begin{itemize}
-\item \hyperref[sec:orgf94dfeb]{Compilation}
-\item \hyperref[sec:orga4e2231]{Interpreters}
-\item \hyperref[sec:orgfb8a43b]{Hybrid methods}
+\item \hyperref[sec:org0ca9501]{Compilation}
+\item \hyperref[sec:orgaa13a45]{Interpreters}
+\item \hyperref[sec:orge6ec617]{Hybrid methods}
 \end{itemize}
-\item \hyperref[sec:org5846edf]{Ambiguity}
+\item \hyperref[sec:org125ae96]{Ambiguity}
 \begin{itemize}
-\item \hyperref[sec:orgf5fa90c]{An example of ambiguity}
-\item \hyperref[sec:org809ed05]{Removing ambiguity}
-\item \hyperref[sec:orgfacd5ca]{Parentheses make structure clear}
-\item \hyperref[sec:orgd04cbac]{Enforcing precedence with a grammar}
-\item \hyperref[sec:org1bf2b64]{Enforcing associativity with a grammar}
-\item \hyperref[sec:org6ad7544]{“Associative” operations}
-\item \hyperref[sec:orgf9a2272]{Addition is not associative… in some cases}
+\item \hyperref[sec:org70ba837]{An example of ambiguity}
+\item \hyperref[sec:org6e95f3d]{Removing ambiguity}
+\item \hyperref[sec:org7e601aa]{Parentheses make structure clear}
+\item \hyperref[sec:orgdb936c6]{Enforcing precedence with a grammar}
+\item \hyperref[sec:orgb4ee6cb]{Enforcing associativity with a grammar}
+\item \hyperref[sec:org33188e1]{“Associative” operations}
+\item \hyperref[sec:orgdf4e0d6]{Addition is not associative… in some cases}
 \end{itemize}
-\item \hyperref[sec:org82e4bfd]{Abstract and concrete syntax; setting ambiguity aside}
+\item \hyperref[sec:org60da28f]{Abstract and concrete syntax; setting ambiguity aside}
 \begin{itemize}
-\item \hyperref[sec:orgf3f4748]{Abstract syntax trees are parse trees.}
-\item \hyperref[sec:orga8a2924]{We are interested in abstract syntax}
+\item \hyperref[sec:orgfb24a65]{Abstract syntax trees are parse trees.}
+\item \hyperref[sec:org7dde460]{We are interested in abstract syntax}
 \end{itemize}
-\item \hyperref[sec:org858dcd4]{The \emph{semantics} of formal languages}
+\item \hyperref[sec:orgbab7968]{The \emph{semantics} of formal languages}
 \begin{itemize}
-\item \hyperref[sec:org1b5b75d]{Semantic domains}
-\item \hyperref[sec:orgf932e15]{Example – semantics of a language of natural numbers}
-\item \hyperref[sec:orgd3c8abf]{Example – semantics of propositional logic}
-\item \hyperref[sec:org61bdf84]{Example – small-step semantics of propositional logic}
+\item \hyperref[sec:orgce55932]{Semantic domains}
+\item \hyperref[sec:orge24e1fa]{Example – semantics of a language of natural numbers}
+\item \hyperref[sec:org0e35420]{Example – semantics of propositional logic}
+\item \hyperref[sec:org17308c4]{Example – small-step semantics of propositional logic}
 \end{itemize}
 \end{itemize}
 \end{scriptsize}
 
 \subsection{Notable references}
-\label{sec:orge39b6fa}
+\label{sec:org1c87796}
 \begin{itemize}
 \item Benjamin Pierce,
 “\href{https://ebookcentral.proquest.com/lib/mcmu/detail.action?docID=3338823}{Types and Programming Languages}”
@@ -182,20 +182,18 @@ are used as examples of the use of these tools.
 \end{itemize}
 
 \subsection{Version history}
-\label{sec:orgbf1b67c}
+\label{sec:orgffed929}
 \subsubsection{September 23rd}
-\label{sec:orge322146}
-
+\label{sec:orgd6a7840}
 Notes completed.
 
 \subsubsection{September 21st}
-\label{sec:orgc7aa726}
-
+\label{sec:org309c1d6}
 More complete version posting. Nearly complete up to
 Ambiguity.
 
 \subsubsection{September 16th}
-\label{sec:org4c813c1}
+\label{sec:org06f0419}
 More complete version posted. Nearly complete up to Parsing.
 
 After lecture, several typos fixed.
@@ -203,11 +201,11 @@ First parse tree example also fixed
 (the nodes were in the wrong order.)
 
 \subsubsection{Beginning of course}
-\label{sec:org96611cc}
+\label{sec:org9541e3d}
 Very incomplete version of the notes in place.
 
 \section{Formal languages}
-\label{sec:org1abba4f}
+\label{sec:orge3162fa}
 Recall, from formal language theory:
 
 A language over an \emph{alphabet} (set of symbols) \(Σ\)
@@ -231,7 +229,7 @@ Examples of such mathematical tools include
 \end{itemize}
 
 \subsection{The usefulness of formal languages}
-\label{sec:orgb78d534}
+\label{sec:org6284c09}
 Formal languages, unlike \emph{natural} languages, are well-suited
 for comprehension by computers.
 \begin{itemize}
@@ -249,7 +247,7 @@ a (context-free) grammar.
 \end{itemize}
 
 \subsection{Strings}
-\label{sec:org59c986c}
+\label{sec:org382e0c9}
 Recall that given a set \(Σ\), the set of strings over \(Σ\),
 written \(Σ^{*}\), is the set of all finite sequences
 of elements of \(Σ\).
@@ -269,7 +267,7 @@ Given an element \(e ∈ Σ\), we write
 \end{itemize}
 
 \section{Describing the \emph{syntax} of formal languages}
-\label{sec:orgacaeba2}
+\label{sec:org30490de}
 In this section, we will
 \begin{itemize}
 \item briefly review regular expressions and grammars as
@@ -292,7 +290,7 @@ to the restricted syntax.
 \end{itemize}
 
 \subsection{Regular expressions as in formal language theory}
-\label{sec:org459a083}
+\label{sec:orgef114ec}
 Given a finite alphabet \(Σ\),
 the set of regular expressions (over \(Σ\)),
 denoted \(RE(Σ)\), is given
@@ -313,7 +311,7 @@ Respectively, the three operations in (2) are called
 \end{itemize}
 
 \subsection{The language for a regular expression}
-\label{sec:orgc996e04}
+\label{sec:orgf0651a3}
 The language generated/recognised by a regular expression
 is defined via a (semantic) function \(L : RE(Σ) → Σ^{*}\),
 defined as follows.
@@ -327,7 +325,7 @@ defined as follows.
 \end{itemize}
 
 \subsection{Additional operators for more expressive regular expressions}
-\label{sec:orga0426ee}
+\label{sec:org869969e}
 Regular expressions come up frequently in programming,
 and there is a rich set of extensions
 to make them easier to construct.
@@ -346,7 +344,7 @@ its language.
 \end{enumerate}
 
 \subsection{Regular expression examples}
-\label{sec:org6d3548c}
+\label{sec:org353bdbc}
 The set of all non-empty strings over the alphabet
 can be described by this regular expression.
 \begin{itemize}
@@ -369,7 +367,7 @@ The set \texttt{\{na,nana,banana\}} can be described by
 \end{minted}
 
 \subsection{Grammars as in formal language theory}
-\label{sec:org775a78d}
+\label{sec:org118d6ea}
 Formally, a context-free grammar is a 4-tuple
 \begin{center}
 \(⟨N, Σ, P, S⟩\)
@@ -391,7 +389,7 @@ nonterminals to strings of non-terminals and terminals,
 \end{itemize}
 
 \subsection{Notations for grammar productions in formal language theory}
-\label{sec:org8145865}
+\label{sec:orgf396016}
 Given
 \begin{center}
 \((A, α) ∈ P\),
@@ -417,7 +415,7 @@ we write
 as a shorthand.
 
 \subsection{Conventions for grammars}
-\label{sec:org5527a2b}
+\label{sec:orged8f2ad}
 Writing the 4-tuple each time we produce a grammar is tedious.
 
 For this reason, we adopt the following conventions
@@ -450,7 +448,7 @@ the first production in the list.
 \end{enumerate}
 
 \subsection{A simple example grammar}
-\label{sec:org40e6ba4}
+\label{sec:org7130b52}
 \begin{minted}[breaklines=true]{text}
 A ⟶ aAa | B
 B ⟶ bBb | C
@@ -464,7 +462,7 @@ the form
 \end{center}
 
 \subsection{Exercise – reading grammars}
-\label{sec:org7e41844}
+\label{sec:org68b8033}
 What languages do the following grammars produce?
 
 \begin{minted}[breaklines=true]{text}
@@ -492,7 +490,7 @@ If you believe so, just be careful that
 your simplification accepts the same string!
 
 \subsection{Grammars generate or recognise strings}
-\label{sec:org4f12455}
+\label{sec:org82cf952}
 We have discussed the facts that a grammar can
 \begin{itemize}
 \item generate strings or
@@ -515,7 +513,7 @@ But there is a useful byproduct which may be obtained during
 during either process: a \emph{parse tree}.
 
 \subsection{Parse trees}
-\label{sec:orga475d8c}
+\label{sec:org79b8bae}
 A parse tree's
 \begin{itemize}
 \item nodes (which have children) are
@@ -530,7 +528,7 @@ If a non-terminal would produce \texttt{ε}, it is omitted.
 \end{itemize}
 
 \subsection{Example parse tree}
-\label{sec:orgb22edea}
+\label{sec:org691da27}
 For example, consider the grammar
 \begin{minted}[breaklines=true]{text}
 S ⟶ AB
@@ -547,13 +545,13 @@ but which will usually be omitted by our rules for parse trees.
 \includegraphics{media/parse-tree-example-aab.png}
 
 \subsection{Another example parse tree}
-\label{sec:org7b65470}
+\label{sec:org5b83cf4}
 Similarly, working with the same grammar,
 we have the following parse tree for \texttt{abb}.
 \includegraphics{media/parse-tree-example-abb.png}
 
 \subsection{Exercise: creating parse trees}
-\label{sec:orgfb44648}
+\label{sec:org3c97218}
 Exercise: provide a parse tree for the string \texttt{aaa} using this grammar.
 Is there a valid parse tree for the string \texttt{bbb}?
 
@@ -562,7 +560,7 @@ can you provide a different parse tree
 (or multiple different parse trees) for \texttt{aaa}?
 
 \subsection{Backus-Naur form (BNF)}
-\label{sec:org7201aab}
+\label{sec:orge898696}
 Up until now, we have used the form
 \begin{verbatim}
 N₁ ⟶ P₁ | P₂ | …
@@ -580,7 +578,7 @@ namely ALGOL.
 \end{itemize}
 
 \subsection{BNF details}
-\label{sec:orgcdc3693}
+\label{sec:org73d6b60}
 In Backus-Naur form,
 \begin{itemize}
 \item all nonterminals names are delimited by
@@ -598,7 +596,7 @@ without changing the meaning of the production
 \end{itemize}
 
 \subsection{Aside: ALGOL}
-\label{sec:orgee8aa97}
+\label{sec:org6388b34}
 ALGOL (for “ALGOrithmic Language”)
 was a contemporary of Fortran, Lisp, and Cobol.
 \begin{itemize}
@@ -620,7 +618,7 @@ introducing concepts such as the block.
 \end{itemize}
 
 \subsection{Extended Backus-Naur form (EBNF)}
-\label{sec:org41b6b47}
+\label{sec:org44cd41d}
 We further extend our grammar notation to include several
 several additional operators.
 \begin{itemize}
@@ -634,7 +632,7 @@ not chosen to match the standard;
 it is what is convenient for our use.
 
 \subsection{EBNF details}
-\label{sec:org326949e}
+\label{sec:org91db6d9}
 \begin{itemize}
 \item (Square) brackets, \texttt{[]}, surrounding a string
 indicate that string may or may not be included in a production.
@@ -663,7 +661,7 @@ such as to indicate a whitespace character, pipe or quote.
 \end{itemize}
 
 \subsection{Exercise – translating to EBNF}
-\label{sec:orgba7cfc1}
+\label{sec:org6e7cf47}
 Translate this grammar from an earlier exercise to EBNF syntax.
 \begin{minted}[breaklines=true]{text}
 A ⟶ B | C
@@ -676,7 +674,7 @@ while maintaining the language defined.
 Can you use only one production when using EBNF?
 
 \subsection{EBNF's syntactic sugar}
-\label{sec:orge66946e}
+\label{sec:org95bf709}
 EBNF and our extended regular expressions syntax
 give us our first example of \emph{syntactic sugar};
 syntax that does not add new features to a language,
@@ -704,7 +702,7 @@ in a “core” language which includes less constructs.
 \end{itemize}
 
 \subsection{Exercise – a small language C-like language}
-\label{sec:org9cf9f20}
+\label{sec:org84c6c90}
 Consider the following context-free language.
 \begin{verbatim}
 ⟨stmt⟩   ∷= ⟨assign⟩ | ⟨stmt⟩ "; " ⟨stmt⟩
@@ -722,7 +720,7 @@ Provide some example programs in this language.
 Can you precisely describe the language in English?
 
 \subsection{Example – EBNF for C++}
-\label{sec:org01a9da9}
+\label{sec:org769cdf0}
 A good example of the practicality EBNF for specifying
 the syntax of languages is this
 \href{http://www.externsoft.ch/download/cpp-iso.html}{EBNF grammar for C++}
@@ -734,7 +732,7 @@ but it is still quite concise for describing
 a real-world programming language.
 
 \section{Parsing and executable code}
-\label{sec:org68cc17f}
+\label{sec:org1f7a6b7}
 We will briefly summarise the parsing process,
 beginning with some important terms.
 \begin{itemize}
@@ -744,7 +742,7 @@ construction of parse trees.
 \end{itemize}
 
 \subsection{Atomic syntactic units}
-\label{sec:orgc07fd9a}
+\label{sec:orgf631fa0}
 We have mentioned that both regular expressions and
 context-free grammars are used in the description of
 the syntax of programming languages.
@@ -764,7 +762,7 @@ which describes numerical constants.
 This is not done in practice.
 
 \subsection{Lexemes and tokens}
-\label{sec:org0ea7aa0}
+\label{sec:org06d40a8}
 In practice,
 \begin{itemize}
 \item regular expressions are instead used to describe the
@@ -793,7 +791,7 @@ keyword \texttt{while},
 \end{itemize}
 
 \subsection{Parsing}
-\label{sec:org6f52ff9}
+\label{sec:org8c9badf}
 Parsing is the process of translating a program
 from plaintext to executable instructions
 \begin{itemize}
@@ -807,7 +805,7 @@ parsing is a necessary step before execution.
 \end{itemize}
 
 \subsection{The zeroth step – preprocessing}
-\label{sec:org9757a9b}
+\label{sec:org20ad543}
 Many programming languages support some form
 of \emph{preprocessing directives} which are
 to be carried out before the parsing process
@@ -823,7 +821,7 @@ form a programming language themselves.
 \end{itemize}
 
 \subsection{The first step – lexical analysis}
-\label{sec:org5dd76c0}
+\label{sec:org566a16a}
 After preprocessing, if it is present, comes the
 the conversion of the plaintext source code
 into a sequence of \emph{tokens}.
@@ -837,7 +835,7 @@ text which is irrelevant to the machine.
 \end{itemize}
 
 \subsection{The second step – parsing (syntactic analysis)}
-\label{sec:org9e52d96}
+\label{sec:org1db1ff2}
 After converting from plaintext to a string of tokens, the next
 step of parsing is to construct the parse tree.
 
@@ -852,7 +850,7 @@ as the structure of the tree makes certain text
 irrelevant (such as parentheses).
 
 \subsection{The third step – (static) semantic analysis}
-\label{sec:orgd94f1ec}
+\label{sec:orgc9121d5}
 Once the parse tree is constructed,
 rules about the form of programs
 which cannot be (or cannot easily be)
@@ -871,7 +869,7 @@ such as
 \end{itemize}
 
 \subsection{The fourth step – intermediate code generation}
-\label{sec:orge1d5e37}
+\label{sec:orgba3ffcd}
 Most high-level languages are not translated directly to machine code;
 instead, they are translated to some \emph{intermediate code},
 which is closer to machine code than the high-level language.
@@ -883,20 +881,20 @@ This intermediate code can then be translated
 into machine code by later steps.
 
 \subsection{Visualising the entire parsing process}
-\label{sec:orgac6abb0}
+\label{sec:org8c0506c}
 \begin{center}
 \includegraphics[width=\textwidth]{media/parsing-whole.png}
 \end{center}
 
 \section{Compilation, interpretation, and hybrid appraoches}
-\label{sec:orgf4bc1ae}
+\label{sec:org05f6599}
 We have mentioned above during the discussion of parsing
 the notions of compilation and interpretation.
 
 Let us define those terms.
 
 \subsection{Compilation}
-\label{sec:orgf94dfeb}
+\label{sec:org0ca9501}
 A \emph{compiler} translates the whole program
 (and any libraries or other code resources needed)
 ahead of running it.
@@ -906,7 +904,7 @@ ahead of running it.
 \end{itemize}
 
 \subsection{Interpreters}
-\label{sec:orga4e2231}
+\label{sec:orgaa13a45}
 An \emph{interpreter} translates the program \emph{as we are running it}.
 \begin{itemize}
 \item No upfront cost, but less efficient.
@@ -931,7 +929,7 @@ it can be used by any number of users for any number programs.
 \end{itemize}
 
 \subsection{Hybrid methods}
-\label{sec:orgfb8a43b}
+\label{sec:orge6ec617}
 \emph{Hybrid methods} compile into a special intermediate language,
 which is then interpreted into machine code when the program is run.
 \begin{itemize}
@@ -946,7 +944,7 @@ a bytecode interpreter for each target machine.
 \end{itemize}
 
 \section{Ambiguity}
-\label{sec:org5846edf}
+\label{sec:org125ae96}
 We have discussed parse trees as a representation
 of programs used during the parsing process.
 
@@ -966,7 +964,7 @@ This can happen quite frequently, and we must discuss
 methods of eliminating such \emph{ambiguity}.
 
 \subsection{An example of ambiguity}
-\label{sec:orgf5fa90c}
+\label{sec:org70ba837}
 For instance, the string \texttt{aa} has four valid parse trees
 under the grammar
 \begin{minted}[breaklines=true]{text}
@@ -977,7 +975,7 @@ Exercise: find all four valid parse trees for \texttt{aa} with the above
 grammar.
 
 \subsection{Removing ambiguity}
-\label{sec:org809ed05}
+\label{sec:org6e95f3d}
 Three tools for removing ambiguity are
 \begin{itemize}
 \item requiring parentheses,
@@ -992,8 +990,7 @@ The first option takes the least work on the language designer's part.
 \end{itemize}
 
 \subsection{Parentheses make structure clear}
-\label{sec:orgfacd5ca}
-
+\label{sec:org7e601aa}
 \begin{quote}
 \begin{center}
 \includegraphics[width=\textwidth]{./media/comics/language.png}
@@ -1002,7 +999,7 @@ The first option takes the least work on the language designer's part.
 From the SMBC comic “\href{http://smbc-comics.com/comic/language}{Language}”
 
 \subsection{Enforcing precedence with a grammar}
-\label{sec:orgd04cbac}
+\label{sec:orgdb936c6}
 To enforce precedence using a grammar:
 \begin{itemize}
 \item Create a hierarchy of non-terminals.
@@ -1021,12 +1018,12 @@ For instance, if we call an additive term simply a \texttt{⟨term⟩} and
 a multiplicative term a \texttt{⟨factor⟩}, we might have a grammar
 \begin{minted}[breaklines=true]{text}
 ⟨term⟩ ∷= ⟨term⟩ + ⟨term⟩ | ⟨term⟩ - ⟨term⟩ | ⟨factor⟩
-⟨factor⟩ ∷= ⟨factor⟩ * ⟨factor⟩ | ⟨factor⟩ / ⟨factor⟩
+⟨factor⟩ ∷= ⟨factor⟩ * ⟨factor⟩ | ⟨factor⟩ / ⟨factor⟩ | ⟨atom⟩
 ⟨atom⟩ ∷= constant | variable | '(' ⟨term⟩ ')'
 \end{minted}
 
 \subsection{Enforcing associativity with a grammar}
-\label{sec:org1bf2b64}
+\label{sec:orgb4ee6cb}
 To enforce associativity using a grammar:
 \begin{itemize}
 \item Left associative operators should be produced by left recursive
@@ -1046,7 +1043,7 @@ Then \texttt{+} is right associative, \texttt{-} is left associative,
 and similarly \texttt{*} is right associative and \texttt{/} is left associative.
 
 \subsection{“Associative” operations}
-\label{sec:org6ad7544}
+\label{sec:org33188e1}
 You know that in mathematics,
 we often avoid parentheses by declaring operations
 to be \emph{left associative} or \emph{right associative}.
@@ -1069,8 +1066,7 @@ But in computing, some operators behave differently than
 their mathematical “selves”.
 
 \subsection{Addition is not associative… in some cases}
-\label{sec:orgf9a2272}
-
+\label{sec:orgdf4e0d6}
 Recall that addition is an associative operator.
 \begin{itemize}
 \item So the choice of whether addition in a language associates to
@@ -1096,7 +1092,7 @@ upon parenthesisation.
 \end{center}
 
 \section{Abstract and concrete syntax; setting ambiguity aside}
-\label{sec:org82e4bfd}
+\label{sec:org60da28f}
 “Simple”, ambiguous grammars do have a place in describing
 programming language syntax.
 \begin{itemize}
@@ -1123,8 +1119,7 @@ but one tree cannot “flatten” to two different programs.
 \end{itemize}
 
 \subsection{Abstract syntax trees are parse trees.}
-\label{sec:orgf3f4748}
-
+\label{sec:orgfb24a65}
 We have already discussed how \emph{parse trees} are used
 as an internal representation of programs
 after parsing.
@@ -1145,15 +1140,14 @@ It is common to give two grammars for a language.
 For this reason, \emph{parse trees} are also called \emph{abstract syntax trees} (ASTs.)
 
 \subsection{We are interested in abstract syntax}
-\label{sec:orga8a2924}
-
+\label{sec:org7dde460}
 For the remainder of the course, we will focus on abstract syntax.
 
 In particular, in the discussion of the semantics of formal languages,
 concrete syntactic details are not of interest to us.
 
 \section{The \emph{semantics} of formal languages}
-\label{sec:org858dcd4}
+\label{sec:orgbab7968}
 The \emph{semantics} of a language assigns a meaning to each sentence.
 \begin{itemize}
 \item In order to define a semantics, we must
@@ -1169,8 +1163,7 @@ a particular mapping, to emphasise different details.
 \end{itemize}
 
 \subsection{Semantic domains}
-\label{sec:org1b5b75d}
-
+\label{sec:orgce55932}
 We may also have several semantic domains for a given language.
 \begin{itemize}
 \item In the case of programming languages,
@@ -1193,7 +1186,7 @@ the three most well known are
 \end{itemize}
 
 \subsection{Example – semantics of a language of natural numbers}
-\label{sec:orgf932e15}
+\label{sec:orge24e1fa}
 Consider a language of terms intended to represent
 natural numbers.
 \begin{minted}[breaklines=true]{text}
@@ -1217,7 +1210,7 @@ the language and the semantic domain are not so directly related.
 \end{itemize}
 
 \subsection{Example – semantics of propositional logic}
-\label{sec:orgd3c8abf}
+\label{sec:org0e35420}
 As a more complex example, we can map propositional logic terms
 into the set of booleans.
 \begin{minted}[breaklines=true]{text}
@@ -1242,7 +1235,7 @@ eval (p ∧ q) = eval q   if eval p
 Exercise: Complete this evaluation function.
 
 \subsection{Example – small-step semantics of propositional logic}
-\label{sec:org61bdf84}
+\label{sec:org17308c4}
 The evaluation function defined above can be considered
 to be a \emph{big-step} semantics.
 \begin{itemize}

@@ -177,7 +177,7 @@ list is a palindrome.
 Note you can use pattern matching with the list “cons” operator, ~|~,
 to refer to the head and tail of a list, as in
 #+begin_example prolog
-palindrome([H|T]) :- ??? % H is the first element, L is the rest
+palindrome([H|T]) :- ??? % H is the first element, T is the rest
 #+end_example
 
 * Part 4: Prime palindromes                              [15 points]
