@@ -18,6 +18,13 @@
 :CUSTOM_ID: September
 :END:
 
+- September 24 :: A new “Prolog tidbits” document has been uploaded
+  and can be found under the Prolog section/tab on this site.
+
+  I will aim to add information and examples to this file
+  as I answer people's questions on the language and our homeworks in it,
+  so that you can refer there if you have questions.
+
 - September 23 :: The files and instructions for using Docker
   to test homework 2 are now uploaded.
   The instructions and links can be found in the homework 2 document.
@@ -531,7 +538,18 @@ The PDF is also embedded here for convenience.
 :CUSTOM_ID: Prolog
 :END:
 
-:TODO:
+Answers to some common or interesting questions regarding Prolog
+can be found in the Prolog tidbits file, available as
+- an [[./language-tidbits/prolog.html][HTML site]],
+- a [[./language-tidbits/prolog.pdf][PDF]], or
+- a plaintext [[./language-tidbits/prolog.org][Org document]].
+
+** Installation instructions
+:PROPERTIES:
+:CUSTOM_ID: Installation-instructions
+:END:
+
+#+INCLUDE: "./homework/h2.org::* Part 0.1: Installing Prolog                            [0 points]" :only-contents t
 
 * Ruby
 :PROPERTIES:

@@ -12,6 +12,14 @@ better viewed at
 
 ## September
 
+  - September 24  
+    A new “Prolog tidbits” document has been uploaded and can be found
+    under the Prolog section/tab on this site.
+    
+    I will aim to add information and examples to this file as I answer
+    people's questions on the language and our homeworks in it, so that
+    you can refer there if you have questions.
+
   - September 23  
     The files and instructions for using Docker to test homework 2 are
     now uploaded. The instructions and links can be found in the
@@ -500,7 +508,35 @@ your operating system, and we link to guides to get you started below.
 
 # Prolog
 
-:TODO:
+Answers to some common or interesting questions regarding Prolog can be
+found in the Prolog tidbits file, available as
+
+  - an [HTML site](./language-tidbits/prolog.html),
+  - a [PDF](./language-tidbits/prolog.pdf), or
+  - a plaintext [Org document](./language-tidbits/prolog.org).
+
+## Installation instructions
+
+In this course, we will be targetting [SWI
+Prolog](https://www.swi-prolog.org/) version 8.2.0, as used in the
+[swipl](https://hub.docker.com/_/swipl/) Docker image.
+
+<div class="center">
+
+**If there is any update to the Docker image,** **or if for any other
+reason we change our targeted versions**, **we will make an announcement
+on the homepage.**
+
+</div>
+
+That said, any recent version should suffice.
+
+### Installation guides
+
+  - Linux and MacOS users should be able to install SWI Prolog via their
+    package manager.
+  - The [SWI Prolog website](https://www.swi-prolog.org/download/stable)
+    provides downloads of prebuilt binaries for SWI Prolog 8.2.1.
 
 # Ruby
 
