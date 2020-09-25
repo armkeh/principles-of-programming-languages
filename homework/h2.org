@@ -147,7 +147,7 @@ as a starting point.
 #+begin_src prolog
 isDigitList(_,[]) :- false.
 isDigitList(X,[X]). % Your code here; change the . to :-
-isDigitList(X,[H|T]). % Your code here; change the above . to a ,
+isDigitList(X,[H|T]). % Your code here; change the . to :-
 #+end_src
 
 (Note this predicate can be thought of as checking if the given list contains
@@ -190,7 +190,7 @@ if a given integer is both
 1. prime, and
 2. a palindrome (in terms of the list of its digits).
 
-* Part 5: Efficiency                                     [10 bonus_points]
+* Part 5: Efficiency                                     [10 bonus points]
 :PROPERTIES:
 :CUSTOM_ID: Part-5:-Efficiency-------------------------------------[10 bonus_points]
 :END:
