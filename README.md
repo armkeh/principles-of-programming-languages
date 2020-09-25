@@ -12,6 +12,10 @@ better viewed at
 
 ## September
 
+  - September 25  
+    Live coding notes for today, on programming trees in Prolog, have
+    been uploaded.
+
   - September 24  
     A new “Prolog tidbits” document has been uploaded and can be found
     under the Prolog section/tab on this site.
@@ -361,6 +365,17 @@ tutorials are available here. Particularly relevant portions of raw code
 are also included.
 
 ## Lectures
+
+### September 25th – Trees in Prolog
+
+  - [HTML](./notes/live-coding/09-25-Trees-in-Prolog.html)
+  - [PDF](./notes/live-coding/09-25-Trees-in-Prolog.pdf)
+  - [Org plaintext](./notes/live-coding/09-25-Trees-in-Prolog.org)
+
+Relevant raw code:
+
+  - [The `is_Tree` predicates](./notes/live-coding/src/tree.pl) and some
+    operations on trees.
 
 ### September 18th – Puzzles in Prolog
 

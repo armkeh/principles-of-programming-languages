@@ -1,0 +1,269 @@
+#+Title: Trees in Prolog
+#+Author: Mark Armstrong
+#+Description: A demonstration of how to represent tree-like data in Prolog.
+#+SETUPFILE: ../../org-html-themes/setup/theme-readtheorg-local.setup
+
+* LaTeX settings                                :noexport:
+
+#+LaTeX_header: \usepackage{unicode-math}
+#+LaTeX_header: \usepackage{unicode}
+
+* Introduction
+:PROPERTIES:
+:CUSTOM_ID: Introduction
+:END:
+
+These notes were created for, and in some parts *during*,
+the lecture on September 25th and the following tutorials.
+
+* Motivation
+:PROPERTIES:
+:CUSTOM_ID: Motivation
+:END:
+
+So far in this course,
+- we have had a homework on defining different tree datatypes
+  in Scala, and
+- we have discussed in lectures how trees are used
+  as the internal and formal representation of programs.
+
+Now, in keeping with this theme, let us discuss
+how we can reason about trees in Prolog.
+This information will be necessary for the sort of programs
+we wish to write later on.
+
+* Datatypes in Prolog
+:PROPERTIES:
+:CUSTOM_ID: Datatypes-in-Prolog
+:END:
+
+We have previously discussed that there are
+four classes of Prolog terms;
+- /numbers/,
+  - (including both integers and floats) 
+- /atoms/, which include
+  words beginning with a lower case letters
+  and strings in single quotes,
+- /variables/, which begin with upper case letters, and
+- /compound terms/
+  - (which consist of a /functor/ atom and a number
+    of /arguments/ applied to that functor,
+  - such as ~isPrime(5)~.)
+
+These are, in fact, the basic types defined in the Prolog standard.
+- See the [[https://www.swi-prolog.org/datatypes.html][SWI Prolog documentation]].
+- There is some hierarchy among the types
+  (see the next section.)
+- Other types, or even the ability for user-defined types,
+  may be added as extensions. But in basic Prolog, there are only
+  the above.
+
+Of course, we use in SWI Prolog the list type it provides as well.
+But for this course, that is the only extension we will use.
+So we must find a way to represent trees with the above.
+
+* Aside: the type hierarchy in Prolog
+:PROPERTIES:
+:CUSTOM_ID: Aside:-the-type-hierarchy-in-Prolog
+:END:
+
+In the above linked SWI Prolog documentation on types,
+[[https://github.com/dtonhofer][David Tonhofer]] in the comments links to his
+[[https://github.com/dtonhofer/prolog_notes/blob/master/swipl_notes/about_swipl_data_types/swipl_data_type_tree/swipl_data_type_tree.pdf][Prolog type chart]]
+and [[https://github.com/dtonhofer/prolog_notes/tree/master/swipl_notes/about_swipl_data_types][notes]]
+on the subject of SWI Prolog types.
+
+We include that type chart here for your interest.
+#+LaTeX_header: \usepackage{pdfpages}
+@@latex:\includepdf[pages=-,width=\pagewidth]{./media/swipl_data_type_tree.pdf}@@
+@@html:<iframe src="./media/swipl_data_type_tree.pdf" style="width: 100%; height: 25vh"></iframe>@@
+
+The [[https://raw.githubusercontent.com/dtonhofer/prolog_notes/1057c149ebc145d1df38cc5d1b82b1eaefe925c3/swipl_notes/about_swipl_data_types/swipl_data_type_tree/swipl_data_type_tree.svg][detailed SVG]] can be quite interesting to examine;
+it is far too dense to fit on this page, though.
+
+* Tuples
+:PROPERTIES:
+:CUSTOM_ID: Records
+:END:
+
+From Pierce's “[[https://ebookcentral.proquest.com/lib/mcmu/detail.action?docID=3338823][Types and Programming Languages]]”,
+(chapter 11, “Simple Extensions”)
+#+begin_quote
+Most programming languages provide a variety of ways
+of building compound data structures.
+The simplest of these is pairs,
+or more generally tuples, of values.
+#+end_quote
+
+Tuple types differ from lists in that
+- :TODO:, and
+- :TODO:.
+
+A Prolog compound term of the form ~label(a1,…,an)~ can be viewed
+as an ~n~-ary tuple along with the label ~label~,
+and we will use this fact to construct trees in Prolog.
+
+* Trees as tuples
+:PROPERTIES:
+:CUSTOM_ID: Trees-as-tuples
+:END:
+
+** The original tree types
+:PROPERTIES:
+:CUSTOM_ID: The-original-tree-types
+:END:
+
+Recall the types ~BinTree~ and ~LeafTree~ from homework 1.
+#+begin_src amm
+sealed trait LeafTree[A]
+case class Leaf[A](a: A) extends LeafTree[A]
+case class Branch[A](l: LeafTree[A], r: LeafTree[A]) extends LeafTree[A]
+
+sealed trait BinTree[A]
+case class Empty[A]() extends BinTree[A]
+case class Node[A](l: BinTree[A], a: A, r: BinTree[A]) extends BinTree[A]
+#+end_src
+or in briefer Haskell syntax,
+#+begin_src haskell
+data LeafTree a = Leaf a | Branch (LeafTree a) (LeafTree a)
+data BinTree a = Empty | Node (BinTree a) a (BinTree a)
+#+end_src
+(for the remainder of the course, if we discuss these types,
+we will assume constructors of this shape.)
+
+** Tupling the arguments
+:PROPERTIES:
+:CUSTOM_ID: Tupling-the-arguments
+:END:
+
+Consider the parameters of each constructor.
+- ~Leaf~ has a single parameter of type ~A~.
+- ~Branch~ has two parameters of type ~LeafTree A~.
+- ~Empty~ does have a parameter, of type ~Unit~.
+  - The only value of type ~Unit~ being ~()~.
+- ~Node~ has three parameters of types ~BinTree A~, ~A~, and ~BinTree A~.
+
+We could isomorphically define constructors
+which each took a single /tuple/ as parameter.
+- ~Leaf′~ would have a parameter of type ~Tuple1[A]~.
+  - To construct a singleton tuple with value ~v~, use ~Tuple1(v)~.
+  - For instance, ~Tuple1(5) : Tuple1[Int]~.
+- ~Branch′~ would have a parameter of type ~Tuple2[LeafTree A, LeafTree A]~.
+- ~Empty′~ is the same as ~Empty~, taking a parameter of type ~Unit~.
+  - There is no ~Tuple0~ type in Scala, but ~Unit~ is isomorphic.
+- ~Node′~ would have a parameter of type ~Tuple3[BinTree A, A, BinTree A]~.
+We have to say /isomorphically/ rather than /equivalently/ because
+these constructors as *not* equivalent to the previous versions
+(except for ~Empty′~.) But they are /isomorphic/, because they can represent
+the same trees, and we have a 1-1 correspondence between them.
+
+The Haskell naming of the tuple type would make
+these descriptions briefer.
+- ~Leaf′~ would have a parameter of type ~(A)~.
+- ~Branch′~ would have a parameter of type ~(LeafTree A, LeafTree A)~.
+- ~Empty′~ would have a parameter of type ~()~.
+- ~Node′~ would have a parameter of  type ~(BinTree A, A, BinTree A)~.
+
+** Trees without constructors
+:PROPERTIES:
+:CUSTOM_ID: Trees-without-constructors
+:END:
+
+Given the above constructors using tuples,
+we can see that we could even /omit/ the constructors
+and simply write trees /as tuples/. For instance,
+#+begin_src amm
+Branch(Leaf(1),Branch(Leaf(2),Leaf(3))) : ???
+#+end_src
+corresponds to the tuple
+#+begin_src amm
+(1,(2,3)) : ???
+#+end_src
+They are not the same type, but they represent the same tree.
+
+Of course, this tuple representation would introduce a lot of /junk/;
+- the set of all tuples
+contains many tuples which are not part of
+- the set of all tuples
+  which represent a well-formed ~LeafTree~ (or ~BinTree~.)
+
+Also note that with the tuple representation,
+the type of the tree depends upon how many elements are in it!
+In a statically typed language such as Scala and Haskell,
+this method of representation is practically unusable
+for this reason.
+
+But in a /dynamically/ typed language
+(we encourage you to read “dynamically typed” as
+“dynamically type checked”, as Pierce suggests in his chapter 1)
+where no types are checked until runtime,
+this approach is feasible,
+and in the absence of user-defined types, necessary!
+
+* Recognising trees
+:PROPERTIES:
+:CUSTOM_ID: Recognising-trees
+:END:
+
+Recall that
+a Prolog compound term of the form ~label(a1,…,an)~ can be viewed
+as an ~n~-ary tuple along with the label ~label~.
+
+We will use the labels to indicate the constructor we have in mind
+when constructing trees as tuples.
+So, for the ~LeafTree~ type, we have trees such as
+#+begin_example prolog
+leaf(5)
+leaf([])
+branch(leaf(1),leaf(2))
+branch(branch(leaf(1),leaf(2)),leaf(3))
+#+end_example
+and for ~BinTree~, examples include
+#+begin_src prolog
+empty
+node(empty,1,empty)
+node(node(empty,'left element',empty),top_element,node(empty,3,empty))
+#+end_src
+
+We can construct predicates to check our two tree “types”.
+These allow for /runtime/ checking that arguments have the “correct type”. 
+#+begin_src prolog :tangle ./src/tree.pl
+isBinTree(empty).
+isBinTree(node(L,_,R)) :- isBinTree(L), isBinTree(R).
+
+isLeafTree(leaf(_)).
+isLeafTree(branch(L,R)) :- isLeafTree(L), isLeafTree(R).
+#+end_src
+Note that we still have nothing restricting the types of the elements.
+
+* Operations on trees
+:PROPERTIES:
+:CUSTOM_ID: Operations-on-trees
+:END:
+
+Let's implement some basic operations on our tree type.
+The ~flatten~ and ~orderedElems~ operations
+from homework 1 will be assigned as homework.
+#+begin_src prolog :tangle ./src/tree.pl
+% Inserting into trees.
+
+binInsert(E,empty,node(empty,E,empty)).
+binInsert(E,node(L,A,R),node(binInsert(E,L),A,R)).
+
+
+
+% Inserting into trees *nondeterministically*.
+% These versions produce all possible valid inserts!
+
+binInsertND(E,empty,node(empty,E,empty)).
+binInsertND(E,node(L,A,R),node(binInsert(E,L),A,R)).
+% …
+
+
+#+end_src
+
+* Local Org variables                           :noexport:
+
+# Local Variables:
+# eval: (add-hook 'after-save-hook (lambda ()(org-babel-tangle)) nil t)
+# End:

@@ -1,0 +1,619 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2020-09-25 Fri 13:21 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Trees in Prolog</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Mark Armstrong" />
+<meta name="description" content="A demonstration of how to represent tree-like data in Prolog."
+ />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="styles/readtheorg/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="styles/readtheorg/css/readtheorg.css"/>
+<script type="text/javascript" src="styles/lib/js/jquery.min.js"></script>
+<script type="text/javascript" src="styles/lib/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="styles/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" src="styles/readtheorg/js/readtheorg.js"></script>
+<style>pre.src{background:#000000;color:white;} </style>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:e95b018ef3580986a04669f1b5879592219e2a7a&dn=public-domain.txt Public Domain
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.add("code-highlighted");
+         target.classList.add("code-highlighted");
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.remove("code-highlighted");
+         target.classList.remove("code-highlighted");
+       }
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Trees in Prolog</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#Introduction">1. Introduction</a></li>
+<li><a href="#Motivation">2. Motivation</a></li>
+<li><a href="#Datatypes-in-Prolog">3. Datatypes in Prolog</a></li>
+<li><a href="#Aside:-the-type-hierarchy-in-Prolog">4. Aside: the type hierarchy in Prolog</a></li>
+<li><a href="#Records">5. Tuples</a></li>
+<li><a href="#Trees-as-tuples">6. Trees as tuples</a>
+<ul>
+<li><a href="#The-original-tree-types">6.1. The original tree types</a></li>
+<li><a href="#Tupling-the-arguments">6.2. Tupling the arguments</a></li>
+<li><a href="#Trees-without-constructors">6.3. Trees without constructors</a></li>
+</ul>
+</li>
+<li><a href="#Recognising-trees">7. Recognising trees</a></li>
+<li><a href="#Operations-on-trees">8. Operations on trees</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-Introduction" class="outline-2">
+<h2 id="Introduction"><span class="section-number-2">1</span> Introduction</h2>
+<div class="outline-text-2" id="text-Introduction">
+<p>
+These notes were created for, and in some parts <b>during</b>,
+the lecture on September 25th and the following tutorials.
+</p>
+</div>
+</div>
+
+<div id="outline-container-Motivation" class="outline-2">
+<h2 id="Motivation"><span class="section-number-2">2</span> Motivation</h2>
+<div class="outline-text-2" id="text-Motivation">
+<p>
+So far in this course,
+</p>
+<ul class="org-ul">
+<li>we have had a homework on defining different tree datatypes
+in Scala, and</li>
+<li>we have discussed in lectures how trees are used
+as the internal and formal representation of programs.</li>
+</ul>
+
+<p>
+Now, in keeping with this theme, let us discuss
+how we can reason about trees in Prolog.
+This information will be necessary for the sort of programs
+we wish to write later on.
+</p>
+</div>
+</div>
+
+<div id="outline-container-Datatypes-in-Prolog" class="outline-2">
+<h2 id="Datatypes-in-Prolog"><span class="section-number-2">3</span> Datatypes in Prolog</h2>
+<div class="outline-text-2" id="text-Datatypes-in-Prolog">
+<p>
+We have previously discussed that there are
+four classes of Prolog terms;
+</p>
+<ul class="org-ul">
+<li><i>numbers</i>,
+<ul class="org-ul">
+<li>(including both integers and floats)</li>
+</ul></li>
+<li><i>atoms</i>, which include
+words beginning with a lower case letters
+and strings in single quotes,</li>
+<li><i>variables</i>, which begin with upper case letters, and</li>
+<li><i>compound terms</i>
+<ul class="org-ul">
+<li>(which consist of a <i>functor</i> atom and a number
+of <i>arguments</i> applied to that functor,</li>
+<li>such as <code>isPrime(5)</code>.)</li>
+</ul></li>
+</ul>
+
+<p>
+These are, in fact, the basic types defined in the Prolog standard.
+</p>
+<ul class="org-ul">
+<li>See the <a href="https://www.swi-prolog.org/datatypes.html">SWI Prolog documentation</a>.</li>
+<li>There is some hierarchy among the types
+(see the next section.)</li>
+<li>Other types, or even the ability for user-defined types,
+may be added as extensions. But in basic Prolog, there are only
+the above.</li>
+</ul>
+
+<p>
+Of course, we use in SWI Prolog the list type it provides as well.
+But for this course, that is the only extension we will use.
+So we must find a way to represent trees with the above.
+</p>
+</div>
+</div>
+
+<div id="outline-container-Aside:-the-type-hierarchy-in-Prolog" class="outline-2">
+<h2 id="Aside:-the-type-hierarchy-in-Prolog"><span class="section-number-2">4</span> Aside: the type hierarchy in Prolog</h2>
+<div class="outline-text-2" id="text-Aside:-the-type-hierarchy-in-Prolog">
+<p>
+In the above linked SWI Prolog documentation on types,
+<a href="https://github.com/dtonhofer">David Tonhofer</a> in the comments links to his
+<a href="https://github.com/dtonhofer/prolog_notes/blob/master/swipl_notes/about_swipl_data_types/swipl_data_type_tree/swipl_data_type_tree.pdf">Prolog type chart</a>
+and <a href="https://github.com/dtonhofer/prolog_notes/tree/master/swipl_notes/about_swipl_data_types">notes</a>
+on the subject of SWI Prolog types.
+</p>
+
+<p>
+We include that type chart here for your interest.
+</p>
+<p>
+
+<iframe src="./media/swipl_data_type_tree.pdf" style="width: 100%; height: 25vh"></iframe>
+</p>
+
+<p>
+The <a href="https://raw.githubusercontent.com/dtonhofer/prolog_notes/1057c149ebc145d1df38cc5d1b82b1eaefe925c3/swipl_notes/about_swipl_data_types/swipl_data_type_tree/swipl_data_type_tree.svg">detailed SVG</a> can be quite interesting to examine;
+it is far too dense to fit on this page, though.
+</p>
+</div>
+</div>
+
+<div id="outline-container-Records" class="outline-2">
+<h2 id="Records"><span class="section-number-2">5</span> Tuples</h2>
+<div class="outline-text-2" id="text-Records">
+<p>
+From Pierce's “<a href="https://ebookcentral.proquest.com/lib/mcmu/detail.action?docID=3338823">Types and Programming Languages</a>”,
+(chapter 11, “Simple Extensions”)
+</p>
+<blockquote>
+<p>
+Most programming languages provide a variety of ways
+of building compound data structures.
+The simplest of these is pairs,
+or more generally tuples, of values.
+</p>
+</blockquote>
+
+<p>
+Tuple types differ from lists in that
+</p>
+<ul class="org-ul">
+<li>:TODO:, and</li>
+<li>:TODO:.</li>
+</ul>
+
+<p>
+A Prolog compound term of the form <code>label(a1,…,an)</code> can be viewed
+as an <code>n</code>-ary tuple along with the label <code>label</code>,
+and we will use this fact to construct trees in Prolog.
+</p>
+</div>
+</div>
+
+<div id="outline-container-Trees-as-tuples" class="outline-2">
+<h2 id="Trees-as-tuples"><span class="section-number-2">6</span> Trees as tuples</h2>
+<div class="outline-text-2" id="text-Trees-as-tuples">
+</div>
+
+<div id="outline-container-The-original-tree-types" class="outline-3">
+<h3 id="The-original-tree-types"><span class="section-number-3">6.1</span> The original tree types</h3>
+<div class="outline-text-3" id="text-The-original-tree-types">
+<p>
+Recall the types <code>BinTree</code> and <code>LeafTree</code> from homework 1.
+</p>
+<div class="org-src-container">
+<pre class="src src-amm"><span style="color: #f78fe7;">sealed</span> <span style="color: #b6a0ff;">trait</span> <span style="color: #f78fe7;">LeafTree</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">]</span>
+<span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">Leaf</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">](</span>a<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">A</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">LeafTree</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">]</span>
+<span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">Branch</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">](</span>l<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">LeafTree</span><span style="color: #b6a0ff;">[</span><span style="color: #00bcff;">A</span><span style="color: #b6a0ff;">]</span>, r<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">LeafTree</span><span style="color: #b6a0ff;">[</span><span style="color: #00bcff;">A</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">LeafTree</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">]</span>
+
+<span style="color: #f78fe7;">sealed</span> <span style="color: #b6a0ff;">trait</span> <span style="color: #f78fe7;">BinTree</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">]</span>
+<span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">Empty</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">]()</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">BinTree</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">]</span>
+<span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">Node</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">](</span>l<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">BinTree</span><span style="color: #b6a0ff;">[</span><span style="color: #00bcff;">A</span><span style="color: #b6a0ff;">]</span>, a<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">A</span>, r<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">BinTree</span><span style="color: #b6a0ff;">[</span><span style="color: #00bcff;">A</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">BinTree</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">]</span>
+</pre>
+</div>
+<p>
+or in briefer Haskell syntax,
+</p>
+<div class="org-src-container">
+<pre class="src src-haskell"><span style="color: #b6a0ff;">data</span> <span style="color: #f78fe7;">LeafTree</span> a <span style="color: #00d3d0;">=</span> <span style="color: #f78fe7;">Leaf</span> a <span style="color: #00d3d0;">|</span> <span style="color: #f78fe7;">Branch</span> <span style="color: #00cd68;">(</span><span style="color: #f78fe7;">LeafTree</span> a<span style="color: #00cd68;">)</span> <span style="color: #00cd68;">(</span><span style="color: #f78fe7;">LeafTree</span> a<span style="color: #00cd68;">)</span>
+<span style="color: #b6a0ff;">data</span> <span style="color: #f78fe7;">BinTree</span> a <span style="color: #00d3d0;">=</span> <span style="color: #f78fe7;">Empty</span> <span style="color: #00d3d0;">|</span> <span style="color: #f78fe7;">Node</span> <span style="color: #00cd68;">(</span><span style="color: #f78fe7;">BinTree</span> a<span style="color: #00cd68;">)</span> a <span style="color: #00cd68;">(</span><span style="color: #f78fe7;">BinTree</span> a<span style="color: #00cd68;">)</span>
+</pre>
+</div>
+<p>
+(for the remainder of the course, if we discuss these types,
+we will assume constructors of this shape.)
+</p>
+</div>
+</div>
+
+<div id="outline-container-Tupling-the-arguments" class="outline-3">
+<h3 id="Tupling-the-arguments"><span class="section-number-3">6.2</span> Tupling the arguments</h3>
+<div class="outline-text-3" id="text-Tupling-the-arguments">
+<p>
+Consider the parameters of each constructor.
+</p>
+<ul class="org-ul">
+<li><code>Leaf</code> has a single parameter of type <code>A</code>.</li>
+<li><code>Branch</code> has two parameters of type <code>LeafTree A</code>.</li>
+<li><code>Empty</code> does have a parameter, of type <code>Unit</code>.
+<ul class="org-ul">
+<li>The only value of type <code>Unit</code> being <code>()</code>.</li>
+</ul></li>
+<li><code>Node</code> has three parameters of types <code>BinTree A</code>, <code>A</code>, and <code>BinTree A</code>.</li>
+</ul>
+
+<p>
+We could isomorphically define constructors
+which each took a single <i>tuple</i> as parameter.
+</p>
+<ul class="org-ul">
+<li><code>Leaf′</code> would have a parameter of type <code>Tuple1[A]</code>.
+<ul class="org-ul">
+<li>To construct a singleton tuple with value <code>v</code>, use <code>Tuple1(v)</code>.</li>
+<li>For instance, <code>Tuple1(5) : Tuple1[Int]</code>.</li>
+</ul></li>
+<li><code>Branch′</code> would have a parameter of type <code>Tuple2[LeafTree A, LeafTree A]</code>.</li>
+<li><code>Empty′</code> is the same as <code>Empty</code>, taking a parameter of type <code>Unit</code>.
+<ul class="org-ul">
+<li>There is no <code>Tuple0</code> type in Scala, but <code>Unit</code> is isomorphic.</li>
+</ul></li>
+<li><code>Node′</code> would have a parameter of type <code>Tuple3[BinTree A, A, BinTree A]</code>.</li>
+</ul>
+<p>
+We have to say <i>isomorphically</i> rather than <i>equivalently</i> because
+these constructors as <b>not</b> equivalent to the previous versions
+(except for <code>Empty′</code>.) But they are <i>isomorphic</i>, because they can represent
+the same trees, and we have a 1-1 correspondence between them.
+</p>
+
+<p>
+The Haskell naming of the tuple type would make
+these descriptions briefer.
+</p>
+<ul class="org-ul">
+<li><code>Leaf′</code> would have a parameter of type <code>(A)</code>.</li>
+<li><code>Branch′</code> would have a parameter of type <code>(LeafTree A, LeafTree A)</code>.</li>
+<li><code>Empty′</code> would have a parameter of type <code>()</code>.</li>
+<li><code>Node′</code> would have a parameter of  type <code>(BinTree A, A, BinTree A)</code>.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-Trees-without-constructors" class="outline-3">
+<h3 id="Trees-without-constructors"><span class="section-number-3">6.3</span> Trees without constructors</h3>
+<div class="outline-text-3" id="text-Trees-without-constructors">
+<p>
+Given the above constructors using tuples,
+we can see that we could even <i>omit</i> the constructors
+and simply write trees <i>as tuples</i>. For instance,
+</p>
+<div class="org-src-container">
+<pre class="src src-amm"><span style="color: #00bcff;">Branch</span><span style="color: #00cd68;">(</span><span style="color: #00bcff;">Leaf</span><span style="color: #b6a0ff;">(</span><span style="color: #00bcff;">1</span><span style="color: #b6a0ff;">)</span>,<span style="color: #00bcff;">Branch</span><span style="color: #b6a0ff;">(</span><span style="color: #00bcff;">Leaf</span><span style="color: #6ae4b9;">(</span><span style="color: #00bcff;">2</span><span style="color: #6ae4b9;">)</span>,<span style="color: #00bcff;">Leaf</span><span style="color: #6ae4b9;">(</span><span style="color: #00bcff;">3</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">???</span>
+</pre>
+</div>
+<p>
+corresponds to the tuple
+</p>
+<div class="org-src-container">
+<pre class="src src-amm"><span style="color: #00cd68;">(</span><span style="color: #00bcff;">1</span>,<span style="color: #b6a0ff;">(</span><span style="color: #00bcff;">2</span>,<span style="color: #00bcff;">3</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">???</span>
+</pre>
+</div>
+<p>
+They are not the same type, but they represent the same tree.
+</p>
+
+<p>
+Of course, this tuple representation would introduce a lot of <i>junk</i>;
+</p>
+<ul class="org-ul">
+<li>the set of all tuples</li>
+</ul>
+<p>
+contains many tuples which are not part of
+</p>
+<ul class="org-ul">
+<li>the set of all tuples
+which represent a well-formed <code>LeafTree</code> (or <code>BinTree</code>.)</li>
+</ul>
+
+<p>
+Also note that with the tuple representation,
+the type of the tree depends upon how many elements are in it!
+In a statically typed language such as Scala and Haskell,
+this method of representation is practically unusable
+for this reason.
+</p>
+
+<p>
+But in a <i>dynamically</i> typed language
+(we encourage you to read “dynamically typed” as
+“dynamically type checked”, as Pierce suggests in his chapter 1)
+where no types are checked until runtime,
+this approach is feasible,
+and in the absence of user-defined types, necessary!
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-Recognising-trees" class="outline-2">
+<h2 id="Recognising-trees"><span class="section-number-2">7</span> Recognising trees</h2>
+<div class="outline-text-2" id="text-Recognising-trees">
+<p>
+Recall that
+a Prolog compound term of the form <code>label(a1,…,an)</code> can be viewed
+as an <code>n</code>-ary tuple along with the label <code>label</code>.
+</p>
+
+<p>
+We will use the labels to indicate the constructor we have in mind
+when constructing trees as tuples.
+So, for the <code>LeafTree</code> type, we have trees such as
+</p>
+<pre class="example" id="org78969a6">
+leaf(5)
+leaf([])
+branch(leaf(1),leaf(2))
+branch(branch(leaf(1),leaf(2)),leaf(3))
+</pre>
+<p>
+and for <code>BinTree</code>, examples include
+</p>
+<div class="org-src-container">
+<pre class="src src-prolog">empty
+<span style="color: #feacd0;">node</span>(empty,1,empty)
+<span style="color: #feacd0;">node</span>(node(empty,<span style="color: #79a8ff;">'left element'</span>,empty),top_element,node(empty,3,empty))
+</pre>
+</div>
+
+<p>
+We can construct predicates to check our two tree “types”.
+These allow for <i>runtime</i> checking that arguments have the “correct type”. 
+</p>
+<div class="org-src-container">
+<pre class="src src-prolog"><span style="color: #feacd0;">isBinTree</span>(empty).
+<span style="color: #feacd0;">isBinTree</span>(node(<span style="color: #00d3d0;">L</span>,<span style="color: #00d3d0;">_</span>,<span style="color: #00d3d0;">R</span>)) :- isBinTree(<span style="color: #00d3d0;">L</span>), isBinTree(<span style="color: #00d3d0;">R</span>).
+
+<span style="color: #feacd0;">isLeafTree</span>(leaf(<span style="color: #00d3d0;">_</span>)).
+<span style="color: #feacd0;">isLeafTree</span>(branch(<span style="color: #00d3d0;">L</span>,<span style="color: #00d3d0;">R</span>)) :- isLeafTree(<span style="color: #00d3d0;">L</span>), isLeafTree(<span style="color: #00d3d0;">R</span>).
+</pre>
+</div>
+<p>
+Note that we still have nothing restricting the types of the elements.
+</p>
+</div>
+</div>
+
+<div id="outline-container-Operations-on-trees" class="outline-2">
+<h2 id="Operations-on-trees"><span class="section-number-2">8</span> Operations on trees</h2>
+<div class="outline-text-2" id="text-Operations-on-trees">
+<p>
+Let's implement some basic operations on our tree type.
+The <code>flatten</code> and <code>orderedElems</code> operations
+from homework 1 will be assigned as homework.
+</p>
+<div class="org-src-container">
+<pre class="src src-prolog"><span style="color: #a8a8a8;">% </span><span style="color: #a8a8a8;">Inserting into trees.</span>
+
+<span style="color: #feacd0;">binInsert</span>(<span style="color: #00d3d0;">E</span>,empty,node(empty,<span style="color: #00d3d0;">E</span>,empty)).
+<span style="color: #feacd0;">binInsert</span>(<span style="color: #00d3d0;">E</span>,node(<span style="color: #00d3d0;">L</span>,<span style="color: #00d3d0;">A</span>,<span style="color: #00d3d0;">R</span>),node(binInsert(<span style="color: #00d3d0;">E</span>,<span style="color: #00d3d0;">L</span>),<span style="color: #00d3d0;">A</span>,<span style="color: #00d3d0;">R</span>)).
+
+
+
+<span style="color: #a8a8a8;">% </span><span style="color: #a8a8a8;">Inserting into trees *nondeterministically*.</span>
+<span style="color: #a8a8a8;">% </span><span style="color: #a8a8a8;">These versions produce all possible valid inserts!</span>
+
+<span style="color: #feacd0;">binInsertND</span>(<span style="color: #00d3d0;">E</span>,empty,node(empty,<span style="color: #00d3d0;">E</span>,empty)).
+<span style="color: #feacd0;">binInsertND</span>(<span style="color: #00d3d0;">E</span>,node(<span style="color: #00d3d0;">L</span>,<span style="color: #00d3d0;">A</span>,<span style="color: #00d3d0;">R</span>),node(binInsert(<span style="color: #00d3d0;">E</span>,<span style="color: #00d3d0;">L</span>),<span style="color: #00d3d0;">A</span>,<span style="color: #00d3d0;">R</span>)).
+<span style="color: #a8a8a8;">% </span><span style="color: #a8a8a8;">&#8230;</span>
+
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Mark Armstrong</p>
+     <p class="author">Contact: <a href="mailto:markparmstrong@gmail.com">markparmstrong@gmail.com</a></p>
+     <p class="date">Original date: </p>
+     <p class="date">Last updated: 2020-09-25 Fri 13:21</p>
+     <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.90 (<a href="https://orgmode.org">Org</a> mode 9.3.8)</p>
+     <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
