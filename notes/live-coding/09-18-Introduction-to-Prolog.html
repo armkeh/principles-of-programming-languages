@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-09-23 Wed 01:39 -->
+<!-- 2020-09-24 Thu 23:11 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Introduction to Prolog</title>
@@ -11,196 +11,13 @@
 <meta name="author" content="Mark Armstrong" />
 <meta name="description" content="An introduction to Prolog and the logical programming paradigm."
  />
-<style type="text/css">
- <!--/*--><![CDATA[/*><!--*/
-  .title  { text-align: center;
-             margin-bottom: .2em; }
-  .subtitle { text-align: center;
-              font-size: medium;
-              font-weight: bold;
-              margin-top:0; }
-  .todo   { font-family: monospace; color: red; }
-  .done   { font-family: monospace; color: green; }
-  .priority { font-family: monospace; color: orange; }
-  .tag    { background-color: #eee; font-family: monospace;
-            padding: 2px; font-size: 80%; font-weight: normal; }
-  .timestamp { color: #bebebe; }
-  .timestamp-kwd { color: #5f9ea0; }
-  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
-  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
-  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
-  .underline { text-decoration: underline; }
-  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
-  p.verse { margin-left: 3%; }
-  pre {
-    border: 1px solid #ccc;
-    box-shadow: 3px 3px 3px #eee;
-    padding: 8pt;
-    font-family: monospace;
-    overflow: auto;
-    margin: 1.2em;
-  }
-  pre.src {
-    position: relative;
-    overflow: auto;
-    padding-top: 1.2em;
-  }
-  pre.src:before {
-    display: none;
-    position: absolute;
-    background-color: white;
-    top: -10px;
-    right: 10px;
-    padding: 3px;
-    border: 1px solid black;
-  }
-  pre.src:hover:before { display: inline;}
-  /* Languages per Org manual */
-  pre.src-asymptote:before { content: 'Asymptote'; }
-  pre.src-awk:before { content: 'Awk'; }
-  pre.src-C:before { content: 'C'; }
-  /* pre.src-C++ doesn't work in CSS */
-  pre.src-clojure:before { content: 'Clojure'; }
-  pre.src-css:before { content: 'CSS'; }
-  pre.src-D:before { content: 'D'; }
-  pre.src-ditaa:before { content: 'ditaa'; }
-  pre.src-dot:before { content: 'Graphviz'; }
-  pre.src-calc:before { content: 'Emacs Calc'; }
-  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
-  pre.src-fortran:before { content: 'Fortran'; }
-  pre.src-gnuplot:before { content: 'gnuplot'; }
-  pre.src-haskell:before { content: 'Haskell'; }
-  pre.src-hledger:before { content: 'hledger'; }
-  pre.src-java:before { content: 'Java'; }
-  pre.src-js:before { content: 'Javascript'; }
-  pre.src-latex:before { content: 'LaTeX'; }
-  pre.src-ledger:before { content: 'Ledger'; }
-  pre.src-lisp:before { content: 'Lisp'; }
-  pre.src-lilypond:before { content: 'Lilypond'; }
-  pre.src-lua:before { content: 'Lua'; }
-  pre.src-matlab:before { content: 'MATLAB'; }
-  pre.src-mscgen:before { content: 'Mscgen'; }
-  pre.src-ocaml:before { content: 'Objective Caml'; }
-  pre.src-octave:before { content: 'Octave'; }
-  pre.src-org:before { content: 'Org mode'; }
-  pre.src-oz:before { content: 'OZ'; }
-  pre.src-plantuml:before { content: 'Plantuml'; }
-  pre.src-processing:before { content: 'Processing.js'; }
-  pre.src-python:before { content: 'Python'; }
-  pre.src-R:before { content: 'R'; }
-  pre.src-ruby:before { content: 'Ruby'; }
-  pre.src-sass:before { content: 'Sass'; }
-  pre.src-scheme:before { content: 'Scheme'; }
-  pre.src-screen:before { content: 'Gnu Screen'; }
-  pre.src-sed:before { content: 'Sed'; }
-  pre.src-sh:before { content: 'shell'; }
-  pre.src-sql:before { content: 'SQL'; }
-  pre.src-sqlite:before { content: 'SQLite'; }
-  /* additional languages in org.el's org-babel-load-languages alist */
-  pre.src-forth:before { content: 'Forth'; }
-  pre.src-io:before { content: 'IO'; }
-  pre.src-J:before { content: 'J'; }
-  pre.src-makefile:before { content: 'Makefile'; }
-  pre.src-maxima:before { content: 'Maxima'; }
-  pre.src-perl:before { content: 'Perl'; }
-  pre.src-picolisp:before { content: 'Pico Lisp'; }
-  pre.src-scala:before { content: 'Scala'; }
-  pre.src-shell:before { content: 'Shell Script'; }
-  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
-  /* additional language identifiers per "defun org-babel-execute"
-       in ob-*.el */
-  pre.src-cpp:before  { content: 'C++'; }
-  pre.src-abc:before  { content: 'ABC'; }
-  pre.src-coq:before  { content: 'Coq'; }
-  pre.src-groovy:before  { content: 'Groovy'; }
-  /* additional language identifiers from org-babel-shell-names in
-     ob-shell.el: ob-shell is the only babel language using a lambda to put
-     the execution function name together. */
-  pre.src-bash:before  { content: 'bash'; }
-  pre.src-csh:before  { content: 'csh'; }
-  pre.src-ash:before  { content: 'ash'; }
-  pre.src-dash:before  { content: 'dash'; }
-  pre.src-ksh:before  { content: 'ksh'; }
-  pre.src-mksh:before  { content: 'mksh'; }
-  pre.src-posh:before  { content: 'posh'; }
-  /* Additional Emacs modes also supported by the LaTeX listings package */
-  pre.src-ada:before { content: 'Ada'; }
-  pre.src-asm:before { content: 'Assembler'; }
-  pre.src-caml:before { content: 'Caml'; }
-  pre.src-delphi:before { content: 'Delphi'; }
-  pre.src-html:before { content: 'HTML'; }
-  pre.src-idl:before { content: 'IDL'; }
-  pre.src-mercury:before { content: 'Mercury'; }
-  pre.src-metapost:before { content: 'MetaPost'; }
-  pre.src-modula-2:before { content: 'Modula-2'; }
-  pre.src-pascal:before { content: 'Pascal'; }
-  pre.src-ps:before { content: 'PostScript'; }
-  pre.src-prolog:before { content: 'Prolog'; }
-  pre.src-simula:before { content: 'Simula'; }
-  pre.src-tcl:before { content: 'tcl'; }
-  pre.src-tex:before { content: 'TeX'; }
-  pre.src-plain-tex:before { content: 'Plain TeX'; }
-  pre.src-verilog:before { content: 'Verilog'; }
-  pre.src-vhdl:before { content: 'VHDL'; }
-  pre.src-xml:before { content: 'XML'; }
-  pre.src-nxml:before { content: 'XML'; }
-  /* add a generic configuration mode; LaTeX export needs an additional
-     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
-  pre.src-conf:before { content: 'Configuration File'; }
-
-  table { border-collapse:collapse; }
-  caption.t-above { caption-side: top; }
-  caption.t-bottom { caption-side: bottom; }
-  td, th { vertical-align:top;  }
-  th.org-right  { text-align: center;  }
-  th.org-left   { text-align: center;   }
-  th.org-center { text-align: center; }
-  td.org-right  { text-align: right;  }
-  td.org-left   { text-align: left;   }
-  td.org-center { text-align: center; }
-  dt { font-weight: bold; }
-  .footpara { display: inline; }
-  .footdef  { margin-bottom: 1em; }
-  .figure { padding: 1em; }
-  .figure p { text-align: center; }
-  .equation-container {
-    display: table;
-    text-align: center;
-    width: 100%;
-  }
-  .equation {
-    vertical-align: middle;
-  }
-  .equation-label {
-    display: table-cell;
-    text-align: right;
-    vertical-align: middle;
-  }
-  .inlinetask {
-    padding: 10px;
-    border: 2px solid gray;
-    margin: 10px;
-    background: #ffffcc;
-  }
-  #org-div-home-and-up
-   { text-align: right; font-size: 70%; white-space: nowrap; }
-  textarea { overflow-x: auto; }
-  .linenr { font-size: smaller }
-  .code-highlighted { background-color: #ffff00; }
-  .org-info-js_info-navigation { border-style: none; }
-  #org-info-js_console-label
-    { font-size: 10px; font-weight: bold; white-space: nowrap; }
-  .org-info-js_search-highlight
-    { background-color: #ffff00; color: #000000; font-weight: bold; }
-  .org-svg { width: 90%; }
-  /*]]>*/-->
-</style>
 <link rel="stylesheet" type="text/css" href="styles/readtheorg/css/htmlize.css"/>
 <link rel="stylesheet" type="text/css" href="styles/readtheorg/css/readtheorg.css"/>
 <script type="text/javascript" src="styles/lib/js/jquery.min.js"></script>
 <script type="text/javascript" src="styles/lib/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="styles/lib/js/jquery.stickytableheaders.min.js"></script>
 <script type="text/javascript" src="styles/readtheorg/js/readtheorg.js"></script>
+<style>pre.src{background:#000000;color:white;} </style>
 <script type="text/javascript">
 /*
 @licstart  The following is the entire license notice for the
@@ -317,7 +134,7 @@ for the JavaScript code in this tag.
 </div>
 </div>
 
-<div id="outline-container-org96ea849" class="outline-2">
+<div id="outline-container-org915199f" class="outline-2">
 <h2 id="Introduction"><span class="section-number-2">1</span> Introduction</h2>
 <div class="outline-text-2" id="text-Introduction">
 <p>
@@ -327,7 +144,7 @@ the lecture on September 18th and the following tutorials.
 </div>
 </div>
 
-<div id="outline-container-orge3fc008" class="outline-2">
+<div id="outline-container-orgb116e22" class="outline-2">
 <h2 id="Motivation"><span class="section-number-2">2</span> Motivation</h2>
 <div class="outline-text-2" id="text-Motivation">
 <p>
@@ -362,7 +179,7 @@ rather than the solution.
 </div>
 </div>
 
-<div id="outline-container-orgf574f8e" class="outline-2">
+<div id="outline-container-org7a24ce1" class="outline-2">
 <h2 id="A-note-about-fonts"><span class="section-number-2">3</span> A note about fonts</h2>
 <div class="outline-text-2" id="text-A-note-about-fonts">
 <p>
@@ -383,7 +200,7 @@ Apologies for any issues reading these notes caused by this.
 </div>
 </div>
 
-<div id="outline-container-org923d2f2" class="outline-2">
+<div id="outline-container-orgbba0f19" class="outline-2">
 <h2 id="(Re)introduction-to-inference-rules"><span class="section-number-2">4</span> (Re)introduction to inference rules</h2>
 <div class="outline-text-2" id="text-(Re)introduction-to-inference-rules">
 <p>
@@ -523,7 +340,7 @@ unwarranted steps, or informally, it “pulls a rabbit from its hat”.
 </div>
 </div>
 
-<div id="outline-container-org892cde1" class="outline-2">
+<div id="outline-container-orgf5d71bf" class="outline-2">
 <h2 id="Inference-rules-in-other-domains"><span class="section-number-2">5</span> Inference rules in other domains</h2>
 <div class="outline-text-2" id="text-Inference-rules-in-other-domains">
 <p>
@@ -543,12 +360,12 @@ For instance, consider the following problem.
 </p>
 </div>
 
-<div id="outline-container-org7ec88b2" class="outline-3">
+<div id="outline-container-orga331dfc" class="outline-3">
 <h3 id="The-two-bucket-problem"><span class="section-number-3">5.1</span> The two bucket problem</h3>
 <div class="outline-text-3" id="text-The-two-bucket-problem">
 </div>
 
-<div id="outline-container-org1d81464" class="outline-4">
+<div id="outline-container-org604c20c" class="outline-4">
 <h4 id="The-problem"><span class="section-number-4">5.1.1</span> The problem</h4>
 <div class="outline-text-4" id="text-The-problem">
 <p>
@@ -582,7 +399,7 @@ using only those three kinds of actions.
 </div>
 </div>
 
-<div id="outline-container-org09ebee2" class="outline-4">
+<div id="outline-container-org041fd94" class="outline-4">
 <h4 id="The-rules"><span class="section-number-4">5.1.2</span> The rules</h4>
 <div class="outline-text-4" id="text-The-rules">
 <p>
@@ -646,12 +463,12 @@ with 0.
 </div>
 </div>
 
-<div id="outline-container-org3d80628" class="outline-2">
+<div id="outline-container-orgf1297a6" class="outline-2">
 <h2 id="Prolog"><span class="section-number-2">6</span> Prolog</h2>
 <div class="outline-text-2" id="text-Prolog">
 </div>
 
-<div id="outline-container-orgdd352ef" class="outline-3">
+<div id="outline-container-org0f50a9a" class="outline-3">
 <h3 id="Programs-are-databases-of-inference-rules"><span class="section-number-3">6.1</span> Programs are databases of inference rules</h3>
 <div class="outline-text-3" id="text-Programs-are-databases-of-inference-rules">
 <p>
@@ -705,7 +522,7 @@ or, more simply,
 </div>
 </div>
 
-<div id="outline-container-org3db3553" class="outline-3">
+<div id="outline-container-orgc1ecc25" class="outline-3">
 <h3 id="Get-“output”-by-making-queries"><span class="section-number-3">6.2</span> Get “output” by making queries</h3>
 <div class="outline-text-3" id="text-Get-“output”-by-making-queries">
 <p>
@@ -760,7 +577,7 @@ depending upon what question(s) we ask!
 </div>
 </div>
 
-<div id="outline-container-org50d4629" class="outline-3">
+<div id="outline-container-orgc191702" class="outline-3">
 <h3 id="Names,-kinds-of-terms"><span class="section-number-3">6.3</span> Names, kinds of terms</h3>
 <div class="outline-text-3" id="text-Names,-kinds-of-terms">
 <p>
@@ -801,7 +618,7 @@ atom(term1, …, term1)
 </div>
 </div>
 
-<div id="outline-container-orge32bc31" class="outline-3">
+<div id="outline-container-org110236a" class="outline-3">
 <h3 id="Interacting-with-Prolog"><span class="section-number-3">6.4</span> Interacting with Prolog</h3>
 <div class="outline-text-3" id="text-Interacting-with-Prolog">
 <p>
@@ -849,7 +666,7 @@ or clauses about the <code>name</code> predicate.)
 </div>
 </div>
 
-<div id="outline-container-orga25d12e" class="outline-3">
+<div id="outline-container-org6bb5ba0" class="outline-3">
 <h3 id="Unification"><span class="section-number-3">6.5</span> Unification</h3>
 <div class="outline-text-3" id="text-Unification">
 <p>
@@ -869,7 +686,7 @@ and <i>modus ponens</i> (\((P ∧ P ⇒ Q) ⇒ Q\)).
 </p>
 </div>
 
-<div id="outline-container-org60286ac" class="outline-4">
+<div id="outline-container-orgc4178ac" class="outline-4">
 <h4 id="The-goal-list"><span class="section-number-4">6.5.1</span> The goal list</h4>
 <div class="outline-text-4" id="text-The-goal-list">
 <p>
@@ -886,7 +703,7 @@ then we now have as goals <code>q(5)</code> and <code>r(5)</code>.
 </div>
 </div>
 
-<div id="outline-container-org864c015" class="outline-4">
+<div id="outline-container-org93695d7" class="outline-4">
 <h4 id="Backtracking"><span class="section-number-4">6.5.2</span> Backtracking</h4>
 <div class="outline-text-4" id="text-Backtracking">
 <p>
@@ -925,7 +742,7 @@ a.
 </div>
 </div>
 
-<div id="outline-container-orgd556f79" class="outline-4">
+<div id="outline-container-org1d3e8a6" class="outline-4">
 <h4 id="SWI-Prolog's-search-strategy"><span class="section-number-4">6.5.3</span> SWI Prolog's search strategy</h4>
 <div class="outline-text-4" id="text-SWI-Prolog's-search-strategy">
 <ol class="org-ol">
@@ -944,7 +761,7 @@ try to prove <code>b</code> before considering <code>c</code>.</li>
 </div>
 </div>
 
-<div id="outline-container-org18115d7" class="outline-4">
+<div id="outline-container-org8e534f1" class="outline-4">
 <h4 id="Examining-the-search-strategy"><span class="section-number-4">6.5.4</span> Examining the search strategy</h4>
 <div class="outline-text-4" id="text-Examining-the-search-strategy">
 <p>
@@ -958,7 +775,7 @@ failures encountered.
 </div>
 </div>
 
-<div id="outline-container-org465a0c3" class="outline-3">
+<div id="outline-container-orgd82100c" class="outline-3">
 <h3 id="Equality"><span class="section-number-3">6.6</span> Equality</h3>
 <div class="outline-text-3" id="text-Equality">
 <p>
@@ -995,7 +812,7 @@ will evaluate to <code>true</code>.
 </div>
 </div>
 
-<div id="outline-container-orgda85529" class="outline-3">
+<div id="outline-container-org1d29ea4" class="outline-3">
 <h3 id="Exerting-control-over-the-search;-the-cut-operator"><span class="section-number-3">6.7</span> Exerting control over the search; the cut operator</h3>
 <div class="outline-text-3" id="text-Exerting-control-over-the-search;-the-cut-operator">
 <p>
@@ -1016,7 +833,7 @@ A cut is written <code>!</code>, and can be understood as
 </div>
 </div>
 
-<div id="outline-container-org88a9d80" class="outline-3">
+<div id="outline-container-org328b32d" class="outline-3">
 <h3 id="Failure"><span class="section-number-3">6.8</span> Failure</h3>
 <div class="outline-text-3" id="text-Failure">
 <p>
@@ -1045,7 +862,7 @@ over the search to ensure a <code>false</code> result.
 </div>
 </div>
 
-<div id="outline-container-org00f40a7" class="outline-3">
+<div id="outline-container-orgb4c9535" class="outline-3">
 <h3 id="Trying-to-write-the-two-bucket-problem"><span class="section-number-3">6.9</span> Trying to write the two bucket problem</h3>
 <div class="outline-text-3" id="text-Trying-to-write-the-two-bucket-problem">
 <p>
@@ -1086,7 +903,7 @@ we can quickly see a problem with the order of these clauses.
 </div>
 </div>
 
-<div id="outline-container-orgd50b1c3" class="outline-3">
+<div id="outline-container-orgf61e4e1" class="outline-3">
 <h3 id="Checking-for-divisors-of-a-number"><span class="section-number-3">6.10</span> Checking for divisors of a number</h3>
 <div class="outline-text-3" id="text-Checking-for-divisors-of-a-number">
 <div class="org-src-container">
@@ -1099,7 +916,7 @@ we can quickly see a problem with the order of these clauses.
 </div>
 </div>
 
-<div id="outline-container-org6f808bb" class="outline-2">
+<div id="outline-container-org1046be4" class="outline-2">
 <h2 id="Resources"><span class="section-number-2">7</span> Resources</h2>
 <div class="outline-text-2" id="text-Resources">
 <ul class="org-ul">
@@ -1118,7 +935,7 @@ by Joseph Goguen, UC San Diego.</li>
 <p class="author">Author: Mark Armstrong</p>
      <p class="author">Contact: <a href="mailto:markparmstrong@gmail.com">markparmstrong@gmail.com</a></p>
      <p class="date">Original date: </p>
-     <p class="date">Last updated: 2020-09-23 Wed 01:38</p>
+     <p class="date">Last updated: 2020-09-23 Wed 10:35</p>
      <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.90 (<a href="https://orgmode.org">Org</a> mode 9.3.8)</p>
      <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

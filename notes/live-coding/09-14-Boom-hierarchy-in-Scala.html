@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-09-16 Wed 04:40 -->
+<!-- 2020-09-24 Thu 23:11 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>The Boom hierarchy in Scala</title>
@@ -12,217 +12,58 @@
 <meta name="description" content="A brief background on the Boom hierarchy family of datatypes,
 followed by a (in the end, flawed) implementation in Scala."
  />
-<style type="text/css">
- <!--/*--><![CDATA[/*><!--*/
-  .title  { text-align: center;
-             margin-bottom: .2em; }
-  .subtitle { text-align: center;
-              font-size: medium;
-              font-weight: bold;
-              margin-top:0; }
-  .todo   { font-family: monospace; color: red; }
-  .done   { font-family: monospace; color: green; }
-  .priority { font-family: monospace; color: orange; }
-  .tag    { background-color: #eee; font-family: monospace;
-            padding: 2px; font-size: 80%; font-weight: normal; }
-  .timestamp { color: #bebebe; }
-  .timestamp-kwd { color: #5f9ea0; }
-  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
-  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
-  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
-  .underline { text-decoration: underline; }
-  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
-  p.verse { margin-left: 3%; }
-  pre {
-    border: 1px solid #ccc;
-    box-shadow: 3px 3px 3px #eee;
-    padding: 8pt;
-    font-family: monospace;
-    overflow: auto;
-    margin: 1.2em;
-  }
-  pre.src {
-    position: relative;
-    overflow: auto;
-    padding-top: 1.2em;
-  }
-  pre.src:before {
-    display: none;
-    position: absolute;
-    background-color: white;
-    top: -10px;
-    right: 10px;
-    padding: 3px;
-    border: 1px solid black;
-  }
-  pre.src:hover:before { display: inline;}
-  /* Languages per Org manual */
-  pre.src-asymptote:before { content: 'Asymptote'; }
-  pre.src-awk:before { content: 'Awk'; }
-  pre.src-C:before { content: 'C'; }
-  /* pre.src-C++ doesn't work in CSS */
-  pre.src-clojure:before { content: 'Clojure'; }
-  pre.src-css:before { content: 'CSS'; }
-  pre.src-D:before { content: 'D'; }
-  pre.src-ditaa:before { content: 'ditaa'; }
-  pre.src-dot:before { content: 'Graphviz'; }
-  pre.src-calc:before { content: 'Emacs Calc'; }
-  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
-  pre.src-fortran:before { content: 'Fortran'; }
-  pre.src-gnuplot:before { content: 'gnuplot'; }
-  pre.src-haskell:before { content: 'Haskell'; }
-  pre.src-hledger:before { content: 'hledger'; }
-  pre.src-java:before { content: 'Java'; }
-  pre.src-js:before { content: 'Javascript'; }
-  pre.src-latex:before { content: 'LaTeX'; }
-  pre.src-ledger:before { content: 'Ledger'; }
-  pre.src-lisp:before { content: 'Lisp'; }
-  pre.src-lilypond:before { content: 'Lilypond'; }
-  pre.src-lua:before { content: 'Lua'; }
-  pre.src-matlab:before { content: 'MATLAB'; }
-  pre.src-mscgen:before { content: 'Mscgen'; }
-  pre.src-ocaml:before { content: 'Objective Caml'; }
-  pre.src-octave:before { content: 'Octave'; }
-  pre.src-org:before { content: 'Org mode'; }
-  pre.src-oz:before { content: 'OZ'; }
-  pre.src-plantuml:before { content: 'Plantuml'; }
-  pre.src-processing:before { content: 'Processing.js'; }
-  pre.src-python:before { content: 'Python'; }
-  pre.src-R:before { content: 'R'; }
-  pre.src-ruby:before { content: 'Ruby'; }
-  pre.src-sass:before { content: 'Sass'; }
-  pre.src-scheme:before { content: 'Scheme'; }
-  pre.src-screen:before { content: 'Gnu Screen'; }
-  pre.src-sed:before { content: 'Sed'; }
-  pre.src-sh:before { content: 'shell'; }
-  pre.src-sql:before { content: 'SQL'; }
-  pre.src-sqlite:before { content: 'SQLite'; }
-  /* additional languages in org.el's org-babel-load-languages alist */
-  pre.src-forth:before { content: 'Forth'; }
-  pre.src-io:before { content: 'IO'; }
-  pre.src-J:before { content: 'J'; }
-  pre.src-makefile:before { content: 'Makefile'; }
-  pre.src-maxima:before { content: 'Maxima'; }
-  pre.src-perl:before { content: 'Perl'; }
-  pre.src-picolisp:before { content: 'Pico Lisp'; }
-  pre.src-scala:before { content: 'Scala'; }
-  pre.src-shell:before { content: 'Shell Script'; }
-  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
-  /* additional language identifiers per "defun org-babel-execute"
-       in ob-*.el */
-  pre.src-cpp:before  { content: 'C++'; }
-  pre.src-abc:before  { content: 'ABC'; }
-  pre.src-coq:before  { content: 'Coq'; }
-  pre.src-groovy:before  { content: 'Groovy'; }
-  /* additional language identifiers from org-babel-shell-names in
-     ob-shell.el: ob-shell is the only babel language using a lambda to put
-     the execution function name together. */
-  pre.src-bash:before  { content: 'bash'; }
-  pre.src-csh:before  { content: 'csh'; }
-  pre.src-ash:before  { content: 'ash'; }
-  pre.src-dash:before  { content: 'dash'; }
-  pre.src-ksh:before  { content: 'ksh'; }
-  pre.src-mksh:before  { content: 'mksh'; }
-  pre.src-posh:before  { content: 'posh'; }
-  /* Additional Emacs modes also supported by the LaTeX listings package */
-  pre.src-ada:before { content: 'Ada'; }
-  pre.src-asm:before { content: 'Assembler'; }
-  pre.src-caml:before { content: 'Caml'; }
-  pre.src-delphi:before { content: 'Delphi'; }
-  pre.src-html:before { content: 'HTML'; }
-  pre.src-idl:before { content: 'IDL'; }
-  pre.src-mercury:before { content: 'Mercury'; }
-  pre.src-metapost:before { content: 'MetaPost'; }
-  pre.src-modula-2:before { content: 'Modula-2'; }
-  pre.src-pascal:before { content: 'Pascal'; }
-  pre.src-ps:before { content: 'PostScript'; }
-  pre.src-prolog:before { content: 'Prolog'; }
-  pre.src-simula:before { content: 'Simula'; }
-  pre.src-tcl:before { content: 'tcl'; }
-  pre.src-tex:before { content: 'TeX'; }
-  pre.src-plain-tex:before { content: 'Plain TeX'; }
-  pre.src-verilog:before { content: 'Verilog'; }
-  pre.src-vhdl:before { content: 'VHDL'; }
-  pre.src-xml:before { content: 'XML'; }
-  pre.src-nxml:before { content: 'XML'; }
-  /* add a generic configuration mode; LaTeX export needs an additional
-     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
-  pre.src-conf:before { content: 'Configuration File'; }
-
-  table { border-collapse:collapse; }
-  caption.t-above { caption-side: top; }
-  caption.t-bottom { caption-side: bottom; }
-  td, th { vertical-align:top;  }
-  th.org-right  { text-align: center;  }
-  th.org-left   { text-align: center;   }
-  th.org-center { text-align: center; }
-  td.org-right  { text-align: right;  }
-  td.org-left   { text-align: left;   }
-  td.org-center { text-align: center; }
-  dt { font-weight: bold; }
-  .footpara { display: inline; }
-  .footdef  { margin-bottom: 1em; }
-  .figure { padding: 1em; }
-  .figure p { text-align: center; }
-  .equation-container {
-    display: table;
-    text-align: center;
-    width: 100%;
-  }
-  .equation {
-    vertical-align: middle;
-  }
-  .equation-label {
-    display: table-cell;
-    text-align: right;
-    vertical-align: middle;
-  }
-  .inlinetask {
-    padding: 10px;
-    border: 2px solid gray;
-    margin: 10px;
-    background: #ffffcc;
-  }
-  #org-div-home-and-up
-   { text-align: right; font-size: 70%; white-space: nowrap; }
-  textarea { overflow-x: auto; }
-  .linenr { font-size: smaller }
-  .code-highlighted { background-color: #ffff00; }
-  .org-info-js_info-navigation { border-style: none; }
-  #org-info-js_console-label
-    { font-size: 10px; font-weight: bold; white-space: nowrap; }
-  .org-info-js_search-highlight
-    { background-color: #ffff00; color: #000000; font-weight: bold; }
-  .org-svg { width: 90%; }
-  /*]]>*/-->
-</style>
 <link rel="stylesheet" type="text/css" href="styles/readtheorg/css/htmlize.css"/>
 <link rel="stylesheet" type="text/css" href="styles/readtheorg/css/readtheorg.css"/>
 <script type="text/javascript" src="styles/lib/js/jquery.min.js"></script>
 <script type="text/javascript" src="styles/lib/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="styles/lib/js/jquery.stickytableheaders.min.js"></script>
 <script type="text/javascript" src="styles/readtheorg/js/readtheorg.js"></script>
+<style>pre.src{background:#000000;color:white;} </style>
 <script type="text/javascript">
-// @license magnet:?xt=urn:btih:e95b018ef3580986a04669f1b5879592219e2a7a&dn=public-domain.txt Public Domain
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2020 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
 <!--/*--><![CDATA[/*><!--*/
-     function CodeHighlightOn(elem, id)
-     {
-       var target = document.getElementById(id);
-       if(null != target) {
-         elem.classList.add("code-highlighted");
-         target.classList.add("code-highlighted");
-       }
-     }
-     function CodeHighlightOff(elem, id)
-     {
-       var target = document.getElementById(id);
-       if(null != target) {
-         elem.classList.remove("code-highlighted");
-         target.classList.remove("code-highlighted");
-       }
-     }
-    /*]]>*///-->
-// @license-end
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
 </script>
 </head>
 <body>
@@ -268,7 +109,7 @@ followed by a (in the end, flawed) implementation in Scala."
 </div>
 </div>
 
-<div id="outline-container-Introduction" class="outline-2">
+<div id="outline-container-org531f7ad" class="outline-2">
 <h2 id="Introduction"><span class="section-number-2">1</span> Introduction</h2>
 <div class="outline-text-2" id="text-Introduction">
 <p>
@@ -278,12 +119,12 @@ the lecture on September 14th and the following tutorials.
 </div>
 </div>
 
-<div id="outline-container-Motivation" class="outline-2">
+<div id="outline-container-orgae3794f" class="outline-2">
 <h2 id="Motivation"><span class="section-number-2">2</span> Motivation</h2>
 <div class="outline-text-2" id="text-Motivation">
 </div>
 
-<div id="outline-container-Scala-as-an-object-oriented-language" class="outline-3">
+<div id="outline-container-org029f835" class="outline-3">
 <h3 id="Scala-as-an-object-oriented-language"><span class="section-number-3">2.1</span> Scala as an object-oriented language</h3>
 <div class="outline-text-3" id="text-Scala-as-an-object-oriented-language">
 <p>
@@ -308,7 +149,7 @@ but it serves to prove the point.)
 <div class="org-src-container">
 <pre class="src src-amm"><span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Type annotations come after names, and are separated by a `:`.</span>
 <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">The `var` keyword indicates a variable.</span>
-<span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">LinkedList</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">](</span><span style="color: #b6a0ff;">var</span> <span style="color: #efdf00;">hd</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">A</span>, <span style="color: #b6a0ff;">var</span> <span style="color: #efdf00;">tl</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">LinkedList</span><span style="color: #b6a0ff;">[</span><span style="color: #00bdfa;">A</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span> <span style="color: #00cd68;">{</span>
+<span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">LinkedList</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">](</span><span style="color: #b6a0ff;">var</span> <span style="color: #dbbe5f;">hd</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">A</span>, <span style="color: #b6a0ff;">var</span> <span style="color: #dbbe5f;">tl</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">LinkedList</span><span style="color: #b6a0ff;">[</span><span style="color: #00bcff;">A</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span> <span style="color: #00cd68;">{</span>
 
   <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Methods/functions are type annotated like values.</span>
   <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Scala uses an `=` in method/function declarations.</span>
@@ -318,22 +159,22 @@ but it serves to prove the point.)
   <span style="color: #b6a0ff;">}</span>
 
   <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">No braces are needed if the right side's a single expression.</span>
-  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">tail</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">LinkedList</span><span style="color: #b6a0ff;">[</span><span style="color: #00bdfa;">A</span><span style="color: #b6a0ff;">]</span> <span style="color: #b6a0ff;">=</span> tl
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">tail</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">LinkedList</span><span style="color: #b6a0ff;">[</span><span style="color: #00bcff;">A</span><span style="color: #b6a0ff;">]</span> <span style="color: #b6a0ff;">=</span> tl
 <span style="color: #00cd68;">}</span>
 
 <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">`val`'s are constant, unlike `var`'s.</span>
-<span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">l1</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">LinkedList</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">Int</span><span style="color: #00cd68;">]</span> <span style="color: #b6a0ff;">=</span> <span style="color: #b6a0ff;">new</span> <span style="color: #f78fe7;">LinkedList</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">Int</span><span style="color: #00cd68;">](</span><span style="color: #00bdfa;">1</span>, <span style="color: #00bdfa;">null</span><span style="color: #00cd68;">)</span>
+<span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">l1</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">LinkedList</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">Int</span><span style="color: #00cd68;">]</span> <span style="color: #b6a0ff;">=</span> <span style="color: #b6a0ff;">new</span> <span style="color: #f78fe7;">LinkedList</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">Int</span><span style="color: #00cd68;">](</span><span style="color: #00bcff;">1</span>, <span style="color: #00bcff;">null</span><span style="color: #00cd68;">)</span>
 
 <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">There's no need to specify a type if Scala can infer it.</span>
 <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Here it can see that the type parameter `A` is `Int` on the right.</span>
-<span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">l2</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">LinkedList</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">Int</span><span style="color: #00cd68;">]</span> <span style="color: #b6a0ff;">=</span> <span style="color: #b6a0ff;">new</span> <span style="color: #f78fe7;">LinkedList</span><span style="color: #00cd68;">(</span><span style="color: #00bdfa;">2</span>, l1<span style="color: #00cd68;">)</span>
+<span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">l2</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">LinkedList</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">Int</span><span style="color: #00cd68;">]</span> <span style="color: #b6a0ff;">=</span> <span style="color: #b6a0ff;">new</span> <span style="color: #f78fe7;">LinkedList</span><span style="color: #00cd68;">(</span><span style="color: #00bcff;">2</span>, l1<span style="color: #00cd68;">)</span>
 
 <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">In fact, it can tell the type of the `val` too.</span>
-<span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">l3</span> <span style="color: #b6a0ff;">=</span> <span style="color: #b6a0ff;">new</span> <span style="color: #f78fe7;">LinkedList</span><span style="color: #00cd68;">(</span><span style="color: #00bdfa;">3</span>, l2<span style="color: #00cd68;">)</span>
+<span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">l3</span> <span style="color: #b6a0ff;">=</span> <span style="color: #b6a0ff;">new</span> <span style="color: #f78fe7;">LinkedList</span><span style="color: #00cd68;">(</span><span style="color: #00bcff;">3</span>, l2<span style="color: #00cd68;">)</span>
 
 
 <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Let's define a value as a quick sanity test.</span>
-<span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">test1</span> <span style="color: #b6a0ff;">=</span> l1.head == <span style="color: #00bdfa;">1</span>
+<span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">test1</span> <span style="color: #b6a0ff;">=</span> l1.head == <span style="color: #00bcff;">1</span>
 </pre>
 </div>
 
@@ -345,7 +186,7 @@ and for our purposes it's the less interesting part.
 </div>
 </div>
 
-<div id="outline-container-Scala-as-a-functional-language" class="outline-3">
+<div id="outline-container-org460fa2a" class="outline-3">
 <h3 id="Scala-as-a-functional-language"><span class="section-number-3">2.2</span> Scala as a functional language</h3>
 <div class="outline-text-3" id="text-Scala-as-a-functional-language">
 <p>
@@ -391,11 +232,12 @@ if data is mutable.
 </p>
 
 <p>
-Consider for a moment this pseudocode regarding our earlier linked lists.
+Consider for a moment this pseudocode regarding
+our earlier linked lists.
 </p>
-<pre class="example" id="orgd672c61">
+<pre class="example">
 // This is pseudocode
-val l1: LinkedList[Int] = null
+val l1: LinkedList[Int] = … // Some complicated list creation
 
 somebodyElsesFunction(l1)
 </pre>
@@ -405,11 +247,12 @@ function on it?
 </p>
 
 <p>
-:TODO:
+Answer: not much! It could have changed in many ways,
+so anything I knew about it may no longer be true.
 </p>
 </div>
 
-<div id="outline-container-Aside:-Downside-to-immutability" class="outline-4">
+<div id="outline-container-org7573687" class="outline-4">
 <h4 id="Aside:-Downside-to-immutability"><span class="section-number-4">2.2.1</span> Aside: Downside to immutability</h4>
 <div class="outline-text-4" id="text-Aside:-Downside-to-immutability">
 <p>
@@ -439,7 +282,7 @@ some pieces of themselves.
 </div>
 </div>
 
-<div id="outline-container-The-(extended)-Boom-hierarchy" class="outline-2">
+<div id="outline-container-org7175d52" class="outline-2">
 <h2 id="The-(extended)-Boom-hierarchy"><span class="section-number-2">3</span> The (extended) Boom hierarchy&#xa0;&#xa0;&#xa0;<span class="tag"><span class="theory">theory</span></span></h2>
 <div class="outline-text-2" id="text-The-(extended)-Boom-hierarchy">
 <p>
@@ -448,7 +291,7 @@ to give us an example type to consider in Scala.
 </p>
 </div>
 
-<div id="outline-container-Introduction" class="outline-3">
+<div id="outline-container-org6f7b501" class="outline-3">
 <h3 id="Introduction"><span class="section-number-3">3.1</span> Introduction</h3>
 <div class="outline-text-3" id="text-Introduction">
 <p>
@@ -501,7 +344,7 @@ higher-order functions <code>reduce</code> (often called <code>fold</code>),
 </div>
 </div>
 
-<div id="outline-container-Extending-the-Boom-hierarchy" class="outline-3">
+<div id="outline-container-org11d6db6" class="outline-3">
 <h3 id="Extending-the-Boom-hierarchy"><span class="section-number-3">3.2</span> Extending the Boom hierarchy</h3>
 <div class="outline-text-3" id="text-Extending-the-Boom-hierarchy">
 <p>
@@ -534,14 +377,14 @@ except that they “can spin” (the branching order is arbitrary).</li>
 </div>
 </div>
 
-<div id="outline-container-Visualising-the-Boom-hierarchy" class="outline-3">
+<div id="outline-container-orgcd5ce90" class="outline-3">
 <h3 id="Visualising-the-Boom-hierarchy"><span class="section-number-3">3.3</span> Visualising the Boom hierarchy</h3>
 <div class="outline-text-3" id="text-Visualising-the-Boom-hierarchy">
 <p>
 We can visualise the layout of some of these structures:
 </p>
 
-<div id="org8e6fe99" class="figure">
+<div class="figure">
 <p><img src="media/BOOM.png" alt="BOOM.png" />
 </p>
 </div>
@@ -565,7 +408,7 @@ in a programming language?
 </div>
 </div>
 
-<div id="outline-container-The-Boom-hierarchy-in-Scala" class="outline-2">
+<div id="outline-container-org223abe6" class="outline-2">
 <h2 id="The-Boom-hierarchy-in-Scala"><span class="section-number-2">4</span> The Boom hierarchy in Scala&#xa0;&#xa0;&#xa0;<span class="tag"><span class="application">application</span></span></h2>
 <div class="outline-text-2" id="text-The-Boom-hierarchy-in-Scala">
 <div class="org-center">
@@ -583,7 +426,7 @@ in Scala, and make them <i>immutable</i>, for the reasons discussed in
 </p>
 </div>
 
-<div id="outline-container-The-AppendList-type" class="outline-3">
+<div id="outline-container-orgeee400f" class="outline-3">
 <h3 id="The-AppendList-type"><span class="section-number-3">4.1</span> The <code>AppendList</code> type</h3>
 <div class="outline-text-3" id="text-The-AppendList-type">
 <p>
@@ -630,7 +473,7 @@ It is similar to an <code>interface</code> in Java.
 except it's more flexible; see
 <a href="https://docs.scala-lang.org/overviews/scala-book/abstract-classes.html">the Scala docs</a>.)
 </p>
-<pre class="example" id="orgaf12942">
+<pre class="example">
 trait AppendList[A]
 // sub-class definitions yet to come
 </pre>
@@ -640,13 +483,14 @@ In fact, in the interest of not introducing “junk”,
 we should use the <code>sealed</code> keyword which prevents code
 from outside this block from extending <code>AppendList</code>.
 </p>
-<pre class="example" id="org27d7197">
+<pre class="example">
 sealed trait AppendList[A]
+// sub-class definitions yet to come
 </pre>
 </div>
 </div>
 
-<div id="outline-container-Attempt-1-at-defining-cases-of-lists:-basic-classes" class="outline-3">
+<div id="outline-container-org0866fbe" class="outline-3">
 <h3 id="Attempt-1-at-defining-cases-of-lists:-basic-classes"><span class="section-number-3">4.2</span> Attempt 1 at defining cases of lists: basic classes</h3>
 <div class="outline-text-3" id="text-Attempt-1-at-defining-cases-of-lists:-basic-classes">
 <p>
@@ -659,18 +503,22 @@ we can create <code>AppendList</code> values.
 
 <p>
 (Yes, this means a single value can have many types;
-specifically, it has a chain of types, each one a sub-type of the next).
-:TODO: where does the chain end?
+specifically, it has a chain of types,
+each one a sub-type of the next).
+</p>
+
+<p>
+Exercise: where does the chain end?
 </p>
 
 <p>
 We can fill in a <code>class</code> for each case.
 </p>
 <div class="org-src-container">
-<pre class="src src-amm"><span style="color: #b6a0ff;">trait</span> <span style="color: #f78fe7;">AppendList</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">]</span>
-<span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">Empty</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">]()</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">AppendList</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">]</span>
-<span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">Single</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">](</span>a<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">A</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">AppendList</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">]</span>
-<span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">Concat</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">](</span>l<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">AppendList</span><span style="color: #b6a0ff;">[</span><span style="color: #00bdfa;">A</span><span style="color: #b6a0ff;">]</span>, r<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">AppendList</span><span style="color: #b6a0ff;">[</span><span style="color: #00bdfa;">A</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">AppendList</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">]</span>
+<pre class="src src-amm"><span style="color: #b6a0ff;">trait</span> <span style="color: #f78fe7;">AppendList</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">]</span>
+<span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">Empty</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">]()</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">AppendList</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">]</span>
+<span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">Single</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">](</span>a<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">A</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">AppendList</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">]</span>
+<span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">Concat</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">](</span>l<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">AppendList</span><span style="color: #b6a0ff;">[</span><span style="color: #00bcff;">A</span><span style="color: #b6a0ff;">]</span>, r<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">AppendList</span><span style="color: #b6a0ff;">[</span><span style="color: #00bcff;">A</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">AppendList</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">]</span>
 </pre>
 </div>
 
@@ -678,10 +526,10 @@ We can fill in a <code>class</code> for each case.
 But if we try out this definition, we may be disappointed.
 </p>
 <div class="org-src-container">
-<pre class="src src-amm"><span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">empty1</span> <span style="color: #b6a0ff;">=</span> <span style="color: #b6a0ff;">new</span> <span style="color: #f78fe7;">Empty</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">Int</span><span style="color: #00cd68;">]</span>
-<span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">empty2</span> <span style="color: #b6a0ff;">=</span> <span style="color: #b6a0ff;">new</span> <span style="color: #f78fe7;">Empty</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">Int</span><span style="color: #00cd68;">]</span>
+<pre class="src src-amm"><span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">empty1</span> <span style="color: #b6a0ff;">=</span> <span style="color: #b6a0ff;">new</span> <span style="color: #f78fe7;">Empty</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">Int</span><span style="color: #00cd68;">]</span>
+<span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">empty2</span> <span style="color: #b6a0ff;">=</span> <span style="color: #b6a0ff;">new</span> <span style="color: #f78fe7;">Empty</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">Int</span><span style="color: #00cd68;">]</span>
 
-<span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">list1</span> <span style="color: #b6a0ff;">=</span> <span style="color: #b6a0ff;">new</span> <span style="color: #f78fe7;">Concat</span><span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">new</span> <span style="color: #f78fe7;">Single</span><span style="color: #b6a0ff;">(</span><span style="color: #00bdfa;">1</span><span style="color: #b6a0ff;">)</span>, <span style="color: #b6a0ff;">new</span> <span style="color: #f78fe7;">Single</span><span style="color: #b6a0ff;">(</span><span style="color: #00bdfa;">2</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+<span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">list1</span> <span style="color: #b6a0ff;">=</span> <span style="color: #b6a0ff;">new</span> <span style="color: #f78fe7;">Concat</span><span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">new</span> <span style="color: #f78fe7;">Single</span><span style="color: #b6a0ff;">(</span><span style="color: #00bcff;">1</span><span style="color: #b6a0ff;">)</span>, <span style="color: #b6a0ff;">new</span> <span style="color: #f78fe7;">Single</span><span style="color: #b6a0ff;">(</span><span style="color: #00bcff;">2</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
 
 empty1 == empty2  <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">equality check</span>
 </pre>
@@ -689,9 +537,13 @@ empty1 == empty2  <span style="color: #a8a8a8;">// </span><span style="color: #a
 <p>
 :TODO: why? what's so bad about the result of the equality check?
 </p>
+
+<p>
+:TODO: The fact that this check failed tells me these are not the same in memory.
+</p>
 </div>
 
-<div id="outline-container-Aside:-Notions-of-equality" class="outline-4">
+<div id="outline-container-orga0378bb" class="outline-4">
 <h4 id="Aside:-Notions-of-equality"><span class="section-number-4">4.2.1</span> Aside: Notions of equality</h4>
 <div class="outline-text-4" id="text-Aside:-Notions-of-equality">
 <p>
@@ -701,12 +553,13 @@ empty1 == empty2  <span style="color: #a8a8a8;">// </span><span style="color: #a
 </div>
 </div>
 
-<div id="outline-container-Attempt-2-at-defining-cases-of-lists:-case-classes" class="outline-3">
+<div id="outline-container-org7862e3a" class="outline-3">
 <h3 id="Attempt-2-at-defining-cases-of-lists:-case-classes"><span class="section-number-3">4.3</span> Attempt 2 at defining cases of lists: case classes</h3>
 <div class="outline-text-3" id="text-Attempt-2-at-defining-cases-of-lists:-case-classes">
 <p>
 Our <code>class</code> based definition above caused two instances
-of the same list (same in the sense that their construction was the same)
+of the same list (same in the sense that their
+construction was the same)
 as different (unequal) lists.
 </p>
 
@@ -730,10 +583,10 @@ A <code>case</code> class has no mutable state (no non-constant fields).
 (Additionally all its fields are public).
 </p>
 <div class="org-src-container">
-<pre class="src src-amm"><span style="color: #f78fe7;">sealed</span> <span style="color: #b6a0ff;">trait</span> <span style="color: #f78fe7;">AppendList</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">]</span>
-<span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">Empty</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">]()</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">AppendList</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">]</span>
-<span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">Single</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">](</span>a<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">A</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">AppendList</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">]</span>
-<span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">Concat</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">](</span>l<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">AppendList</span><span style="color: #b6a0ff;">[</span><span style="color: #00bdfa;">A</span><span style="color: #b6a0ff;">]</span>, r<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">AppendList</span><span style="color: #b6a0ff;">[</span><span style="color: #00bdfa;">A</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">AppendList</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">]</span>
+<pre class="src src-amm"><span style="color: #f78fe7;">sealed</span> <span style="color: #b6a0ff;">trait</span> <span style="color: #f78fe7;">AppendList</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">]</span>
+<span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">Empty</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">]()</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">AppendList</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">]</span>
+<span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">Single</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">](</span>a<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">A</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">AppendList</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">]</span>
+<span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">Concat</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">](</span>l<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">AppendList</span><span style="color: #b6a0ff;">[</span><span style="color: #00bcff;">A</span><span style="color: #b6a0ff;">]</span>, r<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">AppendList</span><span style="color: #b6a0ff;">[</span><span style="color: #00bcff;">A</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">AppendList</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">]</span>
 </pre>
 </div>
 
@@ -745,42 +598,44 @@ over types defined this way.
 </div>
 </div>
 
-<div id="outline-container-The-inherent-problem-with-~AppendList~" class="outline-3">
+<div id="outline-container-orgf24da54" class="outline-3">
 <h3 id="The-inherent-problem-with-~AppendList~"><span class="section-number-3">4.4</span> The inherent problem with <code>AppendList</code></h3>
 <div class="outline-text-3" id="text-The-inherent-problem-with-~AppendList~">
 <blockquote>
 <p>
-“Each data structure is the free algebra of its binary operation <code>++.</code>”
+“Each data structure is the
+free algebra of its binary operation <code>++.</code>”
 </p>
 </blockquote>
-
 <p>
-:TODO: <b>no confusion</b>!
+This means, since <code>a ++ [] = a</code> by the identity law,
+in the paper, <code>a ++ []</code> and <code>a</code> will both be the same value of <code>List</code>.
 </p>
 
+<p>
+Let's try that in Scala.
+</p>
 <div class="org-src-container">
-<pre class="src src-amm"><span style="color: #f78fe7;">sealed</span> <span style="color: #b6a0ff;">trait</span> <span style="color: #f78fe7;">AppendList</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">]</span>
-<span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">Empty</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">]()</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">AppendList</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">]</span>
-<span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">Single</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">](</span>a<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">A</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">AppendList</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">]</span>
-<span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">Concat</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">](</span>l<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">AppendList</span><span style="color: #b6a0ff;">[</span><span style="color: #00bdfa;">A</span><span style="color: #b6a0ff;">]</span>, r<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">AppendList</span><span style="color: #b6a0ff;">[</span><span style="color: #00bdfa;">A</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">AppendList</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">]</span>
+<pre class="src src-amm"><span style="color: #f78fe7;">sealed</span> <span style="color: #b6a0ff;">trait</span> <span style="color: #f78fe7;">AppendList</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">]</span>
+<span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">Empty</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">]()</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">AppendList</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">]</span>
+<span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">Single</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">](</span>a<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">A</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">AppendList</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">]</span>
+<span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">Concat</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">](</span>l<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">AppendList</span><span style="color: #b6a0ff;">[</span><span style="color: #00bcff;">A</span><span style="color: #b6a0ff;">]</span>, r<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">AppendList</span><span style="color: #b6a0ff;">[</span><span style="color: #00bcff;">A</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">AppendList</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">]</span>
 
-<span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">x1</span> <span style="color: #b6a0ff;">=</span> <span style="color: #00bdfa;">Empty</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">Int</span><span style="color: #00cd68;">]()</span>
-<span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">x2</span> <span style="color: #b6a0ff;">=</span> <span style="color: #00bdfa;">Empty</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">Int</span><span style="color: #00cd68;">]()</span>
-</pre>
-</div>
-
-<div class="org-src-container">
-<pre class="src src-amm"><span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">listofone</span> <span style="color: #b6a0ff;">=</span> <span style="color: #00bdfa;">Single</span><span style="color: #00cd68;">(</span><span style="color: #00bdfa;">1</span><span style="color: #00cd68;">)</span>
-<span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">anotherlistofone</span> <span style="color: #b6a0ff;">=</span> <span style="color: #00bdfa;">Concat</span><span style="color: #00cd68;">(</span>listofone, <span style="color: #00bdfa;">Empty</span><span style="color: #b6a0ff;">()</span><span style="color: #00cd68;">)</span>
+<span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">listofone</span> <span style="color: #b6a0ff;">=</span> <span style="color: #00bcff;">Single</span><span style="color: #00cd68;">(</span><span style="color: #00bcff;">1</span><span style="color: #00cd68;">)</span>
+<span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">anotherlistofone</span> <span style="color: #b6a0ff;">=</span> <span style="color: #00bcff;">Concat</span><span style="color: #00cd68;">(</span>listofone, <span style="color: #00bcff;">Empty</span><span style="color: #b6a0ff;">()</span><span style="color: #00cd68;">)</span>
 
 listofone == anotherlistofone
 </pre>
 </div>
+
+<p>
+:TODO: We have confusion!
+</p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-A-proper-implementation-of-lists-in-Scala." class="outline-2">
+<div id="outline-container-org9504da4" class="outline-2">
 <h2 id="A-proper-implementation-of-lists-in-Scala."><span class="section-number-2">5</span> A proper implementation of lists in Scala.</h2>
 <div class="outline-text-2" id="text-A-proper-implementation-of-lists-in-Scala.">
 <div class="org-src-container">
@@ -794,9 +649,9 @@ ensures there is only one way to construct a given (abstract) list,
 by using “more concrete” constructors.
 </p>
 <div class="org-src-container">
-<pre class="src src-amm"><span style="color: #f78fe7;">sealed</span> <span style="color: #b6a0ff;">trait</span> <span style="color: #f78fe7;">ConsList</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">]</span>
-<span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">Empty</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">]()</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">ConsList</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">]</span>
-<span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">Cons</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">](</span>hd<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">A</span>, tl<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">ConsList</span><span style="color: #b6a0ff;">[</span><span style="color: #00bdfa;">A</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">ConsList</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">]</span>
+<pre class="src src-amm"><span style="color: #f78fe7;">sealed</span> <span style="color: #b6a0ff;">trait</span> <span style="color: #f78fe7;">ConsList</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">]</span>
+<span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">Empty</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">]()</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">ConsList</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">]</span>
+<span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">Cons</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">](</span>hd<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">A</span>, tl<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">ConsList</span><span style="color: #b6a0ff;">[</span><span style="color: #00bcff;">A</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">ConsList</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">]</span>
 </pre>
 </div>
 
@@ -804,22 +659,22 @@ by using “more concrete” constructors.
 We can try out some definitions on this type.
 </p>
 <div class="org-src-container">
-<pre class="src src-amm"><span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">sum</span><span style="color: #00cd68;">(</span>xs<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">ConsList</span><span style="color: #b6a0ff;">[</span><span style="color: #00bdfa;">Int</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Int</span> <span style="color: #b6a0ff;">=</span> xs <span style="color: #b6a0ff;">match</span> <span style="color: #00cd68;">{</span>
-  <span style="color: #b6a0ff;">case</span> <span style="color: #f78fe7;">Empty</span><span style="color: #b6a0ff;">()</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bdfa;">0</span>
+<pre class="src src-amm"><span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">sum</span><span style="color: #00cd68;">(</span>xs<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">ConsList</span><span style="color: #b6a0ff;">[</span><span style="color: #00bcff;">Int</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Int</span> <span style="color: #b6a0ff;">=</span> xs <span style="color: #b6a0ff;">match</span> <span style="color: #00cd68;">{</span>
+  <span style="color: #b6a0ff;">case</span> <span style="color: #f78fe7;">Empty</span><span style="color: #b6a0ff;">()</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">0</span>
   <span style="color: #b6a0ff;">case</span> <span style="color: #f78fe7;">Cons</span><span style="color: #b6a0ff;">(</span><span style="color: #00d3d0;">hd</span>, <span style="color: #00d3d0;">tl</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">=&gt;</span> hd + sum<span style="color: #b6a0ff;">(</span>tl<span style="color: #b6a0ff;">)</span>
 <span style="color: #00cd68;">}</span>
 
-<span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">append</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">](</span>xs<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">ConsList</span><span style="color: #b6a0ff;">[</span><span style="color: #00bdfa;">A</span><span style="color: #b6a0ff;">]</span>, ys<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">ConsList</span><span style="color: #b6a0ff;">[</span><span style="color: #00bdfa;">A</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">ConsList</span><span style="color: #00cd68;">[</span><span style="color: #00bdfa;">A</span><span style="color: #00cd68;">]</span> <span style="color: #b6a0ff;">=</span>
+<span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">append</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">](</span>xs<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">ConsList</span><span style="color: #b6a0ff;">[</span><span style="color: #00bcff;">A</span><span style="color: #b6a0ff;">]</span>, ys<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">ConsList</span><span style="color: #b6a0ff;">[</span><span style="color: #00bcff;">A</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">ConsList</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">]</span> <span style="color: #b6a0ff;">=</span>
   xs <span style="color: #b6a0ff;">match</span> <span style="color: #00cd68;">{</span>
     <span style="color: #b6a0ff;">case</span> <span style="color: #f78fe7;">Empty</span><span style="color: #b6a0ff;">()</span> <span style="color: #b6a0ff;">=&gt;</span> ys
-    <span style="color: #b6a0ff;">case</span> <span style="color: #f78fe7;">Cons</span><span style="color: #b6a0ff;">(</span><span style="color: #00d3d0;">hd</span>, <span style="color: #00d3d0;">tl</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bdfa;">Cons</span><span style="color: #b6a0ff;">(</span>hd, append<span style="color: #6ae4b9;">(</span>tl, ys<span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span>
+    <span style="color: #b6a0ff;">case</span> <span style="color: #f78fe7;">Cons</span><span style="color: #b6a0ff;">(</span><span style="color: #00d3d0;">hd</span>, <span style="color: #00d3d0;">tl</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">Cons</span><span style="color: #b6a0ff;">(</span>hd, append<span style="color: #6ae4b9;">(</span>tl, ys<span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span>
   <span style="color: #00cd68;">}</span>
 </pre>
 </div>
 
 <div class="org-src-container">
-<pre class="src src-amm"><span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">test</span> <span style="color: #b6a0ff;">=</span> <span style="color: #00bdfa;">Cons</span><span style="color: #00cd68;">(</span><span style="color: #00bdfa;">1</span>,<span style="color: #00bdfa;">Cons</span><span style="color: #b6a0ff;">(</span><span style="color: #00bdfa;">2</span>,<span style="color: #00bdfa;">Cons</span><span style="color: #6ae4b9;">(</span><span style="color: #00bdfa;">3</span>,<span style="color: #00bdfa;">Empty</span><span style="color: #f0ce43;">()</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
-<span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">test2</span> <span style="color: #b6a0ff;">=</span> <span style="color: #00bdfa;">Cons</span><span style="color: #00cd68;">(</span><span style="color: #00bdfa;">1</span>,<span style="color: #00bdfa;">Cons</span><span style="color: #b6a0ff;">(</span><span style="color: #00bdfa;">2</span>,<span style="color: #00bdfa;">Cons</span><span style="color: #6ae4b9;">(</span><span style="color: #00bdfa;">3</span>,<span style="color: #00bdfa;">Empty</span><span style="color: #f0ce43;">()</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+<pre class="src src-amm"><span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">test</span> <span style="color: #b6a0ff;">=</span> <span style="color: #00bcff;">Cons</span><span style="color: #00cd68;">(</span><span style="color: #00bcff;">1</span>,<span style="color: #00bcff;">Cons</span><span style="color: #b6a0ff;">(</span><span style="color: #00bcff;">2</span>,<span style="color: #00bcff;">Cons</span><span style="color: #6ae4b9;">(</span><span style="color: #00bcff;">3</span>,<span style="color: #00bcff;">Empty</span><span style="color: #f0ce43;">()</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+<span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">test2</span> <span style="color: #b6a0ff;">=</span> <span style="color: #00bcff;">Cons</span><span style="color: #00cd68;">(</span><span style="color: #00bcff;">1</span>,<span style="color: #00bcff;">Cons</span><span style="color: #b6a0ff;">(</span><span style="color: #00bcff;">2</span>,<span style="color: #00bcff;">Cons</span><span style="color: #6ae4b9;">(</span><span style="color: #00bcff;">3</span>,<span style="color: #00bcff;">Empty</span><span style="color: #f0ce43;">()</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
 
 append<span style="color: #00cd68;">(</span>test,test2<span style="color: #00cd68;">)</span>
 </pre>
@@ -827,7 +682,7 @@ append<span style="color: #00cd68;">(</span>test,test2<span style="color: #00cd6
 </div>
 </div>
 
-<div id="outline-container-Reset-the-REPL!" class="outline-2">
+<div id="outline-container-org1a0c203" class="outline-2">
 <h2 id="Reset-the-REPL!"><span class="section-number-2">6</span> Reset the REPL!</h2>
 <div class="outline-text-2" id="text-Reset-the-REPL!">
 <p>
@@ -869,7 +724,7 @@ If you simply want to restart, just off an extreme number
 of saved states.
 </p>
 <div class="org-src-container">
-<pre class="src src-amm">repl.sess.pop<span style="color: #00cd68;">(</span><span style="color: #00bdfa;">999</span><span style="color: #00cd68;">)</span>
+<pre class="src src-amm">repl.sess.pop<span style="color: #00cd68;">(</span><span style="color: #00bcff;">999</span><span style="color: #00cd68;">)</span>
 </pre>
 </div>
 </div>
@@ -879,7 +734,7 @@ of saved states.
 <p class="author">Author: Mark Armstrong</p>
      <p class="author">Contact: <a href="mailto:markparmstrong@gmail.com">markparmstrong@gmail.com</a></p>
      <p class="date">Original date: </p>
-     <p class="date">Last updated: 2020-09-16 Wed 04:39</p>
+     <p class="date">Last updated: 2020-09-16 Wed 10:22</p>
      <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.90 (<a href="https://orgmode.org">Org</a> mode 9.3.8)</p>
      <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
