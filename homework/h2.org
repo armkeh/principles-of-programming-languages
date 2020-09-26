@@ -203,9 +203,16 @@ to prevent backtracking.
 Updated September 25th: these test scripts,
 separate from the provided unit testing, can be used
 to evaluate the efficiency of your solution.
-On my system (an admittedly underpowered Chromebook),
-the [[./testing/h2/h2-timing.pl][first test]] takes roughly 46 seconds.
-The [[./testing/h2/h2-beastly-timing.pl][second test]] takes several minutes.
+The ~time~ predicate used will report the number
+of inferences used and how long the test takes.
+
+(Updated September 26th: I've run the tests again
+and provided here the number of inferences
+my sample solution takes. as a better metric.)
+
+On my naive, unoptimised sample solution,
+the [[./testing/h2/h2-timing.pl][first test]] makes 222,020,399 inferences (and takes 45 seconds on my machine).
+The [[./testing/h2/h2-beastly-timing.pl][second test]] makes 1,401,332,191 inferences (and takes 5 minutes on my machine).
 The [[./testing/h2/h2-belphegor-timing.pl][last one]] did not halt before I gave up on it 😀.
 #+begin_src prolog :tangle testing/h2/h2-timing.pl
 :- consult(h2).
