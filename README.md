@@ -12,6 +12,21 @@ better viewed at
 
 ## September
 
+  - September 26  
+    A statement on how testing and grading relate has been added to the
+    homework section of this site, under the new current homework
+    section.
+    
+    Additionally, the description of the efficiency tests for homework
+    2's bonus has been updated. The number of inferences applied on my
+    sample solutions is now provided, which is a better metric to
+    compare to than the time those tests took on my machine (which is,
+    naturally, likely going to execute code at a different speed than
+    your machine.) Note: in addition to comparing your solution to my
+    sample solution, the marking for the bonus will also compare your
+    solution to the rest of the class. So the bonus marks assigned will
+    be relative to the average performance.
+
   - September 25  
     Homework 3 is posted.
     
@@ -463,19 +478,42 @@ but this may not be updated quickly after lectures/tutorials.
 
 # Homework
 
-## Homework 3 – Revisiting homework 1 in Prolog and homework 2 in Scala – Sept 25th to Oct 4th
+## Current homeworks
+
+### Homework 3 – Revisiting homework 1 in Prolog and homework 2 in Scala – Sept 25th to Oct 4th
 
   - [HTML](./homework/h3.html)
   - [PDF](./homework/h3.pdf)
   - [Org plaintext](./homework/h3.org)
 
-## Homework 2 – Solving problems in Prolog – Sept 18th to Sept 27th
+### Homework 2 – Solving problems in Prolog – Sept 18th to Sept 27th
 
   - [HTML](./homework/h2.html)
   - [PDF](./homework/h2.pdf)
   - [Org plaintext](./homework/h2.org)
 
-## Homework 1 – Implementing Trees in Scala – Sept 11th to Sept 20th
+## Homework testing policy
+
+As of homework 2, automated unit tests are provided. A Docker image is
+also provided, in order to ensure that you are able to run the tests in
+the same environment that we will run them in.
+
+Passing the provided tests is *mandatory*. And unless other issues are
+found, passing the tests should imply you will receive a passing grade
+on the homework.
+
+  - But no particular grade is guaranteed.
+
+The automated testing we run during marking will typically include some
+number of additional tests, usually chosen to test “edge cases”. You are
+encouraged to try and think of these cases yourselves, and add
+appropriate tests to the provided ones in order to better check your
+solutions. This is not required though; a uniform set of tests will be
+used for every student's submission.
+
+## Previous homeworks
+
+### Homework 1 – Implementing Trees in Scala – Sept 11th to Sept 20th
 
   - [HTML](./homework/h1.html)
   - [PDF](./homework/h1.pdf)
