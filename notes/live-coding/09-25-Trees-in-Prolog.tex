@@ -1,4 +1,4 @@
-% Created 2020-09-25 Fri 13:15
+% Created 2020-09-26 Sat 01:26
 % Intended LaTeX compiler: lualatex
 \documentclass[11pt]{article}
 \usepackage{graphicx}
@@ -44,12 +44,12 @@
 
 
 \section{Introduction}
-\label{sec:orgefa0545}
+\label{sec:org8b42669}
 These notes were created for, and in some parts \textbf{during},
 the lecture on September 25th and the following tutorials.
 
 \section{Motivation}
-\label{sec:orgdd52aa2}
+\label{sec:orgf121fd5}
 So far in this course,
 \begin{itemize}
 \item we have had a homework on defining different tree datatypes
@@ -64,7 +64,7 @@ This information will be necessary for the sort of programs
 we wish to write later on.
 
 \section{Datatypes in Prolog}
-\label{sec:orge040fec}
+\label{sec:org4f20145}
 We have previously discussed that there are
 four classes of Prolog terms;
 \begin{itemize}
@@ -73,7 +73,7 @@ four classes of Prolog terms;
 \item (including both integers and floats)
 \end{itemize}
 \item \emph{atoms}, which include
-words beginning with a lower case letters
+words beginning with lower case letters
 and strings in single quotes,
 \item \emph{variables}, which begin with upper case letters, and
 \item \emph{compound terms}
@@ -99,7 +99,7 @@ But for this course, that is the only extension we will use.
 So we must find a way to represent trees with the above.
 
 \section{Aside: the type hierarchy in Prolog}
-\label{sec:orge56d9fe}
+\label{sec:orgc42d0c2}
 In the above linked SWI Prolog documentation on types,
 \href{https://github.com/dtonhofer}{David Tonhofer} in the comments links to his
 \href{https://github.com/dtonhofer/prolog\_notes/blob/master/swipl\_notes/about\_swipl\_data\_types/swipl\_data\_type\_tree/swipl\_data\_type\_tree.pdf}{Prolog type chart}
@@ -113,7 +113,7 @@ The \href{https://raw.githubusercontent.com/dtonhofer/prolog\_notes/1057c149ebc1
 it is far too dense to fit on this page, though.
 
 \section{Tuples}
-\label{sec:orgca84375}
+\label{sec:org8c0ac0a}
 From Pierce's “\href{https://ebookcentral.proquest.com/lib/mcmu/detail.action?docID=3338823}{Types and Programming Languages}”,
 (chapter 11, “Simple Extensions”)
 \begin{quote}
@@ -123,10 +123,22 @@ The simplest of these is pairs,
 or more generally tuples, of values.
 \end{quote}
 
+For instance, in Haskell-like notation, the following are tuples.
+\begin{minted}[breaklines=true]{text}
+(1,2,3) : (Int, Int, Int)
+("hello", 1) : (String, Int)
+("hello") : (String)
+() : ()
+\end{minted}
+
 Tuple types differ from lists in that
 \begin{itemize}
-\item :TODO:, and
-\item :TODO:.
+\item tuples are always heterogeneous,
+whereas lists are often homogeneous
+\begin{itemize}
+\item (that is, tuples can contain a mixture of types), and
+\end{itemize}
+\item tuples have a fixed length (built into the type).
 \end{itemize}
 
 A Prolog compound term of the form \texttt{label(a1,…,an)} can be viewed
@@ -134,11 +146,9 @@ as an \texttt{n}-ary tuple along with the label \texttt{label},
 and we will use this fact to construct trees in Prolog.
 
 \section{Trees as tuples}
-\label{sec:orgbbb6d47}
-
+\label{sec:org0176e6e}
 \subsection{The original tree types}
-\label{sec:org4315fd3}
-
+\label{sec:orgdc1e360}
 Recall the types \texttt{BinTree} and \texttt{LeafTree} from homework 1.
 \begin{minted}[breaklines=true]{scala}
 sealed trait LeafTree[A]
@@ -158,8 +168,7 @@ data BinTree a = Empty | Node (BinTree a) a (BinTree a)
 we will assume constructors of this shape.)
 
 \subsection{Tupling the arguments}
-\label{sec:org58f8036}
-
+\label{sec:org35fd419}
 Consider the parameters of each constructor.
 \begin{itemize}
 \item \texttt{Leaf} has a single parameter of type \texttt{A}.
@@ -201,17 +210,16 @@ these descriptions briefer.
 \end{itemize}
 
 \subsection{Trees without constructors}
-\label{sec:org3c97dca}
-
+\label{sec:org0744ed6}
 Given the above constructors using tuples,
 we can see that we could even \emph{omit} the constructors
 and simply write trees \emph{as tuples}. For instance,
 \begin{minted}[breaklines=true]{scala}
-Branch(Leaf(1),Branch(Leaf(2),Leaf(3))) : ???
+Branch(Leaf(1),Branch(Leaf(2),Leaf(3))) : LeafTree[Int]
 \end{minted}
 corresponds to the tuple
 \begin{minted}[breaklines=true]{scala}
-(1,(2,3)) : ???
+(1,(2,3)) : Tuple2[Int,Tuple2[Int,Int]]
 \end{minted}
 They are not the same type, but they represent the same tree.
 
@@ -239,7 +247,7 @@ this approach is feasible,
 and in the absence of user-defined types, necessary!
 
 \section{Recognising trees}
-\label{sec:org1319481}
+\label{sec:org07d3ac7}
 Recall that
 a Prolog compound term of the form \texttt{label(a1,…,an)} can be viewed
 as an \texttt{n}-ary tuple along with the label \texttt{label}.
@@ -250,7 +258,7 @@ So, for the \texttt{LeafTree} type, we have trees such as
 \begin{verbatim}
 leaf(5)
 leaf([])
-branch(leaf(1),leaf(2))
+branch(leaf(1),branch(leaf(2),leaf(3)))
 branch(branch(leaf(1),leaf(2)),leaf(3))
 \end{verbatim}
 and for \texttt{BinTree}, examples include
@@ -272,25 +280,73 @@ isLeafTree(branch(L,R)) :- isLeafTree(L), isLeafTree(R).
 Note that we still have nothing restricting the types of the elements.
 
 \section{Operations on trees}
-\label{sec:orgee84033}
+\label{sec:orgca888fa}
 Let's implement some basic operations on our tree type.
 The \texttt{flatten} and \texttt{orderedElems} operations
 from homework 1 will be assigned as homework.
+(Updated September 26th: the original versions
+of \texttt{binInsert} and \texttt{binInsertND} did not actually produce trees.
+They needed the recursive calculation to be a premise.)
 \begin{minted}[breaklines=true]{prolog}
 % Inserting into trees.
 
-binInsert(E,empty,node(empty,E,empty)).
-binInsert(E,node(L,A,R),node(binInsert(E,L),A,R)).
+% Inserting into the empty tree creates a node containing E,
+% with empty subtrees.
+binInsert(E,
+          empty,
+          node(empty,E,empty)).
+
+% Inserting into a node
+% inserts it into the left subtree.
+% (This implementation arbitrarily chosen.)
+binInsert(E,
+          node(L,A,R),
+          node(NL,A,R)) :- binInsert(E,L,NL).
 
 
 
-% Inserting into trees *nondeterministically*.
-% These versions produce all possible valid inserts!
+% Inserting into BinTrees *nondeterministically*.
+% This version could be made to produce all possible valid inserts!
 
+% There's only one way to insert into the empty tree.
 binInsertND(E,empty,node(empty,E,empty)).
-binInsertND(E,node(L,A,R),node(binInsert(E,L),A,R)).
-% …
+
+% But there are at least 2 ways we can insert into a nonempty tree.
+binInsertND(E,node(L,A,R),node(NL,A,R)) :- binInsertND(E,L,NL).
+binInsertND(E,node(L,A,R),node(L,A,NR)) :- binInsertND(E,R,NR).
 
 
+
+% Inserting into a leaf results in a branch with two leaves.
+leafInsert(E,
+           leaf(A),
+           branch(leaf(A),leaf(E))).
+
+% Inserting into a branch inserts it into the right subtree.
+% (again, this is an arbitrary choice.)
+leafInsert(E,
+           branch(L,R),
+           branch(L,NR)) :- leafInsert(E,R,NR).
+
+
+
+% Inserting into LeafTrees nondeterministically.
+
+% We have two choices for inserting into a leaf.
+leafInsertND(E,
+             leaf(A),
+             branch(leaf(A),leaf(E))).
+leafInsertND(E,
+             leaf(A),
+             branch(leaf(E),leaf(A))).
+
+
+% And there are at least 2 ways we can insert into a branch.
+leafInsertND(E,
+             branch(L,R),
+             branch(L,NR)) :- leafInsertND(E,R,NR).
+leafInsertND(E,
+             branch(L,R),
+             branch(NL,R)) :- leafInsertND(E,L,NL).
 \end{minted}
 \end{document}

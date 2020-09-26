@@ -40,9 +40,9 @@ we wish to write later on.
 We have previously discussed that there are
 four classes of Prolog terms;
 - /numbers/,
-  - (including both integers and floats) 
+  - (including both integers and floats)
 - /atoms/, which include
-  words beginning with a lower case letters
+  words beginning with lower case letters
   and strings in single quotes,
 - /variables/, which begin with upper case letters, and
 - /compound terms/
@@ -95,9 +95,19 @@ The simplest of these is pairs,
 or more generally tuples, of values.
 #+end_quote
 
+For instance, in Haskell-like notation, the following are tuples.
+#+begin_src text
+(1,2,3) : (Int, Int, Int)
+("hello", 1) : (String, Int)
+("hello") : (String)
+() : ()
+#+end_src
+
 Tuple types differ from lists in that
-- :TODO:, and
-- :TODO:.
+- tuples are always heterogeneous,
+  whereas lists are often homogeneous
+  - (that is, tuples can contain a mixture of types), and
+- tuples have a fixed length (built into the type).
 
 A Prolog compound term of the form ~label(a1,…,an)~ can be viewed
 as an ~n~-ary tuple along with the label ~label~,
@@ -173,11 +183,11 @@ Given the above constructors using tuples,
 we can see that we could even /omit/ the constructors
 and simply write trees /as tuples/. For instance,
 #+begin_src amm
-Branch(Leaf(1),Branch(Leaf(2),Leaf(3))) : ???
+Branch(Leaf(1),Branch(Leaf(2),Leaf(3))) : LeafTree[Int]
 #+end_src
 corresponds to the tuple
 #+begin_src amm
-(1,(2,3)) : ???
+(1,(2,3)) : Tuple2[Int,Tuple2[Int,Int]]
 #+end_src
 They are not the same type, but they represent the same tree.
 
@@ -215,7 +225,7 @@ So, for the ~LeafTree~ type, we have trees such as
 #+begin_example prolog
 leaf(5)
 leaf([])
-branch(leaf(1),leaf(2))
+branch(leaf(1),branch(leaf(2),leaf(3)))
 branch(branch(leaf(1),leaf(2)),leaf(3))
 #+end_example
 and for ~BinTree~, examples include
@@ -244,26 +254,68 @@ Note that we still have nothing restricting the types of the elements.
 Let's implement some basic operations on our tree type.
 The ~flatten~ and ~orderedElems~ operations
 from homework 1 will be assigned as homework.
+(Updated September 26th: the original versions
+of ~binInsert~ and ~binInsertND~ did not actually produce trees.
+They needed the recursive calculation to be a premise.)
 #+begin_src prolog :tangle ./src/tree.pl
 % Inserting into trees.
 
-binInsert(E,empty,node(empty,E,empty)).
-binInsert(E,node(L,A,R),node(binInsert(E,L),A,R)).
+% Inserting into the empty tree creates a node containing E,
+% with empty subtrees.
+binInsert(E,
+          empty,
+          node(empty,E,empty)).
+
+% Inserting into a node
+% inserts it into the left subtree.
+% (This implementation arbitrarily chosen.)
+binInsert(E,
+          node(L,A,R),
+          node(NL,A,R)) :- binInsert(E,L,NL).
 
 
 
-% Inserting into trees *nondeterministically*.
-% These versions produce all possible valid inserts!
+% Inserting into BinTrees *nondeterministically*.
+% This version could be made to produce all possible valid inserts!
 
+% There's only one way to insert into the empty tree.
 binInsertND(E,empty,node(empty,E,empty)).
-binInsertND(E,node(L,A,R),node(binInsert(E,L),A,R)).
-% …
+
+% But there are at least 2 ways we can insert into a nonempty tree.
+binInsertND(E,node(L,A,R),node(NL,A,R)) :- binInsertND(E,L,NL).
+binInsertND(E,node(L,A,R),node(L,A,NR)) :- binInsertND(E,R,NR).
 
 
+
+% Inserting into a leaf results in a branch with two leaves.
+leafInsert(E,
+           leaf(A),
+           branch(leaf(A),leaf(E))).
+
+% Inserting into a branch inserts it into the right subtree.
+% (again, this is an arbitrary choice.)
+leafInsert(E,
+           branch(L,R),
+           branch(L,NR)) :- leafInsert(E,R,NR).
+
+
+
+% Inserting into LeafTrees nondeterministically.
+
+% We have two choices for inserting into a leaf.
+leafInsertND(E,
+             leaf(A),
+             branch(leaf(A),leaf(E))).
+leafInsertND(E,
+             leaf(A),
+             branch(leaf(E),leaf(A))).
+
+
+% And there are at least 2 ways we can insert into a branch.
+leafInsertND(E,
+             branch(L,R),
+             branch(L,NR)) :- leafInsertND(E,R,NR).
+leafInsertND(E,
+             branch(L,R),
+             branch(NL,R)) :- leafInsertND(E,L,NL).
 #+end_src
-
-* Local Org variables                           :noexport:
-
-# Local Variables:
-# eval: (add-hook 'after-save-hook (lambda ()(org-babel-tangle)) nil t)
-# End:

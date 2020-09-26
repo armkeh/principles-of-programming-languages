@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-09-25 Fri 13:21 -->
+<!-- 2020-09-26 Sat 01:26 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Trees in Prolog</title>
@@ -295,7 +295,7 @@ four classes of Prolog terms;
 <li>(including both integers and floats)</li>
 </ul></li>
 <li><i>atoms</i>, which include
-words beginning with a lower case letters
+words beginning with lower case letters
 and strings in single quotes,</li>
 <li><i>variables</i>, which begin with upper case letters, and</li>
 <li><i>compound terms</i>
@@ -369,11 +369,26 @@ or more generally tuples, of values.
 </blockquote>
 
 <p>
+For instance, in Haskell-like notation, the following are tuples.
+</p>
+<div class="org-src-container">
+<pre class="src src-text"><span style="color: #00cd68;">(</span>1,2,3<span style="color: #00cd68;">)</span> : <span style="color: #00cd68;">(</span>Int, Int, Int<span style="color: #00cd68;">)</span>
+<span style="color: #00cd68;">(</span>"hello", 1<span style="color: #00cd68;">)</span> : <span style="color: #00cd68;">(</span>String, Int<span style="color: #00cd68;">)</span>
+<span style="color: #00cd68;">(</span>"hello"<span style="color: #00cd68;">)</span> : <span style="color: #00cd68;">(</span>String<span style="color: #00cd68;">)</span>
+<span style="color: #00cd68;">()</span> : <span style="color: #00cd68;">()</span>
+</pre>
+</div>
+
+<p>
 Tuple types differ from lists in that
 </p>
 <ul class="org-ul">
-<li>:TODO:, and</li>
-<li>:TODO:.</li>
+<li>tuples are always heterogeneous,
+whereas lists are often homogeneous
+<ul class="org-ul">
+<li>(that is, tuples can contain a mixture of types), and</li>
+</ul></li>
+<li>tuples have a fixed length (built into the type).</li>
 </ul>
 
 <p>
@@ -482,14 +497,14 @@ we can see that we could even <i>omit</i> the constructors
 and simply write trees <i>as tuples</i>. For instance,
 </p>
 <div class="org-src-container">
-<pre class="src src-amm"><span style="color: #00bcff;">Branch</span><span style="color: #00cd68;">(</span><span style="color: #00bcff;">Leaf</span><span style="color: #b6a0ff;">(</span><span style="color: #00bcff;">1</span><span style="color: #b6a0ff;">)</span>,<span style="color: #00bcff;">Branch</span><span style="color: #b6a0ff;">(</span><span style="color: #00bcff;">Leaf</span><span style="color: #6ae4b9;">(</span><span style="color: #00bcff;">2</span><span style="color: #6ae4b9;">)</span>,<span style="color: #00bcff;">Leaf</span><span style="color: #6ae4b9;">(</span><span style="color: #00bcff;">3</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">???</span>
+<pre class="src src-amm"><span style="color: #00bcff;">Branch</span><span style="color: #00cd68;">(</span><span style="color: #00bcff;">Leaf</span><span style="color: #b6a0ff;">(</span><span style="color: #00bcff;">1</span><span style="color: #b6a0ff;">)</span>,<span style="color: #00bcff;">Branch</span><span style="color: #b6a0ff;">(</span><span style="color: #00bcff;">Leaf</span><span style="color: #6ae4b9;">(</span><span style="color: #00bcff;">2</span><span style="color: #6ae4b9;">)</span>,<span style="color: #00bcff;">Leaf</span><span style="color: #6ae4b9;">(</span><span style="color: #00bcff;">3</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">LeafTree</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">Int</span><span style="color: #00cd68;">]</span>
 </pre>
 </div>
 <p>
 corresponds to the tuple
 </p>
 <div class="org-src-container">
-<pre class="src src-amm"><span style="color: #00cd68;">(</span><span style="color: #00bcff;">1</span>,<span style="color: #b6a0ff;">(</span><span style="color: #00bcff;">2</span>,<span style="color: #00bcff;">3</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">???</span>
+<pre class="src src-amm"><span style="color: #00cd68;">(</span><span style="color: #00bcff;">1</span>,<span style="color: #b6a0ff;">(</span><span style="color: #00bcff;">2</span>,<span style="color: #00bcff;">3</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Tuple2</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">Int</span>,<span style="color: #00bcff;">Tuple2</span><span style="color: #b6a0ff;">[</span><span style="color: #00bcff;">Int</span>,<span style="color: #00bcff;">Int</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">]</span>
 </pre>
 </div>
 <p>
@@ -544,10 +559,10 @@ We will use the labels to indicate the constructor we have in mind
 when constructing trees as tuples.
 So, for the <code>LeafTree</code> type, we have trees such as
 </p>
-<pre class="example" id="org78969a6">
+<pre class="example" id="orgf87060e">
 leaf(5)
 leaf([])
-branch(leaf(1),leaf(2))
+branch(leaf(1),branch(leaf(2),leaf(3)))
 branch(branch(leaf(1),leaf(2)),leaf(3))
 </pre>
 <p>
@@ -585,23 +600,71 @@ Note that we still have nothing restricting the types of the elements.
 Let's implement some basic operations on our tree type.
 The <code>flatten</code> and <code>orderedElems</code> operations
 from homework 1 will be assigned as homework.
+(Updated September 26th: the original versions
+of <code>binInsert</code> and <code>binInsertND</code> did not actually produce trees.
+They needed the recursive calculation to be a premise.)
 </p>
 <div class="org-src-container">
 <pre class="src src-prolog"><span style="color: #a8a8a8;">% </span><span style="color: #a8a8a8;">Inserting into trees.</span>
 
-<span style="color: #feacd0;">binInsert</span>(<span style="color: #00d3d0;">E</span>,empty,node(empty,<span style="color: #00d3d0;">E</span>,empty)).
-<span style="color: #feacd0;">binInsert</span>(<span style="color: #00d3d0;">E</span>,node(<span style="color: #00d3d0;">L</span>,<span style="color: #00d3d0;">A</span>,<span style="color: #00d3d0;">R</span>),node(binInsert(<span style="color: #00d3d0;">E</span>,<span style="color: #00d3d0;">L</span>),<span style="color: #00d3d0;">A</span>,<span style="color: #00d3d0;">R</span>)).
+<span style="color: #a8a8a8;">% </span><span style="color: #a8a8a8;">Inserting into the empty tree creates a node containing E,</span>
+<span style="color: #a8a8a8;">% </span><span style="color: #a8a8a8;">with empty subtrees.</span>
+<span style="color: #feacd0;">binInsert</span>(<span style="color: #00d3d0;">E</span>,
+          empty,
+          node(empty,<span style="color: #00d3d0;">E</span>,empty)).
+
+<span style="color: #a8a8a8;">% </span><span style="color: #a8a8a8;">Inserting into a node</span>
+<span style="color: #a8a8a8;">% </span><span style="color: #a8a8a8;">inserts it into the left subtree.</span>
+<span style="color: #a8a8a8;">% </span><span style="color: #a8a8a8;">(This implementation arbitrarily chosen.)</span>
+<span style="color: #feacd0;">binInsert</span>(<span style="color: #00d3d0;">E</span>,
+          node(<span style="color: #00d3d0;">L</span>,<span style="color: #00d3d0;">A</span>,<span style="color: #00d3d0;">R</span>),
+          node(<span style="color: #00d3d0;">NL</span>,<span style="color: #00d3d0;">A</span>,<span style="color: #00d3d0;">R</span>)) :- binInsert(<span style="color: #00d3d0;">E</span>,<span style="color: #00d3d0;">L</span>,<span style="color: #00d3d0;">NL</span>).
 
 
 
-<span style="color: #a8a8a8;">% </span><span style="color: #a8a8a8;">Inserting into trees *nondeterministically*.</span>
-<span style="color: #a8a8a8;">% </span><span style="color: #a8a8a8;">These versions produce all possible valid inserts!</span>
+<span style="color: #a8a8a8;">% </span><span style="color: #a8a8a8;">Inserting into BinTrees *nondeterministically*.</span>
+<span style="color: #a8a8a8;">% </span><span style="color: #a8a8a8;">This version could be made to produce all possible valid inserts!</span>
 
+<span style="color: #a8a8a8;">% </span><span style="color: #a8a8a8;">There's only one way to insert into the empty tree.</span>
 <span style="color: #feacd0;">binInsertND</span>(<span style="color: #00d3d0;">E</span>,empty,node(empty,<span style="color: #00d3d0;">E</span>,empty)).
-<span style="color: #feacd0;">binInsertND</span>(<span style="color: #00d3d0;">E</span>,node(<span style="color: #00d3d0;">L</span>,<span style="color: #00d3d0;">A</span>,<span style="color: #00d3d0;">R</span>),node(binInsert(<span style="color: #00d3d0;">E</span>,<span style="color: #00d3d0;">L</span>),<span style="color: #00d3d0;">A</span>,<span style="color: #00d3d0;">R</span>)).
-<span style="color: #a8a8a8;">% </span><span style="color: #a8a8a8;">&#8230;</span>
+
+<span style="color: #a8a8a8;">% </span><span style="color: #a8a8a8;">But there are at least 2 ways we can insert into a nonempty tree.</span>
+<span style="color: #feacd0;">binInsertND</span>(<span style="color: #00d3d0;">E</span>,node(<span style="color: #00d3d0;">L</span>,<span style="color: #00d3d0;">A</span>,<span style="color: #00d3d0;">R</span>),node(<span style="color: #00d3d0;">NL</span>,<span style="color: #00d3d0;">A</span>,<span style="color: #00d3d0;">R</span>)) :- binInsertND(<span style="color: #00d3d0;">E</span>,<span style="color: #00d3d0;">L</span>,<span style="color: #00d3d0;">NL</span>).
+<span style="color: #feacd0;">binInsertND</span>(<span style="color: #00d3d0;">E</span>,node(<span style="color: #00d3d0;">L</span>,<span style="color: #00d3d0;">A</span>,<span style="color: #00d3d0;">R</span>),node(<span style="color: #00d3d0;">L</span>,<span style="color: #00d3d0;">A</span>,<span style="color: #00d3d0;">NR</span>)) :- binInsertND(<span style="color: #00d3d0;">E</span>,<span style="color: #00d3d0;">R</span>,<span style="color: #00d3d0;">NR</span>).
 
 
+
+<span style="color: #a8a8a8;">% </span><span style="color: #a8a8a8;">Inserting into a leaf results in a branch with two leaves.</span>
+<span style="color: #feacd0;">leafInsert</span>(<span style="color: #00d3d0;">E</span>,
+           leaf(<span style="color: #00d3d0;">A</span>),
+           branch(leaf(<span style="color: #00d3d0;">A</span>),leaf(<span style="color: #00d3d0;">E</span>))).
+
+<span style="color: #a8a8a8;">% </span><span style="color: #a8a8a8;">Inserting into a branch inserts it into the right subtree.</span>
+<span style="color: #a8a8a8;">% </span><span style="color: #a8a8a8;">(again, this is an arbitrary choice.)</span>
+<span style="color: #feacd0;">leafInsert</span>(<span style="color: #00d3d0;">E</span>,
+           branch(<span style="color: #00d3d0;">L</span>,<span style="color: #00d3d0;">R</span>),
+           branch(<span style="color: #00d3d0;">L</span>,<span style="color: #00d3d0;">NR</span>)) :- leafInsert(<span style="color: #00d3d0;">E</span>,<span style="color: #00d3d0;">R</span>,<span style="color: #00d3d0;">NR</span>).
+
+
+
+<span style="color: #a8a8a8;">% </span><span style="color: #a8a8a8;">Inserting into LeafTrees nondeterministically.</span>
+
+<span style="color: #a8a8a8;">% </span><span style="color: #a8a8a8;">We have two choices for inserting into a leaf.</span>
+<span style="color: #feacd0;">leafInsertND</span>(<span style="color: #00d3d0;">E</span>,
+             leaf(<span style="color: #00d3d0;">A</span>),
+             branch(leaf(<span style="color: #00d3d0;">A</span>),leaf(<span style="color: #00d3d0;">E</span>))).
+<span style="color: #feacd0;">leafInsertND</span>(<span style="color: #00d3d0;">E</span>,
+             leaf(<span style="color: #00d3d0;">A</span>),
+             branch(leaf(<span style="color: #00d3d0;">E</span>),leaf(<span style="color: #00d3d0;">A</span>))).
+
+
+<span style="color: #a8a8a8;">% </span><span style="color: #a8a8a8;">And there are at least 2 ways we can insert into a branch.</span>
+<span style="color: #feacd0;">leafInsertND</span>(<span style="color: #00d3d0;">E</span>,
+             branch(<span style="color: #00d3d0;">L</span>,<span style="color: #00d3d0;">R</span>),
+             branch(<span style="color: #00d3d0;">L</span>,<span style="color: #00d3d0;">NR</span>)) :- leafInsertND(<span style="color: #00d3d0;">E</span>,<span style="color: #00d3d0;">R</span>,<span style="color: #00d3d0;">NR</span>).
+<span style="color: #feacd0;">leafInsertND</span>(<span style="color: #00d3d0;">E</span>,
+             branch(<span style="color: #00d3d0;">L</span>,<span style="color: #00d3d0;">R</span>),
+             branch(<span style="color: #00d3d0;">NL</span>,<span style="color: #00d3d0;">R</span>)) :- leafInsertND(<span style="color: #00d3d0;">E</span>,<span style="color: #00d3d0;">L</span>,<span style="color: #00d3d0;">NL</span>).
 </pre>
 </div>
 </div>
@@ -611,7 +674,7 @@ from homework 1 will be assigned as homework.
 <p class="author">Author: Mark Armstrong</p>
      <p class="author">Contact: <a href="mailto:markparmstrong@gmail.com">markparmstrong@gmail.com</a></p>
      <p class="date">Original date: </p>
-     <p class="date">Last updated: 2020-09-25 Fri 13:21</p>
+     <p class="date">Last updated: 2020-09-26 Sat 01:25</p>
      <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.90 (<a href="https://orgmode.org">Org</a> mode 9.3.8)</p>
      <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
