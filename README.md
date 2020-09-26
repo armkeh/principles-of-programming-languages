@@ -13,6 +13,14 @@ better viewed at
 ## September
 
   - September 25  
+    Homework 3 is posted.
+    
+      - The bonus is still to come; I need to think of one 😀.
+    
+    Also, tests for the efficiency of your code in homework 2 have been
+    added to the homework 2 files.
+
+  - September 25  
     Live coding notes for today, on programming trees in Prolog, have
     been uploaded.
 
@@ -454,6 +462,12 @@ but this may not be updated quickly after lectures/tutorials.
     Scala](https://web.microsoftstream.com/video/1f99aa1e-ee5e-4bb4-a27c-6c32175332fd)
 
 # Homework
+
+## Homework 3 – Revisiting homework 1 in Prolog and homework 2 in Scala – Sept 25th to Oct 4th
+
+  - [HTML](./homework/h3.html)
+  - [PDF](./homework/h3.pdf)
+  - [Org plaintext](./homework/h3.org)
 
 ## Homework 2 – Solving problems in Prolog – Sept 18th to Sept 27th
 

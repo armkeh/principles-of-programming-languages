@@ -1,0 +1,110 @@
+#+Title: Computer Science 3MI3 – 2020 homework 2
+#+Subtitle: Revisiting homework 1 in Prolog and homework 2 in Scala
+#+Author: Mark Armstrong
+#+Date: September 25th, 2020
+#+Description: Reversing our introductions to Scala and Prolog.
+#+Options: num:nil
+#+SETUPFILE: ../org-html-themes/setup/theme-readtheorg-local.setup
+
+* Introduction
+:PROPERTIES:
+:CUSTOM_ID: Introduction
+:END:
+
+We have now worked in Scala for one homework,
+representing different kinds of trees
+and defining operations on them.
+
+We have also worked in Prolog solving problems
+about palindromes and prime numbers.
+
+For our third homework, we gain further experience
+in both languages by tackling our previous problems
+in the other language.
+Since they are from different paradigms,
+although the problems are the same,
+your solutions will out of necessity be quite different.
+
+* Boilerplate
+:PROPERTIES:
+:CUSTOM_ID: Boilerplate
+:END:
+
+** Submission procedures
+:PROPERTIES:
+:CUSTOM_ID: Submission-procedures
+:END:
+
+#+INCLUDE: "./../boilerplate.org::*Homework submission" :only-contents t
+
+** Proper conduct for coursework
+:PROPERTIES:
+:CUSTOM_ID: Proper-conduct-for-coursework
+:END:
+
+#+INCLUDE: "./../boilerplate.org::*Homework conduct" :only-contents t
+
+* Part 1: Flattening and ordering trees in Prolog [20 points]
+:PROPERTIES:
+:CUSTOM_ID: Part-1:-Flattening-and-ordering-trees-in-Prolog-[20 points]
+:END:
+
+Using the representations (not technically types)
+of ~BinTree~ and ~LeafTree~ trees discussed in the
+“Trees in Prolog” lecture (links below),
+write predicates ~flatten~ and ~elemsOrdered~ in Prolog.
+- (Each predicate is assigned 7.5 points.)
+
+Each should be a binary predicate,
+taking a tree and a list as parameters.
+So ~flatten(T,L)~ means that ~L~ is the result of flattening ~T~,
+and similarly ~elemsOrdered(T,L)~ means that ~L~ is a
+list of elements of ~T~ in order.
+
+Implement your own sorting predicate to use in ~elemsOrdered~;
+do not use a predefined one.
+- (The sorting predicate is assigned 5 points.)
+
+Refer to the “Trees in Prolog” lecture notes, available as
+- [[./../notes/live-coding/09-25-Trees-in-Prolog.html][HTML]],
+- [[./../notes/live-coding/09-25-Trees-in-Prolog.pdf][PDF]], or
+- [[./../notes/live-coding/09-25-Trees-in-Prolog.org][plaintext Org source]],
+  
+* Part 2: Predicates in Scala                     [20 points]
+:PROPERTIES:
+:CUSTOM_ID: Part-2:-Predicates-in-Scala---------------------[20 points]
+:END:
+
+In Scala and other non-logical languages,
+we can represent predicates as boolean-valued functions/methods
+(functions/methods which return booleans).
+Note that in Scala the type of booleans is ~Boolean~
+(not ~Bool~, as it is in some languages.)
+
+In Scala, implement the predicates from homework 2:
+1. ~isPrime~ on the ~Int~ type.
+   - (assigned 5 points.)
+2. ~isPalindrome~ on the type ~List[A]~ for any ~A~.
+   - (assigned 5 points.)
+3. ~primePalindrome~ on the type ~List[Int]~.
+   - (assigned 5 points.)
+
+In the process, also define a method ~digitList~ (not ~isDigitList~)
+which converts an ~Int~ into a ~List[Int]~ consisting
+of its digits, with the first element of the list being
+the “ones” digits, the second element being the “tens” digit, etc.
+- (this method is assigned 5 points.)
+
+* Part 3: ??? [?? bonus points]
+:PROPERTIES:
+:CUSTOM_ID: Part-3:-???-[?? bonus points]
+:END:
+
+:TODO:
+
+* Testing
+:PROPERTIES:
+:CUSTOM_ID: Testing
+:END:
+
+:TODO:

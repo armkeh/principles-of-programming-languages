@@ -1,0 +1,282 @@
+% Created 2020-09-25 Fri 23:31
+% Intended LaTeX compiler: lualatex
+\documentclass[11pt]{article}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{etoolbox}
+\makeatletter
+\def\dontdofcolorbox{\renewcommand\fcolorbox[4][]{##4}}
+\AtBeginEnvironment{minted}{\dontdofcolorbox}
+\makeatother
+\usepackage[newfloat]{minted}
+\author{Mark Armstrong}
+\date{September 25th, 2020}
+\title{Computer Science 3MI3 – 2020 homework 2\\\medskip
+\large Revisiting homework 1 in Prolog and homework 2 in Scala}
+\hypersetup{
+   pdfauthor={Mark Armstrong},
+   pdftitle={Computer Science 3MI3 – 2020 homework 2},
+   pdfkeywords={},
+   pdfsubject={Reversing our introductions to Scala and Prolog.},
+   pdfcreator={Emacs 27.0.90 (Org mode 9.3.8)},
+   pdflang={English},
+   colorlinks,
+   linkcolor=blue,
+   citecolor=blue,
+   urlcolor=blue
+   }
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+
+\section*{Introduction}
+\label{sec:org7fa5c8a}
+We have now worked in Scala for one homework,
+representing different kinds of trees
+and defining operations on them.
+
+We have also worked in Prolog solving problems
+about palindromes and prime numbers.
+
+For our third homework, we gain further experience
+in both languages by tackling our previous problems
+in the other language.
+Since they are from different paradigms,
+although the problems are the same,
+your solutions will out of necessity be quite different.
+
+\section*{Boilerplate}
+\label{sec:org8b413c3}
+\subsection*{Submission procedures}
+\label{sec:orgbf7150b}
+\subsubsection*{Submission method}
+\label{sec:org3ff8d40}
+
+Homework should be submitted to your McMaster CAS Gitlab respository
+in the \texttt{cs3mi3-fall2020} project.
+
+Ensure that you have \textbf{pushed} the commits to the remote repository
+in time for the deadline, and not just committed to your local copy.
+
+\subsubsection*{Naming requirements}
+\label{sec:orge4bfa36}
+
+Place all files for the homework
+inside a folder titled \texttt{hn}, where \texttt{n} is the number of the homework.
+So, for homework 1, the use the folder \texttt{h1}, for homework 2 the folder \texttt{h2}, etc.
+Ensure you do not capitalise the \texttt{h}.
+
+Unless otherwise instructed in the homework questions,
+place all of your code for the homework
+in a single file in the \texttt{hn} folder named \texttt{hn.ext},
+where \texttt{ext} is the appropriate extension for the language used
+according to this list:
+\begin{itemize}
+\item For Scala, \texttt{ext} is \texttt{sc}.
+\item For Prolog, \texttt{ext} is \texttt{pl}.
+\item For Ruby, \texttt{ext} is \texttt{rb}.
+\item For Clojure, \texttt{ext} is \texttt{clg}.
+\end{itemize}
+If multiple languages are used in the homework,
+submit a \texttt{hn.ext} file for each language.
+
+\begin{center}
+\textbf{If the language supports multiple different file extensions,}
+\textbf{you must still follow the extension conventions above.}
+\end{center}
+
+\begin{center}
+\textbf{Incorrect naming of files may result in up to a 10\% deduction in your grade.}
+\end{center}
+
+\subsubsection*{Do not submit testing or diagnostic code}
+\label{sec:org7b19ca9}
+
+Unless you are instructed to do so in the homework questions,
+\textbf{you should not submit testing code with your homework submission}.
+
+This includes
+\begin{itemize}
+\item any \texttt{main} function,
+\item any \texttt{print} statements which output information
+\textbf{that is not directly requested as console output}
+\textbf{in the homework questions}.
+\end{itemize}
+
+If you do not wish to remove diagnostic print statements manually,
+you will have to find a way to ensure that they disabled
+in your final submission.
+
+For instance, by using a wrapper on the print function or macros.
+
+\subsubsection*{Due date and allowance for technical difficulties}
+\label{sec:org54107c3}
+
+Homework is due on the second Sunday following its release,
+by the end of the day (midnight).
+Submissions past 00:00 may not be considered.
+
+If you experience technical difficulties
+leading up to the submission time,
+please contact Mark \textbf{ASAP} with the details of the problem
+and, if possible, attach the current state of your homework
+to the communication.
+This information will help ensure we are able
+to accept your submission once the technical difficulties are resolved.
+
+\subsection*{Proper conduct for coursework}
+\label{sec:orgb2ce06b}
+\subsubsection*{Individual work}
+\label{sec:orge495984}
+
+Unless explicitely stated in the homework questions,
+all homework in this course is intended
+to be \emph{individually completed}.
+
+You are welcome to discuss the content of the homework in
+the public forum of the class Microsoft Teams team homework channel,
+though obviously solutions or partial solutions should not
+be posted or described.
+
+Private discussions about the homework cannot reasonably be
+forbidden, but such discussions should follow the same guidelines
+as public discussions.
+
+\begin{center}
+\textbf{Inappopriate collaboration via private discussions}
+\textbf{which is later discovered by course staff}
+\textbf{may be considered academic dishonesty.}
+
+When in doubt, make the discussion private, or report its contents
+to the course staff by making a note of it
+in your homework.
+\end{center}
+
+To clarify what is considered appropriate discussions
+of homework content, here are some examples:
+\begin{enumerate}
+\item Discussing the language features introduced or needed for the homework.
+\begin{itemize}
+\item Such as relevant builtin datatypes
+and datatype definition methods and their general use.
+\item Code snippets that are not partial solutions to the homework
+are welcome and encouraged.
+\end{itemize}
+\item Questions of the form “What is meant by \texttt{x}?”,
+“Does \texttt{x} really mean \texttt{y}?” or “Is there a mistake with \texttt{x}?”
+\begin{itemize}
+\item Of course, questions of those form which would be answered
+by partial solutions are not considered appropriate.
+\end{itemize}
+\item Questions or advice about errors that may be encountered.
+\begin{itemize}
+\item Such as “If you see a \texttt{scala.MatchError} you should
+probably add a catch-all \texttt{\_} case to your \texttt{match} expressions.”
+\end{itemize}
+\end{enumerate}
+
+\subsubsection*{Language library resources}
+\label{sec:orge30fe5b}
+
+Unless explicitely stated in the questions,
+it is not expected that you will use any language library resources
+in the homeworks.
+
+Possible exceptions to this rule include implementations
+of datatypes we discuss in this course, such as lists
+or options/maybes, if they are included in a standard library
+instead of being builtin.
+
+\emph{Basic} operations on such types would also be allowed.
+\begin{itemize}
+\item For instance, \texttt{head}, \texttt{tail}, \texttt{append}, etc. on lists
+would not require explicit permission to be used.
+\item More complex operations such as sorting procedures
+would require permission before you used them.
+\end{itemize}
+
+Additionally, the standard \emph{higher-order} operations
+including \texttt{map}, \texttt{reduce}, \texttt{flatten}, and \texttt{filter} are permitted generally,
+unless the task is to implement such a higher-order operator.
+
+\section*{Part 1: Flattening and ordering trees in Prolog [20 points]}
+\label{sec:org3bcec6c}
+Using the representations (not technically types)
+of \texttt{BinTree} and \texttt{LeafTree} trees discussed in the
+“Trees in Prolog” lecture (links below),
+write predicates \texttt{flatten} and \texttt{elemsOrdered} in Prolog.
+\begin{itemize}
+\item (Each predicate is assigned 7.5 points.)
+\end{itemize}
+
+Each should be a binary predicate,
+taking a tree and a list as parameters.
+So \texttt{flatten(T,L)} means that \texttt{L} is the result of flattening \texttt{T},
+and similarly \texttt{elemsOrdered(T,L)} means that \texttt{L} is a
+list of elements of \texttt{T} in order.
+
+Implement your own sorting predicate to use in \texttt{elemsOrdered};
+do not use a predefined one.
+\begin{itemize}
+\item (The sorting predicate is assigned 5 points.)
+\end{itemize}
+
+Refer to the “Trees in Prolog” lecture notes, available as
+\begin{itemize}
+\item \href{./../notes/live-coding/09-25-Trees-in-Prolog.html}{HTML},
+\item \href{./../notes/live-coding/09-25-Trees-in-Prolog.pdf}{PDF}, or
+\item \href{./../notes/live-coding/09-25-Trees-in-Prolog.org}{plaintext Org source},
+\end{itemize}
+
+\section*{Part 2: Predicates in Scala                     [20 points]}
+\label{sec:org53f481e}
+In Scala and other non-logical languages,
+we can represent predicates as boolean-valued functions/methods
+(functions/methods which return booleans).
+Note that in Scala the type of booleans is \texttt{Boolean}
+(not \texttt{Bool}, as it is in some languages.)
+
+In Scala, implement the predicates from homework 2:
+\begin{enumerate}
+\item \texttt{isPrime} on the \texttt{Int} type.
+\begin{itemize}
+\item (assigned 5 points.)
+\end{itemize}
+\item \texttt{isPalindrome} on the type \texttt{List[A]} for any \texttt{A}.
+\begin{itemize}
+\item (assigned 5 points.)
+\end{itemize}
+\item \texttt{primePalindrome} on the type \texttt{List[Int]}.
+\begin{itemize}
+\item (assigned 5 points.)
+\end{itemize}
+\end{enumerate}
+
+In the process, also define a method \texttt{digitList} (not \texttt{isDigitList})
+which converts an \texttt{Int} into a \texttt{List[Int]} consisting
+of its digits, with the first element of the list being
+the “ones” digits, the second element being the “tens” digit, etc.
+\begin{itemize}
+\item (this method is assigned 5 points.)
+\end{itemize}
+
+\section*{Part 3: ??? [?? bonus points]}
+\label{sec:org1cb9752}
+:TODO:
+
+\section*{Testing}
+\label{sec:org2848722}
+:TODO:
+\end{document}
