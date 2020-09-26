@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-09-25 Fri 01:26 -->
+<!-- 2020-09-25 Fri 21:04 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Computer Science 3MI3 – 2020 homework 2</title>
@@ -240,16 +240,16 @@
 <ul>
 <li><a href="#Submission-procedures">Submission procedures</a>
 <ul>
-<li><a href="#org349ea3b">Submission method</a></li>
-<li><a href="#org4924d89">Naming requirements</a></li>
-<li><a href="#org5c38108">Do not submit testing or diagnostic code</a></li>
-<li><a href="#orgcca197b">Due date and allowance for technical difficulties</a></li>
+<li><a href="#orgce3ffd4">Submission method</a></li>
+<li><a href="#orgc593ffd">Naming requirements</a></li>
+<li><a href="#orgd6fe1c4">Do not submit testing or diagnostic code</a></li>
+<li><a href="#org6933224">Due date and allowance for technical difficulties</a></li>
 </ul>
 </li>
 <li><a href="#Proper-conduct-for-coursework">Proper conduct for coursework</a>
 <ul>
-<li><a href="#org26e20ef">Individual work</a></li>
-<li><a href="#orgc60451e">Language library resources</a></li>
+<li><a href="#org4f91229">Individual work</a></li>
+<li><a href="#org0bbbdf8">Language library resources</a></li>
 </ul>
 </li>
 </ul>
@@ -306,9 +306,9 @@ Put simply, the programmer describes the problem, not the solution.
 <div class="outline-text-3" id="text-Submission-procedures">
 </div>
 
-<div id="outline-container-org349ea3b" class="outline-4">
-<h4 id="org349ea3b">Submission method</h4>
-<div class="outline-text-4" id="text-org349ea3b">
+<div id="outline-container-orgce3ffd4" class="outline-4">
+<h4 id="orgce3ffd4">Submission method</h4>
+<div class="outline-text-4" id="text-orgce3ffd4">
 <p>
 Homework should be submitted to your McMaster CAS Gitlab respository
 in the <code>cs3mi3-fall2020</code> project.
@@ -321,9 +321,9 @@ in time for the deadline, and not just committed to your local copy.
 </div>
 </div>
 
-<div id="outline-container-org4924d89" class="outline-4">
-<h4 id="org4924d89">Naming requirements</h4>
-<div class="outline-text-4" id="text-org4924d89">
+<div id="outline-container-orgc593ffd" class="outline-4">
+<h4 id="orgc593ffd">Naming requirements</h4>
+<div class="outline-text-4" id="text-orgc593ffd">
 <p>
 Place all files for the homework
 inside a folder titled <code>hn</code>, where <code>n</code> is the number of the homework.
@@ -364,9 +364,9 @@ submit a <code>hn.ext</code> file for each language.
 </div>
 </div>
 
-<div id="outline-container-org5c38108" class="outline-4">
-<h4 id="org5c38108">Do not submit testing or diagnostic code</h4>
-<div class="outline-text-4" id="text-org5c38108">
+<div id="outline-container-orgd6fe1c4" class="outline-4">
+<h4 id="orgd6fe1c4">Do not submit testing or diagnostic code</h4>
+<div class="outline-text-4" id="text-orgd6fe1c4">
 <p>
 Unless you are instructed to do so in the homework questions,
 <b>you should not submit testing code with your homework submission</b>.
@@ -394,9 +394,9 @@ For instance, by using a wrapper on the print function or macros.
 </div>
 </div>
 
-<div id="outline-container-orgcca197b" class="outline-4">
-<h4 id="orgcca197b">Due date and allowance for technical difficulties</h4>
-<div class="outline-text-4" id="text-orgcca197b">
+<div id="outline-container-org6933224" class="outline-4">
+<h4 id="org6933224">Due date and allowance for technical difficulties</h4>
+<div class="outline-text-4" id="text-org6933224">
 <p>
 Homework is due on the second Sunday following its release,
 by the end of the day (midnight).
@@ -421,9 +421,9 @@ to accept your submission once the technical difficulties are resolved.
 <div class="outline-text-3" id="text-Proper-conduct-for-coursework">
 </div>
 
-<div id="outline-container-org26e20ef" class="outline-4">
-<h4 id="org26e20ef">Individual work</h4>
-<div class="outline-text-4" id="text-org26e20ef">
+<div id="outline-container-org4f91229" class="outline-4">
+<h4 id="org4f91229">Individual work</h4>
+<div class="outline-text-4" id="text-org4f91229">
 <p>
 Unless explicitely stated in the homework questions,
 all homework in this course is intended
@@ -484,9 +484,9 @@ probably add a catch-all <code>_</code> case to your <code>match</code> expressi
 </div>
 </div>
 
-<div id="outline-container-orgc60451e" class="outline-4">
-<h4 id="orgc60451e">Language library resources</h4>
-<div class="outline-text-4" id="text-orgc60451e">
+<div id="outline-container-org0bbbdf8" class="outline-4">
+<h4 id="org0bbbdf8">Language library resources</h4>
+<div class="outline-text-4" id="text-org0bbbdf8">
 <p>
 Unless explicitely stated in the questions,
 it is not expected that you will use any language library resources
@@ -696,7 +696,7 @@ list is a palindrome.
 Note you can use pattern matching with the list “cons” operator, <code>|</code>,
 to refer to the head and tail of a list, as in
 </p>
-<pre class="example" id="orgb5c4131">
+<pre class="example" id="org844da19">
 palindrome([H|T]) :- ??? % H is the first element, T is the rest
 </pre>
 </div>
@@ -729,10 +729,35 @@ to prevent backtracking.
 </p>
 
 <p>
-The unit tests will include some (optional for your use) “large”
-versions of these problems in order to test the efficiency
-of your solutions.
+Updated September 25th: these test scripts,
+separate from the provided unit testing, can be used
+to evaluate the efficiency of your solution.
+On my system (an admittedly underpowered Chromebook),
+the <a href="./testing/h2/h2-timing.pl">first test</a> takes roughly 46 seconds.
+The <a href="./testing/h2/h2-beastly-timing.pl">second test</a> takes several minutes.
+The <a href="./testing/h2/h2-belphegor-timing.pl">last one</a> did not halt before I gave up on it 😀.
 </p>
+<div class="org-src-container">
+<pre class="src src-prolog">:- consult(h2).
+
+:- initialization(writeln(<span style="color: #79a8ff;">'Timing prime palindrome'</span>)).
+:- initialization(time(primePalindrome(111010111))).
+</pre>
+</div>
+<div class="org-src-container">
+<pre class="src src-prolog">:- consult(h2).
+
+:- initialization(writeln(<span style="color: #79a8ff;">'Timing prime palindrome with a beastly prime palindrome'</span>)).
+:- initialization(time(primePalindrome(700666007))).
+</pre>
+</div>
+<div class="org-src-container">
+<pre class="src src-prolog">:- consult(h2).
+
+:- initialization(writeln(<span style="color: #79a8ff;">'Timing prime palindrome with Belphegor\'</span><span style="color: #79a8ff;">s prime palindrome'</span>)).
+:- initialization(time(primePalindrome(1000000000000066600000000000001))).
+</pre>
+</div>
 </div>
 </div>
 
@@ -862,7 +887,7 @@ are repeated here.
 <p class="author">Author: Mark Armstrong</p>
      <p class="author">Contact: <a href="mailto:markparmstrong@gmail.com">markparmstrong@gmail.com</a></p>
      <p class="date">Original date: September 18th, 2020</p>
-     <p class="date">Last updated: 2020-09-25 Fri 01:26</p>
+     <p class="date">Last updated: 2020-09-25 Fri 21:04</p>
      <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.90 (<a href="https://orgmode.org">Org</a> mode 9.3.8)</p>
      <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

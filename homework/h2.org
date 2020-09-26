@@ -200,9 +200,31 @@ For extra marks, research how to make your above definitions more efficient.
 In particular, look into the use of the “cut” operator, ~!~,
 to prevent backtracking.
 
-The unit tests will include some (optional for your use) “large”
-versions of these problems in order to test the efficiency
-of your solutions.
+Updated September 25th: these test scripts,
+separate from the provided unit testing, can be used
+to evaluate the efficiency of your solution.
+On my system (an admittedly underpowered Chromebook),
+the [[./testing/h2/h2-timing.pl][first test]] takes roughly 46 seconds.
+The [[./testing/h2/h2-beastly-timing.pl][second test]] takes several minutes.
+The [[./testing/h2/h2-belphegor-timing.pl][last one]] did not halt before I gave up on it 😀.
+#+begin_src prolog :tangle testing/h2/h2-timing.pl
+:- consult(h2).
+
+:- initialization(writeln('Timing prime palindrome')).
+:- initialization(time(primePalindrome(111010111))).
+#+end_src
+#+begin_src prolog :tangle testing/h2/h2-beastly-timing.pl
+:- consult(h2).
+
+:- initialization(writeln('Timing prime palindrome with a beastly prime palindrome')).
+:- initialization(time(primePalindrome(700666007))).
+#+end_src
+#+begin_src prolog :tangle testing/h2/h2-belphegor-timing.pl
+:- consult(h2).
+
+:- initialization(writeln('Timing prime palindrome with Belphegor\'s prime palindrome')).
+:- initialization(time(primePalindrome(1000000000000066600000000000001))).
+#+end_src
 
 * Testing
 :PROPERTIES:
