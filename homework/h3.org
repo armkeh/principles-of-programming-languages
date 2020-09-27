@@ -1,4 +1,4 @@
-#+Title: Computer Science 3MI3 – 2020 homework 2
+#+Title: Computer Science 3MI3 – 2020 homework 3
 #+Subtitle: Revisiting homework 1 in Prolog and homework 2 in Scala
 #+Author: Mark Armstrong
 #+Date: September 25th, 2020
@@ -86,7 +86,7 @@ In Scala, implement the predicates from homework 2:
    - (assigned 5 points.)
 2. ~isPalindrome~ on the type ~List[A]~ for any ~A~.
    - (assigned 5 points.)
-3. ~primePalindrome~ on the type ~List[Int]~.
+3. ~primePalindrome~ on the type ~Int~.
    - (assigned 5 points.)
 
 In the process, also define a method ~digitList~ (not ~isDigitList~)
