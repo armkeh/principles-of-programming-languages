@@ -100,7 +100,8 @@ This course will have three assignments, as described in [[Grading][Grading]].
 
 As of the beginning of the course,
 the assignments are planned to be due on
-- October 7th,
+- +October 7th+,
+  - ammended September 27th; the new due date is October 21st
 - November 11th, and
 - December 16th.
 

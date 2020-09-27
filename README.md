@@ -12,6 +12,20 @@ better viewed at
 
 ## September
 
+  - September 27th  
+    Assignment 1 has been posted. The boilerplate and testing will come
+    ASAP; I am catching up on more pressing content first, such as the
+    testing for homework 3.
+    
+    <div class="center">
+    
+    **Note that the deadline date for assignment 1 has changed.** **It
+    is now due October 21st, two weeks later than originally stated.**
+    **This change is reflected in the outline and the Avenue course's
+    schedule.**
+    
+    </div>
+
   - September 26  
     A statement on how testing and grading relate has been added to the
     homework section of this site, under the new current homework
@@ -517,11 +531,34 @@ used for every student's submission.
 
   - [HTML](./homework/h1.html)
   - [PDF](./homework/h1.pdf)
-  - [Org plaintext](./homework/h1.org)
+  - [Org
+plaintext](./homework/h1.org)
 
 # Assignments
 
-:TODO:
+## Assignment 1 – Interpreting simple integer expressions – Sept 26th to Oct 21st.
+
+  - [HTML](./assignments/a1.html)
+  - [PDF](./assignments/a1.pdf)
+  - [Org plaintext](./assignments/a1.org)
+
+## Assignment testing policy
+
+Automated unit tests will be provided for all assignments. A Docker
+image is also provided, in order to ensure that you are able to run the
+tests in the same environment that we will run them in.
+
+Passing the provided tests is *mandatory*. But unlike the homeworks,
+passing the provided tests does **not** necessarily mean you will
+receive a passing grade on the assignment. The assignment grades are
+more heavily influenced by a code inspection.
+
+As with the homework, the automated testing we run during marking will
+typically include some number of additional tests, usually chosen to
+test “edge cases”. You are encouraged to try and think of these cases
+yourselves, and add appropriate tests to the provided ones in order to
+better check your solutions. This is not required though; a uniform set
+of tests will be used for every student's submission.
 
 # Course outline
 

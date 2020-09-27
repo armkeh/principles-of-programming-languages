@@ -1,0 +1,710 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2020-09-27 Sun 15:29 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Computer Science 3MI3 – 2020 assignment 1</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Mark Armstrong" />
+<meta name="description" content="Writing interpreters for simple expression languages."
+ />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="styles/readtheorg/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="styles/readtheorg/css/readtheorg.css"/>
+<script type="text/javascript" src="styles/lib/js/jquery.min.js"></script>
+<script type="text/javascript" src="styles/lib/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="styles/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" src="styles/readtheorg/js/readtheorg.js"></script>
+<style>pre.src{background:#000000;color:white;} </style>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:e95b018ef3580986a04669f1b5879592219e2a7a&dn=public-domain.txt Public Domain
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.add("code-highlighted");
+         target.classList.add("code-highlighted");
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.remove("code-highlighted");
+         target.classList.remove("code-highlighted");
+       }
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Computer Science 3MI3 – 2020 assignment 1
+<br />
+<span class="subtitle">A language of expressions</span>
+</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#Introduction">Introduction</a></li>
+<li><a href="#Boilerplate">Boilerplate</a></li>
+<li><a href="#Informal-description-of-the-expression-language">Informal description of the expression language</a>
+<ul>
+<li><a href="#Example-1">Example 1</a></li>
+<li><a href="#Example-2">Example 2</a></li>
+</ul>
+</li>
+<li><a href="#Task-1-–-Interpreter-written-in-Scala--[20 marks]">Task 1 – Interpreter written in Scala  [20 marks]</a>
+<ul>
+<li><a href="#1.1-Representation-[5 marks]">1.1 Representation [5 marks]</a></li>
+<li><a href="#1.2-Interpreter----[15 marks]">1.2 Interpreter    [15 marks]</a></li>
+</ul>
+</li>
+<li><a href="#Task-2-–-Interpreter-written-in-Prolog-[20 marks]">Task 2 – Interpreter written in Prolog [20 marks]</a>
+<ul>
+<li><a href="#1.1-Expression-recogniser-[5 marks]">1.1 Expression recogniser [5 marks]</a></li>
+<li><a href="#org4dff41b">1.2 Interpreter           [15 marks]</a></li>
+</ul>
+</li>
+<li><a href="#Task-3-–-Variables-and-substitution----[30 marks]">Task 3 – Variables and substitution    [30 marks]</a>
+<ul>
+<li><a href="#Task-3-description">Task 3 description</a></li>
+<li><a href="#The-task-3">The task 3</a></li>
+</ul>
+</li>
+<li><a href="#Task-4-–-Boolean-expressions-----------[30 marks]">Task 4 – Boolean expressions           [30 marks]</a>
+<ul>
+<li><a href="#Task-4-description">Task 4 description</a></li>
+<li><a href="#The-task-4">The task 4</a></li>
+</ul>
+</li>
+<li><a href="#Task-5-–-Bonus-------------------[10 bonus_marks]">Task 5 – Bonus: parsing                [10 bonus_marks]</a></li>
+<li><a href="#Testing">Testing</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-Introduction" class="outline-2">
+<h2 id="Introduction">Introduction</h2>
+<div class="outline-text-2" id="text-Introduction">
+<p>
+This assignment asks you to construct interpreters
+for a simple language of mathematical expressions.
+To put it another way, you are asked to construct simple calculators.
+</p>
+
+<p>
+We provide an informal description of the language below.
+Your task is to then represent the terms of the language
+in Scala and Prolog, using the languages' facilities for
+representing such data.
+</p>
+</div>
+</div>
+
+<div id="outline-container-Boilerplate" class="outline-2">
+<h2 id="Boilerplate">Boilerplate</h2>
+<div class="outline-text-2" id="text-Boilerplate">
+<p>
+:TODO: (It will be similar to the homework boilerplate.)
+</p>
+</div>
+</div>
+
+<div id="outline-container-Informal-description-of-the-expression-language" class="outline-2">
+<h2 id="Informal-description-of-the-expression-language">Informal description of the expression language</h2>
+<div class="outline-text-2" id="text-Informal-description-of-the-expression-language">
+<p>
+The language consists of integer constants and seven <i>prefix</i> operators.
+</p>
+<ul class="org-ul">
+<li>The unary operator <code>const</code> which operates on integers.</li>
+<li>The unary operators <code>neg</code> (negative) and <code>abs</code> (absolute value)
+which operate on expressions of this language.</li>
+<li>The binary operators <code>plus</code>, <code>times</code>, <code>minus</code> and <code>exp</code> (exponent)
+which operator on expressions of this language.</li>
+</ul>
+
+<p>
+The fact that all the operators are prefix
+means that this language does not admit ambiguity;
+that is, even without using parentheses,
+there is only one possible reading of a given expression.
+</p>
+</div>
+
+<div id="outline-container-Example-1" class="outline-3">
+<h3 id="Example-1">Example 1</h3>
+<div class="outline-text-3" id="text-Example-1">
+<p>
+As an example of a syntactically correct expression, consider
+</p>
+<div class="org-src-container">
+<pre class="src src-text">abs minus abs const 5 abs const 6
+</pre>
+</div>
+<p>
+which, if we parenthesised the expression and dropped the <code>const</code>'s, would read
+</p>
+<div class="org-src-container">
+<pre class="src src-text"><span style="color: #00cd68;">(</span>abs <span style="color: #b6a0ff;">(</span>minus <span style="color: #6ae4b9;">(</span>abs 5<span style="color: #6ae4b9;">)</span> <span style="color: #6ae4b9;">(</span>abs 6<span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+</pre>
+</div>
+<p>
+or, in the usual notation,
+</p>
+</div>
+</div>
+
+<div id="outline-container-Example-2" class="outline-3">
+<h3 id="Example-2">Example 2</h3>
+<div class="outline-text-3" id="text-Example-2">
+<p>
+As an additional example, consider
+</p>
+<div class="org-src-container">
+<pre class="src src-text">plus plus plus exp const 1 const 2 exp const 2 const 2
+    exp const 3 const 2 exp const 4 const 2
+</pre>
+</div>
+<p>
+which, if we parenthesised the expression and dropped the <code>const</code>'s, would read
+</p>
+<div class="org-src-container">
+<pre class="src src-text"><span style="color: #00cd68;">(</span>plus <span style="color: #b6a0ff;">(</span>plus <span style="color: #6ae4b9;">(</span>plus <span style="color: #f0ce43;">(</span>exp 1 2<span style="color: #f0ce43;">)</span> <span style="color: #f0ce43;">(</span>exp 2 2<span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span> <span style="color: #6ae4b9;">(</span>exp 3 2<span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">(</span>exp 4 2<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+</pre>
+</div>
+<p>
+or, in the usual notation,
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-Task-1-–-Interpreter-written-in-Scala--[20 marks]" class="outline-2">
+<h2 id="Task-1-–-Interpreter-written-in-Scala--[20 marks]">Task 1 – Interpreter written in Scala  [20 marks]</h2>
+<div class="outline-text-2" id="text-Task-1-–-Interpreter-written-in-Scala--[20 marks]">
+</div>
+
+<div id="outline-container-1.1-Representation-[5 marks]" class="outline-3">
+<h3 id="1.1-Representation-[5 marks]">1.1 Representation [5 marks]</h3>
+<div class="outline-text-3" id="text-1.1-Representation-[5 marks]">
+<p>
+Create a representation of the above described expressions
+in Scala using the standard approach for algebraic datatypes,
+and call this type <code>Expr</code>.
+</p>
+
+<p>
+Name your constructors after the operators,
+of course capitalising the names.
+</p>
+
+<p>
+So the expression
+</p>
+<div class="org-src-container">
+<pre class="src src-text">abs minus abs const 5 abs const 6
+</pre>
+</div>
+<p>
+should be represented using your type as
+</p>
+<div class="org-src-container">
+<pre class="src src-amm"><span style="color: #00bcff;">Abs</span><span style="color: #00cd68;">(</span><span style="color: #00bcff;">Minus</span><span style="color: #b6a0ff;">(</span><span style="color: #00bcff;">Abs</span><span style="color: #6ae4b9;">(</span><span style="color: #00bcff;">Const</span><span style="color: #f0ce43;">(</span><span style="color: #00bcff;">5</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>, <span style="color: #00bcff;">Abs</span><span style="color: #6ae4b9;">(</span><span style="color: #00bcff;">Const</span><span style="color: #f0ce43;">(</span><span style="color: #00bcff;">6</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-1.2-Interpreter----[15 marks]" class="outline-3">
+<h3 id="1.2-Interpreter----[15 marks]">1.2 Interpreter    [15 marks]</h3>
+<div class="outline-text-3" id="text-1.2-Interpreter----[15 marks]">
+<p>
+Define a method <code>interpretExpr</code> acting on <code>Expr</code> which
+calculates the value of an <code>Expr</code>.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-Task-2-–-Interpreter-written-in-Prolog-[20 marks]" class="outline-2">
+<h2 id="Task-2-–-Interpreter-written-in-Prolog-[20 marks]">Task 2 – Interpreter written in Prolog [20 marks]</h2>
+<div class="outline-text-2" id="text-Task-2-–-Interpreter-written-in-Prolog-[20 marks]">
+</div>
+
+<div id="outline-container-1.1-Expression-recogniser-[5 marks]" class="outline-3">
+<h3 id="1.1-Expression-recogniser-[5 marks]">1.1 Expression recogniser [5 marks]</h3>
+<div class="outline-text-3" id="text-1.1-Expression-recogniser-[5 marks]">
+<p>
+Define a predicate <code>isExpr</code> in Prolog which recognises
+trees which represent the above defined expressions.
+</p>
+
+<p>
+The labels on the trees should be the name of the operation
+appended by <code>E</code> (in order to avoid any clash with builtin predicates
+of the same name.)
+</p>
+
+<p>
+So the expression
+</p>
+<div class="org-src-container">
+<pre class="src src-text">abs minus abs const 5 abs const 6
+</pre>
+</div>
+<p>
+would be represented in Prolog as
+</p>
+<div class="org-src-container">
+<pre class="src src-prolog"><span style="color: #feacd0;">absE</span>(minusE(absE(constE(5)), absE(constE(6))))
+</pre>
+</div>
+<p>
+and the query <code>isExpr(absE(minusE(absE(constE(5)), absE(constE(6)))))</code> would
+result in the response <code>true</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org4dff41b" class="outline-3">
+<h3 id="org4dff41b">1.2 Interpreter           [15 marks]</h3>
+<div class="outline-text-3" id="text-org4dff41b">
+<p>
+Define a binary predicate <code>interpretExpr</code> which
+relates these expressions to their numerical values.
+</p>
+
+<p>
+That is, querying <code>interpret(e,X)</code> should
+receive the response <code>X = n</code> where <code>n</code> is
+the integer value of the expression.
+</p>
+
+<p>
+Do not concern yourself with the other direction;
+that is, we are not expecting queries
+of the form <code>interpret(X,n)</code> to result in an answer.
+(If you can, “fail gracefully”,
+i.e., either throw a more meaningful exception
+or avoid an exception altogether
+but this is not expected even as a bonus.)
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-Task-3-–-Variables-and-substitution----[30 marks]" class="outline-2">
+<h2 id="Task-3-–-Variables-and-substitution----[30 marks]">Task 3 – Variables and substitution    [30 marks]</h2>
+<div class="outline-text-2" id="text-Task-3-–-Variables-and-substitution----[30 marks]">
+</div>
+
+<div id="outline-container-Task-3-description" class="outline-3">
+<h3 id="Task-3-description">Task 3 description</h3>
+<div class="outline-text-3" id="text-Task-3-description">
+<p>
+In this task, we wish to add variables to our expressions.
+</p>
+
+<p>
+This can be done by adding a new operator <code>var</code> to our expressions,
+which operates on symbols representing variable names
+(prolog has atoms which can be used a symbols,
+and Scala has a <code>Symbol</code> type. The reason why symbols
+are a better candidate than strings will be discussed
+when we discuss types.)
+</p>
+
+<p>
+However, adding this operator introduces a problem
+with our <code>interpret</code> method/predicate:
+how do we interpret a variable when we don't know its value?
+</p>
+
+<p>
+Our solution in this assignment is to
+introduce a <i>substitution</i> operator,
+which takes three values:
+</p>
+<ol class="org-ol">
+<li>an expression to perform the substitution on,</li>
+<li>the variable to be substituted, and</li>
+<li>the expression to substitute for the variable.</li>
+</ol>
+
+<p>
+For instance,
+</p>
+<div class="org-src-container">
+<pre class="src src-text">subst var x x const 6
+</pre>
+</div>
+<p>
+would be written, using our usual mathematical syntax, as
+</p>
+<div class="org-src-container">
+<pre class="src src-text">x<span style="color: #00cd68;">[</span>x &#8788; 6<span style="color: #00cd68;">]</span>
+</pre>
+</div>
+<p>
+It should interpet to just <code>6</code>.
+</p>
+
+<p>
+(An alternate solution,
+instead of building variable substitution into the language,
+is to add a <i>state</i> argument to <code>interpret</code>,
+which maps variables to values.
+We will use states in later assignments for this purpose.)
+</p>
+</div>
+</div>
+
+<div id="outline-container-The-task-3" class="outline-3">
+<h3 id="The-task-3">The task 3</h3>
+<div class="outline-text-3" id="text-The-task-3">
+<p>
+In Scala, create a new algebraic datatype <code>VarExpr</code> and a new
+interpretation method <code>varInterpret</code> in Scala ([15 marks].)
+Your new constructors should be called <code>Var</code> and <code>Subst</code>.
+You should reuse your existing <code>Expr</code> type when defining <code>VarExpr</code>,
+by including a constructor <code>Simple</code> which takes a <code>Expr</code> argument.
+</p>
+
+<p>
+In Prolog, create a new recognising predicate <code>isVarExpr</code> which
+recognising valid expressions in this extended language,
+with the new labels being the operator names given in the description,
+and a new predicate <code>varInterpret</code> which relates
+expressions to their interpreted value ([15 marks].)
+(In Prolog, there is no need to use
+a label for “simple” expressions like we use
+the <code>Simple</code> constructor in Scala.)
+</p>
+
+<div class="org-center">
+<p>
+<b>Pay attention when implementing the interpretation of substitution!</b>
+<b>Review the concept of variable binding,</b>
+<b>and do not substitute instances of the variable name</b>
+<b>which are bound elsewhere!</b>
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-Task-4-–-Boolean-expressions-----------[30 marks]" class="outline-2">
+<h2 id="Task-4-–-Boolean-expressions-----------[30 marks]">Task 4 – Boolean expressions           [30 marks]</h2>
+<div class="outline-text-2" id="text-Task-4-–-Boolean-expressions-----------[30 marks]">
+</div>
+
+<div id="outline-container-Task-4-description" class="outline-3">
+<h3 id="Task-4-description">Task 4 description</h3>
+<div class="outline-text-3" id="text-Task-4-description">
+<p>
+In this task, we create an alternate extension to
+our first language of expressions
+(that is, we build on to <code>Expr</code>, not <code>VarExpr</code>.)
+</p>
+
+<p>
+Our goal here is to add
+a second <i>type</i> of expressions to the language.
+Namely, we are adding booleans.
+</p>
+
+<p>
+The new operators are
+the 0-ary <code>tt</code> and <code>ff</code> (0-ary meaning taking no arguments),
+the unary <code>bnot</code> and the binary <code>band</code> and <code>bor</code>.
+</p>
+
+<p>
+For example, we have the new expression
+</p>
+<div class="org-src-container">
+<pre class="src src-text">bnot band tt bor ff tt
+</pre>
+</div>
+<p>
+which in our usual notation would be written
+</p>
+<div class="org-src-container">
+<pre class="src src-text">&#172; <span style="color: #00cd68;">(</span>true &#8743; <span style="color: #b6a0ff;">(</span>false &#8744; true<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+</pre>
+</div>
+
+<p>
+These expressions cannot legally be allowed to mix
+with integer expressions; that is,
+trying to apply a integer operator to a boolean expression
+or vice versa is not legal.
+</p>
+</div>
+</div>
+
+<div id="outline-container-The-task-4" class="outline-3">
+<h3 id="The-task-4">The task 4</h3>
+<div class="outline-text-3" id="text-The-task-4">
+<p>
+In Scala, create a new algebraic datatype <code>TypedExpr</code> and a new
+interpretation method <code>typedInterpret</code> in Scala ([15 marks].)
+Your new constructors should be named <code>TT</code>, <code>FF</code>, <code>Band</code>, <code>Bor</code> and <code>Bnot</code>.
+You should again reuse your existing <code>Expr</code> type when defining <code>TypedExpr</code>,
+by including a constructor <code>IntExpr</code> which takes a <code>Expr</code> argument.
+Your interpreter should return an <code>Option[Either[Int,Boolean]]</code>.
+The <code>Option</code> type is used to handle failure in the case
+of a “mixed” expression.
+The <code>Either</code> type is used to handle two possible return types.
+</p>
+
+<p>
+In Prolog, create a new recognising predicate <code>isMixedExpr</code> which
+recognising valid expressions in this extended language,
+with the new labels being the operator names given in the description,
+and a new predicate <code>mixedInterpret</code> which relates
+expressions to their interpreted value ([15 marks].)
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-Task-5-–-Bonus-------------------[10 bonus_marks]" class="outline-2">
+<h2 id="Task-5-–-Bonus-------------------[10 bonus_marks]">Task 5 – Bonus: parsing                [10 bonus_marks]</h2>
+<div class="outline-text-2" id="text-Task-5-–-Bonus-------------------[10 bonus_marks]">
+<p>
+Create a <i>parser</i> for the first language of expressions
+in this assignment, both in Scala and in Prolog
+(partial marks for implementing it in just one language.)
+</p>
+
+<p>
+A parser will take as argument a string such as
+</p>
+<div class="org-src-container">
+<pre class="src src-text">abs minus abs const 5 abs const 6
+</pre>
+</div>
+<p>
+and return an <code>Expr</code> representing the expression in that string.
+</p>
+
+<p>
+You will likely want to first define a <i>lexer</i> for the language,
+that converts a string to a list of lexemes
+(to do this, you will need to represent lexemes somehow.)
+Such a list is far easier to match over than a string.
+</p>
+</div>
+</div>
+
+<div id="outline-container-Testing" class="outline-2">
+<h2 id="Testing">Testing</h2>
+<div class="outline-text-2" id="text-Testing">
+<p>
+:TODO: This will be posted ASAP.
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Mark Armstrong</p>
+     <p class="author">Contact: <a href="mailto:markparmstrong@gmail.com">markparmstrong@gmail.com</a></p>
+     <p class="date">Original date: September 21st, 2020</p>
+     <p class="date">Last updated: 2020-09-27 Sun 15:18</p>
+     <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.90 (<a href="https://orgmode.org">Org</a> mode 9.4)</p>
+     <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
