@@ -25,6 +25,7 @@ with no type checking (enforcement)."/>
         document.getElementsByTagName( 'head' )[0].appendChild( link );
     }
 </script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </head>
 <body>
 <div class="reveal">
@@ -36,24 +37,30 @@ with no type checking (enforcement)."/>
 </section>
 
 <section>
-<section id="slide-org110c0ab">
-<h2 id="org110c0ab"><span class="section-number-2">1</span> Preamble</h2>
+<section id="slide-org74a97a5">
+<h2 id="org74a97a5"><span class="section-number-2">1</span> Preamble</h2>
 <div class="outline-text-2" id="text-1">
 </div>
 </section>
-<section id="slide-orgf8c7e23">
-<h3 id="orgf8c7e23"><span class="section-number-3">1.1</span> <span class="todo TODO">TODO</span> Notable references</h3>
-<p>
-:TODO:
-</p>
+<section id="slide-org15f42a1">
+<h3 id="org15f42a1"><span class="section-number-3">1.1</span> <span class="todo TODO">TODO</span> Notable references</h3>
+<ul>
+<li>Benjamin Pierce,
+“<a href="https://ebookcentral.proquest.com/lib/mcmu/detail.action?docID=3338823">Types and Programming Languages</a>”
+<ul>
+<li>Chapter 5, The Untyped Lambda-Calculus</li>
+
+</ul></li>
+
+</ul>
 
 </section>
-<section id="slide-org727ca3f">
-<h3 id="org727ca3f"><span class="section-number-3">1.2</span> <span class="todo TODO">TODO</span> Table of contents</h3>
+<section id="slide-org9a632a0">
+<h3 id="org9a632a0"><span class="section-number-3">1.2</span> <span class="todo TODO">TODO</span> Table of contents</h3>
 <font size="-1">
-<div class="scriptsize" id="orgad75300">
+<div class="scriptsize" id="org727ca16">
 <ul>
-<li><a href="#/slide-org110c0ab">Preamble</a></li>
+<li><a href="#/slide-org74a97a5">Preamble</a></li>
 
 </ul>
 
@@ -63,8 +70,8 @@ with no type checking (enforcement)."/>
 </section>
 </section>
 <section>
-<section id="slide-orgaf95984">
-<h2 id="orgaf95984"><span class="section-number-2">2</span> Introduction</h2>
+<section id="slide-orgf966ca9">
+<h2 id="orgf966ca9"><span class="section-number-2">2</span> Introduction</h2>
 <p>
 In this section we construct our first simple programming language,
 an untyped λ-calculus (lambda calculus).
@@ -77,15 +84,60 @@ but including the natural numbers and booleans.
 </p>
 
 </section>
-<section id="slide-orgb5c3e30">
-<h3 id="orgb5c3e30"><span class="section-number-3">2.1</span> History</h3>
+<section id="slide-org8458d59">
+<h3 id="org8458d59"><span class="section-number-3">2.1</span> What is the λ-calculus?</h3>
 <p>
-:TODO:
+The λ-calculus is, put simply,
+a notation for forming and applying functions.
 </p>
+<ul>
+<li>Because the function (procedure, method, subroutine) abstraction
+gives us a means of representing control flow,
+if we have a means of representing data,
+the λ-calculus is a Turing-complete model of computation.</li>
+
+</ul>
 
 </section>
-<section id="slide-org8d5fa9b">
-<h3 id="org8d5fa9b"><span class="section-number-3">2.2</span> Descendents of the λ-calculus</h3>
+<section id="slide-org0763f38">
+<h3 id="org0763f38"><span class="section-number-3">2.2</span> History</h3>
+<p>
+The (basic) λ-calculus as we know it was famously invented
+by Alonzo Church in the 1920s.
+</p>
+<ul>
+<li>This was one culmination of a great deal of work by
+mathematicians investigating the foundations of mathematics.</li>
+
+</ul>
+
+<p>
+As mentioned, the λ-calculus is a Turing-complete model of computation.
+</p>
+<ul>
+<li>Other models proposed around the same time include
+<ul>
+<li>the Turing machine itself (due to Alan Turing), and</li>
+<li>the general recursive functions (due to Stephen Cole Kleene.)</li>
+
+</ul></li>
+<li>Hence the “Church” in the “Church-Turing thesis”.</li>
+
+</ul>
+
+<p>
+The λ-calculus has since seen widespread use in the study and design
+of programming languages.
+</p>
+<ul>
+<li>It is useful both as a simple programming language, and</li>
+<li>as a mathematical object about which statements can be proved.</li>
+
+</ul>
+
+</section>
+<section id="slide-org21f5130">
+<h3 id="org21f5130"><span class="section-number-3">2.3</span> Descendents of the λ-calculus</h3>
 <p>
 :TODO:
 </p>
@@ -93,8 +145,71 @@ but including the natural numbers and booleans.
 </section>
 </section>
 <section>
-<section id="slide-org0326b5f">
-<h2 id="org0326b5f"><span class="section-number-2">3</span> The basics</h2>
+<section id="slide-org3bfb068">
+<h2 id="org3bfb068"><span class="section-number-2">3</span> The basics</h2>
+<p>
+In our discussion of abstractions, we mentioned
+the abstraction of the function/method/procedure/subroutine.
+</p>
+<ul>
+<li>The functional abstraction provides a means
+to represent control flow.</li>
+
+</ul>
+
+<p>
+In its pure version, every term in the λ-calculus
+is a function.
+</p>
+<ul>
+<li>In order for such a system to be at all useful,
+it must of course support higher-order functions;
+functions may be applied to functions.</li>
+<li>Values such as booleans and natural numbers
+are <i>encoded</i> (represented) by functions.</li>
+
+</ul>
+
+</section>
+<section id="slide-org1d422ca">
+<h3 id="org1d422ca"><span class="section-number-3">3.1</span> The terms</h3>
+<p>
+The pure untyped λ-calculus has just three sort of terms;
+</p>
+<ul>
+<li>variables such as \(x\), \(y\), \(z\),</li>
+<li><i>λ-abstractions</i>, of the form \(λ x ∙ t\),
+<ul>
+<li>where \(x\) is a variable and \(t\) is a λ-term, and</li>
+
+</ul></li>
+<li>applications of the form \(t u\)
+<ul>
+<li>where \(t\) and \(u\) are λ-terms.</li>
+
+</ul></li>
+
+</ul>
+
+<p>
+The meaning of each term is, informally:
+</p>
+<ul>
+<li>A λ-abstraction \(λ x ∙ t\) represents a function of one argument,
+which, when applied to a term \(u\), substitutes
+all occurrences of \(x\) with \(u\).</li>
+<li>An application applies the term \(u\) to the function (term) \(t\).</li>
+<li>A variable on its own (a free variable) has no further meaning.
+<ul>
+<li>Variables are intended to be <i>bound</i>.</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-orgdd007d7">
+<h3 id="orgdd007d7"><span class="section-number-3">3.2</span> Variable binding</h3>
 <p>
 :TODO:
 </p>
@@ -102,8 +217,34 @@ but including the natural numbers and booleans.
 </section>
 </section>
 <section>
-<section id="slide-orgc778e03">
-<h2 id="orgc778e03"><span class="section-number-2">4</span> The formal syntax and semantics of <i>UL</i></h2>
+<section id="slide-orgf1ae986">
+<h2 id="orgf1ae986"><span class="section-number-2">4</span> The formal syntax and semantics of <i>UL</i></h2>
+<div class="outline-text-2" id="text-4">
+</div>
+</section>
+<section id="slide-org8addd14">
+<h3 id="org8addd14"><span class="section-number-3">4.1</span> A grammar for <i>UL</i></h3>
+<div class="org-src-container">
+
+<pre  class="src src-text"><code trim><span style="color: #00cd68;">&#10216;</span>term<span style="color: #00cd68;">&#10217;</span> &#8759;= var | &#955; var &#8226; <span style="color: #00cd68;">&#10216;</span>term<span style="color: #00cd68;">&#10217;</span> | <span style="color: #00cd68;">&#10216;</span>term<span style="color: #00cd68;">&#10217;</span> <span style="color: #00cd68;">&#10216;</span>term<span style="color: #00cd68;">&#10217;</span>
+</code></pre>
+</div>
+
+<p>
+In the case that we are restricted to ASCII characters,
+we will write abstraction as
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-text"><code trim><span style="color: #00cd68;">&#8220;</span>lambda<span style="color: #00cd68;">&#8221;</span> var . <span style="color: #00cd68;">&#10216;</span>term<span style="color: #00cd68;">&#10217;</span>
+</code></pre>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-orgd3039d0">
+<h2 id="orgd3039d0"><span class="section-number-2">5</span> α-conversion, β-reduction and η-conversion</h2>
 <p>
 :TODO:
 </p>
@@ -111,29 +252,20 @@ but including the natural numbers and booleans.
 </section>
 </section>
 <section>
-<section id="slide-org1d809d8">
-<h2 id="org1d809d8"><span class="section-number-2">5</span> α-conversion, β-reduction and η-conversion</h2>
-<p>
-:TODO:
-</p>
-
-</section>
-</section>
-<section>
-<section id="slide-org3bef33d">
-<h2 id="org3bef33d"><span class="section-number-2">6</span> Topics of theoretical interest</h2>
+<section id="slide-orgf2d7513">
+<h2 id="orgf2d7513"><span class="section-number-2">6</span> Topics of theoretical interest</h2>
 <div class="outline-text-2" id="text-6">
 </div>
 </section>
-<section id="slide-org0b1f0c5">
-<h3 id="org0b1f0c5"><span class="section-number-3">6.1</span> The pure λ-calculus</h3>
+<section id="slide-org4e11222">
+<h3 id="org4e11222"><span class="section-number-3">6.1</span> The pure λ-calculus</h3>
 <p>
 :TODO:
 </p>
 
 </section>
-<section id="slide-orgbef0dca">
-<h3 id="orgbef0dca"><span class="section-number-3">6.2</span> Nameless representation of terms</h3>
+<section id="slide-org7988c13">
+<h3 id="org7988c13"><span class="section-number-3">6.2</span> Nameless representation of terms</h3>
 <p>
 :TODO:
 </p>

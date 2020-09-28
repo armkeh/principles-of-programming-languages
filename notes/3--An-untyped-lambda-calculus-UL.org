@@ -31,7 +31,9 @@
 
 ** TODO Notable references
 
-:TODO:
+- Benjamin Pierce,
+  “[[https://ebookcentral.proquest.com/lib/mcmu/detail.action?docID=3338823][Types and Programming Languages]]”
+  - Chapter 5, The Untyped Lambda-Calculus
 
 ** TODO Table of contents
 
@@ -54,9 +56,32 @@ More specifically, we construct a λ-calculus
 without (static) type checking (enforcement),
 but including the natural numbers and booleans.
 
+** What is the λ-calculus?
+
+The λ-calculus is, put simply,
+a notation for forming and applying functions.
+- Because the function (procedure, method, subroutine) abstraction
+  gives us a means of representing control flow,
+  if we have a means of representing data,
+  the λ-calculus is a Turing-complete model of computation.
+
 ** History
 
-:TODO:
+The (basic) λ-calculus as we know it was famously invented
+by Alonzo Church in the 1920s.
+- This was one culmination of a great deal of work by
+  mathematicians investigating the foundations of mathematics.
+
+As mentioned, the λ-calculus is a Turing-complete model of computation.
+- Other models proposed around the same time include
+  - the Turing machine itself (due to Alan Turing), and
+  - the general recursive functions (due to Stephen Cole Kleene.)
+- Hence the “Church” in the “Church-Turing thesis”.
+
+The λ-calculus has since seen widespread use in the study and design
+of programming languages.
+- It is useful both as a simple programming language, and
+- as a mathematical object about which statements can be proved.
 
 ** Descendents of the λ-calculus
 
@@ -67,11 +92,53 @@ but including the natural numbers and booleans.
 
 * The basics
 
+In our discussion of abstractions, we mentioned
+the abstraction of the function/method/procedure/subroutine.
+- The functional abstraction provides a means
+  to represent control flow.
+
+In its pure version, every term in the λ-calculus
+is a function.
+- In order for such a system to be at all useful,
+  it must of course support higher-order functions;
+  functions may be applied to functions.
+- Values such as booleans and natural numbers
+  are /encoded/ (represented) by functions.
+
+** The terms
+
+The pure untyped λ-calculus has just three sort of terms;
+- variables such as $x$, $y$, $z$,
+- /λ-abstractions/, of the form $λ x ∙ t$,
+  - where $x$ is a variable and $t$ is a λ-term, and
+- applications of the form $t u$
+  - where $t$ and $u$ are λ-terms.
+
+The meaning of each term is, informally:
+- A λ-abstraction $λ x ∙ t$ represents a function of one argument,
+  which, when applied to a term $u$, substitutes
+  all occurrences of $x$ with $u$.
+- An application applies the term $u$ to the function (term) $t$.
+- A variable on its own (a free variable) has no further meaning.
+  - Variables are intended to be /bound/.
+
+** Variable binding
+
 :TODO:
 
 * The formal syntax and semantics of /UL/
 
-:TODO:
+** A grammar for /UL/
+
+#+begin_src text
+⟨term⟩ ∷= var | λ var • ⟨term⟩ | ⟨term⟩ ⟨term⟩
+#+end_src
+
+In the case that we are restricted to ASCII characters,
+we will write abstraction as
+#+begin_src text
+“lambda” var . ⟨term⟩
+#+end_src
 
 * α-conversion, β-reduction and η-conversion
 

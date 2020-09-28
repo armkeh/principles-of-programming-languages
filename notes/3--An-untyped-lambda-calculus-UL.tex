@@ -1,4 +1,4 @@
-% Created 2020-09-02 Wed 16:58
+% Created 2020-09-28 Mon 11:26
 % Intended LaTeX compiler: lualatex
 \documentclass[11pt]{article}
 \usepackage{graphicx}
@@ -33,7 +33,7 @@
    pdftitle={An untyped λ-calculus, \emph{UL}},
    pdfkeywords={},
    pdfsubject={Our first constructed language; a lambda calculus with no type checking (enforcement).},
-   pdfcreator={Emacs 27.0.90 (Org mode 9.3.7)},
+   pdfcreator={Emacs 27.0.90 (Org mode 9.4)},
    pdflang={English},
    colorlinks,
    linkcolor=blue,
@@ -45,24 +45,30 @@
 \maketitle
 
 \section{Preamble}
-\label{sec:orgc8cf6da}
+\label{sec:orgb6efdf0}
 
 \subsection{{\bfseries\sffamily TODO} Notable references}
-\label{sec:org2d92596}
+\label{sec:orgadda15e}
 
-:TODO:
+\begin{itemize}
+\item Benjamin Pierce,
+“\href{https://ebookcentral.proquest.com/lib/mcmu/detail.action?docID=3338823}{Types and Programming Languages}”
+\begin{itemize}
+\item Chapter 5, The Untyped Lambda-Calculus
+\end{itemize}
+\end{itemize}
 
 \subsection{{\bfseries\sffamily TODO} Table of contents}
-\label{sec:org12066f1}
+\label{sec:org0a76511}
 
 \begin{scriptsize}
 \begin{itemize}
-\item \hyperref[sec:orgc8cf6da]{Preamble}
+\item \hyperref[sec:orgb6efdf0]{Preamble}
 \end{itemize}
 \end{scriptsize}
 
 \section{Introduction}
-\label{sec:org6d8632e}
+\label{sec:org3714423}
 
 In this section we construct our first simple programming language,
 an untyped λ-calculus (lambda calculus).
@@ -71,41 +77,134 @@ More specifically, we construct a λ-calculus
 without (static) type checking (enforcement),
 but including the natural numbers and booleans.
 
-\subsection{History}
-\label{sec:org6b1663a}
+\subsection{What is the λ-calculus?}
+\label{sec:org5963cc1}
 
-:TODO:
+The λ-calculus is, put simply,
+a notation for forming and applying functions.
+\begin{itemize}
+\item Because the function (procedure, method, subroutine) abstraction
+gives us a means of representing control flow,
+if we have a means of representing data,
+the λ-calculus is a Turing-complete model of computation.
+\end{itemize}
+
+\subsection{History}
+\label{sec:org9f070d1}
+
+The (basic) λ-calculus as we know it was famously invented
+by Alonzo Church in the 1920s.
+\begin{itemize}
+\item This was one culmination of a great deal of work by
+mathematicians investigating the foundations of mathematics.
+\end{itemize}
+
+As mentioned, the λ-calculus is a Turing-complete model of computation.
+\begin{itemize}
+\item Other models proposed around the same time include
+\begin{itemize}
+\item the Turing machine itself (due to Alan Turing), and
+\item the general recursive functions (due to Stephen Cole Kleene.)
+\end{itemize}
+\item Hence the “Church” in the “Church-Turing thesis”.
+\end{itemize}
+
+The λ-calculus has since seen widespread use in the study and design
+of programming languages.
+\begin{itemize}
+\item It is useful both as a simple programming language, and
+\item as a mathematical object about which statements can be proved.
+\end{itemize}
 
 \subsection{Descendents of the λ-calculus}
-\label{sec:orgf4e57d3}
+\label{sec:orge0fccfd}
 
 :TODO:
 
 \section{The basics}
-\label{sec:orga07efca}
+\label{sec:org5cdcc42}
+
+In our discussion of abstractions, we mentioned
+the abstraction of the function/method/procedure/subroutine.
+\begin{itemize}
+\item The functional abstraction provides a means
+to represent control flow.
+\end{itemize}
+
+In its pure version, every term in the λ-calculus
+is a function.
+\begin{itemize}
+\item In order for such a system to be at all useful,
+it must of course support higher-order functions;
+functions may be applied to functions.
+\item Values such as booleans and natural numbers
+are \emph{encoded} (represented) by functions.
+\end{itemize}
+
+\subsection{The terms}
+\label{sec:org90085d3}
+
+The pure untyped λ-calculus has just three sort of terms;
+\begin{itemize}
+\item variables such as \(x\), \(y\), \(z\),
+\item \emph{λ-abstractions}, of the form \(λ x ∙ t\),
+\begin{itemize}
+\item where \(x\) is a variable and \(t\) is a λ-term, and
+\end{itemize}
+\item applications of the form \(t u\)
+\begin{itemize}
+\item where \(t\) and \(u\) are λ-terms.
+\end{itemize}
+\end{itemize}
+
+The meaning of each term is, informally:
+\begin{itemize}
+\item A λ-abstraction \(λ x ∙ t\) represents a function of one argument,
+which, when applied to a term \(u\), substitutes
+all occurrences of \(x\) with \(u\).
+\item An application applies the term \(u\) to the function (term) \(t\).
+\item A variable on its own (a free variable) has no further meaning.
+\begin{itemize}
+\item Variables are intended to be \emph{bound}.
+\end{itemize}
+\end{itemize}
+
+\subsection{Variable binding}
+\label{sec:org6552258}
 
 :TODO:
 
 \section{The formal syntax and semantics of \emph{UL}}
-\label{sec:org2c51371}
+\label{sec:orgbc3c36b}
 
-:TODO:
+\subsection{A grammar for \emph{UL}}
+\label{sec:org8f56a83}
+
+\begin{minted}[breaklines=true]{text}
+⟨term⟩ ∷= var | λ var • ⟨term⟩ | ⟨term⟩ ⟨term⟩
+\end{minted}
+
+In the case that we are restricted to ASCII characters,
+we will write abstraction as
+\begin{minted}[breaklines=true]{text}
+“lambda” var . ⟨term⟩
+\end{minted}
 
 \section{α-conversion, β-reduction and η-conversion}
-\label{sec:org6c76bc4}
+\label{sec:org62c600a}
 
 :TODO:
 
 \section{Topics of theoretical interest}
-\label{sec:org155c890}
+\label{sec:org5722189}
 
 \subsection{The pure λ-calculus}
-\label{sec:orga6def14}
+\label{sec:org869f696}
 
 :TODO:
 
 \subsection{Nameless representation of terms}
-\label{sec:orgfb7de8f}
+\label{sec:orgd8d36a8}
 
 :TODO:
 \end{document}
