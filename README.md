@@ -12,6 +12,10 @@ better viewed at
 
 ## September
 
+  - September 28th  
+    Test scripts for homework 3 have been posted. The Docker setup is to
+    follow shortly.
+
   - September 27th  
     Assignment 1 has been posted. The boilerplate and testing will come
     ASAP; I am catching up on more pressing content first, such as the

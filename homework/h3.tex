@@ -1,4 +1,4 @@
-% Created 2020-09-27 Sun 14:29
+% Created 2020-09-28 Mon 03:12
 % Intended LaTeX compiler: lualatex
 \documentclass[11pt]{article}
 \usepackage{graphicx}
@@ -42,7 +42,7 @@
 
 
 \section*{Introduction}
-\label{sec:org9a17f59}
+\label{sec:org49f2524}
 We have now worked in Scala for one homework,
 representing different kinds of trees
 and defining operations on them.
@@ -58,11 +58,11 @@ although the problems are the same,
 your solutions will out of necessity be quite different.
 
 \section*{Boilerplate}
-\label{sec:orgf813396}
+\label{sec:org6b390b1}
 \subsection*{Submission procedures}
-\label{sec:orgb91d5df}
+\label{sec:org4faf318}
 \subsubsection*{Submission method}
-\label{sec:org419718a}
+\label{sec:org4d1af56}
 
 Homework should be submitted to your McMaster CAS Gitlab respository
 in the \texttt{cs3mi3-fall2020} project.
@@ -71,7 +71,7 @@ Ensure that you have \textbf{pushed} the commits to the remote repository
 in time for the deadline, and not just committed to your local copy.
 
 \subsubsection*{Naming requirements}
-\label{sec:org997baea}
+\label{sec:org67ccc77}
 
 Place all files for the homework
 inside a folder titled \texttt{hn}, where \texttt{n} is the number of the homework.
@@ -102,7 +102,7 @@ submit a \texttt{hn.ext} file for each language.
 \end{center}
 
 \subsubsection*{Do not submit testing or diagnostic code}
-\label{sec:orgd08d965}
+\label{sec:orgdb41fc9}
 
 Unless you are instructed to do so in the homework questions,
 \textbf{you should not submit testing code with your homework submission}.
@@ -122,7 +122,7 @@ in your final submission.
 For instance, by using a wrapper on the print function or macros.
 
 \subsubsection*{Due date and allowance for technical difficulties}
-\label{sec:orgef41017}
+\label{sec:org5d2c06d}
 
 Homework is due on the second Sunday following its release,
 by the end of the day (midnight).
@@ -137,9 +137,9 @@ This information will help ensure we are able
 to accept your submission once the technical difficulties are resolved.
 
 \subsection*{Proper conduct for coursework}
-\label{sec:org6f50c63}
+\label{sec:org2e6e80e}
 \subsubsection*{Individual work}
-\label{sec:org0179608}
+\label{sec:orgcc7d1a6}
 
 Unless explicitely stated in the homework questions,
 all homework in this course is intended
@@ -188,7 +188,7 @@ probably add a catch-all \texttt{\_} case to your \texttt{match} expressions.”
 \end{enumerate}
 
 \subsubsection*{Language library resources}
-\label{sec:orgc4877df}
+\label{sec:orgddfc85e}
 
 Unless explicitely stated in the questions,
 it is not expected that you will use any language library resources
@@ -212,7 +212,7 @@ including \texttt{map}, \texttt{reduce}, \texttt{flatten}, and \texttt{filter} a
 unless the task is to implement such a higher-order operator.
 
 \section*{Part 1: Flattening and ordering trees in Prolog [20 points]}
-\label{sec:orgbdfe893}
+\label{sec:org97f7539}
 Using the representations (not technically types)
 of \texttt{BinTree} and \texttt{LeafTree} trees discussed in the
 “Trees in Prolog” lecture (links below),
@@ -241,7 +241,7 @@ Refer to the “Trees in Prolog” lecture notes, available as
 \end{itemize}
 
 \section*{Part 2: Predicates in Scala                     [20 points]}
-\label{sec:org2fc0e88}
+\label{sec:orgf492799}
 In Scala and other non-logical languages,
 we can represent predicates as boolean-valued functions/methods
 (functions/methods which return booleans).
@@ -273,10 +273,149 @@ the “ones” digits, the second element being the “tens” digit, etc.
 \end{itemize}
 
 \section*{Part 3: ??? [?? bonus points]}
-\label{sec:org76d619c}
+\label{sec:org52e85c1}
 :TODO:
 
 \section*{Testing}
-\label{sec:orgd669804}
+\label{sec:org995ecea}
+As of September 28th, unit tests for the requested predicates
+are available through the following links.
+\begin{itemize}
+\item Scala unit tests: \href{./testing/h3/h3.plt}{h3t.sc}.
+\item Prolog unit tests: \href{./testing/h3/h3.plt}{h3.plt}.
+\end{itemize}
+The contents of the unit test file are also repeated below.
+
+The tests can be run by placing the \texttt{h3t.sc} and \texttt{h3.plt} files
+in the same directory as your \texttt{h3.sc} and \texttt{h3.pl} files, and
+running the following commands.
+\begin{minted}[breaklines=true]{shell}
+amm h3t.sc
+\end{minted}
+and
+\begin{minted}[breaklines=true]{shell}
+swipl -t "load_test_files([]), run_tests." -s h3.pl
+\end{minted}
+to test your Prolog code.
+
+If you use implementations other than Ammonite and SWI Prolog,
+you may need to adjust the tests to be able to run them
+on your system.
+
+In particular, those using IntelliJ for writing Scala
+may need to remove the import statement at the top of that file,
+or move the tests to their source file
+(if so, be sure to remove them before submission!)
+
+\subsection*{Automated testing via Docker}
+\label{sec:org292ec07}
 :TODO:
+
+\subsection*{The tests}
+\label{sec:orgc9efe1d}
+The contents of the testing scripts are repeated here.
+
+\subsubsection*{The Scala tests}
+\label{sec:org7d8fa00}
+\begin{minted}[breaklines=true]{scala}
+import $file.h1, h1._
+
+/* Given an expected result and a computed result,
+   check if they are equal in value.
+   If so, return 0. Otherwise, inform the user, and return 1,
+   so the number of failures can be counted. */
+def test[A](given: A, expected: A, the_test: String) =
+  if (!(given equals expected)) {
+    println("+---------------------------------------------------")
+    println("| " + the_test + " failed.")
+    println("| Expected " + expected + ", got " + given + ".")
+    println("+---------------------------------------------------")
+    1
+  } else {
+    0
+  }
+
+// The tests are saved as tuples, the pieces of which will be passed
+// to test.
+val tests = List(
+  (isPrime(2), true, "Two is prime"),
+  (isPrime(53), true, "Fifty three is prime"),
+  (isPrime(8), false, "Eight is not prime"),
+  (isPrime(63), false, "Sixty-three is not prime"),
+  (isPalindrome(List()), true, "Empty palindrome"),
+  (isPalindrome(List(1,1)), true, "Pair palindrome"),
+  (isPalindrome(List('s','t','e','p','o','n','n','o','p','e','t','s')), true, "step on no pets palindrome"),
+  (isPalindrome(List(12,21)), false, "Palindrome elements are atomic"),
+  (isPrimePalindrome(11), true, "Eleven is prime palindrome"),
+  (isPrimePalindrome(929), true, "Nine twenty nine is prime palindrome"),
+  (isPrimePalindrome(13), false, "Thirteen is not prime palindrome"),
+  (isPrimePalindrome(22), false, "Twenty two is not prime palindrome"),
+  )
+
+// Apply test to each element of tests, and sum the return values.
+// This is essentially a for loop.
+val failed = tests.foldLeft(0) {
+  (failures, next) => next match {
+    // Deconstruct the tuple to get its parts
+    case (given, expected, the_test) => failures + test(given, expected, the_test)
+  }
+}
+
+println("+---------------------------------------------------")
+println("| " + failed + " tests failed")
+println("+---------------------------------------------------")
+\end{minted}
+
+\subsubsection*{The Prolog tests}
+\label{sec:orgb66d8e6}
+\begin{minted}[breaklines=true]{prolog}
+:- begin_tests(h3).
+:- include(h3).
+
+% One way to "name" values is to use predictes such as these.
+% Then a variable can be bound to the values here using the predicate.
+largeLeafTree(T) :-
+    T = branch(
+         branch(
+          branch(leaf(10),leaf(-2)),
+          branch(leaf(3),leaf(400))),
+         branch(
+          branch(leaf(55),leaf(6)),
+          branch(leaf(777),leaf(88888888)))).
+largeLeafTreeFlat(L) :-    L = [10,-2,3,400,55,6,777,88888888].
+largeLeafTreeOrdered(L) :- L = [-2,3,6,10,55,400,777,88888888].
+
+largeBinTree(T) :-
+    T = node(
+         node(
+          node(empty,1,empty),
+          22,
+          node(empty,-3,empty)),
+         404,     
+         node(
+          node(empty,50,node(empty,6,empty)),
+          7777777,
+          node(node(empty,-88,empty),9001,empty))).
+largeBinTreeFlat(L) :-    L = [1,22,-3,404,50,6,7777777,-88,9001].
+largeBinTreeOrdered(L) :- L = [-88,-3,1,6,22,50,404,9001,7777777].
+
+
+% The tests
+
+test(flatten_leaf, nondet) :- flatten(leaf(5),[5]).
+test(flatten_branch, nondet) :- flatten(branch(leaf(1),leaf(2)),[1,2]).
+test(flatten_large_leaftree, nondet) :- largeLeafTree(X), largeLeafTreeFlat(L), flatten(X,L).
+
+test(order_leaf, nondet) :- orderedElems(leaf(5),[5]).
+test(order_branch, nondet) :- orderedElems(branch(leaf(1),leaf(2)),[1,2]).
+test(order_large_leaftree, nondet) :- largeLeafTree(X), largeLeafTreeOrdered(L), orderedElems(X,L).
+
+test(flatten_empty, nondet) :- flatten(empty,[]).
+test(flatten_node, nondet) :- flatten(node(empty,5,empty),[5]).
+test(flatten_large_bintree, nondet) :- largeBinTree(X), largeBinTreeFlat(L), flatten(X,L).
+
+test(order_empty, nondet) :- orderedElems(empty,[]).
+test(order_node, nondet) :- orderedElems(node(empty,5,empty),[5]).
+test(order_large_bintree, nondet) :- largeBinTree(X), largeBinTreeOrdered(L), orderedElems(X,L).
+\end{minted}
 \end{document}
