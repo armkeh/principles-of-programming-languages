@@ -1,4 +1,4 @@
-% Created 2020-09-28 Mon 11:26
+% Created 2020-09-30 Wed 11:31
 % Intended LaTeX compiler: lualatex
 \documentclass[11pt]{article}
 \usepackage{graphicx}
@@ -45,10 +45,10 @@
 \maketitle
 
 \section{Preamble}
-\label{sec:orgb6efdf0}
+\label{sec:org38e6cd7}
 
 \subsection{{\bfseries\sffamily TODO} Notable references}
-\label{sec:orgadda15e}
+\label{sec:org5ada612}
 
 \begin{itemize}
 \item Benjamin Pierce,
@@ -59,16 +59,16 @@
 \end{itemize}
 
 \subsection{{\bfseries\sffamily TODO} Table of contents}
-\label{sec:org0a76511}
+\label{sec:org2f61a25}
 
 \begin{scriptsize}
 \begin{itemize}
-\item \hyperref[sec:orgb6efdf0]{Preamble}
+\item \hyperref[sec:org38e6cd7]{Preamble}
 \end{itemize}
 \end{scriptsize}
 
 \section{Introduction}
-\label{sec:org3714423}
+\label{sec:org73bd817}
 
 In this section we construct our first simple programming language,
 an untyped λ-calculus (lambda calculus).
@@ -78,7 +78,7 @@ without (static) type checking (enforcement),
 but including the natural numbers and booleans.
 
 \subsection{What is the λ-calculus?}
-\label{sec:org5963cc1}
+\label{sec:org1161706}
 
 The λ-calculus is, put simply,
 a notation for forming and applying functions.
@@ -90,7 +90,7 @@ the λ-calculus is a Turing-complete model of computation.
 \end{itemize}
 
 \subsection{History}
-\label{sec:org9f070d1}
+\label{sec:orge3bf2c9}
 
 The (basic) λ-calculus as we know it was famously invented
 by Alonzo Church in the 1920s.
@@ -117,12 +117,32 @@ of programming languages.
 \end{itemize}
 
 \subsection{Descendents of the λ-calculus}
-\label{sec:orge0fccfd}
+\label{sec:orgcda643f}
 
-:TODO:
+Pure functional programming languages are clearly descended
+from the λ-calculus; the λ-calculus embodies their model of computation.
+\begin{itemize}
+\item Additionally, it is common to have a “lambda” operator
+which allows definition of anonymous functions.
+\end{itemize}
+
+Imperative languages instead use a model of computation
+based on the \emph{Von-Neumann} architecture,
+\begin{itemize}
+\item which matches our real-world computing devices!
+\begin{itemize}
+\item Hence imperative languages are naturally lower-level;
+one level of abstraction closer to the real computer
+that functional languages, which must be translated
+to imperative code in order to run.
+\end{itemize}
+\item This model of computation is a natural extension
+of the Turing machine, rather than the λ-calculus
+or recursive functions.
+\end{itemize}
 
 \section{The basics}
-\label{sec:org5cdcc42}
+\label{sec:orgb1bbe82}
 
 In our discussion of abstractions, we mentioned
 the abstraction of the function/method/procedure/subroutine.
@@ -142,13 +162,15 @@ are \emph{encoded} (represented) by functions.
 \end{itemize}
 
 \subsection{The terms}
-\label{sec:org90085d3}
+\label{sec:orga56f8a8}
 
 The pure untyped λ-calculus has just three sort of terms;
 \begin{itemize}
 \item variables such as \(x\), \(y\), \(z\),
-\item \emph{λ-abstractions}, of the form \(λ x ∙ t\),
+\item \emph{λ-abstractions}, of the form \(λ x → t\),
 \begin{itemize}
+\item (it is also common to use \(․\) in place of \(→\);
+we prefer \(→\) as it emphasises that these are functions)
 \item where \(x\) is a variable and \(t\) is a λ-term, and
 \end{itemize}
 \item applications of the form \(t u\)
@@ -157,31 +179,123 @@ The pure untyped λ-calculus has just three sort of terms;
 \end{itemize}
 \end{itemize}
 
+\subsection{Informal meaning of terms}
+\label{sec:org56f68e2}
+
 The meaning of each term is, informally:
 \begin{itemize}
-\item A λ-abstraction \(λ x ∙ t\) represents a function of one argument,
+\item A λ-abstraction \(λ x → t\) represents a function of one argument,
 which, when applied to a term \(u\), substitutes
-all occurrences of \(x\) with \(u\).
+all free occurrences of \(x\) in \(t\) with \(u\).
 \item An application applies the term \(u\) to the function (term) \(t\).
 \item A variable on its own (a free variable) has no further meaning.
 \begin{itemize}
 \item Variables are intended to be \emph{bound}.
+\item “Top-level” free variables have no meaning (on their own).
+\begin{itemize}
+\item Until we construct a new term by λ-abstracting them.
+\end{itemize}
+\end{itemize}
+\end{itemize}
+
+\subsection{Variable binding; free and bound variables}
+\label{sec:orgce4d8d7}
+
+Recall the notion of free and bound variables.
+\begin{itemize}
+\item A \emph{variable binder} is an operator which operates on
+some number of \emph{variables} as well as \emph{terms}.
+\begin{itemize}
+\item Examples include quantifiers
+such as \(∀\_❙\_•\_\), \(∃\_❙\_•\_\) and \(∑\_❙\_•\_\),
+and substitution \(\_[\_→\_]\).
+\end{itemize}
+\item (For simplicity, let us assume below that variable binders
+act on a single variable and a single term.)
+\item Let \(B\_•\_\) range over the set of variable binders in a language.
+\item An occurrence of a variable \(x\) in a term \(t\) that is \emph{not} in
+a subterm of the form \(B x • u\) is called \emph{free}.
+\item In a term \(t\) with a subterm of the form \(B x • u\),
+all free occurrences of the variable \(x\) that occur within \(u\)
+are \emph{bound} by that instance of the binder \(B\).
+\begin{itemize}
+\item Note: instances of \(x\) which are bound elsewhere are not bound
+by that \(B\).
 \end{itemize}
 \end{itemize}
 
-\subsection{Variable binding}
-\label{sec:org6552258}
+\subsection{Picturing variable bindings}
+\label{sec:orgd98955b}
 
-:TODO:
+For instance, in the language of predicate logic,
+we can view the variables bound like so.
+\begin{center}
+\includegraphics[width=\textwidth]{media/variable-binding.png}
+\end{center}
 
-\section{The formal syntax and semantics of \emph{UL}}
-\label{sec:orgbc3c36b}
+\subsection{Representing functions with multiple arguments}
+\label{sec:org47bc8c2}
 
-\subsection{A grammar for \emph{UL}}
-\label{sec:org8f56a83}
+You may have noticed that our method for constructing function
+in the λ-calculus (the λ-abstraction)
+only allows us to construct single-argument functions.
+\begin{itemize}
+\item That is, we do not have terms such as \(λ(x,y) → t\).
+\item This may seem restrictive,
+\item but it turns out to be sufficient.
+And it keeps the language simpler theoretically.
+\end{itemize}
+
+\subsection{Currying}
+\label{sec:org88817c2}
+
+Rather than complicating our set of terms by admitting
+functions of multiple arguments, we use the technique
+of \emph{currying} functions.
+\begin{itemize}
+\item Consider a function \(f : A × B → C\).
+\item We can substitute a new function \(f′ : A → (B → C)\)
+for \(f\).
+\begin{itemize}
+\item (By convention, function arrows associate to the right,
+so this is equivalent to \(f : A → B → C\).)
+\item So \(f′\) is a function which takes an \(A\) and
+\emph{produces a function} of type \(B → C\).
+\begin{itemize}
+\item We usually don't give this new function a name.
+\item We can consider this new function as having a \emph{fixed} value
+for the \(A\) argument that was provided.
+\item (So we must be able to represent higher-order functions
+to use Currying.)
+\end{itemize}
+\end{itemize}
+\end{itemize}
+
+\subsection{Examples of λ-terms}
+\label{sec:org7796064}
 
 \begin{minted}[breaklines=true]{text}
-⟨term⟩ ∷= var | λ var • ⟨term⟩ | ⟨term⟩ ⟨term⟩
+λ x → x
+\end{minted}
+is a familiar function; it is the \emph{identity} function.
+We will use the name \texttt{id} to refer to this function.
+
+\begin{minted}[breaklines=true]{text}
+λ x → λ y → x
+\end{minted}
+
+\begin{minted}[breaklines=true]{text}
+λ x → λ y → y
+\end{minted}
+
+\section{The formal syntax and semantics of \emph{UL}}
+\label{sec:orga94d620}
+
+\subsection{A grammar for \emph{UL}}
+\label{sec:org6aeedc6}
+
+\begin{minted}[breaklines=true]{text}
+⟨term⟩ ∷= var | λ var → ⟨term⟩ | ⟨term⟩ ⟨term⟩
 \end{minted}
 
 In the case that we are restricted to ASCII characters,
@@ -190,21 +304,48 @@ we will write abstraction as
 “lambda” var . ⟨term⟩
 \end{minted}
 
+\subsection{The operational semantics of \emph{UL}}
+\label{sec:org90506ee}
+
+The semantics of the λ-calculus is given by a \emph{reduction strategy};
+\begin{itemize}
+\item A reduction is a transformation from a term of the form
+\begin{itemize}
+\item \((λ x → t₁) t₂\) to
+\item \(t₁[x ≔ t₂]\)
+\begin{itemize}
+\item (There are various syntactic representations of substitutions;
+we prefer to the substitution operation to come after the term
+where the substitution is carried out (\(t₁\)), and to use
+the “becomes” operator to imply free instance of \(x\) become \(t₂\).
+\item Pierce instead uses the form \([x ↦ t₂]t₁\), with the
+substitution operation coming before the term,
+and using the “maps to” operator instead of “becomes”.
+\item You may also see forms such as \([x\t₁]\) or \([t₁/x]\).)
+\end{itemize}
+\end{itemize}
+\end{itemize}
+
+\subsection{Reduction strategies}
+\label{sec:orge75a590}
+
+:TODO:
+
 \section{α-conversion, β-reduction and η-conversion}
-\label{sec:org62c600a}
+\label{sec:org0a2682d}
 
 :TODO:
 
 \section{Topics of theoretical interest}
-\label{sec:org5722189}
+\label{sec:org2417275}
 
 \subsection{The pure λ-calculus}
-\label{sec:org869f696}
+\label{sec:org5e06e1e}
 
 :TODO:
 
 \subsection{Nameless representation of terms}
-\label{sec:orgd8d36a8}
+\label{sec:orgfd0d93b}
 
 :TODO:
 \end{document}

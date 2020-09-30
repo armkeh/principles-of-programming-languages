@@ -27,6 +27,24 @@
 #+LaTeX_header: \usepackage{unicode-math}
 #+LaTeX_header: \usepackage{unicode}
 
+* Setup                                         :noexport:
+
+** Image creation post-processing
+
+We need to prepend the images resulting from ~dot~ code blocks
+with a LaTeX attribute to resize them, or else they run off the page.
+This named code block for this task is taken from
+[[https://orgmode.org/manual/Results-of-Evaluation.html][the Org manual]], augmented to allow for centering.
+We should always provide ~*this*~ for the ~data~ argument.
+as in ~:post attr_wrap(data=*this*)~,
+and also always set ~:exports results :results drawer~.
+If we don't put the results in the drawer, they will pile up
+as we evaluate the code block.
+#+NAME: attr_wrap
+#+BEGIN_SRC sh :var data="" :var width="\\\\textwidth" :var center="t" :results output
+  echo "#+ATTR_LATEX: :width $width :center $center"
+  echo "$data"
+#+END_SRC
 * Preamble
 
 ** TODO Notable references
@@ -85,11 +103,22 @@ of programming languages.
 
 ** Descendents of the λ-calculus
 
-:TODO:
+Pure functional programming languages are clearly descended
+from the λ-calculus; the λ-calculus embodies their model of computation.
+- Additionally, it is common to have a “lambda” operator
+  which allows definition of anonymous functions.
 
-# Very recently, a great many imperative languages
-# are adopting functional aspects.
-
+Imperative languages instead use a model of computation
+based on the /Von-Neumann/ architecture,
+- which matches our real-world computing devices!
+  - Hence imperative languages are naturally lower-level;
+    one level of abstraction closer to the real computer
+    that functional languages, which must be translated
+    to imperative code in order to run.
+- This model of computation is a natural extension
+  of the Turing machine, rather than the λ-calculus
+  or recursive functions.
+  
 * The basics
 
 In our discussion of abstractions, we mentioned
@@ -109,29 +138,122 @@ is a function.
 
 The pure untyped λ-calculus has just three sort of terms;
 - variables such as $x$, $y$, $z$,
-- /λ-abstractions/, of the form $λ x ∙ t$,
+- /λ-abstractions/, of the form $λ x → t$,
+  - (it is also common to use $․$ in place of $→$;
+    we prefer $→$ as it emphasises that these are functions)
   - where $x$ is a variable and $t$ is a λ-term, and
 - applications of the form $t u$
   - where $t$ and $u$ are λ-terms.
 
+** Informal meaning of terms
+
 The meaning of each term is, informally:
-- A λ-abstraction $λ x ∙ t$ represents a function of one argument,
+- A λ-abstraction $λ x → t$ represents a function of one argument,
   which, when applied to a term $u$, substitutes
-  all occurrences of $x$ with $u$.
+  all free occurrences of $x$ in $t$ with $u$.
 - An application applies the term $u$ to the function (term) $t$.
 - A variable on its own (a free variable) has no further meaning.
   - Variables are intended to be /bound/.
+  - “Top-level” free variables have no meaning (on their own).
+    - Until we construct a new term by λ-abstracting them.
 
-** Variable binding
+** Variable binding; free and bound variables
 
-:TODO:
+Recall the notion of free and bound variables.
+- A /variable binder/ is an operator which operates on
+  some number of /variables/ as well as /terms/.
+  - Examples include quantifiers
+    such as $∀\_❙\_•\_$, $∃\_❙\_•\_$ and $∑\_❙\_•\_$,
+    and substitution $\_[\_→\_]$.
+- (For simplicity, let us assume below that variable binders
+  act on a single variable and a single term.)
+- Let $B\_•\_$ range over the set of variable binders in a language.
+- An occurrence of a variable $x$ in a term $t$ that is /not/ in
+  a subterm of the form $B x • u$ is called /free/.
+- In a term $t$ with a subterm of the form $B x • u$,
+  all free occurrences of the variable $x$ that occur within $u$
+  are /bound/ by that instance of the binder $B$.
+  - Note: instances of $x$ which are bound elsewhere are not bound
+    by that $B$.
+
+** Picturing variable bindings
+
+# This diagram does not look correctly laid out in the source.
+# But the arrows and the text do not line up this way
+# in the generated diagram; they align somewhat nicely there.
+
+For instance, in the language of predicate logic,
+we can view the variables bound like so.
+#+begin_src ditaa :file media/variable-binding.png :exports results :results drawer :post attr_wrap(data=*this*)
+       /----+-----------+------+--------\
+       |    |           |      |        |
+       v    |           |      |        |
++-----------------------------------------------+
+|∀ x ❙ P(x) • (∃ y ❙ Q(x,y) • R(x,y,z)) ∧ S(x,y)|
++-----------------------------------------------+
+                  ^      |      | |       |
+                  |      |      | |       |
+                  \------+------/ |       |
+                                  |       |
+                            free -/       \- free
+#+end_src
+
+#+RESULTS:
+:results:
+#+ATTR_LATEX: :width \textwidth :center t
+[[file:media/parsing-whole.png]]
+:end:
+    
+** Representing functions with multiple arguments
+
+You may have noticed that our method for constructing function
+in the λ-calculus (the λ-abstraction)
+only allows us to construct single-argument functions.
+- That is, we do not have terms such as $λ(x,y) → t$.
+- This may seem restrictive,
+- but it turns out to be sufficient.
+  And it keeps the language simpler theoretically.
+
+** Currying
+
+Rather than complicating our set of terms by admitting
+functions of multiple arguments, we use the technique
+of /currying/ functions.
+- Consider a function $f : A × B → C$.
+- We can substitute a new function $f′ : A → (B → C)$
+  for $f$.
+  - (By convention, function arrows associate to the right,
+    so this is equivalent to $f : A → B → C$.)
+  - So $f′$ is a function which takes an $A$ and
+    /produces a function/ of type $B → C$.
+    - We usually don't give this new function a name.
+    - We can consider this new function as having a /fixed/ value
+      for the $A$ argument that was provided.
+    - (So we must be able to represent higher-order functions
+      to use Currying.)
+
+** Examples of λ-terms
+
+#+begin_src text
+λ x → x
+#+end_src
+is a familiar function; it is the /identity/ function.
+We will use the name ~id~ to refer to this function.
+
+#+begin_src text
+λ x → λ y → x
+#+end_src
+
+#+begin_src text
+λ x → λ y → y
+#+end_src
 
 * The formal syntax and semantics of /UL/
 
 ** A grammar for /UL/
 
 #+begin_src text
-⟨term⟩ ∷= var | λ var • ⟨term⟩ | ⟨term⟩ ⟨term⟩
+⟨term⟩ ∷= var | λ var → ⟨term⟩ | ⟨term⟩ ⟨term⟩
 #+end_src
 
 In the case that we are restricted to ASCII characters,
@@ -139,6 +261,25 @@ we will write abstraction as
 #+begin_src text
 “lambda” var . ⟨term⟩
 #+end_src
+
+** The operational semantics of /UL/
+
+The semantics of the λ-calculus is given by a /reduction strategy/;
+- A reduction is a transformation from a term of the form
+  - $(λ x → t₁) t₂$ to
+  - $t₁[x ≔ t₂]$
+    - (There are various syntactic representations of substitutions;
+      we prefer to the substitution operation to come after the term
+      where the substitution is carried out ($t₁$), and to use
+      the “becomes” operator to imply free instance of $x$ become $t₂$. 
+    - Pierce instead uses the form $[x ↦ t₂]t₁$, with the
+      substitution operation coming before the term,
+      and using the “maps to” operator instead of “becomes”.
+    - You may also see forms such as $[x\t₁]$ or $[t₁/x]$.)
+
+** Reduction strategies
+
+:TODO:
 
 * α-conversion, β-reduction and η-conversion
 

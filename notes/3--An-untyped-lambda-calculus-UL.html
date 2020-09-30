@@ -26,6 +26,7 @@ with no type checking (enforcement)."/>
     }
 </script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<style>pre.src{background:#000000;color:white;} </style>
 </head>
 <body>
 <div class="reveal">
@@ -37,13 +38,13 @@ with no type checking (enforcement)."/>
 </section>
 
 <section>
-<section id="slide-org74a97a5">
-<h2 id="org74a97a5"><span class="section-number-2">1</span> Preamble</h2>
+<section id="slide-org2ce6d88">
+<h2 id="org2ce6d88"><span class="section-number-2">1</span> Preamble</h2>
 <div class="outline-text-2" id="text-1">
 </div>
 </section>
-<section id="slide-org15f42a1">
-<h3 id="org15f42a1"><span class="section-number-3">1.1</span> <span class="todo TODO">TODO</span> Notable references</h3>
+<section id="slide-org7375e93">
+<h3 id="org7375e93"><span class="section-number-3">1.1</span> <span class="todo TODO">TODO</span> Notable references</h3>
 <ul>
 <li>Benjamin Pierce,
 “<a href="https://ebookcentral.proquest.com/lib/mcmu/detail.action?docID=3338823">Types and Programming Languages</a>”
@@ -55,12 +56,12 @@ with no type checking (enforcement)."/>
 </ul>
 
 </section>
-<section id="slide-org9a632a0">
-<h3 id="org9a632a0"><span class="section-number-3">1.2</span> <span class="todo TODO">TODO</span> Table of contents</h3>
+<section id="slide-org2f93109">
+<h3 id="org2f93109"><span class="section-number-3">1.2</span> <span class="todo TODO">TODO</span> Table of contents</h3>
 <font size="-1">
-<div class="scriptsize" id="org727ca16">
+<div class="scriptsize" id="org2fbb2b0">
 <ul>
-<li><a href="#/slide-org74a97a5">Preamble</a></li>
+<li><a href="#/slide-org2ce6d88">Preamble</a></li>
 
 </ul>
 
@@ -70,8 +71,8 @@ with no type checking (enforcement)."/>
 </section>
 </section>
 <section>
-<section id="slide-orgf966ca9">
-<h2 id="orgf966ca9"><span class="section-number-2">2</span> Introduction</h2>
+<section id="slide-org8d809ee">
+<h2 id="org8d809ee"><span class="section-number-2">2</span> Introduction</h2>
 <p>
 In this section we construct our first simple programming language,
 an untyped λ-calculus (lambda calculus).
@@ -84,8 +85,8 @@ but including the natural numbers and booleans.
 </p>
 
 </section>
-<section id="slide-org8458d59">
-<h3 id="org8458d59"><span class="section-number-3">2.1</span> What is the λ-calculus?</h3>
+<section id="slide-orgd539127">
+<h3 id="orgd539127"><span class="section-number-3">2.1</span> What is the λ-calculus?</h3>
 <p>
 The λ-calculus is, put simply,
 a notation for forming and applying functions.
@@ -99,8 +100,8 @@ the λ-calculus is a Turing-complete model of computation.</li>
 </ul>
 
 </section>
-<section id="slide-org0763f38">
-<h3 id="org0763f38"><span class="section-number-3">2.2</span> History</h3>
+<section id="slide-org74a9188">
+<h3 id="org74a9188"><span class="section-number-3">2.2</span> History</h3>
 <p>
 The (basic) λ-calculus as we know it was famously invented
 by Alonzo Church in the 1920s.
@@ -136,17 +137,42 @@ of programming languages.
 </ul>
 
 </section>
-<section id="slide-org21f5130">
-<h3 id="org21f5130"><span class="section-number-3">2.3</span> Descendents of the λ-calculus</h3>
+<section id="slide-org2f355da">
+<h3 id="org2f355da"><span class="section-number-3">2.3</span> Descendents of the λ-calculus</h3>
 <p>
-:TODO:
+Pure functional programming languages are clearly descended
+from the λ-calculus; the λ-calculus embodies their model of computation.
 </p>
+<ul>
+<li>Additionally, it is common to have a “lambda” operator
+which allows definition of anonymous functions.</li>
+
+</ul>
+
+<p>
+Imperative languages instead use a model of computation
+based on the <i>Von-Neumann</i> architecture,
+</p>
+<ul>
+<li>which matches our real-world computing devices!
+<ul>
+<li>Hence imperative languages are naturally lower-level;
+one level of abstraction closer to the real computer
+that functional languages, which must be translated
+to imperative code in order to run.</li>
+
+</ul></li>
+<li>This model of computation is a natural extension
+of the Turing machine, rather than the λ-calculus
+or recursive functions.</li>
+
+</ul>
 
 </section>
 </section>
 <section>
-<section id="slide-org3bfb068">
-<h2 id="org3bfb068"><span class="section-number-2">3</span> The basics</h2>
+<section id="slide-org49a29fd">
+<h2 id="org49a29fd"><span class="section-number-2">3</span> The basics</h2>
 <p>
 In our discussion of abstractions, we mentioned
 the abstraction of the function/method/procedure/subroutine.
@@ -171,15 +197,17 @@ are <i>encoded</i> (represented) by functions.</li>
 </ul>
 
 </section>
-<section id="slide-org1d422ca">
-<h3 id="org1d422ca"><span class="section-number-3">3.1</span> The terms</h3>
+<section id="slide-orgfd0d2c3">
+<h3 id="orgfd0d2c3"><span class="section-number-3">3.1</span> The terms</h3>
 <p>
 The pure untyped λ-calculus has just three sort of terms;
 </p>
 <ul>
 <li>variables such as \(x\), \(y\), \(z\),</li>
-<li><i>λ-abstractions</i>, of the form \(λ x ∙ t\),
+<li><i>λ-abstractions</i>, of the form \(λ x → t\),
 <ul>
+<li>(it is also common to use \(․\) in place of \(→\);
+we prefer \(→\) as it emphasises that these are functions)</li>
 <li>where \(x\) is a variable and \(t\) is a λ-term, and</li>
 
 </ul></li>
@@ -191,42 +219,158 @@ The pure untyped λ-calculus has just three sort of terms;
 
 </ul>
 
+</section>
+<section id="slide-org7cf08e7">
+<h3 id="org7cf08e7"><span class="section-number-3">3.2</span> Informal meaning of terms</h3>
 <p>
 The meaning of each term is, informally:
 </p>
 <ul>
-<li>A λ-abstraction \(λ x ∙ t\) represents a function of one argument,
+<li>A λ-abstraction \(λ x → t\) represents a function of one argument,
 which, when applied to a term \(u\), substitutes
-all occurrences of \(x\) with \(u\).</li>
+all free occurrences of \(x\) in \(t\) with \(u\).</li>
 <li>An application applies the term \(u\) to the function (term) \(t\).</li>
 <li>A variable on its own (a free variable) has no further meaning.
 <ul>
 <li>Variables are intended to be <i>bound</i>.</li>
+<li>“Top-level” free variables have no meaning (on their own).
+<ul>
+<li>Until we construct a new term by λ-abstracting them.</li>
+
+</ul></li>
 
 </ul></li>
 
 </ul>
 
 </section>
-<section id="slide-orgdd007d7">
-<h3 id="orgdd007d7"><span class="section-number-3">3.2</span> Variable binding</h3>
+<section id="slide-orgfcb3530">
+<h3 id="orgfcb3530"><span class="section-number-3">3.3</span> Variable binding; free and bound variables</h3>
 <p>
-:TODO:
+Recall the notion of free and bound variables.
 </p>
+<ul>
+<li>A <i>variable binder</i> is an operator which operates on
+some number of <i>variables</i> as well as <i>terms</i>.
+<ul>
+<li>Examples include quantifiers
+such as \(∀\_❙\_•\_\), \(∃\_❙\_•\_\) and \(∑\_❙\_•\_\),
+and substitution \(\_[\_→\_]\).</li>
+
+</ul></li>
+<li>(For simplicity, let us assume below that variable binders
+act on a single variable and a single term.)</li>
+<li>Let \(B\_•\_\) range over the set of variable binders in a language.</li>
+<li>An occurrence of a variable \(x\) in a term \(t\) that is <i>not</i> in
+a subterm of the form \(B x • u\) is called <i>free</i>.</li>
+<li>In a term \(t\) with a subterm of the form \(B x • u\),
+all free occurrences of the variable \(x\) that occur within \(u\)
+are <i>bound</i> by that instance of the binder \(B\).
+<ul>
+<li>Note: instances of \(x\) which are bound elsewhere are not bound
+by that \(B\).</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-orgddcb5ae">
+<h3 id="orgddcb5ae"><span class="section-number-3">3.4</span> Picturing variable bindings</h3>
+<p>
+For instance, in the language of predicate logic,
+we can view the variables bound like so.
+</p>
+
+<div id="org4298dd3" class="figure">
+<p><img src="media/variable-binding.png" alt="variable-binding.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-org12d1e17">
+<h3 id="org12d1e17"><span class="section-number-3">3.5</span> Representing functions with multiple arguments</h3>
+<p>
+You may have noticed that our method for constructing function
+in the λ-calculus (the λ-abstraction)
+only allows us to construct single-argument functions.
+</p>
+<ul>
+<li>That is, we do not have terms such as \(λ(x,y) → t\).</li>
+<li>This may seem restrictive,</li>
+<li>but it turns out to be sufficient.
+And it keeps the language simpler theoretically.</li>
+
+</ul>
+
+</section>
+<section id="slide-orgad76d22">
+<h3 id="orgad76d22"><span class="section-number-3">3.6</span> Currying</h3>
+<p>
+Rather than complicating our set of terms by admitting
+functions of multiple arguments, we use the technique
+of <i>currying</i> functions.
+</p>
+<ul>
+<li>Consider a function \(f : A × B → C\).</li>
+<li>We can substitute a new function \(f′ : A → (B → C)\)
+for \(f\).
+<ul>
+<li>(By convention, function arrows associate to the right,
+so this is equivalent to \(f : A → B → C\).)</li>
+<li>So \(f′\) is a function which takes an \(A\) and
+<i>produces a function</i> of type \(B → C\).
+<ul>
+<li>We usually don't give this new function a name.</li>
+<li>We can consider this new function as having a <i>fixed</i> value
+for the \(A\) argument that was provided.</li>
+<li>(So we must be able to represent higher-order functions
+to use Currying.)</li>
+
+</ul></li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-org5a2b12a">
+<h3 id="org5a2b12a"><span class="section-number-3">3.7</span> Examples of λ-terms</h3>
+<div class="org-src-container">
+
+<pre  class="src src-text"><code trim>&#955; x &#8594; x
+</code></pre>
+</div>
+<p>
+is a familiar function; it is the <i>identity</i> function.
+We will use the name <code>id</code> to refer to this function.
+</p>
+
+<div class="org-src-container">
+
+<pre  class="src src-text"><code trim>&#955; x &#8594; &#955; y &#8594; x
+</code></pre>
+</div>
+
+<div class="org-src-container">
+
+<pre  class="src src-text"><code trim>&#955; x &#8594; &#955; y &#8594; y
+</code></pre>
+</div>
 
 </section>
 </section>
 <section>
-<section id="slide-orgf1ae986">
-<h2 id="orgf1ae986"><span class="section-number-2">4</span> The formal syntax and semantics of <i>UL</i></h2>
+<section id="slide-orgf92c39f">
+<h2 id="orgf92c39f"><span class="section-number-2">4</span> The formal syntax and semantics of <i>UL</i></h2>
 <div class="outline-text-2" id="text-4">
 </div>
 </section>
-<section id="slide-org8addd14">
-<h3 id="org8addd14"><span class="section-number-3">4.1</span> A grammar for <i>UL</i></h3>
+<section id="slide-orge9fd9eb">
+<h3 id="orge9fd9eb"><span class="section-number-3">4.1</span> A grammar for <i>UL</i></h3>
 <div class="org-src-container">
 
-<pre  class="src src-text"><code trim><span style="color: #00cd68;">&#10216;</span>term<span style="color: #00cd68;">&#10217;</span> &#8759;= var | &#955; var &#8226; <span style="color: #00cd68;">&#10216;</span>term<span style="color: #00cd68;">&#10217;</span> | <span style="color: #00cd68;">&#10216;</span>term<span style="color: #00cd68;">&#10217;</span> <span style="color: #00cd68;">&#10216;</span>term<span style="color: #00cd68;">&#10217;</span>
+<pre  class="src src-text"><code trim><span style="color: #00cd68;">&#10216;</span>term<span style="color: #00cd68;">&#10217;</span> &#8759;= var | &#955; var &#8594; <span style="color: #00cd68;">&#10216;</span>term<span style="color: #00cd68;">&#10217;</span> | <span style="color: #00cd68;">&#10216;</span>term<span style="color: #00cd68;">&#10217;</span> <span style="color: #00cd68;">&#10216;</span>term<span style="color: #00cd68;">&#10217;</span>
 </code></pre>
 </div>
 
@@ -241,10 +385,35 @@ we will write abstraction as
 </div>
 
 </section>
+<section id="slide-org0919773">
+<h3 id="org0919773"><span class="section-number-3">4.2</span> The operational semantics of <i>UL</i></h3>
+<p>
+The semantics of the λ-calculus is given by a <i>reduction strategy</i>;
+</p>
+<ul>
+<li>A reduction is a transformation from a term of the form
+<ul>
+<li>\((λ x → t₁) t₂\) to</li>
+<li>\(t₁[x ≔ t₂]\)
+<ul>
+<li>(There are various syntactic representations of substitutions;
+we prefer to the substitution operation to come after the term
+where the substitution is carried out (\(t₁\)), and to use
+the “becomes” operator to imply free instance of \(x\) become \(t₂\).</li>
+<li>Pierce instead uses the form \([x ↦ t₂]t₁\), with the
+substitution operation coming before the term,
+and using the “maps to” operator instead of “becomes”.</li>
+<li>You may also see forms such as \([x\t₁]\) or \([t₁/x]\).)</li>
+
+</ul></li>
+
+</ul></li>
+
+</ul>
+
 </section>
-<section>
-<section id="slide-orgd3039d0">
-<h2 id="orgd3039d0"><span class="section-number-2">5</span> α-conversion, β-reduction and η-conversion</h2>
+<section id="slide-org7b0af2e">
+<h3 id="org7b0af2e"><span class="section-number-3">4.3</span> Reduction strategies</h3>
 <p>
 :TODO:
 </p>
@@ -252,20 +421,29 @@ we will write abstraction as
 </section>
 </section>
 <section>
-<section id="slide-orgf2d7513">
-<h2 id="orgf2d7513"><span class="section-number-2">6</span> Topics of theoretical interest</h2>
+<section id="slide-orgaa88d6a">
+<h2 id="orgaa88d6a"><span class="section-number-2">5</span> α-conversion, β-reduction and η-conversion</h2>
+<p>
+:TODO:
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-orge1fce6e">
+<h2 id="orge1fce6e"><span class="section-number-2">6</span> Topics of theoretical interest</h2>
 <div class="outline-text-2" id="text-6">
 </div>
 </section>
-<section id="slide-org4e11222">
-<h3 id="org4e11222"><span class="section-number-3">6.1</span> The pure λ-calculus</h3>
+<section id="slide-org03ff311">
+<h3 id="org03ff311"><span class="section-number-3">6.1</span> The pure λ-calculus</h3>
 <p>
 :TODO:
 </p>
 
 </section>
-<section id="slide-org7988c13">
-<h3 id="org7988c13"><span class="section-number-3">6.2</span> Nameless representation of terms</h3>
+<section id="slide-orga5838e8">
+<h3 id="orga5838e8"><span class="section-number-3">6.2</span> Nameless representation of terms</h3>
 <p>
 :TODO:
 </p>
