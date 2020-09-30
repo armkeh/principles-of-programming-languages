@@ -1,4 +1,4 @@
-% Created 2020-09-30 Wed 11:31
+% Created 2020-09-30 Wed 19:24
 % Intended LaTeX compiler: lualatex
 \documentclass[11pt]{article}
 \usepackage{graphicx}
@@ -45,11 +45,9 @@
 \maketitle
 
 \section{Preamble}
-\label{sec:org38e6cd7}
-
+\label{sec:orgc4d3a98}
 \subsection{{\bfseries\sffamily TODO} Notable references}
-\label{sec:org5ada612}
-
+\label{sec:org12a0760}
 \begin{itemize}
 \item Benjamin Pierce,
 “\href{https://ebookcentral.proquest.com/lib/mcmu/detail.action?docID=3338823}{Types and Programming Languages}”
@@ -59,17 +57,15 @@
 \end{itemize}
 
 \subsection{{\bfseries\sffamily TODO} Table of contents}
-\label{sec:org2f61a25}
-
+\label{sec:org01ba93c}
 \begin{scriptsize}
 \begin{itemize}
-\item \hyperref[sec:org38e6cd7]{Preamble}
+\item \hyperref[sec:orgc4d3a98]{Preamble}
 \end{itemize}
 \end{scriptsize}
 
 \section{Introduction}
-\label{sec:org73bd817}
-
+\label{sec:orgf159c47}
 In this section we construct our first simple programming language,
 an untyped λ-calculus (lambda calculus).
 
@@ -78,8 +74,7 @@ without (static) type checking (enforcement),
 but including the natural numbers and booleans.
 
 \subsection{What is the λ-calculus?}
-\label{sec:org1161706}
-
+\label{sec:org6ee03d6}
 The λ-calculus is, put simply,
 a notation for forming and applying functions.
 \begin{itemize}
@@ -90,8 +85,7 @@ the λ-calculus is a Turing-complete model of computation.
 \end{itemize}
 
 \subsection{History}
-\label{sec:orge3bf2c9}
-
+\label{sec:org56cf41c}
 The (basic) λ-calculus as we know it was famously invented
 by Alonzo Church in the 1920s.
 \begin{itemize}
@@ -117,8 +111,7 @@ of programming languages.
 \end{itemize}
 
 \subsection{Descendents of the λ-calculus}
-\label{sec:orgcda643f}
-
+\label{sec:org2fe665f}
 Pure functional programming languages are clearly descended
 from the λ-calculus; the λ-calculus embodies their model of computation.
 \begin{itemize}
@@ -142,8 +135,7 @@ or recursive functions.
 \end{itemize}
 
 \section{The basics}
-\label{sec:orgb1bbe82}
-
+\label{sec:org704d47e}
 In our discussion of abstractions, we mentioned
 the abstraction of the function/method/procedure/subroutine.
 \begin{itemize}
@@ -162,8 +154,7 @@ are \emph{encoded} (represented) by functions.
 \end{itemize}
 
 \subsection{The terms}
-\label{sec:orga56f8a8}
-
+\label{sec:org9b17985}
 The pure untyped λ-calculus has just three sort of terms;
 \begin{itemize}
 \item variables such as \(x\), \(y\), \(z\),
@@ -180,8 +171,7 @@ we prefer \(→\) as it emphasises that these are functions)
 \end{itemize}
 
 \subsection{Informal meaning of terms}
-\label{sec:org56f68e2}
-
+\label{sec:org49f22be}
 The meaning of each term is, informally:
 \begin{itemize}
 \item A λ-abstraction \(λ x → t\) represents a function of one argument,
@@ -199,8 +189,7 @@ all free occurrences of \(x\) in \(t\) with \(u\).
 \end{itemize}
 
 \subsection{Variable binding; free and bound variables}
-\label{sec:orgce4d8d7}
-
+\label{sec:orgf159858}
 Recall the notion of free and bound variables.
 \begin{itemize}
 \item A \emph{variable binder} is an operator which operates on
@@ -225,8 +214,7 @@ by that \(B\).
 \end{itemize}
 
 \subsection{Picturing variable bindings}
-\label{sec:orgd98955b}
-
+\label{sec:orgba3b508}
 For instance, in the language of predicate logic,
 we can view the variables bound like so.
 \begin{center}
@@ -234,8 +222,7 @@ we can view the variables bound like so.
 \end{center}
 
 \subsection{Representing functions with multiple arguments}
-\label{sec:org47bc8c2}
-
+\label{sec:orgb36135c}
 You may have noticed that our method for constructing function
 in the λ-calculus (the λ-abstraction)
 only allows us to construct single-argument functions.
@@ -247,8 +234,7 @@ And it keeps the language simpler theoretically.
 \end{itemize}
 
 \subsection{Currying}
-\label{sec:org88817c2}
-
+\label{sec:orgf57f521}
 Rather than complicating our set of terms by admitting
 functions of multiple arguments, we use the technique
 of \emph{currying} functions.
@@ -272,8 +258,7 @@ to use Currying.)
 \end{itemize}
 
 \subsection{Examples of λ-terms}
-\label{sec:org7796064}
-
+\label{sec:org7fcc3a9}
 \begin{minted}[breaklines=true]{text}
 λ x → x
 \end{minted}
@@ -289,11 +274,9 @@ We will use the name \texttt{id} to refer to this function.
 \end{minted}
 
 \section{The formal syntax and semantics of \emph{UL}}
-\label{sec:orga94d620}
-
+\label{sec:org8e06c9d}
 \subsection{A grammar for \emph{UL}}
-\label{sec:org6aeedc6}
-
+\label{sec:org0b5b636}
 \begin{minted}[breaklines=true]{text}
 ⟨term⟩ ∷= var | λ var → ⟨term⟩ | ⟨term⟩ ⟨term⟩
 \end{minted}
@@ -305,8 +288,7 @@ we will write abstraction as
 \end{minted}
 
 \subsection{The operational semantics of \emph{UL}}
-\label{sec:org90506ee}
-
+\label{sec:orgd79edee}
 The semantics of the λ-calculus is given by a \emph{reduction strategy};
 \begin{itemize}
 \item A reduction is a transformation from a term of the form
@@ -321,31 +303,26 @@ the “becomes” operator to imply free instance of \(x\) become \(t₂\).
 \item Pierce instead uses the form \([x ↦ t₂]t₁\), with the
 substitution operation coming before the term,
 and using the “maps to” operator instead of “becomes”.
-\item You may also see forms such as \([x\t₁]\) or \([t₁/x]\).)
+\item You may also see forms such as \([x\backslash t₁]\) or \([t₁/x]\).)
 \end{itemize}
 \end{itemize}
 \end{itemize}
 
 \subsection{Reduction strategies}
-\label{sec:orge75a590}
-
+\label{sec:orgb0b18a6}
 :TODO:
 
 \section{α-conversion, β-reduction and η-conversion}
-\label{sec:org0a2682d}
-
+\label{sec:org5f53bfa}
 :TODO:
 
 \section{Topics of theoretical interest}
-\label{sec:org2417275}
-
+\label{sec:org11b6967}
 \subsection{The pure λ-calculus}
-\label{sec:org5e06e1e}
-
+\label{sec:org7265539}
 :TODO:
 
 \subsection{Nameless representation of terms}
-\label{sec:orgfd0d93b}
-
+\label{sec:orgd863e50}
 :TODO:
 \end{document}

@@ -46,14 +46,23 @@ as we evaluate the code block.
   echo "$data"
 #+END_SRC
 * Preamble
+:PROPERTIES:
+:CUSTOM_ID: Preamble
+:END:
 
 ** TODO Notable references
+:PROPERTIES:
+:CUSTOM_ID: Notable-references
+:END:
 
 - Benjamin Pierce,
   “[[https://ebookcentral.proquest.com/lib/mcmu/detail.action?docID=3338823][Types and Programming Languages]]”
   - Chapter 5, The Untyped Lambda-Calculus
 
 ** TODO Table of contents
+:PROPERTIES:
+:CUSTOM_ID: Table-of-contents
+:END:
 
 # The table of contents are added using org-reveal-manual-toc,
 # and so must be updated upon changes or added last.
@@ -66,6 +75,9 @@ as we evaluate the code block.
 #+HTML: </font>
 
 * Introduction
+:PROPERTIES:
+:CUSTOM_ID: Introduction
+:END:
 
 In this section we construct our first simple programming language,
 an untyped λ-calculus (lambda calculus).
@@ -75,6 +87,9 @@ without (static) type checking (enforcement),
 but including the natural numbers and booleans.
 
 ** What is the λ-calculus?
+:PROPERTIES:
+:CUSTOM_ID: What-is-the-λ-calculus?
+:END:
 
 The λ-calculus is, put simply,
 a notation for forming and applying functions.
@@ -84,6 +99,9 @@ a notation for forming and applying functions.
   the λ-calculus is a Turing-complete model of computation.
 
 ** History
+:PROPERTIES:
+:CUSTOM_ID: History
+:END:
 
 The (basic) λ-calculus as we know it was famously invented
 by Alonzo Church in the 1920s.
@@ -102,6 +120,9 @@ of programming languages.
 - as a mathematical object about which statements can be proved.
 
 ** Descendents of the λ-calculus
+:PROPERTIES:
+:CUSTOM_ID: Descendents-of-the-λ-calculus
+:END:
 
 Pure functional programming languages are clearly descended
 from the λ-calculus; the λ-calculus embodies their model of computation.
@@ -120,6 +141,9 @@ based on the /Von-Neumann/ architecture,
   or recursive functions.
   
 * The basics
+:PROPERTIES:
+:CUSTOM_ID: The-basics
+:END:
 
 In our discussion of abstractions, we mentioned
 the abstraction of the function/method/procedure/subroutine.
@@ -135,6 +159,9 @@ is a function.
   are /encoded/ (represented) by functions.
 
 ** The terms
+:PROPERTIES:
+:CUSTOM_ID: The-terms
+:END:
 
 The pure untyped λ-calculus has just three sort of terms;
 - variables such as $x$, $y$, $z$,
@@ -146,6 +173,9 @@ The pure untyped λ-calculus has just three sort of terms;
   - where $t$ and $u$ are λ-terms.
 
 ** Informal meaning of terms
+:PROPERTIES:
+:CUSTOM_ID: Informal-meaning-of-terms
+:END:
 
 The meaning of each term is, informally:
 - A λ-abstraction $λ x → t$ represents a function of one argument,
@@ -158,6 +188,9 @@ The meaning of each term is, informally:
     - Until we construct a new term by λ-abstracting them.
 
 ** Variable binding; free and bound variables
+:PROPERTIES:
+:CUSTOM_ID: Variable-binding;-free-and-bound-variables
+:END:
 
 Recall the notion of free and bound variables.
 - A /variable binder/ is an operator which operates on
@@ -177,6 +210,9 @@ Recall the notion of free and bound variables.
     by that $B$.
 
 ** Picturing variable bindings
+:PROPERTIES:
+:CUSTOM_ID: Picturing-variable-bindings
+:END:
 
 # This diagram does not look correctly laid out in the source.
 # But the arrows and the text do not line up this way
@@ -205,6 +241,9 @@ we can view the variables bound like so.
 :end:
     
 ** Representing functions with multiple arguments
+:PROPERTIES:
+:CUSTOM_ID: Representing-functions-with-multiple-arguments
+:END:
 
 You may have noticed that our method for constructing function
 in the λ-calculus (the λ-abstraction)
@@ -215,6 +254,9 @@ only allows us to construct single-argument functions.
   And it keeps the language simpler theoretically.
 
 ** Currying
+:PROPERTIES:
+:CUSTOM_ID: Currying
+:END:
 
 Rather than complicating our set of terms by admitting
 functions of multiple arguments, we use the technique
@@ -233,6 +275,9 @@ of /currying/ functions.
       to use Currying.)
 
 ** Examples of λ-terms
+:PROPERTIES:
+:CUSTOM_ID: Examples-of-λ-terms
+:END:
 
 #+begin_src text
 λ x → x
@@ -249,8 +294,14 @@ We will use the name ~id~ to refer to this function.
 #+end_src
 
 * The formal syntax and semantics of /UL/
+:PROPERTIES:
+:CUSTOM_ID: The-formal-syntax-and-semantics-of-/UL/
+:END:
 
 ** A grammar for /UL/
+:PROPERTIES:
+:CUSTOM_ID: A-grammar-for-/UL/
+:END:
 
 #+begin_src text
 ⟨term⟩ ∷= var | λ var → ⟨term⟩ | ⟨term⟩ ⟨term⟩
@@ -263,6 +314,9 @@ we will write abstraction as
 #+end_src
 
 ** The operational semantics of /UL/
+:PROPERTIES:
+:CUSTOM_ID: The-operational-semantics-of-/UL/
+:END:
 
 The semantics of the λ-calculus is given by a /reduction strategy/;
 - A reduction is a transformation from a term of the form
@@ -275,13 +329,19 @@ The semantics of the λ-calculus is given by a /reduction strategy/;
     - Pierce instead uses the form $[x ↦ t₂]t₁$, with the
       substitution operation coming before the term,
       and using the “maps to” operator instead of “becomes”.
-    - You may also see forms such as $[x\t₁]$ or $[t₁/x]$.)
+    - You may also see forms such as $[x\backslash t₁]$ or $[t₁/x]$.)
 
 ** Reduction strategies
+:PROPERTIES:
+:CUSTOM_ID: Reduction-strategies
+:END:
 
 :TODO:
 
 * α-conversion, β-reduction and η-conversion
+:PROPERTIES:
+:CUSTOM_ID: α-conversion,-β-reduction-and-η-conversion
+:END:
 
 :TODO:
 
@@ -289,11 +349,20 @@ The semantics of the λ-calculus is given by a /reduction strategy/;
 # but we should discuss it to tie in with Scala.
 
 * Topics of theoretical interest
+:PROPERTIES:
+:CUSTOM_ID: Topics-of-theoretical-interest
+:END:
 
 ** The pure λ-calculus
+:PROPERTIES:
+:CUSTOM_ID: The-pure-λ-calculus
+:END:
 
 :TODO:
 
 ** Nameless representation of terms
+:PROPERTIES:
+:CUSTOM_ID: Nameless-representation-of-terms
+:END:
 
 :TODO:
