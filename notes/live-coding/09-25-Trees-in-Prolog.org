@@ -265,16 +265,34 @@ They needed the recursive calculation to be a premise.)
 binInsert(E,
           empty,
           node(empty,E,empty)).
+#+end_src
 
+To insert into a non-empty ~BinTree~ (a ~node~)
+we must use a recursive clause.
+Naively, we might want to write,
+for instance, ~binInsert(E, node(L,A,R), node(binInsert(E,L),A,R))~.
+But notice how what we intend to be the “recursive call”
+is not the same predicate; ~binInsert~ has three arguments, not two.
+And in any case, a predicate is either true or false;
+it doesn't return a “value”.
+So we need a recursive premise instead.
+#+begin_src prolog :tangle ./src/tree.pl
 % Inserting into a node
 % inserts it into the left subtree.
 % (This implementation arbitrarily chosen.)
 binInsert(E,
           node(L,A,R),
-          node(NL,A,R)) :- binInsert(E,L,NL).
+          node(NL,A,R)) :- binInsert(E,L,NL). % NL for "New Left" 
+#+end_src
 
-
-
+In the above, we made an arbitrary choice about where to insert
+the new element. Specifically, we inserted it as far left
+as we could. This is a decent choice, as far as it goes;
+but note that in a logical language, we don't really have to make a choice!
+We can give as many recursive clauses as we like,
+and then when a user makes an insert query, they could choose
+the response (solution) that best fits their need.
+#+begin_src prolog :tangle ./src/tree.pl
 % Inserting into BinTrees *nondeterministically*.
 % This version could be made to produce all possible valid inserts!
 
@@ -284,9 +302,12 @@ binInsertND(E,empty,node(empty,E,empty)).
 % But there are at least 2 ways we can insert into a nonempty tree.
 binInsertND(E,node(L,A,R),node(NL,A,R)) :- binInsertND(E,L,NL).
 binInsertND(E,node(L,A,R),node(L,A,NR)) :- binInsertND(E,R,NR).
+#+end_src
 
-
-
+Everything is similar for ~LeafTree~'s.
+We make some different arbitrary choices about where to insert here,
+just because we can.
+#+begin_src prolog :tangle ./src/tree.pl
 % Inserting into a leaf results in a branch with two leaves.
 leafInsert(E,
            leaf(A),
@@ -318,4 +339,60 @@ leafInsertND(E,
 leafInsertND(E,
              branch(L,R),
              branch(NL,R)) :- leafInsertND(E,L,NL).
+#+end_src
+
+As practice in tutorial, we worked out a way to “join” two trees together.
+Write alternative ways if you like!
+#+begin_src prolog :tangle ./src/tree.pl
+leafJoin(leaf(E1),
+         leaf(E2),
+         branch(leaf(E1),leaf(E2))).
+leafJoin(leaf(E1),
+         branch(L,R),
+         branch(L,branch(leaf(E1),R))).
+leafJoin(branch(L,R),
+         leaf(E2),
+         branch(L,branch(leaf(E2),R))).
+leafJoin(branch(L1,R1),
+         branch(L2,R2),
+         branch(branch(L1,R1),branch(L2,R2))).
+#+end_src
+
+* COMMENT Maybe write up pivoting later
+:PROPERTIES:
+:CUSTOM_ID: COMMENT-Maybe-write-up-pivoting-later
+:END:
+
+A pivot rearranges the tree so the root becomes a subtree.
+#+begin_src prolog :tangle ./src/tree.pl
+pivotBinTree(node(
+              node(
+               node(empty,
+                    d,
+                    empty),
+               b,
+               node(empty,
+                    e,
+                    empty))),
+              a,
+              node(empty,
+                   c,
+                   empty),
+             ).
+#+end_src
+
+#+begin_src text
+    a
+   / \
+  b   c
+ / \
+d   e
+#+end_src
+becomes
+#+begin_src text
+    b
+   / \
+  d   a
+     / \
+    e   c
 #+end_src

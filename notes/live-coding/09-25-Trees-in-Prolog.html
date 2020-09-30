@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-09-26 Sat 01:26 -->
+<!-- 2020-09-29 Tue 22:59 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Trees in Prolog</title>
@@ -559,7 +559,7 @@ We will use the labels to indicate the constructor we have in mind
 when constructing trees as tuples.
 So, for the <code>LeafTree</code> type, we have trees such as
 </p>
-<pre class="example" id="orgf87060e">
+<pre class="example" id="orgc948064">
 leaf(5)
 leaf([])
 branch(leaf(1),branch(leaf(2),leaf(3)))
@@ -612,17 +612,41 @@ They needed the recursive calculation to be a premise.)
 <span style="color: #feacd0;">binInsert</span>(<span style="color: #00d3d0;">E</span>,
           empty,
           node(empty,<span style="color: #00d3d0;">E</span>,empty)).
+</pre>
+</div>
 
-<span style="color: #a8a8a8;">% </span><span style="color: #a8a8a8;">Inserting into a node</span>
+<p>
+To insert into a non-empty <code>BinTree</code> (a <code>node</code>)
+we must use a recursive clause.
+Naively, we might want to write,
+for instance, <code>binInsert(E, node(L,A,R), node(binInsert(E,L),A,R))</code>.
+But notice how what we intend to be the “recursive call”
+is not the same predicate; <code>binInsert</code> has three arguments, not two.
+And in any case, a predicate is either true or false;
+it doesn't return a “value”.
+So we need a recursive premise instead.
+</p>
+<div class="org-src-container">
+<pre class="src src-prolog"><span style="color: #a8a8a8;">% </span><span style="color: #a8a8a8;">Inserting into a node</span>
 <span style="color: #a8a8a8;">% </span><span style="color: #a8a8a8;">inserts it into the left subtree.</span>
 <span style="color: #a8a8a8;">% </span><span style="color: #a8a8a8;">(This implementation arbitrarily chosen.)</span>
 <span style="color: #feacd0;">binInsert</span>(<span style="color: #00d3d0;">E</span>,
           node(<span style="color: #00d3d0;">L</span>,<span style="color: #00d3d0;">A</span>,<span style="color: #00d3d0;">R</span>),
-          node(<span style="color: #00d3d0;">NL</span>,<span style="color: #00d3d0;">A</span>,<span style="color: #00d3d0;">R</span>)) :- binInsert(<span style="color: #00d3d0;">E</span>,<span style="color: #00d3d0;">L</span>,<span style="color: #00d3d0;">NL</span>).
+          node(<span style="color: #00d3d0;">NL</span>,<span style="color: #00d3d0;">A</span>,<span style="color: #00d3d0;">R</span>)) :- binInsert(<span style="color: #00d3d0;">E</span>,<span style="color: #00d3d0;">L</span>,<span style="color: #00d3d0;">NL</span>). <span style="color: #a8a8a8;">% NL for </span><span style="color: #a8a8a8;">"New Left"</span><span style="color: #a8a8a8;"> </span>
+</pre>
+</div>
 
-
-
-<span style="color: #a8a8a8;">% </span><span style="color: #a8a8a8;">Inserting into BinTrees *nondeterministically*.</span>
+<p>
+In the above, we made an arbitrary choice about where to insert
+the new element. Specifically, we inserted it as far left
+as we could. This is a decent choice, as far as it goes;
+but note that in a logical language, we don't really have to make a choice!
+We can give as many recursive clauses as we like,
+and then when a user makes an insert query, they could choose
+the response (solution) that best fits their need.
+</p>
+<div class="org-src-container">
+<pre class="src src-prolog"><span style="color: #a8a8a8;">% </span><span style="color: #a8a8a8;">Inserting into BinTrees *nondeterministically*.</span>
 <span style="color: #a8a8a8;">% </span><span style="color: #a8a8a8;">This version could be made to produce all possible valid inserts!</span>
 
 <span style="color: #a8a8a8;">% </span><span style="color: #a8a8a8;">There's only one way to insert into the empty tree.</span>
@@ -631,10 +655,16 @@ They needed the recursive calculation to be a premise.)
 <span style="color: #a8a8a8;">% </span><span style="color: #a8a8a8;">But there are at least 2 ways we can insert into a nonempty tree.</span>
 <span style="color: #feacd0;">binInsertND</span>(<span style="color: #00d3d0;">E</span>,node(<span style="color: #00d3d0;">L</span>,<span style="color: #00d3d0;">A</span>,<span style="color: #00d3d0;">R</span>),node(<span style="color: #00d3d0;">NL</span>,<span style="color: #00d3d0;">A</span>,<span style="color: #00d3d0;">R</span>)) :- binInsertND(<span style="color: #00d3d0;">E</span>,<span style="color: #00d3d0;">L</span>,<span style="color: #00d3d0;">NL</span>).
 <span style="color: #feacd0;">binInsertND</span>(<span style="color: #00d3d0;">E</span>,node(<span style="color: #00d3d0;">L</span>,<span style="color: #00d3d0;">A</span>,<span style="color: #00d3d0;">R</span>),node(<span style="color: #00d3d0;">L</span>,<span style="color: #00d3d0;">A</span>,<span style="color: #00d3d0;">NR</span>)) :- binInsertND(<span style="color: #00d3d0;">E</span>,<span style="color: #00d3d0;">R</span>,<span style="color: #00d3d0;">NR</span>).
+</pre>
+</div>
 
-
-
-<span style="color: #a8a8a8;">% </span><span style="color: #a8a8a8;">Inserting into a leaf results in a branch with two leaves.</span>
+<p>
+Everything is similar for <code>LeafTree</code>'s.
+We make some different arbitrary choices about where to insert here,
+just because we can.
+</p>
+<div class="org-src-container">
+<pre class="src src-prolog"><span style="color: #a8a8a8;">% </span><span style="color: #a8a8a8;">Inserting into a leaf results in a branch with two leaves.</span>
 <span style="color: #feacd0;">leafInsert</span>(<span style="color: #00d3d0;">E</span>,
            leaf(<span style="color: #00d3d0;">A</span>),
            branch(leaf(<span style="color: #00d3d0;">A</span>),leaf(<span style="color: #00d3d0;">E</span>))).
@@ -667,6 +697,26 @@ They needed the recursive calculation to be a premise.)
              branch(<span style="color: #00d3d0;">NL</span>,<span style="color: #00d3d0;">R</span>)) :- leafInsertND(<span style="color: #00d3d0;">E</span>,<span style="color: #00d3d0;">L</span>,<span style="color: #00d3d0;">NL</span>).
 </pre>
 </div>
+
+<p>
+As practice in tutorial, we worked out a way to “join” two trees together.
+Write alternative ways if you like!
+</p>
+<div class="org-src-container">
+<pre class="src src-prolog"><span style="color: #feacd0;">leafJoin</span>(leaf(<span style="color: #00d3d0;">E1</span>),
+         leaf(<span style="color: #00d3d0;">E2</span>),
+         branch(leaf(<span style="color: #00d3d0;">E1</span>),leaf(<span style="color: #00d3d0;">E2</span>))).
+<span style="color: #feacd0;">leafJoin</span>(leaf(<span style="color: #00d3d0;">E1</span>),
+         branch(<span style="color: #00d3d0;">L</span>,<span style="color: #00d3d0;">R</span>),
+         branch(<span style="color: #00d3d0;">L</span>,branch(leaf(<span style="color: #00d3d0;">E1</span>),<span style="color: #00d3d0;">R</span>))).
+<span style="color: #feacd0;">leafJoin</span>(branch(<span style="color: #00d3d0;">L</span>,<span style="color: #00d3d0;">R</span>),
+         leaf(<span style="color: #00d3d0;">E2</span>),
+         branch(<span style="color: #00d3d0;">L</span>,branch(leaf(<span style="color: #00d3d0;">E2</span>),<span style="color: #00d3d0;">R</span>))).
+<span style="color: #feacd0;">leafJoin</span>(branch(<span style="color: #00d3d0;">L1</span>,<span style="color: #00d3d0;">R1</span>),
+         branch(<span style="color: #00d3d0;">L2</span>,<span style="color: #00d3d0;">R2</span>),
+         branch(branch(<span style="color: #00d3d0;">L1</span>,<span style="color: #00d3d0;">R1</span>),branch(<span style="color: #00d3d0;">L2</span>,<span style="color: #00d3d0;">R2</span>))).
+</pre>
+</div>
 </div>
 </div>
 </div>
@@ -674,9 +724,9 @@ They needed the recursive calculation to be a premise.)
 <p class="author">Author: Mark Armstrong</p>
      <p class="author">Contact: <a href="mailto:markparmstrong@gmail.com">markparmstrong@gmail.com</a></p>
      <p class="date">Original date: </p>
-     <p class="date">Last updated: 2020-09-26 Sat 01:25</p>
-     <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.90 (<a href="https://orgmode.org">Org</a> mode 9.3.8)</p>
-     <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+     <p class="date">Last updated: 2020-09-29 Tue 22:59</p>
+     <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.90 (<a href="https://orgmode.org">Org</a> mode 9.4)</p>
+     <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
 </html>

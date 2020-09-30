@@ -17,9 +17,7 @@ binInsert(E,
 % (This implementation arbitrarily chosen.)
 binInsert(E,
           node(L,A,R),
-          node(NL,A,R)) :- binInsert(E,L,NL).
-
-
+          node(NL,A,R)) :- binInsert(E,L,NL). % NL for "New Left"
 
 % Inserting into BinTrees *nondeterministically*.
 % This version could be made to produce all possible valid inserts!
@@ -30,8 +28,6 @@ binInsertND(E,empty,node(empty,E,empty)).
 % But there are at least 2 ways we can insert into a nonempty tree.
 binInsertND(E,node(L,A,R),node(NL,A,R)) :- binInsertND(E,L,NL).
 binInsertND(E,node(L,A,R),node(L,A,NR)) :- binInsertND(E,R,NR).
-
-
 
 % Inserting into a leaf results in a branch with two leaves.
 leafInsert(E,
@@ -64,3 +60,16 @@ leafInsertND(E,
 leafInsertND(E,
              branch(L,R),
              branch(NL,R)) :- leafInsertND(E,L,NL).
+
+leafJoin(leaf(E1),
+         leaf(E2),
+         branch(leaf(E1),leaf(E2))).
+leafJoin(leaf(E1),
+         branch(L,R),
+         branch(L,branch(leaf(E1),R))).
+leafJoin(branch(L,R),
+         leaf(E2),
+         branch(L,branch(leaf(E2),R))).
+leafJoin(branch(L1,R1),
+         branch(L2,R2),
+         branch(branch(L1,R1),branch(L2,R2))).
