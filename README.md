@@ -12,6 +12,18 @@ better viewed at
 
 ## September
 
+  - September 29th  
+    Some of the names in the homework 3 testing script were inconsistent
+    with the homework's instructions. The scripts have been corrected
+    now.
+    
+    Additionally,
+    
+      - I have removed the blank bonus task from homework 3. I can't
+        think of a fitting bonus for this week 🙁.
+    
+      - The link to the Scala tests was broken. It is corrected now.
+
   - September 28th  
     Test scripts for homework 3 have been posted. The Docker setup is to
     follow shortly.
@@ -466,18 +478,35 @@ but this may not be updated quickly after lectures/tutorials.
 
 ## Note lectures
 
+These lectures cover material from the [Notes](#Notes) section of the
+website, and usually take place on Mondays and Wednesdays.
+
+  - [September 30th (Wednesday) – An untyped λ-calculus,
+    *UL*](https://web.microsoftstream.com/video/7c37e57d-4c10-4cae-914d-89b4e2e58a92)
+  - [September 28th (Monday) – Formal languages
+    (part 4)](https://web.microsoftstream.com/video/bed4dad7-dc7f-4721-8795-3c4d6d956a37)
+      - (also the beginning of “An untyped λ-calculus, /UL/”)
+  - [September 23rd (Wednesday) – Formal language
+    (part 3)](https://web.microsoftstream.com/video/56841a6d-5ae0-4378-8c0d-ed7cce18a614)
   - [September 21st (Monday) – Formal languages
     (part 2)](https://web.microsoftstream.com/video/d7d61b56-b593-4c48-8890-b03e9ff71015)
   - [September 16th (Wednesday) – Formal languages
     (part 1)](https://web.microsoftstream.com/video/6aa707fa-3e68-4b61-8f6c-ed60e62f3b14)
   - [September 14th (Monday) – The Boom hierarchy in
     Scala](https://web.microsoftstream.com/video/fe0b46f8-2512-4084-a399-f9d1b33257b6)
-    (end of Introduction and Overview notes)
+      - (also the end of “Introduction and Overview” notes)
   - [September 11th (Friday) – Introduction and
     Overview](https://web.microsoftstream.com/video/af55c09e-00dc-4d7c-a048-166907b6abd7)
 
 ## Live coding lectures
 
+These lectures cover supplementary materials, found in the [Literate
+programs](#Literate%20programs) section of the website. Usually this
+material lays the groundwork for the weeks homework. These lectures
+usually take place on Fridays.
+
+  - [September 25th (Friday) – Trees in
+    Prolog](https://web.microsoftstream.com/video/6201a5a8-3757-4dc4-bb98-ff49628f4639)
   - [September 18th (Friday) – Logical games in
     Prolog](https://web.microsoftstream.com/video/f29fc2dd-f3c0-40f6-9e67-a81eeb273065)
   - [September 14th (Monday) – The Boom hierarchy in
@@ -485,14 +514,31 @@ but this may not be updated quickly after lectures/tutorials.
 
 ## Tutorials
 
+The contents of each week's tutorials is usually consistent across the
+two tutorials. We will put a note here in the case that there is a
+significant difference between Monday and Wednesday.
+
+  - [Week 3 Wednesday, September 30th – More trees in
+    Prolog](https://web.microsoftstream.com/video/bb9938cd-ffec-43e6-b9d4-3a1e93b1ce2a)
+    (Habib)
+  - [Week 3 Monday, September 28th – More trees in
+    Prolog](https://web.microsoftstream.com/video/7a37a812-9955-4edd-a08f-bd0d95ce4c25)
+    (Mark)
   - [Week 2 Wednesday, September 23rd – Docker, Introduction to
     Prolog](https://web.microsoftstream.com/video/8f852c44-7249-42ca-9fc0-acc21578ecd5)
+    (Habib)
+      - Covers Docker, which the Monday tutorial did not.
   - [Week 2 Monday, September 21st – Introduction to
     Prolog](https://web.microsoftstream.com/video/dd31d267-6de5-4cc1-afae-8e81b126d3f8)
+    (Mark)
+      - Discusses Prolog with a little more depth than the Wednesday
+        tutorial.
   - [Week 2 Wednesday, September 16th – Algebraic data in
     Scala](https://web.microsoftstream.com/video/da69ad32-13c9-4e26-904e-e06a66c3b537)
+    (Mark)
   - [Week 2 Monday, September 14th – Algebraic data in
     Scala](https://web.microsoftstream.com/video/1f99aa1e-ee5e-4bb4-a27c-6c32175332fd)
+    (Mark)
 
 # Homework
 
@@ -503,12 +549,6 @@ but this may not be updated quickly after lectures/tutorials.
   - [HTML](./homework/h3.html)
   - [PDF](./homework/h3.pdf)
   - [Org plaintext](./homework/h3.org)
-
-### Homework 2 – Solving problems in Prolog – Sept 18th to Sept 27th
-
-  - [HTML](./homework/h2.html)
-  - [PDF](./homework/h2.pdf)
-  - [Org plaintext](./homework/h2.org)
 
 ## Homework testing policy
 
@@ -530,6 +570,12 @@ solutions. This is not required though; a uniform set of tests will be
 used for every student's submission.
 
 ## Previous homeworks
+
+### Homework 2 – Solving problems in Prolog – Sept 18th to Sept 27th
+
+  - [HTML](./homework/h2.html)
+  - [PDF](./homework/h2.pdf)
+  - [Org plaintext](./homework/h2.org)
 
 ### Homework 1 – Implementing Trees in Scala – Sept 11th to Sept 20th
 
