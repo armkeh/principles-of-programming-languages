@@ -35,14 +35,14 @@ test(flatten_leaf, nondet) :- flatten(leaf(5),[5]).
 test(flatten_branch, nondet) :- flatten(branch(leaf(1),leaf(2)),[1,2]).
 test(flatten_large_leaftree, nondet) :- largeLeafTree(X), largeLeafTreeFlat(L), flatten(X,L).
 
-test(order_leaf, nondet) :- orderedElems(leaf(5),[5]).
-test(order_branch, nondet) :- orderedElems(branch(leaf(1),leaf(2)),[1,2]).
-test(order_large_leaftree, nondet) :- largeLeafTree(X), largeLeafTreeOrdered(L), orderedElems(X,L).
+test(order_leaf, nondet) :- elemsOrdered(leaf(5),[5]).
+test(order_branch, nondet) :- elemsOrdered(branch(leaf(1),leaf(2)),[1,2]).
+test(order_large_leaftree, nondet) :- largeLeafTree(X), largeLeafTreeOrdered(L), elemsOrdered(X,L).
 
 test(flatten_empty, nondet) :- flatten(empty,[]).
 test(flatten_node, nondet) :- flatten(node(empty,5,empty),[5]).
 test(flatten_large_bintree, nondet) :- largeBinTree(X), largeBinTreeFlat(L), flatten(X,L).
 
-test(order_empty, nondet) :- orderedElems(empty,[]).
-test(order_node, nondet) :- orderedElems(node(empty,5,empty),[5]).
-test(order_large_bintree, nondet) :- largeBinTree(X), largeBinTreeOrdered(L), orderedElems(X,L).
+test(order_empty, nondet) :- elemsOrdered(empty,[]).
+test(order_node, nondet) :- elemsOrdered(node(empty,5,empty),[5]).
+test(order_large_bintree, nondet) :- largeBinTree(X), largeBinTreeOrdered(L), elemsOrdered(X,L).

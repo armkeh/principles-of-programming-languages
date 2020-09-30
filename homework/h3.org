@@ -95,13 +95,6 @@ of its digits, with the first element of the list being
 the “ones” digits, the second element being the “tens” digit, etc.
 - (this method is assigned 5 points.)
 
-* Part 3: ??? [?? bonus points]
-:PROPERTIES:
-:CUSTOM_ID: Part-3:-???-[?? bonus points]
-:END:
-
-:TODO:
-
 * Testing
 :PROPERTIES:
 :CUSTOM_ID: Testing
@@ -109,7 +102,7 @@ the “ones” digits, the second element being the “tens” digit, etc.
 
 As of September 28th, unit tests for the requested predicates
 are available through the following links.
-- Scala unit tests: [[./testing/h3/h3.plt][h3t.sc]].
+- Scala unit tests: [[./testing/h3/h3t.sc][h3t.sc]]
 - Prolog unit tests: [[./testing/h3/h3.plt][h3.plt]].
 The contents of the unit test file are also repeated below.
 
@@ -154,7 +147,7 @@ The contents of the testing scripts are repeated here.
 :END:
 
 #+begin_src amm :results none :tangle testing/h3/h3t.sc
-import $file.h1, h1._
+import $file.h3, h3._
 
 /* Given an expected result and a computed result,
    check if they are equal in value.
@@ -182,10 +175,10 @@ val tests = List(
   (isPalindrome(List(1,1)), true, "Pair palindrome"),
   (isPalindrome(List('s','t','e','p','o','n','n','o','p','e','t','s')), true, "step on no pets palindrome"),
   (isPalindrome(List(12,21)), false, "Palindrome elements are atomic"),
-  (isPrimePalindrome(11), true, "Eleven is prime palindrome"),
-  (isPrimePalindrome(929), true, "Nine twenty nine is prime palindrome"),
-  (isPrimePalindrome(13), false, "Thirteen is not prime palindrome"),
-  (isPrimePalindrome(22), false, "Twenty two is not prime palindrome"),
+  (primePalindrome(11), true, "Eleven is prime palindrome"),
+  (primePalindrome(929), true, "Nine twenty nine is prime palindrome"),
+  (primePalindrome(13), false, "Thirteen is not prime palindrome"),
+  (primePalindrome(22), false, "Twenty two is not prime palindrome"),
   )
 
 // Apply test to each element of tests, and sum the return values.
@@ -245,15 +238,15 @@ test(flatten_leaf, nondet) :- flatten(leaf(5),[5]).
 test(flatten_branch, nondet) :- flatten(branch(leaf(1),leaf(2)),[1,2]).
 test(flatten_large_leaftree, nondet) :- largeLeafTree(X), largeLeafTreeFlat(L), flatten(X,L).
 
-test(order_leaf, nondet) :- orderedElems(leaf(5),[5]).
-test(order_branch, nondet) :- orderedElems(branch(leaf(1),leaf(2)),[1,2]).
-test(order_large_leaftree, nondet) :- largeLeafTree(X), largeLeafTreeOrdered(L), orderedElems(X,L).
+test(order_leaf, nondet) :- elemsOrdered(leaf(5),[5]).
+test(order_branch, nondet) :- elemsOrdered(branch(leaf(1),leaf(2)),[1,2]).
+test(order_large_leaftree, nondet) :- largeLeafTree(X), largeLeafTreeOrdered(L), elemsOrdered(X,L).
 
 test(flatten_empty, nondet) :- flatten(empty,[]).
 test(flatten_node, nondet) :- flatten(node(empty,5,empty),[5]).
 test(flatten_large_bintree, nondet) :- largeBinTree(X), largeBinTreeFlat(L), flatten(X,L).
 
-test(order_empty, nondet) :- orderedElems(empty,[]).
-test(order_node, nondet) :- orderedElems(node(empty,5,empty),[5]).
-test(order_large_bintree, nondet) :- largeBinTree(X), largeBinTreeOrdered(L), orderedElems(X,L).
+test(order_empty, nondet) :- elemsOrdered(empty,[]).
+test(order_node, nondet) :- elemsOrdered(node(empty,5,empty),[5]).
+test(order_large_bintree, nondet) :- largeBinTree(X), largeBinTreeOrdered(L), elemsOrdered(X,L).
 #+end_src

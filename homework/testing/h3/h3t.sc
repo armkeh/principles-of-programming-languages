@@ -1,4 +1,4 @@
-import $file.h1, h1._
+import $file.h3, h3._
 
 /* Given an expected result and a computed result,
    check if they are equal in value.
@@ -26,10 +26,10 @@ val tests = List(
   (isPalindrome(List(1,1)), true, "Pair palindrome"),
   (isPalindrome(List('s','t','e','p','o','n','n','o','p','e','t','s')), true, "step on no pets palindrome"),
   (isPalindrome(List(12,21)), false, "Palindrome elements are atomic"),
-  (isPrimePalindrome(11), true, "Eleven is prime palindrome"),
-  (isPrimePalindrome(929), true, "Nine twenty nine is prime palindrome"),
-  (isPrimePalindrome(13), false, "Thirteen is not prime palindrome"),
-  (isPrimePalindrome(22), false, "Twenty two is not prime palindrome"),
+  (primePalindrome(11), true, "Eleven is prime palindrome"),
+  (primePalindrome(929), true, "Nine twenty nine is prime palindrome"),
+  (primePalindrome(13), false, "Thirteen is not prime palindrome"),
+  (primePalindrome(22), false, "Twenty two is not prime palindrome"),
   )
 
 // Apply test to each element of tests, and sum the return values.

@@ -18,6 +18,16 @@
 :CUSTOM_ID: September
 :END:
 
+- September 29th :: Some of the names in the homework 3 testing script
+  were inconsistent with the homework's instructions.
+  The scripts have been corrected now.
+
+  Additionally,
+  - I have removed the blank bonus task from homework 3.
+    I can't think of a fitting bonus for this week 🙁.
+
+  - The link to the Scala tests was broken. It is corrected now.
+
 - September 28th :: Test scripts for homework 3 have been posted.
   The Docker setup is to follow shortly.
 
