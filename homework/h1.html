@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-09-24 Thu 23:16 -->
+<!-- 2020-10-01 Thu 17:16 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Computer Science 3MI3 – 2020 homework 1</title>
@@ -240,16 +240,16 @@
 <ul>
 <li><a href="#Submission-procedures">Submission procedures</a>
 <ul>
-<li><a href="#org774154f">Submission method</a></li>
-<li><a href="#org2c0e61d">Naming requirements</a></li>
-<li><a href="#org33cbc25">Do not submit testing or diagnostic code</a></li>
-<li><a href="#org4457f16">Due date and allowance for technical difficulties</a></li>
+<li><a href="#org6bd0dbf">Submission method</a></li>
+<li><a href="#orgfb98920">Naming requirements</a></li>
+<li><a href="#org88b349b">Do not submit testing or diagnostic code</a></li>
+<li><a href="#org2d89cba">Due date and allowance for technical difficulties</a></li>
 </ul>
 </li>
 <li><a href="#Proper-conduct-for-coursework">Proper conduct for coursework</a>
 <ul>
-<li><a href="#org7962245">Individual work</a></li>
-<li><a href="#orgcc105d8">Language library resources</a></li>
+<li><a href="#orgbd12a17">Individual work</a></li>
+<li><a href="#org3ed4a98">Language library resources</a></li>
 </ul>
 </li>
 </ul>
@@ -281,6 +281,7 @@
 <li><a href="#~BinTree~"><code>BinTree</code></a></li>
 </ul>
 </li>
+<li><a href="#Sample-solution">Sample solution</a></li>
 </ul>
 </div>
 </div>
@@ -314,9 +315,9 @@ which convert those trees to the less structured type of lists.
 <div class="outline-text-3" id="text-Submission-procedures">
 </div>
 
-<div id="outline-container-org774154f" class="outline-4">
-<h4 id="org774154f">Submission method</h4>
-<div class="outline-text-4" id="text-org774154f">
+<div id="outline-container-org6bd0dbf" class="outline-4">
+<h4 id="org6bd0dbf">Submission method</h4>
+<div class="outline-text-4" id="text-org6bd0dbf">
 <p>
 Homework should be submitted to your McMaster CAS Gitlab respository
 in the <code>cs3mi3-fall2020</code> project.
@@ -329,9 +330,9 @@ in time for the deadline, and not just committed to your local copy.
 </div>
 </div>
 
-<div id="outline-container-org2c0e61d" class="outline-4">
-<h4 id="org2c0e61d">Naming requirements</h4>
-<div class="outline-text-4" id="text-org2c0e61d">
+<div id="outline-container-orgfb98920" class="outline-4">
+<h4 id="orgfb98920">Naming requirements</h4>
+<div class="outline-text-4" id="text-orgfb98920">
 <p>
 Place all files for the homework
 inside a folder titled <code>hn</code>, where <code>n</code> is the number of the homework.
@@ -372,9 +373,9 @@ submit a <code>hn.ext</code> file for each language.
 </div>
 </div>
 
-<div id="outline-container-org33cbc25" class="outline-4">
-<h4 id="org33cbc25">Do not submit testing or diagnostic code</h4>
-<div class="outline-text-4" id="text-org33cbc25">
+<div id="outline-container-org88b349b" class="outline-4">
+<h4 id="org88b349b">Do not submit testing or diagnostic code</h4>
+<div class="outline-text-4" id="text-org88b349b">
 <p>
 Unless you are instructed to do so in the homework questions,
 <b>you should not submit testing code with your homework submission</b>.
@@ -402,9 +403,9 @@ For instance, by using a wrapper on the print function or macros.
 </div>
 </div>
 
-<div id="outline-container-org4457f16" class="outline-4">
-<h4 id="org4457f16">Due date and allowance for technical difficulties</h4>
-<div class="outline-text-4" id="text-org4457f16">
+<div id="outline-container-org2d89cba" class="outline-4">
+<h4 id="org2d89cba">Due date and allowance for technical difficulties</h4>
+<div class="outline-text-4" id="text-org2d89cba">
 <p>
 Homework is due on the second Sunday following its release,
 by the end of the day (midnight).
@@ -429,9 +430,9 @@ to accept your submission once the technical difficulties are resolved.
 <div class="outline-text-3" id="text-Proper-conduct-for-coursework">
 </div>
 
-<div id="outline-container-org7962245" class="outline-4">
-<h4 id="org7962245">Individual work</h4>
-<div class="outline-text-4" id="text-org7962245">
+<div id="outline-container-orgbd12a17" class="outline-4">
+<h4 id="orgbd12a17">Individual work</h4>
+<div class="outline-text-4" id="text-orgbd12a17">
 <p>
 Unless explicitely stated in the homework questions,
 all homework in this course is intended
@@ -492,9 +493,9 @@ probably add a catch-all <code>_</code> case to your <code>match</code> expressi
 </div>
 </div>
 
-<div id="outline-container-orgcc105d8" class="outline-4">
-<h4 id="orgcc105d8">Language library resources</h4>
-<div class="outline-text-4" id="text-orgcc105d8">
+<div id="outline-container-org3ed4a98" class="outline-4">
+<h4 id="org3ed4a98">Language library resources</h4>
+<div class="outline-text-4" id="text-org3ed4a98">
 <p>
 Unless explicitely stated in the questions,
 it is not expected that you will use any language library resources
@@ -649,7 +650,7 @@ or Elm
 The type <code>LeafTree</code> on <code>Int</code> represents trees such as
 </p>
 
-<div id="orgb7aeea3" class="figure">
+<div id="orge538944" class="figure">
 <p><img src="media/LeafTree.png" alt="LeafTree.png" />
 </p>
 </div>
@@ -658,7 +659,7 @@ The type <code>LeafTree</code> on <code>Int</code> represents trees such as
 While the type <code>BinTree</code> on <code>Int</code> represents trees such as
 </p>
 
-<div id="org700eb39" class="figure">
+<div id="org3141eb5" class="figure">
 <p><img src="media/BinTree.png" alt="BinTree.png" />
 </p>
 </div>
@@ -785,7 +786,7 @@ The type <code>StructTree[String,Int]</code> could be used
 to represent trees such as
 </p>
 
-<div id="orgdd83837" class="figure">
+<div id="org7d6c3a6" class="figure">
 <p><img src="media/StructTree.png" alt="StructTree.png" />
 </p>
 </div>
@@ -987,7 +988,7 @@ Note that nothing says the tree must be balanced or ordered
 in any way, as this example should hopefully convey.
 </p>
 
-<div id="orge9c31ab" class="figure">
+<div id="org76e8d86" class="figure">
 <p><img src="media/LeafTree2.png" alt="LeafTree2.png" />
 </p>
 </div>
@@ -1010,10 +1011,66 @@ This example shows several nodes which seem to have one child only
 in this way.
 </p>
 
-<div id="org35a283b" class="figure">
+<div id="org41aec91" class="figure">
 <p><img src="./media/BinTree2.png" alt="BinTree2.png" />
 </p>
 </div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-Sample-solution" class="outline-2">
+<h2 id="Sample-solution">Sample solution</h2>
+<div class="outline-text-2" id="text-Sample-solution">
+<div class="org-src-container">
+<pre class="src src-amm"><span style="color: #f78fe7;">sealed</span> <span style="color: #b6a0ff;">trait</span> <span style="color: #f78fe7;">LeafTree</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">]</span>
+<span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">Leaf</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">](</span>a<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">A</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">LeafTree</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">]</span>
+<span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">Branch</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">](</span>l<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">LeafTree</span><span style="color: #b6a0ff;">[</span><span style="color: #00bcff;">A</span><span style="color: #b6a0ff;">]</span>, r<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">LeafTree</span><span style="color: #b6a0ff;">[</span><span style="color: #00bcff;">A</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">LeafTree</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">]</span>
+
+<span style="color: #f78fe7;">sealed</span> <span style="color: #b6a0ff;">trait</span> <span style="color: #f78fe7;">BinTree</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">]</span>
+<span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">Empty</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">]()</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">BinTree</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">]</span>
+<span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">Node</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">](</span>l<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">BinTree</span><span style="color: #b6a0ff;">[</span><span style="color: #00bcff;">A</span><span style="color: #b6a0ff;">]</span>, a<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">A</span>, r<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">BinTree</span><span style="color: #b6a0ff;">[</span><span style="color: #00bcff;">A</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">BinTree</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">]</span>
+
+<span style="color: #f78fe7;">sealed</span> <span style="color: #b6a0ff;">trait</span> <span style="color: #f78fe7;">StructTree</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span>,<span style="color: #00bcff;">B</span><span style="color: #00cd68;">]</span>
+<span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">StructLeaf</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span>,<span style="color: #00bcff;">B</span><span style="color: #00cd68;">](</span>b<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">B</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">StructTree</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span>,<span style="color: #00bcff;">B</span><span style="color: #00cd68;">]</span>
+<span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">StructNode</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span>,<span style="color: #00bcff;">B</span><span style="color: #00cd68;">](</span>l<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">StructTree</span><span style="color: #b6a0ff;">[</span><span style="color: #00bcff;">A</span>,<span style="color: #00bcff;">B</span><span style="color: #b6a0ff;">]</span>, a<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">A</span>, r<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">StructTree</span><span style="color: #b6a0ff;">[</span><span style="color: #00bcff;">A</span>,<span style="color: #00bcff;">B</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span>
+  <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">StructTree</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span>,<span style="color: #00bcff;">B</span><span style="color: #00cd68;">]</span>
+
+
+
+<span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">flatten</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">](</span>xs<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">LeafTree</span><span style="color: #b6a0ff;">[</span><span style="color: #00bcff;">A</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">List</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">]</span> <span style="color: #b6a0ff;">=</span> xs <span style="color: #b6a0ff;">match</span> <span style="color: #00cd68;">{</span>
+  <span style="color: #b6a0ff;">case</span> <span style="color: #f78fe7;">Leaf</span><span style="color: #b6a0ff;">(</span><span style="color: #00d3d0;">a</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">List</span><span style="color: #b6a0ff;">(</span>a<span style="color: #b6a0ff;">)</span>
+  <span style="color: #b6a0ff;">case</span> <span style="color: #f78fe7;">Branch</span><span style="color: #b6a0ff;">(</span><span style="color: #00d3d0;">l</span>,<span style="color: #00d3d0;">r</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">=&gt;</span> flatten<span style="color: #b6a0ff;">(</span>l<span style="color: #b6a0ff;">)</span> ++ flatten<span style="color: #b6a0ff;">(</span>r<span style="color: #b6a0ff;">)</span>
+<span style="color: #a8a8a8;">/*      </span><span style="color: #a8a8a8;">translates to flatten(l).++(flatten(r))</span>
+<span style="color: #a8a8a8;">  which translates to flatten(l).concat(flatten(r)) */</span>
+  <span style="color: #00cd68;">}</span>
+
+<span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">flatten</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">](</span>xs<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">BinTree</span><span style="color: #b6a0ff;">[</span><span style="color: #00bcff;">A</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">List</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">]</span> <span style="color: #b6a0ff;">=</span> xs <span style="color: #b6a0ff;">match</span> <span style="color: #00cd68;">{</span>
+  <span style="color: #b6a0ff;">case</span> <span style="color: #f78fe7;">Empty</span><span style="color: #b6a0ff;">()</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">List</span><span style="color: #b6a0ff;">()</span>
+  <span style="color: #b6a0ff;">case</span> <span style="color: #f78fe7;">Node</span><span style="color: #b6a0ff;">(</span><span style="color: #00d3d0;">l</span>,<span style="color: #00d3d0;">a</span>,<span style="color: #00d3d0;">r</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">=&gt;</span> flatten<span style="color: #b6a0ff;">(</span>l<span style="color: #b6a0ff;">)</span> ++ <span style="color: #00bcff;">List</span><span style="color: #b6a0ff;">(</span>a<span style="color: #b6a0ff;">)</span> ++ flatten<span style="color: #b6a0ff;">(</span>r<span style="color: #b6a0ff;">)</span>
+<span style="color: #00cd68;">}</span>
+
+
+<span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Credit to http://learnyouahaskell.com/recursion,</span>
+<span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">which I translated here.</span>
+<span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">quickSort</span><span style="color: #00cd68;">(</span>xs<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">List</span><span style="color: #b6a0ff;">[</span><span style="color: #00bcff;">Int</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">List</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">Int</span><span style="color: #00cd68;">]</span> <span style="color: #b6a0ff;">=</span> xs <span style="color: #b6a0ff;">match</span> <span style="color: #00cd68;">{</span>
+  <span style="color: #b6a0ff;">case</span> <span style="color: #00bcff;">Nil</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">Nil</span>
+  <span style="color: #b6a0ff;">case</span> <span style="color: #00d3d0;">x</span> <span style="color: #f78fe7;">::</span> <span style="color: #00d3d0;">xs</span> <span style="color: #b6a0ff;">=&gt;</span>
+    <span style="color: #b6a0ff;">{</span>
+      <span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">pivot</span> <span style="color: #b6a0ff;">=</span> x
+      <span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">smaller</span> <span style="color: #b6a0ff;">=</span> <span style="color: #b6a0ff;">for</span><span style="color: #6ae4b9;">(</span>i <span style="color: #b6a0ff;">&lt;-</span> xs <span style="color: #b6a0ff;">if</span> i &lt;= x<span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">yield</span> i
+      <span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">bigger</span> <span style="color: #b6a0ff;">=</span> <span style="color: #b6a0ff;">for</span><span style="color: #6ae4b9;">(</span>i <span style="color: #b6a0ff;">&lt;-</span> xs <span style="color: #b6a0ff;">if</span> i &gt; x<span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">yield</span> i
+      <span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">smallSorted</span> <span style="color: #b6a0ff;">=</span> quickSort<span style="color: #6ae4b9;">(</span>smaller<span style="color: #6ae4b9;">)</span>
+      <span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">bigSorted</span> <span style="color: #b6a0ff;">=</span> quickSort<span style="color: #6ae4b9;">(</span>bigger<span style="color: #6ae4b9;">)</span>
+      <span style="color: #b6a0ff;">return</span> smallSorted ++ <span style="color: #00bcff;">List</span><span style="color: #6ae4b9;">(</span>x<span style="color: #6ae4b9;">)</span> ++ bigSorted
+    <span style="color: #b6a0ff;">}</span>
+<span style="color: #00cd68;">}</span>
+
+<span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">The most elegant solution is to reuse flatten,</span>
+<span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">and sort the resulting list.</span>
+<span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">orderedElems</span><span style="color: #00cd68;">(</span>xs<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">LeafTree</span><span style="color: #b6a0ff;">[</span><span style="color: #00bcff;">Int</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">List</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">Int</span><span style="color: #00cd68;">]</span> <span style="color: #b6a0ff;">=</span> quickSort<span style="color: #00cd68;">(</span>flatten<span style="color: #b6a0ff;">(</span>xs<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+<span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">orderedElems</span><span style="color: #00cd68;">(</span>xs<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">BinTree</span><span style="color: #b6a0ff;">[</span><span style="color: #00bcff;">Int</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">List</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">Int</span><span style="color: #00cd68;">]</span> <span style="color: #b6a0ff;">=</span> quickSort<span style="color: #00cd68;">(</span>flatten<span style="color: #b6a0ff;">(</span>xs<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+</pre>
 </div>
 </div>
 </div>
@@ -1022,9 +1079,9 @@ in this way.
 <p class="author">Author: Mark Armstrong</p>
      <p class="author">Contact: <a href="mailto:markparmstrong@gmail.com">markparmstrong@gmail.com</a></p>
      <p class="date">Original date: September 11th, 2020</p>
-     <p class="date">Last updated: 2020-09-22 Tue 17:05</p>
-     <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.90 (<a href="https://orgmode.org">Org</a> mode 9.3.8)</p>
-     <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+     <p class="date">Last updated: 2020-10-01 Thu 17:16</p>
+     <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.90 (<a href="https://orgmode.org">Org</a> mode 9.4)</p>
+     <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
 </html>

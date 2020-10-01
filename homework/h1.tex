@@ -1,4 +1,4 @@
-% Created 2020-09-22 Tue 17:03
+% Created 2020-10-01 Thu 17:16
 % Intended LaTeX compiler: lualatex
 \documentclass[11pt]{article}
 \usepackage{graphicx}
@@ -28,7 +28,7 @@
    pdftitle={Computer Science 3MI3 – 2020 homework 1},
    pdfkeywords={},
    pdfsubject={Introductory homework on Scala and trees},
-   pdfcreator={Emacs 27.0.90 (Org mode 9.3.8)},
+   pdfcreator={Emacs 27.0.90 (Org mode 9.4)},
    pdflang={English},
    colorlinks,
    linkcolor=blue,
@@ -42,7 +42,7 @@
 
 
 \section*{Introduction}
-\label{sec:org1d70e2e}
+\label{sec:org86af9db}
 Scala is a purely object-oriented language on the JVM,
 and in addition to object-oriented abstractions
 it fully supports the abstractions of \emph{functional programming}.
@@ -54,11 +54,11 @@ along with \texttt{flatten}-ing functions
 which convert those trees to the less structured type of lists.
 
 \section*{Boilerplate}
-\label{sec:orgc97567e}
+\label{sec:orgeb8d5d5}
 \subsection*{Submission procedures}
-\label{sec:orgad7dc07}
+\label{sec:org526d716}
 \subsubsection*{Submission method}
-\label{sec:org7d085d9}
+\label{sec:org2220362}
 
 Homework should be submitted to your McMaster CAS Gitlab respository
 in the \texttt{cs3mi3-fall2020} project.
@@ -67,7 +67,7 @@ Ensure that you have \textbf{pushed} the commits to the remote repository
 in time for the deadline, and not just committed to your local copy.
 
 \subsubsection*{Naming requirements}
-\label{sec:orgdfebb9f}
+\label{sec:orge315fc3}
 
 Place all files for the homework
 inside a folder titled \texttt{hn}, where \texttt{n} is the number of the homework.
@@ -98,7 +98,7 @@ submit a \texttt{hn.ext} file for each language.
 \end{center}
 
 \subsubsection*{Do not submit testing or diagnostic code}
-\label{sec:org52cd497}
+\label{sec:org33bf273}
 
 Unless you are instructed to do so in the homework questions,
 \textbf{you should not submit testing code with your homework submission}.
@@ -118,7 +118,7 @@ in your final submission.
 For instance, by using a wrapper on the print function or macros.
 
 \subsubsection*{Due date and allowance for technical difficulties}
-\label{sec:orgbccd413}
+\label{sec:orgaf78866}
 
 Homework is due on the second Sunday following its release,
 by the end of the day (midnight).
@@ -133,9 +133,9 @@ This information will help ensure we are able
 to accept your submission once the technical difficulties are resolved.
 
 \subsection*{Proper conduct for coursework}
-\label{sec:org70f262d}
+\label{sec:org7a6f120}
 \subsubsection*{Individual work}
-\label{sec:org9eadfc8}
+\label{sec:org5907ec7}
 
 Unless explicitely stated in the homework questions,
 all homework in this course is intended
@@ -184,7 +184,7 @@ probably add a catch-all \texttt{\_} case to your \texttt{match} expressions.”
 \end{enumerate}
 
 \subsubsection*{Language library resources}
-\label{sec:orgf700678}
+\label{sec:orge6c447d}
 
 Unless explicitely stated in the questions,
 it is not expected that you will use any language library resources
@@ -208,7 +208,7 @@ including \texttt{map}, \texttt{reduce}, \texttt{flatten}, and \texttt{filter} a
 unless the task is to implement such a higher-order operator.
 
 \section*{Part 0.1: Installing Scala                  [0 points]}
-\label{sec:orgb1b2452}
+\label{sec:org3a4f75d}
 In this course, we will be targetting
 \begin{itemize}
 \item \href{https://scala-lang.org}{Scala} version 2.13 and
@@ -237,7 +237,7 @@ that seems appropriate for your operating system,
 and we link to guides to get you started below.
 
 \subsection*{Installation guides}
-\label{sec:org6708dda}
+\label{sec:org277ebd6}
 \begin{itemize}
 \item The \href{https://ammonite.io}{Ammonite} homepage.
 \item \href{https://www.handsonscala.com/chapter-2-setting-up.html}{Chapter 2} of
@@ -250,7 +250,7 @@ Its first 5 chapters are free to read online.
 \end{itemize}
 
 \section*{Part 0.2: Basic Scala programming           [0 points]}
-\label{sec:org1d605b6}
+\label{sec:org75dff9f}
 Some basic tutorial on Scala will be given
 in an upcoming lecture, and also in the tutorials,
 and should provide you with the knowledge you need
@@ -263,7 +263,7 @@ of the aforementioned “\href{https://www.handsonscala.com/table-of-contents.ht
 which are freely available online.
 
 \section*{Part 1: Representations of two tree types  [20 points]}
-\label{sec:orgfeacc2d}
+\label{sec:org5ea21f8}
 In Scala, implement the following types.
 \begin{enumerate}
 \item The type of unordered binary trees which,
@@ -302,10 +302,10 @@ While the type \texttt{BinTree} on \texttt{Int} represents trees such as
 \includegraphics[width=\textwidth]{media/BinTree.png}
 \end{center}
 
-Also see \hyperref[sec:orga1ebb19]{More \texttt{LeafTree} and \texttt{BinTree} examples}.
+Also see \hyperref[sec:orga02937c]{More \texttt{LeafTree} and \texttt{BinTree} examples}.
 
 \section*{Part 2: Flattening trees to lists          [20 points]}
-\label{sec:org633ef12}
+\label{sec:org443fa8c}
 Implement a function named \texttt{flatten} for our two tree types
 defined avoid, each of which convert the trees to lists,
 discarding the tree structure.
@@ -333,7 +333,7 @@ should appear in the list \emph{after} the element of said node.
 So the above example tree would flatten to \texttt{[2,1,4,3,5]}.
 
 \section*{Part 3: Elements of a \texttt{Tree[Int]} in order   [20 points]}
-\label{sec:orgf0ddb63}
+\label{sec:org57dedfa}
 For each of the two tree types we have implemented, implement
 a function \texttt{orderedElems} which converts trees containing integers
 into lists \emph{which are sorted in \textbf{increasing} order}. So,
@@ -365,7 +365,7 @@ at least a “good” mark to any solution
 which matches the description in the first two paragraphs.
 
 \section*{Part 4: Trees which describe structure     [10 points]}
-\label{sec:orgeeac7c6}
+\label{sec:orgb386550}
 Implement one additional type of unordered binary trees which,
 given arbitrary types \texttt{A} and \texttt{B},
 carry elements of \texttt{A} in their non-leaf nodes
@@ -389,7 +389,7 @@ to represent trees such as
 \end{center}
 
 \section*{Part 5: Flattening structure trees   [bonus 20 points]}
-\label{sec:orgf4be606}
+\label{sec:orgb44bbf1}
 Define an appropriate \texttt{flatten} operation for the \texttt{StructTree} type.
 
 As this is a bonus question, there are many possible
@@ -401,9 +401,9 @@ which discards \emph{as little structure as possible},
 bearing in mind that the transformation to lists
 necessitates discarding at least some structure.
 \section*{Testing}
-\label{sec:org8315307}
+\label{sec:orge8b3cd6}
 \subsection*{Instructions}
-\label{sec:orgcd2b7a7}
+\label{sec:orgca76e14}
 To test your solution, first complete
 \href{./src/h1\_interface.sc}{this} interface script
 by filling in the appropriate constructor/method invocations
@@ -428,7 +428,7 @@ Simply placing their contents into your \texttt{h1.sc} file should work,
 but be sure to remove them before submission.
 
 \subsubsection*{Automated testing via Docker}
-\label{sec:org54eb268}
+\label{sec:orgd354865}
 You may use the \texttt{Dockerfile} and \texttt{docker-compose.yml} located at
 \url{https://github.com/armkeh/principles-of-programming-languages/tree/master/homework/testing/h1}
 to automate the system setup and testing.
@@ -443,7 +443,7 @@ manually instead.
 (Or, alternatively, use symbolic links to your source files.)
 
 \subsection*{The scripts}
-\label{sec:org03893f6}
+\label{sec:org710310b}
 The scripts are also shown here. First, the interface script.
 \begin{minted}[breaklines=true]{scala}
 import $file.h1, h1._
@@ -516,12 +516,12 @@ println("+---------------------------------------------------")
 \end{minted}
 
 \section*{More \texttt{LeafTree} and \texttt{BinTree} examples}
-\label{sec:orga1ebb19}
+\label{sec:orga02937c}
 Motivated by discussion of what is a proper \texttt{BinTree} or \texttt{LeafTree},
 I have produced a few more examples here.
 
 \subsection*{\texttt{LeafTree}}
-\label{sec:orga5cb17a}
+\label{sec:org47557e2}
 The \texttt{LeafTree} type still consists of binary trees.
 Every (non-leaf) node must have two children,
 and they are either non-leaf nodes or leaves.
@@ -533,7 +533,7 @@ in any way, as this example should hopefully convey.
 \end{center}
 
 \subsection*{\texttt{BinTree}}
-\label{sec:orgdbd9ddf}
+\label{sec:org97abbbc}
 It is possible to think of our \texttt{BinTree} type allowing each node
 to have 0, 1 or 2 children.
 But it is likely easier to represent and perhaps understand
@@ -545,4 +545,56 @@ in this way.
 \begin{center}
 \includegraphics[width=\textwidth]{./media/BinTree2.png}
 \end{center}
+
+\section*{Sample solution}
+\label{sec:org00af94a}
+\begin{minted}[breaklines=true]{scala}
+sealed trait LeafTree[A]
+case class Leaf[A](a: A) extends LeafTree[A]
+case class Branch[A](l: LeafTree[A], r: LeafTree[A]) extends LeafTree[A]
+
+sealed trait BinTree[A]
+case class Empty[A]() extends BinTree[A]
+case class Node[A](l: BinTree[A], a: A, r: BinTree[A]) extends BinTree[A]
+
+sealed trait StructTree[A,B]
+case class StructLeaf[A,B](b: B) extends StructTree[A,B]
+case class StructNode[A,B](l: StructTree[A,B], a: A, r: StructTree[A,B])
+  extends StructTree[A,B]
+
+
+
+def flatten[A](xs: LeafTree[A]): List[A] = xs match {
+  case Leaf(a) => List(a)
+  case Branch(l,r) => flatten(l) ++ flatten(r)
+/*      translates to flatten(l).++(flatten(r))
+  which translates to flatten(l).concat(flatten(r)) */
+  }
+
+def flatten[A](xs: BinTree[A]): List[A] = xs match {
+  case Empty() => List()
+  case Node(l,a,r) => flatten(l) ++ List(a) ++ flatten(r)
+}
+
+
+// Credit to http://learnyouahaskell.com/recursion,
+// which I translated here.
+def quickSort(xs: List[Int]): List[Int] = xs match {
+  case Nil => Nil
+  case x :: xs =>
+    {
+      val pivot = x
+      val smaller = for(i <- xs if i <= x) yield i
+      val bigger = for(i <- xs if i > x) yield i
+      val smallSorted = quickSort(smaller)
+      val bigSorted = quickSort(bigger)
+      return smallSorted ++ List(x) ++ bigSorted
+    }
+}
+
+// The most elegant solution is to reuse flatten,
+// and sort the resulting list.
+def orderedElems(xs: LeafTree[Int]): List[Int] = quickSort(flatten(xs))
+def orderedElems(xs: BinTree[Int]): List[Int] = quickSort(flatten(xs))
+\end{minted}
 \end{document}
