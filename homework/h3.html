@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-09-29 Tue 23:17 -->
+<!-- 2020-10-01 Thu 17:10 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Computer Science 3MI3 – 2020 homework 3</title>
@@ -240,16 +240,16 @@
 <ul>
 <li><a href="#Submission-procedures">Submission procedures</a>
 <ul>
-<li><a href="#org0694bac">Submission method</a></li>
-<li><a href="#orgfe24b90">Naming requirements</a></li>
-<li><a href="#orgdc164f5">Do not submit testing or diagnostic code</a></li>
-<li><a href="#orge00eb93">Due date and allowance for technical difficulties</a></li>
+<li><a href="#orgb8e4397">Submission method</a></li>
+<li><a href="#orgce0efbc">Naming requirements</a></li>
+<li><a href="#org5c168c8">Do not submit testing or diagnostic code</a></li>
+<li><a href="#org7885204">Due date and allowance for technical difficulties</a></li>
 </ul>
 </li>
 <li><a href="#Proper-conduct-for-coursework">Proper conduct for coursework</a>
 <ul>
-<li><a href="#org3ba6a33">Individual work</a></li>
-<li><a href="#org09792c0">Language library resources</a></li>
+<li><a href="#org3af46b2">Individual work</a></li>
+<li><a href="#org8dcdb7b">Language library resources</a></li>
 </ul>
 </li>
 </ul>
@@ -306,9 +306,9 @@ your solutions will out of necessity be quite different.
 <div class="outline-text-3" id="text-Submission-procedures">
 </div>
 
-<div id="outline-container-org0694bac" class="outline-4">
-<h4 id="org0694bac">Submission method</h4>
-<div class="outline-text-4" id="text-org0694bac">
+<div id="outline-container-orgb8e4397" class="outline-4">
+<h4 id="orgb8e4397">Submission method</h4>
+<div class="outline-text-4" id="text-orgb8e4397">
 <p>
 Homework should be submitted to your McMaster CAS Gitlab respository
 in the <code>cs3mi3-fall2020</code> project.
@@ -321,9 +321,9 @@ in time for the deadline, and not just committed to your local copy.
 </div>
 </div>
 
-<div id="outline-container-orgfe24b90" class="outline-4">
-<h4 id="orgfe24b90">Naming requirements</h4>
-<div class="outline-text-4" id="text-orgfe24b90">
+<div id="outline-container-orgce0efbc" class="outline-4">
+<h4 id="orgce0efbc">Naming requirements</h4>
+<div class="outline-text-4" id="text-orgce0efbc">
 <p>
 Place all files for the homework
 inside a folder titled <code>hn</code>, where <code>n</code> is the number of the homework.
@@ -364,9 +364,9 @@ submit a <code>hn.ext</code> file for each language.
 </div>
 </div>
 
-<div id="outline-container-orgdc164f5" class="outline-4">
-<h4 id="orgdc164f5">Do not submit testing or diagnostic code</h4>
-<div class="outline-text-4" id="text-orgdc164f5">
+<div id="outline-container-org5c168c8" class="outline-4">
+<h4 id="org5c168c8">Do not submit testing or diagnostic code</h4>
+<div class="outline-text-4" id="text-org5c168c8">
 <p>
 Unless you are instructed to do so in the homework questions,
 <b>you should not submit testing code with your homework submission</b>.
@@ -394,9 +394,9 @@ For instance, by using a wrapper on the print function or macros.
 </div>
 </div>
 
-<div id="outline-container-orge00eb93" class="outline-4">
-<h4 id="orge00eb93">Due date and allowance for technical difficulties</h4>
-<div class="outline-text-4" id="text-orge00eb93">
+<div id="outline-container-org7885204" class="outline-4">
+<h4 id="org7885204">Due date and allowance for technical difficulties</h4>
+<div class="outline-text-4" id="text-org7885204">
 <p>
 Homework is due on the second Sunday following its release,
 by the end of the day (midnight).
@@ -421,9 +421,9 @@ to accept your submission once the technical difficulties are resolved.
 <div class="outline-text-3" id="text-Proper-conduct-for-coursework">
 </div>
 
-<div id="outline-container-org3ba6a33" class="outline-4">
-<h4 id="org3ba6a33">Individual work</h4>
-<div class="outline-text-4" id="text-org3ba6a33">
+<div id="outline-container-org3af46b2" class="outline-4">
+<h4 id="org3af46b2">Individual work</h4>
+<div class="outline-text-4" id="text-org3af46b2">
 <p>
 Unless explicitely stated in the homework questions,
 all homework in this course is intended
@@ -484,9 +484,9 @@ probably add a catch-all <code>_</code> case to your <code>match</code> expressi
 </div>
 </div>
 
-<div id="outline-container-org09792c0" class="outline-4">
-<h4 id="org09792c0">Language library resources</h4>
-<div class="outline-text-4" id="text-org09792c0">
+<div id="outline-container-org8dcdb7b" class="outline-4">
+<h4 id="org8dcdb7b">Language library resources</h4>
+<div class="outline-text-4" id="text-org8dcdb7b">
 <p>
 Unless explicitely stated in the questions,
 it is not expected that you will use any language library resources
@@ -654,7 +654,35 @@ or move the tests to their source file
 <h3 id="Automated-testing-via-Docker">Automated testing via Docker</h3>
 <div class="outline-text-3" id="text-Automated-testing-via-Docker">
 <p>
-:TODO:
+(Updated October 1st.)
+</p>
+
+<p>
+The Docker setup and usage scripts are available at the following links.
+</p>
+<ul class="org-ul">
+<li><a href="./testing/h3/Dockerfile">Dockerfile</a></li>
+<li><a href="./testing/h3/docker-compose.yml">docker-compose.yml</a></li>
+<li><a href="./testing/h3/setup.sh">setup.sh</a></li>
+<li><a href="./testing/h3/run.sh">run.sh</a></li>
+</ul>
+<p>
+Place them into your <code>h3</code> directory where your <code>h3.sc</code> and <code>h3.pl</code> files
+and the <code>h3.plt</code> and <code>h3t.sc</code> (linked to above) files exist,
+then run <code>setup.sh</code> and <code>run.sh</code>.
+</p>
+
+<p>
+You may also refer to the README
+for this testing setup and those files
+<a href="https://github.com/armkeh/principles-of-programming-languages/tree/master/homework/testing/h3">on the course GitHub repo</a>.
+</p>
+
+<p>
+Note that the use of the <code>setup.sh</code> and <code>run.sh</code> scripts assumes
+that you are in a <code>bash</code> like shell; if you are on Windows,
+and not using WSL or WSL2, you may have
+to run the commands contained in those scripts manually.
 </p>
 </div>
 </div>
@@ -785,7 +813,7 @@ println<span style="color: #00cd68;">(</span><span style="color: #79a8ff;">"+---
 <p class="author">Author: Mark Armstrong</p>
      <p class="author">Contact: <a href="mailto:markparmstrong@gmail.com">markparmstrong@gmail.com</a></p>
      <p class="date">Original date: September 25th, 2020</p>
-     <p class="date">Last updated: 2020-09-29 Tue 23:17</p>
+     <p class="date">Last updated: 2020-10-01 Thu 17:10</p>
      <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.90 (<a href="https://orgmode.org">Org</a> mode 9.4)</p>
      <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

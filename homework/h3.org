@@ -132,7 +132,25 @@ or move the tests to their source file
 :CUSTOM_ID: Automated-testing-via-Docker
 :END:
 
-:TODO:
+(Updated October 1st.)
+
+The Docker setup and usage scripts are available at the following links.
+- [[./testing/h3/Dockerfile][Dockerfile]]
+- [[./testing/h3/docker-compose.yml][docker-compose.yml]]
+- [[./testing/h3/setup.sh][setup.sh]]
+- [[./testing/h3/run.sh][run.sh]]
+Place them into your ~h3~ directory where your ~h3.sc~ and ~h3.pl~ files
+and the ~h3.plt~ and ~h3t.sc~ (linked to above) files exist,
+then run ~setup.sh~ and ~run.sh~.
+
+You may also refer to the README
+for this testing setup and those files
+[[https://github.com/armkeh/principles-of-programming-languages/tree/master/homework/testing/h3][on the course GitHub repo]].
+
+Note that the use of the ~setup.sh~ and ~run.sh~ scripts assumes
+that you are in a ~bash~ like shell; if you are on Windows,
+and not using WSL or WSL2, you may have
+to run the commands contained in those scripts manually.
 
 ** The tests
 :PROPERTIES:

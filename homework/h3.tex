@@ -1,4 +1,4 @@
-% Created 2020-09-29 Tue 23:17
+% Created 2020-10-01 Thu 17:10
 % Intended LaTeX compiler: lualatex
 \documentclass[11pt]{article}
 \usepackage{graphicx}
@@ -42,7 +42,7 @@
 
 
 \section*{Introduction}
-\label{sec:orgd2a1ac1}
+\label{sec:org99c0ef2}
 We have now worked in Scala for one homework,
 representing different kinds of trees
 and defining operations on them.
@@ -58,11 +58,11 @@ although the problems are the same,
 your solutions will out of necessity be quite different.
 
 \section*{Boilerplate}
-\label{sec:org92f059d}
+\label{sec:orgea8ed27}
 \subsection*{Submission procedures}
-\label{sec:orgf1d6350}
+\label{sec:org1e9e294}
 \subsubsection*{Submission method}
-\label{sec:orgbc0b962}
+\label{sec:org4cba52b}
 
 Homework should be submitted to your McMaster CAS Gitlab respository
 in the \texttt{cs3mi3-fall2020} project.
@@ -71,7 +71,7 @@ Ensure that you have \textbf{pushed} the commits to the remote repository
 in time for the deadline, and not just committed to your local copy.
 
 \subsubsection*{Naming requirements}
-\label{sec:org68b9fa8}
+\label{sec:org4d0b764}
 
 Place all files for the homework
 inside a folder titled \texttt{hn}, where \texttt{n} is the number of the homework.
@@ -102,7 +102,7 @@ submit a \texttt{hn.ext} file for each language.
 \end{center}
 
 \subsubsection*{Do not submit testing or diagnostic code}
-\label{sec:org347b3df}
+\label{sec:org0e1d18f}
 
 Unless you are instructed to do so in the homework questions,
 \textbf{you should not submit testing code with your homework submission}.
@@ -122,7 +122,7 @@ in your final submission.
 For instance, by using a wrapper on the print function or macros.
 
 \subsubsection*{Due date and allowance for technical difficulties}
-\label{sec:org69a30fa}
+\label{sec:orgad45641}
 
 Homework is due on the second Sunday following its release,
 by the end of the day (midnight).
@@ -137,9 +137,9 @@ This information will help ensure we are able
 to accept your submission once the technical difficulties are resolved.
 
 \subsection*{Proper conduct for coursework}
-\label{sec:orgb2db236}
+\label{sec:org3b24eca}
 \subsubsection*{Individual work}
-\label{sec:orge139aec}
+\label{sec:org50d48ab}
 
 Unless explicitely stated in the homework questions,
 all homework in this course is intended
@@ -188,7 +188,7 @@ probably add a catch-all \texttt{\_} case to your \texttt{match} expressions.”
 \end{enumerate}
 
 \subsubsection*{Language library resources}
-\label{sec:org8303005}
+\label{sec:orgf9cd926}
 
 Unless explicitely stated in the questions,
 it is not expected that you will use any language library resources
@@ -212,7 +212,7 @@ including \texttt{map}, \texttt{reduce}, \texttt{flatten}, and \texttt{filter} a
 unless the task is to implement such a higher-order operator.
 
 \section*{Part 1: Flattening and ordering trees in Prolog [20 points]}
-\label{sec:orgc362707}
+\label{sec:org425785e}
 Using the representations (not technically types)
 of \texttt{BinTree} and \texttt{LeafTree} trees discussed in the
 “Trees in Prolog” lecture (links below),
@@ -241,7 +241,7 @@ Refer to the “Trees in Prolog” lecture notes, available as
 \end{itemize}
 
 \section*{Part 2: Predicates in Scala                     [20 points]}
-\label{sec:orgf20dc02}
+\label{sec:org118dcc3}
 In Scala and other non-logical languages,
 we can represent predicates as boolean-valued functions/methods
 (functions/methods which return booleans).
@@ -273,7 +273,7 @@ the “ones” digits, the second element being the “tens” digit, etc.
 \end{itemize}
 
 \section*{Testing}
-\label{sec:org7b222d0}
+\label{sec:org8176b75}
 As of September 28th, unit tests for the requested predicates
 are available through the following links.
 \begin{itemize}
@@ -304,15 +304,35 @@ or move the tests to their source file
 (if so, be sure to remove them before submission!)
 
 \subsection*{Automated testing via Docker}
-\label{sec:orgeb1c87a}
-:TODO:
+\label{sec:orga6fd67e}
+(Updated October 1st.)
+
+The Docker setup and usage scripts are available at the following links.
+\begin{itemize}
+\item \href{./testing/h3/Dockerfile}{Dockerfile}
+\item \href{./testing/h3/docker-compose.yml}{docker-compose.yml}
+\item \href{./testing/h3/setup.sh}{setup.sh}
+\item \href{./testing/h3/run.sh}{run.sh}
+\end{itemize}
+Place them into your \texttt{h3} directory where your \texttt{h3.sc} and \texttt{h3.pl} files
+and the \texttt{h3.plt} and \texttt{h3t.sc} (linked to above) files exist,
+then run \texttt{setup.sh} and \texttt{run.sh}.
+
+You may also refer to the README
+for this testing setup and those files
+\href{https://github.com/armkeh/principles-of-programming-languages/tree/master/homework/testing/h3}{on the course GitHub repo}.
+
+Note that the use of the \texttt{setup.sh} and \texttt{run.sh} scripts assumes
+that you are in a \texttt{bash} like shell; if you are on Windows,
+and not using WSL or WSL2, you may have
+to run the commands contained in those scripts manually.
 
 \subsection*{The tests}
-\label{sec:orgcd31717}
+\label{sec:org8d5a63d}
 The contents of the testing scripts are repeated here.
 
 \subsubsection*{The Scala tests}
-\label{sec:org6281b1a}
+\label{sec:org70c4d21}
 \begin{minted}[breaklines=true]{scala}
 import $file.h3, h3._
 
@@ -363,7 +383,7 @@ println("+---------------------------------------------------")
 \end{minted}
 
 \subsubsection*{The Prolog tests}
-\label{sec:orgc6e83ae}
+\label{sec:org7bb561a}
 \begin{minted}[breaklines=true]{prolog}
 :- begin_tests(h3).
 :- include(h3).
