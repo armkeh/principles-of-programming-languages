@@ -1,0 +1,17 @@
+version: '2'
+services:
+  service:
+    build: .
+    image: 3mi3_h3_docker_image
+    volumes:
+      - .:/opt/h3
+    container_name: 3mi3_h3_container
+    command: bash -c
+      "echo 'Scala testing' &&
+       echo '----------------------------------------------------------------------' &&
+       amm h3t.sc &&
+       echo '\n\n\n' &&
+       echo 'Prolog testing' &&
+       echo '----------------------------------------------------------------------' &&
+       swipl -t \"load_test_files([]), run_tests.\" -s h3.pl" &&
+       echo '----------------------------------------------------------------------'
