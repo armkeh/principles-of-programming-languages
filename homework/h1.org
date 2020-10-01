@@ -562,6 +562,8 @@ digraph T {
 :CUSTOM_ID: Sample-solution
 :END:
 
+The source code can be downloaded [[./solutions/h1/h1.sc][here]].
+
 #+begin_src amm :tangle ./solutions/h1/h1.sc
 sealed trait LeafTree[A]
 case class Leaf[A](a: A) extends LeafTree[A]

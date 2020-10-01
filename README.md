@@ -10,6 +10,13 @@ better viewed at
 
 # Communication
 
+## October
+
+  - October 1st
+    
+      - Docker setup has been added for the homework 3 testing.
+      - A sample solution has been added to the homework 1 document.
+
 ## September
 
   - September 29th  
