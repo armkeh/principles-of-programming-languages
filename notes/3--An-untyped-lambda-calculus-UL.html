@@ -1,290 +1,76 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<!-- 2020-09-30 Wed 19:24 -->
-<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta charset="utf-8"/>
 <title>An untyped λ-calculus, <i>UL</i></title>
-<meta name="generator" content="Org mode" />
-<meta name="author" content="Mark Armstrong" />
+<meta name="author" content="(Mark Armstrong)"/>
 <meta name="description" content="Our first constructed language; a lambda calculus
-with no type checking (enforcement)."
- />
+with no type checking (enforcement)."/>
 <style type="text/css">
- <!--/*--><![CDATA[/*><!--*/
-  .title  { text-align: center;
-             margin-bottom: .2em; }
-  .subtitle { text-align: center;
-              font-size: medium;
-              font-weight: bold;
-              margin-top:0; }
-  .todo   { font-family: monospace; color: red; }
-  .done   { font-family: monospace; color: green; }
-  .priority { font-family: monospace; color: orange; }
-  .tag    { background-color: #eee; font-family: monospace;
-            padding: 2px; font-size: 80%; font-weight: normal; }
-  .timestamp { color: #bebebe; }
-  .timestamp-kwd { color: #5f9ea0; }
-  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
-  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
-  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
-  .underline { text-decoration: underline; }
-  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
-  p.verse { margin-left: 3%; }
-  pre {
-    border: 1px solid #ccc;
-    box-shadow: 3px 3px 3px #eee;
-    padding: 8pt;
-    font-family: monospace;
-    overflow: auto;
-    margin: 1.2em;
-  }
-  pre.src {
-    position: relative;
-    overflow: auto;
-    padding-top: 1.2em;
-  }
-  pre.src:before {
-    display: none;
-    position: absolute;
-    background-color: white;
-    top: -10px;
-    right: 10px;
-    padding: 3px;
-    border: 1px solid black;
-  }
-  pre.src:hover:before { display: inline;}
-  /* Languages per Org manual */
-  pre.src-asymptote:before { content: 'Asymptote'; }
-  pre.src-awk:before { content: 'Awk'; }
-  pre.src-C:before { content: 'C'; }
-  /* pre.src-C++ doesn't work in CSS */
-  pre.src-clojure:before { content: 'Clojure'; }
-  pre.src-css:before { content: 'CSS'; }
-  pre.src-D:before { content: 'D'; }
-  pre.src-ditaa:before { content: 'ditaa'; }
-  pre.src-dot:before { content: 'Graphviz'; }
-  pre.src-calc:before { content: 'Emacs Calc'; }
-  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
-  pre.src-fortran:before { content: 'Fortran'; }
-  pre.src-gnuplot:before { content: 'gnuplot'; }
-  pre.src-haskell:before { content: 'Haskell'; }
-  pre.src-hledger:before { content: 'hledger'; }
-  pre.src-java:before { content: 'Java'; }
-  pre.src-js:before { content: 'Javascript'; }
-  pre.src-latex:before { content: 'LaTeX'; }
-  pre.src-ledger:before { content: 'Ledger'; }
-  pre.src-lisp:before { content: 'Lisp'; }
-  pre.src-lilypond:before { content: 'Lilypond'; }
-  pre.src-lua:before { content: 'Lua'; }
-  pre.src-matlab:before { content: 'MATLAB'; }
-  pre.src-mscgen:before { content: 'Mscgen'; }
-  pre.src-ocaml:before { content: 'Objective Caml'; }
-  pre.src-octave:before { content: 'Octave'; }
-  pre.src-org:before { content: 'Org mode'; }
-  pre.src-oz:before { content: 'OZ'; }
-  pre.src-plantuml:before { content: 'Plantuml'; }
-  pre.src-processing:before { content: 'Processing.js'; }
-  pre.src-python:before { content: 'Python'; }
-  pre.src-R:before { content: 'R'; }
-  pre.src-ruby:before { content: 'Ruby'; }
-  pre.src-sass:before { content: 'Sass'; }
-  pre.src-scheme:before { content: 'Scheme'; }
-  pre.src-screen:before { content: 'Gnu Screen'; }
-  pre.src-sed:before { content: 'Sed'; }
-  pre.src-sh:before { content: 'shell'; }
-  pre.src-sql:before { content: 'SQL'; }
-  pre.src-sqlite:before { content: 'SQLite'; }
-  /* additional languages in org.el's org-babel-load-languages alist */
-  pre.src-forth:before { content: 'Forth'; }
-  pre.src-io:before { content: 'IO'; }
-  pre.src-J:before { content: 'J'; }
-  pre.src-makefile:before { content: 'Makefile'; }
-  pre.src-maxima:before { content: 'Maxima'; }
-  pre.src-perl:before { content: 'Perl'; }
-  pre.src-picolisp:before { content: 'Pico Lisp'; }
-  pre.src-scala:before { content: 'Scala'; }
-  pre.src-shell:before { content: 'Shell Script'; }
-  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
-  /* additional language identifiers per "defun org-babel-execute"
-       in ob-*.el */
-  pre.src-cpp:before  { content: 'C++'; }
-  pre.src-abc:before  { content: 'ABC'; }
-  pre.src-coq:before  { content: 'Coq'; }
-  pre.src-groovy:before  { content: 'Groovy'; }
-  /* additional language identifiers from org-babel-shell-names in
-     ob-shell.el: ob-shell is the only babel language using a lambda to put
-     the execution function name together. */
-  pre.src-bash:before  { content: 'bash'; }
-  pre.src-csh:before  { content: 'csh'; }
-  pre.src-ash:before  { content: 'ash'; }
-  pre.src-dash:before  { content: 'dash'; }
-  pre.src-ksh:before  { content: 'ksh'; }
-  pre.src-mksh:before  { content: 'mksh'; }
-  pre.src-posh:before  { content: 'posh'; }
-  /* Additional Emacs modes also supported by the LaTeX listings package */
-  pre.src-ada:before { content: 'Ada'; }
-  pre.src-asm:before { content: 'Assembler'; }
-  pre.src-caml:before { content: 'Caml'; }
-  pre.src-delphi:before { content: 'Delphi'; }
-  pre.src-html:before { content: 'HTML'; }
-  pre.src-idl:before { content: 'IDL'; }
-  pre.src-mercury:before { content: 'Mercury'; }
-  pre.src-metapost:before { content: 'MetaPost'; }
-  pre.src-modula-2:before { content: 'Modula-2'; }
-  pre.src-pascal:before { content: 'Pascal'; }
-  pre.src-ps:before { content: 'PostScript'; }
-  pre.src-prolog:before { content: 'Prolog'; }
-  pre.src-simula:before { content: 'Simula'; }
-  pre.src-tcl:before { content: 'tcl'; }
-  pre.src-tex:before { content: 'TeX'; }
-  pre.src-plain-tex:before { content: 'Plain TeX'; }
-  pre.src-verilog:before { content: 'Verilog'; }
-  pre.src-vhdl:before { content: 'VHDL'; }
-  pre.src-xml:before { content: 'XML'; }
-  pre.src-nxml:before { content: 'XML'; }
-  /* add a generic configuration mode; LaTeX export needs an additional
-     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
-  pre.src-conf:before { content: 'Configuration File'; }
-
-  table { border-collapse:collapse; }
-  caption.t-above { caption-side: top; }
-  caption.t-bottom { caption-side: bottom; }
-  td, th { vertical-align:top;  }
-  th.org-right  { text-align: center;  }
-  th.org-left   { text-align: center;   }
-  th.org-center { text-align: center; }
-  td.org-right  { text-align: right;  }
-  td.org-left   { text-align: left;   }
-  td.org-center { text-align: center; }
-  dt { font-weight: bold; }
-  .footpara { display: inline; }
-  .footdef  { margin-bottom: 1em; }
-  .figure { padding: 1em; }
-  .figure p { text-align: center; }
-  .equation-container {
-    display: table;
-    text-align: center;
-    width: 100%;
-  }
-  .equation {
-    vertical-align: middle;
-  }
-  .equation-label {
-    display: table-cell;
-    text-align: right;
-    vertical-align: middle;
-  }
-  .inlinetask {
-    padding: 10px;
-    border: 2px solid gray;
-    margin: 10px;
-    background: #ffffcc;
-  }
-  #org-div-home-and-up
-   { text-align: right; font-size: 70%; white-space: nowrap; }
-  textarea { overflow-x: auto; }
-  .linenr { font-size: smaller }
-  .code-highlighted { background-color: #ffff00; }
-  .org-info-js_info-navigation { border-style: none; }
-  #org-info-js_console-label
-    { font-size: 10px; font-weight: bold; white-space: nowrap; }
-  .org-info-js_search-highlight
-    { background-color: #ffff00; color: #000000; font-weight: bold; }
-  .org-svg { width: 90%; }
-  /*]]>*/-->
+.underline { text-decoration: underline; }
 </style>
-<style>pre.src{background:#000000;color:white;} </style>
-<script type="text/javascript">
-// @license magnet:?xt=urn:btih:e95b018ef3580986a04669f1b5879592219e2a7a&dn=public-domain.txt Public Domain
-<!--/*--><![CDATA[/*><!--*/
-     function CodeHighlightOn(elem, id)
-     {
-       var target = document.getElementById(id);
-       if(null != target) {
-         elem.classList.add("code-highlighted");
-         target.classList.add("code-highlighted");
-       }
-     }
-     function CodeHighlightOff(elem, id)
-     {
-       var target = document.getElementById(id);
-       if(null != target) {
-         elem.classList.remove("code-highlighted");
-         target.classList.remove("code-highlighted");
-       }
-     }
-    /*]]>*///-->
-// @license-end
-</script>
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        displayAlign: "center",
-        displayIndent: "0em",
+<link rel="stylesheet" href="./reveal.js/dist/reveal.css"/>
 
-        "HTML-CSS": { scale: 100,
-                        linebreaks: { automatic: "false" },
-                        webFont: "TeX"
-                       },
-        SVG: {scale: 100,
-              linebreaks: { automatic: "false" },
-              font: "TeX"},
-        NativeMML: {scale: 100},
-        TeX: { equationNumbers: {autoNumber: "AMS"},
-               MultLineWidth: "85%",
-               TagSide: "right",
-               TagIndent: ".8em"
-             }
-});
+<link rel="stylesheet" href="./reveal.js/dist/theme/black.css" id="theme"/>
+
+<link rel="stylesheet" href="local.css"/>
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = './reveal.js/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
 </script>
-<script type="text/javascript"
-        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<style>pre.src{background:#000000;color:white;} </style>
 </head>
 <body>
-<div id="content">
-<h1 class="title">An untyped λ-calculus, <i>UL</i>
-<br />
-<span class="subtitle">Principles of Programming Languages</span>
-</h1>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide"><h2 class="title">An untyped λ-calculus, <i>UL</i></h2>
+   <h3>Principles of Programming Languages</h3>
+   <h4>Mark Armstrong</h4>
+   <h5>Fall 2020</h5>
+</section>
 
-<div id="outline-container-Preamble" class="outline-2">
+<section>
+<section id="slide-Preamble">
 <h2 id="Preamble"><span class="section-number-2">1</span> Preamble</h2>
-<div class="outline-text-2" id="text-Preamble">
-</div>
-
-<div id="outline-container-Notable-references" class="outline-3">
+</section>
+<section id="slide-Notable-references">
 <h3 id="Notable-references"><span class="section-number-3">1.1</span> <span class="todo TODO">TODO</span> Notable references</h3>
-<div class="outline-text-3" id="text-Notable-references">
-<ul class="org-ul">
+<ul>
 <li>Benjamin Pierce,
 “<a href="https://ebookcentral.proquest.com/lib/mcmu/detail.action?docID=3338823">Types and Programming Languages</a>”
-<ul class="org-ul">
+<ul>
 <li>Chapter 5, The Untyped Lambda-Calculus</li>
-</ul></li>
-</ul>
-</div>
-</div>
 
-<div id="outline-container-Table-of-contents" class="outline-3">
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-Table-of-contents">
 <h3 id="Table-of-contents"><span class="section-number-3">1.2</span> <span class="todo TODO">TODO</span> Table of contents</h3>
-<div class="outline-text-3" id="text-Table-of-contents">
 <font size="-1">
-<div class="scriptsize" id="org2d51898">
-<ul class="org-ul">
-<li><a href="#Preamble">Preamble</a></li>
+<div class="scriptsize" id="org9235424">
+<ul>
+<li><a href="#/slide-Preamble">Preamble</a></li>
+
 </ul>
 
 </div>
 </font>
-</div>
-</div>
-</div>
 
-<div id="outline-container-Introduction" class="outline-2">
+</section>
+</section>
+<section>
+<section id="slide-Introduction">
 <h2 id="Introduction"><span class="section-number-2">2</span> Introduction</h2>
-<div class="outline-text-2" id="text-Introduction">
 <p>
 In this section we construct our first simple programming language,
 an untyped λ-calculus (lambda calculus).
@@ -295,174 +81,180 @@ More specifically, we construct a λ-calculus
 without (static) type checking (enforcement),
 but including the natural numbers and booleans.
 </p>
-</div>
 
-<div id="outline-container-What-is-the-λ-calculus?" class="outline-3">
+</section>
+<section id="slide-What-is-the-λ-calculus?">
 <h3 id="What-is-the-λ-calculus?"><span class="section-number-3">2.1</span> What is the λ-calculus?</h3>
-<div class="outline-text-3" id="text-What-is-the-λ-calculus?">
 <p>
 The λ-calculus is, put simply,
 a notation for forming and applying functions.
 </p>
-<ul class="org-ul">
+<ul>
 <li>Because the function (procedure, method, subroutine) abstraction
 gives us a means of representing control flow,
 if we have a means of representing data,
 the λ-calculus is a Turing-complete model of computation.</li>
-</ul>
-</div>
-</div>
 
-<div id="outline-container-History" class="outline-3">
+</ul>
+
+</section>
+<section id="slide-History">
 <h3 id="History"><span class="section-number-3">2.2</span> History</h3>
-<div class="outline-text-3" id="text-History">
 <p>
 The (basic) λ-calculus as we know it was famously invented
 by Alonzo Church in the 1920s.
 </p>
-<ul class="org-ul">
+<ul>
 <li>This was one culmination of a great deal of work by
 mathematicians investigating the foundations of mathematics.</li>
+
 </ul>
 
 <p>
 As mentioned, the λ-calculus is a Turing-complete model of computation.
 </p>
-<ul class="org-ul">
+<ul>
 <li>Other models proposed around the same time include
-<ul class="org-ul">
+<ul>
 <li>the Turing machine itself (due to Alan Turing), and</li>
 <li>the general recursive functions (due to Stephen Cole Kleene.)</li>
+
 </ul></li>
 <li>Hence the “Church” in the “Church-Turing thesis”.</li>
+
 </ul>
 
 <p>
 The λ-calculus has since seen widespread use in the study and design
 of programming languages.
 </p>
-<ul class="org-ul">
+<ul>
 <li>It is useful both as a simple programming language, and</li>
 <li>as a mathematical object about which statements can be proved.</li>
-</ul>
-</div>
-</div>
 
-<div id="outline-container-Descendents-of-the-λ-calculus" class="outline-3">
+</ul>
+
+</section>
+<section id="slide-Descendents-of-the-λ-calculus">
 <h3 id="Descendents-of-the-λ-calculus"><span class="section-number-3">2.3</span> Descendents of the λ-calculus</h3>
-<div class="outline-text-3" id="text-Descendents-of-the-λ-calculus">
 <p>
 Pure functional programming languages are clearly descended
 from the λ-calculus; the λ-calculus embodies their model of computation.
 </p>
-<ul class="org-ul">
+<ul>
 <li>Additionally, it is common to have a “lambda” operator
 which allows definition of anonymous functions.</li>
+
 </ul>
 
 <p>
 Imperative languages instead use a model of computation
 based on the <i>Von-Neumann</i> architecture,
 </p>
-<ul class="org-ul">
+<ul>
 <li>which matches our real-world computing devices!
-<ul class="org-ul">
+<ul>
 <li>Hence imperative languages are naturally lower-level;
 one level of abstraction closer to the real computer
 that functional languages, which must be translated
 to imperative code in order to run.</li>
+
 </ul></li>
 <li>This model of computation is a natural extension
 of the Turing machine, rather than the λ-calculus
 or recursive functions.</li>
-</ul>
-</div>
-</div>
-</div>
 
-<div id="outline-container-The-basics" class="outline-2">
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-The-basics">
 <h2 id="The-basics"><span class="section-number-2">3</span> The basics</h2>
-<div class="outline-text-2" id="text-The-basics">
 <p>
 In our discussion of abstractions, we mentioned
 the abstraction of the function/method/procedure/subroutine.
 </p>
-<ul class="org-ul">
+<ul>
 <li>The functional abstraction provides a means
 to represent control flow.</li>
+
 </ul>
 
 <p>
 In its pure version, every term in the λ-calculus
 is a function.
 </p>
-<ul class="org-ul">
+<ul>
 <li>In order for such a system to be at all useful,
 it must of course support higher-order functions;
 functions may be applied to functions.</li>
 <li>Values such as booleans and natural numbers
 are <i>encoded</i> (represented) by functions.</li>
-</ul>
-</div>
 
-<div id="outline-container-The-terms" class="outline-3">
+</ul>
+
+</section>
+<section id="slide-The-terms">
 <h3 id="The-terms"><span class="section-number-3">3.1</span> The terms</h3>
-<div class="outline-text-3" id="text-The-terms">
 <p>
 The pure untyped λ-calculus has just three sort of terms;
 </p>
-<ul class="org-ul">
+<ul>
 <li>variables such as \(x\), \(y\), \(z\),</li>
 <li><i>λ-abstractions</i>, of the form \(λ x → t\),
-<ul class="org-ul">
+<ul>
 <li>(it is also common to use \(․\) in place of \(→\);
 we prefer \(→\) as it emphasises that these are functions)</li>
 <li>where \(x\) is a variable and \(t\) is a λ-term, and</li>
+
 </ul></li>
 <li>applications of the form \(t u\)
-<ul class="org-ul">
+<ul>
 <li>where \(t\) and \(u\) are λ-terms.</li>
-</ul></li>
-</ul>
-</div>
-</div>
 
-<div id="outline-container-Informal-meaning-of-terms" class="outline-3">
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-Informal-meaning-of-terms">
 <h3 id="Informal-meaning-of-terms"><span class="section-number-3">3.2</span> Informal meaning of terms</h3>
-<div class="outline-text-3" id="text-Informal-meaning-of-terms">
 <p>
 The meaning of each term is, informally:
 </p>
-<ul class="org-ul">
+<ul>
 <li>A λ-abstraction \(λ x → t\) represents a function of one argument,
 which, when applied to a term \(u\), substitutes
 all free occurrences of \(x\) in \(t\) with \(u\).</li>
 <li>An application applies the term \(u\) to the function (term) \(t\).</li>
 <li>A variable on its own (a free variable) has no further meaning.
-<ul class="org-ul">
+<ul>
 <li>Variables are intended to be <i>bound</i>.</li>
 <li>“Top-level” free variables have no meaning (on their own).
-<ul class="org-ul">
+<ul>
 <li>Until we construct a new term by λ-abstracting them.</li>
-</ul></li>
-</ul></li>
-</ul>
-</div>
-</div>
 
-<div id="outline-container-Variable-binding;-free-and-bound-variables" class="outline-3">
+</ul></li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-Variable-binding;-free-and-bound-variables">
 <h3 id="Variable-binding;-free-and-bound-variables"><span class="section-number-3">3.3</span> Variable binding; free and bound variables</h3>
-<div class="outline-text-3" id="text-Variable-binding;-free-and-bound-variables">
 <p>
 Recall the notion of free and bound variables.
 </p>
-<ul class="org-ul">
+<ul>
 <li>A <i>variable binder</i> is an operator which operates on
 some number of <i>variables</i> as well as <i>terms</i>.
-<ul class="org-ul">
+<ul>
 <li>Examples include quantifiers
 such as \(∀\_❙\_•\_\), \(∃\_❙\_•\_\) and \(∑\_❙\_•\_\),
 and substitution \(\_[\_→\_]\).</li>
+
 </ul></li>
 <li>(For simplicity, let us assume below that variable binders
 act on a single variable and a single term.)</li>
@@ -472,81 +264,80 @@ a subterm of the form \(B x • u\) is called <i>free</i>.</li>
 <li>In a term \(t\) with a subterm of the form \(B x • u\),
 all free occurrences of the variable \(x\) that occur within \(u\)
 are <i>bound</i> by that instance of the binder \(B\).
-<ul class="org-ul">
+<ul>
 <li>Note: instances of \(x\) which are bound elsewhere are not bound
 by that \(B\).</li>
-</ul></li>
-</ul>
-</div>
-</div>
 
-<div id="outline-container-Picturing-variable-bindings" class="outline-3">
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-Picturing-variable-bindings">
 <h3 id="Picturing-variable-bindings"><span class="section-number-3">3.4</span> Picturing variable bindings</h3>
-<div class="outline-text-3" id="text-Picturing-variable-bindings">
 <p>
 For instance, in the language of predicate logic,
 we can view the variables bound like so.
 </p>
 
-<div id="org0cb6e85" class="figure">
+<div id="org9cc72ae" class="figure">
 <p><img src="media/variable-binding.png" alt="variable-binding.png" />
 </p>
 </div>
-</div>
-</div>
 
-<div id="outline-container-Representing-functions-with-multiple-arguments" class="outline-3">
+</section>
+<section id="slide-Representing-functions-with-multiple-arguments">
 <h3 id="Representing-functions-with-multiple-arguments"><span class="section-number-3">3.5</span> Representing functions with multiple arguments</h3>
-<div class="outline-text-3" id="text-Representing-functions-with-multiple-arguments">
 <p>
 You may have noticed that our method for constructing function
 in the λ-calculus (the λ-abstraction)
 only allows us to construct single-argument functions.
 </p>
-<ul class="org-ul">
+<ul>
 <li>That is, we do not have terms such as \(λ(x,y) → t\).</li>
 <li>This may seem restrictive,</li>
 <li>but it turns out to be sufficient.
 And it keeps the language simpler theoretically.</li>
-</ul>
-</div>
-</div>
 
-<div id="outline-container-Currying" class="outline-3">
+</ul>
+
+</section>
+<section id="slide-Currying">
 <h3 id="Currying"><span class="section-number-3">3.6</span> Currying</h3>
-<div class="outline-text-3" id="text-Currying">
 <p>
 Rather than complicating our set of terms by admitting
 functions of multiple arguments, we use the technique
 of <i>currying</i> functions.
 </p>
-<ul class="org-ul">
+<ul>
 <li>Consider a function \(f : A × B → C\).</li>
 <li>We can substitute a new function \(f′ : A → (B → C)\)
 for \(f\).
-<ul class="org-ul">
+<ul>
 <li>(By convention, function arrows associate to the right,
 so this is equivalent to \(f : A → B → C\).)</li>
 <li>So \(f′\) is a function which takes an \(A\) and
 <i>produces a function</i> of type \(B → C\).
-<ul class="org-ul">
+<ul>
 <li>We usually don't give this new function a name.</li>
 <li>We can consider this new function as having a <i>fixed</i> value
 for the \(A\) argument that was provided.</li>
 <li>(So we must be able to represent higher-order functions
 to use Currying.)</li>
-</ul></li>
-</ul></li>
-</ul>
-</div>
-</div>
 
-<div id="outline-container-Examples-of-λ-terms" class="outline-3">
+</ul></li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-Examples-of-λ-terms">
 <h3 id="Examples-of-λ-terms"><span class="section-number-3">3.7</span> Examples of λ-terms</h3>
-<div class="outline-text-3" id="text-Examples-of-λ-terms">
 <div class="org-src-container">
-<pre class="src src-text">&#955; x &#8594; x
-</pre>
+
+<pre  class="src src-text"><code trim>&#955; x &#8594; x
+</code></pre>
 </div>
 <p>
 is a familiar function; it is the <i>identity</i> function.
@@ -554,29 +345,29 @@ We will use the name <code>id</code> to refer to this function.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-text">&#955; x &#8594; &#955; y &#8594; x
-</pre>
+
+<pre  class="src src-text"><code trim>&#955; x &#8594; &#955; y &#8594; x
+</code></pre>
 </div>
 
 <div class="org-src-container">
-<pre class="src src-text">&#955; x &#8594; &#955; y &#8594; y
-</pre>
-</div>
-</div>
-</div>
+
+<pre  class="src src-text"><code trim>&#955; x &#8594; &#955; y &#8594; y
+</code></pre>
 </div>
 
-<div id="outline-container-The-formal-syntax-and-semantics-of-/UL/" class="outline-2">
+</section>
+</section>
+<section>
+<section id="slide-The-formal-syntax-and-semantics-of-/UL/">
 <h2 id="The-formal-syntax-and-semantics-of-/UL/"><span class="section-number-2">4</span> The formal syntax and semantics of <i>UL</i></h2>
-<div class="outline-text-2" id="text-The-formal-syntax-and-semantics-of-/UL/">
-</div>
-
-<div id="outline-container-A-grammar-for-/UL/" class="outline-3">
+</section>
+<section id="slide-A-grammar-for-/UL/">
 <h3 id="A-grammar-for-/UL/"><span class="section-number-3">4.1</span> A grammar for <i>UL</i></h3>
-<div class="outline-text-3" id="text-A-grammar-for-/UL/">
 <div class="org-src-container">
-<pre class="src src-text"><span style="color: #00cd68;">&#10216;</span>term<span style="color: #00cd68;">&#10217;</span> &#8759;= var | &#955; var &#8594; <span style="color: #00cd68;">&#10216;</span>term<span style="color: #00cd68;">&#10217;</span> | <span style="color: #00cd68;">&#10216;</span>term<span style="color: #00cd68;">&#10217;</span> <span style="color: #00cd68;">&#10216;</span>term<span style="color: #00cd68;">&#10217;</span>
-</pre>
+
+<pre  class="src src-text"><code trim><span style="color: #00cd68;">&#10216;</span>term<span style="color: #00cd68;">&#10217;</span> &#8759;= var | &#955; var &#8594; <span style="color: #00cd68;">&#10216;</span>term<span style="color: #00cd68;">&#10217;</span> | <span style="color: #00cd68;">&#10216;</span>term<span style="color: #00cd68;">&#10217;</span> <span style="color: #00cd68;">&#10216;</span>term<span style="color: #00cd68;">&#10217;</span>
+</code></pre>
 </div>
 
 <p>
@@ -584,24 +375,23 @@ In the case that we are restricted to ASCII characters,
 we will write abstraction as
 </p>
 <div class="org-src-container">
-<pre class="src src-text"><span style="color: #00cd68;">&#8220;</span>lambda<span style="color: #00cd68;">&#8221;</span> var . <span style="color: #00cd68;">&#10216;</span>term<span style="color: #00cd68;">&#10217;</span>
-</pre>
-</div>
-</div>
+
+<pre  class="src src-text"><code trim><span style="color: #00cd68;">&#8220;</span>lambda<span style="color: #00cd68;">&#8221;</span> var . <span style="color: #00cd68;">&#10216;</span>term<span style="color: #00cd68;">&#10217;</span>
+</code></pre>
 </div>
 
-<div id="outline-container-The-operational-semantics-of-/UL/" class="outline-3">
+</section>
+<section id="slide-The-operational-semantics-of-/UL/">
 <h3 id="The-operational-semantics-of-/UL/"><span class="section-number-3">4.2</span> The operational semantics of <i>UL</i></h3>
-<div class="outline-text-3" id="text-The-operational-semantics-of-/UL/">
 <p>
 The semantics of the λ-calculus is given by a <i>reduction strategy</i>;
 </p>
-<ul class="org-ul">
+<ul>
 <li>A reduction is a transformation from a term of the form
-<ul class="org-ul">
+<ul>
 <li>\((λ x → t₁) t₂\) to</li>
 <li>\(t₁[x ≔ t₂]\)
-<ul class="org-ul">
+<ul>
 <li>(There are various syntactic representations of substitutions;
 we prefer to the substitution operation to come after the term
 where the substitution is carried out (\(t₁\)), and to use
@@ -610,62 +400,75 @@ the “becomes” operator to imply free instance of \(x\) become \(t₂\).</li>
 substitution operation coming before the term,
 and using the “maps to” operator instead of “becomes”.</li>
 <li>You may also see forms such as \([x\backslash t₁]\) or \([t₁/x]\).)</li>
+
 </ul></li>
+
 </ul></li>
+
 </ul>
-</div>
-</div>
 
-<div id="outline-container-Reduction-strategies" class="outline-3">
+</section>
+<section id="slide-Reduction-strategies">
 <h3 id="Reduction-strategies"><span class="section-number-3">4.3</span> Reduction strategies</h3>
-<div class="outline-text-3" id="text-Reduction-strategies">
 <p>
 :TODO:
 </p>
-</div>
-</div>
-</div>
 
-<div id="outline-container-α-conversion,-β-reduction-and-η-conversion" class="outline-2">
+</section>
+</section>
+<section>
+<section id="slide-α-conversion,-β-reduction-and-η-conversion">
 <h2 id="α-conversion,-β-reduction-and-η-conversion"><span class="section-number-2">5</span> α-conversion, β-reduction and η-conversion</h2>
-<div class="outline-text-2" id="text-α-conversion,-β-reduction-and-η-conversion">
 <p>
 :TODO:
 </p>
-</div>
-</div>
 
-<div id="outline-container-Topics-of-theoretical-interest" class="outline-2">
+</section>
+</section>
+<section>
+<section id="slide-Topics-of-theoretical-interest">
 <h2 id="Topics-of-theoretical-interest"><span class="section-number-2">6</span> Topics of theoretical interest</h2>
-<div class="outline-text-2" id="text-Topics-of-theoretical-interest">
-</div>
-
-<div id="outline-container-The-pure-λ-calculus" class="outline-3">
+</section>
+<section id="slide-The-pure-λ-calculus">
 <h3 id="The-pure-λ-calculus"><span class="section-number-3">6.1</span> The pure λ-calculus</h3>
-<div class="outline-text-3" id="text-The-pure-λ-calculus">
 <p>
 :TODO:
 </p>
-</div>
-</div>
 
-<div id="outline-container-Nameless-representation-of-terms" class="outline-3">
+</section>
+<section id="slide-Nameless-representation-of-terms">
 <h3 id="Nameless-representation-of-terms"><span class="section-number-3">6.2</span> Nameless representation of terms</h3>
-<div class="outline-text-3" id="text-Nameless-representation-of-terms">
 <p>
 :TODO:
 </p>
+</section>
+</section>
 </div>
 </div>
-</div>
-</div>
-<div id="postamble" class="status">
-<p class="author">Author: Mark Armstrong</p>
-     <p class="author">Contact: <a href="mailto:markparmstrong@gmail.com">markparmstrong@gmail.com</a></p>
-     <p class="date">Original date: Fall 2020</p>
-     <p class="date">Last updated: 2020-09-30 Wed 19:24</p>
-     <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.90 (<a href="https://orgmode.org">Org</a> mode 9.4)</p>
-     <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
-</div>
+<script src="./reveal.js/dist/reveal.js"></script>
+<script src="./reveal.js/plugin/markdown/markdown.js"></script>
+<script src="./reveal.js/plugin/zoom/zoom.js"></script>
+<script src="./reveal.js/plugin/notes/notes.js"></script>
+
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+plugins: [RevealMarkdown,RevealZoom,RevealNotes],
+width:1600, height:900, controlsLayout:'edges',
+margin: 0.1, minScale:0.125, maxScale:5,
+mouseWheel: true,
+multiplex: {
+    secret: '', // null if client
+    id: '', // id, obtained from socket.io server
+    url: '' // Location of socket.io server
+},
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+]
+});
+</script>
 </body>
 </html>
