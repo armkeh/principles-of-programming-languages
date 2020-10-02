@@ -1,0 +1,200 @@
+#+Title: Infinite data in Scala
+#+Author: Mark Armstrong
+#+Description: We discuss the notion of “infinite data”, and show
+#+Description: how we can represent such data in Scala.
+#+SETUPFILE: ../../org-html-themes/setup/theme-readtheorg-local.setup
+
+* LaTeX settings                                :noexport:
+
+#+LaTeX_header: \usepackage{unicode-math}
+#+LaTeX_header: \usepackage{unicode}
+
+* Introduction
+:PROPERTIES:
+:CUSTOM_ID: Introduction
+:END:
+
+These notes were created for, and in some parts *during*,
+the lecture on October 2nd and the following tutorials.
+
+* Motivation
+:PROPERTIES:
+:CUSTOM_ID: Motivation
+:END:
+
+In our current lectures, we have been discussing the λ-calculus,
+and as of the time of writing this, we are about to discuss
+reduction strategies.
+
+The reduction strategies used in the λ-calculus
+correspond to the parameter-passing methods
+used in conventional programming languages; specifically:
+
+* Call by value and call by name
+:PROPERTIES:
+:CUSTOM_ID: Call-by-value-and-call-by-name
+:END:
+
+Today, we are interested in the
+“call by value” and “call by name”
+reduction strategies/parameter-passing methods.
+- Under a “call by value” strategy,
+  a function application is only evaluated after
+  its arguments have been reduced to values.
+- Under a “call by name” (or “call by need”) strategy,
+  no arguments in a function application are evaluated before
+  the function is applied.
+  - (And no reduction is allowed inside abstractions.)
+
+(Under both schemes, the leftmost, outermost valid reduction is done first.)
+
+We can see the difference by considering a sample redex
+in the λ-calculus.
+#+begin_src text
+(λ x → x x)((λ y → y) (λ z → z))
+#+end_src
+Notice that there are two possible applications to carry out;
+applying ~y~ to ~λ x → x~, or applying ~(λ x → x) y~ to ~λ x → x x~.
+
+A call-by-value strategy requires that the right side be evaluated first;
+“a function application is only evaluated
+after its arguments have been reduced to values”.
+So we cannot perform the outmost application until the term on the right
+is reduced.
+#+begin_src text
+  (λ x → x x)((λ y → y) (λ z → z))
+⟶ (λ x → x x)(λ z → z)
+⟶ (λ z → z) (λ z → z)
+→ λ z → z
+= id
+#+end_src
+
+A call-by-need strategy instead requires that the outside
+application is evaluated first;
+“no arguments in a function application are evaluated before
+the function is applied”.
+So we cannot perform the application in the term on the right
+until we apply the outermost application.
+#+begin_src text
+  (λ x → x x)((λ y → y) (λ z → z))
+⟶ ((λ y → y) (λ z → z)) ((λ y → y) (λ z → z))
+→ (λ z → z) ((λ y → y) (λ z → z))
+→ (λ y → y) (λ z → z)
+→ λ z → z
+= id
+#+end_src
+
+* Parameter passing in Scala
+:PROPERTIES:
+:CUSTOM_ID: Parameter-passing-in-Scala
+:END:
+
+By default, Scala uses a call-by-value strategy.
+#+begin_src amm :results none
+def f(x: Int): Unit = { println("Called f with argument"); println(x) }
+#+end_src
+
+You may /opt-in/ to call by name using what they call “by name parameters”;
+simply prepend ~=>~ to the type.
+#+begin_src amm :results none
+def g(y: => Int) : Unit = { println("Called g with argument"); println(y) }
+#+end_src
+
+Let us create a value that is not immediately evaluated,
+and which communicates when it is evaluated,
+so we can use it as an argument to test out our above definitions.
+One way to do this is by defining it as a method with no parameters.
+#+begin_src amm :results none
+def x: Int = { println("Evaluated x"); 1 }
+#+end_src
+
+Scala also has “lazy” values, which are not evaluated until used.
+:TODO: how is this different than x?
+#+begin_src amm :results none
+lazy val y: Int = { println("Evaluated y"); 2 }
+#+end_src
+
+* What's the point?
+:PROPERTIES:
+:CUSTOM_ID: What's-the-point?
+:END:
+
+Why do we want to be allowed to use call by name semantics
+and lazy values?
+
+It may make some tasks easier conceptually;
+for instance, one common use case involves a function
+on the natural numbers, such as one that returns the “nth” prime.
+
+We could certainly write such a function,
+but an alternative approach is to /lazily/ construct
+the list of all primes by /filtering/ the list of all naturals.
+Since it is lazily constructed, no space is used
+until we begin to look up elements in the list.
+(Code courtesy of this [[https://stackoverflow.com/q/15594227/2041536][StackOverflow]] post,
+modified to work with ~LazyList~.)
+#+begin_src amm :results none
+lazy val ps: LazyList[Int] =
+  2 #:: LazyList.from(3).filter(i => ps.takeWhile{j => j * j <= i}.forall{ k => i % k > 0});
+#+end_src
+
+And, because lazy data is not re-evaluated,
+once we have looked up elements, the already calculated portion
+of the list is automatically cached for us!
+This is (in some instances) an advantage over the function.
+
+Now, we have subtlely used another concept enabled by lazy values
+and call-by-name semantics in the above: an infinite list!
+
+* Infinite data!
+:PROPERTIES:
+:CUSTOM_ID: Infinite-data!
+:END:
+
+** Not with lists…
+:PROPERTIES:
+:CUSTOM_ID: Not-with-lists…
+:END:
+
+When we discuss lists in computer science,
+they are usually defined as having /finite/ length.
+
+Let us try to break away from that convention.
+We can define an infinite list by using recursion.
+But what does you intuition tell you will happen here?
+#+begin_src amm :results none
+lazy val ones: List[Int] = 1 :: ones
+#+end_src
+
+** …instead, with lazy lists or streams!
+:PROPERTIES:
+:CUSTOM_ID: …instead,-with-lazy-lists-or-streams!
+:END:
+
+The [[https://www.scala-lang.org/api/current/scala/collection/immutable/LazyList.html][lazy list]] type and
+the (now deprecated in favour of lazy lists) [[https://www.scala-lang.org/api/current/scala/collection/immutable/Stream.html][Stream]] type
+actually allow us to define such lists.
+#+begin_src amm :results none
+lazy val ones: LazyList[Int] = 1 #:: ones
+#+end_src
+
+We can then make these lists more interesting
+by filtering, zipping, etc.;
+or by writing more interesting recursive definitions.
+
+* Implementing our own infinite datatypes
+:PROPERTIES:
+:CUSTOM_ID: Implementing-our-own-infinite-datatypes
+:END:
+
+We certainly can implement our own types of infinite data in Scala.
+
+Unfortunately, we cannot do so using the “algebraic datatype”
+approach we have been using.
+And at least in this exercise, we are not going to
+investigate how to construct these types in Scala.
+
+In other functional languages, in particular Haskell,
+which uses call-by-need semantics (a more performant
+take on call-by-name), defining your own infinite datatypes
+is simpler.

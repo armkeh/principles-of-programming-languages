@@ -12,6 +12,11 @@ better viewed at
 
 ## October
 
+  - October 2nd
+    
+      - Notes for today's lecture on infinite data in Scala have been
+        posted under “Literate programs”.
+
   - October 1st
     
       - Docker setup has been added for the homework 3 testing.
@@ -425,6 +430,17 @@ tutorials are available here. Particularly relevant portions of raw code
 are also included.
 
 ## Lectures
+
+### October 2nd – Infinite data in Scala
+
+  - [HTML](./notes/live-coding/10-02-infinite-data-in-Scala.html)
+  - [PDF](./notes/live-coding/10-02-infinite-data-in-Scala.pdf)
+  - [Org
+    plaintext](./notes/live-coding/10-02-infinite-data-in-Scala.org)
+
+Relevant raw code:
+
+:TODO:
 
 ### September 25th – Trees in Prolog
 
