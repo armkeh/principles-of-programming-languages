@@ -16,6 +16,12 @@ better viewed at
     
       - Notes for today's lecture on infinite data in Scala have been
         posted under “Literate programs”.
+      - Unfortunately, I'm not on track to release homework 4 this
+        evening; I need to iron out some details to try and make sure
+        they are right the first time.
+          - It should be released tomorrow by end of day.
+          - In any case, this homework is not due until the Monday after
+            reading week, so there will be lots of time to work on it.
 
   - October 1st
     
