@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-10-02 Fri 13:24 -->
+<!-- 2020-10-05 Mon 12:36 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Infinite data in Scala</title>
@@ -244,7 +244,13 @@ how we can represent such data in Scala."
 <li><a href="#…instead,-with-lazy-lists-or-streams!">6.2. …instead, with lazy lists or streams!</a></li>
 </ul>
 </li>
-<li><a href="#Implementing-our-own-infinite-datatypes">7. Implementing our own infinite datatypes</a></li>
+<li><a href="#Implementing-our-own-infinite-datatypes">7. <del>(Not)</del> Implementing our own infinite datatypes</a>
+<ul>
+<li><a href="#The-approach">7.1. The approach</a></li>
+<li><a href="#~case-object~?">7.2. <code>case object</code>?</a></li>
+<li><a href="#Defining-some-methods-on-our-streams">7.3. Defining some methods on our streams</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -271,7 +277,7 @@ reduction strategies.
 <p>
 The reduction strategies used in the λ-calculus
 correspond to the parameter-passing methods
-used in conventional programming languages; specifically:
+used in conventional programming languages.
 </p>
 </div>
 </div>
@@ -285,10 +291,10 @@ Today, we are interested in the
 reduction strategies/parameter-passing methods.
 </p>
 <ul class="org-ul">
-<li>Under a “call by value” strategy,
+<li>Under “call by value” semantics,
 a function application is only evaluated after
 its arguments have been reduced to values.</li>
-<li>Under a “call by name” (or “call by need”) strategy,
+<li>Under “call by name” (or “call by need”) semantics,
 no arguments in a function application are evaluated before
 the function is applied.
 <ul class="org-ul">
@@ -310,14 +316,15 @@ in the λ-calculus.
 </div>
 <p>
 Notice that there are two possible applications to carry out;
-applying <code>y</code> to <code>λ x → x</code>, or applying <code>(λ x → x) y</code> to <code>λ x → x x</code>.
+applying <code>λ z → z</code> to <code>λ y → y</code>, or
+applying <code>(λ y → y) (λ z → z)</code> to <code>λ x → x x</code>.
 </p>
 
 <p>
-A call-by-value strategy requires that the right side be evaluated first;
+A call-by-value semantics requires that the right side be evaluated first;
 “a function application is only evaluated
 after its arguments have been reduced to values”.
-So we cannot perform the outmost application until the term on the right
+So we cannot perform the outermost application until the term on the right
 is reduced.
 </p>
 <div class="org-src-container">
@@ -330,7 +337,7 @@ is reduced.
 </div>
 
 <p>
-A call-by-need strategy instead requires that the outside
+A call-by-name semantics instead requires that the outside
 application is evaluated first;
 “no arguments in a function application are evaluated before
 the function is applied”.
@@ -379,6 +386,9 @@ One way to do this is by defining it as a method with no parameters.
 <pre class="src src-amm"><span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">x</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Int</span> <span style="color: #b6a0ff;">=</span> <span style="color: #00cd68;">{</span> println<span style="color: #b6a0ff;">(</span><span style="color: #79a8ff;">"Evaluated x"</span><span style="color: #b6a0ff;">)</span>; <span style="color: #00bcff;">1</span> <span style="color: #00cd68;">}</span>
 </pre>
 </div>
+<p>
+:TODO: explain the term lazy
+</p>
 
 <p>
 Scala also has “lazy” values, which are not evaluated until used.
@@ -464,7 +474,7 @@ But what does you intuition tell you will happen here?
 <div class="outline-text-3" id="text-…instead,-with-lazy-lists-or-streams!">
 <p>
 The <a href="https://www.scala-lang.org/api/current/scala/collection/immutable/LazyList.html">lazy list</a> type and
-the (now deprecated in favour of lazy lists) <a href="https://www.scala-lang.org/api/current/scala/collection/immutable/Stream.html">Stream</a> type
+the <a href="https://www.scala-lang.org/api/current/scala/collection/immutable/Stream.html">stream</a> type (now deprecated in favour of lazy lists)
 actually allow us to define such lists.
 </p>
 <div class="org-src-container">
@@ -482,33 +492,86 @@ or by writing more interesting recursive definitions.
 </div>
 
 <div id="outline-container-Implementing-our-own-infinite-datatypes" class="outline-2">
-<h2 id="Implementing-our-own-infinite-datatypes"><span class="section-number-2">7</span> Implementing our own infinite datatypes</h2>
+<h2 id="Implementing-our-own-infinite-datatypes"><span class="section-number-2">7</span> <del>(Not)</del> Implementing our own infinite datatypes</h2>
 <div class="outline-text-2" id="text-Implementing-our-own-infinite-datatypes">
+</div>
+
+<div id="outline-container-The-approach" class="outline-3">
+<h3 id="The-approach"><span class="section-number-3">7.1</span> The approach</h3>
+<div class="outline-text-3" id="text-The-approach">
 <p>
-We certainly can implement our own types of infinite data in Scala.
+To implement such a type <code>T</code> with the algebraic datatype approach
+we have been using, we may use (recursive) parameters
+of the form <code>Unit =&gt; T</code>.
 </p>
 
 <p>
-Unfortunately, we cannot do so using the “algebraic datatype”
-approach we have been using.
-And at least in this exercise, we are not going to
-investigate how to construct these types in Scala.
+Function parameters are <i>never</i> evaluated until
+the function is invoked (called.)
+<b>This will approach will work in any language with
+higher-order functions.</b>
 </p>
 
 <p>
-In other functional languages, in particular Haskell,
-which uses call-by-need semantics (a more performant
-take on call-by-name), defining your own infinite datatypes
-is simpler.
+For example, we can define our own variant of streams.
 </p>
+<div class="org-src-container">
+<pre class="src src-amm"><span style="color: #f78fe7;">sealed</span> <span style="color: #b6a0ff;">trait</span> <span style="color: #f78fe7;">Stream</span><span style="color: #00cd68;">[</span>+<span style="color: #00bcff;">A</span><span style="color: #00cd68;">]</span> <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Stream is covariant (marked by the +)</span>
+<span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">object</span> <span style="color: #00bcff;">SNil</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">Stream</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">Nothing</span><span style="color: #00cd68;">]</span> <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">The singleton Nil object</span>
+<span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">Cons</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">](</span>a<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">A</span>, f<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Unit</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">Stream</span><span style="color: #b6a0ff;">[</span><span style="color: #00bcff;">A</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">Stream</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">]</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-~case-object~?" class="outline-3">
+<h3 id="~case-object~?"><span class="section-number-3">7.2</span> <code>case object</code>?</h3>
+<div class="outline-text-3" id="text-~case-object~?">
+<p>
+We adopt here and now the convention of making our base case
+a <code>case object</code>, rather than a <code>case class</code>.
+The difference is that there is exactly one instance of
+a <code>case object</code> (it is a singleton),
+whereas there can be many of a <code>case class</code>.
+Since there can only be one instance of <code>Nil</code>,
+this instance needs to be a member of <code>Stream[A]</code> for any <code>A</code>,
+so it must be a member of <code>Stream[Nothing]</code>, since <code>Nothing</code> is
+the only subtype of all types.
+This does require us to mark <code>Stream</code> as <i>covariant</i>,
+meaning that <code>Stream[A]</code> is a subtype of <code>Stream[B]</code> is <code>A</code> is a subtype of <code>B</code>.
+(We will discuss subtyping, variance and covariance
+in more detail later in the course.)
+</p>
+</div>
+</div>
+
+<div id="outline-container-Defining-some-methods-on-our-streams" class="outline-3">
+<h3 id="Defining-some-methods-on-our-streams"><span class="section-number-3">7.3</span> Defining some methods on our streams</h3>
+<div class="outline-text-3" id="text-Defining-some-methods-on-our-streams">
+<div class="org-src-container">
+<pre class="src src-amm"><span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">constantStream</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">](</span>a<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">A</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Stream</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">]</span> <span style="color: #b6a0ff;">=</span> <span style="color: #00bcff;">Cons</span><span style="color: #00cd68;">(</span>a, <span style="color: #b6a0ff;">_</span> <span style="color: #b6a0ff;">=&gt;</span> constantStream<span style="color: #b6a0ff;">(</span>a<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-amm"><span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">take</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">](</span>n<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Int</span>, s<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Stream</span><span style="color: #b6a0ff;">[</span><span style="color: #00bcff;">A</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">List</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">]</span> <span style="color: #b6a0ff;">=</span> s <span style="color: #b6a0ff;">match</span> <span style="color: #00cd68;">{</span>
+  <span style="color: #b6a0ff;">case</span> <span style="color: #00bcff;">SNil</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">Nil</span>
+  <span style="color: #b6a0ff;">case</span> <span style="color: #f78fe7;">Cons</span><span style="color: #b6a0ff;">(</span><span style="color: #00d3d0;">a</span>,<span style="color: #00d3d0;">f</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">=&gt;</span> n <span style="color: #b6a0ff;">match</span> <span style="color: #b6a0ff;">{</span>
+    <span style="color: #b6a0ff;">case</span> <span style="color: #00d3d0;">n</span> <span style="color: #b6a0ff;">if</span> n &gt; <span style="color: #00bcff;">0</span> <span style="color: #b6a0ff;">=&gt;</span> a :: take<span style="color: #6ae4b9;">(</span>n-1,f<span style="color: #f0ce43;">()</span><span style="color: #6ae4b9;">)</span>
+    <span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">_</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">Nil</span>
+    <span style="color: #b6a0ff;">}</span>
+  <span style="color: #00cd68;">}</span>
+</pre>
+</div>
+</div>
 </div>
 </div>
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Mark Armstrong</p>
-     <p class="author">Contact: <a href="mailto:armstmp@mcmaster.ca">armstmp@mcmaster.ca</a></p>
+     <p class="author">Contact: <a href="mailto:markparmstrong@gmail.com">markparmstrong@gmail.com</a></p>
      <p class="date">Original date: </p>
-     <p class="date">Last updated: 2020-10-02 Fri 13:23</p>
+     <p class="date">Last updated: 2020-10-05 Mon 10:22</p>
      <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.90 (<a href="https://orgmode.org">Org</a> mode 9.4)</p>
      <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

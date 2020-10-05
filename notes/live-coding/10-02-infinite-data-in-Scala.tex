@@ -1,4 +1,4 @@
-% Created 2020-10-02 Fri 13:23
+% Created 2020-10-05 Mon 12:35
 % Intended LaTeX compiler: lualatex
 \documentclass[11pt]{article}
 \usepackage{graphicx}
@@ -43,31 +43,30 @@
 
 
 \section{Introduction}
-\label{sec:orga6f503f}
+\label{sec:org7782e4a}
 These notes were created for, and in some parts \textbf{during},
 the lecture on October 2nd and the following tutorials.
 
 \section{Motivation}
-\label{sec:org8865573}
+\label{sec:org2d304a9}
 In our current lectures, we have been discussing the λ-calculus,
 and as of the time of writing this, we are about to discuss
 reduction strategies.
 
 The reduction strategies used in the λ-calculus
 correspond to the parameter-passing methods
-used in conventional programming languages; specifically:
+used in conventional programming languages.
 
 \section{Call by value and call by name}
-\label{sec:org11ed657}
-
+\label{sec:orgffcb1e1}
 Today, we are interested in the
 “call by value” and “call by name”
 reduction strategies/parameter-passing methods.
 \begin{itemize}
-\item Under a “call by value” strategy,
+\item Under “call by value” semantics,
 a function application is only evaluated after
 its arguments have been reduced to values.
-\item Under a “call by name” (or “call by need”) strategy,
+\item Under “call by name” (or “call by need”) semantics,
 no arguments in a function application are evaluated before
 the function is applied.
 \begin{itemize}
@@ -83,12 +82,13 @@ in the λ-calculus.
 (λ x → x x)((λ y → y) (λ z → z))
 \end{minted}
 Notice that there are two possible applications to carry out;
-applying \texttt{y} to \texttt{λ x → x}, or applying \texttt{(λ x → x) y} to \texttt{λ x → x x}.
+applying \texttt{λ z → z} to \texttt{λ y → y}, or
+applying \texttt{(λ y → y) (λ z → z)} to \texttt{λ x → x x}.
 
-A call-by-value strategy requires that the right side be evaluated first;
+A call-by-value semantics requires that the right side be evaluated first;
 “a function application is only evaluated
 after its arguments have been reduced to values”.
-So we cannot perform the outmost application until the term on the right
+So we cannot perform the outermost application until the term on the right
 is reduced.
 \begin{minted}[breaklines=true]{text}
   (λ x → x x)((λ y → y) (λ z → z))
@@ -98,7 +98,7 @@ is reduced.
 = id
 \end{minted}
 
-A call-by-need strategy instead requires that the outside
+A call-by-name semantics instead requires that the outside
 application is evaluated first;
 “no arguments in a function application are evaluated before
 the function is applied”.
@@ -114,8 +114,7 @@ until we apply the outermost application.
 \end{minted}
 
 \section{Parameter passing in Scala}
-\label{sec:orgaa8f79b}
-
+\label{sec:orgfc7dfc1}
 By default, Scala uses a call-by-value strategy.
 \begin{minted}[breaklines=true]{scala}
 def f(x: Int): Unit = { println("Called f with argument"); println(x) }
@@ -134,6 +133,7 @@ One way to do this is by defining it as a method with no parameters.
 \begin{minted}[breaklines=true]{scala}
 def x: Int = { println("Evaluated x"); 1 }
 \end{minted}
+:TODO: explain the term lazy
 
 Scala also has “lazy” values, which are not evaluated until used.
 :TODO: how is this different than x?
@@ -142,8 +142,7 @@ lazy val y: Int = { println("Evaluated y"); 2 }
 \end{minted}
 
 \section{What's the point?}
-\label{sec:org8363a6f}
-
+\label{sec:org85de006}
 Why do we want to be allowed to use call by name semantics
 and lazy values?
 
@@ -172,11 +171,9 @@ Now, we have subtlely used another concept enabled by lazy values
 and call-by-name semantics in the above: an infinite list!
 
 \section{Infinite data!}
-\label{sec:org8e94b3b}
-
+\label{sec:org8f2425e}
 \subsection{Not with lists…}
-\label{sec:orgadc97be}
-
+\label{sec:org0db599a}
 When we discuss lists in computer science,
 they are usually defined as having \emph{finite} length.
 
@@ -188,10 +185,9 @@ lazy val ones: List[Int] = 1 :: ones
 \end{minted}
 
 \subsection{…instead, with lazy lists or streams!}
-\label{sec:org61bd68e}
-
+\label{sec:org1bf6647}
 The \href{https://www.scala-lang.org/api/current/scala/collection/immutable/LazyList.html}{lazy list} type and
-the (now deprecated in favour of lazy lists) \href{https://www.scala-lang.org/api/current/scala/collection/immutable/Stream.html}{Stream} type
+the \href{https://www.scala-lang.org/api/current/scala/collection/immutable/Stream.html}{stream} type (now deprecated in favour of lazy lists)
 actually allow us to define such lists.
 \begin{minted}[breaklines=true]{scala}
 lazy val ones: LazyList[Int] = 1 #:: ones
@@ -201,18 +197,58 @@ We can then make these lists more interesting
 by filtering, zipping, etc.;
 or by writing more interesting recursive definitions.
 
-\section{Implementing our own infinite datatypes}
-\label{sec:org31e440d}
+\section{\sout{(Not)} Implementing our own infinite datatypes}
+\label{sec:org37017d7}
+\subsection{The approach}
+\label{sec:org300c87d}
 
-We certainly can implement our own types of infinite data in Scala.
+To implement such a type \texttt{T} with the algebraic datatype approach
+we have been using, we may use (recursive) parameters
+of the form \texttt{Unit => T}.
 
-Unfortunately, we cannot do so using the “algebraic datatype”
-approach we have been using.
-And at least in this exercise, we are not going to
-investigate how to construct these types in Scala.
+Function parameters are \emph{never} evaluated until
+the function is invoked (called.)
+\textbf{This will approach will work in any language with
+higher-order functions.}
 
-In other functional languages, in particular Haskell,
-which uses call-by-need semantics (a more performant
-take on call-by-name), defining your own infinite datatypes
-is simpler.
+For example, we can define our own variant of streams.
+\begin{minted}[breaklines=true]{scala}
+sealed trait Stream[+A] // Stream is covariant (marked by the +)
+case object SNil extends Stream[Nothing] // The singleton Nil object
+case class Cons[A](a: A, f: Unit => Stream[A]) extends Stream[A]
+\end{minted}
+
+\subsection{\texttt{case object}?}
+\label{sec:orge4f0d42}
+
+We adopt here and now the convention of making our base case
+a \texttt{case object}, rather than a \texttt{case class}.
+The difference is that there is exactly one instance of
+a \texttt{case object} (it is a singleton),
+whereas there can be many of a \texttt{case class}.
+Since there can only be one instance of \texttt{Nil},
+this instance needs to be a member of \texttt{Stream[A]} for any \texttt{A},
+so it must be a member of \texttt{Stream[Nothing]}, since \texttt{Nothing} is
+the only subtype of all types.
+This does require us to mark \texttt{Stream} as \emph{covariant},
+meaning that \texttt{Stream[A]} is a subtype of \texttt{Stream[B]} is \texttt{A} is a subtype of \texttt{B}.
+(We will discuss subtyping, variance and covariance
+in more detail later in the course.)
+
+\subsection{Defining some methods on our streams}
+\label{sec:orgca97ba6}
+
+\begin{minted}[breaklines=true]{scala}
+def constantStream[A](a: A): Stream[A] = Cons(a, _ => constantStream(a))
+\end{minted}
+
+\begin{minted}[breaklines=true]{scala}
+def take[A](n: Int, s: Stream[A]): List[A] = s match {
+  case SNil => Nil
+  case Cons(a,f) => n match {
+    case n if n > 0 => a :: take(n-1,f())
+    case _ => Nil
+    }
+  }
+\end{minted}
 \end{document}
