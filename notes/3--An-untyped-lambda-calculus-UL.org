@@ -445,7 +445,7 @@ A λ-term is said to be in /normal form/ if it cannot be reduced.
 :CUSTOM_ID: λ-encodings
 :END:
 
-** Preamble                                    :noexport:
+** Preamble                                    :ignore:
 
 As mentioned previously, in the pure λ-calculus,
 every term is a function.

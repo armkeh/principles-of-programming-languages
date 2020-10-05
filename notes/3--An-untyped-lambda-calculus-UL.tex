@@ -1,4 +1,4 @@
-% Created 2020-10-05 Mon 11:28
+% Created 2020-10-05 Mon 11:33
 % Intended LaTeX compiler: lualatex
 \documentclass[11pt]{article}
 \usepackage{graphicx}
@@ -45,9 +45,9 @@
 \maketitle
 
 \section{Preamble}
-\label{sec:org0e93231}
+\label{sec:org8a3d65c}
 \subsection{{\bfseries\sffamily TODO} Notable references}
-\label{sec:org8fe4b6e}
+\label{sec:orge020f69}
 \begin{itemize}
 \item Benjamin Pierce,
 “\href{https://ebookcentral.proquest.com/lib/mcmu/detail.action?docID=3338823}{Types and Programming Languages}”
@@ -57,15 +57,15 @@
 \end{itemize}
 
 \subsection{{\bfseries\sffamily TODO} Table of contents}
-\label{sec:orgd656f41}
+\label{sec:org8e28cbe}
 \begin{scriptsize}
 \begin{itemize}
-\item \hyperref[sec:org0e93231]{Preamble}
+\item \hyperref[sec:org8a3d65c]{Preamble}
 \end{itemize}
 \end{scriptsize}
 
 \section{Introduction}
-\label{sec:orged47818}
+\label{sec:orgc9a1d1a}
 In this section we construct our first simple programming language,
 an untyped λ-calculus (lambda calculus).
 
@@ -74,7 +74,7 @@ without (static) type checking (enforcement),
 but including the natural numbers and booleans.
 
 \subsection{What is the λ-calculus?}
-\label{sec:org461b8aa}
+\label{sec:org817a8a1}
 The λ-calculus is, put simply,
 a notation for forming and applying functions.
 \begin{itemize}
@@ -85,7 +85,7 @@ the λ-calculus is a Turing-complete model of computation.
 \end{itemize}
 
 \subsection{History}
-\label{sec:org29ffe07}
+\label{sec:org61153b8}
 The (basic) λ-calculus as we know it was famously invented
 by Alonzo Church in the 1920s.
 \begin{itemize}
@@ -111,7 +111,7 @@ of programming languages.
 \end{itemize}
 
 \subsection{Descendents of the λ-calculus}
-\label{sec:orge4b894f}
+\label{sec:org3bedc43}
 Pure functional programming languages are clearly descended
 from the λ-calculus; the λ-calculus embodies their model of computation.
 \begin{itemize}
@@ -135,7 +135,7 @@ or recursive functions.
 \end{itemize}
 
 \section{The basics}
-\label{sec:org7d228cc}
+\label{sec:orgd08110a}
 In our discussion of abstractions, we mentioned
 the abstraction of the function/method/procedure/subroutine.
 \begin{itemize}
@@ -154,7 +154,7 @@ are \emph{encoded} (represented) by functions.
 \end{itemize}
 
 \subsection{The terms}
-\label{sec:orga4ed486}
+\label{sec:org4fa43b3}
 The pure untyped λ-calculus has just three sort of terms;
 \begin{itemize}
 \item variables such as \(x\), \(y\), \(z\),
@@ -171,7 +171,7 @@ we prefer \(→\) as it emphasises that these are functions)
 \end{itemize}
 
 \subsection{Informal meaning of terms}
-\label{sec:orgea7246b}
+\label{sec:orge40ec07}
 The meaning of each term is, informally:
 \begin{itemize}
 \item A λ-abstraction \(λ x → t\) represents a function of one argument,
@@ -189,7 +189,7 @@ all free occurrences of \(x\) in \(t\) with \(u\).
 \end{itemize}
 
 \subsection{Variable binding; free and bound variables}
-\label{sec:org7bdd600}
+\label{sec:org4c0ae68}
 Recall the notion of free and bound variables.
 \begin{itemize}
 \item A \emph{variable binder} is an operator which operates on
@@ -214,7 +214,7 @@ by that \(B\).
 \end{itemize}
 
 \subsection{Picturing variable bindings}
-\label{sec:org6c4b077}
+\label{sec:org9e40614}
 For instance, in the language of predicate logic,
 we can view the variables bound like so.
 \begin{center}
@@ -222,7 +222,7 @@ we can view the variables bound like so.
 \end{center}
 
 \subsection{Representing functions with multiple arguments}
-\label{sec:org1c8ed60}
+\label{sec:orgb66067e}
 You may have noticed that our method for constructing function
 in the λ-calculus (the λ-abstraction)
 only allows us to construct single-argument functions.
@@ -234,7 +234,7 @@ And it keeps the language simpler theoretically.
 \end{itemize}
 
 \subsection{Currying}
-\label{sec:org369004c}
+\label{sec:orge26f12d}
 Rather than complicating our set of terms by admitting
 functions of multiple arguments, we use the technique
 of \emph{currying} functions.
@@ -258,7 +258,7 @@ to use Currying.)
 \end{itemize}
 
 \subsection{Examples of λ-terms}
-\label{sec:orgad9d208}
+\label{sec:org5c16ce4}
 \begin{minted}[breaklines=true]{text}
 λ x → x
 \end{minted}
@@ -274,7 +274,7 @@ We will use the name \texttt{id} to refer to this function.
 \end{minted}
 
 \section{The formal syntax and semantics of \emph{UL}}
-\label{sec:org3865f2d}
+\label{sec:org59061b7}
 We now discuss the formal semantics of the untyped λ-calculus;
 that is, we
 \begin{itemize}
@@ -284,7 +284,7 @@ that is, we
 
 
 \subsection{A grammar for \emph{UL}}
-\label{sec:orgb559362}
+\label{sec:org4e92fec}
 \begin{minted}[breaklines=true]{text}
 ⟨term⟩ ∷= var | λ var → ⟨term⟩ | ⟨term⟩ ⟨term⟩
 \end{minted}
@@ -296,7 +296,7 @@ we will write abstraction as
 \end{minted}
 
 \subsection{The operational semantics of \emph{UL}}
-\label{sec:org9b0366b}
+\label{sec:org6a42d97}
 A term of the form \((λ x → t₁) t₂\) is called a \emph{redex},
 meaning \emph{reducible expression}.
 
@@ -321,7 +321,7 @@ and using the “maps to” operator instead of “becomes”.
 \end{itemize}
 
 \subsection{Reduction strategies}
-\label{sec:org4569db3}
+\label{sec:org5f1c31e}
 Given an arbitrary term, there may be several subterms which are redexes,
 \begin{itemize}
 \item so we have a choice of what subterm to reduce.
@@ -345,7 +345,7 @@ and parameter passing methods.
 \end{itemize}
 
 \subsection{Reduction strategies: full β-reduction and normal order}
-\label{sec:org474d3f5}
+\label{sec:orga435b41}
 The \emph{full β-reduction} strategy is, essentially, to have no
 strategy at all.
 
@@ -355,7 +355,7 @@ The \emph{normal order} strategy enforces that the
 leftmost, outermost redex is always reduced first.
 
 \subsection{Reduction strategies: call by name and call by value}
-\label{sec:org5f24e5d}
+\label{sec:orgf76a00f}
 The \emph{call by name} strategy builds on the normal order strategy
 \begin{itemize}
 \item by mandating that no reductions take place inside abstractions.
@@ -372,7 +372,7 @@ cannot be reduced (is a value.)
 \end{itemize}
 
 \subsection{A formal description of call by value semantics}
-\label{sec:org9333882}
+\label{sec:org792090e}
 
 Let us use the convention that variable names involving
 \begin{itemize}
@@ -400,7 +400,7 @@ v₁ t₂ ⟶ v₁ t₂′
 \end{minted}
 
 \subsection{α-conversion and η-conversion}
-\label{sec:orgdbbde08}
+\label{sec:org37e8773}
 :TODO:
 
 
@@ -413,16 +413,36 @@ value (irreducible term.)
 :TODO:
 
 \subsection{Normalisation}
-\label{sec:orgcc4b1bf}
+\label{sec:orgb5accb7}
 
 A λ-term is said to be in \emph{normal form} if it cannot be reduced.
 
 :TODO:
 
 \section{λ-encodings}
-\label{sec:org477c1c8}
+\label{sec:org69b1c42}
+As mentioned previously, in the pure λ-calculus,
+every term is a function.
+\begin{itemize}
+\item There are no basic types of data.
+\end{itemize}
+
+So, we must have a way of representing any data as
+a function.
+\begin{itemize}
+\item We call these Church encodings.
+\end{itemize}
+
+We will show how to do this for
+\begin{itemize}
+\item booleans,
+\item pairs, and
+\item natural numbers,
+\end{itemize}
+and give some “combinators” which operate on these kinds of data.
+
 \subsection{Church booleans}
-\label{sec:org0caa518}
+\label{sec:orgdc36ca5}
 
 We define the following terms to represent boolean values.
 \begin{itemize}
@@ -447,7 +467,7 @@ is a “choice” between two options.
 \end{itemize}
 
 \subsection{Defining \texttt{if-then-else} using Church booleans}
-\label{sec:org21b7c0b}
+\label{sec:org5be900c}
 
 Since the Church encoded booleans already “perform” a choice,
 defining an “\texttt{if-then-else}” construct
@@ -469,23 +489,23 @@ of choosing between \texttt{v} and \texttt{w}.
 \end{itemize}
 
 \subsection{Pairs}
-\label{sec:org6ab3036}
+\label{sec:org6a31c37}
 
 :TODO:
 
 \subsection{Church numerals}
-\label{sec:orga3616f5}
+\label{sec:org07fd557}
 
 :TODO:
 
 \subsection{Addition and multiplication}
-\label{sec:org7d982f4}
+\label{sec:org84be5db}
 
 :TODO:
 
 \section{Enriching the calculus}
-\label{sec:orge4fd59a}
+\label{sec:org365888d}
 
 \section{}
-\label{sec:orga760ca3}
+\label{sec:org849d607}
 \end{document}
