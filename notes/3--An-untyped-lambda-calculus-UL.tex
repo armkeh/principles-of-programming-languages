@@ -1,4 +1,4 @@
-% Created 2020-09-30 Wed 19:24
+% Created 2020-10-05 Mon 11:28
 % Intended LaTeX compiler: lualatex
 \documentclass[11pt]{article}
 \usepackage{graphicx}
@@ -45,9 +45,9 @@
 \maketitle
 
 \section{Preamble}
-\label{sec:orgc4d3a98}
+\label{sec:org0e93231}
 \subsection{{\bfseries\sffamily TODO} Notable references}
-\label{sec:org12a0760}
+\label{sec:org8fe4b6e}
 \begin{itemize}
 \item Benjamin Pierce,
 “\href{https://ebookcentral.proquest.com/lib/mcmu/detail.action?docID=3338823}{Types and Programming Languages}”
@@ -57,15 +57,15 @@
 \end{itemize}
 
 \subsection{{\bfseries\sffamily TODO} Table of contents}
-\label{sec:org01ba93c}
+\label{sec:orgd656f41}
 \begin{scriptsize}
 \begin{itemize}
-\item \hyperref[sec:orgc4d3a98]{Preamble}
+\item \hyperref[sec:org0e93231]{Preamble}
 \end{itemize}
 \end{scriptsize}
 
 \section{Introduction}
-\label{sec:orgf159c47}
+\label{sec:orged47818}
 In this section we construct our first simple programming language,
 an untyped λ-calculus (lambda calculus).
 
@@ -74,7 +74,7 @@ without (static) type checking (enforcement),
 but including the natural numbers and booleans.
 
 \subsection{What is the λ-calculus?}
-\label{sec:org6ee03d6}
+\label{sec:org461b8aa}
 The λ-calculus is, put simply,
 a notation for forming and applying functions.
 \begin{itemize}
@@ -85,7 +85,7 @@ the λ-calculus is a Turing-complete model of computation.
 \end{itemize}
 
 \subsection{History}
-\label{sec:org56cf41c}
+\label{sec:org29ffe07}
 The (basic) λ-calculus as we know it was famously invented
 by Alonzo Church in the 1920s.
 \begin{itemize}
@@ -111,7 +111,7 @@ of programming languages.
 \end{itemize}
 
 \subsection{Descendents of the λ-calculus}
-\label{sec:org2fe665f}
+\label{sec:orge4b894f}
 Pure functional programming languages are clearly descended
 from the λ-calculus; the λ-calculus embodies their model of computation.
 \begin{itemize}
@@ -135,7 +135,7 @@ or recursive functions.
 \end{itemize}
 
 \section{The basics}
-\label{sec:org704d47e}
+\label{sec:org7d228cc}
 In our discussion of abstractions, we mentioned
 the abstraction of the function/method/procedure/subroutine.
 \begin{itemize}
@@ -154,7 +154,7 @@ are \emph{encoded} (represented) by functions.
 \end{itemize}
 
 \subsection{The terms}
-\label{sec:org9b17985}
+\label{sec:orga4ed486}
 The pure untyped λ-calculus has just three sort of terms;
 \begin{itemize}
 \item variables such as \(x\), \(y\), \(z\),
@@ -171,7 +171,7 @@ we prefer \(→\) as it emphasises that these are functions)
 \end{itemize}
 
 \subsection{Informal meaning of terms}
-\label{sec:org49f22be}
+\label{sec:orgea7246b}
 The meaning of each term is, informally:
 \begin{itemize}
 \item A λ-abstraction \(λ x → t\) represents a function of one argument,
@@ -189,7 +189,7 @@ all free occurrences of \(x\) in \(t\) with \(u\).
 \end{itemize}
 
 \subsection{Variable binding; free and bound variables}
-\label{sec:orgf159858}
+\label{sec:org7bdd600}
 Recall the notion of free and bound variables.
 \begin{itemize}
 \item A \emph{variable binder} is an operator which operates on
@@ -214,7 +214,7 @@ by that \(B\).
 \end{itemize}
 
 \subsection{Picturing variable bindings}
-\label{sec:orgba3b508}
+\label{sec:org6c4b077}
 For instance, in the language of predicate logic,
 we can view the variables bound like so.
 \begin{center}
@@ -222,7 +222,7 @@ we can view the variables bound like so.
 \end{center}
 
 \subsection{Representing functions with multiple arguments}
-\label{sec:orgb36135c}
+\label{sec:org1c8ed60}
 You may have noticed that our method for constructing function
 in the λ-calculus (the λ-abstraction)
 only allows us to construct single-argument functions.
@@ -234,7 +234,7 @@ And it keeps the language simpler theoretically.
 \end{itemize}
 
 \subsection{Currying}
-\label{sec:orgf57f521}
+\label{sec:org369004c}
 Rather than complicating our set of terms by admitting
 functions of multiple arguments, we use the technique
 of \emph{currying} functions.
@@ -258,7 +258,7 @@ to use Currying.)
 \end{itemize}
 
 \subsection{Examples of λ-terms}
-\label{sec:org7fcc3a9}
+\label{sec:orgad9d208}
 \begin{minted}[breaklines=true]{text}
 λ x → x
 \end{minted}
@@ -274,9 +274,17 @@ We will use the name \texttt{id} to refer to this function.
 \end{minted}
 
 \section{The formal syntax and semantics of \emph{UL}}
-\label{sec:org8e06c9d}
+\label{sec:org3865f2d}
+We now discuss the formal semantics of the untyped λ-calculus;
+that is, we
+\begin{itemize}
+\item give a grammar for its syntax, and
+\item define operational semantics for the language.
+\end{itemize}
+
+
 \subsection{A grammar for \emph{UL}}
-\label{sec:org0b5b636}
+\label{sec:orgb559362}
 \begin{minted}[breaklines=true]{text}
 ⟨term⟩ ∷= var | λ var → ⟨term⟩ | ⟨term⟩ ⟨term⟩
 \end{minted}
@@ -288,13 +296,17 @@ we will write abstraction as
 \end{minted}
 
 \subsection{The operational semantics of \emph{UL}}
-\label{sec:orgd79edee}
-The semantics of the λ-calculus is given by a \emph{reduction strategy};
+\label{sec:org9b0366b}
+A term of the form \((λ x → t₁) t₂\) is called a \emph{redex},
+meaning \emph{reducible expression}.
+
+The semantics of the λ-calculus is given by a \emph{reduction strategy}
+(\emph{β}-reduction strategy);
 \begin{itemize}
-\item A reduction is a transformation from a term of the form
+\item A reduction (β-reduction) transforms a subterm of the form
 \begin{itemize}
-\item \((λ x → t₁) t₂\) to
-\item \(t₁[x ≔ t₂]\)
+\item \((λ x → t₁) t₂\) (a redex) to
+\item \(t₁[x ≔ t₂]\).
 \begin{itemize}
 \item (There are various syntactic representations of substitutions;
 we prefer to the substitution operation to come after the term
@@ -309,20 +321,171 @@ and using the “maps to” operator instead of “becomes”.
 \end{itemize}
 
 \subsection{Reduction strategies}
-\label{sec:orgb0b18a6}
+\label{sec:org4569db3}
+Given an arbitrary term, there may be several subterms which are redexes,
+\begin{itemize}
+\item so we have a choice of what subterm to reduce.
+\end{itemize}
+A reduction strategy limits our choice of which redex to reduce.
+
+Several strategies have been studied. We discuss just four of them.
+\begin{itemize}
+\item full β-reduction,
+\item normal order,
+\item call by name, and
+\item call by value.
+\end{itemize}
+We only give a full formal treatment to call-by-value.
+
+The last two you may know as names of parameter passing methods
+from (practical) programming languages.
+\begin{itemize}
+\item There is a direct correspondance between reduction strategies
+and parameter passing methods.
+\end{itemize}
+
+\subsection{Reduction strategies: full β-reduction and normal order}
+\label{sec:org474d3f5}
+The \emph{full β-reduction} strategy is, essentially, to have no
+strategy at all.
+
+Under full β-reduction, and redex can be reduced at any point.
+
+The \emph{normal order} strategy enforces that the
+leftmost, outermost redex is always reduced first.
+
+\subsection{Reduction strategies: call by name and call by value}
+\label{sec:org5f24e5d}
+The \emph{call by name} strategy builds on the normal order strategy
+\begin{itemize}
+\item by mandating that no reductions take place inside abstractions.
+\item So “arguments cannot be evaluated before being applied”.
+\end{itemize}
+
+The \emph{call by value} strategy also builds on the normal order strategy,
+\begin{itemize}
+\item by mandating that a redex is reduced only when its right hand side
+\begin{itemize}
+\item (the “argument”)
+\end{itemize}
+cannot be reduced (is a value.)
+\end{itemize}
+
+\subsection{A formal description of call by value semantics}
+\label{sec:org9333882}
+
+Let us use the convention that variable names involving
+\begin{itemize}
+\item \texttt{t} represent arbitrary λ-terms, whereas variable names involving
+\item \texttt{v} represent irreducible λ-terms (values).
+\end{itemize}
+
+Then we may give a formal description of call-by-value semantics
+using inference rules.
+\begin{minted}[breaklines=true]{text}
+   t₁ ⟶ t₁′
+–––––––––––––––– Applicationˡ
+t₁ t₂ ⟶ t₁′ t₂
+
+
+   
+   t₂ ⟶ t₂′
+–––––––––––––––– Applicationʳ
+v₁ t₂ ⟶ v₁ t₂′
+
+
+   
+–––––––––––––––––––––––– Application to abstraction
+(λ x → t) v ⟶ t[x ≔ v]
+\end{minted}
+
+\subsection{α-conversion and η-conversion}
+\label{sec:orgdbbde08}
 :TODO:
 
-\section{α-conversion, β-reduction and η-conversion}
-\label{sec:org5f53bfa}
+
+β-reduction gives us one way to equate terms;
+\begin{itemize}
+\item two terms “have the same value” if they both reduce to the same
+value (irreducible term.)
+\end{itemize}
+
 :TODO:
 
-\section{Topics of theoretical interest}
-\label{sec:org11b6967}
-\subsection{The pure λ-calculus}
-\label{sec:org7265539}
+\subsection{Normalisation}
+\label{sec:orgcc4b1bf}
+
+A λ-term is said to be in \emph{normal form} if it cannot be reduced.
+
 :TODO:
 
-\subsection{Nameless representation of terms}
-\label{sec:orgd863e50}
+\section{λ-encodings}
+\label{sec:org477c1c8}
+\subsection{Church booleans}
+\label{sec:org0caa518}
+
+We define the following terms to represent boolean values.
+\begin{itemize}
+\item \texttt{tru} represents truth, and
+\item \texttt{fls} represents false.
+\end{itemize}
+\begin{minted}[breaklines=true]{text}
+tru = λ t → λ f → t
+fls = λ t → λ f → f
+\end{minted}
+
+These choices are \emph{somewhat} arbitrary.
+\begin{itemize}
+\item We could choose any two distinct λ-terms.
+\item But they are not really arbitrary;
+these two terms embody the idea that a boolean value
+is a “choice” between two options.
+\begin{itemize}
+\item \texttt{tru}, when given two arguments, “chooses” the first.
+\item \texttt{fls}, when given two arguments, “chooses” the second.
+\end{itemize}
+\end{itemize}
+
+\subsection{Defining \texttt{if-then-else} using Church booleans}
+\label{sec:org21b7c0b}
+
+Since the Church encoded booleans already “perform” a choice,
+defining an “\texttt{if-then-else}” construct
+using them is quite straightforward.
+\begin{minted}[breaklines=true]{text}
+test = λ l → λ m → λ n → l m n
+\end{minted}
+The intention is that
+\begin{itemize}
+\item the first argument is a Church boolean,
+\item the second is the “\texttt{then}” branch, and
+\item the third is the “\texttt{else}” branch.
+\end{itemize}
+
+Notice that \texttt{test b v w} simply reduces to \texttt{b v w};
+\begin{itemize}
+\item the boolean \texttt{b} really “does the work”
+of choosing between \texttt{v} and \texttt{w}.
+\end{itemize}
+
+\subsection{Pairs}
+\label{sec:org6ab3036}
+
 :TODO:
+
+\subsection{Church numerals}
+\label{sec:orga3616f5}
+
+:TODO:
+
+\subsection{Addition and multiplication}
+\label{sec:org7d982f4}
+
+:TODO:
+
+\section{Enriching the calculus}
+\label{sec:orge4fd59a}
+
+\section{}
+\label{sec:orga760ca3}
 \end{document}

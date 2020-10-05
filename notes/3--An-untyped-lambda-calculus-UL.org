@@ -42,9 +42,10 @@ If we don't put the results in the drawer, they will pile up
 as we evaluate the code block.
 #+NAME: attr_wrap
 #+BEGIN_SRC sh :var data="" :var width="\\\\textwidth" :var center="t" :results output
-  echo "#+ATTR_LATEX: :width $width :center $center"
-  echo "$data"
+echo "#+ATTR_LATEX: :width $width :center $center"
+echo "$data"
 #+END_SRC
+
 * Preamble
 :PROPERTIES:
 :CUSTOM_ID: Preamble
@@ -298,6 +299,14 @@ We will use the name ~id~ to refer to this function.
 :CUSTOM_ID: The-formal-syntax-and-semantics-of-/UL/
 :END:
 
+
+** Preamble                                    :ignore:
+
+We now discuss the formal semantics of the untyped λ-calculus;
+that is, we
+- give a grammar for its syntax, and
+- define operational semantics for the language.
+
 ** A grammar for /UL/
 :PROPERTIES:
 :CUSTOM_ID: A-grammar-for-/UL/
@@ -318,10 +327,14 @@ we will write abstraction as
 :CUSTOM_ID: The-operational-semantics-of-/UL/
 :END:
 
-The semantics of the λ-calculus is given by a /reduction strategy/;
-- A reduction is a transformation from a term of the form
-  - $(λ x → t₁) t₂$ to
-  - $t₁[x ≔ t₂]$
+A term of the form $(λ x → t₁) t₂$ is called a /redex/,
+meaning /reducible expression/.
+
+The semantics of the λ-calculus is given by a /reduction strategy/
+(/β/-reduction strategy);
+- A reduction (β-reduction) transforms a subterm of the form
+  - $(λ x → t₁) t₂$ (a redex) to
+  - $t₁[x ≔ t₂]$.
     - (There are various syntactic representations of substitutions;
       we prefer to the substitution operation to come after the term
       where the substitution is carried out ($t₁$), and to use
@@ -330,15 +343,81 @@ The semantics of the λ-calculus is given by a /reduction strategy/;
       substitution operation coming before the term,
       and using the “maps to” operator instead of “becomes”.
     - You may also see forms such as $[x\backslash t₁]$ or $[t₁/x]$.)
-
+      
 ** Reduction strategies
 :PROPERTIES:
 :CUSTOM_ID: Reduction-strategies
 :END:
 
-:TODO:
+Given an arbitrary term, there may be several subterms which are redexes,
+- so we have a choice of what subterm to reduce.
+A reduction strategy limits our choice of which redex to reduce.
 
-* α-conversion, β-reduction and η-conversion
+Several strategies have been studied. We discuss just four of them.
+- full β-reduction,
+- normal order,
+- call by name, and
+- call by value.
+We only give a full formal treatment to call-by-value.
+  
+The last two you may know as names of parameter passing methods
+from (practical) programming languages.
+- There is a direct correspondance between reduction strategies
+  and parameter passing methods.
+
+** Reduction strategies: full β-reduction and normal order
+:PROPERTIES:
+:CUSTOM_ID: Reduction-strategies:-full-β-reduction
+:END:
+
+The /full β-reduction/ strategy is, essentially, to have no
+strategy at all.
+
+Under full β-reduction, and redex can be reduced at any point.
+
+The /normal order/ strategy enforces that the
+leftmost, outermost redex is always reduced first.
+
+** Reduction strategies: call by name and call by value
+:PROPERTIES:
+:CUSTOM_ID: Reduction-strategies:-call-by-name
+:END:
+
+The /call by name/ strategy builds on the normal order strategy
+- by mandating that no reductions take place inside abstractions.
+- So “arguments cannot be evaluated before being applied”.
+  
+The /call by value/ strategy also builds on the normal order strategy,
+- by mandating that a redex is reduced only when its right hand side
+  - (the “argument”)
+  cannot be reduced (is a value.)
+
+** A formal description of call by value semantics
+
+Let us use the convention that variable names involving
+- ~t~ represent arbitrary λ-terms, whereas variable names involving
+- ~v~ represent irreducible λ-terms (values).
+
+Then we may give a formal description of call-by-value semantics
+using inference rules.
+#+begin_src text
+   t₁ ⟶ t₁′
+–––––––––––––––– Applicationˡ
+t₁ t₂ ⟶ t₁′ t₂
+
+
+   
+   t₂ ⟶ t₂′
+–––––––––––––––– Applicationʳ
+v₁ t₂ ⟶ v₁ t₂′
+
+
+   
+–––––––––––––––––––––––– Application to abstraction
+(λ x → t) v ⟶ t[x ≔ v]
+#+end_src
+
+** α-conversion and η-conversion
 :PROPERTIES:
 :CUSTOM_ID: α-conversion,-β-reduction-and-η-conversion
 :END:
@@ -348,21 +427,87 @@ The semantics of the λ-calculus is given by a /reduction strategy/;
 # η-conversion does not fit into the content here,
 # but we should discuss it to tie in with Scala.
 
-* Topics of theoretical interest
-:PROPERTIES:
-:CUSTOM_ID: Topics-of-theoretical-interest
-:END:
 
-** The pure λ-calculus
-:PROPERTIES:
-:CUSTOM_ID: The-pure-λ-calculus
-:END:
+β-reduction gives us one way to equate terms;
+- two terms “have the same value” if they both reduce to the same
+  value (irreducible term.)
 
 :TODO:
 
-** Nameless representation of terms
-:PROPERTIES:
-:CUSTOM_ID: Nameless-representation-of-terms
-:END:
+** Normalisation
+
+A λ-term is said to be in /normal form/ if it cannot be reduced.
 
 :TODO:
+
+* λ-encodings
+:PROPERTIES:
+:CUSTOM_ID: λ-encodings
+:END:
+
+** Preamble                                    :noexport:
+
+As mentioned previously, in the pure λ-calculus,
+every term is a function.
+- There are no basic types of data.
+
+So, we must have a way of representing any data as
+a function.
+- We call these Church encodings.
+
+We will show how to do this for
+- booleans,
+- pairs, and
+- natural numbers,
+and give some “combinators” which operate on these kinds of data.
+
+** Church booleans
+
+We define the following terms to represent boolean values.
+- ~tru~ represents truth, and
+- ~fls~ represents false.
+#+begin_src text
+tru = λ t → λ f → t
+fls = λ t → λ f → f
+#+end_src
+
+These choices are /somewhat/ arbitrary.
+- We could choose any two distinct λ-terms.
+- But they are not really arbitrary;
+  these two terms embody the idea that a boolean value
+  is a “choice” between two options.
+  - ~tru~, when given two arguments, “chooses” the first.
+  - ~fls~, when given two arguments, “chooses” the second.
+
+** Defining ~if-then-else~ using Church booleans
+
+Since the Church encoded booleans already “perform” a choice,
+defining an “~if-then-else~” construct
+using them is quite straightforward.
+#+begin_src text
+test = λ l → λ m → λ n → l m n
+#+end_src
+The intention is that
+- the first argument is a Church boolean,
+- the second is the “~then~” branch, and
+- the third is the “~else~” branch. 
+
+Notice that ~test b v w~ simply reduces to ~b v w~;
+- the boolean ~b~ really “does the work”
+  of choosing between ~v~ and ~w~.
+
+** Pairs
+
+:TODO:
+
+** Church numerals
+
+:TODO:
+
+** Addition and multiplication
+
+:TODO:
+
+* Enriching the calculus
+
+* 

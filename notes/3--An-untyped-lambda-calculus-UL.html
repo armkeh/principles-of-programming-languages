@@ -57,7 +57,7 @@ with no type checking (enforcement)."/>
 <section id="slide-Table-of-contents">
 <h3 id="Table-of-contents"><span class="section-number-3">1.2</span> <span class="todo TODO">TODO</span> Table of contents</h3>
 <font size="-1">
-<div class="scriptsize" id="org9235424">
+<div class="scriptsize" id="org7c638cd">
 <ul>
 <li><a href="#/slide-Preamble">Preamble</a></li>
 
@@ -280,7 +280,7 @@ For instance, in the language of predicate logic,
 we can view the variables bound like so.
 </p>
 
-<div id="org9cc72ae" class="figure">
+<div id="org75d838c" class="figure">
 <p><img src="media/variable-binding.png" alt="variable-binding.png" />
 </p>
 </div>
@@ -361,6 +361,17 @@ We will use the name <code>id</code> to refer to this function.
 <section>
 <section id="slide-The-formal-syntax-and-semantics-of-/UL/">
 <h2 id="The-formal-syntax-and-semantics-of-/UL/"><span class="section-number-2">4</span> The formal syntax and semantics of <i>UL</i></h2>
+<p>
+We now discuss the formal semantics of the untyped λ-calculus;
+that is, we
+</p>
+<ul>
+<li>give a grammar for its syntax, and</li>
+<li>define operational semantics for the language.</li>
+
+</ul>
+
+
 </section>
 <section id="slide-A-grammar-for-/UL/">
 <h3 id="A-grammar-for-/UL/"><span class="section-number-3">4.1</span> A grammar for <i>UL</i></h3>
@@ -384,13 +395,19 @@ we will write abstraction as
 <section id="slide-The-operational-semantics-of-/UL/">
 <h3 id="The-operational-semantics-of-/UL/"><span class="section-number-3">4.2</span> The operational semantics of <i>UL</i></h3>
 <p>
-The semantics of the λ-calculus is given by a <i>reduction strategy</i>;
+A term of the form \((λ x → t₁) t₂\) is called a <i>redex</i>,
+meaning <i>reducible expression</i>.
+</p>
+
+<p>
+The semantics of the λ-calculus is given by a <i>reduction strategy</i>
+(<i>β</i>-reduction strategy);
 </p>
 <ul>
-<li>A reduction is a transformation from a term of the form
+<li>A reduction (β-reduction) transforms a subterm of the form
 <ul>
-<li>\((λ x → t₁) t₂\) to</li>
-<li>\(t₁[x ≔ t₂]\)
+<li>\((λ x → t₁) t₂\) (a redex) to</li>
+<li>\(t₁[x ≔ t₂]\).
 <ul>
 <li>(There are various syntactic representations of substitutions;
 we prefer to the substitution operation to come after the term
@@ -411,14 +428,149 @@ and using the “maps to” operator instead of “becomes”.</li>
 <section id="slide-Reduction-strategies">
 <h3 id="Reduction-strategies"><span class="section-number-3">4.3</span> Reduction strategies</h3>
 <p>
-:TODO:
+Given an arbitrary term, there may be several subterms which are redexes,
+</p>
+<ul>
+<li>so we have a choice of what subterm to reduce.</li>
+
+</ul>
+<p>
+A reduction strategy limits our choice of which redex to reduce.
+</p>
+
+<p>
+Several strategies have been studied. We discuss just four of them.
+</p>
+<ul>
+<li>full β-reduction,</li>
+<li>normal order,</li>
+<li>call by name, and</li>
+<li>call by value.</li>
+
+</ul>
+<p>
+We only give a full formal treatment to call-by-value.
+</p>
+
+<p>
+The last two you may know as names of parameter passing methods
+from (practical) programming languages.
+</p>
+<ul>
+<li>There is a direct correspondance between reduction strategies
+and parameter passing methods.</li>
+
+</ul>
+
+</section>
+<section id="slide-Reduction-strategies:-full-β-reduction">
+<h3 id="Reduction-strategies:-full-β-reduction"><span class="section-number-3">4.4</span> Reduction strategies: full β-reduction and normal order</h3>
+<p>
+The <i>full β-reduction</i> strategy is, essentially, to have no
+strategy at all.
+</p>
+
+<p>
+Under full β-reduction, and redex can be reduced at any point.
+</p>
+
+<p>
+The <i>normal order</i> strategy enforces that the
+leftmost, outermost redex is always reduced first.
 </p>
 
 </section>
+<section id="slide-Reduction-strategies:-call-by-name">
+<h3 id="Reduction-strategies:-call-by-name"><span class="section-number-3">4.5</span> Reduction strategies: call by name and call by value</h3>
+<p>
+The <i>call by name</i> strategy builds on the normal order strategy
+</p>
+<ul>
+<li>by mandating that no reductions take place inside abstractions.</li>
+<li>So “arguments cannot be evaluated before being applied”.</li>
+
+</ul>
+
+<p>
+The <i>call by value</i> strategy also builds on the normal order strategy,
+</p>
+<ul>
+<li><p>
+by mandating that a redex is reduced only when its right hand side
+</p>
+<ul>
+<li>(the “argument”)</li>
+
+</ul>
+<p>
+cannot be reduced (is a value.)
+</p></li>
+
+</ul>
+
 </section>
-<section>
+<section id="slide-org5b6b86f">
+<h3 id="org5b6b86f"><span class="section-number-3">4.6</span> A formal description of call by value semantics</h3>
+<p>
+Let us use the convention that variable names involving
+</p>
+<ul>
+<li><code>t</code> represent arbitrary λ-terms, whereas variable names involving</li>
+<li><code>v</code> represent irreducible λ-terms (values).</li>
+
+</ul>
+
+<p>
+Then we may give a formal description of call-by-value semantics
+using inference rules.
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-text"><code trim>   t&#8321; &#10230; t&#8321;&#8242;
+&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; Application&#737;
+t&#8321; t&#8322; &#10230; t&#8321;&#8242; t&#8322;
+
+
+   
+   t&#8322; &#10230; t&#8322;&#8242;
+&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; Application&#691;
+v&#8321; t&#8322; &#10230; v&#8321; t&#8322;&#8242;
+
+
+   
+&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; Application to abstraction
+<span style="color: #00cd68;">(</span>&#955; x &#8594; t<span style="color: #00cd68;">)</span> v &#10230; t<span style="color: #00cd68;">[</span>x &#8788; v<span style="color: #00cd68;">]</span>
+</code></pre>
+</div>
+
+</section>
 <section id="slide-α-conversion,-β-reduction-and-η-conversion">
-<h2 id="α-conversion,-β-reduction-and-η-conversion"><span class="section-number-2">5</span> α-conversion, β-reduction and η-conversion</h2>
+<h3 id="α-conversion,-β-reduction-and-η-conversion"><span class="section-number-3">4.7</span> α-conversion and η-conversion</h3>
+<p>
+:TODO:
+</p>
+
+
+<p>
+β-reduction gives us one way to equate terms;
+</p>
+<ul>
+<li>two terms “have the same value” if they both reduce to the same
+value (irreducible term.)</li>
+
+</ul>
+
+<p>
+:TODO:
+</p>
+
+</section>
+<section id="slide-org296f08b">
+<h3 id="org296f08b"><span class="section-number-3">4.8</span> Normalisation</h3>
+<p>
+A λ-term is said to be in <i>normal form</i> if it cannot be reduced.
+</p>
+
 <p>
 :TODO:
 </p>
@@ -426,21 +578,106 @@ and using the “maps to” operator instead of “becomes”.</li>
 </section>
 </section>
 <section>
-<section id="slide-Topics-of-theoretical-interest">
-<h2 id="Topics-of-theoretical-interest"><span class="section-number-2">6</span> Topics of theoretical interest</h2>
+<section id="slide-λ-encodings">
+<h2 id="λ-encodings"><span class="section-number-2">5</span> λ-encodings</h2>
 </section>
-<section id="slide-The-pure-λ-calculus">
-<h3 id="The-pure-λ-calculus"><span class="section-number-3">6.1</span> The pure λ-calculus</h3>
+<section id="slide-orgf9106d1">
+<h3 id="orgf9106d1"><span class="section-number-3">5.1</span> Church booleans</h3>
+<p>
+We define the following terms to represent boolean values.
+</p>
+<ul>
+<li><code>tru</code> represents truth, and</li>
+<li><code>fls</code> represents false.</li>
+
+</ul>
+<div class="org-src-container">
+
+<pre  class="src src-text"><code trim>tru = &#955; t &#8594; &#955; f &#8594; t
+fls = &#955; t &#8594; &#955; f &#8594; f
+</code></pre>
+</div>
+
+<p>
+These choices are <i>somewhat</i> arbitrary.
+</p>
+<ul>
+<li>We could choose any two distinct λ-terms.</li>
+<li>But they are not really arbitrary;
+these two terms embody the idea that a boolean value
+is a “choice” between two options.
+<ul>
+<li><code>tru</code>, when given two arguments, “chooses” the first.</li>
+<li><code>fls</code>, when given two arguments, “chooses” the second.</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-orgb49ca7f">
+<h3 id="orgb49ca7f"><span class="section-number-3">5.2</span> Defining <code>if-then-else</code> using Church booleans</h3>
+<p>
+Since the Church encoded booleans already “perform” a choice,
+defining an “<code>if-then-else</code>” construct
+using them is quite straightforward.
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-text"><code trim>test = &#955; l &#8594; &#955; m &#8594; &#955; n &#8594; l m n
+</code></pre>
+</div>
+<p>
+The intention is that
+</p>
+<ul>
+<li>the first argument is a Church boolean,</li>
+<li>the second is the “<code>then</code>” branch, and</li>
+<li>the third is the “<code>else</code>” branch.</li>
+
+</ul>
+
+<p>
+Notice that <code>test b v w</code> simply reduces to <code>b v w</code>;
+</p>
+<ul>
+<li>the boolean <code>b</code> really “does the work”
+of choosing between <code>v</code> and <code>w</code>.</li>
+
+</ul>
+
+</section>
+<section id="slide-org0394bf9">
+<h3 id="org0394bf9"><span class="section-number-3">5.3</span> Pairs</h3>
 <p>
 :TODO:
 </p>
 
 </section>
-<section id="slide-Nameless-representation-of-terms">
-<h3 id="Nameless-representation-of-terms"><span class="section-number-3">6.2</span> Nameless representation of terms</h3>
+<section id="slide-org749f070">
+<h3 id="org749f070"><span class="section-number-3">5.4</span> Church numerals</h3>
 <p>
 :TODO:
 </p>
+
+</section>
+<section id="slide-orgb09df35">
+<h3 id="orgb09df35"><span class="section-number-3">5.5</span> Addition and multiplication</h3>
+<p>
+:TODO:
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-org1607529">
+<h2 id="org1607529"><span class="section-number-2">6</span> Enriching the calculus</h2>
+
+</section>
+</section>
+<section>
+<section id="slide-org877d910">
+<h2 id="org877d910"><span class="section-number-2">7</span> </h2>
 </section>
 </section>
 </div>
