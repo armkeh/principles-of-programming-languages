@@ -196,7 +196,10 @@ or by writing more interesting recursive definitions.
 
 To implement such a type ~T~ with the algebraic datatype approach
 we have been using, we may use (recursive) parameters
-of the form ~Unit => T~.
+of the form ~Unit => T~; that is,
+the type of /functions/ from ~Unit~ to ~T~.
+(Recall that ~Unit~ is the type with just one value,
+written ~()~ in Scala.)
 
 Function parameters are /never/ evaluated until
 the function is invoked (called.)
@@ -210,6 +213,43 @@ case object SNil extends Stream[Nothing] // The singleton Nil object
 case class Cons[A](a: A, f: Unit => Stream[A]) extends Stream[A]
 #+end_src
 
+** Dealing with the tail function
+:PROPERTIES:
+:CUSTOM_ID: Dealing-with-the-tail-function
+:END:
+
+Given a stream of the form ~Cons(a,f)~,
+the ~f~ parameter does not directly give us the “tail” stream;
+we must invoke it, writing ~f()~, to obtain the tail.
+
+In the other direction,
+in order to construct a stream of the form ~Cons(a,f)~,
+we must “wrap” the tail stream in a function definition.
+Rather than writing out a ~defun~ and giving this function a name
+(which in Scala lingo would make it a method),
+we can use an /anonymous/ definition,
+such as below.
+#+begin_src amm :results none
+val ones: Stream[Int] = Cons(1, _ => ones)
+#+end_src
+The ~_ => ones~ indicates a function of one argument;
+the ~_~ is used in place of a variable name,
+since we are not using the variable
+(because it is of type ~Unit~, there is really no use in
+giving it a name; it must be ~()~.)
+
+#+begin_center
+So, to construct a stream, we must “wrap” the tail;
+this is also called *delaying* the tail.
+
+To deconstruct (stream) a stream, we must “invoke” the tail;
+this is also called *forcing* the tail.
+
+*The concepts of delaying and forcing data are generally applicable;*
+*we may later even consider a type which is just (potentially)*
+*delayed data.*
+#+end_center
+
 ** ~case object~?
 :PROPERTIES:
 :CUSTOM_ID: ~case-object~?
@@ -220,12 +260,13 @@ a ~case object~, rather than a ~case class~.
 The difference is that there is exactly one instance of
 a ~case object~ (it is a singleton),
 whereas there can be many of a ~case class~.
-Since there can only be one instance of ~Nil~,
+Since there can only be one instance of ~SNil~,
 this instance needs to be a member of ~Stream[A]~ for any ~A~,
 so it must be a member of ~Stream[Nothing]~, since ~Nothing~ is
 the only subtype of all types.
 This does require us to mark ~Stream~ as /covariant/,
-meaning that ~Stream[A]~ is a subtype of ~Stream[B]~ is ~A~ is a subtype of ~B~.
+meaning that ~Stream[A]~ is a subtype of ~Stream[B]~ if
+~A~ is a subtype of ~B~.
 (We will discuss subtyping, variance and covariance
 in more detail later in the course.)
 
@@ -234,17 +275,96 @@ in more detail later in the course.)
 :CUSTOM_ID: Defining-some-methods-on-our-streams
 :END:
 
+We need some methods to allow us to do
+even basic tasks with our new Stream type.
+
+For instance, we need some convenient ways
+to define streams.
+For instance, we can construct constant streams
+that just repeat the same value.
 #+begin_src amm :results none
-def constantStream[A](a: A): Stream[A] = Cons(a, _ => constantStream(a))
+def constantStream[A](a: A): Stream[A] =
+  Cons(a, _ => constantStream(a))
 #+end_src
 
+But it's relatively hard to work with streams
+when we can only see the first value
+when they are printed.
+So, we pause giving ways to construct streams
+in order to give a way to /deconstruct/ them.
+This method converts the first number of elements
+into a list which can be nicely and easily displayed.
 #+begin_src amm :results none
-def take[A](n: Int, s: Stream[A]): List[A] = s match {
+def take[A](n: Int, s: => Stream[A]): List[A] = s match {
   case SNil => Nil
   case Cons(a,f) => n match {
     case n if n > 0 => a :: take(n-1,f())
     case _ => Nil
     }
+  }
+#+end_src
+
+Now, let's define a method that will make it easier
+to define some other ways of constructing streams:
+prepending a finite number of elements from a list
+to a stream.
+#+begin_src amm :results none
+def prepend[A](l: List[A], s: => Stream[A]): Stream[A] = l match {
+    case Nil => s
+    case (h :: t) => Cons(h, _ => prepend(t, s))
+  }
+#+end_src
+
+** Take care: *make arguments of type ~Stream~ by name arguments*
+:PROPERTIES:
+:CUSTOM_ID: Take-care:-*make-arguments-of-type-~Stream~-by-name-arguments*
+:END:
+
+Notice that in the definition of ~prepend~,
+which is our first method to take a stream as an argument,
+we marked the stream as a “by name” argument,
+making it lazily evaluated.
+
+This is because if we try to
+use ~prepend~ to define a stream /recursively/,
+so the recursive call is inserted as an argument
+to ~prepend~ (e.g., ~val ones: Stream[Int] = repeat(List(1), ones)~),
+if that argument were /not/ by name, it would be evaluated,
+and we would get a stack overflow due to unbounded recursion
+(this occurred during the lecture on Monday, October 5th.)
+
+#+begin_center
+*In general, mark your arguments of type ~Stream~ by name,*
+*in order to avoid accidental evaluation.*
+#+end_center
+
+** More methods on our streams
+:PROPERTIES:
+:CUSTOM_ID: More-methods-on-our-streams
+:END:
+
+Using ~prepend~, let us define two ways
+to go from a stream to a list;
+either just convert the list to a finite stream
+(one that actually does end with ~SNil~ eventually),
+or “repeat” the list infinitely.
+#+begin_src amm :results none
+def toStream[A](l: List[A]): Stream[A] = prepend(l, SNil)
+
+def repeat[A](l: List[A]): Stream[A] = prepend(l, repeat(l))
+#+end_src
+
+We can also /append/ a list to a stream, or more appropriately,
+append one stream to another.
+You might ask here though,
+“what happens if the stream is infinite”?
+The answer: nothing! The append will just never take place,
+since we never reach the ~SNil~ case while moving
+though the first stream.
+#+begin_src amm :results none
+def append[A](s: => Stream[A], t: => Stream[A]): Stream[A] = s match {
+    case SNil => t
+    case Cons(a, f) => Cons(a, _ => append(f(),t))
   }
 #+end_src
 

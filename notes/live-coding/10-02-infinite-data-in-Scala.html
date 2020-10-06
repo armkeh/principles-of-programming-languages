@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-10-05 Mon 12:36 -->
+<!-- 2020-10-06 Tue 17:21 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Infinite data in Scala</title>
@@ -247,8 +247,11 @@ how we can represent such data in Scala."
 <li><a href="#Implementing-our-own-infinite-datatypes">7. <del>(Not)</del> Implementing our own infinite datatypes</a>
 <ul>
 <li><a href="#The-approach">7.1. The approach</a></li>
-<li><a href="#~case-object~?">7.2. <code>case object</code>?</a></li>
-<li><a href="#Defining-some-methods-on-our-streams">7.3. Defining some methods on our streams</a></li>
+<li><a href="#Dealing-with-the-tail-function">7.2. Dealing with the tail function</a></li>
+<li><a href="#~case-object~?">7.3. <code>case object</code>?</a></li>
+<li><a href="#Defining-some-methods-on-our-streams">7.4. Defining some methods on our streams</a></li>
+<li><a href="#Take-care:-*make-arguments-of-type-~Stream~-by-name-arguments*">7.5. Take care: <b>make arguments of type <code>Stream</code> by name arguments</b></a></li>
+<li><a href="#More-methods-on-our-streams">7.6. More methods on our streams</a></li>
 </ul>
 </li>
 </ul>
@@ -502,7 +505,10 @@ or by writing more interesting recursive definitions.
 <p>
 To implement such a type <code>T</code> with the algebraic datatype approach
 we have been using, we may use (recursive) parameters
-of the form <code>Unit =&gt; T</code>.
+of the form <code>Unit =&gt; T</code>; that is,
+the type of <i>functions</i> from <code>Unit</code> to <code>T</code>.
+(Recall that <code>Unit</code> is the type with just one value,
+written <code>()</code> in Scala.)
 </p>
 
 <p>
@@ -524,8 +530,58 @@ For example, we can define our own variant of streams.
 </div>
 </div>
 
+<div id="outline-container-Dealing-with-the-tail-function" class="outline-3">
+<h3 id="Dealing-with-the-tail-function"><span class="section-number-3">7.2</span> Dealing with the tail function</h3>
+<div class="outline-text-3" id="text-Dealing-with-the-tail-function">
+<p>
+Given a stream of the form <code>Cons(a,f)</code>,
+the <code>f</code> parameter does not directly give us the “tail” stream;
+we must invoke it, writing <code>f()</code>, to obtain the tail.
+</p>
+
+<p>
+In the other direction,
+in order to construct a stream of the form <code>Cons(a,f)</code>,
+we must “wrap” the tail stream in a function definition.
+Rather than writing out a <code>defun</code> and giving this function a name
+(which in Scala lingo would make it a method),
+we can use an <i>anonymous</i> definition,
+such as below.
+</p>
+<div class="org-src-container">
+<pre class="src src-amm"><span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">ones</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Stream</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">Int</span><span style="color: #00cd68;">]</span> <span style="color: #b6a0ff;">=</span> <span style="color: #00bcff;">Cons</span><span style="color: #00cd68;">(</span><span style="color: #00bcff;">1</span>, <span style="color: #b6a0ff;">_</span> <span style="color: #b6a0ff;">=&gt;</span> ones<span style="color: #00cd68;">)</span>
+</pre>
+</div>
+<p>
+The <code>_ =&gt; ones</code> indicates a function of one argument;
+the <code>_</code> is used in place of a variable name,
+since we are not using the variable
+(because it is of type <code>Unit</code>, there is really no use in
+giving it a name; it must be <code>()</code>.)
+</p>
+
+<div class="org-center">
+<p>
+So, to construct a stream, we must “wrap” the tail;
+this is also called <b>delaying</b> the tail.
+</p>
+
+<p>
+To deconstruct (stream) a stream, we must “invoke” the tail;
+this is also called <b>forcing</b> the tail.
+</p>
+
+<p>
+<b>The concepts of delaying and forcing data are generally applicable;</b>
+<b>we may later even consider a type which is just (potentially)</b>
+<b>delayed data.</b>
+</p>
+</div>
+</div>
+</div>
+
 <div id="outline-container-~case-object~?" class="outline-3">
-<h3 id="~case-object~?"><span class="section-number-3">7.2</span> <code>case object</code>?</h3>
+<h3 id="~case-object~?"><span class="section-number-3">7.3</span> <code>case object</code>?</h3>
 <div class="outline-text-3" id="text-~case-object~?">
 <p>
 We adopt here and now the convention of making our base case
@@ -533,12 +589,13 @@ a <code>case object</code>, rather than a <code>case class</code>.
 The difference is that there is exactly one instance of
 a <code>case object</code> (it is a singleton),
 whereas there can be many of a <code>case class</code>.
-Since there can only be one instance of <code>Nil</code>,
+Since there can only be one instance of <code>SNil</code>,
 this instance needs to be a member of <code>Stream[A]</code> for any <code>A</code>,
 so it must be a member of <code>Stream[Nothing]</code>, since <code>Nothing</code> is
 the only subtype of all types.
 This does require us to mark <code>Stream</code> as <i>covariant</i>,
-meaning that <code>Stream[A]</code> is a subtype of <code>Stream[B]</code> is <code>A</code> is a subtype of <code>B</code>.
+meaning that <code>Stream[A]</code> is a subtype of <code>Stream[B]</code> if
+<code>A</code> is a subtype of <code>B</code>.
 (We will discuss subtyping, variance and covariance
 in more detail later in the course.)
 </p>
@@ -546,20 +603,120 @@ in more detail later in the course.)
 </div>
 
 <div id="outline-container-Defining-some-methods-on-our-streams" class="outline-3">
-<h3 id="Defining-some-methods-on-our-streams"><span class="section-number-3">7.3</span> Defining some methods on our streams</h3>
+<h3 id="Defining-some-methods-on-our-streams"><span class="section-number-3">7.4</span> Defining some methods on our streams</h3>
 <div class="outline-text-3" id="text-Defining-some-methods-on-our-streams">
+<p>
+We need some methods to allow us to do
+even basic tasks with our new Stream type.
+</p>
+
+<p>
+For instance, we need some convenient ways
+to define streams.
+For instance, we can construct constant streams
+that just repeat the same value.
+</p>
 <div class="org-src-container">
-<pre class="src src-amm"><span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">constantStream</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">](</span>a<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">A</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Stream</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">]</span> <span style="color: #b6a0ff;">=</span> <span style="color: #00bcff;">Cons</span><span style="color: #00cd68;">(</span>a, <span style="color: #b6a0ff;">_</span> <span style="color: #b6a0ff;">=&gt;</span> constantStream<span style="color: #b6a0ff;">(</span>a<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+<pre class="src src-amm"><span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">constantStream</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">](</span>a<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">A</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Stream</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">]</span> <span style="color: #b6a0ff;">=</span>
+  <span style="color: #00bcff;">Cons</span><span style="color: #00cd68;">(</span>a, <span style="color: #b6a0ff;">_</span> <span style="color: #b6a0ff;">=&gt;</span> constantStream<span style="color: #b6a0ff;">(</span>a<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
 </pre>
 </div>
 
+<p>
+But it's relatively hard to work with streams
+when we can only see the first value
+when they are printed.
+So, we pause giving ways to construct streams
+in order to give a way to <i>deconstruct</i> them.
+This method converts the first number of elements
+into a list which can be nicely and easily displayed.
+</p>
 <div class="org-src-container">
-<pre class="src src-amm"><span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">take</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">](</span>n<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Int</span>, s<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Stream</span><span style="color: #b6a0ff;">[</span><span style="color: #00bcff;">A</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">List</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">]</span> <span style="color: #b6a0ff;">=</span> s <span style="color: #b6a0ff;">match</span> <span style="color: #00cd68;">{</span>
+<pre class="src src-amm"><span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">take</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">](</span>n<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Int</span>, s<span style="color: #b6a0ff;">:</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">Stream</span><span style="color: #b6a0ff;">[</span><span style="color: #00bcff;">A</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">List</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">]</span> <span style="color: #b6a0ff;">=</span> s <span style="color: #b6a0ff;">match</span> <span style="color: #00cd68;">{</span>
   <span style="color: #b6a0ff;">case</span> <span style="color: #00bcff;">SNil</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">Nil</span>
   <span style="color: #b6a0ff;">case</span> <span style="color: #f78fe7;">Cons</span><span style="color: #b6a0ff;">(</span><span style="color: #00d3d0;">a</span>,<span style="color: #00d3d0;">f</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">=&gt;</span> n <span style="color: #b6a0ff;">match</span> <span style="color: #b6a0ff;">{</span>
     <span style="color: #b6a0ff;">case</span> <span style="color: #00d3d0;">n</span> <span style="color: #b6a0ff;">if</span> n &gt; <span style="color: #00bcff;">0</span> <span style="color: #b6a0ff;">=&gt;</span> a :: take<span style="color: #6ae4b9;">(</span>n-1,f<span style="color: #f0ce43;">()</span><span style="color: #6ae4b9;">)</span>
     <span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">_</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">Nil</span>
     <span style="color: #b6a0ff;">}</span>
+  <span style="color: #00cd68;">}</span>
+</pre>
+</div>
+
+<p>
+Now, let's define a method that will make it easier
+to define some other ways of constructing streams:
+prepending a finite number of elements from a list
+to a stream.
+</p>
+<div class="org-src-container">
+<pre class="src src-amm"><span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">prepend</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">](</span>l<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">List</span><span style="color: #b6a0ff;">[</span><span style="color: #00bcff;">A</span><span style="color: #b6a0ff;">]</span>, s<span style="color: #b6a0ff;">:</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">Stream</span><span style="color: #b6a0ff;">[</span><span style="color: #00bcff;">A</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Stream</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">]</span> <span style="color: #b6a0ff;">=</span> l <span style="color: #b6a0ff;">match</span> <span style="color: #00cd68;">{</span>
+    <span style="color: #b6a0ff;">case</span> <span style="color: #00bcff;">Nil</span> <span style="color: #b6a0ff;">=&gt;</span> s
+    <span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">(</span><span style="color: #00d3d0;">h</span> <span style="color: #f78fe7;">::</span> <span style="color: #00d3d0;">t</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">Cons</span><span style="color: #b6a0ff;">(</span>h, <span style="color: #b6a0ff;">_</span> <span style="color: #b6a0ff;">=&gt;</span> prepend<span style="color: #6ae4b9;">(</span>t, s<span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span>
+  <span style="color: #00cd68;">}</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-Take-care:-*make-arguments-of-type-~Stream~-by-name-arguments*" class="outline-3">
+<h3 id="Take-care:-*make-arguments-of-type-~Stream~-by-name-arguments*"><span class="section-number-3">7.5</span> Take care: <b>make arguments of type <code>Stream</code> by name arguments</b></h3>
+<div class="outline-text-3" id="text-Take-care:-*make-arguments-of-type-~Stream~-by-name-arguments*">
+<p>
+Notice that in the definition of <code>prepend</code>,
+which is our first method to take a stream as an argument,
+we marked the stream as a “by name” argument,
+making it lazily evaluated.
+</p>
+
+<p>
+This is because if we try to
+use <code>prepend</code> to define a stream <i>recursively</i>,
+so the recursive call is inserted as an argument
+to <code>prepend</code> (e.g., <code>val ones: Stream[Int] = repeat(List(1), ones)</code>),
+if that argument were <i>not</i> by name, it would be evaluated,
+and we would get a stack overflow due to unbounded recursion
+(this occurred during the lecture on Monday, October 5th.)
+</p>
+
+<div class="org-center">
+<p>
+<b>In general, mark your arguments of type <code>Stream</code> by name,</b>
+<b>in order to avoid accidental evaluation.</b>
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-More-methods-on-our-streams" class="outline-3">
+<h3 id="More-methods-on-our-streams"><span class="section-number-3">7.6</span> More methods on our streams</h3>
+<div class="outline-text-3" id="text-More-methods-on-our-streams">
+<p>
+Using <code>prepend</code>, let us define two ways
+to go from a stream to a list;
+either just convert the list to a finite stream
+(one that actually does end with <code>SNil</code> eventually),
+or “repeat” the list infinitely.
+</p>
+<div class="org-src-container">
+<pre class="src src-amm"><span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">toStream</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">](</span>l<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">List</span><span style="color: #b6a0ff;">[</span><span style="color: #00bcff;">A</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Stream</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">]</span> <span style="color: #b6a0ff;">=</span> prepend<span style="color: #00cd68;">(</span>l, <span style="color: #00bcff;">SNil</span><span style="color: #00cd68;">)</span>
+
+<span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">repeat</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">](</span>l<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">List</span><span style="color: #b6a0ff;">[</span><span style="color: #00bcff;">A</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Stream</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">]</span> <span style="color: #b6a0ff;">=</span> prepend<span style="color: #00cd68;">(</span>l, repeat<span style="color: #b6a0ff;">(</span>l<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+</pre>
+</div>
+
+<p>
+We can also <i>append</i> a list to a stream, or more appropriately,
+append one stream to another.
+You might ask here though,
+“what happens if the stream is infinite”?
+The answer: nothing! The append will just never take place,
+since we never reach the <code>SNil</code> case while moving
+though the first stream.
+</p>
+<div class="org-src-container">
+<pre class="src src-amm"><span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">append</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">](</span>s<span style="color: #b6a0ff;">:</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">Stream</span><span style="color: #b6a0ff;">[</span><span style="color: #00bcff;">A</span><span style="color: #b6a0ff;">]</span>, t<span style="color: #b6a0ff;">:</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">Stream</span><span style="color: #b6a0ff;">[</span><span style="color: #00bcff;">A</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Stream</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">]</span> <span style="color: #b6a0ff;">=</span> s <span style="color: #b6a0ff;">match</span> <span style="color: #00cd68;">{</span>
+    <span style="color: #b6a0ff;">case</span> <span style="color: #00bcff;">SNil</span> <span style="color: #b6a0ff;">=&gt;</span> t
+    <span style="color: #b6a0ff;">case</span> <span style="color: #f78fe7;">Cons</span><span style="color: #b6a0ff;">(</span><span style="color: #00d3d0;">a</span>, <span style="color: #00d3d0;">f</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">Cons</span><span style="color: #b6a0ff;">(</span>a, <span style="color: #b6a0ff;">_</span> <span style="color: #b6a0ff;">=&gt;</span> append<span style="color: #6ae4b9;">(</span>f<span style="color: #f0ce43;">()</span>,t<span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span>
   <span style="color: #00cd68;">}</span>
 </pre>
 </div>
@@ -569,9 +726,9 @@ in more detail later in the course.)
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Mark Armstrong</p>
-     <p class="author">Contact: <a href="mailto:markparmstrong@gmail.com">markparmstrong@gmail.com</a></p>
+     <p class="author">Contact: <a href="mailto:armstmp@mcmaster.ca">armstmp@mcmaster.ca</a></p>
      <p class="date">Original date: </p>
-     <p class="date">Last updated: 2020-10-05 Mon 10:22</p>
+     <p class="date">Last updated: 2020-10-06 Tue 17:19</p>
      <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.90 (<a href="https://orgmode.org">Org</a> mode 9.4)</p>
      <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
