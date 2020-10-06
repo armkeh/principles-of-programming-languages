@@ -12,6 +12,12 @@ better viewed at
 
 ## October
 
+  - October 6th  
+    The notes on infinite data in Scala have been updated with the
+    developments from Monday's tutorial. This content will be reviewed
+    and possibly built upon in tomorrow's tutorial, and you should
+    review it for the (still to come) homework 4.
+
   - October 2nd
     
       - Notes for today's lecture on infinite data in Scala have been
