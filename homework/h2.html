@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-09-26 Sat 14:13 -->
+<!-- 2020-10-07 Wed 04:03 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Computer Science 3MI3 – 2020 homework 2</title>
@@ -240,16 +240,16 @@
 <ul>
 <li><a href="#Submission-procedures">Submission procedures</a>
 <ul>
-<li><a href="#org9052cc7">Submission method</a></li>
-<li><a href="#orga98373e">Naming requirements</a></li>
-<li><a href="#org58b056a">Do not submit testing or diagnostic code</a></li>
-<li><a href="#orgd0e5b44">Due date and allowance for technical difficulties</a></li>
+<li><a href="#org7b6f6d6">Submission method</a></li>
+<li><a href="#org0aa8c15">Naming requirements</a></li>
+<li><a href="#orgc206ae6">Do not submit testing or diagnostic code</a></li>
+<li><a href="#org77860bc">Due date and allowance for technical difficulties</a></li>
 </ul>
 </li>
 <li><a href="#Proper-conduct-for-coursework">Proper conduct for coursework</a>
 <ul>
-<li><a href="#org0c44d48">Individual work</a></li>
-<li><a href="#org991bcb1">Language library resources</a></li>
+<li><a href="#org3252b55">Individual work</a></li>
+<li><a href="#orgdd2532f">Language library resources</a></li>
 </ul>
 </li>
 </ul>
@@ -272,6 +272,7 @@
 <li><a href="#The-tests">The tests</a></li>
 </ul>
 </li>
+<li><a href="#Sample-solution">Sample solution</a></li>
 </ul>
 </div>
 </div>
@@ -306,9 +307,9 @@ Put simply, the programmer describes the problem, not the solution.
 <div class="outline-text-3" id="text-Submission-procedures">
 </div>
 
-<div id="outline-container-org9052cc7" class="outline-4">
-<h4 id="org9052cc7">Submission method</h4>
-<div class="outline-text-4" id="text-org9052cc7">
+<div id="outline-container-org7b6f6d6" class="outline-4">
+<h4 id="org7b6f6d6">Submission method</h4>
+<div class="outline-text-4" id="text-org7b6f6d6">
 <p>
 Homework should be submitted to your McMaster CAS Gitlab respository
 in the <code>cs3mi3-fall2020</code> project.
@@ -321,9 +322,9 @@ in time for the deadline, and not just committed to your local copy.
 </div>
 </div>
 
-<div id="outline-container-orga98373e" class="outline-4">
-<h4 id="orga98373e">Naming requirements</h4>
-<div class="outline-text-4" id="text-orga98373e">
+<div id="outline-container-org0aa8c15" class="outline-4">
+<h4 id="org0aa8c15">Naming requirements</h4>
+<div class="outline-text-4" id="text-org0aa8c15">
 <p>
 Place all files for the homework
 inside a folder titled <code>hn</code>, where <code>n</code> is the number of the homework.
@@ -364,9 +365,9 @@ submit a <code>hn.ext</code> file for each language.
 </div>
 </div>
 
-<div id="outline-container-org58b056a" class="outline-4">
-<h4 id="org58b056a">Do not submit testing or diagnostic code</h4>
-<div class="outline-text-4" id="text-org58b056a">
+<div id="outline-container-orgc206ae6" class="outline-4">
+<h4 id="orgc206ae6">Do not submit testing or diagnostic code</h4>
+<div class="outline-text-4" id="text-orgc206ae6">
 <p>
 Unless you are instructed to do so in the homework questions,
 <b>you should not submit testing code with your homework submission</b>.
@@ -394,9 +395,9 @@ For instance, by using a wrapper on the print function or macros.
 </div>
 </div>
 
-<div id="outline-container-orgd0e5b44" class="outline-4">
-<h4 id="orgd0e5b44">Due date and allowance for technical difficulties</h4>
-<div class="outline-text-4" id="text-orgd0e5b44">
+<div id="outline-container-org77860bc" class="outline-4">
+<h4 id="org77860bc">Due date and allowance for technical difficulties</h4>
+<div class="outline-text-4" id="text-org77860bc">
 <p>
 Homework is due on the second Sunday following its release,
 by the end of the day (midnight).
@@ -421,9 +422,9 @@ to accept your submission once the technical difficulties are resolved.
 <div class="outline-text-3" id="text-Proper-conduct-for-coursework">
 </div>
 
-<div id="outline-container-org0c44d48" class="outline-4">
-<h4 id="org0c44d48">Individual work</h4>
-<div class="outline-text-4" id="text-org0c44d48">
+<div id="outline-container-org3252b55" class="outline-4">
+<h4 id="org3252b55">Individual work</h4>
+<div class="outline-text-4" id="text-org3252b55">
 <p>
 Unless explicitely stated in the homework questions,
 all homework in this course is intended
@@ -484,9 +485,9 @@ probably add a catch-all <code>_</code> case to your <code>match</code> expressi
 </div>
 </div>
 
-<div id="outline-container-org991bcb1" class="outline-4">
-<h4 id="org991bcb1">Language library resources</h4>
-<div class="outline-text-4" id="text-org991bcb1">
+<div id="outline-container-orgdd2532f" class="outline-4">
+<h4 id="orgdd2532f">Language library resources</h4>
+<div class="outline-text-4" id="text-orgdd2532f">
 <p>
 Unless explicitely stated in the questions,
 it is not expected that you will use any language library resources
@@ -696,7 +697,7 @@ list is a palindrome.
 Note you can use pattern matching with the list “cons” operator, <code>|</code>,
 to refer to the head and tail of a list, as in
 </p>
-<pre class="example" id="org5a2fc92">
+<pre class="example" id="orgd3dae9c">
 palindrome([H|T]) :- ??? % H is the first element, T is the rest
 </pre>
 </div>
@@ -893,14 +894,84 @@ are repeated here.
 </div>
 </div>
 </div>
+
+<div id="outline-container-Sample-solution" class="outline-2">
+<h2 id="Sample-solution">Sample solution</h2>
+<div class="outline-text-2" id="text-Sample-solution">
+<p>
+The source code can be downloaded <a href="./solutions/h2/h2.pl">here</a>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-prolog"><span style="color: #a8a8a8;">% </span><span style="color: #a8a8a8;">Part 1, prime checker</span>
+
+<span style="color: #feacd0;">hasDivisorLessThanOrEqualTo</span>(<span style="color: #00d3d0;">_</span>,1) :- <span style="color: #b6a0ff;">!</span>, false.
+<span style="color: #feacd0;">hasDivisorLessThanOrEqualTo</span>(<span style="color: #00d3d0;">X</span>,<span style="color: #00d3d0;">Y</span>) :- 0 is <span style="color: #00d3d0;">X</span> mod <span style="color: #00d3d0;">Y</span>, <span style="color: #b6a0ff;">!</span>.
+<span style="color: #feacd0;">hasDivisorLessThanOrEqualTo</span>(<span style="color: #00d3d0;">X</span>,<span style="color: #00d3d0;">Y</span>) :- <span style="color: #00d3d0;">Z</span> is <span style="color: #00d3d0;">Y</span> - 1, hasDivisorLessThanOrEqualTo(<span style="color: #00d3d0;">X</span>,<span style="color: #00d3d0;">Z</span>).
+
+<span style="color: #feacd0;">isPrime</span>(<span style="color: #00d3d0;">X</span>) :- <span style="color: #00d3d0;">X</span> &lt; 2, <span style="color: #b6a0ff;">!</span>, false.
+<span style="color: #feacd0;">isPrime</span>(2) :- <span style="color: #b6a0ff;">!</span>.
+<span style="color: #feacd0;">isPrime</span>(<span style="color: #00d3d0;">X</span>) :- not(hasDivisorLessThanOrEqualTo(<span style="color: #00d3d0;">X</span>,<span style="color: #00d3d0;">X</span>-1)).
+
+
+
+<span style="color: #a8a8a8;">% </span><span style="color: #a8a8a8;">Part 2, number and lists of their digits.</span>
+
+<span style="color: #a8a8a8;">% </span><span style="color: #a8a8a8;">Note that the list may have trailing zeroes</span>
+<span style="color: #a8a8a8;">% </span><span style="color: #a8a8a8;">by this definition.</span>
+<span style="color: #a8a8a8;">% </span><span style="color: #a8a8a8;">This is not forbidden by the question.</span>
+<span style="color: #feacd0;">isDigitList</span>(<span style="color: #00d3d0;">_</span>,<span style="color: #b6a0ff;">[]</span>) :- false.
+<span style="color: #feacd0;">isDigitList</span>(<span style="color: #00d3d0;">X</span>,<span style="color: #b6a0ff;">[</span><span style="color: #00d3d0;">X</span><span style="color: #b6a0ff;">]</span>) :- member(<span style="color: #00d3d0;">X</span>,<span style="color: #b6a0ff;">[</span>1,2,3,4,5,6,7,8,9,0<span style="color: #b6a0ff;">]</span>).
+<span style="color: #a8a8a8;">% </span><span style="color: #a8a8a8;">I include some more documentation here to explain</span>
+<span style="color: #a8a8a8;">% </span><span style="color: #a8a8a8;">how this can solve the problem &#8220;both ways&#8221;;</span>
+<span style="color: #a8a8a8;">% </span><span style="color: #a8a8a8;">that is, it will work no matter which argument is unknown.</span>
+<span style="color: #feacd0;">isDigitList</span>(<span style="color: #00d3d0;">X</span>,<span style="color: #b6a0ff;">[</span><span style="color: #00d3d0;">H</span><span style="color: #b6a0ff;">|</span><span style="color: #00d3d0;">T</span><span style="color: #b6a0ff;">]</span>) :-
+  isDigitList(<span style="color: #00d3d0;">Y</span>,<span style="color: #00d3d0;">T</span>),
+  <span style="color: #a8a8a8;">% Using member to restrict the value of H avoids</span>
+  <span style="color: #a8a8a8;">% uninstantiated errors we would get if we tried to use</span>
+  <span style="color: #a8a8a8;">% less than, etc., while H is unknown.</span>
+  member(<span style="color: #00d3d0;">H</span>,<span style="color: #b6a0ff;">[</span>1,2,3,4,5,6,7,8,9,0<span style="color: #b6a0ff;">]</span>),
+  <span style="color: #a8a8a8;">% This </span><span style="color: #a8a8a8;">"is"</span><span style="color: #a8a8a8;"> statement is carefully put together</span>
+  <span style="color: #a8a8a8;">% so that only one argument is ever unknown.</span>
+  <span style="color: #a8a8a8;">% This also prevent uninstantiated errors.</span>
+  <span style="color: #00d3d0;">X</span> is <span style="color: #00d3d0;">Y</span> * 10 + <span style="color: #00d3d0;">H</span>.
+
+
+<span style="color: #a8a8a8;">% </span><span style="color: #a8a8a8;">Part 3, palindromic lists</span>
+
+<span style="color: #feacd0;">dropLast</span>(<span style="color: #b6a0ff;">[</span><span style="color: #00d3d0;">_</span><span style="color: #b6a0ff;">]</span>,<span style="color: #b6a0ff;">[]</span>). <span style="color: #a8a8a8;">% The last element is dropped.</span>
+<span style="color: #feacd0;">dropLast</span>(<span style="color: #b6a0ff;">[</span><span style="color: #00d3d0;">H</span><span style="color: #b6a0ff;">|</span><span style="color: #00d3d0;">T</span><span style="color: #b6a0ff;">]</span>,<span style="color: #b6a0ff;">[</span><span style="color: #00d3d0;">H</span><span style="color: #b6a0ff;">|</span><span style="color: #00d3d0;">T2</span><span style="color: #b6a0ff;">]</span>) :-
+  <span style="color: #a8a8a8;">% Aside from the base case above, the lists must match.</span>
+  dropLast(<span style="color: #00d3d0;">T</span>,<span style="color: #00d3d0;">T2</span>).
+
+<span style="color: #feacd0;">isPalindrome</span>(<span style="color: #b6a0ff;">[]</span>). <span style="color: #a8a8a8;">% An empty list is a palindrome.</span>
+<span style="color: #feacd0;">isPalindrome</span>(<span style="color: #b6a0ff;">[</span><span style="color: #00d3d0;">_</span><span style="color: #b6a0ff;">]</span>). <span style="color: #a8a8a8;">% Any singleton is a palindrome.</span>
+<span style="color: #feacd0;">isPalindrome</span>(<span style="color: #b6a0ff;">[</span><span style="color: #00d3d0;">H</span><span style="color: #b6a0ff;">|</span><span style="color: #00d3d0;">T</span><span style="color: #b6a0ff;">]</span>) :-
+  last(<span style="color: #00d3d0;">T</span>,<span style="color: #00d3d0;">H</span>), <span style="color: #a8a8a8;">% H must also be the last element of T.</span>
+  dropLast(<span style="color: #00d3d0;">T</span>,<span style="color: #00d3d0;">TN</span>),
+  isPalindrome(<span style="color: #00d3d0;">TN</span>). <span style="color: #a8a8a8;">% check the remainding elements.</span>
+
+
+
+<span style="color: #a8a8a8;">% </span><span style="color: #a8a8a8;">Part 4, Prime palindromes</span>
+
+<span style="color: #a8a8a8;">% </span><span style="color: #a8a8a8;">Just put together our predicates from above.</span>
+<span style="color: #feacd0;">primePalindrome</span>(<span style="color: #00d3d0;">X</span>) :-
+  isPrime(<span style="color: #00d3d0;">X</span>),
+  isDigitList(<span style="color: #00d3d0;">X</span>,<span style="color: #00d3d0;">Digits</span>),
+  isPalindrome(<span style="color: #00d3d0;">Digits</span>).
+</pre>
+</div>
+</div>
+</div>
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Mark Armstrong</p>
      <p class="author">Contact: <a href="mailto:markparmstrong@gmail.com">markparmstrong@gmail.com</a></p>
      <p class="date">Original date: September 18th, 2020</p>
-     <p class="date">Last updated: 2020-09-26 Sat 14:12</p>
-     <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.90 (<a href="https://orgmode.org">Org</a> mode 9.3.8)</p>
-     <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+     <p class="date">Last updated: 2020-10-07 Wed 04:02</p>
+     <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.90 (<a href="https://orgmode.org">Org</a> mode 9.4)</p>
+     <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
 </html>
