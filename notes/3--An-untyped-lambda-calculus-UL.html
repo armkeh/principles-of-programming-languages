@@ -57,7 +57,7 @@ with no type checking (enforcement)."/>
 <section id="slide-Table-of-contents">
 <h3 id="Table-of-contents"><span class="section-number-3">1.2</span> <span class="todo TODO">TODO</span> Table of contents</h3>
 <font size="-1">
-<div class="scriptsize" id="org0f97140">
+<div class="scriptsize" id="orgfa98d82">
 <ul>
 <li><a href="#/slide-Preamble">Preamble</a></li>
 
@@ -143,12 +143,21 @@ from the λ-calculus; the λ-calculus embodies their model of computation.
 </p>
 <ul>
 <li>Additionally, it is common to have a “lambda” operator
-which allows definition of anonymous functions.</li>
+which allows definition of anonymous functions.
+<ul>
+<li>This is so even outside of pure functional languages,
+<ul>
+<li>and it is becoming common
+in primarily imperative languages as well!</li>
+
+</ul></li>
+
+</ul></li>
 
 </ul>
 
 <p>
-Imperative languages instead use a model of computation
+Imperative languages instead (traditionally) use a model of computation
 based on the <i>Von-Neumann</i> architecture,
 </p>
 <ul>
@@ -196,7 +205,7 @@ are <i>encoded</i> (represented) by functions.</li>
 
 </section>
 <section id="slide-The-terms">
-<h3 id="The-terms"><span class="section-number-3">3.1</span> The terms</h3>
+<h3 id="The-terms"><span class="section-number-3">3.1</span> Informal definition of terms</h3>
 <p>
 The pure untyped λ-calculus has just three sort of terms;
 </p>
@@ -243,7 +252,7 @@ all free occurrences of \(x\) in \(t\) with \(u\).</li>
 
 </section>
 <section id="slide-Variable-binding;-free-and-bound-variables">
-<h3 id="Variable-binding;-free-and-bound-variables"><span class="section-number-3">3.3</span> Variable binding; free and bound variables</h3>
+<h3 id="Variable-binding;-free-and-bound-variables"><span class="section-number-3">3.3</span> Variable binding</h3>
 <p>
 Recall the notion of free and bound variables.
 </p>
@@ -254,10 +263,31 @@ some number of <i>variables</i> as well as <i>terms</i>.
 <li>Examples include quantifiers
 such as \(∀\_❙\_•\_\), \(∃\_❙\_•\_\) and \(∑\_❙\_•\_\),
 and substitution \(\_[\_→\_]\).</li>
+<li>By convention, the bodies of variable binders extend as far
+to the right as possible;
+<ul>
+<li>so for instance \(∀ x ❙ P x • Q x ∧ R y\) is read
+as \((∀ x ❙ P x • (Q x ∧ R y))\).</li>
 
 </ul></li>
-<li>(For simplicity, let us assume below that variable binders
-act on a single variable and a single term.)</li>
+<li>But substitution binds tighter than any other operation;
+<ul>
+<li>so for instance \(x + y [y ≔ z]\) is read as \(x + (y [y ≔ z])\)</li>
+
+</ul></li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-org984b5b7">
+<h3 id="org984b5b7"><span class="section-number-3">3.4</span> Free and bound variables</h3>
+<p>
+For simplicity, let us assume here that variable binders
+act on a single variable and a single term.
+</p>
+<ul>
 <li>Let \(B\_•\_\) range over the set of variable binders in a language.</li>
 <li>An occurrence of a variable \(x\) in a term \(t\) that is <i>not</i> in
 a subterm of the form \(B x • u\) is called <i>free</i>.</li>
@@ -273,21 +303,35 @@ by that \(B\).</li>
 </ul>
 
 </section>
+<section id="slide-orgeb86fc3">
+<h3 id="orgeb86fc3"><span class="section-number-3">3.5</span> Open and closed terms; combinators</h3>
+<ul>
+<li>A λ-term which contains free variables is called an <i>open term</i>.</li>
+
+<li>A λ-term with no free variables is called a <i>closed term</i>.
+<ul>
+<li>Such λ-terms are also called <i>combinators</i>.</li>
+
+</ul></li>
+
+</ul>
+
+</section>
 <section id="slide-Picturing-variable-bindings">
-<h3 id="Picturing-variable-bindings"><span class="section-number-3">3.4</span> Picturing variable bindings</h3>
+<h3 id="Picturing-variable-bindings"><span class="section-number-3">3.6</span> Picturing variable bindings</h3>
 <p>
 For instance, in the language of predicate logic,
 we can view the variables bound like so.
 </p>
 
-<div id="org5ebf218" class="figure">
+<div id="org980f537" class="figure">
 <p><img src="media/variable-binding.png" alt="variable-binding.png" />
 </p>
 </div>
 
 </section>
 <section id="slide-Representing-functions-with-multiple-arguments">
-<h3 id="Representing-functions-with-multiple-arguments"><span class="section-number-3">3.5</span> Representing functions with multiple arguments</h3>
+<h3 id="Representing-functions-with-multiple-arguments"><span class="section-number-3">3.7</span> Representing functions with multiple arguments</h3>
 <p>
 You may have noticed that our method for constructing function
 in the λ-calculus (the λ-abstraction)
@@ -303,7 +347,7 @@ And it keeps the language simpler theoretically.</li>
 
 </section>
 <section id="slide-Currying">
-<h3 id="Currying"><span class="section-number-3">3.6</span> Currying</h3>
+<h3 id="Currying"><span class="section-number-3">3.8</span> Currying</h3>
 <p>
 Rather than complicating our set of terms by admitting
 functions of multiple arguments, we use the technique
@@ -319,6 +363,7 @@ so this is equivalent to \(f : A → B → C\).)</li>
 <li>So \(f′\) is a function which takes an \(A\) and
 <i>produces a function</i> of type \(B → C\).
 <ul>
+<li>We also say that \(f′\) is <i>partially applied</i> to a value of \(A\).</li>
 <li>We usually don't give this new function a name.</li>
 <li>We can consider this new function as having a <i>fixed</i> value
 for the \(A\) argument that was provided.</li>
@@ -333,7 +378,7 @@ to use Currying.)</li>
 
 </section>
 <section id="slide-Examples-of-λ-terms">
-<h3 id="Examples-of-λ-terms"><span class="section-number-3">3.7</span> Examples of λ-terms</h3>
+<h3 id="Examples-of-λ-terms"><span class="section-number-3">3.9</span> Examples of λ-terms</h3>
 <div class="org-src-container">
 
 <pre  class="src src-text"><code trim>&#955; x &#8594; x
@@ -349,18 +394,35 @@ We will use the name <code>id</code> to refer to this function.
 <pre  class="src src-text"><code trim>&#955; x &#8594; &#955; y &#8594; x
 </code></pre>
 </div>
+<p>
+is a function which ignores its second argument,
+and just returns the first; this is sometimes called <code>const</code>.
+</p>
 
 <div class="org-src-container">
 
 <pre  class="src src-text"><code trim>&#955; x &#8594; &#955; y &#8594; y
 </code></pre>
 </div>
+<p>
+is then a function which ignores its first argument.
+</p>
+
+<div class="org-src-container">
+
+<pre  class="src src-text"><code trim>&#955; f &#8594; &#955; x &#8594; f x
+</code></pre>
+</div>
+<p>
+is a function which applies its second argument to its first;
+we might call this just <code>apply</code>.
+</p>
 
 </section>
 </section>
 <section>
 <section id="slide-The-formal-syntax-and-semantics-of-/UL/">
-<h2 id="The-formal-syntax-and-semantics-of-/UL/"><span class="section-number-2">4</span> The formal syntax and semantics of <i>UL</i></h2>
+<h2 id="The-formal-syntax-and-semantics-of-/UL/"><span class="section-number-2">4</span> The syntax and semantics of <i>UL</i></h2>
 <p>
 We now discuss the formal semantics of the untyped λ-calculus;
 that is, we
@@ -370,7 +432,6 @@ that is, we
 <li>define operational semantics for the language.</li>
 
 </ul>
-
 
 </section>
 <section id="slide-A-grammar-for-/UL/">
@@ -395,7 +456,7 @@ we will write abstraction as
 <section id="slide-The-operational-semantics-of-/UL/">
 <h3 id="The-operational-semantics-of-/UL/"><span class="section-number-3">4.2</span> The operational semantics of <i>UL</i></h3>
 <p>
-A term of the form \((λ x → t₁) t₂\) is called a <i>redex</i>,
+A term of the form \((λ x → t₁) t₂\) is called a <i>redex</i> (β-redex),
 meaning <i>reducible expression</i>.
 </p>
 
@@ -425,8 +486,40 @@ and using the “maps to” operator instead of “becomes”.</li>
 </ul>
 
 </section>
+<section id="slide-orgf4e3996">
+<h3 id="orgf4e3996"><span class="section-number-3">4.3</span> Normal forms and values</h3>
+<p>
+A term which does not involve any redexes is said to be
+in <i>normal form</i> (β-normal form).
+</p>
+<ul>
+<li>Terms in β-normal form which are not variables
+are called <i>values</i>.
+<ul>
+<li>In the pure untyped λ-calculus, these only include λ-abstractions.</li>
+<li>Later, we will add other constant values,
+such as <code>true</code>, <code>false</code>, <code>0</code>, etc.</li>
+
+</ul></li>
+
+</ul>
+
+<p>
+In the untyped λ-calculus,
+</p>
+<ul>
+<li>if a term has a normal form, that normal form is unique.
+<ul>
+<li>(By the <i>Church–Rosser</i> theorem.)</li>
+
+</ul></li>
+<li>But not all terms have a normal form!</li>
+
+</ul>
+
+</section>
 <section id="slide-Reduction-strategies">
-<h3 id="Reduction-strategies"><span class="section-number-3">4.3</span> Reduction strategies</h3>
+<h3 id="Reduction-strategies"><span class="section-number-3">4.4</span> Some reduction strategies</h3>
 <p>
 Given an arbitrary term, there may be several subterms which are redexes,
 </p>
@@ -442,10 +535,8 @@ A reduction strategy limits our choice of which redex to reduce.
 Several strategies have been studied. We discuss just four of them.
 </p>
 <ul>
-<li>full β-reduction,</li>
-<li>normal order,</li>
-<li>call by name, and</li>
-<li>call by value.</li>
+<li>full β-reduction, normal order,</li>
+<li>call by name, and call by value.</li>
 
 </ul>
 <p>
@@ -464,24 +555,34 @@ and parameter passing methods.</li>
 
 </section>
 <section id="slide-Reduction-strategies:-full-β-reduction">
-<h3 id="Reduction-strategies:-full-β-reduction"><span class="section-number-3">4.4</span> Reduction strategies: full β-reduction and normal order</h3>
+<h3 id="Reduction-strategies:-full-β-reduction"><span class="section-number-3">4.5</span> Some reduction strategies: full β-reduction and normal order</h3>
 <p>
 The <i>full β-reduction</i> strategy is, essentially, to have no
 strategy at all.
 </p>
+<ul>
+<li>Under full β-reduction, and redex can be reduced at any point.</li>
+<li>This strategy gives rise to a reduction <i>relation</i>,
+not a function.
+<ul>
+<li>Since a given term may reduce to <i>many</i> other terms.</li>
 
-<p>
-Under full β-reduction, and redex can be reduced at any point.
-</p>
+</ul></li>
+
+</ul>
 
 <p>
 The <i>normal order</i> strategy enforces that the
 leftmost, outermost redex is always reduced first.
 </p>
+<ul>
+<li>This restriction gives rise to a function.</li>
+
+</ul>
 
 </section>
 <section id="slide-Reduction-strategies:-call-by-name">
-<h3 id="Reduction-strategies:-call-by-name"><span class="section-number-3">4.5</span> Reduction strategies: call by name and call by value</h3>
+<h3 id="Reduction-strategies:-call-by-name"><span class="section-number-3">4.6</span> Some reduction strategies: call by name and call by value</h3>
 <p>
 The <i>call by name</i> strategy builds on the normal order strategy
 </p>
@@ -503,20 +604,20 @@ by mandating that a redex is reduced only when its right hand side
 
 </ul>
 <p>
-cannot be reduced (is a value.)
+is a value (in β-normal form and not a variable).
 </p></li>
 
 </ul>
 
 </section>
-<section id="slide-orgaca60fc">
-<h3 id="orgaca60fc"><span class="section-number-3">4.6</span> A formal description of call by value semantics</h3>
+<section id="slide-orga8555eb">
+<h3 id="orga8555eb"><span class="section-number-3">4.7</span> A formal description of call by value semantics</h3>
 <p>
 Let us use the convention that variable names involving
 </p>
 <ul>
 <li><code>t</code> represent arbitrary λ-terms, whereas variable names involving</li>
-<li><code>v</code> represent irreducible λ-terms (values).</li>
+<li><code>v</code> represent terms in λ-normal form (values).</li>
 
 </ul>
 
@@ -527,52 +628,119 @@ using inference rules.
 <div class="org-src-container">
 
 <pre  class="src src-text"><code trim>   t&#8321; &#10230; t&#8321;&#8242;
-&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; Application&#737;
+&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; App&#737;
 t&#8321; t&#8322; &#10230; t&#8321;&#8242; t&#8322;
 
 
-   
    t&#8322; &#10230; t&#8322;&#8242;
-&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; Application&#691;
+&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; App&#691;
 v&#8321; t&#8322; &#10230; v&#8321; t&#8322;&#8242;
 
-
    
-&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; Application to abstraction
+&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; AppAbs
 <span style="color: #00cd68;">(</span>&#955; x &#8594; t<span style="color: #00cd68;">)</span> v &#10230; t<span style="color: #00cd68;">[</span>x &#8788; v<span style="color: #00cd68;">]</span>
 </code></pre>
 </div>
+<p>
+Notice how the use of <code>t</code>'s and <code>v</code>'s mandates that
+</p>
+<ul>
+<li>terms on the left reduce first, and</li>
+<li>applications only take place when the term being applied is a value.</li>
+
+</ul>
 
 </section>
 <section id="slide-α-conversion,-β-reduction-and-η-conversion">
-<h3 id="α-conversion,-β-reduction-and-η-conversion"><span class="section-number-3">4.7</span> α-conversion and η-conversion</h3>
-<p>
-:TODO:
-</p>
-
-
+<h3 id="α-conversion,-β-reduction-and-η-conversion"><span class="section-number-3">4.8</span> β-reduction, α-equivalence and η-conversion</h3>
 <p>
 β-reduction gives us one way to equate terms;
 </p>
 <ul>
 <li>two terms “have the same value” if they both reduce to the same
 value (irreducible term.)</li>
+<li>So we call terms that reduce to the same value
+β-equivalent.
+<ul>
+<li>For instance, \((λ x → x) y =_{β} y\).</li>
+
+</ul></li>
 
 </ul>
 
 <p>
-:TODO:
+Two other notions of equality between λ-terms prove useful.
 </p>
+<ul>
+<li>α-equivalence stipulates that two terms which vary
+only in the naming of bound variables are equivalent.
+<ul>
+<li>For instance, \(λ x → x =_{α} λ y → y\).</li>
+<li>This is a very useful stipulation to help avoid
+name clashes!</li>
+
+</ul></li>
+<li>η-conversion stipulates that
+<ul>
+<li>a term of the form \(λ x → f x\) can be reduced to \(f\),
+(η-reduction)
+and conversely,</li>
+<li>a term of the form \(f\) can be expanded to \(λ x → f x\)
+(η-expansion.)</li>
+
+</ul></li>
+
+</ul>
 
 </section>
-<section id="slide-org6a81b34">
-<h3 id="org6a81b34"><span class="section-number-3">4.8</span> Normalisation</h3>
+<section id="slide-org5f48b6f">
+<h3 id="org5f48b6f"><span class="section-number-3">4.9</span> Strong and weak normalisation</h3>
 <p>
-A λ-term is said to be in <i>normal form</i> if it cannot be reduced.
+As we've said, a λ-term is said to be
+in <i>normal form</i> if it cannot be reduced.
+</p>
+<ul>
+<li>We can define this concept of normal form
+in any system in which terms reduce;
+<ul>
+<li>in particular, in all the other models of computation
+we will consider.</li>
+
+</ul></li>
+
+</ul>
+
+<p>
+A set of terms along with a reduction strategy is then called
+</p>
+<ul>
+<li><i>strongly normalising</i> if every reduction sequence is guaranteed
+to terminate in a normal form, and</li>
+<li><i>weakly normalising</i> if for every term, there is at least one
+reduction sequence which terminates in a normal form.</li>
+
+</ul>
+
+</section>
+<section id="slide-org2c6054a">
+<h3 id="org2c6054a"><span class="section-number-3">4.10</span> Exercise: a term with no normal form</h3>
+<p>
+One combinator (closed term) of the untyped λ-calculus
+is the <i>ω-combinator</i>, which is also called the <i>divergent</i> combinator.
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-text"><code trim>omega = <span style="color: #00cd68;">(</span>&#955; x &#8594; x x<span style="color: #00cd68;">)</span> <span style="color: #00cd68;">(</span>&#955; x &#8594; x x<span style="color: #00cd68;">)</span>
+</code></pre>
+</div>
+
+<p>
+This combinator has no normal form; can you prove that?
 </p>
 
 <p>
-:TODO:
+Hint: what reductions are possible here?
+What is the result of that reduction?
 </p>
 
 </section>
@@ -612,8 +780,8 @@ and give some “combinators” which operate on these kinds of data.
 </p>
 
 </section>
-<section id="slide-orgd23d93b">
-<h3 id="orgd23d93b"><span class="section-number-3">5.1</span> Church booleans</h3>
+<section id="slide-org7b9533c">
+<h3 id="org7b9533c"><span class="section-number-3">5.1</span> Church booleans</h3>
 <p>
 We define the following terms to represent boolean values.
 </p>
@@ -646,11 +814,11 @@ is a “choice” between two options.
 </ul>
 
 </section>
-<section id="slide-org3e91f08">
-<h3 id="org3e91f08"><span class="section-number-3">5.2</span> Defining <code>if-then-else</code> using Church booleans</h3>
+<section id="slide-orga81afa6">
+<h3 id="orga81afa6"><span class="section-number-3">5.2</span> Defining <code>if-then-else</code> using Church booleans</h3>
 <p>
 Since the Church encoded booleans already “perform” a choice,
-defining an “<code>if-then-else</code>” construct
+defining an “if-then-else” construct
 using them is quite straightforward.
 </p>
 <div class="org-src-container">
@@ -663,8 +831,8 @@ The intention is that
 </p>
 <ul>
 <li>the first argument is a Church boolean,</li>
-<li>the second is the “<code>then</code>” branch, and</li>
-<li>the third is the “<code>else</code>” branch.</li>
+<li>the second is the “then” branch, and</li>
+<li>the third is the “else” branch.</li>
 
 </ul>
 
@@ -678,37 +846,318 @@ of choosing between <code>v</code> and <code>w</code>.</li>
 </ul>
 
 </section>
-<section id="slide-orgfb28d36">
-<h3 id="orgfb28d36"><span class="section-number-3">5.3</span> Pairs</h3>
+<section id="slide-org9345f54">
+<h3 id="org9345f54"><span class="section-number-3">5.3</span> Exercise: is <code>test</code> really if-then-else?</h3>
 <p>
-:TODO:
+Let us briefly pause to consider the semantics of <code>test</code>,
+</p>
+<ul>
+<li>and see if it matches the behaviour
+we expect from an “if-then-else” construct.</li>
+
+</ul>
+
+<p>
+Consider the example λ-term
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-text"><code trim>test true <span style="color: #00cd68;">(</span>id true<span style="color: #00cd68;">)</span> <span style="color: #00cd68;">(</span>id false<span style="color: #00cd68;">)</span>
+</code></pre>
+</div>
+
+<p>
+Using call-by-value semantics, we have
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-text"><code trim>  test true <span style="color: #00cd68;">(</span>id true<span style="color: #00cd68;">)</span> <span style="color: #00cd68;">(</span>id false<span style="color: #00cd68;">)</span>
+= test true <span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">(</span>&#955; x &#8594; x<span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">(</span>&#955; x &#8594; &#955; y &#8594; x<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span> <span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">(</span>&#955; x &#8594; x<span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">(</span>&#955; x &#8594; &#955; y &#8594; y<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+&#10230; test true <span style="color: #00cd68;">(</span>&#955; x &#8594; &#955; y &#8594; x<span style="color: #00cd68;">)</span> <span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">(</span>&#955; x &#8594; x<span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">(</span>&#955; x &#8594; &#955; y &#8594; y<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+&#10230; test true <span style="color: #00cd68;">(</span>&#955; x &#8594; &#955; y &#8594; x<span style="color: #00cd68;">)</span> <span style="color: #00cd68;">(</span>&#955; x &#8594; &#955; y &#8594; y<span style="color: #00cd68;">)</span>
+= test true true false
+&#10230; &#8230;
+</code></pre>
+</div>
+
+<p>
+Exercise: Considering this portion of the reduction sequence,
+what is different about <code>test</code> and the “if-then-else” construct
+that you are used to?
 </p>
 
 </section>
-<section id="slide-org5f44f97">
-<h3 id="org5f44f97"><span class="section-number-3">5.4</span> Church numerals</h3>
+<section id="slide-org5d442a2">
+<h3 id="org5d442a2"><span class="section-number-3">5.4</span> Pairs</h3>
 <p>
-:TODO:
+We now give an encoding of pairs
+</p>
+<ul>
+<li>(a wrapping of two terms into one),</li>
+<li>along with pair “deconstructors”.</li>
+
+</ul>
+<p>
+These definitions rely upon the encoding of booleans
+we have just given.
+</p>
+
+<div class="org-src-container">
+
+<pre  class="src src-text"><code trim>pair = &#955; f &#8594; &#955; s &#8594; &#955; b &#8594; b f s
+fst = &#955; p &#8594; p tru
+snd = &#955; p &#8594; p fls
+</code></pre>
+</div>
+
+<p>
+We may check that, for instance, <code>fst (pair v w)</code> will indeed
+reduce to <code>v</code>, using call-by-value semantics.
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-text"><code trim>  fst <span style="color: #00cd68;">(</span>pair v w<span style="color: #00cd68;">)</span>
+= <span style="color: #00cd68;">(</span>&#955; p &#8594; p <span style="color: #b6a0ff;">(</span>&#955; x &#8594; &#955; y &#8594; x<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span> <span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">(</span>&#955; f &#8594; &#955; s &#8594; &#955; b &#8594; b f s<span style="color: #b6a0ff;">)</span> v w<span style="color: #00cd68;">)</span>
+&#10230; <span style="color: #00cd68;">(</span>&#955; p &#8594; p <span style="color: #b6a0ff;">(</span>&#955; x &#8594; &#955; y &#8594; x<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span> <span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">(</span>      &#955; s &#8594; &#955; b &#8594; b v s<span style="color: #b6a0ff;">)</span>   w<span style="color: #00cd68;">)</span>
+&#10230; <span style="color: #00cd68;">(</span>&#955; p &#8594; p <span style="color: #b6a0ff;">(</span>&#955; x &#8594; &#955; y &#8594; x<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span> <span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">(</span>            &#955; b &#8594; b v w<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+&#10230; <span style="color: #00cd68;">(</span>&#955; b &#8594; b v w<span style="color: #00cd68;">)</span> <span style="color: #00cd68;">(</span>&#955; x &#8594; &#955; y &#8594; x<span style="color: #00cd68;">)</span>
+&#8594; <span style="color: #00cd68;">(</span>&#955; x &#8594; &#955; y &#8594; x<span style="color: #00cd68;">)</span> v w
+&#10230; <span style="color: #00cd68;">(</span>&#955; y &#8594; v<span style="color: #00cd68;">)</span> w
+&#8594; v
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org4e49155">
+<h3 id="org4e49155"><span class="section-number-3">5.5</span> Exercise: <code>snd</code></h3>
+<p>
+As an exercise, you may confirm
+that <code>snd (pair v w)</code> reduces to <code>w</code>, using call-by-value semantics.
 </p>
 
 </section>
-<section id="slide-org98c32b5">
-<h3 id="org98c32b5"><span class="section-number-3">5.5</span> Addition and multiplication</h3>
+<section id="slide-org3b755f9">
+<h3 id="org3b755f9"><span class="section-number-3">5.6</span> Natural numbers: Church numerals</h3>
 <p>
-:TODO:
+To represent natural numbers is only slightly more complicated
+than booleans and pairs. We give the pattern
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-text"><code trim>c&#8320; = &#955; s &#8594; &#955; z &#8594; z
+c&#8321; = &#955; s &#8594; &#955; z &#8594; s z
+c&#8322; = &#955; s &#8594; &#955; z &#8594; s <span style="color: #00cd68;">(</span>s z<span style="color: #00cd68;">)</span>
+&#8230;
+</code></pre>
+</div>
+<p>
+That is, each numeral <code>n</code> is represented as the function
+which applies its first argument to its second argument <code>n</code> times.
+</p>
+
+<p>
+Or more neatly, we define
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-text"><code trim>zero = &#955; s &#8594; &#955; z &#8594; z
+scc = &#955; n &#8594; &#955; s &#8594; &#955; z &#8594; s <span style="color: #00cd68;">(</span>n s z<span style="color: #00cd68;">)</span>
+</code></pre>
+</div>
+<p>
+so then <code>c₀</code> is <code>zero</code>, <code>c₁</code> can be obtained from <code>scc zero</code> (by reducing it),
+<code>c₂</code> can be obtained from <code>scc (scc zero)</code>, etc.
+</p>
+
+</section>
+<section id="slide-org8895530">
+<h3 id="org8895530"><span class="section-number-3">5.7</span> Addition and multiplication</h3>
+<p>
+By using the fact that
+</p>
+<ul>
+<li>“each numeral <code>n</code> is represented as the function which applies
+its first argument to its second argument <code>n</code> times”,</li>
+
+</ul>
+<p>
+we can fairly easily define addition and multiplication.
+</p>
+
+<p>
+For addition, <code>m + n</code>,
+</p>
+<ul>
+<li>we begin with <code>n</code>,</li>
+<li>and apply <code>suc</code> <code>m</code>-many times.</li>
+
+</ul>
+<div class="org-src-container">
+
+<pre  class="src src-text"><code trim>plus = &#955; m &#8594; &#955; n &#8594; &#955; s &#8594; &#955; z &#8594; m s <span style="color: #00cd68;">(</span>n s z<span style="color: #00cd68;">)</span>
+</code></pre>
+</div>
+
+<p>
+For multiplication, <code>m * n</code>,
+</p>
+<ul>
+<li>we begin with <code>zero</code>,</li>
+<li>and apply “<code>plus n</code>” <code>m</code>-many times.</li>
+
+</ul>
+<div class="org-src-container">
+
+<pre  class="src src-text"><code trim>times = &#955; m &#8594; &#955; n &#8594; m <span style="color: #00cd68;">(</span>plus n<span style="color: #00cd68;">)</span> zero
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org2c8206e">
+<h3 id="org2c8206e"><span class="section-number-3">5.8</span> Testing for zero</h3>
+<p>
+In order to test if a natural number is zero, we use the same ideas,
+</p>
+<ul>
+<li>but now the base case is true,</li>
+<li>and the function we apply <code>m</code>-many times
+is just the constantly false function.</li>
+
+</ul>
+<div class="org-src-container">
+
+<pre  class="src src-text"><code trim>iszro = &#955; m &#8594; m <span style="color: #00cd68;">(</span>&#955; x &#8594; fls<span style="color: #00cd68;">)</span> tru
+</code></pre>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-orgbc14e77">
+<h2 id="orgbc14e77"><span class="section-number-2">6</span> Recursion: the fixed point combinator</h2>
+<p>
+We have, in the previous section, encoded booleans, pairs
+and natural numbers in the untyped λ-calculus.
+</p>
+
+<p>
+In the process,
+</p>
+<ul>
+<li>we defined a “control structure”
+combinator <code>test = λ l → λ m → λ n → l m n</code>
+which acts something like <code>if-then-else</code>.</li>
+<li>we defined functions for deconstructing pairs, <code>fst</code> and <code>snd</code>,</li>
+<li>and for operating on
+natural numbers: <code>scc</code>, <code>plus</code>, <code>times</code> and <code>iszro</code>.</li>
+
+</ul>
+
+<p>
+But we are still lacking in “easy” ways to define new functions.
+</p>
+<ul>
+<li>The way we define those functions relies heavily on
+the encoding of the data.</li>
+<li>We perhaps cannot make it truly “easy” in this limited language,</li>
+<li>but we can get “easier”.</li>
+
+</ul>
+
+</section>
+<section id="slide-org230f0e7">
+<h3 id="org230f0e7"><span class="section-number-3">6.1</span> The ω-omega combinator: unbounded recursion</h3>
+<p>
+During our discussion of normal forms, we mention the “ω-combinator”,
+which embodies <i>divergence</i> (non-termination).
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-text"><code trim>omega = <span style="color: #00cd68;">(</span>&#955; x &#8594; x x<span style="color: #00cd68;">)</span> <span style="color: #00cd68;">(</span>&#955; x &#8594; x x<span style="color: #00cd68;">)</span>
+</code></pre>
+</div>
+
+<p>
+<code>omega</code> has one redex, and reducing it results in <code>omega</code> once more.
+</p>
+<ul>
+<li>So <code>omega</code> has no normal form, because no reduction sequence
+for <code>omega</code> terminates.</li>
+
+</ul>
+
+<p>
+A generalisation of the <code>omega</code> combinator will let us
+define recursive functions.
+</p>
+
+</section>
+<section id="slide-org76a0dd4">
+<h3 id="org76a0dd4"><span class="section-number-3">6.2</span> The fixed-point combinator, a.k.a. the Y-combinator</h3>
+<p>
+The <i>fixed-point combinator</i>, or the (call-by-value) <i>Y-combinator</i>,
+has the form
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-text"><code trim>fix = &#955; f &#8594; <span style="color: #00cd68;">(</span>&#955; x &#8594; f <span style="color: #b6a0ff;">(</span>&#955; y &#8594; x x y<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span> <span style="color: #00cd68;">(</span>&#955; x &#8594; f <span style="color: #b6a0ff;">(</span>&#955; y &#8594; x x y<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+</code></pre>
+</div>
+
+<p>
+:TODO: prove that this gives rise to a fixed point
+</p>
+
+</section>
+<section id="slide-org7dd1f47">
+<h3 id="org7dd1f47"><span class="section-number-3">6.3</span> Recursive definitions via the fixed point combinator</h3>
+<p>
+To use <code>fix</code>, we define a function <code>g</code> of the form
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-text"><code trim>g = &#955; f &#8594; &#8230;
+</code></pre>
+</div>
+<p>
+and use <code>f</code> as a <i>recursive call</i>.
+</p>
+
+<p>
+Then we apply <code>fix g</code>, which computes a recursive function
+whose right-hand side is given by <code>g</code>.
+</p>
+
+<p>
+See Pierce, chapter 5, page 66 for an example involving
+a definition of factorial in this manner.
 </p>
 
 </section>
 </section>
 <section>
-<section id="slide-orgbeeb930">
-<h2 id="orgbeeb930"><span class="section-number-2">6</span> Enriching the calculus</h2>
+<section id="slide-org27919af">
+<h2 id="org27919af"><span class="section-number-2">7</span> Enriching the calculus</h2>
+<p>
+We may “enrich” our untyped λ-calculus
+</p>
+<ul>
+<li>first by adding additional values for types such as
+booleans and natural numbers,
+<ul>
+<li>values which are simply new constants,
+and not encodings as pure untyped functions,</li>
 
-</section>
-</section>
-<section>
-<section id="slide-org0c68c5d">
-<h2 id="org0c68c5d"><span class="section-number-2">7</span> </h2>
+</ul></li>
+<li>and by then adding a (simple) type system to obtain a
+(simply) typed λ-calculus.</li>
+
+</ul>
+
+<p>
+We will do both of these in section 6 of the notes,
+“A typed λ-calculus, <i>TL</i>”. 
+</p>
 </section>
 </section>
 </div>

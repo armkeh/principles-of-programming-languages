@@ -129,8 +129,11 @@ Pure functional programming languages are clearly descended
 from the λ-calculus; the λ-calculus embodies their model of computation.
 - Additionally, it is common to have a “lambda” operator
   which allows definition of anonymous functions.
-
-Imperative languages instead use a model of computation
+  - This is so even outside of pure functional languages,
+    - and it is becoming common
+      in primarily imperative languages as well!
+  
+Imperative languages instead (traditionally) use a model of computation
 based on the /Von-Neumann/ architecture,
 - which matches our real-world computing devices!
   - Hence imperative languages are naturally lower-level;
@@ -146,6 +149,8 @@ based on the /Von-Neumann/ architecture,
 :CUSTOM_ID: The-basics
 :END:
 
+** Preamble                                    :ignore:
+
 In our discussion of abstractions, we mentioned
 the abstraction of the function/method/procedure/subroutine.
 - The functional abstraction provides a means
@@ -159,7 +164,7 @@ is a function.
 - Values such as booleans and natural numbers
   are /encoded/ (represented) by functions.
 
-** The terms
+** Informal definition of terms
 :PROPERTIES:
 :CUSTOM_ID: The-terms
 :END:
@@ -188,7 +193,7 @@ The meaning of each term is, informally:
   - “Top-level” free variables have no meaning (on their own).
     - Until we construct a new term by λ-abstracting them.
 
-** Variable binding; free and bound variables
+** Variable binding
 :PROPERTIES:
 :CUSTOM_ID: Variable-binding;-free-and-bound-variables
 :END:
@@ -199,8 +204,17 @@ Recall the notion of free and bound variables.
   - Examples include quantifiers
     such as $∀\_❙\_•\_$, $∃\_❙\_•\_$ and $∑\_❙\_•\_$,
     and substitution $\_[\_→\_]$.
-- (For simplicity, let us assume below that variable binders
-  act on a single variable and a single term.)
+  - By convention, the bodies of variable binders extend as far
+    to the right as possible;
+    - so for instance $∀ x ❙ P x • Q x ∧ R y$ is read
+      as $(∀ x ❙ P x • (Q x ∧ R y))$.
+  - But substitution binds tighter than any other operation;
+   - so for instance $x + y [y ≔ z]$ is read as $x + (y [y ≔ z])$ 
+
+** Free and bound variables
+
+For simplicity, let us assume here that variable binders
+act on a single variable and a single term.
 - Let $B\_•\_$ range over the set of variable binders in a language.
 - An occurrence of a variable $x$ in a term $t$ that is /not/ in
   a subterm of the form $B x • u$ is called /free/.
@@ -210,6 +224,13 @@ Recall the notion of free and bound variables.
   - Note: instances of $x$ which are bound elsewhere are not bound
     by that $B$.
 
+** Open and closed terms; combinators
+
+- A λ-term which contains free variables is called an /open term/.
+
+- A λ-term with no free variables is called a /closed term/.
+  - Such λ-terms are also called /combinators/.
+  
 ** Picturing variable bindings
 :PROPERTIES:
 :CUSTOM_ID: Picturing-variable-bindings
@@ -269,6 +290,7 @@ of /currying/ functions.
     so this is equivalent to $f : A → B → C$.)
   - So $f′$ is a function which takes an $A$ and
     /produces a function/ of type $B → C$.
+    - We also say that $f′$ is /partially applied/ to a value of $A$.
     - We usually don't give this new function a name.
     - We can consider this new function as having a /fixed/ value
       for the $A$ argument that was provided.
@@ -289,16 +311,24 @@ We will use the name ~id~ to refer to this function.
 #+begin_src text
 λ x → λ y → x
 #+end_src
+is a function which ignores its second argument,
+and just returns the first; this is sometimes called ~const~.
 
 #+begin_src text
 λ x → λ y → y
 #+end_src
+is then a function which ignores its first argument.
 
-* The formal syntax and semantics of /UL/
+#+begin_src text
+λ f → λ x → f x
+#+end_src
+is a function which applies its second argument to its first;
+we might call this just ~apply~.
+
+* The syntax and semantics of /UL/
 :PROPERTIES:
 :CUSTOM_ID: The-formal-syntax-and-semantics-of-/UL/
 :END:
-
 
 ** Preamble                                    :ignore:
 
@@ -327,7 +357,7 @@ we will write abstraction as
 :CUSTOM_ID: The-operational-semantics-of-/UL/
 :END:
 
-A term of the form $(λ x → t₁) t₂$ is called a /redex/,
+A term of the form $(λ x → t₁) t₂$ is called a /redex/ (β-redex),
 meaning /reducible expression/.
 
 The semantics of the λ-calculus is given by a /reduction strategy/
@@ -343,8 +373,23 @@ The semantics of the λ-calculus is given by a /reduction strategy/
       substitution operation coming before the term,
       and using the “maps to” operator instead of “becomes”.
     - You may also see forms such as $[x\backslash t₁]$ or $[t₁/x]$.)
-      
-** Reduction strategies
+
+** Normal forms and values
+
+A term which does not involve any redexes is said to be
+in /normal form/ (β-normal form).
+- Terms in β-normal form which are not variables
+  are called /values/.
+  - In the pure untyped λ-calculus, these only include λ-abstractions.
+  - Later, we will add other constant values,
+    such as ~true~, ~false~, ~0~, etc.
+
+In the untyped λ-calculus,
+- if a term has a normal form, that normal form is unique.
+  - (By the /Church–Rosser/ theorem.)
+- But not all terms have a normal form!
+    
+** Some reduction strategies
 :PROPERTIES:
 :CUSTOM_ID: Reduction-strategies
 :END:
@@ -354,10 +399,8 @@ Given an arbitrary term, there may be several subterms which are redexes,
 A reduction strategy limits our choice of which redex to reduce.
 
 Several strategies have been studied. We discuss just four of them.
-- full β-reduction,
-- normal order,
-- call by name, and
-- call by value.
+- full β-reduction, normal order,
+- call by name, and call by value.
 We only give a full formal treatment to call-by-value.
   
 The last two you may know as names of parameter passing methods
@@ -365,20 +408,23 @@ from (practical) programming languages.
 - There is a direct correspondance between reduction strategies
   and parameter passing methods.
 
-** Reduction strategies: full β-reduction and normal order
+** Some reduction strategies: full β-reduction and normal order
 :PROPERTIES:
 :CUSTOM_ID: Reduction-strategies:-full-β-reduction
 :END:
 
 The /full β-reduction/ strategy is, essentially, to have no
 strategy at all.
-
-Under full β-reduction, and redex can be reduced at any point.
-
+- Under full β-reduction, and redex can be reduced at any point.
+- This strategy gives rise to a reduction /relation/,
+  not a function.
+  - Since a given term may reduce to /many/ other terms.
+  
 The /normal order/ strategy enforces that the
 leftmost, outermost redex is always reduced first.
+- This restriction gives rise to a function.
 
-** Reduction strategies: call by name and call by value
+** Some reduction strategies: call by name and call by value
 :PROPERTIES:
 :CUSTOM_ID: Reduction-strategies:-call-by-name
 :END:
@@ -390,55 +436,86 @@ The /call by name/ strategy builds on the normal order strategy
 The /call by value/ strategy also builds on the normal order strategy,
 - by mandating that a redex is reduced only when its right hand side
   - (the “argument”)
-  cannot be reduced (is a value.)
+  is a value (in β-normal form and not a variable).
 
 ** A formal description of call by value semantics
 
 Let us use the convention that variable names involving
 - ~t~ represent arbitrary λ-terms, whereas variable names involving
-- ~v~ represent irreducible λ-terms (values).
+- ~v~ represent terms in λ-normal form (values).
 
 Then we may give a formal description of call-by-value semantics
 using inference rules.
 #+begin_src text
    t₁ ⟶ t₁′
-–––––––––––––––– Applicationˡ
+–––––––––––––––– Appˡ
 t₁ t₂ ⟶ t₁′ t₂
 
 
-   
    t₂ ⟶ t₂′
-–––––––––––––––– Applicationʳ
+–––––––––––––––– Appʳ
 v₁ t₂ ⟶ v₁ t₂′
 
-
    
-–––––––––––––––––––––––– Application to abstraction
+–––––––––––––––––––––––– AppAbs
 (λ x → t) v ⟶ t[x ≔ v]
 #+end_src
+Notice how the use of ~t~'s and ~v~'s mandates that
+- terms on the left reduce first, and
+- applications only take place when the term being applied is a value.
 
-** α-conversion and η-conversion
+** β-reduction, α-equivalence and η-conversion
 :PROPERTIES:
 :CUSTOM_ID: α-conversion,-β-reduction-and-η-conversion
 :END:
 
-:TODO:
-
-# η-conversion does not fit into the content here,
-# but we should discuss it to tie in with Scala.
-
-
 β-reduction gives us one way to equate terms;
 - two terms “have the same value” if they both reduce to the same
   value (irreducible term.)
+- So we call terms that reduce to the same value
+  β-equivalent.
+  - For instance, $(λ x → x) y =_{β} y$.
 
-:TODO:
+Two other notions of equality between λ-terms prove useful.
+- α-equivalence stipulates that two terms which vary
+  only in the naming of bound variables are equivalent.
+  - For instance, $λ x → x =_{α} λ y → y$.
+  - This is a very useful stipulation to help avoid
+    name clashes! 
+- η-conversion stipulates that
+  - a term of the form $λ x → f x$ can be reduced to $f$,
+    (η-reduction)
+    and conversely,
+  - a term of the form $f$ can be expanded to $λ x → f x$
+    (η-expansion.)
+    
+** Strong and weak normalisation
 
-** Normalisation
+As we've said, a λ-term is said to be
+in /normal form/ if it cannot be reduced.
+- We can define this concept of normal form
+  in any system in which terms reduce;
+  - in particular, in all the other models of computation
+    we will consider.
 
-A λ-term is said to be in /normal form/ if it cannot be reduced.
+A set of terms along with a reduction strategy is then called
+- /strongly normalising/ if every reduction sequence is guaranteed
+  to terminate in a normal form, and
+- /weakly normalising/ if for every term, there is at least one
+  reduction sequence which terminates in a normal form.
 
-:TODO:
+** Exercise: a term with no normal form
+
+One combinator (closed term) of the untyped λ-calculus
+is the /ω-combinator/, which is also called the /divergent/ combinator.
+#+begin_src text
+omega = (λ x → x x) (λ x → x x)
+#+end_src
+
+This combinator has no normal form; can you prove that?
+
+Hint: what reductions are possible here?
+What is the result of that reduction?
 
 * λ-encodings
 :PROPERTIES:
@@ -482,32 +559,200 @@ These choices are /somewhat/ arbitrary.
 ** Defining ~if-then-else~ using Church booleans
 
 Since the Church encoded booleans already “perform” a choice,
-defining an “~if-then-else~” construct
+defining an “if-then-else” construct
 using them is quite straightforward.
 #+begin_src text
 test = λ l → λ m → λ n → l m n
 #+end_src
 The intention is that
 - the first argument is a Church boolean,
-- the second is the “~then~” branch, and
-- the third is the “~else~” branch. 
+- the second is the “then” branch, and
+- the third is the “else” branch. 
 
 Notice that ~test b v w~ simply reduces to ~b v w~;
 - the boolean ~b~ really “does the work”
   of choosing between ~v~ and ~w~.
 
+** Exercise: is ~test~ really if-then-else?
+
+Let us briefly pause to consider the semantics of ~test~,
+- and see if it matches the behaviour
+  we expect from an “if-then-else” construct.
+
+Consider the example λ-term
+#+begin_src text
+test true (id true) (id false)
+#+end_src
+
+Using call-by-value semantics, we have
+#+begin_src text
+  test true (id true) (id false)
+= test true ((λ x → x) (λ x → λ y → x)) ((λ x → x) (λ x → λ y → y))
+⟶ test true (λ x → λ y → x) ((λ x → x) (λ x → λ y → y))
+⟶ test true (λ x → λ y → x) (λ x → λ y → y)
+= test true true false
+⟶ …
+#+end_src
+
+Exercise: Considering this portion of the reduction sequence,
+what is different about ~test~ and the “if-then-else” construct
+that you are used to?
+
 ** Pairs
 
-:TODO:
+We now give an encoding of pairs
+- (a wrapping of two terms into one),
+- along with pair “deconstructors”.
+These definitions rely upon the encoding of booleans
+we have just given.
 
-** Church numerals
+#+begin_src text
+pair = λ f → λ s → λ b → b f s
+fst = λ p → p tru
+snd = λ p → p fls
+#+end_src
 
-:TODO:
+We may check that, for instance, ~fst (pair v w)~ will indeed
+reduce to ~v~, using call-by-value semantics.
+#+begin_src text
+  fst (pair v w)
+= (λ p → p (λ x → λ y → x)) ((λ f → λ s → λ b → b f s) v w)
+⟶ (λ p → p (λ x → λ y → x)) ((      λ s → λ b → b v s)   w)
+⟶ (λ p → p (λ x → λ y → x)) ((            λ b → b v w))
+⟶ (λ b → b v w) (λ x → λ y → x)
+→ (λ x → λ y → x) v w
+⟶ (λ y → v) w
+→ v
+#+end_src
+
+** Exercise: ~snd~
+
+As an exercise, you may confirm
+that ~snd (pair v w)~ reduces to ~w~, using call-by-value semantics.
+
+** Natural numbers: Church numerals
+
+To represent natural numbers is only slightly more complicated
+than booleans and pairs. We give the pattern
+#+begin_src text
+c₀ = λ s → λ z → z
+c₁ = λ s → λ z → s z
+c₂ = λ s → λ z → s (s z)
+…
+#+end_src
+That is, each numeral ~n~ is represented as the function
+which applies its first argument to its second argument ~n~ times.
+
+Or more neatly, we define
+#+begin_src text
+zero = λ s → λ z → z
+scc = λ n → λ s → λ z → s (n s z)
+#+end_src
+so then ~c₀~ is ~zero~, ~c₁~ can be obtained from ~scc zero~ (by reducing it),
+~c₂~ can be obtained from ~scc (scc zero)~, etc.
 
 ** Addition and multiplication
 
-:TODO:
+By using the fact that
+- “each numeral ~n~ is represented as the function which applies
+  its first argument to its second argument ~n~ times”,
+we can fairly easily define addition and multiplication.
+
+For addition, ~m + n~,
+- we begin with ~n~,
+- and apply ~suc~ ~m~-many times.
+#+begin_src text
+plus = λ m → λ n → λ s → λ z → m s (n s z)
+#+end_src
+
+For multiplication, ~m * n~,
+- we begin with ~zero~,
+- and apply “~plus n~” ~m~-many times.
+#+begin_src text
+times = λ m → λ n → m (plus n) zero
+#+end_src
+
+** Testing for zero
+
+In order to test if a natural number is zero, we use the same ideas,
+- but now the base case is true,
+- and the function we apply ~m~-many times
+  is just the constantly false function.
+#+begin_src text
+iszro = λ m → m (λ x → fls) tru
+#+end_src
+
+* Recursion: the fixed point combinator
+
+
+
+** Preamble                                    :ignore:
+
+We have, in the previous section, encoded booleans, pairs
+and natural numbers in the untyped λ-calculus.
+
+In the process,
+- we defined a “control structure”
+  combinator ~test = λ l → λ m → λ n → l m n~
+  which acts something like ~if-then-else~.
+- we defined functions for deconstructing pairs, ~fst~ and ~snd~,
+- and for operating on
+  natural numbers: ~scc~, ~plus~, ~times~ and ~iszro~.
+
+But we are still lacking in “easy” ways to define new functions.
+- The way we define those functions relies heavily on
+  the encoding of the data.
+- We perhaps cannot make it truly “easy” in this limited language,
+- but we can get “easier”.
+
+** The ω-omega combinator: unbounded recursion
+
+During our discussion of normal forms, we mention the “ω-combinator”,
+which embodies /divergence/ (non-termination).
+#+begin_src text
+omega = (λ x → x x) (λ x → x x)
+#+end_src
+
+~omega~ has one redex, and reducing it results in ~omega~ once more.
+- So ~omega~ has no normal form, because no reduction sequence
+  for ~omega~ terminates.
+
+A generalisation of the ~omega~ combinator will let us
+define recursive functions.
+
+** The fixed-point combinator, a.k.a. the Y-combinator
+
+The /fixed-point combinator/, or the (call-by-value) /Y-combinator/,
+has the form
+#+begin_src text
+fix = λ f → (λ x → f (λ y → x x y)) (λ x → f (λ y → x x y))
+#+end_src
+
+:TODO: prove that this gives rise to a fixed point
+
+** Recursive definitions via the fixed point combinator
+
+To use ~fix~, we define a function ~g~ of the form
+#+begin_src text
+g = λ f → …
+#+end_src
+and use ~f~ as a /recursive call/.
+
+Then we apply ~fix g~, which computes a recursive function
+whose right-hand side is given by ~g~.
+
+See Pierce, chapter 5, page 66 for an example involving
+a definition of factorial in this manner.
 
 * Enriching the calculus
 
-* 
+We may “enrich” our untyped λ-calculus
+- first by adding additional values for types such as
+  booleans and natural numbers,
+  - values which are simply new constants,
+    and not encodings as pure untyped functions,
+- and by then adding a (simple) type system to obtain a
+  (simply) typed λ-calculus.
+
+We will do both of these in section 6 of the notes,
+“A typed λ-calculus, /TL/”. 
