@@ -1,0 +1,9 @@
+version: '2'
+services:
+  service:
+    build: .
+    image: 3mi3_h4_docker_image
+    volumes:
+      - .:/opt/h4
+    container_name: 3mi3_h4_container
+    command: ['amm', 'h4t.sc']

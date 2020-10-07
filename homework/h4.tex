@@ -1,0 +1,583 @@
+% Created 2020-10-07 Wed 05:53
+% Intended LaTeX compiler: lualatex
+\documentclass[11pt]{article}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{etoolbox}
+\makeatletter
+\def\dontdofcolorbox{\renewcommand\fcolorbox[4][]{##4}}
+\AtBeginEnvironment{minted}{\dontdofcolorbox}
+\makeatother
+\usepackage[newfloat]{minted}
+\author{Mark Armstrong}
+\date{October 7th, 2020}
+\title{Computer Science 3MI3 – 2020 homework 4\\\medskip
+\large Working with lazy (potentially infinite) lists in Scala}
+\hypersetup{
+   pdfauthor={Mark Armstrong},
+   pdftitle={Computer Science 3MI3 – 2020 homework 4},
+   pdfkeywords={},
+   pdfsubject={Working with lazy (potentially infinite) lists in Scala},
+   pdfcreator={Emacs 27.0.90 (Org mode 9.4)},
+   pdflang={English},
+   colorlinks,
+   linkcolor=blue,
+   citecolor=blue,
+   urlcolor=blue
+   }
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+
+\section*{Introduction}
+\label{sec:org5403d4a}
+\subsection*{Preamble}
+\label{sec:org1c06a5e}
+Throughout this course, we will investigate
+many evaluation/parameter passing methods.
+Specifically, we begin to investigate this topic
+during our discussion of reduction strategies in
+the untyped λ-calculus.
+
+Two ways to classify evaluation strategies are
+as either
+\begin{itemize}
+\item \emph{eager} (sometimes called strict),
+\begin{itemize}
+\item performing evaluation as soon as possible, or
+\end{itemize}
+\item \emph{lazy} (sometimes called non-strict),
+\begin{itemize}
+\item delaying evaluation until absolutely necessary
+(if it is needed at all).
+\end{itemize}
+\end{itemize}
+
+Most programming languages employ eager evaluation in most circumstances.
+Notable exceptions include:
+\begin{itemize}
+\item “Short-circuit” operations, such as boolean and/or operations.
+\begin{itemize}
+\item For instance, a short-circuit and operation
+evaluates one argument (usually the first), and if it is false,
+simply returns false, without checking the second argument.
+\end{itemize}
+\item (Conditional) branching constructs
+such as \texttt{if-then-else}, \texttt{switch} statements
+and pattern matching.
+\begin{itemize}
+\item The statements/expressions of the branches not taken
+are not evaluated.
+\end{itemize}
+\item Function definitions.
+\begin{itemize}
+\item Even if the argument type of the function is \texttt{Unit},
+so there is only one possible argument,
+functions are never evaluated until called (invoked.)
+\end{itemize}
+\end{itemize}
+This last we can make use of to create our own infinite datatypes
+in any language which supports higher-order functions
+(functions which can take other functions as arguments)
+and algebraic datatypes (which can take functions as parameters).
+
+\subsection*{A type for this assignment}
+\label{sec:org4704dac}
+(In Friday's lecture, we stated that we would not construct
+our own “infinite” datatypes; this was revised during the tutorial,
+and in this homework, we work with the following new type.)
+
+Consider the type
+\begin{minted}[breaklines=true]{scala}
+sealed trait Stream[+A]
+case object SNil extends Stream[Nothing]
+case class Cons[A](a: A, f: Unit => Stream[A]) extends Stream[A]
+\end{minted}
+of \emph{potentially} infinite lists.
+(If a \texttt{Stream} ends with a \texttt{SNil}, it is finite; but
+this is not always the case, as streams may be defined recursively
+so that \texttt{SNil} is not part of the stream.)
+
+Refer to the “Infinite data in Scala” lecture notes, available as
+\begin{itemize}
+\item \href{./../notes/live-coding/10-02-infinite-data-in-scala.html}{HTML},
+\item \href{./../notes/live-coding/10-02-infinite-data-in-scala.pdf}{PDF}, or
+\item \href{./../notes/live-coding/10-02-infinite-data-in-scala.org}{plaintext Org source},
+\end{itemize}
+for more explanation of this type
+and some method definitions for it.
+
+In particular, you will likely want to use the \texttt{take} method
+to be able to print portions of your streams.
+
+\section*{Boilerplate}
+\label{sec:org72f60a9}
+\subsection*{Submission procedures}
+\label{sec:orgd8d5f83}
+\subsubsection*{Submission method}
+\label{sec:orgdc217a5}
+
+Homework should be submitted to your McMaster CAS Gitlab respository
+in the \texttt{cs3mi3-fall2020} project.
+
+Ensure that you have \textbf{pushed} the commits to the remote repository
+in time for the deadline, and not just committed to your local copy.
+
+\subsubsection*{Naming requirements}
+\label{sec:org8c943e0}
+
+Place all files for the homework
+inside a folder titled \texttt{hn}, where \texttt{n} is the number of the homework.
+So, for homework 1, the use the folder \texttt{h1}, for homework 2 the folder \texttt{h2}, etc.
+Ensure you do not capitalise the \texttt{h}.
+
+Unless otherwise instructed in the homework questions,
+place all of your code for the homework
+in a single file in the \texttt{hn} folder named \texttt{hn.ext},
+where \texttt{ext} is the appropriate extension for the language used
+according to this list:
+\begin{itemize}
+\item For Scala, \texttt{ext} is \texttt{sc}.
+\item For Prolog, \texttt{ext} is \texttt{pl}.
+\item For Ruby, \texttt{ext} is \texttt{rb}.
+\item For Clojure, \texttt{ext} is \texttt{clg}.
+\end{itemize}
+If multiple languages are used in the homework,
+submit a \texttt{hn.ext} file for each language.
+
+\begin{center}
+\textbf{If the language supports multiple different file extensions,}
+\textbf{you must still follow the extension conventions above.}
+\end{center}
+
+\begin{center}
+\textbf{Incorrect naming of files may result in up to a 10\% deduction in your grade.}
+\end{center}
+
+\subsubsection*{Do not submit testing or diagnostic code}
+\label{sec:org41e540e}
+
+Unless you are instructed to do so in the homework questions,
+\textbf{you should not submit testing code with your homework submission}.
+
+This includes
+\begin{itemize}
+\item any \texttt{main} function,
+\item any \texttt{print} statements which output information
+\textbf{that is not directly requested as console output}
+\textbf{in the homework questions}.
+\end{itemize}
+
+If you do not wish to remove diagnostic print statements manually,
+you will have to find a way to ensure that they disabled
+in your final submission.
+
+For instance, by using a wrapper on the print function or macros.
+
+\subsubsection*{Due date and allowance for technical difficulties}
+\label{sec:orgbcf209e}
+
+Homework is due on the second Sunday following its release,
+by the end of the day (midnight).
+Submissions past 00:00 may not be considered.
+
+If you experience technical difficulties
+leading up to the submission time,
+please contact Mark \textbf{ASAP} with the details of the problem
+and, if possible, attach the current state of your homework
+to the communication.
+This information will help ensure we are able
+to accept your submission once the technical difficulties are resolved.
+
+\subsection*{Proper conduct for coursework}
+\label{sec:orgf39258d}
+\subsubsection*{Individual work}
+\label{sec:org9335a1a}
+
+Unless explicitely stated in the homework questions,
+all homework in this course is intended
+to be \emph{individually completed}.
+
+You are welcome to discuss the content of the homework in
+the public forum of the class Microsoft Teams team homework channel,
+though obviously solutions or partial solutions should not
+be posted or described.
+
+Private discussions about the homework cannot reasonably be
+forbidden, but such discussions should follow the same guidelines
+as public discussions.
+
+\begin{center}
+\textbf{Inappopriate collaboration via private discussions}
+\textbf{which is later discovered by course staff}
+\textbf{may be considered academic dishonesty.}
+
+When in doubt, make the discussion private, or report its contents
+to the course staff by making a note of it
+in your homework.
+\end{center}
+
+To clarify what is considered appropriate discussions
+of homework content, here are some examples:
+\begin{enumerate}
+\item Discussing the language features introduced or needed for the homework.
+\begin{itemize}
+\item Such as relevant builtin datatypes
+and datatype definition methods and their general use.
+\item Code snippets that are not partial solutions to the homework
+are welcome and encouraged.
+\end{itemize}
+\item Questions of the form “What is meant by \texttt{x}?”,
+“Does \texttt{x} really mean \texttt{y}?” or “Is there a mistake with \texttt{x}?”
+\begin{itemize}
+\item Of course, questions of those form which would be answered
+by partial solutions are not considered appropriate.
+\end{itemize}
+\item Questions or advice about errors that may be encountered.
+\begin{itemize}
+\item Such as “If you see a \texttt{scala.MatchError} you should
+probably add a catch-all \texttt{\_} case to your \texttt{match} expressions.”
+\end{itemize}
+\end{enumerate}
+
+\subsubsection*{Language library resources}
+\label{sec:org49a39e1}
+
+Unless explicitely stated in the questions,
+it is not expected that you will use any language library resources
+in the homeworks.
+
+Possible exceptions to this rule include implementations
+of datatypes we discuss in this course, such as lists
+or options/maybes, if they are included in a standard library
+instead of being builtin.
+
+\emph{Basic} operations on such types would also be allowed.
+\begin{itemize}
+\item For instance, \texttt{head}, \texttt{tail}, \texttt{append}, etc. on lists
+would not require explicit permission to be used.
+\item More complex operations such as sorting procedures
+would require permission before you used them.
+\end{itemize}
+
+Additionally, the standard \emph{higher-order} operations
+including \texttt{map}, \texttt{reduce}, \texttt{flatten}, and \texttt{filter} are permitted generally,
+unless the task is to implement such a higher-order operator.
+
+\section*{Part 1: Filtering streams                       [10 points]}
+\label{sec:org2747ce3}
+Using the custom \texttt{Stream} type for this assignment,
+defined in “\hyperref[sec:org4704dac]{a type for this assignment}” above,
+create a method \texttt{filter} on \texttt{Stream}.
+
+The first argument to \texttt{filter} should be a predicate
+(i.e., a \texttt{Boolean}-valued function/method),
+and the second argument the \texttt{Stream} to be filtered.
+
+The result of \texttt{filter(p,s)} should be the stream obtained
+by removing all elements of \texttt{s} which do not satisfy \texttt{p};
+that is, for an element \texttt{e} of \texttt{s}, if \texttt{p(e)} is \texttt{true},
+then \texttt{e} is in the new stream; otherwise, if \texttt{p(e)} is \texttt{false},
+then \texttt{e} is not in the new stream.
+
+\subsection*{Take care!}
+\label{sec:org2e9b192}
+If you encounter problems in this definition or those below,
+do review the lecture/tutorial notes;
+in particular, see the subsection
+“Take care: make arguments of type \texttt{Stream} by name arguments”.
+
+Also, note that when working with infinite lists,
+sometimes it is expected that you will encounter infinite recursion
+(and hence stack overflows).
+In particular, think about the result of filtering out \emph{every} element
+in an infinite stream.
+
+\section*{Part 2: Zipping and merging streams             [20 points]}
+\label{sec:orgd50385f}
+Create the following three methods on streams.
+\begin{enumerate}
+\item \texttt{zip}, which when given two streams \emph{of equal length},
+but potentially with different element types,
+returns a stream of \emph{pairs} consisting of the elements of those streams.
+\begin{itemize}
+\item That is, if the two streams were
+written \texttt{⟨a₀,a₁,a₂,…⟩} and \texttt{⟨b₀,b₁,b₂,…⟩},
+the result of zipping them would be \texttt{⟨(a₀,b₀),(a₁,b₁),(a₂,b₂)⟩}.
+\end{itemize}
+In the case that the streams are of differing lengths,
+your method should still not cause an exception.
+Instead, it should zip together as many elements as possible,
+but the remaining behaviour is unspecified.
+
+\item \texttt{merge}, which when given two streams \emph{with the same type of elements},
+but potentially of differing lengths,
+merges the stream, such that
+\begin{itemize}
+\item the first element of the resulting stream
+is the first element of the first stream,
+\item the second element of the resulting stream
+is the first element of the second stream,
+\item the third element of the resulting stream
+is the second element of the first stream,
+\item the fourth element of the resulting stream
+is the second element of the second stream,
+\item and so on.
+\end{itemize}
+We do not fully specify the behaviour of \texttt{merge} if the two streams
+are of different length, but it should not cause an exception.
+\end{enumerate}
+
+\section*{Part 3: “Quantifying” over streams              [10 points]}
+\label{sec:org66817c8}
+Define the two higher order predicates \texttt{all} and \texttt{exists} on streams,
+which correspond to the ∀ and ∃ quantifiers respectively.
+\begin{itemize}
+\item \texttt{all(p,s)} returns \texttt{false} if there is an element of \texttt{s} which
+does not satisfy the predicate \texttt{p}.
+\item \texttt{exists(p,s)} returns \texttt{true} if there is an element of \texttt{s}
+which satisfies the predicate \texttt{p}.
+\end{itemize}
+(Do take note of what behaviour is specified or is not specified here;
+there is a reason I have stated the behaviour this way.)
+
+\section*{Part 4: Tolerant zipping and merging of streams [10 bonus points]}
+\label{sec:orgbea8a44}
+Implement alternative versions of the \texttt{zip} and \texttt{merge} methods
+from part 2, called \texttt{zipSafe} and \texttt{mergeSafe}.
+
+These versions must return a sensible result which contains,
+in some way, \textbf{every element} from \textbf{both} streams,
+even if the conditions
+for using \texttt{zip} and \texttt{merge} that were given in part 2 are not met;
+that is, \texttt{zip} must work for streams of differing lengths,
+and \texttt{merge} must work for streams with different element types.
+
+You may make whatever design decisions you feel are necessary
+to implement these methods. Your solution may be
+(sometimes subjectively) judged based on
+\begin{itemize}
+\item how close your methods come to the original specified behaviour
+of \texttt{zip} and \texttt{merge},
+\item whether information (such as type information or elements)
+is lost by your methods, and
+\item the overall elegance of solution,
+\begin{itemize}
+\item in particular whether it fits the \emph{functional} paradigm.
+\end{itemize}
+\end{itemize}
+
+\section*{Testing}
+\label{sec:org19f5c8a}
+Unit tests for the requested methods/functions
+are available here: \url{./testing/h4/h4t.sc}
+The contents of the unit test file are also repeated below.
+
+The tests can be run by placing the \texttt{h4t.sc} file
+in the same directory as your \texttt{h4.sc} file, and
+running the following command.
+\begin{minted}[breaklines=true]{shell}
+amm h4t.sc
+\end{minted}
+
+If you use an implementation other than Ammonite,
+you may need to adjust the tests to be able to run them
+on your system.
+
+In particular, those using IntelliJ for writing Scala
+may need to remove the import statement at the top of that file,
+or move the tests to their source file
+(if so, be sure to remove them before submission!)
+
+\subsection*{Automated testing via Docker}
+\label{sec:orgbf2869f}
+The Docker setup and usage scripts are available at the following links.
+Their contents are also repeated below.
+\begin{itemize}
+\item \href{./testing/h4/Dockerfile}{Dockerfile}
+\item \href{./testing/h4/docker-compose.yml}{docker-compose.yml}
+\item \href{./testing/h4/setup.sh}{setup.sh}
+\item \href{./testing/h4/run.sh}{run.sh}
+\end{itemize}
+Place them into your \texttt{h4} directory where your \texttt{h4.sc} file
+and the \texttt{h4.plt} (linked to above) file exist,
+then run \texttt{setup.sh} and \texttt{run.sh}.
+
+You may also refer to the README
+for this testing setup and those files
+\href{https://github.com/armkeh/principles-of-programming-languages/tree/master/homework/testing/h4}{on the course GitHub repo}
+
+Note that the use of the \texttt{setup.sh} and \texttt{run.sh} scripts assumes
+that you are in a \texttt{bash} like shell; if you are on Windows,
+and not using WSL or WSL2, you may have
+to run the commands contained in those scripts manually.
+
+\subsection*{The tests}
+\label{sec:org603c11b}
+The contents of the testing script are repeated here.
+
+\begin{minted}[breaklines=true]{scala}
+import $file.h4, h4._
+
+// Included in case the student did not define it.
+// But renamed in case they did.
+def testTake[A](n: Int, s: => Stream[A]): List[A] = s match {
+  case SNil => Nil
+  case Cons(a,f) => n match {
+    case n if n > 0 => a :: take(n-1,f())
+    case _ => Nil
+    }
+  }
+
+/* Given an expected result and a computed result,
+   check if they are equal in value.
+   If so, return 0. Otherwise, inform the user, and return 1,
+   so the number of failures can be counted. */
+def test[A](given: A, expected: A, the_test: String) =
+  if (!(given equals expected)) {
+    println("+---------------------------------------------------")
+    println("| " + the_test + " failed.")
+    println("| Expected " + expected + ", got " + given + ".")
+    println("+---------------------------------------------------")
+    1
+  } else {
+    0
+  }
+
+// We can define a stream of all natural numbers by
+// first defining streams which start at a given integer.
+def intsFrom(n: Int): Stream[Int] = Cons(n, _ => intsFrom(n+1))
+val nats = intsFrom(0)
+
+// Filter test streams
+val evenNats = filter((x: Int) => x % 2 == 0, nats)
+val natsGtr100 = filter((x: Int) => x > 100, nats)
+
+
+// The tests are saved as tuples, the pieces of which will be passed
+// to test.
+val tests = List(
+  (testTake(10,evenNats),
+    List(0,2,4,6,8,10,12,14,16,18),
+    "First 10 even nats"),
+  (testTake(10,natsGtr100),
+    List(101,102,103,104,105,106,107,108,109,110),
+    "First 10 nats greater than 100"),
+  (testTake(10,zip(evenNats,natsGtr100)),
+    List((0,101),(2,102),(4,103),(6,104),
+         (8,105),(10,106),(12,107),(14,108),(16,109),(18,110)),
+    "zip test"),
+  (testTake(20,merge(evenNats,natsGtr100)),
+    List(0,101,2,102,4,103,6,104,8,105,
+      10,106,12,107,14,108,16,109,18,110),
+    "merge test"),
+  (all((x: Int) => x < 100, nats), false, "not all nats less than 100"),
+  (exists((x: Int) => x > 100, nats), true, "exists nat greater than 100"),
+  )
+
+// Apply test to each element of tests, and sum the return values.
+// This is essentially a for loop.
+val failed = tests.foldLeft(0) {
+  (failures, next) => next match {
+    // Deconstruct the tuple to get its parts
+    case (given, expected, the_test) => failures + test(given, expected, the_test)
+  }
+}
+
+println("+---------------------------------------------------")
+println("| " + failed + " tests failed")
+println("+---------------------------------------------------")
+\end{minted}
+
+\subsection*{The Docker setup}
+\label{sec:org1132cbf}
+The contents of the Docker setup files and scripts are repeated here.
+\begin{minted}[breaklines=true]{docker}
+# This Dockerfile has two required ARGs to determine which base image
+# to use for the JDK and which sbt version to install.
+
+# Define the argument for openjdk version
+ARG OPENJDK_TAG=8u232
+# Do the packaging based on openjdk
+FROM openjdk:${OPENJDK_TAG}
+
+# Set the name of the maintainers
+MAINTAINER Habib Ghaffari Hadigheh, Mark Armstrong <ghaffh1@mcmaster.ca, armstmp@mcmaster.ca>
+
+RUN apt-get update && \
+  apt-get install scala -y && \
+  apt-get install -y curl && \
+  sh -c '(echo "#!/usr/bin/env sh" && \
+  curl -L https://github.com/lihaoyi/Ammonite/releases/download/2.1.1/2.12-2.1.1) > /usr/local/bin/amm && \
+  chmod +x /usr/local/bin/amm'
+
+# Set the working directory
+WORKDIR /opt/h4
+\end{minted}
+
+\begin{minted}[breaklines=true]{yaml}
+version: '2'
+services:
+  service:
+    build: .
+    image: 3mi3_h4_docker_image
+    volumes:
+      - .:/opt/h4
+    container_name: 3mi3_h4_container
+    command: ['amm', 'h4t.sc']
+\end{minted}
+
+\begin{minted}[breaklines=true]{shell}
+docker-compose build --force-rm
+\end{minted}
+
+\begin{minted}[breaklines=true]{shell}
+# Run the container
+docker-compose up --force-recreate
+# Stop the container after finishing the test run
+docker-compose stop -t 1
+\end{minted}
+
+\begin{minted}[breaklines=true]{text}
+# Instructions for automated testing using Docker
+
+We have already created a `Dockerfile` here which specifies
+all the necessary packages, etc., for compiling and running your code.
+You just only need to follow the instructions below to see 
+the results of unit tests designed to check your implementation.
+
+## Setup
+We use `docker-compose` and its configuration file to build the image.
+Assuming you have `docker` and `docker-compose` installed,
+simply execute
+```shell script
+./setup.sh
+```
+ to generate the image.
+
+## Prepare your code for the running the tests
+You only need to place the `h4t.sc` unit test file and
+the `run.sh` file in the same directory as your `h4.sc` source file.
+
+## Running the tests
+As with the build process, we have already put
+the configuration needed for running the test inside `docker-compose.yml`.
+Simply execute
+```shell script
+./run.sh
+```
+to run and see the results of the tests.
+\end{minted}
+\end{document}

@@ -1,0 +1,418 @@
+#+Title: Computer Science 3MI3 – 2020 homework 4
+#+Subtitle: Working with lazy (potentially infinite) lists in Scala
+#+Author: Mark Armstrong
+#+Date: October 7th, 2020
+#+Description: Working with lazy (potentially infinite) lists in Scala
+#+Options: num:nil
+#+SETUPFILE: ../org-html-themes/setup/theme-readtheorg-local.setup
+
+* Introduction
+:PROPERTIES:
+:CUSTOM_ID: Introduction
+:END:
+
+** Preamble
+:PROPERTIES:
+:CUSTOM_ID: Preamble
+:END:
+
+Throughout this course, we will investigate
+many evaluation/parameter passing methods.
+Specifically, we begin to investigate this topic
+during our discussion of reduction strategies in
+the untyped λ-calculus.
+
+Two ways to classify evaluation strategies are
+as either
+- /eager/ (sometimes called strict),
+  - performing evaluation as soon as possible, or
+- /lazy/ (sometimes called non-strict),
+  - delaying evaluation until absolutely necessary
+    (if it is needed at all).
+
+Most programming languages employ eager evaluation in most circumstances.
+Notable exceptions include:
+- “Short-circuit” operations, such as boolean and/or operations.
+  - For instance, a short-circuit and operation
+    evaluates one argument (usually the first), and if it is false,
+    simply returns false, without checking the second argument.
+- (Conditional) branching constructs
+  such as ~if-then-else~, ~switch~ statements
+  and pattern matching.
+  - The statements/expressions of the branches not taken
+    are not evaluated.
+- Function definitions.
+  - Even if the argument type of the function is ~Unit~,
+    so there is only one possible argument,
+    functions are never evaluated until called (invoked.)
+This last we can make use of to create our own infinite datatypes
+in any language which supports higher-order functions
+(functions which can take other functions as arguments)
+and algebraic datatypes (which can take functions as parameters).
+
+** A type for this assignment
+:PROPERTIES:
+:CUSTOM_ID: A-type-for-this-assignment
+:END:
+
+(In Friday's lecture, we stated that we would not construct
+our own “infinite” datatypes; this was revised during the tutorial,
+and in this homework, we work with the following new type.)
+
+Consider the type
+#+begin_src amm :results none :tangle src/h4.sc
+sealed trait Stream[+A]
+case object SNil extends Stream[Nothing]
+case class Cons[A](a: A, f: Unit => Stream[A]) extends Stream[A]
+#+end_src
+of /potentially/ infinite lists.
+(If a ~Stream~ ends with a ~SNil~, it is finite; but
+this is not always the case, as streams may be defined recursively
+so that ~SNil~ is not part of the stream.)
+
+Refer to the “Infinite data in Scala” lecture notes, available as
+- [[./../notes/live-coding/10-02-infinite-data-in-scala.html][HTML]],
+- [[./../notes/live-coding/10-02-infinite-data-in-scala.pdf][PDF]], or
+- [[./../notes/live-coding/10-02-infinite-data-in-scala.org][plaintext Org source]],
+for more explanation of this type
+and some method definitions for it.
+
+In particular, you will likely want to use the ~take~ method
+to be able to print portions of your streams.
+
+* Boilerplate
+:PROPERTIES:
+:CUSTOM_ID: Boilerplate
+:END:
+
+** Submission procedures
+:PROPERTIES:
+:CUSTOM_ID: Submission-procedures
+:END:
+
+#+INCLUDE: "./../boilerplate.org::*Homework submission" :only-contents t
+
+** Proper conduct for coursework
+:PROPERTIES:
+:CUSTOM_ID: Proper-conduct-for-coursework
+:END:
+
+#+INCLUDE: "./../boilerplate.org::*Homework conduct" :only-contents t
+
+* Part 1: Filtering streams                       [10 points]
+:PROPERTIES:
+:CUSTOM_ID: Part-1:-Filtering-streams-----------------------[10 points]
+:END:
+
+Using the custom ~Stream~ type for this assignment,
+defined in “[[A type for this assignment][a type for this assignment]]” above,
+create a method ~filter~ on ~Stream~.
+
+The first argument to ~filter~ should be a predicate
+(i.e., a ~Boolean~-valued function/method),
+and the second argument the ~Stream~ to be filtered.
+
+The result of ~filter(p,s)~ should be the stream obtained
+by removing all elements of ~s~ which do not satisfy ~p~;
+that is, for an element ~e~ of ~s~, if ~p(e)~ is ~true~,
+then ~e~ is in the new stream; otherwise, if ~p(e)~ is ~false~,
+then ~e~ is not in the new stream.
+
+** Take care!
+:PROPERTIES:
+:CUSTOM_ID: Take-care!
+:END:
+
+If you encounter problems in this definition or those below,
+do review the lecture/tutorial notes;
+in particular, see the subsection
+“Take care: make arguments of type ~Stream~ by name arguments”.
+
+Also, note that when working with infinite lists,
+sometimes it is expected that you will encounter infinite recursion
+(and hence stack overflows).
+In particular, think about the result of filtering out /every/ element
+in an infinite stream.
+
+* Part 2: Zipping and merging streams             [20 points]
+:PROPERTIES:
+:CUSTOM_ID: Part-2:-Zipping-and-merging-streams-------------[20 points]
+:END:
+
+Create the following three methods on streams.
+1. ~zip~, which when given two streams /of equal length/,
+   but potentially with different element types,
+   returns a stream of /pairs/ consisting of the elements of those streams.
+   - That is, if the two streams were
+     written ~⟨a₀,a₁,a₂,…⟩~ and ~⟨b₀,b₁,b₂,…⟩~,
+     the result of zipping them would be ~⟨(a₀,b₀),(a₁,b₁),(a₂,b₂)⟩~.
+   In the case that the streams are of differing lengths,
+   your method should still not cause an exception.
+   Instead, it should zip together as many elements as possible,
+   but the remaining behaviour is unspecified.
+
+2. ~merge~, which when given two streams /with the same type of elements/,
+   but potentially of differing lengths,
+   merges the stream, such that
+   - the first element of the resulting stream
+     is the first element of the first stream,
+   - the second element of the resulting stream
+     is the first element of the second stream,
+   - the third element of the resulting stream
+     is the second element of the first stream,
+   - the fourth element of the resulting stream
+     is the second element of the second stream,
+   - and so on.
+   We do not fully specify the behaviour of ~merge~ if the two streams
+   are of different length, but it should not cause an exception.
+
+* Part 3: “Quantifying” over streams              [10 points]
+:PROPERTIES:
+:CUSTOM_ID: Part-3:-“Quantifying”-over-streams--------------[10 points]
+:END:
+
+Define the two higher order predicates ~all~ and ~exists~ on streams,
+which correspond to the ∀ and ∃ quantifiers respectively.
+- ~all(p,s)~ returns ~false~ if there is an element of ~s~ which
+  does not satisfy the predicate ~p~.
+- ~exists(p,s)~ returns ~true~ if there is an element of ~s~
+  which satisfies the predicate ~p~.
+(Do take note of what behaviour is specified or is not specified here;
+there is a reason I have stated the behaviour this way.)
+
+* Part 4: Tolerant zipping and merging of streams [10 bonus points]
+:PROPERTIES:
+:CUSTOM_ID: Part-4:-Tolerant-zipping-and-merging-of-streams-[10 bonus points]
+:END:
+
+Implement alternative versions of the ~zip~ and ~merge~ methods
+from part 2, called ~zipSafe~ and ~mergeSafe~.
+
+These versions must return a sensible result which contains,
+in some way, *every element* from *both* streams,
+even if the conditions
+for using ~zip~ and ~merge~ that were given in part 2 are not met;
+that is, ~zip~ must work for streams of differing lengths,
+and ~merge~ must work for streams with different element types.
+
+You may make whatever design decisions you feel are necessary
+to implement these methods. Your solution may be
+(sometimes subjectively) judged based on
+- how close your methods come to the original specified behaviour
+  of ~zip~ and ~merge~,
+- whether information (such as type information or elements)
+  is lost by your methods, and
+- the overall elegance of solution,
+  - in particular whether it fits the /functional/ paradigm.
+
+* Testing
+:PROPERTIES:
+:CUSTOM_ID: Testing
+:END:
+
+Unit tests for the requested methods/functions
+are available here: [[./testing/h4/h4t.sc]]
+The contents of the unit test file are also repeated below.
+
+The tests can be run by placing the ~h4t.sc~ file
+in the same directory as your ~h4.sc~ file, and
+running the following command.
+#+begin_src shell
+amm h4t.sc
+#+end_src
+
+If you use an implementation other than Ammonite,
+you may need to adjust the tests to be able to run them
+on your system.
+
+In particular, those using IntelliJ for writing Scala
+may need to remove the import statement at the top of that file,
+or move the tests to their source file
+(if so, be sure to remove them before submission!)
+
+** Automated testing via Docker
+:PROPERTIES:
+:CUSTOM_ID: Automated-testing-via-Docker
+:END:
+
+The Docker setup and usage scripts are available at the following links.
+Their contents are also repeated below.
+- [[./testing/h4/Dockerfile][Dockerfile]]
+- [[./testing/h4/docker-compose.yml][docker-compose.yml]]
+- [[./testing/h4/setup.sh][setup.sh]]
+- [[./testing/h4/run.sh][run.sh]]
+Place them into your ~h4~ directory where your ~h4.sc~ file
+and the ~h4.plt~ (linked to above) file exist,
+then run ~setup.sh~ and ~run.sh~.
+
+You may also refer to the README
+for this testing setup and those files
+[[https://github.com/armkeh/principles-of-programming-languages/tree/master/homework/testing/h4][on the course GitHub repo]]
+
+Note that the use of the ~setup.sh~ and ~run.sh~ scripts assumes
+that you are in a ~bash~ like shell; if you are on Windows,
+and not using WSL or WSL2, you may have
+to run the commands contained in those scripts manually.
+
+** The tests
+:PROPERTIES:
+:CUSTOM_ID: The-tests
+:END:
+
+The contents of the testing script are repeated here.
+
+#+begin_src amm :results none :tangle testing/h4/h4t.sc
+import $file.h4, h4._
+
+// Included in case the student did not define it.
+// But renamed in case they did.
+def testTake[A](n: Int, s: => Stream[A]): List[A] = s match {
+  case SNil => Nil
+  case Cons(a,f) => n match {
+    case n if n > 0 => a :: take(n-1,f())
+    case _ => Nil
+    }
+  }
+
+/* Given an expected result and a computed result,
+   check if they are equal in value.
+   If so, return 0. Otherwise, inform the user, and return 1,
+   so the number of failures can be counted. */
+def test[A](given: A, expected: A, the_test: String) =
+  if (!(given equals expected)) {
+    println("+---------------------------------------------------")
+    println("| " + the_test + " failed.")
+    println("| Expected " + expected + ", got " + given + ".")
+    println("+---------------------------------------------------")
+    1
+  } else {
+    0
+  }
+
+// We can define a stream of all natural numbers by
+// first defining streams which start at a given integer.
+def intsFrom(n: Int): Stream[Int] = Cons(n, _ => intsFrom(n+1))
+val nats = intsFrom(0)
+
+// Filter test streams
+val evenNats = filter((x: Int) => x % 2 == 0, nats)
+val natsGtr100 = filter((x: Int) => x > 100, nats)
+
+
+// The tests are saved as tuples, the pieces of which will be passed
+// to test.
+val tests = List(
+  (testTake(10,evenNats),
+    List(0,2,4,6,8,10,12,14,16,18),
+    "First 10 even nats"),
+  (testTake(10,natsGtr100),
+    List(101,102,103,104,105,106,107,108,109,110),
+    "First 10 nats greater than 100"),
+  (testTake(10,zip(evenNats,natsGtr100)),
+    List((0,101),(2,102),(4,103),(6,104),
+         (8,105),(10,106),(12,107),(14,108),(16,109),(18,110)),
+    "zip test"),
+  (testTake(20,merge(evenNats,natsGtr100)),
+    List(0,101,2,102,4,103,6,104,8,105,
+      10,106,12,107,14,108,16,109,18,110),
+    "merge test"),
+  (all((x: Int) => x < 100, nats), false, "not all nats less than 100"),
+  (exists((x: Int) => x > 100, nats), true, "exists nat greater than 100"),
+  )
+
+// Apply test to each element of tests, and sum the return values.
+// This is essentially a for loop.
+val failed = tests.foldLeft(0) {
+  (failures, next) => next match {
+    // Deconstruct the tuple to get its parts
+    case (given, expected, the_test) => failures + test(given, expected, the_test)
+  }
+}
+
+println("+---------------------------------------------------")
+println("| " + failed + " tests failed")
+println("+---------------------------------------------------")
+#+end_src
+
+** The Docker setup
+:PROPERTIES:
+:CUSTOM_ID: The-Docker-setup
+:END:
+
+The contents of the Docker setup files and scripts are repeated here.
+#+begin_src docker :tangle ./testing/h4/Dockerfile
+# This Dockerfile has two required ARGs to determine which base image
+# to use for the JDK and which sbt version to install.
+
+# Define the argument for openjdk version
+ARG OPENJDK_TAG=8u232
+# Do the packaging based on openjdk
+FROM openjdk:${OPENJDK_TAG}
+
+# Set the name of the maintainers
+MAINTAINER Habib Ghaffari Hadigheh, Mark Armstrong <ghaffh1@mcmaster.ca, armstmp@mcmaster.ca>
+
+RUN apt-get update && \
+  apt-get install scala -y && \
+  apt-get install -y curl && \
+  sh -c '(echo "#!/usr/bin/env sh" && \
+  curl -L https://github.com/lihaoyi/Ammonite/releases/download/2.1.1/2.12-2.1.1) > /usr/local/bin/amm && \
+  chmod +x /usr/local/bin/amm'
+
+# Set the working directory
+WORKDIR /opt/h4
+#+end_src
+
+#+begin_src yaml :tangle ./testing/h4/docker-compose.yml
+version: '2'
+services:
+  service:
+    build: .
+    image: 3mi3_h4_docker_image
+    volumes:
+      - .:/opt/h4
+    container_name: 3mi3_h4_container
+    command: ['amm', 'h4t.sc']
+#+end_src
+
+#+begin_src shell :tangle ./testing/h4/setup.sh :shebang t
+docker-compose build --force-rm
+#+end_src
+
+#+begin_src shell :tangle ./testing/h4/run.sh :shebang t
+# Run the container
+docker-compose up --force-recreate
+# Stop the container after finishing the test run
+docker-compose stop -t 1
+#+end_src
+
+#+begin_src text :tangle ./testing/h4/README.md
+# Instructions for automated testing using Docker
+
+We have already created a `Dockerfile` here which specifies
+all the necessary packages, etc., for compiling and running your code.
+You just only need to follow the instructions below to see 
+the results of unit tests designed to check your implementation.
+
+## Setup
+We use `docker-compose` and its configuration file to build the image.
+Assuming you have `docker` and `docker-compose` installed,
+simply execute
+```shell script
+./setup.sh
+```
+ to generate the image.
+
+## Prepare your code for the running the tests
+You only need to place the `h4t.sc` unit test file and
+the `run.sh` file in the same directory as your `h4.sc` source file.
+
+## Running the tests
+As with the build process, we have already put
+the configuration needed for running the test inside `docker-compose.yml`.
+Simply execute
+```shell script
+./run.sh
+```
+to run and see the results of the tests.
+#+end_src
