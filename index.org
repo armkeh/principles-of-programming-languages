@@ -732,8 +732,8 @@ The course outline is available as
 - a screen friendly [[file:./notes/0--Course-outline.html][webpage]], or
 - a text-editor friendly [[file:./notes/0--Course-outline.org][Org]] file.
 
-The PDF is also embedded here for convenience.
-@@html:<iframe src="notes/0--Course-outline.pdf" style="width: 100%; height: 75vh"></iframe>@@
+The webpage is also embedded here for convenience.
+@@html:<iframe src="notes/0--Course-outline.html" style="width: 100%; height: 75vh"></iframe>@@
 
 * Scala
 :PROPERTIES:
