@@ -225,7 +225,7 @@ we must invoke it, writing ~f()~, to obtain the tail.
 In the other direction,
 in order to construct a stream of the form ~Cons(a,f)~,
 we must “wrap” the tail stream in a function definition.
-Rather than writing out a ~defun~ and giving this function a name
+Rather than writing out a ~def~ and giving this function a name
 (which in Scala lingo would make it a method),
 we can use an /anonymous/ definition,
 such as below.

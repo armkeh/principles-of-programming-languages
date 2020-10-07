@@ -1,4 +1,4 @@
-% Created 2020-10-06 Tue 17:20
+% Created 2020-10-07 Wed 03:30
 % Intended LaTeX compiler: lualatex
 \documentclass[11pt]{article}
 \usepackage{graphicx}
@@ -43,12 +43,12 @@
 
 
 \section{Introduction}
-\label{sec:org7cee6b1}
+\label{sec:orgb12fc01}
 These notes were created for, and in some parts \textbf{during},
 the lecture on October 2nd and the following tutorials.
 
 \section{Motivation}
-\label{sec:org448e4fa}
+\label{sec:org907a17b}
 In our current lectures, we have been discussing the λ-calculus,
 and as of the time of writing this, we are about to discuss
 reduction strategies.
@@ -58,7 +58,7 @@ correspond to the parameter-passing methods
 used in conventional programming languages.
 
 \section{Call by value and call by name}
-\label{sec:orgdee79df}
+\label{sec:org9d3deb5}
 Today, we are interested in the
 “call by value” and “call by name”
 reduction strategies/parameter-passing methods.
@@ -114,7 +114,7 @@ until we apply the outermost application.
 \end{minted}
 
 \section{Parameter passing in Scala}
-\label{sec:org35eec59}
+\label{sec:org3b110a2}
 By default, Scala uses a call-by-value strategy.
 \begin{minted}[breaklines=true]{scala}
 def f(x: Int): Unit = { println("Called f with argument"); println(x) }
@@ -142,7 +142,7 @@ lazy val y: Int = { println("Evaluated y"); 2 }
 \end{minted}
 
 \section{What's the point?}
-\label{sec:org8684bc6}
+\label{sec:orgc80bf2e}
 Why do we want to be allowed to use call by name semantics
 and lazy values?
 
@@ -171,9 +171,9 @@ Now, we have subtlely used another concept enabled by lazy values
 and call-by-name semantics in the above: an infinite list!
 
 \section{Infinite data!}
-\label{sec:org1d24249}
+\label{sec:orgf4b1597}
 \subsection{Not with lists…}
-\label{sec:org8c6567c}
+\label{sec:org636e83c}
 When we discuss lists in computer science,
 they are usually defined as having \emph{finite} length.
 
@@ -185,7 +185,7 @@ lazy val ones: List[Int] = 1 :: ones
 \end{minted}
 
 \subsection{…instead, with lazy lists or streams!}
-\label{sec:org97d8c91}
+\label{sec:org912c4f8}
 The \href{https://www.scala-lang.org/api/current/scala/collection/immutable/LazyList.html}{lazy list} type and
 the \href{https://www.scala-lang.org/api/current/scala/collection/immutable/Stream.html}{stream} type (now deprecated in favour of lazy lists)
 actually allow us to define such lists.
@@ -198,9 +198,9 @@ by filtering, zipping, etc.;
 or by writing more interesting recursive definitions.
 
 \section{\sout{(Not)} Implementing our own infinite datatypes}
-\label{sec:orgaf2b22a}
+\label{sec:orgd958a98}
 \subsection{The approach}
-\label{sec:orga7a810f}
+\label{sec:org75ac327}
 To implement such a type \texttt{T} with the algebraic datatype approach
 we have been using, we may use (recursive) parameters
 of the form \texttt{Unit => T}; that is,
@@ -221,8 +221,7 @@ case class Cons[A](a: A, f: Unit => Stream[A]) extends Stream[A]
 \end{minted}
 
 \subsection{Dealing with the tail function}
-\label{sec:org0095745}
-
+\label{sec:orge8a4f47}
 Given a stream of the form \texttt{Cons(a,f)},
 the \texttt{f} parameter does not directly give us the “tail” stream;
 we must invoke it, writing \texttt{f()}, to obtain the tail.
@@ -230,7 +229,7 @@ we must invoke it, writing \texttt{f()}, to obtain the tail.
 In the other direction,
 in order to construct a stream of the form \texttt{Cons(a,f)},
 we must “wrap” the tail stream in a function definition.
-Rather than writing out a \texttt{defun} and giving this function a name
+Rather than writing out a \texttt{def} and giving this function a name
 (which in Scala lingo would make it a method),
 we can use an \emph{anonymous} definition,
 such as below.
@@ -256,7 +255,7 @@ this is also called \textbf{forcing} the tail.
 \end{center}
 
 \subsection{\texttt{case object}?}
-\label{sec:orga7b4ce3}
+\label{sec:org24d4b7d}
 We adopt here and now the convention of making our base case
 a \texttt{case object}, rather than a \texttt{case class}.
 The difference is that there is exactly one instance of
@@ -273,7 +272,7 @@ meaning that \texttt{Stream[A]} is a subtype of \texttt{Stream[B]} if
 in more detail later in the course.)
 
 \subsection{Defining some methods on our streams}
-\label{sec:org7ca39c7}
+\label{sec:org2ade41c}
 We need some methods to allow us to do
 even basic tasks with our new Stream type.
 
@@ -315,8 +314,7 @@ def prepend[A](l: List[A], s: => Stream[A]): Stream[A] = l match {
 \end{minted}
 
 \subsection{Take care: \textbf{make arguments of type \texttt{Stream} by name arguments}}
-\label{sec:org6ebf465}
-
+\label{sec:orgfa81477}
 Notice that in the definition of \texttt{prepend},
 which is our first method to take a stream as an argument,
 we marked the stream as a “by name” argument,
@@ -336,8 +334,7 @@ and we would get a stack overflow due to unbounded recursion
 \end{center}
 
 \subsection{More methods on our streams}
-\label{sec:org9df2f0a}
-
+\label{sec:orge6d26f3}
 Using \texttt{prepend}, let us define two ways
 to go from a stream to a list;
 either just convert the list to a finite stream
