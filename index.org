@@ -625,14 +625,16 @@ difference between Monday and Wednesday.
 :CUSTOM_ID: Current-homeworks
 :END:
 
-*** Homework 3 – Revisiting homework 1 in Prolog and homework 2 in Scala – Sept 25th to Oct 4th
+*** Homework 4 – Working with lazy (potentially infinite) lists in Scala – Oct 7th to Oct 19th
 :PROPERTIES:
-:CUSTOM_ID: Homework-3-–-Revisiting-homework-1-in-Prolog-and-homework-2-in-Scala-–-Sept-25th-to-Oct-4th
+:CUSTOM_ID: Homework-4-–-Working-with-lazy-(potentially-infinite)-lists-in-Scala-–-Oct-7th-to-Oct-19th
 :END:
 
-- [[./homework/h3.html][HTML]]
-- [[./homework/h3.pdf][PDF]]
-- [[./homework/h3.org][Org plaintext]]
+Note the due date: the Monday following reading week!
+
+- [[./homework/h4.html][HTML]]
+- [[./homework/h4.pdf][PDF]]
+- [[./homework/h4.org][Org plaintext]]
 
 ** Homework testing policy
 :PROPERTIES:
@@ -662,6 +664,15 @@ will be used for every student's submission.
 :PROPERTIES:
 :CUSTOM_ID: Previous-homeworks
 :END:
+
+*** Homework 3 – Revisiting homework 1 in Prolog and homework 2 in Scala – Sept 25th to Oct 4th
+:PROPERTIES:
+:CUSTOM_ID: Homework-3-–-Revisiting-homework-1-in-Prolog-and-homework-2-in-Scala-–-Sept-25th-to-Oct-4th
+:END:
+
+- [[./homework/h3.html][HTML]]
+- [[./homework/h3.pdf][PDF]]
+- [[./homework/h3.org][Org plaintext]]
 
 *** Homework 2 – Solving problems in Prolog – Sept 18th to Sept 27th
 :PROPERTIES:

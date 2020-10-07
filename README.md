@@ -597,11 +597,13 @@ significant difference between Monday and Wednesday.
 
 ## Current homeworks
 
-### Homework 3 – Revisiting homework 1 in Prolog and homework 2 in Scala – Sept 25th to Oct 4th
+### Homework 4 – Working with lazy (potentially infinite) lists in Scala – Oct 7th to Oct 19th
 
-  - [HTML](./homework/h3.html)
-  - [PDF](./homework/h3.pdf)
-  - [Org plaintext](./homework/h3.org)
+Note the due date: the Monday following reading week\!
+
+  - [HTML](./homework/h4.html)
+  - [PDF](./homework/h4.pdf)
+  - [Org plaintext](./homework/h4.org)
 
 ## Homework testing policy
 
@@ -620,9 +622,16 @@ number of additional tests, usually chosen to test “edge cases”. You are
 encouraged to try and think of these cases yourselves, and add
 appropriate tests to the provided ones in order to better check your
 solutions. This is not required though; a uniform set of tests will be
-used for every student's submission.
+used for every student's
+submission.
 
 ## Previous homeworks
+
+### Homework 3 – Revisiting homework 1 in Prolog and homework 2 in Scala – Sept 25th to Oct 4th
+
+  - [HTML](./homework/h3.html)
+  - [PDF](./homework/h3.pdf)
+  - [Org plaintext](./homework/h3.org)
 
 ### Homework 2 – Solving problems in Prolog – Sept 18th to Sept 27th
 
@@ -671,7 +680,7 @@ The course outline is available as
   - a screen friendly [webpage](./notes/0--Course-outline.html), or
   - a text-editor friendly [Org](./notes/0--Course-outline.org) file.
 
-The PDF is also embedded here for convenience.
+The webpage is also embedded here for convenience.
 
 # Scala
 
