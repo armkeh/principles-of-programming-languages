@@ -458,11 +458,15 @@ a 4 day extension.
 :CUSTOM_ID: Approved-statements
 :END:
 
-The following two pages cover topics and policies
+[[file:./media/outline-advisory-statements.pdf][These two pages]] cover topics and policies
 related to undergraduate course management.
 Please review them.
+
+@@latex:They are also attached to this document immediately following this page.@@
 
 #+LaTeX_header: \usepackage{pdfpages}
 @@latex:\includepdf[pages=-,width=\pagewidth]{media/outline-advisory-statements.pdf}@@
 
-@@html:<iframe src="media/outline-advisory-statements.pdf" style="width: 100%; height: 75vh"></iframe>@@
+# This would trigger a download and open with an external viewer
+# on Firefox.
+# @@html:<iframe src="media/outline-advisory-statements.pdf" style="width: 100%; height: 75vh"></iframe>@@
