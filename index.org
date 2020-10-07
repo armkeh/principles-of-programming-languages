@@ -18,6 +18,13 @@
 :CUSTOM_ID: October
 :END:
 
+- October 7th ::
+  - Homework 4 is now posted.
+    - Testing and Docker setup are included immediately this time.
+  - A sample solution is now in place in the homework 2 document.
+  - Notes from last week's Wednesday tutorial and lecture are now posted;
+    sorry for the delay.
+
 - October 6th :: The notes on infinite data in Scala
   have been updated with the developments from Monday's tutorial.
   This content will be reviewed and possibly built upon
@@ -448,7 +455,8 @@ When necessary and possible,
 those notes are scanned and made available here.
 If any are missing that you would like to see, please ask.
 
-- [[./notes/handwritten/sept23-trees.pdf][September 23rd – ambiguity in parse trees]]
+- [[./notes/handwritten/sept30-currying.pdf][September 30th – currying]]
+- [[./notes/handwritten/sept23-trees.pdf][September 23rd – Ambiguity in parse trees]]
 
 * Literate programs
 :PROPERTIES:
@@ -521,8 +529,18 @@ Relevant raw code:
 :CUSTOM_ID: Tutorials
 :END:
 
-Files are only added here if they differ from the previous week's
-live coding lecture. In many cases, the content will be shared.
+Files from the Wednesday tutorial, led by Habib, are collected here.
+In most cases, the material is largely similar to the
+material from the lecture notes.
+
+*** Wednesday September 30th – Trees in Prolog
+:PROPERTIES:
+:CUSTOM_ID: Wednesday-September-30th-–-Trees-in-Prolog
+:END:
+
+- [[https://github.com/armkeh/principles-of-programming-languages/blob/master/notes/tutorial/Constructing%20a%20Tree%20Using%20the%20Prolog.ipynb][Prettified Jupyter notebook on GitHub]]
+- [[./notes/tutorial/Constructing a Tree using the Prolog.ipynb][Jupyter notebook source]]
+- [[./notes/tutorial/Constructing a Tree using the Prolog.pdf][PDF]]
 
 *** Wednesday September 23rd – Docker and Prolog
 :PROPERTIES:
