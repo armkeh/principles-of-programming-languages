@@ -71,9 +71,9 @@ this is not always the case, as streams may be defined recursively
 so that ~SNil~ is not part of the stream.)
 
 Refer to the “Infinite data in Scala” lecture notes, available as
-- [[./../notes/live-coding/10-02-infinite-data-in-scala.html][HTML]],
-- [[./../notes/live-coding/10-02-infinite-data-in-scala.pdf][PDF]], or
-- [[./../notes/live-coding/10-02-infinite-data-in-scala.org][plaintext Org source]],
+- [[./../notes/live-coding/10-02-infinite-data-in-Scala.html][HTML]],
+- [[./../notes/live-coding/10-02-infinite-data-in-Scala.pdf][PDF]], or
+- [[./../notes/live-coding/10-02-infinite-data-in-Scala.org][plaintext Org source]],
 for more explanation of this type
 and some method definitions for it.
 
