@@ -1,0 +1,255 @@
+% Created 2020-10-09 Fri 13:34
+% Intended LaTeX compiler: lualatex
+\documentclass[11pt]{article}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{etoolbox}
+\makeatletter
+\def\dontdofcolorbox{\renewcommand\fcolorbox[4][]{##4}}
+\AtBeginEnvironment{minted}{\dontdofcolorbox}
+\makeatother
+\usepackage[newfloat]{minted}
+\usepackage{unicode-math}
+\usepackage{unicode}
+\author{Mark Armstrong}
+\date{\today}
+\title{Introduction to Ruby}
+\hypersetup{
+   pdfauthor={Mark Armstrong},
+   pdftitle={Introduction to Ruby},
+   pdfkeywords={},
+   pdfsubject={A brief tour of Ruby.},
+   pdfcreator={Emacs 27.0.91 (Org mode 9.4)},
+   pdflang={English},
+   colorlinks,
+   linkcolor=blue,
+   citecolor=blue,
+   urlcolor=blue
+   }
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+
+\section{Introduction}
+\label{sec:org4305229}
+These notes were created for, and in some parts \textbf{during},
+the lecture on October 9th and the following tutorials.
+
+\section{Motivation}
+\label{sec:org277e45a}
+So far, we have been investigating
+\begin{itemize}
+\item the functional paradigm, using Scala,
+\begin{itemize}
+\item which happens to also be a pure object-oriented language, and
+\end{itemize}
+\item the logical paradigm, using Prolog.
+\end{itemize}
+
+We now investigate an \emph{imperative} pure object-oriented language, Ruby.
+
+Ruby's syntax is also heavily influenced by Lisp,
+and the final language we will investigate later in the course
+is a Lisp.
+So Ruby acts as a stepping stone to that point.
+
+\section{Background on Ruby}
+\label{sec:org98679b3}
+Ruby is an almost purely object-oriented language,
+heavily inspired by Smalltalk, Lisp and Perl.
+
+It's creator, Yukihiro “Matz” Matsumoto,
+has documented these inspirations in
+\href{http://blade.nagaokaut.ac.jp/cgi-bin/scat.rb/ruby/ruby-talk/179642}{a post on ruby-talk}.
+\begin{quote}
+Ruby is a language designed in the following steps:
+
+\begin{itemize}
+\item take a simple lisp language (like one prior to CL).
+\item remove macros, s-expression.
+\item add simple object system (much simpler than CLOS).
+\item add blocks, inspired by higher order functions.
+\item add methods found in Smalltalk.
+\item add functionality found in Perl (in OO way).
+\end{itemize}
+\end{quote}
+
+Ruby was a language born out of Matz's interests
+and love of certain language features.
+He's \href{https://ruby-doc.org/docs/ruby-doc-bundle/FAQ/FAQ.html}{said}
+about its creation
+\begin{quote}
+Well, Ruby was born on February 24 1993.
+I was talking with my colleague about the possibility of
+an object-oriented scripting language.
+I knew Perl (Perl4, not Perl5), but I didn't like it really,
+because it had smell of toy language (it still has).
+The object-oriented scripting language seemed very promising.
+
+I knew Python then. But I didn't like it,
+because I didn't think it was a true object-oriented language
+─ OO features appeared to be add-on to the language.
+As a language manic and OO fan for 15 years,
+I really wanted a genuine object-oriented,
+easy-to-use scripting language.
+I looked for, but couldn't find one.
+
+So, I decided to make it.
+It took several months to make the interpreter run.
+I put it the features I love to have in my language,
+such as iterators, exception handling, garbage collection.
+
+Then, I reorganized the features of Perl into a class library,
+and implemented them. I posted Ruby 0.95 to
+the Japanese domestic newsgroups in Dec. 1995.
+\end{quote}
+
+\section{“Purely object-oriented”}
+\label{sec:org7cbd489}
+What does it mean when I have said, both about Ruby and Scala,
+that they are purely object oriented?
+
+Quite simply, that all \emph{data} is represented as an \emph{object,
+and all operations are /methods}!
+
+\subsection{Integers are objects, operations are methods}
+\label{sec:orgdcfe76f}
+For instance, consider integers, which in many languages are
+a \emph{basic}, \emph{builtin} type that do not have an implementation
+within the language. This is not the case in a pure language!
+In both Ruby and Scala, integers are objects, and operations on them
+are methods.
+
+So code such as
+\begin{minted}[breaklines=true]{ruby}
+5 + 2
+\end{minted}
+
+\begin{minted}[breaklines=true]{scala}
+5 + 2
+\end{minted}
+
+could instead be written
+\begin{minted}[breaklines=true]{ruby}
+5.+(2)
+\end{minted}
+
+\begin{minted}[breaklines=true]{scala}
+5.+(2)
+\end{minted}
+
+that is, \texttt{+} is a method of the first argument, being passed
+the second argument as a parameter.
+The form \texttt{x ⊕ y} is just \emph{syntactic sugar}.
+
+\subsection{Integers are objects, operations are \emph{messages}}
+\label{sec:orgbfc6cce}
+In Ruby, we can move one level of abstraction higher:
+all data are objects, and all operations are \emph{messages between objects}.
+This harkens back to SmallTalk, one of the founding languages
+of the object oriented paradigm.
+\begin{minted}[breaklines=true]{ruby}
+5.send("==", 3)
+\end{minted}
+
+So even the form \texttt{x.⊕(y)} is syntactic sugar!
+
+In Scala, moving to this message passing abstraction
+is not possible, aat least not easily; why?
+:TODO:
+
+\section{Postfix forms}
+\label{sec:org274bd90}
+:TODO:
+
+\section{Method naming conventions}
+\label{sec:orga1f4c67}
+By convention, methods ending with a \texttt{?} are predicates.
+They do not \emph{necessarily} return a boolean, but should
+return a “truth value” of some kind.
+:TODO:
+
+Methods ending with a \texttt{!} are \emph{descructive}; they modify the receiver.
+:TODO:
+
+Methods ending with a \texttt{=} indicate an \emph{assignment} method.
+:TODO:
+
+\section{Defining classes}
+\label{sec:org0550c29}
+\subsection{The basics}
+\label{sec:org8ebb317}
+A class declaration in Ruby for a class named \texttt{Name} is
+begun by simply saying
+\begin{verbatim}
+class Name
+\end{verbatim}
+
+Instance variables
+(whose value is unique per object of the class)
+begin with a \texttt{@}.
+We do not declare explicitely declare variables in Ruby,
+but you can initialise them to “declare” them
+(you don't need to though; they can be initialised inside
+a constructor or other methods.)
+
+Class variables
+(whose value is shared by each object of the class)
+begin with a \texttt{@@}.
+
+It is common to want to define \emph{getters} and \emph{setters} for instance
+variables in OO programming.
+For example,
+\begin{minted}[breaklines=true]{ruby}
+class MyContainer
+  
+  def initialize(thing=nil) @thing = thing end
+
+  def thing; @thing end
+
+  # Assignment method syntax
+  def thing=(thing) @thing = thing end
+end
+
+container = MyContainer.new()
+container.thing = 5
+puts(container.thing)
+\end{minted}
+
+Because this is so common, there is a shorthand
+to avoid declaring these methods.
+\begin{minted}[breaklines=true]{ruby}
+class MyContainer
+  attr_accessor :thing   # :thing is a symbol; essentially in interned string
+  # attr_reader   provides only the getter
+  # attr_writer   provides only the setter
+\end{minted}
+
+:TODO: initialize
+
+\subsection{Inheritance}
+\label{sec:org83d12ad}
+:TODO:
+
+\begin{minted}[breaklines=true]{ruby}
+class C1
+
+class C2 < C1
+\end{minted}
+
+\subsection{{\bfseries\sffamily TODO} Mixins}
+\label{sec:orgb8ef083}
+:TODO:
+\end{document}

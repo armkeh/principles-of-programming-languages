@@ -1,0 +1,588 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2020-10-09 Fri 13:33 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Introduction to Ruby</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Mark Armstrong" />
+<meta name="description" content="A brief tour of Ruby."
+ />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="styles/readtheorg/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="styles/readtheorg/css/readtheorg.css"/>
+<script type="text/javascript" src="styles/lib/js/jquery.min.js"></script>
+<script type="text/javascript" src="styles/lib/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="styles/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" src="styles/readtheorg/js/readtheorg.js"></script>
+<style>pre.src{background:#000000;color:white;} </style>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:e95b018ef3580986a04669f1b5879592219e2a7a&dn=public-domain.txt Public Domain
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.add("code-highlighted");
+         target.classList.add("code-highlighted");
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.remove("code-highlighted");
+         target.classList.remove("code-highlighted");
+       }
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Introduction to Ruby</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#Introduction">1. Introduction</a></li>
+<li><a href="#Motivation">2. Motivation</a></li>
+<li><a href="#Background-on-Ruby">3. Background on Ruby</a></li>
+<li><a href="#“Purely-object-oriented”">4. “Purely object-oriented”</a>
+<ul>
+<li><a href="#Integers-are-objects,-operations-are-methods">4.1. Integers are objects, operations are methods</a></li>
+<li><a href="#Integers-are-objects,-operations-are-/messages/">4.2. Integers are objects, operations are <i>messages</i></a></li>
+</ul>
+</li>
+<li><a href="#Postfix-forms">5. Postfix forms</a></li>
+<li><a href="#Method-naming-conventions">6. Method naming conventions</a></li>
+<li><a href="#Defining-classes">7. Defining classes</a>
+<ul>
+<li><a href="#The-basics">7.1. The basics</a></li>
+<li><a href="#Inheritance">7.2. Inheritance</a></li>
+<li><a href="#Mixins">7.3. <span class="todo TODO">TODO</span> Mixins</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-Introduction" class="outline-2">
+<h2 id="Introduction"><span class="section-number-2">1</span> Introduction</h2>
+<div class="outline-text-2" id="text-Introduction">
+<p>
+These notes were created for, and in some parts <b>during</b>,
+the lecture on October 9th and the following tutorials.
+</p>
+</div>
+</div>
+
+<div id="outline-container-Motivation" class="outline-2">
+<h2 id="Motivation"><span class="section-number-2">2</span> Motivation</h2>
+<div class="outline-text-2" id="text-Motivation">
+<p>
+So far, we have been investigating
+</p>
+<ul class="org-ul">
+<li>the functional paradigm, using Scala,
+<ul class="org-ul">
+<li>which happens to also be a pure object-oriented language, and</li>
+</ul></li>
+<li>the logical paradigm, using Prolog.</li>
+</ul>
+
+<p>
+We now investigate an <i>imperative</i> pure object-oriented language, Ruby.
+</p>
+
+<p>
+Ruby's syntax is also heavily influenced by Lisp,
+and the final language we will investigate later in the course
+is a Lisp.
+So Ruby acts as a stepping stone to that point.
+</p>
+</div>
+</div>
+
+<div id="outline-container-Background-on-Ruby" class="outline-2">
+<h2 id="Background-on-Ruby"><span class="section-number-2">3</span> Background on Ruby</h2>
+<div class="outline-text-2" id="text-Background-on-Ruby">
+<p>
+Ruby is an almost purely object-oriented language,
+heavily inspired by Smalltalk, Lisp and Perl.
+</p>
+
+<p>
+It's creator, Yukihiro “Matz” Matsumoto,
+has documented these inspirations in
+<a href="http://blade.nagaokaut.ac.jp/cgi-bin/scat.rb/ruby/ruby-talk/179642">a post on ruby-talk</a>.
+</p>
+<blockquote>
+<p>
+Ruby is a language designed in the following steps:
+</p>
+
+<ul class="org-ul">
+<li>take a simple lisp language (like one prior to CL).</li>
+<li>remove macros, s-expression.</li>
+<li>add simple object system (much simpler than CLOS).</li>
+<li>add blocks, inspired by higher order functions.</li>
+<li>add methods found in Smalltalk.</li>
+<li>add functionality found in Perl (in OO way).</li>
+</ul>
+</blockquote>
+
+<p>
+Ruby was a language born out of Matz's interests
+and love of certain language features.
+He's <a href="https://ruby-doc.org/docs/ruby-doc-bundle/FAQ/FAQ.html">said</a>
+about its creation
+</p>
+<blockquote>
+<p>
+Well, Ruby was born on February 24 1993.
+I was talking with my colleague about the possibility of
+an object-oriented scripting language.
+I knew Perl (Perl4, not Perl5), but I didn't like it really,
+because it had smell of toy language (it still has).
+The object-oriented scripting language seemed very promising.
+</p>
+
+<p>
+I knew Python then. But I didn't like it,
+because I didn't think it was a true object-oriented language
+─ OO features appeared to be add-on to the language.
+As a language manic and OO fan for 15 years,
+I really wanted a genuine object-oriented,
+easy-to-use scripting language.
+I looked for, but couldn't find one.
+</p>
+
+<p>
+So, I decided to make it.
+It took several months to make the interpreter run.
+I put it the features I love to have in my language,
+such as iterators, exception handling, garbage collection.
+</p>
+
+<p>
+Then, I reorganized the features of Perl into a class library,
+and implemented them. I posted Ruby 0.95 to
+the Japanese domestic newsgroups in Dec. 1995.
+</p>
+</blockquote>
+</div>
+</div>
+
+<div id="outline-container-“Purely-object-oriented”" class="outline-2">
+<h2 id="“Purely-object-oriented”"><span class="section-number-2">4</span> “Purely object-oriented”</h2>
+<div class="outline-text-2" id="text-“Purely-object-oriented”">
+<p>
+What does it mean when I have said, both about Ruby and Scala,
+that they are purely object oriented?
+</p>
+
+<p>
+Quite simply, that all <i>data</i> is represented as an <i>object,
+and all operations are /methods</i>!
+</p>
+</div>
+
+<div id="outline-container-Integers-are-objects,-operations-are-methods" class="outline-3">
+<h3 id="Integers-are-objects,-operations-are-methods"><span class="section-number-3">4.1</span> Integers are objects, operations are methods</h3>
+<div class="outline-text-3" id="text-Integers-are-objects,-operations-are-methods">
+<p>
+For instance, consider integers, which in many languages are
+a <i>basic</i>, <i>builtin</i> type that do not have an implementation
+within the language. This is not the case in a pure language!
+In both Ruby and Scala, integers are objects, and operations on them
+are methods.
+</p>
+
+<p>
+So code such as
+</p>
+<div class="org-src-container">
+<pre class="src src-ruby">5 + 2
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-amm"><span style="color: #00bcff;">5</span> + <span style="color: #00bcff;">2</span>
+</pre>
+</div>
+
+<p>
+could instead be written
+</p>
+<div class="org-src-container">
+<pre class="src src-ruby">5.+<span style="color: #00cd68;">(</span>2<span style="color: #00cd68;">)</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-amm"><span style="color: #00bcff;">5.</span>+<span style="color: #00cd68;">(</span><span style="color: #00bcff;">2</span><span style="color: #00cd68;">)</span>
+</pre>
+</div>
+
+<p>
+that is, <code>+</code> is a method of the first argument, being passed
+the second argument as a parameter.
+The form <code>x ⊕ y</code> is just <i>syntactic sugar</i>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-Integers-are-objects,-operations-are-/messages/" class="outline-3">
+<h3 id="Integers-are-objects,-operations-are-/messages/"><span class="section-number-3">4.2</span> Integers are objects, operations are <i>messages</i></h3>
+<div class="outline-text-3" id="text-Integers-are-objects,-operations-are-/messages/">
+<p>
+In Ruby, we can move one level of abstraction higher:
+all data are objects, and all operations are <i>messages between objects</i>.
+This harkens back to SmallTalk, one of the founding languages
+of the object oriented paradigm.
+</p>
+<div class="org-src-container">
+<pre class="src src-ruby">5.send<span style="color: #00cd68;">(</span><span style="color: #79a8ff;">"=="</span>, 3<span style="color: #00cd68;">)</span>
+</pre>
+</div>
+
+<p>
+So even the form <code>x.⊕(y)</code> is syntactic sugar!
+</p>
+
+<p>
+In Scala, moving to this message passing abstraction
+is not possible, aat least not easily; why?
+:TODO:
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-Postfix-forms" class="outline-2">
+<h2 id="Postfix-forms"><span class="section-number-2">5</span> Postfix forms</h2>
+<div class="outline-text-2" id="text-Postfix-forms">
+<p>
+:TODO:
+</p>
+</div>
+</div>
+
+<div id="outline-container-Method-naming-conventions" class="outline-2">
+<h2 id="Method-naming-conventions"><span class="section-number-2">6</span> Method naming conventions</h2>
+<div class="outline-text-2" id="text-Method-naming-conventions">
+<p>
+By convention, methods ending with a <code>?</code> are predicates.
+They do not <i>necessarily</i> return a boolean, but should
+return a “truth value” of some kind.
+:TODO:
+</p>
+
+<p>
+Methods ending with a <code>!</code> are <i>descructive</i>; they modify the receiver.
+:TODO:
+</p>
+
+<p>
+Methods ending with a <code>=</code> indicate an <i>assignment</i> method.
+:TODO:
+</p>
+</div>
+</div>
+
+<div id="outline-container-Defining-classes" class="outline-2">
+<h2 id="Defining-classes"><span class="section-number-2">7</span> Defining classes</h2>
+<div class="outline-text-2" id="text-Defining-classes">
+</div>
+
+<div id="outline-container-The-basics" class="outline-3">
+<h3 id="The-basics"><span class="section-number-3">7.1</span> The basics</h3>
+<div class="outline-text-3" id="text-The-basics">
+<p>
+A class declaration in Ruby for a class named <code>Name</code> is
+begun by simply saying
+</p>
+<pre class="example" id="org4a88312">
+class Name
+</pre>
+
+<p>
+Instance variables
+(whose value is unique per object of the class)
+begin with a <code>@</code>.
+We do not declare explicitely declare variables in Ruby,
+but you can initialise them to “declare” them
+(you don't need to though; they can be initialised inside
+a constructor or other methods.)
+</p>
+
+<p>
+Class variables
+(whose value is shared by each object of the class)
+begin with a <code>@@</code>.
+</p>
+
+<p>
+It is common to want to define <i>getters</i> and <i>setters</i> for instance
+variables in OO programming.
+For example,
+</p>
+<div class="org-src-container">
+<pre class="src src-ruby"><span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">MyContainer</span>
+  
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">initialize</span><span style="color: #00cd68;">(</span>thing=<span style="color: #00bcff;">nil</span><span style="color: #00cd68;">)</span> <span style="color: #00d3d0;">@thing</span> = thing <span style="color: #b6a0ff;">end</span>
+
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">thing;</span> <span style="color: #00d3d0;">@thing</span> <span style="color: #b6a0ff;">end</span>
+
+  <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Assignment method syntax</span>
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">thing=</span><span style="color: #00cd68;">(</span>thing<span style="color: #00cd68;">)</span> <span style="color: #00d3d0;">@thing</span> = thing <span style="color: #b6a0ff;">end</span>
+<span style="color: #b6a0ff;">end</span>
+
+container = <span style="color: #f78fe7;">MyContainer</span>.new<span style="color: #00cd68;">()</span>
+container.thing = 5
+<span style="color: #f78fe7;">puts</span><span style="color: #00cd68;">(</span>container.thing<span style="color: #00cd68;">)</span>
+</pre>
+</div>
+
+<p>
+Because this is so common, there is a shorthand
+to avoid declaring these methods.
+</p>
+<div class="org-src-container">
+<pre class="src src-ruby"><span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">MyContainer</span>
+  <span style="color: #f78fe7;">attr_accessor</span> <span style="color: #00bcff;">:thing</span>   <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">:thing is a symbol; essentially in interned string</span>
+  <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">attr_reader   provides only the getter</span>
+  <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">attr_writer   provides only the setter</span>
+</pre>
+</div>
+
+<p>
+:TODO: initialize
+</p>
+</div>
+</div>
+
+<div id="outline-container-Inheritance" class="outline-3">
+<h3 id="Inheritance"><span class="section-number-3">7.2</span> Inheritance</h3>
+<div class="outline-text-3" id="text-Inheritance">
+<p>
+:TODO:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-ruby"><span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">C1</span>
+
+<span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">C2</span> &lt; <span style="color: #f78fe7;">C1</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-Mixins" class="outline-3">
+<h3 id="Mixins"><span class="section-number-3">7.3</span> <span class="todo TODO">TODO</span> Mixins</h3>
+<div class="outline-text-3" id="text-Mixins">
+<p>
+:TODO:
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Mark Armstrong</p>
+     <p class="author">Contact: <a href="mailto:markparmstrong@gmail.com">markparmstrong@gmail.com</a></p>
+     <p class="date">Original date: </p>
+     <p class="date">Last updated: 2020-10-09 Fri 13:33</p>
+     <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4)</p>
+     <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

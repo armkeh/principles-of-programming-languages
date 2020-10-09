@@ -1,0 +1,339 @@
+#+Title: Introduction to Ruby
+#+Author: Mark Armstrong
+#+Description: A brief tour of Ruby.
+#+SETUPFILE: ../../org-html-themes/setup/theme-readtheorg-local.setup
+
+* LaTeX settings                                :noexport:
+
+#+LaTeX_header: \usepackage{unicode-math}
+#+LaTeX_header: \usepackage{unicode}
+
+* Introduction
+:PROPERTIES:
+:CUSTOM_ID: Introduction
+:END:
+
+These notes were created for, and in some parts *during*,
+the lecture on October 9th and the following tutorials.
+
+* Motivation
+:PROPERTIES:
+:CUSTOM_ID: Motivation
+:END:
+
+So far, we have been investigating
+- the functional paradigm, using Scala,
+  - which happens to also be a pure object-oriented language, and
+- the logical paradigm, using Prolog.
+
+We now investigate an /imperative/ pure object-oriented language, Ruby.
+
+Ruby's syntax is also heavily influenced by Lisp,
+and the final language we will investigate later in the course
+is a Lisp.
+So Ruby acts as a stepping stone to that point.
+
+* Background on Ruby
+:PROPERTIES:
+:CUSTOM_ID: Background-on-Ruby
+:END:
+
+Ruby is an almost purely object-oriented language,
+heavily inspired by Smalltalk, Lisp and Perl.
+
+It's creator, Yukihiro “Matz” Matsumoto,
+has documented these inspirations in
+[[http://blade.nagaokaut.ac.jp/cgi-bin/scat.rb/ruby/ruby-talk/179642][a post on ruby-talk]].
+#+begin_quote
+Ruby is a language designed in the following steps:
+
+  * take a simple lisp language (like one prior to CL).
+  * remove macros, s-expression.
+  * add simple object system (much simpler than CLOS).
+  * add blocks, inspired by higher order functions.
+  * add methods found in Smalltalk.
+  * add functionality found in Perl (in OO way).
+#+end_quote
+
+Ruby was a language born out of Matz's interests
+and love of certain language features.
+He's [[https://ruby-doc.org/docs/ruby-doc-bundle/FAQ/FAQ.html][said]]
+about its creation
+#+begin_quote
+Well, Ruby was born on February 24 1993.
+I was talking with my colleague about the possibility of
+an object-oriented scripting language.
+I knew Perl (Perl4, not Perl5), but I didn't like it really,
+because it had smell of toy language (it still has).
+The object-oriented scripting language seemed very promising.
+
+I knew Python then. But I didn't like it,
+because I didn't think it was a true object-oriented language
+─ OO features appeared to be add-on to the language.
+As a language manic and OO fan for 15 years,
+I really wanted a genuine object-oriented,
+easy-to-use scripting language.
+I looked for, but couldn't find one.
+
+So, I decided to make it.
+It took several months to make the interpreter run.
+I put it the features I love to have in my language,
+such as iterators, exception handling, garbage collection.
+
+Then, I reorganized the features of Perl into a class library,
+and implemented them. I posted Ruby 0.95 to
+the Japanese domestic newsgroups in Dec. 1995.
+#+end_quote
+
+* “Purely object-oriented”
+:PROPERTIES:
+:CUSTOM_ID: “Purely-object-oriented”
+:END:
+
+** Preamble                                    :ignore:
+
+What does it mean when I have said, both about Ruby and Scala,
+that they are purely object oriented?
+
+Quite simply, that all /data/ is represented as an /object,
+and all operations are /methods/!
+
+** Integers are objects, operations are methods
+:PROPERTIES:
+:CUSTOM_ID: Integers-are-objects,-operations-are-methods
+:END:
+
+For instance, consider integers, which in many languages are
+a /basic/, /builtin/ type that do not have an implementation
+within the language. This is not the case in a pure language!
+In both Ruby and Scala, integers are objects, and operations on them
+are methods.
+
+So code such as
+#+begin_src ruby :session
+5 + 2
+#+end_src
+
+#+RESULTS:
+: true
+
+#+begin_src amm
+5 + 2
+#+end_src
+
+#+RESULTS:
+: res4: Boolean = true
+
+could instead be written
+#+begin_src ruby :session
+5.+(2)
+#+end_src
+
+#+RESULTS:
+: 7
+
+#+begin_src amm
+5.+(2)
+#+end_src
+
+#+RESULTS:
+: res5: Int = 7
+
+that is, ~+~ is a method of the first argument, being passed
+the second argument as a parameter.
+The form ~x ⊕ y~ is just /syntactic sugar/.
+
+** Integers are objects, operations are /messages/
+:PROPERTIES:
+:CUSTOM_ID: Integers-are-objects,-operations-are-/messages/
+:END:
+
+In Ruby, we can move one level of abstraction higher:
+all data are objects, and all operations are /messages between objects/.
+This harkens back to SmallTalk, one of the founding languages
+of the object oriented paradigm.
+#+begin_src ruby :session
+5.send("==", 3)
+#+end_src
+
+#+RESULTS:
+: false
+
+So even the form ~x.⊕(y)~ is syntactic sugar!
+
+In Scala, moving to this message passing abstraction
+is not possible, aat least not easily; why?
+:TODO:
+
+* Postfix forms
+:PROPERTIES:
+:CUSTOM_ID: Postfix-forms
+:END:
+
+:TODO:
+
+* Method naming conventions
+:PROPERTIES:
+:CUSTOM_ID: Method-naming-conventions
+:END:
+
+By convention, methods ending with a ~?~ are predicates.
+They do not /necessarily/ return a boolean, but should
+return a “truth value” of some kind.
+:TODO:
+
+Methods ending with a ~!~ are /descructive/; they modify the receiver.
+:TODO:
+
+Methods ending with a ~=~ indicate an /assignment/ method.
+:TODO:
+
+* Defining classes
+:PROPERTIES:
+:CUSTOM_ID: Defining-classes
+:END:
+
+** The basics
+:PROPERTIES:
+:CUSTOM_ID: The-basics
+:END:
+
+A class declaration in Ruby for a class named ~Name~ is
+begun by simply saying
+#+begin_example ruby
+class Name
+#+end_example
+
+Instance variables
+(whose value is unique per object of the class)
+begin with a ~@~.
+We do not declare explicitely declare variables in Ruby,
+but you can initialise them to “declare” them
+(you don't need to though; they can be initialised inside
+a constructor or other methods.)
+
+Class variables
+(whose value is shared by each object of the class)
+begin with a ~@@~.
+
+It is common to want to define /getters/ and /setters/ for instance
+variables in OO programming.
+For example,
+#+begin_src ruby :results output
+class MyContainer
+  
+  def initialize(thing=nil) @thing = thing end
+
+  def thing; @thing end
+
+  # Assignment method syntax
+  def thing=(thing) @thing = thing end
+end
+
+container = MyContainer.new()
+container.thing = 5
+puts(container.thing)
+#+end_src
+
+#+RESULTS:
+: 5
+
+Because this is so common, there is a shorthand
+to avoid declaring these methods.
+#+begin_src ruby
+class MyContainer
+  attr_accessor :thing   # :thing is a symbol; essentially in interned string
+  # attr_reader   provides only the getter
+  # attr_writer   provides only the setter
+#+end_src
+
+:TODO: initialize
+
+** Inheritance
+:PROPERTIES:
+:CUSTOM_ID: Inheritance
+:END:
+
+:TODO:
+
+#+begin_src ruby
+class C1
+
+class C2 < C1
+#+end_src
+
+** TODO Mixins
+:PROPERTIES:
+:CUSTOM_ID: Mixins
+:END:
+
+:TODO:
+
+** COMMENT Custom lists
+:PROPERTIES:
+:CUSTOM_ID: COMMENT-Custom-lists
+:END:
+
+#+begin_src ruby :results output
+# My own class of lists.
+# Note that these lists misbehave if you try to store nil in them;
+# specifically, lists which start with nil are treated as empty,
+# so everything following a nil in the list will be ignored.
+class MyList
+
+  # Create readers for two fields, here and next.
+  attr_reader :here
+  attr_reader :next
+  
+  # Initialise a list as a singleton or an empty list.
+  def initialize(val=nil)
+    @here = val
+    @next = nil
+  end
+
+  # Add a value to the beginning of a list
+  # Note that we test if the head (@here) is tested against nil;
+  # lists with a nil head are considered to be empty.
+  def prepend(val)
+    if @here != nil
+      # Reproduce the current list, making it the new next list
+      @next = self.clone()
+    end
+    @here = val
+    return self
+  end
+
+  def catenate(l)
+    if @here != nil and @next != nil
+      # keep recursing until we reach the end of our list
+      @next = @next.catenate(l)
+    elsif @here != nil
+      # at the end, attach a copy of l
+      @next = l.clone()
+    else
+      # there is no list here; just copy l
+      @here = l.here
+      @next = l.next
+    end
+    return self
+  end
+
+  def to_s
+    if @here and @next
+      return @here.to_s + " :: " + @next.to_s
+    elsif @here
+      return @here.to_s + " :: eol"
+    else
+      return "eol"
+    end
+  end
+
+end
+
+# The list containing 1, prepended with 2, catenated with the list containing 3
+# 2 ∷ 1 ∷ 3 ∷ eol
+puts ((MyList.new(1)).prepend(2)).catenate(MyList.new(3))
+#+end_src
+
+#+RESULTS:
+: 2 :: 1 :: 3 :: eol

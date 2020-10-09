@@ -476,6 +476,15 @@ Particularly relevant portions of raw code are also included.
 :CUSTOM_ID: Lectures
 :END:
 
+*** October 9th – Introduction to Ruby
+:PROPERTIES:
+:CUSTOM_ID: October-9th-–-Introduction-to-Ruby
+:END:
+
+- [[./notes/live-coding/10-09-Introduction-to-Ruby.html][HTML]]
+- [[./notes/live-coding/10-09-Introduction-to-Ruby.pdf][PDF]]
+- [[./notes/live-coding/10-09-Introduction-to-Ruby.org][Org plaintext]]
+
 *** October 2nd – Infinite data in Scala
 :PROPERTIES:
 :CUSTOM_ID: September-25th-–-Trees-in-Prolog
