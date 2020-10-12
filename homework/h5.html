@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-10-12 Mon 15:49 -->
+<!-- 2020-10-12 Mon 19:22 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Computer Science 3MI3 – 2020 homework 5</title>
@@ -240,16 +240,16 @@
 <ul>
 <li><a href="#Submission-procedures">Submission procedures</a>
 <ul>
-<li><a href="#org6568317">Submission method</a></li>
-<li><a href="#orga627e29">Naming requirements</a></li>
-<li><a href="#org53df922">Do not submit testing or diagnostic code</a></li>
-<li><a href="#org93a370a">Due date and allowance for technical difficulties</a></li>
+<li><a href="#org55d502c">Submission method</a></li>
+<li><a href="#orgcd2d9ab">Naming requirements</a></li>
+<li><a href="#orgedb94d1">Do not submit testing or diagnostic code</a></li>
+<li><a href="#org4ccbe3c">Due date and allowance for technical difficulties</a></li>
 </ul>
 </li>
 <li><a href="#Proper-conduct-for-coursework">Proper conduct for coursework</a>
 <ul>
-<li><a href="#orgf6ae93a">Individual work</a></li>
-<li><a href="#orgcfad9f9">Language library resources</a></li>
+<li><a href="#org67d3c2c">Individual work</a></li>
+<li><a href="#org8b37a9f">Language library resources</a></li>
 </ul>
 </li>
 </ul>
@@ -259,7 +259,13 @@
 <li><a href="#Part-3:-Generalising-fizzbuzzing------------------------[20 points]">Part 3: Generalising fizzbuzzing                        [20 points]</a></li>
 <li><a href="#Part-4:-Generalised-fizzbuzzing-in-Scala----------------[10 bonus points]">Part 4: Generalised fizzbuzzing in Scala                [10 bonus points]</a></li>
 <li><a href="#Part-5:-Generalised-fizzbuzzing-in-Prolog---------------[10 bonus points]">Part 5: Generalised fizzbuzzing in Prolog               [10 bonus points]</a></li>
-<li><a href="#Testing">Testing</a></li>
+<li><a href="#Testing">Testing</a>
+<ul>
+<li><a href="#Automated-testing-via-Docker">Automated testing via Docker</a></li>
+<li><a href="#The-tests">The tests</a></li>
+<li><a href="#The-Docker-setup">The Docker setup</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -294,9 +300,9 @@ as well as solving a generalisation of the problem.
 <div class="outline-text-3" id="text-Submission-procedures">
 </div>
 
-<div id="outline-container-org6568317" class="outline-4">
-<h4 id="org6568317">Submission method</h4>
-<div class="outline-text-4" id="text-org6568317">
+<div id="outline-container-org55d502c" class="outline-4">
+<h4 id="org55d502c">Submission method</h4>
+<div class="outline-text-4" id="text-org55d502c">
 <p>
 Homework should be submitted to your McMaster CAS Gitlab respository
 in the <code>cs3mi3-fall2020</code> project.
@@ -309,9 +315,9 @@ in time for the deadline, and not just committed to your local copy.
 </div>
 </div>
 
-<div id="outline-container-orga627e29" class="outline-4">
-<h4 id="orga627e29">Naming requirements</h4>
-<div class="outline-text-4" id="text-orga627e29">
+<div id="outline-container-orgcd2d9ab" class="outline-4">
+<h4 id="orgcd2d9ab">Naming requirements</h4>
+<div class="outline-text-4" id="text-orgcd2d9ab">
 <p>
 Place all files for the homework
 inside a folder titled <code>hn</code>, where <code>n</code> is the number of the homework.
@@ -352,9 +358,9 @@ submit a <code>hn.ext</code> file for each language.
 </div>
 </div>
 
-<div id="outline-container-org53df922" class="outline-4">
-<h4 id="org53df922">Do not submit testing or diagnostic code</h4>
-<div class="outline-text-4" id="text-org53df922">
+<div id="outline-container-orgedb94d1" class="outline-4">
+<h4 id="orgedb94d1">Do not submit testing or diagnostic code</h4>
+<div class="outline-text-4" id="text-orgedb94d1">
 <p>
 Unless you are instructed to do so in the homework questions,
 <b>you should not submit testing code with your homework submission</b>.
@@ -382,9 +388,9 @@ For instance, by using a wrapper on the print function or macros.
 </div>
 </div>
 
-<div id="outline-container-org93a370a" class="outline-4">
-<h4 id="org93a370a">Due date and allowance for technical difficulties</h4>
-<div class="outline-text-4" id="text-org93a370a">
+<div id="outline-container-org4ccbe3c" class="outline-4">
+<h4 id="org4ccbe3c">Due date and allowance for technical difficulties</h4>
+<div class="outline-text-4" id="text-org4ccbe3c">
 <p>
 Homework is due on the second Sunday following its release,
 by the end of the day (midnight).
@@ -409,9 +415,9 @@ to accept your submission once the technical difficulties are resolved.
 <div class="outline-text-3" id="text-Proper-conduct-for-coursework">
 </div>
 
-<div id="outline-container-orgf6ae93a" class="outline-4">
-<h4 id="orgf6ae93a">Individual work</h4>
-<div class="outline-text-4" id="text-orgf6ae93a">
+<div id="outline-container-org67d3c2c" class="outline-4">
+<h4 id="org67d3c2c">Individual work</h4>
+<div class="outline-text-4" id="text-org67d3c2c">
 <p>
 Unless explicitely stated in the homework questions,
 all homework in this course is intended
@@ -472,9 +478,9 @@ probably add a catch-all <code>_</code> case to your <code>match</code> expressi
 </div>
 </div>
 
-<div id="outline-container-orgcfad9f9" class="outline-4">
-<h4 id="orgcfad9f9">Language library resources</h4>
-<div class="outline-text-4" id="text-orgcfad9f9">
+<div id="outline-container-org8b37a9f" class="outline-4">
+<h4 id="org8b37a9f">Language library resources</h4>
+<div class="outline-text-4" id="text-org8b37a9f">
 <p>
 Unless explicitely stated in the questions,
 it is not expected that you will use any language library resources
@@ -716,8 +722,218 @@ for you to convince us your choices are appropriate.
 <h2 id="Testing">Testing</h2>
 <div class="outline-text-2" id="text-Testing">
 <p>
-:TODO:
+Unit tests for the requested methods/functions
+are available <a href="./testing/h5/h5t.rb">here</a>.
+The contents of the unit test file are also repeated below.
 </p>
+
+<p>
+The tests can be run by placing the <code>h4t.sc</code> file
+in the same directory as your <code>h4.sc</code> file, and
+running the following command.
+</p>
+<div class="org-src-container">
+<pre class="src src-shell">ruby h5t.rb
+</pre>
+</div>
+<p>
+You may also use <code>irb h5t.rb</code>, which will echo the script
+as it is run.
+</p>
+
+<p>
+If you wish to add more tests yourself,
+see the <a href="https://en.wikibooks.org/wiki/Ruby_Programming/Unit_testing">documentation</a>
+for Ruby.
+</p>
+</div>
+
+<div id="outline-container-Automated-testing-via-Docker" class="outline-3">
+<h3 id="Automated-testing-via-Docker">Automated testing via Docker</h3>
+<div class="outline-text-3" id="text-Automated-testing-via-Docker">
+<p>
+The Docker setup and usage scripts are available at the following links.
+Their contents are also repeated below.
+</p>
+<ul class="org-ul">
+<li><a href="./testing/h5/Dockerfile">Dockerfile</a></li>
+<li><a href="./testing/h5/docker-compose.yml">docker-compose.yml</a></li>
+<li><a href="./testing/h5/setup.sh">setup.sh</a></li>
+<li><a href="./testing/h5/run.sh">run.sh</a></li>
+</ul>
+<p>
+Place them into your <code>h5</code> directory where your <code>h5.rb</code> file
+and the <code>h5t.rb</code> (linked to above) file exist,
+then run <code>setup.sh</code> and <code>run.sh</code>.
+</p>
+
+<p>
+You may also refer to the README
+for this testing setup and those files
+<a href="https://github.com/armkeh/principles-of-programming-languages/tree/master/homework/testing/h5">on the course GitHub repo</a>.
+</p>
+
+<p>
+Note that the use of the <code>setup.sh</code> and <code>run.sh</code> scripts assumes
+that you are in a <code>bash</code> like shell; if you are on Windows,
+and not using WSL or WSL2, you may have
+to run the commands contained in those scripts manually.
+</p>
+</div>
+</div>
+
+<div id="outline-container-The-tests" class="outline-3">
+<h3 id="The-tests">The tests</h3>
+<div class="outline-text-3" id="text-The-tests">
+<p>
+The contents of the testing script are repeated here.
+</p>
+
+<p>
+<a href="./testing/h5/h5t.rb">h5t.rb</a>
+</p>
+<div class="org-src-container">
+<pre class="src src-ruby"><span style="color: #f78fe7;">require_relative</span> <span style="color: #79a8ff;">"h5"</span>
+<span style="color: #f78fe7;">require</span> <span style="color: #79a8ff;">"test/unit"</span>
+
+<span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">BEGIN constants for use in testing ---------------------------</span>
+<span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">We use global variables, which is not recommended in Ruby,</span>
+<span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">but which makes it simpler to share these values here.</span>
+<span style="color: #00d3d0;">$upto15</span> = <span style="color: #00cd68;">[</span>0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15<span style="color: #00cd68;">]</span>
+
+<span style="color: #00d3d0;">$upto15_fizzbuzzed</span> = <span style="color: #00cd68;">[</span><span style="color: #79a8ff;">"fizzbuzz"</span>,<span style="color: #79a8ff;">"1"</span>,<span style="color: #79a8ff;">"2"</span>,<span style="color: #79a8ff;">"fizz"</span>,<span style="color: #79a8ff;">"4"</span>,<span style="color: #79a8ff;">"buzz"</span>,
+                     <span style="color: #79a8ff;">"fizz"</span>,<span style="color: #79a8ff;">"7"</span>,<span style="color: #79a8ff;">"8"</span>,<span style="color: #79a8ff;">"fizz"</span>,<span style="color: #79a8ff;">"buzz"</span>,
+                     <span style="color: #79a8ff;">"11"</span>,<span style="color: #79a8ff;">"fizz"</span>,<span style="color: #79a8ff;">"13"</span>,<span style="color: #79a8ff;">"14"</span>,<span style="color: #79a8ff;">"fizzbuzz"</span><span style="color: #00cd68;">]</span>
+
+<span style="color: #00d3d0;">$fizzbuzz_rules</span> = <span style="color: #00cd68;">[</span><span style="color: #b6a0ff;">[</span><span style="color: #f78fe7;">lambda</span> <span style="color: #6ae4b9;">{</span> |x| x % 3 == 0 <span style="color: #6ae4b9;">}</span>, <span style="color: #f78fe7;">lambda</span> <span style="color: #6ae4b9;">{</span> |x| <span style="color: #79a8ff;">"fizz"</span> <span style="color: #6ae4b9;">}</span><span style="color: #b6a0ff;">]</span>,
+                   <span style="color: #b6a0ff;">[</span><span style="color: #f78fe7;">lambda</span> <span style="color: #6ae4b9;">{</span> |x| x % 5 == 0 <span style="color: #6ae4b9;">}</span>, <span style="color: #f78fe7;">lambda</span> <span style="color: #6ae4b9;">{</span> |x| <span style="color: #79a8ff;">"buzz"</span> <span style="color: #6ae4b9;">}</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">]</span>
+<span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">END constants for use in testing -----------------------------</span>
+
+<span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">BEGIN fizzbuzzLooper tests -----------------------------------</span>
+<span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">TestLooper</span> &lt; <span style="color: #f78fe7;">Test</span>::<span style="color: #f78fe7;">Unit</span>::<span style="color: #f78fe7;">TestCase</span>
+
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">test_simple</span>
+    assert_equal<span style="color: #00cd68;">(</span><span style="color: #00d3d0;">$upto15_fizzbuzzed</span>,fizzbuzzLooper<span style="color: #b6a0ff;">(</span><span style="color: #00d3d0;">$upto15</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+  <span style="color: #b6a0ff;">end</span>
+
+<span style="color: #b6a0ff;">end</span>
+<span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">END fizzbuzzLooper tests -------------------------------------</span>
+
+<span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">BEGIN fizzbuzzLooper tests -----------------------------------</span>
+<span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">TestIterator</span> &lt; <span style="color: #f78fe7;">Test</span>::<span style="color: #f78fe7;">Unit</span>::<span style="color: #f78fe7;">TestCase</span>
+
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">test_simple</span>
+    assert_equal<span style="color: #00cd68;">(</span><span style="color: #00d3d0;">$upto15_fizzbuzzed</span>,fizzbuzzIterator<span style="color: #b6a0ff;">(</span><span style="color: #00d3d0;">$upto15</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+  <span style="color: #b6a0ff;">end</span>
+
+<span style="color: #b6a0ff;">end</span>
+<span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">END fizzbuzzLooper tests -------------------------------------</span>
+
+<span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">BEGIN fizzbuzzLooper tests -----------------------------------</span>
+<span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">TestZuzzer</span> &lt; <span style="color: #f78fe7;">Test</span>::<span style="color: #f78fe7;">Unit</span>::<span style="color: #f78fe7;">TestCase</span>
+
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">test_simple</span>
+    assert_equal<span style="color: #00cd68;">(</span><span style="color: #00d3d0;">$upto15_fizzbuzzed</span>,zuzzer<span style="color: #b6a0ff;">(</span><span style="color: #00d3d0;">$upto15</span>,<span style="color: #00d3d0;">$fizzbuzz_rules</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+  <span style="color: #b6a0ff;">end</span>
+
+<span style="color: #b6a0ff;">end</span>
+<span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">END fizzbuzzLooper tests -------------------------------------</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-The-Docker-setup" class="outline-3">
+<h3 id="The-Docker-setup">The Docker setup</h3>
+<div class="outline-text-3" id="text-The-Docker-setup">
+<p>
+The contents of the Docker setup files and scripts are repeated here.
+</p>
+
+<p>
+<a href="./testing/h5/Dockerfile">Dockerfile</a>
+</p>
+<div class="org-src-container">
+<pre class="src src-docker">FROM ruby:2.7.2-buster
+
+# Set the name of the maintainers
+MAINTAINER Habib Ghaffari Hadigheh, Mark Armstrong &lt;ghaffh1@mcmaster.ca, armstmp@mcmaster.ca&gt;
+
+# Set the working directory
+WORKDIR /opt/h5
+</pre>
+</div>
+
+<p>
+<a href="./testing/h5/docker-compose.yml">docker-compose.yml</a>
+</p>
+<div class="org-src-container">
+<pre class="src src-yaml">version: '2'
+services:
+  service:
+    build: .
+    image: 3mi3_h5_docker_image
+    volumes:
+      - .:/opt/h5
+    container_name: 3mi3_h5_container
+    command: ['ruby', 'h5t.rb']
+</pre>
+</div>
+
+<p>
+<a href="./testing/h5/setup.sh">setup.sh</a>
+</p>
+<div class="org-src-container">
+<pre class="src src-shell">docker-compose build --force-rm
+</pre>
+</div>
+
+<p>
+<a href="./testing/h5/run.sh">run.sh</a>
+</p>
+<div class="org-src-container">
+<pre class="src src-shell"><span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Run the container</span>
+docker-compose up --force-recreate
+<span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Stop the container after finishing the test run</span>
+docker-compose stop -t 1
+</pre>
+</div>
+
+<p>
+<a href="./testing/h5/README.md">README.md</a>
+</p>
+<div class="org-src-container">
+<pre class="src src-text"># Instructions for automated testing using Docker
+
+We have already created a `Dockerfile` here which specifies
+all the necessary packages, etc., for compiling and running your code.
+You only need to follow the instructions below to see 
+the results of unit tests designed to check your implementation.
+
+## Setup
+We use `docker-compose` and its configuration file to build the image.
+Assuming you have `docker` and `docker-compose` installed,
+simply execute
+```shell script
+./setup.sh
+```
+to generate the image.
+
+## Prepare your code for the running the tests
+You only need to place the `h5t.rb` unit test file and
+the `run.sh` file in the same directory as your `h5.rb` source file.
+
+## Running the tests
+As with the build process, we have already put
+the configuration needed for running the test inside `docker-compose.yml`.
+Simply execute
+```shell script
+./run.sh
+```
+to run and see the results of the tests.
+</pre>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -725,7 +941,7 @@ for you to convince us your choices are appropriate.
 <p class="author">Author: Mark Armstrong</p>
      <p class="author">Contact: <a href="mailto:markparmstrong@gmail.com">markparmstrong@gmail.com</a></p>
      <p class="date">Original date: October 12th, 2020</p>
-     <p class="date">Last updated: 2020-10-12 Mon 15:49</p>
+     <p class="date">Last updated: 2020-10-12 Mon 19:20</p>
      <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.90 (<a href="https://orgmode.org">Org</a> mode 9.4)</p>
      <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

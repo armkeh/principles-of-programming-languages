@@ -1,0 +1,9 @@
+version: '2'
+services:
+  service:
+    build: .
+    image: 3mi3_h5_docker_image
+    volumes:
+      - .:/opt/h5
+    container_name: 3mi3_h5_container
+    command: ['ruby', 'h5t.rb']

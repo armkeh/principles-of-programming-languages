@@ -1,4 +1,4 @@
-% Created 2020-10-12 Mon 15:49
+% Created 2020-10-12 Mon 19:22
 % Intended LaTeX compiler: lualatex
 \documentclass[11pt]{article}
 \usepackage{graphicx}
@@ -42,7 +42,7 @@
 
 
 \section*{Introduction}
-\label{sec:org91af0fb}
+\label{sec:org89f6b8d}
 The “fizzbuzz” problem is a very simple programming task,
 sometimes used in interviews to check for a basic understanding
 of iterating and branching constructs.
@@ -55,11 +55,11 @@ and then move to using “higher-order” methods,
 as well as solving a generalisation of the problem.
 
 \section*{Boilerplate}
-\label{sec:org3488652}
+\label{sec:org4d758c0}
 \subsection*{Submission procedures}
-\label{sec:org88ef8ae}
+\label{sec:org1063a8f}
 \subsubsection*{Submission method}
-\label{sec:org8291ccc}
+\label{sec:orgd39f7e8}
 
 Homework should be submitted to your McMaster CAS Gitlab respository
 in the \texttt{cs3mi3-fall2020} project.
@@ -68,7 +68,7 @@ Ensure that you have \textbf{pushed} the commits to the remote repository
 in time for the deadline, and not just committed to your local copy.
 
 \subsubsection*{Naming requirements}
-\label{sec:orgf9ae364}
+\label{sec:org284620e}
 
 Place all files for the homework
 inside a folder titled \texttt{hn}, where \texttt{n} is the number of the homework.
@@ -99,7 +99,7 @@ submit a \texttt{hn.ext} file for each language.
 \end{center}
 
 \subsubsection*{Do not submit testing or diagnostic code}
-\label{sec:org7f38cda}
+\label{sec:org6db9589}
 
 Unless you are instructed to do so in the homework questions,
 \textbf{you should not submit testing code with your homework submission}.
@@ -119,7 +119,7 @@ in your final submission.
 For instance, by using a wrapper on the print function or macros.
 
 \subsubsection*{Due date and allowance for technical difficulties}
-\label{sec:orgbfb008e}
+\label{sec:org5ea5d86}
 
 Homework is due on the second Sunday following its release,
 by the end of the day (midnight).
@@ -134,9 +134,9 @@ This information will help ensure we are able
 to accept your submission once the technical difficulties are resolved.
 
 \subsection*{Proper conduct for coursework}
-\label{sec:orgab503f1}
+\label{sec:orgaa7194a}
 \subsubsection*{Individual work}
-\label{sec:org7612ef4}
+\label{sec:org345efcb}
 
 Unless explicitely stated in the homework questions,
 all homework in this course is intended
@@ -185,7 +185,7 @@ probably add a catch-all \texttt{\_} case to your \texttt{match} expressions.”
 \end{enumerate}
 
 \subsubsection*{Language library resources}
-\label{sec:org47b731f}
+\label{sec:org3eae2f9}
 
 Unless explicitely stated in the questions,
 it is not expected that you will use any language library resources
@@ -209,7 +209,7 @@ including \texttt{map}, \texttt{reduce}, \texttt{flatten}, and \texttt{filter} a
 unless the task is to implement such a higher-order operator.
 
 \section*{Part 1: Fizzbuzzing by loops                            [5 points]}
-\label{sec:org5e464be}
+\label{sec:org554814b}
 In Ruby, create a method \texttt{fizzbuzzLooper} which, given a list
 (presumably of integers, though it may contain any type)
 creates a new list whose elements
@@ -248,7 +248,7 @@ especially \emph{not repeating yourself}.)
 \end{center}
 
 \section*{Part 2: Fizzbuzzing by iterators (higher-order methods) [10 points]}
-\label{sec:orga5ba960}
+\label{sec:orga390521}
 Construct another method \texttt{fizzbuzzIterator},
 whose behaviour is identical to \texttt{fizzbuzzLooper},
 but which is defined using an “iterator” method
@@ -275,7 +275,7 @@ So for instance,
 outputs each element of the list \texttt{[1,2,3]}.
 
 \section*{Part 3: Generalising fizzbuzzing                        [20 points]}
-\label{sec:org4edceea}
+\label{sec:orgc1c3169}
 We now consider a slight generalisation to
 the fizzbuzzing problem, which we will call “zuzzing”.
 
@@ -329,7 +329,7 @@ the result is \texttt{"fizzbuzz"}, not \texttt{"fizz"}, \texttt{"buzz"} or \text
 Create the method \texttt{zuzzer}.
 
 \section*{Part 4: Generalised fizzbuzzing in Scala                [10 bonus points]}
-\label{sec:org239204e}
+\label{sec:orgea96343}
 Implement the generalised fizzbuzzing operation from part 3 in Scala.
 
 Make what you feel are necessary adjustments to the types or
@@ -339,7 +339,7 @@ the choices you make. The purpose of the comments is then
 for you to convince us your choices are appropriate.
 
 \section*{Part 5: Generalised fizzbuzzing in Prolog               [10 bonus points]}
-\label{sec:org4a8fc7b}
+\label{sec:org3bd3958}
 Implement the generalised fizzbuzzing operation from part 3 in Scala.
 
 Make what you feel are necessary adjustments to the types or
@@ -349,6 +349,170 @@ the choices you make. The purpose of the comments is then
 for you to convince us your choices are appropriate.
 
 \section*{Testing}
-\label{sec:org06d8b3b}
-:TODO:
+\label{sec:org099aee9}
+Unit tests for the requested methods/functions
+are available \href{./testing/h5/h5t.rb}{here}.
+The contents of the unit test file are also repeated below.
+
+The tests can be run by placing the \texttt{h4t.sc} file
+in the same directory as your \texttt{h4.sc} file, and
+running the following command.
+\begin{minted}[breaklines=true]{shell}
+ruby h5t.rb
+\end{minted}
+You may also use \texttt{irb h5t.rb}, which will echo the script
+as it is run.
+
+If you wish to add more tests yourself,
+see the \href{https://en.wikibooks.org/wiki/Ruby\_Programming/Unit\_testing}{documentation}
+for Ruby.
+
+\subsection*{Automated testing via Docker}
+\label{sec:org6728845}
+The Docker setup and usage scripts are available at the following links.
+Their contents are also repeated below.
+\begin{itemize}
+\item \href{./testing/h5/Dockerfile}{Dockerfile}
+\item \href{./testing/h5/docker-compose.yml}{docker-compose.yml}
+\item \href{./testing/h5/setup.sh}{setup.sh}
+\item \href{./testing/h5/run.sh}{run.sh}
+\end{itemize}
+Place them into your \texttt{h5} directory where your \texttt{h5.rb} file
+and the \texttt{h5t.rb} (linked to above) file exist,
+then run \texttt{setup.sh} and \texttt{run.sh}.
+
+You may also refer to the README
+for this testing setup and those files
+\href{https://github.com/armkeh/principles-of-programming-languages/tree/master/homework/testing/h5}{on the course GitHub repo}.
+
+Note that the use of the \texttt{setup.sh} and \texttt{run.sh} scripts assumes
+that you are in a \texttt{bash} like shell; if you are on Windows,
+and not using WSL or WSL2, you may have
+to run the commands contained in those scripts manually.
+
+\subsection*{The tests}
+\label{sec:orgef0df95}
+The contents of the testing script are repeated here.
+
+\href{./testing/h5/h5t.rb}{h5t.rb}
+\begin{minted}[breaklines=true]{ruby}
+require_relative "h5"
+require "test/unit"
+
+# BEGIN constants for use in testing ---------------------------
+# We use global variables, which is not recommended in Ruby,
+# but which makes it simpler to share these values here.
+$upto15 = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
+
+$upto15_fizzbuzzed = ["fizzbuzz","1","2","fizz","4","buzz",
+                     "fizz","7","8","fizz","buzz",
+                     "11","fizz","13","14","fizzbuzz"]
+
+$fizzbuzz_rules = [[lambda { |x| x % 3 == 0 }, lambda { |x| "fizz" }],
+                   [lambda { |x| x % 5 == 0 }, lambda { |x| "buzz" }]]
+# END constants for use in testing -----------------------------
+
+# BEGIN fizzbuzzLooper tests -----------------------------------
+class TestLooper < Test::Unit::TestCase
+
+  def test_simple
+    assert_equal($upto15_fizzbuzzed,fizzbuzzLooper($upto15))
+  end
+
+end
+# END fizzbuzzLooper tests -------------------------------------
+
+# BEGIN fizzbuzzLooper tests -----------------------------------
+class TestIterator < Test::Unit::TestCase
+
+  def test_simple
+    assert_equal($upto15_fizzbuzzed,fizzbuzzIterator($upto15))
+  end
+
+end
+# END fizzbuzzLooper tests -------------------------------------
+
+# BEGIN fizzbuzzLooper tests -----------------------------------
+class TestZuzzer < Test::Unit::TestCase
+
+  def test_simple
+    assert_equal($upto15_fizzbuzzed,zuzzer($upto15,$fizzbuzz_rules))
+  end
+
+end
+# END fizzbuzzLooper tests -------------------------------------
+\end{minted}
+
+\subsection*{The Docker setup}
+\label{sec:org7351740}
+The contents of the Docker setup files and scripts are repeated here.
+
+\href{./testing/h5/Dockerfile}{Dockerfile}
+\begin{minted}[breaklines=true]{docker}
+FROM ruby:2.7.2-buster
+
+# Set the name of the maintainers
+MAINTAINER Habib Ghaffari Hadigheh, Mark Armstrong <ghaffh1@mcmaster.ca, armstmp@mcmaster.ca>
+
+# Set the working directory
+WORKDIR /opt/h5
+\end{minted}
+
+\href{./testing/h5/docker-compose.yml}{docker-compose.yml}
+\begin{minted}[breaklines=true]{yaml}
+version: '2'
+services:
+  service:
+    build: .
+    image: 3mi3_h5_docker_image
+    volumes:
+      - .:/opt/h5
+    container_name: 3mi3_h5_container
+    command: ['ruby', 'h5t.rb']
+\end{minted}
+
+\href{./testing/h5/setup.sh}{setup.sh}
+\begin{minted}[breaklines=true]{shell}
+docker-compose build --force-rm
+\end{minted}
+
+\href{./testing/h5/run.sh}{run.sh}
+\begin{minted}[breaklines=true]{shell}
+# Run the container
+docker-compose up --force-recreate
+# Stop the container after finishing the test run
+docker-compose stop -t 1
+\end{minted}
+
+\href{./testing/h5/README.md}{README.md}
+\begin{minted}[breaklines=true]{text}
+# Instructions for automated testing using Docker
+
+We have already created a `Dockerfile` here which specifies
+all the necessary packages, etc., for compiling and running your code.
+You only need to follow the instructions below to see 
+the results of unit tests designed to check your implementation.
+
+## Setup
+We use `docker-compose` and its configuration file to build the image.
+Assuming you have `docker` and `docker-compose` installed,
+simply execute
+```shell script
+./setup.sh
+```
+to generate the image.
+
+## Prepare your code for the running the tests
+You only need to place the `h5t.rb` unit test file and
+the `run.sh` file in the same directory as your `h5.rb` source file.
+
+## Running the tests
+As with the build process, we have already put
+the configuration needed for running the test inside `docker-compose.yml`.
+Simply execute
+```shell script
+./run.sh
+```
+to run and see the results of the tests.
+\end{minted}
 \end{document}

@@ -198,32 +198,22 @@ for you to convince us your choices are appropriate.
 :CUSTOM_ID: Testing
 :END:
 
-:TODO:
-
-* COMMENT Old testing language
-:PROPERTIES:
-:CUSTOM_ID: COMMENT-Old-testing-language
-:END:
-
 Unit tests for the requested methods/functions
-are available here: [[./testing/h4/h4t.sc]]
+are available [[./testing/h5/h5t.rb][here]].
 The contents of the unit test file are also repeated below.
 
 The tests can be run by placing the ~h4t.sc~ file
 in the same directory as your ~h4.sc~ file, and
 running the following command.
 #+begin_src shell
-amm h4t.sc
+ruby h5t.rb
 #+end_src
+You may also use ~irb h5t.rb~, which will echo the script
+as it is run.
 
-If you use an implementation other than Ammonite,
-you may need to adjust the tests to be able to run them
-on your system.
-
-In particular, those using IntelliJ for writing Scala
-may need to remove the import statement at the top of that file,
-or move the tests to their source file
-(if so, be sure to remove them before submission!)
+If you wish to add more tests yourself,
+see the [[https://en.wikibooks.org/wiki/Ruby_Programming/Unit_testing][documentation]]
+for Ruby.
 
 ** Automated testing via Docker
 :PROPERTIES:
@@ -232,17 +222,17 @@ or move the tests to their source file
 
 The Docker setup and usage scripts are available at the following links.
 Their contents are also repeated below.
-- [[./testing/h4/Dockerfile][Dockerfile]]
-- [[./testing/h4/docker-compose.yml][docker-compose.yml]]
-- [[./testing/h4/setup.sh][setup.sh]]
-- [[./testing/h4/run.sh][run.sh]]
-Place them into your ~h4~ directory where your ~h4.sc~ file
-and the ~h4.plt~ (linked to above) file exist,
+- [[./testing/h5/Dockerfile][Dockerfile]]
+- [[./testing/h5/docker-compose.yml][docker-compose.yml]]
+- [[./testing/h5/setup.sh][setup.sh]]
+- [[./testing/h5/run.sh][run.sh]]
+Place them into your ~h5~ directory where your ~h5.rb~ file
+and the ~h5t.rb~ (linked to above) file exist,
 then run ~setup.sh~ and ~run.sh~.
 
 You may also refer to the README
 for this testing setup and those files
-[[https://github.com/armkeh/principles-of-programming-languages/tree/master/homework/testing/h4][on the course GitHub repo]]
+[[https://github.com/armkeh/principles-of-programming-languages/tree/master/homework/testing/h5][on the course GitHub repo]].
 
 Note that the use of the ~setup.sh~ and ~run.sh~ scripts assumes
 that you are in a ~bash~ like shell; if you are on Windows,
@@ -256,78 +246,73 @@ to run the commands contained in those scripts manually.
 
 The contents of the testing script are repeated here.
 
-#+begin_src amm :results none :tangle testing/h4/h4t.sc
-import $file.h4, h4._
+[[./testing/h5/h5t.rb][h5t.rb]]
+#+begin_src ruby :results output :tangle ./testing/h5/h5t.rb
+require_relative "h5"
+require "test/unit"
 
-// Included in case the student did not define it.
-// But renamed in case they did.
-def testTake[A](n: Int, s: => Stream[A]): List[A] = s match {
-  case SNil => Nil
-  case Cons(a,f) => n match {
-    case n if n > 0 => a :: take(n-1,f())
-    case _ => Nil
-    }
-  }
+# BEGIN constants for use in testing ---------------------------
+# We use global variables, which is not recommended in Ruby,
+# but which makes it simpler to share these values here.
+$upto15 = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
 
-/* Given an expected result and a computed result,
-   check if they are equal in value.
-   If so, return 0. Otherwise, inform the user, and return 1,
-   so the number of failures can be counted. */
-def test[A](given: A, expected: A, the_test: String) =
-  if (!(given equals expected)) {
-    println("+---------------------------------------------------")
-    println("| " + the_test + " failed.")
-    println("| Expected " + expected + ", got " + given + ".")
-    println("+---------------------------------------------------")
-    1
-  } else {
-    0
-  }
+$upto15_fizzbuzzed = ["fizzbuzz","1","2","fizz","4","buzz",
+                     "fizz","7","8","fizz","buzz",
+                     "11","fizz","13","14","fizzbuzz"]
 
-// We can define a stream of all natural numbers by
-// first defining streams which start at a given integer.
-def intsFrom(n: Int): Stream[Int] = Cons(n, _ => intsFrom(n+1))
-val nats = intsFrom(0)
+$fizzbuzz_rules = [[lambda { |x| x % 3 == 0 }, lambda { |x| "fizz" }],
+                   [lambda { |x| x % 5 == 0 }, lambda { |x| "buzz" }]]
+# END constants for use in testing -----------------------------
 
-// Filter test streams
-val evenNats = filter((x: Int) => x % 2 == 0, nats)
-val natsGtr100 = filter((x: Int) => x > 100, nats)
+# BEGIN fizzbuzzLooper tests -----------------------------------
+class TestLooper < Test::Unit::TestCase
 
+  def test_simple
+    assert_equal($upto15_fizzbuzzed,fizzbuzzLooper($upto15))
+  end
 
-// The tests are saved as tuples, the pieces of which will be passed
-// to test.
-val tests = List(
-  (testTake(10,evenNats),
-    List(0,2,4,6,8,10,12,14,16,18),
-    "First 10 even nats"),
-  (testTake(10,natsGtr100),
-    List(101,102,103,104,105,106,107,108,109,110),
-    "First 10 nats greater than 100"),
-  (testTake(10,zip(evenNats,natsGtr100)),
-    List((0,101),(2,102),(4,103),(6,104),
-         (8,105),(10,106),(12,107),(14,108),(16,109),(18,110)),
-    "zip test"),
-  (testTake(20,merge(evenNats,natsGtr100)),
-    List(0,101,2,102,4,103,6,104,8,105,
-      10,106,12,107,14,108,16,109,18,110),
-    "merge test"),
-  (all((x: Int) => x < 100, nats), false, "not all nats less than 100"),
-  (exists((x: Int) => x > 100, nats), true, "exists nat greater than 100"),
-  )
+end
+# END fizzbuzzLooper tests -------------------------------------
 
-// Apply test to each element of tests, and sum the return values.
-// This is essentially a for loop.
-val failed = tests.foldLeft(0) {
-  (failures, next) => next match {
-    // Deconstruct the tuple to get its parts
-    case (given, expected, the_test) => failures + test(given, expected, the_test)
-  }
-}
+# BEGIN fizzbuzzLooper tests -----------------------------------
+class TestIterator < Test::Unit::TestCase
 
-println("+---------------------------------------------------")
-println("| " + failed + " tests failed")
-println("+---------------------------------------------------")
+  def test_simple
+    assert_equal($upto15_fizzbuzzed,fizzbuzzIterator($upto15))
+  end
+
+end
+# END fizzbuzzLooper tests -------------------------------------
+
+# BEGIN fizzbuzzLooper tests -----------------------------------
+class TestZuzzer < Test::Unit::TestCase
+
+  def test_simple
+    assert_equal($upto15_fizzbuzzed,zuzzer($upto15,$fizzbuzz_rules))
+  end
+
+end
+# END fizzbuzzLooper tests -------------------------------------
 #+end_src
+
+#+RESULTS:
+#+begin_example
+1
+2
+3
+4
+buzz
+6
+7
+8
+9
+buzz
+11
+12
+13
+14
+buzz
+#+end_example
 
 ** The Docker setup
 :PROPERTIES:
@@ -335,58 +320,51 @@ println("+---------------------------------------------------")
 :END:
 
 The contents of the Docker setup files and scripts are repeated here.
-#+begin_src docker :tangle ./testing/h4/Dockerfile
-# This Dockerfile has two required ARGs to determine which base image
-# to use for the JDK and which sbt version to install.
 
-# Define the argument for openjdk version
-ARG OPENJDK_TAG=8u232
-# Do the packaging based on openjdk
-FROM openjdk:${OPENJDK_TAG}
+[[./testing/h5/Dockerfile][Dockerfile]]
+#+begin_src docker :tangle ./testing/h5/Dockerfile
+FROM ruby:2.7.2-buster
 
 # Set the name of the maintainers
 MAINTAINER Habib Ghaffari Hadigheh, Mark Armstrong <ghaffh1@mcmaster.ca, armstmp@mcmaster.ca>
 
-RUN apt-get update && \
-  apt-get install scala -y && \
-  apt-get install -y curl && \
-  sh -c '(echo "#!/usr/bin/env sh" && \
-  curl -L https://github.com/lihaoyi/Ammonite/releases/download/2.1.1/2.12-2.1.1) > /usr/local/bin/amm && \
-  chmod +x /usr/local/bin/amm'
-
 # Set the working directory
-WORKDIR /opt/h4
+WORKDIR /opt/h5
 #+end_src
 
-#+begin_src yaml :tangle ./testing/h4/docker-compose.yml
+[[./testing/h5/docker-compose.yml][docker-compose.yml]]
+#+begin_src yaml :tangle ./testing/h5/docker-compose.yml
 version: '2'
 services:
   service:
     build: .
-    image: 3mi3_h4_docker_image
+    image: 3mi3_h5_docker_image
     volumes:
-      - .:/opt/h4
-    container_name: 3mi3_h4_container
-    command: ['amm', 'h4t.sc']
+      - .:/opt/h5
+    container_name: 3mi3_h5_container
+    command: ['ruby', 'h5t.rb']
 #+end_src
 
-#+begin_src shell :tangle ./testing/h4/setup.sh :shebang t
+[[./testing/h5/setup.sh][setup.sh]]
+#+begin_src shell :tangle ./testing/h5/setup.sh :shebang t
 docker-compose build --force-rm
 #+end_src
 
-#+begin_src shell :tangle ./testing/h4/run.sh :shebang t
+[[./testing/h5/run.sh][run.sh]]
+#+begin_src shell :tangle ./testing/h5/run.sh :shebang t
 # Run the container
 docker-compose up --force-recreate
 # Stop the container after finishing the test run
 docker-compose stop -t 1
 #+end_src
 
-#+begin_src text :tangle ./testing/h4/README.md
+[[./testing/h5/README.md][README.md]]
+#+begin_src text :tangle ./testing/h5/README.md
 # Instructions for automated testing using Docker
 
 We have already created a `Dockerfile` here which specifies
 all the necessary packages, etc., for compiling and running your code.
-You just only need to follow the instructions below to see 
+You only need to follow the instructions below to see 
 the results of unit tests designed to check your implementation.
 
 ## Setup
@@ -396,11 +374,11 @@ simply execute
 ```shell script
 ./setup.sh
 ```
- to generate the image.
+to generate the image.
 
 ## Prepare your code for the running the tests
-You only need to place the `h4t.sc` unit test file and
-the `run.sh` file in the same directory as your `h4.sc` source file.
+You only need to place the `h5t.rb` unit test file and
+the `run.sh` file in the same directory as your `h5.rb` source file.
 
 ## Running the tests
 As with the build process, we have already put
