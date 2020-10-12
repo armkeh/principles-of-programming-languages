@@ -1,0 +1,354 @@
+% Created 2020-10-12 Mon 15:49
+% Intended LaTeX compiler: lualatex
+\documentclass[11pt]{article}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{etoolbox}
+\makeatletter
+\def\dontdofcolorbox{\renewcommand\fcolorbox[4][]{##4}}
+\AtBeginEnvironment{minted}{\dontdofcolorbox}
+\makeatother
+\usepackage[newfloat]{minted}
+\author{Mark Armstrong}
+\date{October 12th, 2020}
+\title{Computer Science 3MI3 – 2020 homework 5\\\medskip
+\large “Fizzbuzz”-ing in Ruby}
+\hypersetup{
+   pdfauthor={Mark Armstrong},
+   pdftitle={Computer Science 3MI3 – 2020 homework 5},
+   pdfkeywords={},
+   pdfsubject={Iterating on a simple programming task in Ruby.},
+   pdfcreator={Emacs 27.0.90 (Org mode 9.4)},
+   pdflang={English},
+   colorlinks,
+   linkcolor=blue,
+   citecolor=blue,
+   urlcolor=blue
+   }
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+
+\section*{Introduction}
+\label{sec:org91af0fb}
+The “fizzbuzz” problem is a very simple programming task,
+sometimes used in interviews to check for a basic understanding
+of iterating and branching constructs.
+
+We will investigate various possible approaches to
+this problem in Ruby, as a way to become comfortable
+with the language.
+We begin with the familiar looping statements,
+and then move to using “higher-order” methods,
+as well as solving a generalisation of the problem.
+
+\section*{Boilerplate}
+\label{sec:org3488652}
+\subsection*{Submission procedures}
+\label{sec:org88ef8ae}
+\subsubsection*{Submission method}
+\label{sec:org8291ccc}
+
+Homework should be submitted to your McMaster CAS Gitlab respository
+in the \texttt{cs3mi3-fall2020} project.
+
+Ensure that you have \textbf{pushed} the commits to the remote repository
+in time for the deadline, and not just committed to your local copy.
+
+\subsubsection*{Naming requirements}
+\label{sec:orgf9ae364}
+
+Place all files for the homework
+inside a folder titled \texttt{hn}, where \texttt{n} is the number of the homework.
+So, for homework 1, the use the folder \texttt{h1}, for homework 2 the folder \texttt{h2}, etc.
+Ensure you do not capitalise the \texttt{h}.
+
+Unless otherwise instructed in the homework questions,
+place all of your code for the homework
+in a single file in the \texttt{hn} folder named \texttt{hn.ext},
+where \texttt{ext} is the appropriate extension for the language used
+according to this list:
+\begin{itemize}
+\item For Scala, \texttt{ext} is \texttt{sc}.
+\item For Prolog, \texttt{ext} is \texttt{pl}.
+\item For Ruby, \texttt{ext} is \texttt{rb}.
+\item For Clojure, \texttt{ext} is \texttt{clg}.
+\end{itemize}
+If multiple languages are used in the homework,
+submit a \texttt{hn.ext} file for each language.
+
+\begin{center}
+\textbf{If the language supports multiple different file extensions,}
+\textbf{you must still follow the extension conventions above.}
+\end{center}
+
+\begin{center}
+\textbf{Incorrect naming of files may result in up to a 10\% deduction in your grade.}
+\end{center}
+
+\subsubsection*{Do not submit testing or diagnostic code}
+\label{sec:org7f38cda}
+
+Unless you are instructed to do so in the homework questions,
+\textbf{you should not submit testing code with your homework submission}.
+
+This includes
+\begin{itemize}
+\item any \texttt{main} function,
+\item any \texttt{print} statements which output information
+\textbf{that is not directly requested as console output}
+\textbf{in the homework questions}.
+\end{itemize}
+
+If you do not wish to remove diagnostic print statements manually,
+you will have to find a way to ensure that they disabled
+in your final submission.
+
+For instance, by using a wrapper on the print function or macros.
+
+\subsubsection*{Due date and allowance for technical difficulties}
+\label{sec:orgbfb008e}
+
+Homework is due on the second Sunday following its release,
+by the end of the day (midnight).
+Submissions past 00:00 may not be considered.
+
+If you experience technical difficulties
+leading up to the submission time,
+please contact Mark \textbf{ASAP} with the details of the problem
+and, if possible, attach the current state of your homework
+to the communication.
+This information will help ensure we are able
+to accept your submission once the technical difficulties are resolved.
+
+\subsection*{Proper conduct for coursework}
+\label{sec:orgab503f1}
+\subsubsection*{Individual work}
+\label{sec:org7612ef4}
+
+Unless explicitely stated in the homework questions,
+all homework in this course is intended
+to be \emph{individually completed}.
+
+You are welcome to discuss the content of the homework in
+the public forum of the class Microsoft Teams team homework channel,
+though obviously solutions or partial solutions should not
+be posted or described.
+
+Private discussions about the homework cannot reasonably be
+forbidden, but such discussions should follow the same guidelines
+as public discussions.
+
+\begin{center}
+\textbf{Inappopriate collaboration via private discussions}
+\textbf{which is later discovered by course staff}
+\textbf{may be considered academic dishonesty.}
+
+When in doubt, make the discussion private, or report its contents
+to the course staff by making a note of it
+in your homework.
+\end{center}
+
+To clarify what is considered appropriate discussions
+of homework content, here are some examples:
+\begin{enumerate}
+\item Discussing the language features introduced or needed for the homework.
+\begin{itemize}
+\item Such as relevant builtin datatypes
+and datatype definition methods and their general use.
+\item Code snippets that are not partial solutions to the homework
+are welcome and encouraged.
+\end{itemize}
+\item Questions of the form “What is meant by \texttt{x}?”,
+“Does \texttt{x} really mean \texttt{y}?” or “Is there a mistake with \texttt{x}?”
+\begin{itemize}
+\item Of course, questions of those form which would be answered
+by partial solutions are not considered appropriate.
+\end{itemize}
+\item Questions or advice about errors that may be encountered.
+\begin{itemize}
+\item Such as “If you see a \texttt{scala.MatchError} you should
+probably add a catch-all \texttt{\_} case to your \texttt{match} expressions.”
+\end{itemize}
+\end{enumerate}
+
+\subsubsection*{Language library resources}
+\label{sec:org47b731f}
+
+Unless explicitely stated in the questions,
+it is not expected that you will use any language library resources
+in the homeworks.
+
+Possible exceptions to this rule include implementations
+of datatypes we discuss in this course, such as lists
+or options/maybes, if they are included in a standard library
+instead of being builtin.
+
+\emph{Basic} operations on such types would also be allowed.
+\begin{itemize}
+\item For instance, \texttt{head}, \texttt{tail}, \texttt{append}, etc. on lists
+would not require explicit permission to be used.
+\item More complex operations such as sorting procedures
+would require permission before you used them.
+\end{itemize}
+
+Additionally, the standard \emph{higher-order} operations
+including \texttt{map}, \texttt{reduce}, \texttt{flatten}, and \texttt{filter} are permitted generally,
+unless the task is to implement such a higher-order operator.
+
+\section*{Part 1: Fizzbuzzing by loops                            [5 points]}
+\label{sec:org5e464be}
+In Ruby, create a method \texttt{fizzbuzzLooper} which, given a list
+(presumably of integers, though it may contain any type)
+creates a new list whose elements
+are the elements of the original list
+converted into strings, unless they are
+\begin{itemize}
+\item an integer divisible by both \texttt{3} and \texttt{5}, in which case
+they are replaced by \texttt{"fizzbuzz"},
+\item an integer divisible by \texttt{3} but not by \texttt{5}, in which case
+they are replaced by \texttt{"fizz"}, or
+\item an integer divisible by \texttt{5} but not by \texttt{3}, in which case
+they are replaced by \texttt{"buzz"}.
+\end{itemize}
+
+You may want to make use of the \texttt{to\_s} method on integers;
+by convention, \texttt{to\_s} on any type converts
+objects of that type into strings.
+
+(Technically, your method should probably work
+given any type of collection, not just lists;
+but the result should be a list in any case.)
+
+Your \texttt{fizzbuzzLooper} must make use of some manner of
+looping construct.
+\begin{itemize}
+\item Such as a \texttt{loop}, \texttt{while} loop or \texttt{for} loop.
+\end{itemize}
+
+\begin{center}
+\textbf{Because this is a fairly trivial programming task,}
+\textbf{the marking of this question}
+\textbf{(and to some extent the marking of the remainder of the homework)
+*will take \emph{elegance} more into account than usual.}
+(meaning you are expected to follow good coding practices,
+especially \emph{not repeating yourself}.)
+\end{center}
+
+\section*{Part 2: Fizzbuzzing by iterators (higher-order methods) [10 points]}
+\label{sec:orga5ba960}
+Construct another method \texttt{fizzbuzzIterator},
+whose behaviour is identical to \texttt{fizzbuzzLooper},
+but which is defined using an “iterator” method
+rather than a looping construct.
+
+See this online
+\href{https://ruby-doc.com/docs/ProgrammingRuby/html/tut\_containers.html}{tutorial}
+on collections and iterators.
+In particular, look into the iterators \texttt{each} and \texttt{collect}.
+
+These iterators take a \emph{block} as argument.
+A block is, essentially, Ruby's “lambda” construct.
+Blocks are delimited by braces, \texttt{\{\}}, and may have
+arguments, which are listed at the beginning and
+delimited by pipes, \texttt{||}.
+So the anonymous function \texttt{λ x → x + 1} would
+be written \texttt{\{ |x| x + 1 \}} in Ruby.
+
+So for instance,
+\begin{minted}[breaklines=true]{ruby}
+[1,2,3].each { |x| puts(x) }
+\end{minted}
+
+outputs each element of the list \texttt{[1,2,3]}.
+
+\section*{Part 3: Generalising fizzbuzzing                        [20 points]}
+\label{sec:org4edceea}
+We now consider a slight generalisation to
+the fizzbuzzing problem, which we will call “zuzzing”.
+
+To generalise the problem, we assume that we may have
+several rules which should be applied to the elements of this list,
+instead of just the two (if it's disible by 3, output “fizz”,
+if it's divisible by 5, output “buzz”.)
+
+We want to create a method which accomodates any number of rules,
+and where the rules can be arbitrary predicates
+on the elements of the list
+(not just “\texttt{λ x → x is divisible by \textasciitilde{}k}”.)
+
+To represent this multitude of rules, we use a list of lists,
+assuming each of the lists within the list contain two elements;
+\begin{itemize}
+\item the first element being a \texttt{lambda} for the rule, and
+\item the second element being a \texttt{lambda} for the string
+associated with that rule.
+\begin{itemize}
+\item We use a \texttt{lambda} here as well so that the resulting string
+may depend upon the element.
+\end{itemize}
+\end{itemize}
+
+(The keyword \texttt{lambda} applied to a block allows you to store
+that block using a variable, or in our case, in a list;
+we are still essentially using blocks in this question.)
+
+For instance, to get the original behaviour of “fizzbuzz”
+using this “zuzz”, we would use the rules
+\begin{minted}[breaklines=true]{ruby}
+rules = [[lambda { |x| x % 3 == 0 }, lambda { |x| "fizz" }],
+         [lambda { |x| x % 5 == 0 }, lambda { |x| "buzz" }]]
+\end{minted}
+as in
+\begin{minted}[breaklines=true]{ruby}
+zuzzer([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],rules)
+\end{minted}
+
+The reason we use a list of lists of lambdas here to encode the rules,
+rather than a hash table or other construct,
+is that \emph{the order of the rules matters}.
+If more than one rule applies to an element, all such rules
+should be applied \emph{in order} to build the resulting string.
+For instance, with the “fizzbuzz” rules above, notice
+that the “fizz” rule comes before the “buzz” rule
+so that if an element is divisible by both 3 and 5,
+the result is \texttt{"fizzbuzz"}, not \texttt{"fizz"}, \texttt{"buzz"} or \texttt{"buzzfizz"}.
+
+Create the method \texttt{zuzzer}.
+
+\section*{Part 4: Generalised fizzbuzzing in Scala                [10 bonus points]}
+\label{sec:org239204e}
+Implement the generalised fizzbuzzing operation from part 3 in Scala.
+
+Make what you feel are necessary adjustments to the types or
+implementation details, and describe your choices in comments.
+Your solution may be (sometimes subjectively) judged based on
+the choices you make. The purpose of the comments is then
+for you to convince us your choices are appropriate.
+
+\section*{Part 5: Generalised fizzbuzzing in Prolog               [10 bonus points]}
+\label{sec:org4a8fc7b}
+Implement the generalised fizzbuzzing operation from part 3 in Scala.
+
+Make what you feel are necessary adjustments to the types or
+implementation details, and describe your choices in comments.
+Your solution may be (sometimes subjectively) judged based on
+the choices you make. The purpose of the comments is then
+for you to convince us your choices are appropriate.
+
+\section*{Testing}
+\label{sec:org06d8b3b}
+:TODO:
+\end{document}

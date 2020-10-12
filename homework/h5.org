@@ -1,0 +1,413 @@
+#+Title: Computer Science 3MI3 – 2020 homework 5
+#+Subtitle: “Fizzbuzz”-ing in Ruby
+#+Author: Mark Armstrong
+#+Date: October 12th, 2020
+#+Description: Iterating on a simple programming task in Ruby.
+#+Options: num:nil
+#+SETUPFILE: ../org-html-themes/setup/theme-readtheorg-local.setup
+
+* Introduction
+:PROPERTIES:
+:CUSTOM_ID: Introduction
+:END:
+
+The “fizzbuzz” problem is a very simple programming task,
+sometimes used in interviews to check for a basic understanding
+of iterating and branching constructs.
+
+We will investigate various possible approaches to
+this problem in Ruby, as a way to become comfortable
+with the language.
+We begin with the familiar looping statements,
+and then move to using “higher-order” methods,
+as well as solving a generalisation of the problem.
+
+* Boilerplate
+:PROPERTIES:
+:CUSTOM_ID: Boilerplate
+:END:
+
+** Submission procedures
+:PROPERTIES:
+:CUSTOM_ID: Submission-procedures
+:END:
+
+#+INCLUDE: "./../boilerplate.org::*Homework submission" :only-contents t
+
+** Proper conduct for coursework
+:PROPERTIES:
+:CUSTOM_ID: Proper-conduct-for-coursework
+:END:
+
+#+INCLUDE: "./../boilerplate.org::*Homework conduct" :only-contents t
+
+* Part 1: Fizzbuzzing by loops                            [5 points]
+:PROPERTIES:
+:CUSTOM_ID: Part-1:-Fizzbuzzing-by-loops----------------------------[5 points]
+:END:
+
+In Ruby, create a method ~fizzbuzzLooper~ which, given a list
+(presumably of integers, though it may contain any type)
+creates a new list whose elements
+are the elements of the original list
+converted into strings, unless they are
+- an integer divisible by both ~3~ and ~5~, in which case
+  they are replaced by ~"fizzbuzz"~,
+- an integer divisible by ~3~ but not by ~5~, in which case
+  they are replaced by ~"fizz"~, or
+- an integer divisible by ~5~ but not by ~3~, in which case
+  they are replaced by ~"buzz"~.
+
+You may want to make use of the ~to_s~ method on integers;
+by convention, ~to_s~ on any type converts
+objects of that type into strings.
+
+(Technically, your method should probably work
+given any type of collection, not just lists;
+but the result should be a list in any case.)
+
+Your ~fizzbuzzLooper~ must make use of some manner of
+looping construct.
+- Such as a ~loop~, ~while~ loop or ~for~ loop.
+
+#+begin_center
+*Because this is a fairly trivial programming task,*
+*the marking of this question*
+*(and to some extent the marking of the remainder of the homework)
+*will take /elegance/ more into account than usual.*
+(meaning you are expected to follow good coding practices,
+especially /not repeating yourself/.)
+#+end_center
+
+* Part 2: Fizzbuzzing by iterators (higher-order methods) [10 points]
+:PROPERTIES:
+:CUSTOM_ID: Part-2:-Fizzbuzzing-by-iterators-(higher-order-methods)-[10 points]
+:END:
+
+Construct another method ~fizzbuzzIterator~,
+whose behaviour is identical to ~fizzbuzzLooper~,
+but which is defined using an “iterator” method
+rather than a looping construct.
+
+See this online
+[[https://ruby-doc.com/docs/ProgrammingRuby/html/tut_containers.html][tutorial]]
+on collections and iterators.
+In particular, look into the iterators ~each~ and ~collect~.
+
+These iterators take a /block/ as argument.
+A block is, essentially, Ruby's “lambda” construct.
+Blocks are delimited by braces, ~{}~, and may have
+arguments, which are listed at the beginning and
+delimited by pipes, ~||~.
+So the anonymous function ~λ x → x + 1~ would
+be written ~{ |x| x + 1 }~ in Ruby.
+
+So for instance,
+#+begin_src ruby :results output
+[1,2,3].each { |x| puts(x) }
+#+end_src
+
+#+RESULTS:
+: 1
+: 2
+: 3
+
+outputs each element of the list ~[1,2,3]~.
+
+* Part 3: Generalising fizzbuzzing                        [20 points]
+:PROPERTIES:
+:CUSTOM_ID: Part-3:-Generalising-fizzbuzzing------------------------[20 points]
+:END:
+
+We now consider a slight generalisation to
+the fizzbuzzing problem, which we will call “zuzzing”.
+
+To generalise the problem, we assume that we may have
+several rules which should be applied to the elements of this list,
+instead of just the two (if it's disible by 3, output “fizz”,
+if it's divisible by 5, output “buzz”.)
+
+We want to create a method which accomodates any number of rules,
+and where the rules can be arbitrary predicates
+on the elements of the list
+(not just “~λ x → x is divisible by ~k~”.)
+
+To represent this multitude of rules, we use a list of lists,
+assuming each of the lists within the list contain two elements;
+- the first element being a ~lambda~ for the rule, and
+- the second element being a ~lambda~ for the string
+  associated with that rule.
+  - We use a ~lambda~ here as well so that the resulting string
+    may depend upon the element.
+
+(The keyword ~lambda~ applied to a block allows you to store
+that block using a variable, or in our case, in a list;
+we are still essentially using blocks in this question.)
+
+For instance, to get the original behaviour of “fizzbuzz”
+using this “zuzz”, we would use the rules
+#+begin_src ruby
+rules = [[lambda { |x| x % 3 == 0 }, lambda { |x| "fizz" }],
+         [lambda { |x| x % 5 == 0 }, lambda { |x| "buzz" }]]
+#+end_src
+as in
+#+begin_src ruby
+zuzzer([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],rules)
+#+end_src
+
+The reason we use a list of lists of lambdas here to encode the rules,
+rather than a hash table or other construct,
+is that /the order of the rules matters/.
+If more than one rule applies to an element, all such rules
+should be applied /in order/ to build the resulting string.
+For instance, with the “fizzbuzz” rules above, notice
+that the “fizz” rule comes before the “buzz” rule
+so that if an element is divisible by both 3 and 5,
+the result is ~"fizzbuzz"~, not ~"fizz"~, ~"buzz"~ or ~"buzzfizz"~.
+
+Create the method ~zuzzer~.
+
+* Part 4: Generalised fizzbuzzing in Scala                [10 bonus points]
+:PROPERTIES:
+:CUSTOM_ID: Part-4:-Generalised-fizzbuzzing-in-Scala----------------[10 bonus points]
+:END:
+
+Implement the generalised fizzbuzzing operation from part 3 in Scala.
+
+Make what you feel are necessary adjustments to the types or
+implementation details, and describe your choices in comments.
+Your solution may be (sometimes subjectively) judged based on
+the choices you make. The purpose of the comments is then
+for you to convince us your choices are appropriate.
+
+* Part 5: Generalised fizzbuzzing in Prolog               [10 bonus points]
+:PROPERTIES:
+:CUSTOM_ID: Part-5:-Generalised-fizzbuzzing-in-Prolog---------------[10 bonus points]
+:END:
+
+Implement the generalised fizzbuzzing operation from part 3 in Scala.
+
+Make what you feel are necessary adjustments to the types or
+implementation details, and describe your choices in comments.
+Your solution may be (sometimes subjectively) judged based on
+the choices you make. The purpose of the comments is then
+for you to convince us your choices are appropriate.
+
+* Testing
+:PROPERTIES:
+:CUSTOM_ID: Testing
+:END:
+
+:TODO:
+
+* COMMENT Old testing language
+:PROPERTIES:
+:CUSTOM_ID: COMMENT-Old-testing-language
+:END:
+
+Unit tests for the requested methods/functions
+are available here: [[./testing/h4/h4t.sc]]
+The contents of the unit test file are also repeated below.
+
+The tests can be run by placing the ~h4t.sc~ file
+in the same directory as your ~h4.sc~ file, and
+running the following command.
+#+begin_src shell
+amm h4t.sc
+#+end_src
+
+If you use an implementation other than Ammonite,
+you may need to adjust the tests to be able to run them
+on your system.
+
+In particular, those using IntelliJ for writing Scala
+may need to remove the import statement at the top of that file,
+or move the tests to their source file
+(if so, be sure to remove them before submission!)
+
+** Automated testing via Docker
+:PROPERTIES:
+:CUSTOM_ID: Automated-testing-via-Docker
+:END:
+
+The Docker setup and usage scripts are available at the following links.
+Their contents are also repeated below.
+- [[./testing/h4/Dockerfile][Dockerfile]]
+- [[./testing/h4/docker-compose.yml][docker-compose.yml]]
+- [[./testing/h4/setup.sh][setup.sh]]
+- [[./testing/h4/run.sh][run.sh]]
+Place them into your ~h4~ directory where your ~h4.sc~ file
+and the ~h4.plt~ (linked to above) file exist,
+then run ~setup.sh~ and ~run.sh~.
+
+You may also refer to the README
+for this testing setup and those files
+[[https://github.com/armkeh/principles-of-programming-languages/tree/master/homework/testing/h4][on the course GitHub repo]]
+
+Note that the use of the ~setup.sh~ and ~run.sh~ scripts assumes
+that you are in a ~bash~ like shell; if you are on Windows,
+and not using WSL or WSL2, you may have
+to run the commands contained in those scripts manually.
+
+** The tests
+:PROPERTIES:
+:CUSTOM_ID: The-tests
+:END:
+
+The contents of the testing script are repeated here.
+
+#+begin_src amm :results none :tangle testing/h4/h4t.sc
+import $file.h4, h4._
+
+// Included in case the student did not define it.
+// But renamed in case they did.
+def testTake[A](n: Int, s: => Stream[A]): List[A] = s match {
+  case SNil => Nil
+  case Cons(a,f) => n match {
+    case n if n > 0 => a :: take(n-1,f())
+    case _ => Nil
+    }
+  }
+
+/* Given an expected result and a computed result,
+   check if they are equal in value.
+   If so, return 0. Otherwise, inform the user, and return 1,
+   so the number of failures can be counted. */
+def test[A](given: A, expected: A, the_test: String) =
+  if (!(given equals expected)) {
+    println("+---------------------------------------------------")
+    println("| " + the_test + " failed.")
+    println("| Expected " + expected + ", got " + given + ".")
+    println("+---------------------------------------------------")
+    1
+  } else {
+    0
+  }
+
+// We can define a stream of all natural numbers by
+// first defining streams which start at a given integer.
+def intsFrom(n: Int): Stream[Int] = Cons(n, _ => intsFrom(n+1))
+val nats = intsFrom(0)
+
+// Filter test streams
+val evenNats = filter((x: Int) => x % 2 == 0, nats)
+val natsGtr100 = filter((x: Int) => x > 100, nats)
+
+
+// The tests are saved as tuples, the pieces of which will be passed
+// to test.
+val tests = List(
+  (testTake(10,evenNats),
+    List(0,2,4,6,8,10,12,14,16,18),
+    "First 10 even nats"),
+  (testTake(10,natsGtr100),
+    List(101,102,103,104,105,106,107,108,109,110),
+    "First 10 nats greater than 100"),
+  (testTake(10,zip(evenNats,natsGtr100)),
+    List((0,101),(2,102),(4,103),(6,104),
+         (8,105),(10,106),(12,107),(14,108),(16,109),(18,110)),
+    "zip test"),
+  (testTake(20,merge(evenNats,natsGtr100)),
+    List(0,101,2,102,4,103,6,104,8,105,
+      10,106,12,107,14,108,16,109,18,110),
+    "merge test"),
+  (all((x: Int) => x < 100, nats), false, "not all nats less than 100"),
+  (exists((x: Int) => x > 100, nats), true, "exists nat greater than 100"),
+  )
+
+// Apply test to each element of tests, and sum the return values.
+// This is essentially a for loop.
+val failed = tests.foldLeft(0) {
+  (failures, next) => next match {
+    // Deconstruct the tuple to get its parts
+    case (given, expected, the_test) => failures + test(given, expected, the_test)
+  }
+}
+
+println("+---------------------------------------------------")
+println("| " + failed + " tests failed")
+println("+---------------------------------------------------")
+#+end_src
+
+** The Docker setup
+:PROPERTIES:
+:CUSTOM_ID: The-Docker-setup
+:END:
+
+The contents of the Docker setup files and scripts are repeated here.
+#+begin_src docker :tangle ./testing/h4/Dockerfile
+# This Dockerfile has two required ARGs to determine which base image
+# to use for the JDK and which sbt version to install.
+
+# Define the argument for openjdk version
+ARG OPENJDK_TAG=8u232
+# Do the packaging based on openjdk
+FROM openjdk:${OPENJDK_TAG}
+
+# Set the name of the maintainers
+MAINTAINER Habib Ghaffari Hadigheh, Mark Armstrong <ghaffh1@mcmaster.ca, armstmp@mcmaster.ca>
+
+RUN apt-get update && \
+  apt-get install scala -y && \
+  apt-get install -y curl && \
+  sh -c '(echo "#!/usr/bin/env sh" && \
+  curl -L https://github.com/lihaoyi/Ammonite/releases/download/2.1.1/2.12-2.1.1) > /usr/local/bin/amm && \
+  chmod +x /usr/local/bin/amm'
+
+# Set the working directory
+WORKDIR /opt/h4
+#+end_src
+
+#+begin_src yaml :tangle ./testing/h4/docker-compose.yml
+version: '2'
+services:
+  service:
+    build: .
+    image: 3mi3_h4_docker_image
+    volumes:
+      - .:/opt/h4
+    container_name: 3mi3_h4_container
+    command: ['amm', 'h4t.sc']
+#+end_src
+
+#+begin_src shell :tangle ./testing/h4/setup.sh :shebang t
+docker-compose build --force-rm
+#+end_src
+
+#+begin_src shell :tangle ./testing/h4/run.sh :shebang t
+# Run the container
+docker-compose up --force-recreate
+# Stop the container after finishing the test run
+docker-compose stop -t 1
+#+end_src
+
+#+begin_src text :tangle ./testing/h4/README.md
+# Instructions for automated testing using Docker
+
+We have already created a `Dockerfile` here which specifies
+all the necessary packages, etc., for compiling and running your code.
+You just only need to follow the instructions below to see 
+the results of unit tests designed to check your implementation.
+
+## Setup
+We use `docker-compose` and its configuration file to build the image.
+Assuming you have `docker` and `docker-compose` installed,
+simply execute
+```shell script
+./setup.sh
+```
+ to generate the image.
+
+## Prepare your code for the running the tests
+You only need to place the `h4t.sc` unit test file and
+the `run.sh` file in the same directory as your `h4.sc` source file.
+
+## Running the tests
+As with the build process, we have already put
+the configuration needed for running the test inside `docker-compose.yml`.
+Simply execute
+```shell script
+./run.sh
+```
+to run and see the results of the tests.
+#+end_src

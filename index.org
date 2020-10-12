@@ -18,9 +18,19 @@
 :CUSTOM_ID: October
 :END:
 
+- October 12th ::
+
+  - Homework 5 is now posted. The testing is to follow later today.
+  - I apologise for the relative “radio silence” since Friday.
+    I have had some personal things come up over the weekend so far,
+    but the updates to the assignment (mentioned in lecture)
+    and then the marks for the submitted homeworks
+    will be coming shortly.
+    
 - October 7th ::
   - Homework 4 is now posted.
     - Testing and Docker setup are included immediately this time.
+      
   - A sample solution is now in place in the homework 2 document.
   - Notes from last week's Wednesday tutorial and lecture are now posted;
     sorry for the delay.
@@ -633,6 +643,17 @@ difference between Monday and Wednesday.
 :PROPERTIES:
 :CUSTOM_ID: Current-homeworks
 :END:
+
+*** Homework 5 – “Fizzbuzz”-ing in Ruby – October 12th to Oct 25th
+:PROPERTIES:
+:CUSTOM_ID: Homework-5-–-“Fizzbuzz”-ing-in-Ruby-–-October-12th-to-Oct-25th
+:END:
+
+Note the due date: the Sunday following reading week.
+
+- [[./homework/h5.html][HTML]]
+- [[./homework/h5.pdf][PDF]]
+- [[./homework/h5.org][Org plaintext]]
 
 *** Homework 4 – Working with lazy (potentially infinite) lists in Scala – Oct 7th to Oct 19th
 :PROPERTIES:

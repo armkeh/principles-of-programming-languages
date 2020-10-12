@@ -12,6 +12,15 @@ better viewed at
 
 ## October
 
+  - October 12th
+    
+      - Homework 5 is now posted. The testing is to follow later today.
+      - I apologise for the relative “radio silence” since Friday. I
+        have had some personal things come up over the weekend so far,
+        but the updates to the assignment (mentioned in lecture) and
+        then the marks for the submitted homeworks will be coming
+        shortly.
+
   - October 7th
     
       - Homework 4 is now posted.
@@ -452,6 +461,12 @@ are also included.
 
 ## Lectures
 
+### October 9th – Introduction to Ruby
+
+  - [HTML](./notes/live-coding/10-09-Introduction-to-Ruby.html)
+  - [PDF](./notes/live-coding/10-09-Introduction-to-Ruby.pdf)
+  - [Org plaintext](./notes/live-coding/10-09-Introduction-to-Ruby.org)
+
 ### October 2nd – Infinite data in Scala
 
   - [HTML](./notes/live-coding/10-02-infinite-data-in-Scala.html)
@@ -596,6 +611,15 @@ significant difference between Monday and Wednesday.
 # Homework
 
 ## Current homeworks
+
+### Homework 5 – “Fizzbuzz”-ing in Ruby – October 12th to Oct 25th
+
+Note the due date: the Sunday following reading week.
+
+  - [HTML](./homework/h5.html)
+  - [PDF](./homework/h5.pdf)
+  - [Org
+plaintext](./homework/h5.org)
 
 ### Homework 4 – Working with lazy (potentially infinite) lists in Scala – Oct 7th to Oct 19th
 
