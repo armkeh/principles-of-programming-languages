@@ -18,6 +18,29 @@
 :CUSTOM_ID: October
 :END:
 
+- October 13th ::
+
+  - Assignment 1 has undergone a fairly major update,
+    - adding the assignment boilerplate,
+      - which includes
+        a *new (literate) documentation file requirement*,
+    - correcting the instructions on how to implement
+      the types of parts 3 and 4 in Scala,
+    - changing some type, method and predicate names
+      to ensure a uniform naming standard across the assignment, and
+    - adding the testing code for the Scala portions
+      (though the scripts are still to come.)
+
+  - *To repeat, there is now a (fairly light)*
+    *(literate) documentation requirement for assignment 1!*
+    - See the boilerplate.
+
+  - Before it is asked, at this point, I am not planning
+    a further extension for assignment 1.
+
+  - The testing and Docker setup for homework 5
+    was posted yesterday evening.
+
 - October 12th ::
 
   - Homework 5 is now posted. The testing is to follow later today.

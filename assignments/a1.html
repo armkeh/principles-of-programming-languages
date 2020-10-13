@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-09-27 Sun 15:29 -->
+<!-- 2020-10-13 Tue 04:25 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Computer Science 3MI3 – 2020 assignment 1</title>
@@ -236,39 +236,68 @@
 <div id="text-table-of-contents">
 <ul>
 <li><a href="#Introduction">Introduction</a></li>
-<li><a href="#Boilerplate">Boilerplate</a></li>
+<li><a href="#Updates-and-file-history">Updates and file history</a>
+<ul>
+<li><a href="#September-21st">September 21st</a></li>
+<li><a href="#October-13th">October 13th</a></li>
+</ul>
+</li>
+<li><a href="#Boilerplate">Boilerplate</a>
+<ul>
+<li><a href="#Submission-procedures">Documentation</a></li>
+<li><a href="#Submission-procedures">Submission procedures</a>
+<ul>
+<li><a href="#org44925d7">Assignment naming requirements</a></li>
+</ul>
+</li>
+<li><a href="#Proper-conduct-for-coursework">Proper conduct for coursework</a></li>
+</ul>
+</li>
 <li><a href="#Informal-description-of-the-expression-language">Informal description of the expression language</a>
 <ul>
 <li><a href="#Example-1">Example 1</a></li>
 <li><a href="#Example-2">Example 2</a></li>
 </ul>
 </li>
-<li><a href="#Task-1-–-Interpreter-written-in-Scala--[20 marks]">Task 1 – Interpreter written in Scala  [20 marks]</a>
+<li><a href="#Part-1-–-Interpreter-written-in-Scala--[20 marks]">Part 1 – Interpreter written in Scala  [20 marks]</a>
 <ul>
 <li><a href="#1.1-Representation-[5 marks]">1.1 Representation [5 marks]</a></li>
 <li><a href="#1.2-Interpreter----[15 marks]">1.2 Interpreter    [15 marks]</a></li>
 </ul>
 </li>
-<li><a href="#Task-2-–-Interpreter-written-in-Prolog-[20 marks]">Task 2 – Interpreter written in Prolog [20 marks]</a>
+<li><a href="#Part-2-–-Interpreter-written-in-Prolog-[20 marks]">Part 2 – Interpreter written in Prolog [20 marks]</a>
 <ul>
 <li><a href="#1.1-Expression-recogniser-[5 marks]">1.1 Expression recogniser [5 marks]</a></li>
-<li><a href="#org4dff41b">1.2 Interpreter           [15 marks]</a></li>
+<li><a href="#1.2-Interpreter-----------[15 marks]">1.2 Interpreter           [15 marks]</a></li>
 </ul>
 </li>
-<li><a href="#Task-3-–-Variables-and-substitution----[30 marks]">Task 3 – Variables and substitution    [30 marks]</a>
+<li><a href="#Part-3-–-Variables-and-substitution----[30 marks]">Part 3 – Variables and substitution    [30 marks]</a>
 <ul>
-<li><a href="#Task-3-description">Task 3 description</a></li>
-<li><a href="#The-task-3">The task 3</a></li>
-</ul>
-</li>
-<li><a href="#Task-4-–-Boolean-expressions-----------[30 marks]">Task 4 – Boolean expressions           [30 marks]</a>
+<li><a href="#Part-3-description">Part 3 description</a></li>
+<li><a href="#The-part-3">The part 3</a>
 <ul>
-<li><a href="#Task-4-description">Task 4 description</a></li>
-<li><a href="#The-task-4">The task 4</a></li>
+<li><a href="#Hint-(added-October-13th)">Hint (added October 13th)</a></li>
 </ul>
 </li>
-<li><a href="#Task-5-–-Bonus-------------------[10 bonus_marks]">Task 5 – Bonus: parsing                [10 bonus_marks]</a></li>
-<li><a href="#Testing">Testing</a></li>
+</ul>
+</li>
+<li><a href="#Part-4-–-Boolean-expressions-----------[30 marks]">Part 4 – Boolean expressions           [30 marks]</a>
+<ul>
+<li><a href="#Part-4-description">Part 4 description</a></li>
+<li><a href="#The-part-4">The part 4</a></li>
+</ul>
+</li>
+<li><a href="#Part-5-–-Bonus-------------------[10 bonus_marks]">Part 5 – Bonus: parsing                [10 bonus marks]</a></li>
+<li><a href="#Submission-checklist">Submission checklist</a></li>
+<li><a href="#Testing">Testing</a>
+<ul>
+<li><a href="#The-tests">The tests</a>
+<ul>
+<li><a href="#Scala">Scala</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -291,12 +320,179 @@ representing such data.
 </div>
 </div>
 
+<div id="outline-container-Updates-and-file-history" class="outline-2">
+<h2 id="Updates-and-file-history">Updates and file history</h2>
+<div class="outline-text-2" id="text-Updates-and-file-history">
+</div>
+
+<div id="outline-container-September-21st" class="outline-3">
+<h3 id="September-21st">September 21st</h3>
+<div class="outline-text-3" id="text-September-21st">
+<ul class="org-ul">
+<li>Original version published.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-October-13th" class="outline-3">
+<h3 id="October-13th">October 13th</h3>
+<div class="outline-text-3" id="text-October-13th">
+<ul class="org-ul">
+<li><b>A documentation requirement has been added!</b>
+<ul class="org-ul">
+<li>As part of the boilerplate, which is now in place.</li>
+</ul></li>
+<li>A submission checklist was added near the end of this file
+to help bring attention to the documentation requirement.</li>
+<li>The testing code is now given for the Scala portions.
+<ul class="org-ul">
+<li>The scripts and the Prolog code should come soon.</li>
+</ul></li>
+<li>The instructions to use a “<code>Simple</code>” constructor in
+the Scala types of parts 3 and 4 have been removed.
+Instead, the constructors from part 1 should be repeated.
+<ul class="org-ul">
+<li>(I had been over-eager in trying to avoid repetition,
+and somehow failed to realise that the use of the “<code>Simple</code>”
+constructor would rule out most interesting expressions 🙁.)</li>
+</ul></li>
+<li>Instructions are now given at the beginning of each part
+as to the filenames.</li>
+<li>The naming of the types and the interpretation functions/predicates
+has also been standardised.</li>
+<li>The word “task” has been replaced by “part”.</li>
+</ul>
+</div>
+</div>
+</div>
+
 <div id="outline-container-Boilerplate" class="outline-2">
 <h2 id="Boilerplate">Boilerplate</h2>
 <div class="outline-text-2" id="text-Boilerplate">
+</div>
+
+<div id="outline-container-Submission-procedures" class="outline-3">
+<h3 id="Submission-procedures">Documentation</h3>
+<div class="outline-text-3" id="text-Submission-procedures">
 <p>
-:TODO: (It will be similar to the homework boilerplate.)
+In addition to the code for the assignments,
+you are required to submit (relatively light) documentation,
+along the lines of that found in
+<a href="https://armkeh.github.io/principles-of-programming-languages/#outline-container-Lecture-literate-programs">the literate programs</a>
+from lectures and tutorials.
 </p>
+<ul class="org-ul">
+<li>Those occasionally include a lot of writing when introducing concepts;
+you do not have to introduce concepts, so your documentation
+should be similar to the <i>end</i> of those documents,
+where only the purpose and implementation details
+of types, functions, etc., are discussed.</li>
+</ul>
+
+<p>
+This documentation <b>must be</b> in the literate style,
+with (nicely typeset) English paragraphs alongside code snippets;
+comments in your source code do not count.
+The basic requirement is
+</p>
+<ul class="org-ul">
+<li>the English paragraphs must use non-fixed width font, whereas</li>
+<li>the code snippets must use fixed width font.</li>
+<li>For example, see these lecture notes on Prolog:
+<ul class="org-ul">
+<li><a href="https://courses.cs.washington.edu/courses/cse341/98sp/logic/prolog.html">https://courses.cs.washington.edu/courses/cse341/98sp/logic/prolog.html</a></li>
+</ul></li>
+</ul>
+<p>
+But you are encouraged to strive for nicer than just
+“the basic requirement”.
+(the ability to write decent looking documentation is an asset!
+</p>
+
+<p>
+You are free to present your documentation in any of these formats:
+</p>
+<ul class="org-ul">
+<li>an HTML file,
+<ul class="org-ul">
+<li>(named <code>README.html</code>)</li>
+</ul></li>
+<li>a PDF (for instance, by writing it in LaTeX using
+the <code>listings</code> or <code>minted</code> package for your code blocks),
+<ul class="org-ul">
+<li>(named <code>README.pdf</code>), or</li>
+</ul></li>
+<li>rendering on GitLab (for instance, by writing it in markdown or Org)
+<ul class="org-ul">
+<li>(named <code>README.md</code> or <code>README.org</code>.)</li>
+</ul></li>
+</ul>
+<p>
+If you wish to use another format, contact Mark to discuss it.
+</p>
+
+<p>
+Not all of your code needs to be shown;
+only portions which are of interest are needed.
+Feel free to omit some “repetitive” portions.
+(For instance, if there are several cases in a definition
+which look almost identical, only one or two need to be shown.)
+</p>
+</div>
+</div>
+
+<div id="outline-container-Submission-procedures" class="outline-3">
+<h3 id="Submission-procedures">Submission procedures</h3>
+<div class="outline-text-3" id="text-Submission-procedures">
+<p>
+The same guidelines as for homework
+(which can be seen in any of the homework files)
+aapply to assignments, except for the differences below.
+</p>
+</div>
+
+<div id="outline-container-org44925d7" class="outline-4">
+<h4 id="org44925d7">Assignment naming requirements</h4>
+<div class="outline-text-4" id="text-org44925d7">
+<p>
+Place all files for the assignment
+inside a folder titled <code>an</code>, where <code>n</code> is the number of the assignment.
+So, for assignment 1, use the folder <code>a1</code>, for assignment 2 the folder <code>a2</code>, etc.
+Ensure you do not capitalise the <code>a</code>.
+</p>
+
+<p>
+Each part of the assignments will direct you on where to
+save your code for that part. Follow those instructions!
+</p>
+
+<div class="org-center">
+<p>
+<b>If the language supports multiple different file extensions,</b>
+<b>you must still follow the extension conventions noted in the assignment.</b>
+</p>
+</div>
+
+<div class="org-center">
+<p>
+<b>Incorrect naming of files may result in up to a 5% deduction in your grade.</b>
+</p>
+</div>
+<p>
+This is slightly decreased from the 10% for homeworks.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-Proper-conduct-for-coursework" class="outline-3">
+<h3 id="Proper-conduct-for-coursework">Proper conduct for coursework</h3>
+<div class="outline-text-3" id="text-Proper-conduct-for-coursework">
+<p>
+Refer to the homework code of conduct available in any of the homework files.
+The same guidelines apply to assignments.
+</p>
+</div>
 </div>
 </div>
 
@@ -370,9 +566,14 @@ or, in the usual notation,
 </div>
 </div>
 
-<div id="outline-container-Task-1-–-Interpreter-written-in-Scala--[20 marks]" class="outline-2">
-<h2 id="Task-1-–-Interpreter-written-in-Scala--[20 marks]">Task 1 – Interpreter written in Scala  [20 marks]</h2>
-<div class="outline-text-2" id="text-Task-1-–-Interpreter-written-in-Scala--[20 marks]">
+<div id="outline-container-Part-1-–-Interpreter-written-in-Scala--[20 marks]" class="outline-2">
+<h2 id="Part-1-–-Interpreter-written-in-Scala--[20 marks]">Part 1 – Interpreter written in Scala  [20 marks]</h2>
+<div class="outline-text-2" id="text-Part-1-–-Interpreter-written-in-Scala--[20 marks]">
+<div class="org-center">
+<p>
+<b>Place your code for this part in a file <code>a1p1.sc</code>.</b>
+</p>
+</div>
 </div>
 
 <div id="outline-container-1.1-Representation-[5 marks]" class="outline-3">
@@ -417,9 +618,14 @@ calculates the value of an <code>Expr</code>.
 </div>
 </div>
 
-<div id="outline-container-Task-2-–-Interpreter-written-in-Prolog-[20 marks]" class="outline-2">
-<h2 id="Task-2-–-Interpreter-written-in-Prolog-[20 marks]">Task 2 – Interpreter written in Prolog [20 marks]</h2>
-<div class="outline-text-2" id="text-Task-2-–-Interpreter-written-in-Prolog-[20 marks]">
+<div id="outline-container-Part-2-–-Interpreter-written-in-Prolog-[20 marks]" class="outline-2">
+<h2 id="Part-2-–-Interpreter-written-in-Prolog-[20 marks]">Part 2 – Interpreter written in Prolog [20 marks]</h2>
+<div class="outline-text-2" id="text-Part-2-–-Interpreter-written-in-Prolog-[20 marks]">
+<div class="org-center">
+<p>
+<b>Place your code for this part in a file <code>a1p2.pl</code>.</b>
+</p>
+</div>
 </div>
 
 <div id="outline-container-1.1-Expression-recogniser-[5 marks]" class="outline-3">
@@ -457,16 +663,16 @@ result in the response <code>true</code>.
 </div>
 </div>
 
-<div id="outline-container-org4dff41b" class="outline-3">
-<h3 id="org4dff41b">1.2 Interpreter           [15 marks]</h3>
-<div class="outline-text-3" id="text-org4dff41b">
+<div id="outline-container-1.2-Interpreter-----------[15 marks]" class="outline-3">
+<h3 id="1.2-Interpreter-----------[15 marks]">1.2 Interpreter           [15 marks]</h3>
+<div class="outline-text-3" id="text-1.2-Interpreter-----------[15 marks]">
 <p>
 Define a binary predicate <code>interpretExpr</code> which
 relates these expressions to their numerical values.
 </p>
 
 <p>
-That is, querying <code>interpret(e,X)</code> should
+That is, querying <code>interpretExpr(e,X)</code> should
 receive the response <code>X = n</code> where <code>n</code> is
 the integer value of the expression.
 </p>
@@ -474,7 +680,7 @@ the integer value of the expression.
 <p>
 Do not concern yourself with the other direction;
 that is, we are not expecting queries
-of the form <code>interpret(X,n)</code> to result in an answer.
+of the form <code>interpretExpr(X,n)</code> to result in an answer.
 (If you can, “fail gracefully”,
 i.e., either throw a more meaningful exception
 or avoid an exception altogether
@@ -484,16 +690,21 @@ but this is not expected even as a bonus.)
 </div>
 </div>
 
-<div id="outline-container-Task-3-–-Variables-and-substitution----[30 marks]" class="outline-2">
-<h2 id="Task-3-–-Variables-and-substitution----[30 marks]">Task 3 – Variables and substitution    [30 marks]</h2>
-<div class="outline-text-2" id="text-Task-3-–-Variables-and-substitution----[30 marks]">
+<div id="outline-container-Part-3-–-Variables-and-substitution----[30 marks]" class="outline-2">
+<h2 id="Part-3-–-Variables-and-substitution----[30 marks]">Part 3 – Variables and substitution    [30 marks]</h2>
+<div class="outline-text-2" id="text-Part-3-–-Variables-and-substitution----[30 marks]">
+<div class="org-center">
+<p>
+<b>Place your code for this part in files <code>a1p3.sc</code> and <code>a1p3.pl</code>.</b>
+</p>
+</div>
 </div>
 
-<div id="outline-container-Task-3-description" class="outline-3">
-<h3 id="Task-3-description">Task 3 description</h3>
-<div class="outline-text-3" id="text-Task-3-description">
+<div id="outline-container-Part-3-description" class="outline-3">
+<h3 id="Part-3-description">Part 3 description</h3>
+<div class="outline-text-3" id="text-Part-3-description">
 <p>
-In this task, we wish to add variables to our expressions.
+In this part, we wish to add variables to our expressions.
 </p>
 
 <p>
@@ -507,7 +718,7 @@ when we discuss types.)
 
 <p>
 However, adding this operator introduces a problem
-with our <code>interpret</code> method/predicate:
+with our <code>interpretExpr</code> method/predicate:
 how do we interpret a variable when we don't know its value?
 </p>
 
@@ -543,33 +754,33 @@ It should interpet to just <code>6</code>.
 <p>
 (An alternate solution,
 instead of building variable substitution into the language,
-is to add a <i>state</i> argument to <code>interpret</code>,
+would be to add a <i>state</i> argument to <code>interpretExpr</code>,
 which maps variables to values.
 We will use states in later assignments for this purpose.)
 </p>
 </div>
 </div>
 
-<div id="outline-container-The-task-3" class="outline-3">
-<h3 id="The-task-3">The task 3</h3>
-<div class="outline-text-3" id="text-The-task-3">
+<div id="outline-container-The-part-3" class="outline-3">
+<h3 id="The-part-3">The part 3</h3>
+<div class="outline-text-3" id="text-The-part-3">
 <p>
 In Scala, create a new algebraic datatype <code>VarExpr</code> and a new
-interpretation method <code>varInterpret</code> in Scala ([15 marks].)
+interpretation method <code>interpretVarExpr</code> in Scala ([15 marks].)
 Your new constructors should be called <code>Var</code> and <code>Subst</code>.
-You should reuse your existing <code>Expr</code> type when defining <code>VarExpr</code>,
-by including a constructor <code>Simple</code> which takes a <code>Expr</code> argument.
+<del>You should reuse your existing <code>Expr</code> type when defining <code>VarExpr</code>,</del>
+<del>by including a constructor <code>Simple</code> which takes a <code>Expr</code> argument.</del>
+(Edited October 13th.)
+You should also repeat the constructors from the part 1
+as constructors for this new type.
 </p>
 
 <p>
 In Prolog, create a new recognising predicate <code>isVarExpr</code> which
 recognising valid expressions in this extended language,
 with the new labels being the operator names given in the description,
-and a new predicate <code>varInterpret</code> which relates
+and a new predicate <code>interpretVarExpr</code> which relates
 expressions to their interpreted value ([15 marks].)
-(In Prolog, there is no need to use
-a label for “simple” expressions like we use
-the <code>Simple</code> constructor in Scala.)
 </p>
 
 <div class="org-center">
@@ -580,20 +791,47 @@ the <code>Simple</code> constructor in Scala.)
 <b>which are bound elsewhere!</b>
 </p>
 </div>
-</div>
-</div>
-</div>
 
-<div id="outline-container-Task-4-–-Boolean-expressions-----------[30 marks]" class="outline-2">
-<h2 id="Task-4-–-Boolean-expressions-----------[30 marks]">Task 4 – Boolean expressions           [30 marks]</h2>
-<div class="outline-text-2" id="text-Task-4-–-Boolean-expressions-----------[30 marks]">
-</div>
-
-<div id="outline-container-Task-4-description" class="outline-3">
-<h3 id="Task-4-description">Task 4 description</h3>
-<div class="outline-text-3" id="text-Task-4-description">
 <p>
-In this task, we create an alternate extension to
+(This note added October 13th.)
+Note: you are allowed and encouraged to collect any helper methods,
+for instance a definition of exponentiation,
+in a separate file which is imported into your files for the
+different parts of this assignment.
+Just ensure you use Ammonite-compatible import directives
+in your Scala code.
+</p>
+</div>
+
+<div id="outline-container-Hint-(added-October-13th)" class="outline-4">
+<h4 id="Hint-(added-October-13th)">Hint (added October 13th)</h4>
+<div class="outline-text-4" id="text-Hint-(added-October-13th)">
+<div class="org-center">
+<p>
+<b>You may need to define a helper function/predicate</b>
+<b>before you can define interpretation here.</b>
+</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-Part-4-–-Boolean-expressions-----------[30 marks]" class="outline-2">
+<h2 id="Part-4-–-Boolean-expressions-----------[30 marks]">Part 4 – Boolean expressions           [30 marks]</h2>
+<div class="outline-text-2" id="text-Part-4-–-Boolean-expressions-----------[30 marks]">
+<div class="org-center">
+<p>
+<b>Place your code for this part in files <code>a1p4.sc</code> and <code>a1p4.pl</code>.</b>
+</p>
+</div>
+</div>
+
+<div id="outline-container-Part-4-description" class="outline-3">
+<h3 id="Part-4-description">Part 4 description</h3>
+<div class="outline-text-3" id="text-Part-4-description">
+<p>
+In this part, we create an alternate extension to
 our first language of expressions
 (that is, we build on to <code>Expr</code>, not <code>VarExpr</code>.)
 </p>
@@ -634,15 +872,15 @@ or vice versa is not legal.
 </div>
 </div>
 
-<div id="outline-container-The-task-4" class="outline-3">
-<h3 id="The-task-4">The task 4</h3>
-<div class="outline-text-3" id="text-The-task-4">
+<div id="outline-container-The-part-4" class="outline-3">
+<h3 id="The-part-4">The part 4</h3>
+<div class="outline-text-3" id="text-The-part-4">
 <p>
-In Scala, create a new algebraic datatype <code>TypedExpr</code> and a new
-interpretation method <code>typedInterpret</code> in Scala ([15 marks].)
+In Scala, create a new algebraic datatype <code>MixedExpr</code> and a new
+interpretation method <code>interpretMixedExpr</code> in Scala ([15 marks].)
 Your new constructors should be named <code>TT</code>, <code>FF</code>, <code>Band</code>, <code>Bor</code> and <code>Bnot</code>.
-You should again reuse your existing <code>Expr</code> type when defining <code>TypedExpr</code>,
-by including a constructor <code>IntExpr</code> which takes a <code>Expr</code> argument.
+<del>You should again reuse your existing <code>Expr</code> type when defining <code>TypedExpr</code>,</del>
+<del>by including a constructor <code>IntExpr</code> which takes a <code>Expr</code> argument.</del>
 Your interpreter should return an <code>Option[Either[Int,Boolean]]</code>.
 The <code>Option</code> type is used to handle failure in the case
 of a “mixed” expression.
@@ -650,19 +888,31 @@ The <code>Either</code> type is used to handle two possible return types.
 </p>
 
 <p>
+(Edited October 13th.)
+As in part 3, you will need to repeat the constructors from the
+<code>Expr</code> type in part 1 in this type's definition.
+</p>
+
+<p>
 In Prolog, create a new recognising predicate <code>isMixedExpr</code> which
 recognising valid expressions in this extended language,
 with the new labels being the operator names given in the description,
-and a new predicate <code>mixedInterpret</code> which relates
+and a new predicate <code>interpretMixedExpr</code> which relates
 expressions to their interpreted value ([15 marks].)
 </p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-Task-5-–-Bonus-------------------[10 bonus_marks]" class="outline-2">
-<h2 id="Task-5-–-Bonus-------------------[10 bonus_marks]">Task 5 – Bonus: parsing                [10 bonus_marks]</h2>
-<div class="outline-text-2" id="text-Task-5-–-Bonus-------------------[10 bonus_marks]">
+<div id="outline-container-Part-5-–-Bonus-------------------[10 bonus_marks]" class="outline-2">
+<h2 id="Part-5-–-Bonus-------------------[10 bonus_marks]">Part 5 – Bonus: parsing                [10 bonus marks]</h2>
+<div class="outline-text-2" id="text-Part-5-–-Bonus-------------------[10 bonus_marks]">
+<div class="org-center">
+<p>
+<b>Place your code for the bonus, if you attempt it, in <code>a1p5.sc</code> and/or <code>a1p5.pl</code>.</b>
+</p>
+</div>
+
 <p>
 Create a <i>parser</i> for the first language of expressions
 in this assignment, both in Scala and in Prolog
@@ -689,12 +939,184 @@ Such a list is far easier to match over than a string.
 </div>
 </div>
 
+<div id="outline-container-Submission-checklist" class="outline-2">
+<h2 id="Submission-checklist">Submission checklist</h2>
+<div class="outline-text-2" id="text-Submission-checklist">
+<p>
+For your convenience, this checklist is provided
+to track the files you need to submit.
+Use it if you wish.
+</p>
+<div class="org-src-container">
+<pre class="src src-text">- <span style="color: #00cd68;">[</span> <span style="color: #00cd68;">]</span> Documentation; one of
+  - <span style="color: #00cd68;">[</span> <span style="color: #00cd68;">]</span> README.html
+  - <span style="color: #00cd68;">[</span> <span style="color: #00cd68;">]</span> README.pdf
+  - <span style="color: #00cd68;">[</span> <span style="color: #00cd68;">]</span> README.md
+  - <span style="color: #00cd68;">[</span> <span style="color: #00cd68;">]</span> README.org
+- <span style="color: #00cd68;">[</span> <span style="color: #00cd68;">]</span> Part 1
+  - <span style="color: #00cd68;">[</span> <span style="color: #00cd68;">]</span> a1p1.sc
+  - <span style="color: #00cd68;">[</span> <span style="color: #00cd68;">]</span> a1p1_test.sc tests passed!
+- <span style="color: #00cd68;">[</span> <span style="color: #00cd68;">]</span> Part 2
+  - <span style="color: #00cd68;">[</span> <span style="color: #00cd68;">]</span> a1p2.pl
+  - <span style="color: #00cd68;">[</span> <span style="color: #00cd68;">]</span> a1p2_test.plt tests passed!
+- <span style="color: #00cd68;">[</span> <span style="color: #00cd68;">]</span> Part 3
+  - <span style="color: #00cd68;">[</span> <span style="color: #00cd68;">]</span> a1p3.sc
+  - <span style="color: #00cd68;">[</span> <span style="color: #00cd68;">]</span> a1p3.pl
+  - <span style="color: #00cd68;">[</span> <span style="color: #00cd68;">]</span> a1p3_test.sc tests passed!
+  - <span style="color: #00cd68;">[</span> <span style="color: #00cd68;">]</span> a1p3_test.plt tests passed!
+- <span style="color: #00cd68;">[</span> <span style="color: #00cd68;">]</span> Part 4
+  - <span style="color: #00cd68;">[</span> <span style="color: #00cd68;">]</span> a1p4.sc
+  - <span style="color: #00cd68;">[</span> <span style="color: #00cd68;">]</span> a1p4.pl
+  - <span style="color: #00cd68;">[</span> <span style="color: #00cd68;">]</span> a1p4_test.sc tests passed!
+  - <span style="color: #00cd68;">[</span> <span style="color: #00cd68;">]</span> a1p4_test.plt tests passed!
+- <span style="color: #00cd68;">[</span> <span style="color: #00cd68;">]</span> Part 5 <span style="color: #00cd68;">(</span>Bonus<span style="color: #00cd68;">)</span>
+  - <span style="color: #00cd68;">[</span> <span style="color: #00cd68;">]</span> a1p5.sc
+  - <span style="color: #00cd68;">[</span> <span style="color: #00cd68;">]</span> a1p5.pl
+</pre>
+</div>
+</div>
+</div>
+
 <div id="outline-container-Testing" class="outline-2">
 <h2 id="Testing">Testing</h2>
 <div class="outline-text-2" id="text-Testing">
+</div>
+
+<div id="outline-container-The-tests" class="outline-3">
+<h3 id="The-tests">The tests</h3>
+<div class="outline-text-3" id="text-The-tests">
+</div>
+
+<div id="outline-container-Scala" class="outline-4">
+<h4 id="Scala">Scala</h4>
+<div class="outline-text-4" id="text-Scala">
+</div>
+
+<ul class="org-ul">
+<li><a id="Framework"></a>Framework<br />
+<div class="outline-text-5" id="text-Framework">
 <p>
-:TODO: This will be posted ASAP.
+<a href="./testing/a1/a1_testframework.sc">a1_testframework.sc</a>
 </p>
+<div class="org-src-container">
+<pre class="src src-amm"><span style="color: #a8a8a8;">/* </span><span style="color: #a8a8a8;">Given an expected result and a computed result,</span>
+<span style="color: #a8a8a8;">   check if they are equal in value.</span>
+<span style="color: #a8a8a8;">   If so, return 0. Otherwise, inform the user, and return 1,</span>
+<span style="color: #a8a8a8;">   so the number of failures can be counted. */</span>
+<span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">test</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">](</span>given<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">A</span>, expected<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">A</span>, the_test<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">String</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">=</span>
+  <span style="color: #b6a0ff;">if</span> <span style="color: #00cd68;">(</span>!<span style="color: #b6a0ff;">(</span>given equals expected<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span> <span style="color: #00cd68;">{</span>
+    println<span style="color: #b6a0ff;">(</span><span style="color: #79a8ff;">"+---------------------------------------------------"</span><span style="color: #b6a0ff;">)</span>
+    println<span style="color: #b6a0ff;">(</span><span style="color: #79a8ff;">"| "</span> + the_test + <span style="color: #79a8ff;">" failed."</span><span style="color: #b6a0ff;">)</span>
+    println<span style="color: #b6a0ff;">(</span><span style="color: #79a8ff;">"| Expected "</span> + expected + <span style="color: #79a8ff;">", got "</span> + given + <span style="color: #79a8ff;">"."</span><span style="color: #b6a0ff;">)</span>
+    println<span style="color: #b6a0ff;">(</span><span style="color: #79a8ff;">"+---------------------------------------------------"</span><span style="color: #b6a0ff;">)</span>
+    <span style="color: #00bcff;">1</span>
+  <span style="color: #00cd68;">}</span> <span style="color: #b6a0ff;">else</span> <span style="color: #00cd68;">{</span>
+    <span style="color: #00bcff;">0</span>
+  <span style="color: #00cd68;">}</span>
+
+<span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">runTests</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">](</span>tests<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">List</span><span style="color: #b6a0ff;">[</span><span style="color: #00bcff;">Tuple3</span><span style="color: #6ae4b9;">[</span><span style="color: #00bcff;">A</span>,<span style="color: #00bcff;">A</span>,<span style="color: #00bcff;">String</span><span style="color: #6ae4b9;">]</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Unit</span> <span style="color: #b6a0ff;">=</span> <span style="color: #00cd68;">{</span>
+  <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Apply test to each element of tests, and sum the return values.</span>
+  <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">This is essentially a for loop.</span>
+  <span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">failed</span> <span style="color: #b6a0ff;">=</span> tests.foldLeft<span style="color: #b6a0ff;">(</span><span style="color: #00bcff;">0</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">{</span>
+    <span style="color: #6ae4b9;">(</span>failures, next<span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">=&gt;</span> next <span style="color: #b6a0ff;">match</span> <span style="color: #6ae4b9;">{</span>
+      <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Deconstruct the tuple to get its parts</span>
+      <span style="color: #b6a0ff;">case</span> <span style="color: #f0ce43;">(</span><span style="color: #00d3d0;">given</span>, <span style="color: #00d3d0;">expected</span>, <span style="color: #00d3d0;">the_test</span><span style="color: #f0ce43;">)</span> <span style="color: #b6a0ff;">=&gt;</span> failures + test<span style="color: #f0ce43;">(</span>given, expected, the_test<span style="color: #f0ce43;">)</span>
+    <span style="color: #6ae4b9;">}</span>
+  <span style="color: #b6a0ff;">}</span>
+  
+  println<span style="color: #b6a0ff;">(</span><span style="color: #79a8ff;">"+---------------------------------------------------"</span><span style="color: #b6a0ff;">)</span>
+  println<span style="color: #b6a0ff;">(</span><span style="color: #79a8ff;">"| "</span> + failed + <span style="color: #79a8ff;">" tests failed"</span><span style="color: #b6a0ff;">)</span>
+  println<span style="color: #b6a0ff;">(</span><span style="color: #79a8ff;">"+---------------------------------------------------"</span><span style="color: #b6a0ff;">)</span>
+<span style="color: #00cd68;">}</span>
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="Part-1"></a>Part 1<br />
+<div class="outline-text-5" id="text-Part-1">
+<p>
+<a href="./testing/a1/a1p1_test.sc">a1p1_test.sc</a>
+</p>
+<div class="org-src-container">
+<pre class="src src-amm"><span style="color: #b6a0ff;">import</span> $file.a1_testframework, a1_testframework.<span style="color: #b6a0ff;">_</span>
+<span style="color: #b6a0ff;">import</span> $file.a1p1, a1p1.<span style="color: #b6a0ff;">_</span>
+
+<span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">tests</span> <span style="color: #b6a0ff;">=</span> <span style="color: #00bcff;">List</span><span style="color: #00cd68;">(</span>
+  <span style="color: #b6a0ff;">(</span>interpretExpr<span style="color: #6ae4b9;">(</span><span style="color: #00bcff;">Const</span><span style="color: #f0ce43;">(</span><span style="color: #00bcff;">0</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>, <span style="color: #00bcff;">0</span>, <span style="color: #79a8ff;">"Constant expression 0"</span><span style="color: #b6a0ff;">)</span>,
+  <span style="color: #b6a0ff;">(</span>interpretExpr<span style="color: #6ae4b9;">(</span><span style="color: #00bcff;">Plus</span><span style="color: #f0ce43;">(</span><span style="color: #00bcff;">Const</span><span style="color: #00bcff;">(</span><span style="color: #00bcff;">5</span><span style="color: #00bcff;">)</span>,<span style="color: #00bcff;">Const</span><span style="color: #00bcff;">(</span><span style="color: #00bcff;">4</span><span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>, <span style="color: #00bcff;">9</span>, <span style="color: #79a8ff;">"Additive expression 5 + 4"</span><span style="color: #b6a0ff;">)</span>,
+  <span style="color: #b6a0ff;">(</span>interpretExpr<span style="color: #6ae4b9;">(</span><span style="color: #00bcff;">Exp</span><span style="color: #f0ce43;">(</span><span style="color: #00bcff;">Const</span><span style="color: #00bcff;">(</span><span style="color: #00bcff;">5</span><span style="color: #00bcff;">)</span>,<span style="color: #00bcff;">Const</span><span style="color: #00bcff;">(</span><span style="color: #00bcff;">4</span><span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>, <span style="color: #00bcff;">625</span>, <span style="color: #79a8ff;">"Exponential expression 5 ^ 4"</span><span style="color: #b6a0ff;">)</span>,
+  <span style="color: #00cd68;">)</span>
+
+runTests<span style="color: #00cd68;">(</span>tests<span style="color: #00cd68;">)</span>
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="Part-2"></a>Part 2<br />
+<div class="outline-text-5" id="text-Part-2">
+<p>
+There is no Scala code for part 2.
+</p>
+</div>
+</li>
+
+<li><a id="Part-2"></a>Part 3<br />
+<div class="outline-text-5" id="text-Part-2">
+<p>
+<a href="./testing/a1/a1p3_test.sc">a1p3_test.sc</a>
+</p>
+<div class="org-src-container">
+<pre class="src src-amm"><span style="color: #b6a0ff;">import</span> $file.a1_testframework, a1_testframework.<span style="color: #b6a0ff;">_</span>
+<span style="color: #b6a0ff;">import</span> $file.a1p3, a1p3.<span style="color: #b6a0ff;">_</span>
+
+<span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">tests</span> <span style="color: #b6a0ff;">=</span> <span style="color: #00bcff;">List</span><span style="color: #00cd68;">(</span>
+  <span style="color: #b6a0ff;">(</span>interpretVarExpr<span style="color: #6ae4b9;">(</span><span style="color: #00bcff;">Const</span><span style="color: #f0ce43;">(</span><span style="color: #00bcff;">0</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>, <span style="color: #00bcff;">0</span>, <span style="color: #79a8ff;">"Constant expression 0"</span><span style="color: #b6a0ff;">)</span>,
+  <span style="color: #b6a0ff;">(</span>interpretVarExpr<span style="color: #6ae4b9;">(</span><span style="color: #00bcff;">Plus</span><span style="color: #f0ce43;">(</span><span style="color: #00bcff;">Const</span><span style="color: #00bcff;">(</span><span style="color: #00bcff;">5</span><span style="color: #00bcff;">)</span>,<span style="color: #00bcff;">Const</span><span style="color: #00bcff;">(</span><span style="color: #00bcff;">4</span><span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>, <span style="color: #00bcff;">9</span>, <span style="color: #79a8ff;">"Additive expression 5 + 4"</span><span style="color: #b6a0ff;">)</span>,
+  <span style="color: #b6a0ff;">(</span>interpretVarExpr<span style="color: #6ae4b9;">(</span><span style="color: #00bcff;">Exp</span><span style="color: #f0ce43;">(</span><span style="color: #00bcff;">Const</span><span style="color: #00bcff;">(</span><span style="color: #00bcff;">5</span><span style="color: #00bcff;">)</span>,<span style="color: #00bcff;">Const</span><span style="color: #00bcff;">(</span><span style="color: #00bcff;">4</span><span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>, <span style="color: #00bcff;">625</span>, <span style="color: #79a8ff;">"Exponential expression 5 ^ 4"</span><span style="color: #b6a0ff;">)</span>,
+  <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">New tests for this part specifically.</span>
+  <span style="color: #b6a0ff;">(</span>interpretVarExpr<span style="color: #6ae4b9;">(</span><span style="color: #00bcff;">Subst</span><span style="color: #f0ce43;">(</span><span style="color: #00bcff;">Var</span><span style="color: #00bcff;">(</span><span style="color: #79a8ff;">'x</span><span style="color: #00bcff;">)</span>, <span style="color: #79a8ff;">'x</span>, <span style="color: #00bcff;">Const</span><span style="color: #00bcff;">(</span><span style="color: #00bcff;">0</span><span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>, <span style="color: #00bcff;">0</span>,
+                    <span style="color: #79a8ff;">"Simple substitution x[x := 0] expression"</span><span style="color: #b6a0ff;">)</span>,
+  <span style="color: #b6a0ff;">(</span>interpretVarExpr<span style="color: #6ae4b9;">(</span><span style="color: #00bcff;">Subst</span><span style="color: #f0ce43;">(</span><span style="color: #00bcff;">Subst</span><span style="color: #00bcff;">(</span><span style="color: #00bcff;">Plus</span><span style="color: #80d200;">(</span><span style="color: #00bcff;">Var</span><span style="color: #f78fe7;">(</span><span style="color: #79a8ff;">'x</span><span style="color: #f78fe7;">)</span>,<span style="color: #00bcff;">Var</span><span style="color: #f78fe7;">(</span><span style="color: #79a8ff;">'y</span><span style="color: #f78fe7;">)</span><span style="color: #80d200;">)</span>,
+                                <span style="color: #79a8ff;">'x</span>,
+                                <span style="color: #00bcff;">Const</span><span style="color: #80d200;">(</span><span style="color: #00bcff;">5</span><span style="color: #80d200;">)</span><span style="color: #00bcff;">)</span>,
+                          <span style="color: #79a8ff;">'y</span>,
+                          <span style="color: #00bcff;">Const</span><span style="color: #00bcff;">(</span><span style="color: #00bcff;">4</span><span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>,
+                    <span style="color: #00bcff;">9</span>, <span style="color: #79a8ff;">"Nested substitution ((x + y)[x := 5])[y := 4]"</span><span style="color: #b6a0ff;">)</span>,
+  <span style="color: #00cd68;">)</span>
+
+runTests<span style="color: #00cd68;">(</span>tests<span style="color: #00cd68;">)</span>
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="Part-3"></a>Part 4<br />
+<div class="outline-text-5" id="text-Part-3">
+<p>
+<a href="./testing/a1/a1p4_test.sc">a1p4_test.sc</a>
+</p>
+<div class="org-src-container">
+<pre class="src src-amm"><span style="color: #b6a0ff;">import</span> $file.a1_testframework, a1_testframework.<span style="color: #b6a0ff;">_</span>
+<span style="color: #b6a0ff;">import</span> $file.a1p4, a1p4.<span style="color: #b6a0ff;">_</span>
+
+<span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">tests</span> <span style="color: #b6a0ff;">=</span> <span style="color: #00bcff;">List</span><span style="color: #00cd68;">(</span>
+  <span style="color: #b6a0ff;">(</span>interpretMixedExpr<span style="color: #6ae4b9;">(</span><span style="color: #00bcff;">Const</span><span style="color: #f0ce43;">(</span><span style="color: #00bcff;">0</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>, <span style="color: #00bcff;">Some</span><span style="color: #6ae4b9;">(</span><span style="color: #00bcff;">Left</span><span style="color: #f0ce43;">(</span><span style="color: #00bcff;">0</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>, <span style="color: #79a8ff;">"Constant expression 0"</span><span style="color: #b6a0ff;">)</span>,
+  <span style="color: #b6a0ff;">(</span>interpretMixedExpr<span style="color: #6ae4b9;">(</span><span style="color: #00bcff;">Plus</span><span style="color: #f0ce43;">(</span><span style="color: #00bcff;">Const</span><span style="color: #00bcff;">(</span><span style="color: #00bcff;">5</span><span style="color: #00bcff;">)</span>,<span style="color: #00bcff;">Const</span><span style="color: #00bcff;">(</span><span style="color: #00bcff;">4</span><span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>, <span style="color: #00bcff;">Some</span><span style="color: #6ae4b9;">(</span><span style="color: #00bcff;">Left</span><span style="color: #f0ce43;">(</span><span style="color: #00bcff;">9</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>, <span style="color: #79a8ff;">"Additive expression 5 + 4"</span><span style="color: #b6a0ff;">)</span>,
+  <span style="color: #b6a0ff;">(</span>interpretMixedExpr<span style="color: #6ae4b9;">(</span><span style="color: #00bcff;">Exp</span><span style="color: #f0ce43;">(</span><span style="color: #00bcff;">Const</span><span style="color: #00bcff;">(</span><span style="color: #00bcff;">5</span><span style="color: #00bcff;">)</span>,<span style="color: #00bcff;">Const</span><span style="color: #00bcff;">(</span><span style="color: #00bcff;">4</span><span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>, <span style="color: #00bcff;">Some</span><span style="color: #6ae4b9;">(</span><span style="color: #00bcff;">Left</span><span style="color: #f0ce43;">(</span><span style="color: #00bcff;">625</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>, <span style="color: #79a8ff;">"Exponential expression 5 ^ 4"</span><span style="color: #b6a0ff;">)</span>,
+  <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">New tests for this part specifically.</span>
+  <span style="color: #b6a0ff;">(</span>interpretMixedExpr<span style="color: #6ae4b9;">(</span><span style="color: #00bcff;">TT</span><span style="color: #6ae4b9;">)</span>,<span style="color: #00bcff;">Some</span><span style="color: #6ae4b9;">(</span><span style="color: #00bcff;">Right</span><span style="color: #f0ce43;">(</span><span style="color: #00bcff;">true</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>,<span style="color: #79a8ff;">"Constant expression true"</span><span style="color: #b6a0ff;">)</span>,
+  <span style="color: #b6a0ff;">(</span>interpretMixedExpr<span style="color: #6ae4b9;">(</span><span style="color: #00bcff;">Band</span><span style="color: #f0ce43;">(</span><span style="color: #00bcff;">TT</span>,<span style="color: #00bcff;">FF</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>,<span style="color: #00bcff;">Some</span><span style="color: #6ae4b9;">(</span><span style="color: #00bcff;">Right</span><span style="color: #f0ce43;">(</span><span style="color: #00bcff;">false</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>,<span style="color: #79a8ff;">"And expression true &amp;&amp; false"</span><span style="color: #b6a0ff;">)</span>,
+  <span style="color: #00cd68;">)</span>
+
+runTests<span style="color: #00cd68;">(</span>tests<span style="color: #00cd68;">)</span>
+</pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
 </div>
 </div>
 </div>
@@ -702,7 +1124,7 @@ Such a list is far easier to match over than a string.
 <p class="author">Author: Mark Armstrong</p>
      <p class="author">Contact: <a href="mailto:markparmstrong@gmail.com">markparmstrong@gmail.com</a></p>
      <p class="date">Original date: September 21st, 2020</p>
-     <p class="date">Last updated: 2020-09-27 Sun 15:18</p>
+     <p class="date">Last updated: 2020-10-13 Tue 04:24</p>
      <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.90 (<a href="https://orgmode.org">Org</a> mode 9.4)</p>
      <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

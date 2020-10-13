@@ -1,4 +1,4 @@
-% Created 2020-09-27 Sun 15:29
+% Created 2020-10-13 Tue 04:25
 % Intended LaTeX compiler: lualatex
 \documentclass[11pt]{article}
 \usepackage{graphicx}
@@ -42,7 +42,7 @@
 
 
 \section*{Introduction}
-\label{sec:orgef95b85}
+\label{sec:org321e77b}
 This assignment asks you to construct interpreters
 for a simple language of mathematical expressions.
 To put it another way, you are asked to construct simple calculators.
@@ -52,12 +52,133 @@ Your task is to then represent the terms of the language
 in Scala and Prolog, using the languages' facilities for
 representing such data.
 
+\section*{Updates and file history}
+\label{sec:org99cfa26}
+\subsection*{September 21st}
+\label{sec:orgf9941d9}
+\begin{itemize}
+\item Original version published.
+\end{itemize}
+
+\subsection*{October 13th}
+\label{sec:orgb707542}
+\begin{itemize}
+\item \textbf{A documentation requirement has been added!}
+\begin{itemize}
+\item As part of the boilerplate, which is now in place.
+\end{itemize}
+\item A submission checklist was added near the end of this file
+to help bring attention to the documentation requirement.
+\item The testing code is now given for the Scala portions.
+\begin{itemize}
+\item The scripts and the Prolog code should come soon.
+\end{itemize}
+\item The instructions to use a “\texttt{Simple}” constructor in
+the Scala types of parts 3 and 4 have been removed.
+Instead, the constructors from part 1 should be repeated.
+\begin{itemize}
+\item (I had been over-eager in trying to avoid repetition,
+and somehow failed to realise that the use of the “\texttt{Simple}”
+constructor would rule out most interesting expressions 🙁.)
+\end{itemize}
+\item Instructions are now given at the beginning of each part
+as to the filenames.
+\item The naming of the types and the interpretation functions/predicates
+has also been standardised.
+\item The word “task” has been replaced by “part”.
+\end{itemize}
+
 \section*{Boilerplate}
-\label{sec:org37bd73e}
-:TODO: (It will be similar to the homework boilerplate.)
+\label{sec:org04e9872}
+\subsection*{Documentation}
+\label{sec:org2663fd8}
+In addition to the code for the assignments,
+you are required to submit (relatively light) documentation,
+along the lines of that found in
+\href{https://armkeh.github.io/principles-of-programming-languages/\#outline-container-Lecture-literate-programs}{the literate programs}
+from lectures and tutorials.
+\begin{itemize}
+\item Those occasionally include a lot of writing when introducing concepts;
+you do not have to introduce concepts, so your documentation
+should be similar to the \emph{end} of those documents,
+where only the purpose and implementation details
+of types, functions, etc., are discussed.
+\end{itemize}
+
+This documentation \textbf{must be} in the literate style,
+with (nicely typeset) English paragraphs alongside code snippets;
+comments in your source code do not count.
+The basic requirement is
+\begin{itemize}
+\item the English paragraphs must use non-fixed width font, whereas
+\item the code snippets must use fixed width font.
+\item For example, see these lecture notes on Prolog:
+\begin{itemize}
+\item \url{https://courses.cs.washington.edu/courses/cse341/98sp/logic/prolog.html}
+\end{itemize}
+\end{itemize}
+But you are encouraged to strive for nicer than just
+“the basic requirement”.
+(the ability to write decent looking documentation is an asset!
+
+You are free to present your documentation in any of these formats:
+\begin{itemize}
+\item an HTML file,
+\begin{itemize}
+\item (named \texttt{README.html})
+\end{itemize}
+\item a PDF (for instance, by writing it in \LaTeX{} using
+the \texttt{listings} or \texttt{minted} package for your code blocks),
+\begin{itemize}
+\item (named \texttt{README.pdf}), or
+\end{itemize}
+\item rendering on GitLab (for instance, by writing it in markdown or Org)
+\begin{itemize}
+\item (named \texttt{README.md} or \texttt{README.org}.)
+\end{itemize}
+\end{itemize}
+If you wish to use another format, contact Mark to discuss it.
+
+Not all of your code needs to be shown;
+only portions which are of interest are needed.
+Feel free to omit some “repetitive” portions.
+(For instance, if there are several cases in a definition
+which look almost identical, only one or two need to be shown.)
+
+\subsection*{Submission procedures}
+\label{sec:orgb4da9a1}
+The same guidelines as for homework
+(which can be seen in any of the homework files)
+aapply to assignments, except for the differences below.
+
+\subsubsection*{Assignment naming requirements}
+\label{sec:orgba68b41}
+
+Place all files for the assignment
+inside a folder titled \texttt{an}, where \texttt{n} is the number of the assignment.
+So, for assignment 1, use the folder \texttt{a1}, for assignment 2 the folder \texttt{a2}, etc.
+Ensure you do not capitalise the \texttt{a}.
+
+Each part of the assignments will direct you on where to
+save your code for that part. Follow those instructions!
+
+\begin{center}
+\textbf{If the language supports multiple different file extensions,}
+\textbf{you must still follow the extension conventions noted in the assignment.}
+\end{center}
+
+\begin{center}
+\textbf{Incorrect naming of files may result in up to a 5\% deduction in your grade.}
+\end{center}
+This is slightly decreased from the 10\% for homeworks.
+
+\subsection*{Proper conduct for coursework}
+\label{sec:org3921fb9}
+Refer to the homework code of conduct available in any of the homework files.
+The same guidelines apply to assignments.
 
 \section*{Informal description of the expression language}
-\label{sec:orgc5d611e}
+\label{sec:org740e8a7}
 The language consists of integer constants and seven \emph{prefix} operators.
 \begin{itemize}
 \item The unary operator \texttt{const} which operates on integers.
@@ -73,7 +194,7 @@ that is, even without using parentheses,
 there is only one possible reading of a given expression.
 
 \subsection*{Example 1}
-\label{sec:org88b7eed}
+\label{sec:org3beb481}
 As an example of a syntactically correct expression, consider
 \begin{minted}[breaklines=true]{text}
 abs minus abs const 5 abs const 6
@@ -86,7 +207,7 @@ or, in the usual notation,
 $|(|5| - |6|)|$
 
 \subsection*{Example 2}
-\label{sec:org1e7e2a5}
+\label{sec:org7157f86}
 As an additional example, consider
 \begin{minted}[breaklines=true]{text}
 plus plus plus exp const 1 const 2 exp const 2 const 2
@@ -99,10 +220,14 @@ which, if we parenthesised the expression and dropped the \texttt{const}'s, woul
 or, in the usual notation,
 (((1² + 2²) + 3²) + 4²)
 
-\section*{Task 1 – Interpreter written in Scala  [20 marks]}
-\label{sec:orgda65bc2}
+\section*{Part 1 – Interpreter written in Scala  [20 marks]}
+\label{sec:orga871a28}
+\begin{center}
+\textbf{Place your code for this part in a file \texttt{a1p1.sc}.}
+\end{center}
+
 \subsection*{1.1 Representation [5 marks]}
-\label{sec:org5a7c6b7}
+\label{sec:orgf5875f5}
 Create a representation of the above described expressions
 in Scala using the standard approach for algebraic datatypes,
 and call this type \texttt{Expr}.
@@ -120,14 +245,18 @@ Abs(Minus(Abs(Const(5)), Abs(Const(6))))
 \end{minted}
 
 \subsection*{1.2 Interpreter    [15 marks]}
-\label{sec:org0051e23}
+\label{sec:org512eebb}
 Define a method \texttt{interpretExpr} acting on \texttt{Expr} which
 calculates the value of an \texttt{Expr}.
 
-\section*{Task 2 – Interpreter written in Prolog [20 marks]}
-\label{sec:orgf7d46aa}
+\section*{Part 2 – Interpreter written in Prolog [20 marks]}
+\label{sec:org456a780}
+\begin{center}
+\textbf{Place your code for this part in a file \texttt{a1p2.pl}.}
+\end{center}
+
 \subsection*{1.1 Expression recogniser [5 marks]}
-\label{sec:org24761f4}
+\label{sec:org32c5386}
 Define a predicate \texttt{isExpr} in Prolog which recognises
 trees which represent the above defined expressions.
 
@@ -147,28 +276,31 @@ and the query \texttt{isExpr(absE(minusE(absE(constE(5)), absE(constE(6)))))} wo
 result in the response \texttt{true}.
 
 \subsection*{1.2 Interpreter           [15 marks]}
-\label{sec:org250da4d}
-
+\label{sec:org0770196}
 Define a binary predicate \texttt{interpretExpr} which
 relates these expressions to their numerical values.
 
-That is, querying \texttt{interpret(e,X)} should
+That is, querying \texttt{interpretExpr(e,X)} should
 receive the response \texttt{X = n} where \texttt{n} is
 the integer value of the expression.
 
 Do not concern yourself with the other direction;
 that is, we are not expecting queries
-of the form \texttt{interpret(X,n)} to result in an answer.
+of the form \texttt{interpretExpr(X,n)} to result in an answer.
 (If you can, “fail gracefully”,
 i.e., either throw a more meaningful exception
 or avoid an exception altogether
 but this is not expected even as a bonus.)
 
-\section*{Task 3 – Variables and substitution    [30 marks]}
-\label{sec:orgec36fc7}
-\subsection*{Task 3 description}
-\label{sec:org06989a9}
-In this task, we wish to add variables to our expressions.
+\section*{Part 3 – Variables and substitution    [30 marks]}
+\label{sec:org4c0bbbf}
+\begin{center}
+\textbf{Place your code for this part in files \texttt{a1p3.sc} and \texttt{a1p3.pl}.}
+\end{center}
+
+\subsection*{Part 3 description}
+\label{sec:org5a3de2b}
+In this part, we wish to add variables to our expressions.
 
 This can be done by adding a new operator \texttt{var} to our expressions,
 which operates on symbols representing variable names
@@ -178,7 +310,7 @@ are a better candidate than strings will be discussed
 when we discuss types.)
 
 However, adding this operator introduces a problem
-with our \texttt{interpret} method/predicate:
+with our \texttt{interpretExpr} method/predicate:
 how do we interpret a variable when we don't know its value?
 
 Our solution in this assignment is to
@@ -202,26 +334,26 @@ It should interpet to just \texttt{6}.
 
 (An alternate solution,
 instead of building variable substitution into the language,
-is to add a \emph{state} argument to \texttt{interpret},
+would be to add a \emph{state} argument to \texttt{interpretExpr},
 which maps variables to values.
 We will use states in later assignments for this purpose.)
 
-\subsection*{The task 3}
-\label{sec:org4f1336b}
+\subsection*{The part 3}
+\label{sec:orgbe0c784}
 In Scala, create a new algebraic datatype \texttt{VarExpr} and a new
-interpretation method \texttt{varInterpret} in Scala ([15 marks].)
+interpretation method \texttt{interpretVarExpr} in Scala ([15 marks].)
 Your new constructors should be called \texttt{Var} and \texttt{Subst}.
-You should reuse your existing \texttt{Expr} type when defining \texttt{VarExpr},
-by including a constructor \texttt{Simple} which takes a \texttt{Expr} argument.
+\sout{You should reuse your existing \texttt{Expr} type when defining \texttt{VarExpr},}
+\sout{by including a constructor \texttt{Simple} which takes a \texttt{Expr} argument.}
+(Edited October 13th.)
+You should also repeat the constructors from the part 1
+as constructors for this new type.
 
 In Prolog, create a new recognising predicate \texttt{isVarExpr} which
 recognising valid expressions in this extended language,
 with the new labels being the operator names given in the description,
-and a new predicate \texttt{varInterpret} which relates
+and a new predicate \texttt{interpretVarExpr} which relates
 expressions to their interpreted value ([15 marks].)
-(In Prolog, there is no need to use
-a label for “simple” expressions like we use
-the \texttt{Simple} constructor in Scala.)
 
 \begin{center}
 \textbf{Pay attention when implementing the interpretation of substitution!}
@@ -230,11 +362,30 @@ the \texttt{Simple} constructor in Scala.)
 \textbf{which are bound elsewhere!}
 \end{center}
 
-\section*{Task 4 – Boolean expressions           [30 marks]}
-\label{sec:orgf538b4e}
-\subsection*{Task 4 description}
-\label{sec:org3594328}
-In this task, we create an alternate extension to
+(This note added October 13th.)
+Note: you are allowed and encouraged to collect any helper methods,
+for instance a definition of exponentiation,
+in a separate file which is imported into your files for the
+different parts of this assignment.
+Just ensure you use Ammonite-compatible import directives
+in your Scala code.
+
+\subsubsection*{Hint (added October 13th)}
+\label{sec:org19d6700}
+\begin{center}
+\textbf{You may need to define a helper function/predicate}
+\textbf{before you can define interpretation here.}
+\end{center}
+
+\section*{Part 4 – Boolean expressions           [30 marks]}
+\label{sec:orgfd2cb08}
+\begin{center}
+\textbf{Place your code for this part in files \texttt{a1p4.sc} and \texttt{a1p4.pl}.}
+\end{center}
+
+\subsection*{Part 4 description}
+\label{sec:org187bed8}
+In this part, we create an alternate extension to
 our first language of expressions
 (that is, we build on to \texttt{Expr}, not \texttt{VarExpr}.)
 
@@ -260,26 +411,34 @@ with integer expressions; that is,
 trying to apply a integer operator to a boolean expression
 or vice versa is not legal.
 
-\subsection*{The task 4}
-\label{sec:orge50db25}
-In Scala, create a new algebraic datatype \texttt{TypedExpr} and a new
-interpretation method \texttt{typedInterpret} in Scala ([15 marks].)
+\subsection*{The part 4}
+\label{sec:org684d106}
+In Scala, create a new algebraic datatype \texttt{MixedExpr} and a new
+interpretation method \texttt{interpretMixedExpr} in Scala ([15 marks].)
 Your new constructors should be named \texttt{TT}, \texttt{FF}, \texttt{Band}, \texttt{Bor} and \texttt{Bnot}.
-You should again reuse your existing \texttt{Expr} type when defining \texttt{TypedExpr},
-by including a constructor \texttt{IntExpr} which takes a \texttt{Expr} argument.
+\sout{You should again reuse your existing \texttt{Expr} type when defining \texttt{TypedExpr},}
+\sout{by including a constructor \texttt{IntExpr} which takes a \texttt{Expr} argument.}
 Your interpreter should return an \texttt{Option[Either[Int,Boolean]]}.
 The \texttt{Option} type is used to handle failure in the case
 of a “mixed” expression.
 The \texttt{Either} type is used to handle two possible return types.
 
+(Edited October 13th.)
+As in part 3, you will need to repeat the constructors from the
+\texttt{Expr} type in part 1 in this type's definition.
+
 In Prolog, create a new recognising predicate \texttt{isMixedExpr} which
 recognising valid expressions in this extended language,
 with the new labels being the operator names given in the description,
-and a new predicate \texttt{mixedInterpret} which relates
+and a new predicate \texttt{interpretMixedExpr} which relates
 expressions to their interpreted value ([15 marks].)
 
-\section*{Task 5 – Bonus: parsing                [10 bonus\_marks]}
-\label{sec:orgb8f30ed}
+\section*{Part 5 – Bonus: parsing                [10 bonus marks]}
+\label{sec:orgb4388f8}
+\begin{center}
+\textbf{Place your code for the bonus, if you attempt it, in \texttt{a1p5.sc} and/or \texttt{a1p5.pl}.}
+\end{center}
+
 Create a \emph{parser} for the first language of expressions
 in this assignment, both in Scala and in Prolog
 (partial marks for implementing it in just one language.)
@@ -295,7 +454,142 @@ that converts a string to a list of lexemes
 (to do this, you will need to represent lexemes somehow.)
 Such a list is far easier to match over than a string.
 
+\section*{Submission checklist}
+\label{sec:orgd4684f9}
+For your convenience, this checklist is provided
+to track the files you need to submit.
+Use it if you wish.
+\begin{minted}[breaklines=true]{text}
+- [ ] Documentation; one of
+  - [ ] README.html
+  - [ ] README.pdf
+  - [ ] README.md
+  - [ ] README.org
+- [ ] Part 1
+  - [ ] a1p1.sc
+  - [ ] a1p1_test.sc tests passed!
+- [ ] Part 2
+  - [ ] a1p2.pl
+  - [ ] a1p2_test.plt tests passed!
+- [ ] Part 3
+  - [ ] a1p3.sc
+  - [ ] a1p3.pl
+  - [ ] a1p3_test.sc tests passed!
+  - [ ] a1p3_test.plt tests passed!
+- [ ] Part 4
+  - [ ] a1p4.sc
+  - [ ] a1p4.pl
+  - [ ] a1p4_test.sc tests passed!
+  - [ ] a1p4_test.plt tests passed!
+- [ ] Part 5 (Bonus)
+  - [ ] a1p5.sc
+  - [ ] a1p5.pl
+\end{minted}
+
 \section*{Testing}
-\label{sec:org8e80944}
-:TODO: This will be posted ASAP.
+\label{sec:org0532919}
+\subsection*{The tests}
+\label{sec:org956b193}
+\subsubsection*{Scala}
+\label{sec:org4eaf930}
+\begin{itemize}
+\item Framework
+\label{sec:org6fd1a3e}
+\href{./testing/a1/a1\_testframework.sc}{a1\_testframework.sc}
+\begin{minted}[breaklines=true]{scala}
+/* Given an expected result and a computed result,
+   check if they are equal in value.
+   If so, return 0. Otherwise, inform the user, and return 1,
+   so the number of failures can be counted. */
+def test[A](given: A, expected: A, the_test: String) =
+  if (!(given equals expected)) {
+    println("+---------------------------------------------------")
+    println("| " + the_test + " failed.")
+    println("| Expected " + expected + ", got " + given + ".")
+    println("+---------------------------------------------------")
+    1
+  } else {
+    0
+  }
+
+def runTests[A](tests: List[Tuple3[A,A,String]]): Unit = {
+  // Apply test to each element of tests, and sum the return values.
+  // This is essentially a for loop.
+  val failed = tests.foldLeft(0) {
+    (failures, next) => next match {
+      // Deconstruct the tuple to get its parts
+      case (given, expected, the_test) => failures + test(given, expected, the_test)
+    }
+  }
+  
+  println("+---------------------------------------------------")
+  println("| " + failed + " tests failed")
+  println("+---------------------------------------------------")
+}
+\end{minted}
+
+\item Part 1
+\label{sec:org596d732}
+\href{./testing/a1/a1p1\_test.sc}{a1p1\_test.sc}
+\begin{minted}[breaklines=true]{scala}
+import $file.a1_testframework, a1_testframework._
+import $file.a1p1, a1p1._
+
+val tests = List(
+  (interpretExpr(Const(0)), 0, "Constant expression 0"),
+  (interpretExpr(Plus(Const(5),Const(4))), 9, "Additive expression 5 + 4"),
+  (interpretExpr(Exp(Const(5),Const(4))), 625, "Exponential expression 5 ^ 4"),
+  )
+
+runTests(tests)
+\end{minted}
+
+\item Part 2
+\label{sec:org56424d6}
+There is no Scala code for part 2.
+
+\item Part 3
+\label{sec:orgc51e931}
+\href{./testing/a1/a1p3\_test.sc}{a1p3\_test.sc}
+\begin{minted}[breaklines=true]{scala}
+import $file.a1_testframework, a1_testframework._
+import $file.a1p3, a1p3._
+
+val tests = List(
+  (interpretVarExpr(Const(0)), 0, "Constant expression 0"),
+  (interpretVarExpr(Plus(Const(5),Const(4))), 9, "Additive expression 5 + 4"),
+  (interpretVarExpr(Exp(Const(5),Const(4))), 625, "Exponential expression 5 ^ 4"),
+  // New tests for this part specifically.
+  (interpretVarExpr(Subst(Var('x), 'x, Const(0))), 0,
+                    "Simple substitution x[x := 0] expression"),
+  (interpretVarExpr(Subst(Subst(Plus(Var('x),Var('y)),
+                                'x,
+                                Const(5)),
+                          'y,
+                          Const(4))),
+                    9, "Nested substitution ((x + y)[x := 5])[y := 4]"),
+  )
+
+runTests(tests)
+\end{minted}
+
+\item Part 4
+\label{sec:org2658ce3}
+\href{./testing/a1/a1p4\_test.sc}{a1p4\_test.sc}
+\begin{minted}[breaklines=true]{scala}
+import $file.a1_testframework, a1_testframework._
+import $file.a1p4, a1p4._
+
+val tests = List(
+  (interpretMixedExpr(Const(0)), Some(Left(0)), "Constant expression 0"),
+  (interpretMixedExpr(Plus(Const(5),Const(4))), Some(Left(9)), "Additive expression 5 + 4"),
+  (interpretMixedExpr(Exp(Const(5),Const(4))), Some(Left(625)), "Exponential expression 5 ^ 4"),
+  // New tests for this part specifically.
+  (interpretMixedExpr(TT),Some(Right(true)),"Constant expression true"),
+  (interpretMixedExpr(Band(TT,FF)),Some(Right(false)),"And expression true && false"),
+  )
+
+runTests(tests)
+\end{minted}
+\end{itemize}
 \end{document}

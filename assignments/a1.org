@@ -20,12 +20,66 @@ Your task is to then represent the terms of the language
 in Scala and Prolog, using the languages' facilities for
 representing such data.
 
+* Updates and file history
+:PROPERTIES:
+:CUSTOM_ID: Updates-and-file-history
+:END:
+
+** September 21st
+:PROPERTIES:
+:CUSTOM_ID: September-21st
+:END:
+
+- Original version published.
+
+** October 13th
+:PROPERTIES:
+:CUSTOM_ID: October-13th
+:END:
+
+- *A documentation requirement has been added!*
+  - As part of the boilerplate, which is now in place.
+- A submission checklist was added near the end of this file
+  to help bring attention to the documentation requirement.
+- The testing code is now given for the Scala portions.
+  - The scripts and the Prolog code should come soon.
+- The instructions to use a “~Simple~” constructor in
+  the Scala types of parts 3 and 4 have been removed.
+  Instead, the constructors from part 1 should be repeated.
+  - (I had been over-eager in trying to avoid repetition,
+    and somehow failed to realise that the use of the “~Simple~”
+    constructor would rule out most interesting expressions 🙁.)
+- Instructions are now given at the beginning of each part
+  as to the filenames.
+- The naming of the types and the interpretation functions/predicates
+  has also been standardised.
+- The word “task” has been replaced by “part”.
+  
 * Boilerplate
 :PROPERTIES:
 :CUSTOM_ID: Boilerplate
 :END:
 
-:TODO: (It will be similar to the homework boilerplate.)
+** Documentation
+:PROPERTIES:
+:CUSTOM_ID: Submission-procedures
+:END:
+
+#+INCLUDE: "./../boilerplate.org::*Assignment documentation" :only-contents t
+
+** Submission procedures
+:PROPERTIES:
+:CUSTOM_ID: Submission-procedures
+:END:
+
+#+INCLUDE: "./../boilerplate.org::*Assignment submission" :only-contents t
+
+** Proper conduct for coursework
+:PROPERTIES:
+:CUSTOM_ID: Proper-conduct-for-coursework
+:END:
+
+#+INCLUDE: "./../boilerplate.org::*Assignment conduct" :only-contents t
 
 * Informal description of the expression language
 :PROPERTIES:
@@ -81,10 +135,14 @@ or, in the usual notation,
 (((1² + 2²) + 3²) + 4²)
 #+end_src
 
-* Task 1 – Interpreter written in Scala  [20 marks]
+* Part 1 – Interpreter written in Scala  [20 marks]
 :PROPERTIES:
-:CUSTOM_ID: Task-1-–-Interpreter-written-in-Scala--[20 marks]
+:CUSTOM_ID: Part-1-–-Interpreter-written-in-Scala--[20 marks]
 :END:
+
+#+begin_center
+*Place your code for this part in a file ~a1p1.sc~.*
+#+end_center
 
 ** 1.1 Representation [5 marks]
 :PROPERTIES:
@@ -115,10 +173,14 @@ Abs(Minus(Abs(Const(5)), Abs(Const(6))))
 Define a method ~interpretExpr~ acting on ~Expr~ which
 calculates the value of an ~Expr~.
 
-* Task 2 – Interpreter written in Prolog [20 marks]
+* Part 2 – Interpreter written in Prolog [20 marks]
 :PROPERTIES:
-:CUSTOM_ID: Task-2-–-Interpreter-written-in-Prolog-[20 marks]
+:CUSTOM_ID: Part-2-–-Interpreter-written-in-Prolog-[20 marks]
 :END:
+
+#+begin_center
+*Place your code for this part in a file ~a1p2.pl~.*
+#+end_center
 
 ** 1.1 Expression recogniser [5 marks]
 :PROPERTIES:
@@ -144,33 +206,40 @@ and the query ~isExpr(absE(minusE(absE(constE(5)), absE(constE(6)))))~ would
 result in the response ~true~.
 
 ** 1.2 Interpreter           [15 marks]
+:PROPERTIES:
+:CUSTOM_ID: 1.2-Interpreter-----------[15 marks]
+:END:
 
 Define a binary predicate ~interpretExpr~ which
 relates these expressions to their numerical values.
 
-That is, querying ~interpret(e,X)~ should
+That is, querying ~interpretExpr(e,X)~ should
 receive the response ~X = n~ where ~n~ is
 the integer value of the expression.
 
 Do not concern yourself with the other direction;
 that is, we are not expecting queries
-of the form ~interpret(X,n)~ to result in an answer.
+of the form ~interpretExpr(X,n)~ to result in an answer.
 (If you can, “fail gracefully”,
 i.e., either throw a more meaningful exception
 or avoid an exception altogether
 but this is not expected even as a bonus.)
 
-* Task 3 – Variables and substitution    [30 marks]
+* Part 3 – Variables and substitution    [30 marks]
 :PROPERTIES:
-:CUSTOM_ID: Task-3-–-Variables-and-substitution----[30 marks]
+:CUSTOM_ID: Part-3-–-Variables-and-substitution----[30 marks]
 :END:
 
-** Task 3 description
+#+begin_center
+*Place your code for this part in files ~a1p3.sc~ and ~a1p3.pl~.*
+#+end_center
+
+** Part 3 description
 :PROPERTIES:
-:CUSTOM_ID: Task-3-description
+:CUSTOM_ID: Part-3-description
 :END:
 
-In this task, we wish to add variables to our expressions.
+In this part, we wish to add variables to our expressions.
 
 This can be done by adding a new operator ~var~ to our expressions,
 which operates on symbols representing variable names
@@ -180,7 +249,7 @@ are a better candidate than strings will be discussed
 when we discuss types.)
 
 However, adding this operator introduces a problem
-with our ~interpret~ method/predicate:
+with our ~interpretExpr~ method/predicate:
 how do we interpret a variable when we don't know its value?
 
 Our solution in this assignment is to
@@ -202,29 +271,29 @@ It should interpet to just ~6~.
 
 (An alternate solution,
 instead of building variable substitution into the language,
-is to add a /state/ argument to ~interpret~,
+would be to add a /state/ argument to ~interpretExpr~,
 which maps variables to values.
 We will use states in later assignments for this purpose.)
 
-** The task 3
+** The part 3
 :PROPERTIES:
-:CUSTOM_ID: The-task-3
+:CUSTOM_ID: The-part-3
 :END:
 
 In Scala, create a new algebraic datatype ~VarExpr~ and a new
-interpretation method ~varInterpret~ in Scala ([15 marks].)
+interpretation method ~interpretVarExpr~ in Scala ([15 marks].)
 Your new constructors should be called ~Var~ and ~Subst~.
-You should reuse your existing ~Expr~ type when defining ~VarExpr~,
-by including a constructor ~Simple~ which takes a ~Expr~ argument.
++You should reuse your existing ~Expr~ type when defining ~VarExpr~,+
++by including a constructor ~Simple~ which takes a ~Expr~ argument.+
+(Edited October 13th.)
+You should also repeat the constructors from the part 1
+as constructors for this new type.
 
 In Prolog, create a new recognising predicate ~isVarExpr~ which
 recognising valid expressions in this extended language,
 with the new labels being the operator names given in the description,
-and a new predicate ~varInterpret~ which relates
+and a new predicate ~interpretVarExpr~ which relates
 expressions to their interpreted value ([15 marks].)
-(In Prolog, there is no need to use
-a label for “simple” expressions like we use
-the ~Simple~ constructor in Scala.)
 
 #+begin_center
 *Pay attention when implementing the interpretation of substitution!*
@@ -233,17 +302,39 @@ the ~Simple~ constructor in Scala.)
 *which are bound elsewhere!*
 #+end_center
 
-* Task 4 – Boolean expressions           [30 marks]
+(This note added October 13th.)
+Note: you are allowed and encouraged to collect any helper methods,
+for instance a definition of exponentiation,
+in a separate file which is imported into your files for the
+different parts of this assignment.
+Just ensure you use Ammonite-compatible import directives
+in your Scala code.
+
+*** Hint (added October 13th)
 :PROPERTIES:
-:CUSTOM_ID: Task-4-–-Boolean-expressions-----------[30 marks]
+:CUSTOM_ID: Hint-(added-October-13th)
 :END:
 
-** Task 4 description
+#+begin_center
+*You may need to define a helper function/predicate*
+*before you can define interpretation here.*
+#+end_center
+
+* Part 4 – Boolean expressions           [30 marks]
 :PROPERTIES:
-:CUSTOM_ID: Task-4-description
+:CUSTOM_ID: Part-4-–-Boolean-expressions-----------[30 marks]
 :END:
 
-In this task, we create an alternate extension to
+#+begin_center
+*Place your code for this part in files ~a1p4.sc~ and ~a1p4.pl~.*
+#+end_center
+
+** Part 4 description
+:PROPERTIES:
+:CUSTOM_ID: Part-4-description
+:END:
+
+In this part, we create an alternate extension to
 our first language of expressions
 (that is, we build on to ~Expr~, not ~VarExpr~.)
 
@@ -269,31 +360,39 @@ with integer expressions; that is,
 trying to apply a integer operator to a boolean expression
 or vice versa is not legal.
 
-** The task 4
+** The part 4
 :PROPERTIES:
-:CUSTOM_ID: The-task-4
+:CUSTOM_ID: The-part-4
 :END:
 
-In Scala, create a new algebraic datatype ~TypedExpr~ and a new
-interpretation method ~typedInterpret~ in Scala ([15 marks].)
+In Scala, create a new algebraic datatype ~MixedExpr~ and a new
+interpretation method ~interpretMixedExpr~ in Scala ([15 marks].)
 Your new constructors should be named ~TT~, ~FF~, ~Band~, ~Bor~ and ~Bnot~.
-You should again reuse your existing ~Expr~ type when defining ~TypedExpr~,
-by including a constructor ~IntExpr~ which takes a ~Expr~ argument.
++You should again reuse your existing ~Expr~ type when defining ~TypedExpr~,+
++by including a constructor ~IntExpr~ which takes a ~Expr~ argument.+
 Your interpreter should return an ~Option[Either[Int,Boolean]]~.
 The ~Option~ type is used to handle failure in the case
 of a “mixed” expression.
 The ~Either~ type is used to handle two possible return types.
 
+(Edited October 13th.)
+As in part 3, you will need to repeat the constructors from the
+~Expr~ type in part 1 in this type's definition.
+
 In Prolog, create a new recognising predicate ~isMixedExpr~ which
 recognising valid expressions in this extended language,
 with the new labels being the operator names given in the description,
-and a new predicate ~mixedInterpret~ which relates
+and a new predicate ~interpretMixedExpr~ which relates
 expressions to their interpreted value ([15 marks].)
 
-* Task 5 – Bonus: parsing                [10 bonus_marks]
+* Part 5 – Bonus: parsing                [10 bonus marks]
 :PROPERTIES:
-:CUSTOM_ID: Task-5-–-Bonus-------------------[10 bonus_marks]
+:CUSTOM_ID: Part-5-–-Bonus-------------------[10 bonus_marks]
 :END:
+
+#+begin_center
+*Place your code for the bonus, if you attempt it, in ~a1p5.sc~ and/or ~a1p5.pl~.*
+#+end_center
 
 Create a /parser/ for the first language of expressions
 in this assignment, both in Scala and in Prolog
@@ -310,9 +409,167 @@ that converts a string to a list of lexemes
 (to do this, you will need to represent lexemes somehow.)
 Such a list is far easier to match over than a string.
 
+* Submission checklist
+:PROPERTIES:
+:CUSTOM_ID: Submission-checklist
+:END:
+
+For your convenience, this checklist is provided
+to track the files you need to submit.
+Use it if you wish.
+#+begin_src text
+- [ ] Documentation; one of
+  - [ ] README.html
+  - [ ] README.pdf
+  - [ ] README.md
+  - [ ] README.org
+- [ ] Part 1
+  - [ ] a1p1.sc
+  - [ ] a1p1_test.sc tests passed!
+- [ ] Part 2
+  - [ ] a1p2.pl
+  - [ ] a1p2_test.plt tests passed!
+- [ ] Part 3
+  - [ ] a1p3.sc
+  - [ ] a1p3.pl
+  - [ ] a1p3_test.sc tests passed!
+  - [ ] a1p3_test.plt tests passed!
+- [ ] Part 4
+  - [ ] a1p4.sc
+  - [ ] a1p4.pl
+  - [ ] a1p4_test.sc tests passed!
+  - [ ] a1p4_test.plt tests passed!
+- [ ] Part 5 (Bonus)
+  - [ ] a1p5.sc
+  - [ ] a1p5.pl
+#+end_src
+
 * Testing
 :PROPERTIES:
 :CUSTOM_ID: Testing
 :END:
 
-:TODO: This will be posted ASAP.
+** The tests
+:PROPERTIES:
+:CUSTOM_ID: The-tests
+:END:
+
+*** Scala
+:PROPERTIES:
+:CUSTOM_ID: Scala
+:END:
+
+**** Framework
+:PROPERTIES:
+:CUSTOM_ID: Framework
+:END:
+
+[[./testing/a1/a1_testframework.sc][a1_testframework.sc]]
+#+begin_src amm :tangle ./testing/a1/a1_testframework.sc
+/* Given an expected result and a computed result,
+   check if they are equal in value.
+   If so, return 0. Otherwise, inform the user, and return 1,
+   so the number of failures can be counted. */
+def test[A](given: A, expected: A, the_test: String) =
+  if (!(given equals expected)) {
+    println("+---------------------------------------------------")
+    println("| " + the_test + " failed.")
+    println("| Expected " + expected + ", got " + given + ".")
+    println("+---------------------------------------------------")
+    1
+  } else {
+    0
+  }
+
+def runTests[A](tests: List[Tuple3[A,A,String]]): Unit = {
+  // Apply test to each element of tests, and sum the return values.
+  // This is essentially a for loop.
+  val failed = tests.foldLeft(0) {
+    (failures, next) => next match {
+      // Deconstruct the tuple to get its parts
+      case (given, expected, the_test) => failures + test(given, expected, the_test)
+    }
+  }
+  
+  println("+---------------------------------------------------")
+  println("| " + failed + " tests failed")
+  println("+---------------------------------------------------")
+}
+#+end_src
+
+**** Part 1
+:PROPERTIES:
+:CUSTOM_ID: Part-1
+:END:
+
+[[./testing/a1/a1p1_test.sc][a1p1_test.sc]]
+#+begin_src amm :tangle ./testing/a1/a1p1_test.sc
+import $file.a1_testframework, a1_testframework._
+import $file.a1p1, a1p1._
+
+val tests = List(
+  (interpretExpr(Const(0)), 0, "Constant expression 0"),
+  (interpretExpr(Plus(Const(5),Const(4))), 9, "Additive expression 5 + 4"),
+  (interpretExpr(Exp(Const(5),Const(4))), 625, "Exponential expression 5 ^ 4"),
+  )
+
+runTests(tests)
+#+end_src
+
+**** Part 2
+:PROPERTIES:
+:CUSTOM_ID: Part-2
+:END:
+
+There is no Scala code for part 2.
+
+**** Part 3
+:PROPERTIES:
+:CUSTOM_ID: Part-2
+:END:
+
+[[./testing/a1/a1p3_test.sc][a1p3_test.sc]]
+#+begin_src amm :tangle ./testing/a1/a1p3_test.sc
+import $file.a1_testframework, a1_testframework._
+import $file.a1p3, a1p3._
+
+val tests = List(
+  (interpretVarExpr(Const(0)), 0, "Constant expression 0"),
+  (interpretVarExpr(Plus(Const(5),Const(4))), 9, "Additive expression 5 + 4"),
+  (interpretVarExpr(Exp(Const(5),Const(4))), 625, "Exponential expression 5 ^ 4"),
+  // New tests for this part specifically.
+  (interpretVarExpr(Subst(Var('x), 'x, Const(0))), 0,
+                    "Simple substitution x[x := 0] expression"),
+  (interpretVarExpr(Subst(Subst(Plus(Var('x),Var('y)),
+                                'x,
+                                Const(5)),
+                          'y,
+                          Const(4))),
+                    9, "Nested substitution ((x + y)[x := 5])[y := 4]"),
+  )
+
+runTests(tests)
+#+end_src
+
+**** Part 4
+:PROPERTIES:
+:CUSTOM_ID: Part-3
+:END:
+
+[[./testing/a1/a1p4_test.sc][a1p4_test.sc]]
+#+begin_src amm :tangle ./testing/a1/a1p4_test.sc
+import $file.a1_testframework, a1_testframework._
+import $file.a1p4, a1p4._
+
+val tests = List(
+  (interpretMixedExpr(Const(0)), Some(Left(0)), "Constant expression 0"),
+  (interpretMixedExpr(Plus(Const(5),Const(4))), Some(Left(9)), "Additive expression 5 + 4"),
+  (interpretMixedExpr(Exp(Const(5),Const(4))), Some(Left(625)), "Exponential expression 5 ^ 4"),
+  // New tests for this part specifically.
+  (interpretMixedExpr(TT),Some(Right(true)),"Constant expression true"),
+  (interpretMixedExpr(Band(TT,FF)),Some(Right(false)),"And expression true && false"),
+  )
+
+runTests(tests)
+#+end_src
+

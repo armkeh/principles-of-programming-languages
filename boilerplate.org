@@ -16,7 +16,7 @@ in time for the deadline, and not just committed to your local copy.
 
 Place all files for the homework
 inside a folder titled ~hn~, where ~n~ is the number of the homework.
-So, for homework 1, the use the folder ~h1~, for homework 2 the folder ~h2~, etc.
+So, for homework 1, use the folder ~h1~, for homework 2 the folder ~h2~, etc.
 Ensure you do not capitalise the ~h~.
 
 Unless otherwise instructed in the homework questions,
@@ -133,3 +133,75 @@ instead of being builtin.
 Additionally, the standard /higher-order/ operations
 including ~map~, ~reduce~, ~flatten~, and ~filter~ are permitted generally,
 unless the task is to implement such a higher-order operator.
+
+* Assignment documentation
+
+In addition to the code for the assignments,
+you are required to submit (relatively light) documentation,
+along the lines of that found in
+[[https://armkeh.github.io/principles-of-programming-languages/#outline-container-Lecture-literate-programs][the literate programs]]
+from lectures and tutorials.
+- Those occasionally include a lot of writing when introducing concepts;
+  you do not have to introduce concepts, so your documentation
+  should be similar to the /end/ of those documents,
+  where only the purpose and implementation details
+  of types, functions, etc., are discussed.
+
+This documentation *must be* in the literate style,
+with (nicely typeset) English paragraphs alongside code snippets;
+comments in your source code do not count.
+The basic requirement is
+- the English paragraphs must use non-fixed width font, whereas
+- the code snippets must use fixed width font.
+- For example, see these lecture notes on Prolog:
+  - https://courses.cs.washington.edu/courses/cse341/98sp/logic/prolog.html
+But you are encouraged to strive for nicer than just
+“the basic requirement”.
+(the ability to write decent looking documentation is an asset!
+
+You are free to present your documentation in any of these formats:
+- an HTML file,
+  - (named ~README.html~)
+- a PDF (for instance, by writing it in LaTeX using
+  the ~listings~ or ~minted~ package for your code blocks),
+  - (named ~README.pdf~), or
+- rendering on GitLab (for instance, by writing it in markdown or Org)
+  - (named ~README.md~ or ~README.org~.)
+If you wish to use another format, contact Mark to discuss it.
+
+Not all of your code needs to be shown;
+only portions which are of interest are needed.
+Feel free to omit some “repetitive” portions.
+(For instance, if there are several cases in a definition
+which look almost identical, only one or two need to be shown.)
+
+* Assignment submission
+
+The same guidelines as for homework
+(which can be seen in any of the homework files)
+aapply to assignments, except for the differences below.
+
+** Assignment naming requirements
+
+Place all files for the assignment
+inside a folder titled ~an~, where ~n~ is the number of the assignment.
+So, for assignment 1, use the folder ~a1~, for assignment 2 the folder ~a2~, etc.
+Ensure you do not capitalise the ~a~.
+
+Each part of the assignments will direct you on where to
+save your code for that part. Follow those instructions!
+
+#+begin_center
+*If the language supports multiple different file extensions,*
+*you must still follow the extension conventions noted in the assignment.*
+#+end_center
+
+#+begin_center
+*Incorrect naming of files may result in up to a 5% deduction in your grade.*
+#+end_center
+This is slightly decreased from the 10% for homeworks.
+
+* Assignment conduct
+
+Refer to the homework code of conduct available in any of the homework files.
+The same guidelines apply to assignments.
