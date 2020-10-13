@@ -179,7 +179,7 @@ which look almost identical, only one or two need to be shown.)
 
 The same guidelines as for homework
 (which can be seen in any of the homework files)
-aapply to assignments, except for the differences below.
+apply to assignments, except for the differences below.
 
 ** Assignment naming requirements
 
