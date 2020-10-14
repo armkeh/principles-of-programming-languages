@@ -1,4 +1,4 @@
-% Created 2020-10-12 Mon 19:22
+% Created 2020-10-14 Wed 02:58
 % Intended LaTeX compiler: lualatex
 \documentclass[11pt]{article}
 \usepackage{graphicx}
@@ -42,7 +42,7 @@
 
 
 \section*{Introduction}
-\label{sec:org89f6b8d}
+\label{sec:org3e77305}
 The “fizzbuzz” problem is a very simple programming task,
 sometimes used in interviews to check for a basic understanding
 of iterating and branching constructs.
@@ -55,11 +55,11 @@ and then move to using “higher-order” methods,
 as well as solving a generalisation of the problem.
 
 \section*{Boilerplate}
-\label{sec:org4d758c0}
+\label{sec:org84ad9b1}
 \subsection*{Submission procedures}
-\label{sec:org1063a8f}
+\label{sec:org609d50d}
 \subsubsection*{Submission method}
-\label{sec:orgd39f7e8}
+\label{sec:org8502fe1}
 
 Homework should be submitted to your McMaster CAS Gitlab respository
 in the \texttt{cs3mi3-fall2020} project.
@@ -68,11 +68,11 @@ Ensure that you have \textbf{pushed} the commits to the remote repository
 in time for the deadline, and not just committed to your local copy.
 
 \subsubsection*{Naming requirements}
-\label{sec:org284620e}
+\label{sec:orga67f6be}
 
 Place all files for the homework
 inside a folder titled \texttt{hn}, where \texttt{n} is the number of the homework.
-So, for homework 1, the use the folder \texttt{h1}, for homework 2 the folder \texttt{h2}, etc.
+So, for homework 1, use the folder \texttt{h1}, for homework 2 the folder \texttt{h2}, etc.
 Ensure you do not capitalise the \texttt{h}.
 
 Unless otherwise instructed in the homework questions,
@@ -99,7 +99,7 @@ submit a \texttt{hn.ext} file for each language.
 \end{center}
 
 \subsubsection*{Do not submit testing or diagnostic code}
-\label{sec:org6db9589}
+\label{sec:org41ccb33}
 
 Unless you are instructed to do so in the homework questions,
 \textbf{you should not submit testing code with your homework submission}.
@@ -119,7 +119,7 @@ in your final submission.
 For instance, by using a wrapper on the print function or macros.
 
 \subsubsection*{Due date and allowance for technical difficulties}
-\label{sec:org5ea5d86}
+\label{sec:orgccdf30c}
 
 Homework is due on the second Sunday following its release,
 by the end of the day (midnight).
@@ -134,9 +134,9 @@ This information will help ensure we are able
 to accept your submission once the technical difficulties are resolved.
 
 \subsection*{Proper conduct for coursework}
-\label{sec:orgaa7194a}
+\label{sec:org79b82a8}
 \subsubsection*{Individual work}
-\label{sec:org345efcb}
+\label{sec:org375197f}
 
 Unless explicitely stated in the homework questions,
 all homework in this course is intended
@@ -185,7 +185,7 @@ probably add a catch-all \texttt{\_} case to your \texttt{match} expressions.”
 \end{enumerate}
 
 \subsubsection*{Language library resources}
-\label{sec:org3eae2f9}
+\label{sec:org7d724b6}
 
 Unless explicitely stated in the questions,
 it is not expected that you will use any language library resources
@@ -209,7 +209,7 @@ including \texttt{map}, \texttt{reduce}, \texttt{flatten}, and \texttt{filter} a
 unless the task is to implement such a higher-order operator.
 
 \section*{Part 1: Fizzbuzzing by loops                            [5 points]}
-\label{sec:org554814b}
+\label{sec:org1a47c55}
 In Ruby, create a method \texttt{fizzbuzzLooper} which, given a list
 (presumably of integers, though it may contain any type)
 creates a new list whose elements
@@ -248,7 +248,7 @@ especially \emph{not repeating yourself}.)
 \end{center}
 
 \section*{Part 2: Fizzbuzzing by iterators (higher-order methods) [10 points]}
-\label{sec:orga390521}
+\label{sec:orge8d531e}
 Construct another method \texttt{fizzbuzzIterator},
 whose behaviour is identical to \texttt{fizzbuzzLooper},
 but which is defined using an “iterator” method
@@ -275,7 +275,7 @@ So for instance,
 outputs each element of the list \texttt{[1,2,3]}.
 
 \section*{Part 3: Generalising fizzbuzzing                        [20 points]}
-\label{sec:orgc1c3169}
+\label{sec:org7b4fb84}
 We now consider a slight generalisation to
 the fizzbuzzing problem, which we will call “zuzzing”.
 
@@ -329,7 +329,7 @@ the result is \texttt{"fizzbuzz"}, not \texttt{"fizz"}, \texttt{"buzz"} or \text
 Create the method \texttt{zuzzer}.
 
 \section*{Part 4: Generalised fizzbuzzing in Scala                [10 bonus points]}
-\label{sec:orgea96343}
+\label{sec:orge68b313}
 Implement the generalised fizzbuzzing operation from part 3 in Scala.
 
 Make what you feel are necessary adjustments to the types or
@@ -339,7 +339,7 @@ the choices you make. The purpose of the comments is then
 for you to convince us your choices are appropriate.
 
 \section*{Part 5: Generalised fizzbuzzing in Prolog               [10 bonus points]}
-\label{sec:org3bd3958}
+\label{sec:org2969a00}
 Implement the generalised fizzbuzzing operation from part 3 in Scala.
 
 Make what you feel are necessary adjustments to the types or
@@ -349,13 +349,13 @@ the choices you make. The purpose of the comments is then
 for you to convince us your choices are appropriate.
 
 \section*{Testing}
-\label{sec:org099aee9}
+\label{sec:org3b947f9}
 Unit tests for the requested methods/functions
 are available \href{./testing/h5/h5t.rb}{here}.
 The contents of the unit test file are also repeated below.
 
-The tests can be run by placing the \texttt{h4t.sc} file
-in the same directory as your \texttt{h4.sc} file, and
+The tests can be run by placing the \texttt{h5t.rb} file
+in the same directory as your \texttt{h5.rb} file, and
 running the following command.
 \begin{minted}[breaklines=true]{shell}
 ruby h5t.rb
@@ -368,7 +368,7 @@ see the \href{https://en.wikibooks.org/wiki/Ruby\_Programming/Unit\_testing}{doc
 for Ruby.
 
 \subsection*{Automated testing via Docker}
-\label{sec:org6728845}
+\label{sec:orge2ef6cf}
 The Docker setup and usage scripts are available at the following links.
 Their contents are also repeated below.
 \begin{itemize}
@@ -391,7 +391,7 @@ and not using WSL or WSL2, you may have
 to run the commands contained in those scripts manually.
 
 \subsection*{The tests}
-\label{sec:orgef0df95}
+\label{sec:orgc6a332d}
 The contents of the testing script are repeated here.
 
 \href{./testing/h5/h5t.rb}{h5t.rb}
@@ -444,7 +444,7 @@ end
 \end{minted}
 
 \subsection*{The Docker setup}
-\label{sec:org7351740}
+\label{sec:org1d441c6}
 The contents of the Docker setup files and scripts are repeated here.
 
 \href{./testing/h5/Dockerfile}{Dockerfile}

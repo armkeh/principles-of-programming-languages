@@ -202,8 +202,8 @@ Unit tests for the requested methods/functions
 are available [[./testing/h5/h5t.rb][here]].
 The contents of the unit test file are also repeated below.
 
-The tests can be run by placing the ~h4t.sc~ file
-in the same directory as your ~h4.sc~ file, and
+The tests can be run by placing the ~h5t.rb~ file
+in the same directory as your ~h5.rb~ file, and
 running the following command.
 #+begin_src shell
 ruby h5t.rb
