@@ -182,7 +182,7 @@ calculates the value of an ~Expr~.
 *Place your code for this part in a file ~a1p2.pl~.*
 #+end_center
 
-** 1.1 Expression recogniser [5 marks]
+** 2.1 Expression recogniser [5 marks]
 :PROPERTIES:
 :CUSTOM_ID: 1.1-Expression-recogniser-[5 marks]
 :END:
@@ -205,7 +205,7 @@ absE(minusE(absE(constE(5)), absE(constE(6))))
 and the query ~isExpr(absE(minusE(absE(constE(5)), absE(constE(6)))))~ would
 result in the response ~true~.
 
-** 1.2 Interpreter           [15 marks]
+** 2.2 Interpreter           [15 marks]
 :PROPERTIES:
 :CUSTOM_ID: 1.2-Interpreter-----------[15 marks]
 :END:
@@ -380,7 +380,7 @@ As in part 3, you will need to repeat the constructors from the
 ~Expr~ type in part 1 in this type's definition.
 
 In Prolog, create a new recognising predicate ~isMixedExpr~ which
-recognising valid expressions in this extended language,
+recognises valid expressions in this extended language,
 with the new labels being the operator names given in the description,
 and a new predicate ~interpretMixedExpr~ which relates
 expressions to their interpreted value ([15 marks].)
@@ -449,6 +449,58 @@ Use it if you wish.
 :CUSTOM_ID: Testing
 :END:
 
+Unit tests for the requested types, methods and predicates
+are available here.
+- [[./testing/a1/a1p1_test.sc][a1p1_test.sc]]
+- [[./testing/a1/a1p3_test.sc][a1p3_test.sc]]
+- [[./testing/a1/a1p4_test.sc][a1p4_test.sc]]
+- [[./testing/a1/a1p2.plt][a1p2.plt]]
+- [[./testing/a1/a1p3.plt][a1p2.plt]]
+- [[./testing/a1/a1p4.plt][a1p2.plt]]
+The contents of the unit test files are also repeated below.
+
+The tests can be run by placing the test files
+in the same directory as your code files.
+
+To run the tests for the Scala portions, use the commands
+#+begin_src shell
+amm a1pn_test.sc
+#+end_src
+where the ~n~ in ~a1pn_test.sc~ is the appropriate part number.
+
+To run the tests for the Prolog portions,us the commands
+#+begin_src shell
+swipl -t "load_test_files([]), run_tests." -s a1pn.pl
+#+end_src
+where the ~n~ in ~a1pn.pl~ is the appropriate part number.
+
+#+begin_center
+*You are strongly encouraged to add your own additional test cases*
+*to those provided for you.*
+
+The provided test cases check a very minimal amount!
+#+end_center
+
+** Automated testing via Docker
+:PROPERTIES:
+:CUSTOM_ID: Automated-testing-via-Docker
+:END:
+
+The Docker setup and usage scripts are available at the following links.
+Their contents are also repeated below.
+- [[./testing/a1/Dockerfile][Dockerfile]]
+- [[./testing/a1/docker-compose.yml][docker-compose.yml]]
+- [[./testing/a1/setup.sh][setup.sh]]
+- [[./testing/a1/run.sh][run.sh]]
+Place them into your ~a1~ directory where your code files
+and the test files (linked to above) exist,
+then run ~setup.sh~ and ~run.sh~.
+
+Note that the use of the ~setup.sh~ and ~run.sh~ scripts assumes
+that you are in a ~bash~ like shell; if you are on Windows,
+and not using WSL or WSL2, you may have
+to run the commands contained in those scripts manually.
+
 ** The tests
 :PROPERTIES:
 :CUSTOM_ID: The-tests
@@ -497,9 +549,9 @@ def runTests[A](tests: List[Tuple3[A,A,String]]): Unit = {
 }
 #+end_src
 
-**** Part 1
+**** Scala testing code for Part 1
 :PROPERTIES:
-:CUSTOM_ID: Part-1
+:CUSTOM_ID: Scala-testing-code-for-Part-1
 :END:
 
 [[./testing/a1/a1p1_test.sc][a1p1_test.sc]]
@@ -516,16 +568,16 @@ val tests = List(
 runTests(tests)
 #+end_src
 
-**** Part 2
+**** Scala testing code for Part 2
 :PROPERTIES:
-:CUSTOM_ID: Part-2
+:CUSTOM_ID: Scala-testing-code-for-Part-2
 :END:
 
 There is no Scala code for part 2.
 
-**** Part 3
+**** Scala testing code for Part 3
 :PROPERTIES:
-:CUSTOM_ID: Part-2
+:CUSTOM_ID: Scala-testing-code-for-Part-3
 :END:
 
 [[./testing/a1/a1p3_test.sc][a1p3_test.sc]]
@@ -551,9 +603,9 @@ val tests = List(
 runTests(tests)
 #+end_src
 
-**** Part 4
+**** Scala testing code for Part 4
 :PROPERTIES:
-:CUSTOM_ID: Part-3
+:CUSTOM_ID: Scala-testing-code-for-Part-4
 :END:
 
 [[./testing/a1/a1p4_test.sc][a1p4_test.sc]]
@@ -573,3 +625,199 @@ val tests = List(
 runTests(tests)
 #+end_src
 
+*** Prolog
+:PROPERTIES:
+:CUSTOM_ID: Prolog
+:END:
+
+**** Prolog testing code for Part 1
+:PROPERTIES:
+:CUSTOM_ID: Prolog-testing-code-for-Part-1
+:END:
+
+There is no Prolog code for part 1.
+
+**** Prolog testing code for Part 2
+:PROPERTIES:
+:CUSTOM_ID: Prolog-testing-code-for-Part-2
+:END:
+
+[[./testing/a1/a1p2.plt][a1p2.plt]]
+#+begin_src prolog :tangle ./testing/a1/a1p2.plt
+:- begin_tests(a1p2).
+:- include(a1p2).
+
+test('Constant expression 0 is expression', nondet) :-
+        isExpr(constE(0)).
+test('Additive expression 5 + 4 is expression', nondet) :-
+        isExpr(plusE(constE(5),constE(4))).
+test('Exponential expression 5 ^ 4 is expression', nondet) :-
+        isExpr(expE(constE(5),constE(4))).
+
+test('Constant expression 0', nondet) :-
+        interpretExpr(constE(0),0).
+test('Additive expression 5 + 4', nondet) :-
+        interpretExpr(plusE(constE(5),constE(4)),9).
+test('Exponential expression 5 ^ 4', nondet) :-
+        interpretExpr(expE(constE(5),constE(4)),625).
+#+end_src
+
+**** Prolog testing code for Part 3
+:PROPERTIES:
+:CUSTOM_ID: Prolog-testing-code-for-Part-3
+:END:
+
+[[./testing/a1/a1p3.plt][a1p3.plt]]
+#+begin_src prolog :tangle ./testing/a1/a1p3.plt
+:- begin_tests(a1p3).
+:- include(a1p3).
+
+test('Constant expression 0 is expression', nondet) :-
+        isVarExpr(constE(0)).
+test('Additive expression 5 + 4 is expression', nondet) :-
+        isVarExpr(plusE(constE(5),constE(4))).
+test('Exponential expression 5 ^ 4 is expression', nondet) :-
+        isVarExpr(expE(constE(5),constE(4))).
+
+test('Constant expression 0', nondet) :-
+        interpretVarExpr(constE(0),0).
+test('Additive expression 5 + 4', nondet) :-
+        interpretVarExpr(plusE(constE(5),constE(4)),9).
+test('Exponential expression 5 ^ 4', nondet) :-
+        interpretVarExpr(expE(constE(5),constE(4)),625).
+
+% New tests for this part specifically.
+test('Simple substitution x[x := 0] is expression', nondet) :-
+        isVarExpr(subst(var(x),x,constE(0))).
+test('Nested substitution ((x + y)[x := 5])[y := 4] is expression', nondet) :-
+        isVarExpr(subst(subst(plusE(var(x),var(y)),
+                              x,
+                              constE(5)),
+                        y,
+                        constE(4))).
+test('Simple substitution x[x := 0]', nondet) :-
+        interpretVarExpr(subst(var(x),x,constE(0)),0).
+test('Nested substitution ((x + y)[x := 5])[y := 4]', nondet) :-
+        interpretVarExpr(subst(subst(plusE(var(x),var(y)),
+                                     x,
+                                     constE(5)),
+                               y,
+                               constE(4)),
+                         9).
+#+end_src
+
+**** Prolog testing code for Part 4
+:PROPERTIES:
+:CUSTOM_ID: Prolog-testing-code-for-Part-4
+:END:
+
+[[./testing/a1/a1p4.plt][a1p4.plt]]
+#+begin_src prolog :tangle ./testing/a1/a1p4.plt
+:- begin_tests(a1p4).
+:- include(a1p4).
+
+test('Constant expression 0 is expression', nondet) :-
+        isMixedExpr(constE(0)).
+test('Additive expression 5 + 4 is expression', nondet) :-
+        isMixedExpr(plusE(constE(5),constE(4))).
+test('Exponential expression 5 ^ 4 is expression', nondet) :-
+        isMixedExpr(expE(constE(5),constE(4))).
+
+test('Constant expression 0', nondet) :-
+        interpretMixedExpr(constE(0),0).
+test('Additive expression 5 + 4', nondet) :-
+        interpretMixedExpr(plusE(constE(5),constE(4)),9).
+test('Exponential expression 5 ^ 4', nondet) :-
+        interpretMixedExpr(expE(constE(5),constE(4)),625).
+
+% New tests for this part specifically.
+test('Constant expression true is expression', nondet) :-
+        isMixedExpr(tt).
+test('And expression true && false is expression', nondet) :-
+        isMixedExpr(band(tt,ff)).
+test('Constant expression true', nondet) :-
+        interpretMixedExpr(tt,true).
+test('And expression true && false', nondet) :-
+        interpretMixedExpr(band(tt,ff),false).
+#+end_src
+
+** The Docker setup
+:PROPERTIES:
+:CUSTOM_ID: The-Docker-setup
+:END:
+
+[[./testing/a1/Dockerfile][Dockerfile]]
+#+begin_src docker :tangle ./testing/a1/Dockerfile
+# Define the argument for openjdk version
+ARG OPENJDK_TAG=8u232
+# Use the SWI Prolog image as a base, then add Scala after.
+FROM swipl
+
+# Set the name of the maintainers
+MAINTAINER Habib Ghaffari Hadigheh, Mark Armstrong <ghaffh1@mcmaster.ca, armstmp@mcmaster.ca>
+
+RUN apt-get update && \
+    apt-get install scala -y && \
+    apt-get install -y curl && \
+    sh -c '(echo "#!/usr/bin/env sh" && \
+    curl -L https://github.com/lihaoyi/Ammonite/releases/download/2.1.1/2.12-2.1.1) > /usr/local/bin/amm && \
+    chmod +x /usr/local/bin/amm'
+RUN (rm -rf /root/.cache)
+
+# Set the working directory
+WORKDIR /opt/a1/
+
+CMD ['bash']
+#+end_src
+
+[[./testing/a1/docker-compose.yml][docker-compose.yml]]
+#+begin_src yaml :tangle ./testing/a1/docker-compose.yml
+version: '2'
+services:
+  service:
+    build: .
+    image: 3mi3_a1_docker_image
+    volumes:
+      - .:/opt/a1
+    container_name: 3mi3_a1_container
+    command: bash -c
+      "echo 'Part 1 tests' &&
+       echo '----------------------------------------------------------------------' &&
+       amm a1p1_test.sc &&
+       echo '\n\n\n' &&
+       echo 'Part 2 tests' &&
+       echo '----------------------------------------------------------------------' &&
+       swipl -t \"load_test_files([]), run_tests.\" -s a1p2.plt &&
+       echo '----------------------------------------------------------------------' &&
+       echo '\n\n\n' &&
+       echo 'Part 3 Scala tests' &&
+       echo '----------------------------------------------------------------------' &&
+       amm a1p3_test.sc &&
+       echo '\n\n\n' &&
+       echo 'Part 3 Prolog tests' &&
+       echo '----------------------------------------------------------------------' &&
+       swipl -t \"load_test_files([]), run_tests.\" -s a1p3.plt &&
+       echo '----------------------------------------------------------------------' &&
+       echo '\n\n\n' &&
+       echo 'Part 4 Scala tests' &&
+       echo '----------------------------------------------------------------------' &&
+       amm a1p4_test.sc &&
+       echo '\n\n\n' &&
+       echo 'Part 4 Prolog tests' &&
+       echo '----------------------------------------------------------------------' &&
+       swipl -t \"load_test_files([]), run_tests.\" -s a1p4.plt &&
+       echo '----------------------------------------------------------------------'"
+#+end_src
+
+[[./testing/a1/setup.sh][setup.sh]]
+#+begin_src shell :tangle ./testing/a1/setup.sh :shebang t
+docker-compose build --force-rm
+#+end_src
+
+[[./testing/a1/run.sh][run.sh]]
+#+begin_src shell :tangle ./testing/a1/run.sh :shebang t
+# Run the container
+docker-compose up --force-recreate
+# Stop the container after finishing the test run
+docker-compose stop -t 1
+#+end_src

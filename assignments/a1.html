@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-10-13 Tue 18:43 -->
+<!-- 2020-10-14 Wed 03:10 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Computer Science 3MI3 – 2020 assignment 1</title>
@@ -247,7 +247,7 @@
 <li><a href="#Submission-procedures">Documentation</a></li>
 <li><a href="#Submission-procedures">Submission procedures</a>
 <ul>
-<li><a href="#org6f0de44">Assignment naming requirements</a></li>
+<li><a href="#orgd46deff">Assignment naming requirements</a></li>
 </ul>
 </li>
 <li><a href="#Proper-conduct-for-coursework">Proper conduct for coursework</a></li>
@@ -267,8 +267,8 @@
 </li>
 <li><a href="#Part-2-–-Interpreter-written-in-Prolog-[20 marks]">Part 2 – Interpreter written in Prolog [20 marks]</a>
 <ul>
-<li><a href="#1.1-Expression-recogniser-[5 marks]">1.1 Expression recogniser [5 marks]</a></li>
-<li><a href="#1.2-Interpreter-----------[15 marks]">1.2 Interpreter           [15 marks]</a></li>
+<li><a href="#1.1-Expression-recogniser-[5 marks]">2.1 Expression recogniser [5 marks]</a></li>
+<li><a href="#1.2-Interpreter-----------[15 marks]">2.2 Interpreter           [15 marks]</a></li>
 </ul>
 </li>
 <li><a href="#Part-3-–-Variables-and-substitution----[30 marks]">Part 3 – Variables and substitution    [30 marks]</a>
@@ -291,11 +291,14 @@
 <li><a href="#Submission-checklist">Submission checklist</a></li>
 <li><a href="#Testing">Testing</a>
 <ul>
+<li><a href="#Automated-testing-via-Docker">Automated testing via Docker</a></li>
 <li><a href="#The-tests">The tests</a>
 <ul>
 <li><a href="#Scala">Scala</a></li>
+<li><a href="#Prolog">Prolog</a></li>
 </ul>
 </li>
+<li><a href="#The-Docker-setup">The Docker setup</a></li>
 </ul>
 </li>
 </ul>
@@ -451,9 +454,9 @@ apply to assignments, except for the differences below.
 </p>
 </div>
 
-<div id="outline-container-org6f0de44" class="outline-4">
-<h4 id="org6f0de44">Assignment naming requirements</h4>
-<div class="outline-text-4" id="text-org6f0de44">
+<div id="outline-container-orgd46deff" class="outline-4">
+<h4 id="orgd46deff">Assignment naming requirements</h4>
+<div class="outline-text-4" id="text-orgd46deff">
 <p>
 Place all files for the assignment
 inside a folder titled <code>an</code>, where <code>n</code> is the number of the assignment.
@@ -629,7 +632,7 @@ calculates the value of an <code>Expr</code>.
 </div>
 
 <div id="outline-container-1.1-Expression-recogniser-[5 marks]" class="outline-3">
-<h3 id="1.1-Expression-recogniser-[5 marks]">1.1 Expression recogniser [5 marks]</h3>
+<h3 id="1.1-Expression-recogniser-[5 marks]">2.1 Expression recogniser [5 marks]</h3>
 <div class="outline-text-3" id="text-1.1-Expression-recogniser-[5 marks]">
 <p>
 Define a predicate <code>isExpr</code> in Prolog which recognises
@@ -664,7 +667,7 @@ result in the response <code>true</code>.
 </div>
 
 <div id="outline-container-1.2-Interpreter-----------[15 marks]" class="outline-3">
-<h3 id="1.2-Interpreter-----------[15 marks]">1.2 Interpreter           [15 marks]</h3>
+<h3 id="1.2-Interpreter-----------[15 marks]">2.2 Interpreter           [15 marks]</h3>
 <div class="outline-text-3" id="text-1.2-Interpreter-----------[15 marks]">
 <p>
 Define a binary predicate <code>interpretExpr</code> which
@@ -895,7 +898,7 @@ As in part 3, you will need to repeat the constructors from the
 
 <p>
 In Prolog, create a new recognising predicate <code>isMixedExpr</code> which
-recognising valid expressions in this extended language,
+recognises valid expressions in this extended language,
 with the new labels being the operator names given in the description,
 and a new predicate <code>interpretMixedExpr</code> which relates
 expressions to their interpreted value ([15 marks].)
@@ -980,6 +983,87 @@ Use it if you wish.
 <div id="outline-container-Testing" class="outline-2">
 <h2 id="Testing">Testing</h2>
 <div class="outline-text-2" id="text-Testing">
+<p>
+Unit tests for the requested types, methods and predicates
+are available here.
+</p>
+<ul class="org-ul">
+<li><a href="./testing/a1/a1p1_test.sc">a1p1_test.sc</a></li>
+<li><a href="./testing/a1/a1p3_test.sc">a1p3_test.sc</a></li>
+<li><a href="./testing/a1/a1p4_test.sc">a1p4_test.sc</a></li>
+<li><a href="./testing/a1/a1p2.plt">a1p2.plt</a></li>
+<li><a href="./testing/a1/a1p3.plt">a1p2.plt</a></li>
+<li><a href="./testing/a1/a1p4.plt">a1p2.plt</a></li>
+</ul>
+<p>
+The contents of the unit test files are also repeated below.
+</p>
+
+<p>
+The tests can be run by placing the test files
+in the same directory as your code files.
+</p>
+
+<p>
+To run the tests for the Scala portions, use the commands
+</p>
+<div class="org-src-container">
+<pre class="src src-shell">amm a1pn_test.sc
+</pre>
+</div>
+<p>
+where the <code>n</code> in <code>a1pn_test.sc</code> is the appropriate part number.
+</p>
+
+<p>
+To run the tests for the Prolog portions,us the commands
+</p>
+<div class="org-src-container">
+<pre class="src src-shell">swipl -t <span style="color: #79a8ff;">"load_test_files([]), run_tests."</span> -s a1pn.pl
+</pre>
+</div>
+<p>
+where the <code>n</code> in <code>a1pn.pl</code> is the appropriate part number.
+</p>
+
+<div class="org-center">
+<p>
+<b>You are strongly encouraged to add your own additional test cases</b>
+<b>to those provided for you.</b>
+</p>
+
+<p>
+The provided test cases check a very minimal amount!
+</p>
+</div>
+</div>
+
+<div id="outline-container-Automated-testing-via-Docker" class="outline-3">
+<h3 id="Automated-testing-via-Docker">Automated testing via Docker</h3>
+<div class="outline-text-3" id="text-Automated-testing-via-Docker">
+<p>
+The Docker setup and usage scripts are available at the following links.
+Their contents are also repeated below.
+</p>
+<ul class="org-ul">
+<li><a href="./testing/a1/Dockerfile">Dockerfile</a></li>
+<li><a href="./testing/a1/docker-compose.yml">docker-compose.yml</a></li>
+<li><a href="./testing/a1/setup.sh">setup.sh</a></li>
+<li><a href="./testing/a1/run.sh">run.sh</a></li>
+</ul>
+<p>
+Place them into your <code>a1</code> directory where your code files
+and the test files (linked to above) exist,
+then run <code>setup.sh</code> and <code>run.sh</code>.
+</p>
+
+<p>
+Note that the use of the <code>setup.sh</code> and <code>run.sh</code> scripts assumes
+that you are in a <code>bash</code> like shell; if you are on Windows,
+and not using WSL or WSL2, you may have
+to run the commands contained in those scripts manually.
+</p>
+</div>
 </div>
 
 <div id="outline-container-The-tests" class="outline-3">
@@ -1033,8 +1117,8 @@ Use it if you wish.
 </div>
 </li>
 
-<li><a id="Part-1"></a>Part 1<br />
-<div class="outline-text-5" id="text-Part-1">
+<li><a id="Scala-testing-code-for-Part-1"></a>Scala testing code for Part 1<br />
+<div class="outline-text-5" id="text-Scala-testing-code-for-Part-1">
 <p>
 <a href="./testing/a1/a1p1_test.sc">a1p1_test.sc</a>
 </p>
@@ -1054,16 +1138,16 @@ runTests<span style="color: #00cd68;">(</span>tests<span style="color: #00cd68;"
 </div>
 </li>
 
-<li><a id="Part-2"></a>Part 2<br />
-<div class="outline-text-5" id="text-Part-2">
+<li><a id="Scala-testing-code-for-Part-2"></a>Scala testing code for Part 2<br />
+<div class="outline-text-5" id="text-Scala-testing-code-for-Part-2">
 <p>
 There is no Scala code for part 2.
 </p>
 </div>
 </li>
 
-<li><a id="Part-2"></a>Part 3<br />
-<div class="outline-text-5" id="text-Part-2">
+<li><a id="Scala-testing-code-for-Part-3"></a>Scala testing code for Part 3<br />
+<div class="outline-text-5" id="text-Scala-testing-code-for-Part-3">
 <p>
 <a href="./testing/a1/a1p3_test.sc">a1p3_test.sc</a>
 </p>
@@ -1092,8 +1176,8 @@ runTests<span style="color: #00cd68;">(</span>tests<span style="color: #00cd68;"
 </div>
 </li>
 
-<li><a id="Part-3"></a>Part 4<br />
-<div class="outline-text-5" id="text-Part-3">
+<li><a id="Scala-testing-code-for-Part-4"></a>Scala testing code for Part 4<br />
+<div class="outline-text-5" id="text-Scala-testing-code-for-Part-4">
 <p>
 <a href="./testing/a1/a1p4_test.sc">a1p4_test.sc</a>
 </p>
@@ -1117,6 +1201,225 @@ runTests<span style="color: #00cd68;">(</span>tests<span style="color: #00cd68;"
 </li>
 </ul>
 </div>
+
+<div id="outline-container-Prolog" class="outline-4">
+<h4 id="Prolog">Prolog</h4>
+<div class="outline-text-4" id="text-Prolog">
+</div>
+
+<ul class="org-ul">
+<li><a id="Prolog-testing-code-for-Part-1"></a>Prolog testing code for Part 1<br />
+<div class="outline-text-5" id="text-Prolog-testing-code-for-Part-1">
+<p>
+There is no Prolog code for part 1.
+</p>
+</div>
+</li>
+
+<li><a id="Prolog-testing-code-for-Part-2"></a>Prolog testing code for Part 2<br />
+<div class="outline-text-5" id="text-Prolog-testing-code-for-Part-2">
+<p>
+<a href="./testing/a1/a1p2.plt">a1p2.plt</a>
+</p>
+<div class="org-src-container">
+<pre class="src src-prolog">:- begin_tests(a1p2).
+:- include(a1p2).
+
+<span style="color: #feacd0;">test</span>(<span style="color: #79a8ff;">'Constant expression 0 is expression'</span>, nondet) :-
+        isExpr(constE(0)).
+<span style="color: #feacd0;">test</span>(<span style="color: #79a8ff;">'Additive expression 5 + 4 is expression'</span>, nondet) :-
+        isExpr(plusE(constE(5),constE(4))).
+<span style="color: #feacd0;">test</span>(<span style="color: #79a8ff;">'Exponential expression 5 ^ 4 is expression'</span>, nondet) :-
+        isExpr(expE(constE(5),constE(4))).
+
+<span style="color: #feacd0;">test</span>(<span style="color: #79a8ff;">'Constant expression 0'</span>, nondet) :-
+        interpretExpr(constE(0),0).
+<span style="color: #feacd0;">test</span>(<span style="color: #79a8ff;">'Additive expression 5 + 4'</span>, nondet) :-
+        interpretExpr(plusE(constE(5),constE(4)),9).
+<span style="color: #feacd0;">test</span>(<span style="color: #79a8ff;">'Exponential expression 5 ^ 4'</span>, nondet) :-
+        interpretExpr(expE(constE(5),constE(4)),625).
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="Prolog-testing-code-for-Part-3"></a>Prolog testing code for Part 3<br />
+<div class="outline-text-5" id="text-Prolog-testing-code-for-Part-3">
+<p>
+<a href="./testing/a1/a1p3.plt">a1p3.plt</a>
+</p>
+<div class="org-src-container">
+<pre class="src src-prolog">:- begin_tests(a1p3).
+:- include(a1p3).
+
+<span style="color: #feacd0;">test</span>(<span style="color: #79a8ff;">'Constant expression 0 is expression'</span>, nondet) :-
+        isVarExpr(constE(0)).
+<span style="color: #feacd0;">test</span>(<span style="color: #79a8ff;">'Additive expression 5 + 4 is expression'</span>, nondet) :-
+        isVarExpr(plusE(constE(5),constE(4))).
+<span style="color: #feacd0;">test</span>(<span style="color: #79a8ff;">'Exponential expression 5 ^ 4 is expression'</span>, nondet) :-
+        isVarExpr(expE(constE(5),constE(4))).
+
+<span style="color: #feacd0;">test</span>(<span style="color: #79a8ff;">'Constant expression 0'</span>, nondet) :-
+        interpretVarExpr(constE(0),0).
+<span style="color: #feacd0;">test</span>(<span style="color: #79a8ff;">'Additive expression 5 + 4'</span>, nondet) :-
+        interpretVarExpr(plusE(constE(5),constE(4)),9).
+<span style="color: #feacd0;">test</span>(<span style="color: #79a8ff;">'Exponential expression 5 ^ 4'</span>, nondet) :-
+        interpretVarExpr(expE(constE(5),constE(4)),625).
+
+<span style="color: #a8a8a8;">% </span><span style="color: #a8a8a8;">New tests for this part specifically.</span>
+<span style="color: #feacd0;">test</span>(<span style="color: #79a8ff;">'Simple substitution x[x := 0] is expression'</span>, nondet) :-
+        isVarExpr(subst(var(x),x,constE(0))).
+<span style="color: #feacd0;">test</span>(<span style="color: #79a8ff;">'Nested substitution ((x + y)[x := 5])[y := 4] is expression'</span>, nondet) :-
+        isVarExpr(subst(subst(plusE(var(x),var(y)),
+                              x,
+                              constE(5)),
+                        y,
+                        constE(4))).
+<span style="color: #feacd0;">test</span>(<span style="color: #79a8ff;">'Simple substitution x[x := 0]'</span>, nondet) :-
+        interpretVarExpr(subst(var(x),x,constE(0)),0).
+<span style="color: #feacd0;">test</span>(<span style="color: #79a8ff;">'Nested substitution ((x + y)[x := 5])[y := 4]'</span>, nondet) :-
+        interpretVarExpr(subst(subst(plusE(var(x),var(y)),
+                                     x,
+                                     constE(5)),
+                               y,
+                               constE(4)),
+                         9).
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="Prolog-testing-code-for-Part-4"></a>Prolog testing code for Part 4<br />
+<div class="outline-text-5" id="text-Prolog-testing-code-for-Part-4">
+<p>
+<a href="./testing/a1/a1p4.plt">a1p4.plt</a>
+</p>
+<div class="org-src-container">
+<pre class="src src-prolog">:- begin_tests(a1p4).
+:- include(a1p4).
+
+<span style="color: #feacd0;">test</span>(<span style="color: #79a8ff;">'Constant expression 0 is expression'</span>, nondet) :-
+        isMixedExpr(constE(0)).
+<span style="color: #feacd0;">test</span>(<span style="color: #79a8ff;">'Additive expression 5 + 4 is expression'</span>, nondet) :-
+        isMixedExpr(plusE(constE(5),constE(4))).
+<span style="color: #feacd0;">test</span>(<span style="color: #79a8ff;">'Exponential expression 5 ^ 4 is expression'</span>, nondet) :-
+        isMixedExpr(expE(constE(5),constE(4))).
+
+<span style="color: #feacd0;">test</span>(<span style="color: #79a8ff;">'Constant expression 0'</span>, nondet) :-
+        interpretMixedExpr(constE(0),0).
+<span style="color: #feacd0;">test</span>(<span style="color: #79a8ff;">'Additive expression 5 + 4'</span>, nondet) :-
+        interpretMixedExpr(plusE(constE(5),constE(4)),9).
+<span style="color: #feacd0;">test</span>(<span style="color: #79a8ff;">'Exponential expression 5 ^ 4'</span>, nondet) :-
+        interpretMixedExpr(expE(constE(5),constE(4)),625).
+
+<span style="color: #a8a8a8;">% </span><span style="color: #a8a8a8;">New tests for this part specifically.</span>
+<span style="color: #feacd0;">test</span>(<span style="color: #79a8ff;">'Constant expression true is expression'</span>, nondet) :-
+        isMixedExpr(tt).
+<span style="color: #feacd0;">test</span>(<span style="color: #79a8ff;">'And expression true &amp;&amp; false is expression'</span>, nondet) :-
+        isMixedExpr(band(tt,ff)).
+<span style="color: #feacd0;">test</span>(<span style="color: #79a8ff;">'Constant expression true'</span>, nondet) :-
+        interpretMixedExpr(tt,true).
+<span style="color: #feacd0;">test</span>(<span style="color: #79a8ff;">'And expression true &amp;&amp; false'</span>, nondet) :-
+        interpretMixedExpr(band(tt,ff),false).
+</pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-The-Docker-setup" class="outline-3">
+<h3 id="The-Docker-setup">The Docker setup</h3>
+<div class="outline-text-3" id="text-The-Docker-setup">
+<p>
+<a href="./testing/a1/Dockerfile">Dockerfile</a>
+</p>
+<div class="org-src-container">
+<pre class="src src-docker"># Define the argument for openjdk version
+ARG OPENJDK_TAG=8u232
+# Use the SWI Prolog image as a base, then add Scala after.
+FROM swipl
+
+# Set the name of the maintainers
+MAINTAINER Habib Ghaffari Hadigheh, Mark Armstrong &lt;ghaffh1@mcmaster.ca, armstmp@mcmaster.ca&gt;
+
+RUN apt-get update &amp;&amp; \
+    apt-get install scala -y &amp;&amp; \
+    apt-get install -y curl &amp;&amp; \
+    sh -c '(echo "#!/usr/bin/env sh" &amp;&amp; \
+    curl -L https://github.com/lihaoyi/Ammonite/releases/download/2.1.1/2.12-2.1.1) &gt; /usr/local/bin/amm &amp;&amp; \
+    chmod +x /usr/local/bin/amm'
+RUN (rm -rf /root/.cache)
+
+# Set the working directory
+WORKDIR /opt/a1/
+
+CMD ['bash']
+</pre>
+</div>
+
+<p>
+<a href="./testing/a1/docker-compose.yml">docker-compose.yml</a>
+</p>
+<div class="org-src-container">
+<pre class="src src-yaml">version: '2'
+services:
+  service:
+    build: .
+    image: 3mi3_a1_docker_image
+    volumes:
+      - .:/opt/a1
+    container_name: 3mi3_a1_container
+    command: bash -c
+      "echo 'Part 1 tests' &amp;&amp;
+       echo '----------------------------------------------------------------------' &amp;&amp;
+       amm a1p1_test.sc &amp;&amp;
+       echo '\n\n\n' &amp;&amp;
+       echo 'Part 2 tests' &amp;&amp;
+       echo '----------------------------------------------------------------------' &amp;&amp;
+       swipl -t \"load_test_files([]), run_tests.\" -s a1p2.plt &amp;&amp;
+       echo '----------------------------------------------------------------------' &amp;&amp;
+       echo '\n\n\n' &amp;&amp;
+       echo 'Part 3 Scala tests' &amp;&amp;
+       echo '----------------------------------------------------------------------' &amp;&amp;
+       amm a1p3_test.sc &amp;&amp;
+       echo '\n\n\n' &amp;&amp;
+       echo 'Part 3 Prolog tests' &amp;&amp;
+       echo '----------------------------------------------------------------------' &amp;&amp;
+       swipl -t \"load_test_files([]), run_tests.\" -s a1p3.plt &amp;&amp;
+       echo '----------------------------------------------------------------------' &amp;&amp;
+       echo '\n\n\n' &amp;&amp;
+       echo 'Part 4 Scala tests' &amp;&amp;
+       echo '----------------------------------------------------------------------' &amp;&amp;
+       amm a1p4_test.sc &amp;&amp;
+       echo '\n\n\n' &amp;&amp;
+       echo 'Part 4 Prolog tests' &amp;&amp;
+       echo '----------------------------------------------------------------------' &amp;&amp;
+       swipl -t \"load_test_files([]), run_tests.\" -s a1p4.plt &amp;&amp;
+       echo '----------------------------------------------------------------------'"
+</pre>
+</div>
+
+<p>
+<a href="./testing/a1/setup.sh">setup.sh</a>
+</p>
+<div class="org-src-container">
+<pre class="src src-shell">docker-compose build --force-rm
+</pre>
+</div>
+
+<p>
+<a href="./testing/a1/run.sh">run.sh</a>
+</p>
+<div class="org-src-container">
+<pre class="src src-shell"><span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Run the container</span>
+docker-compose up --force-recreate
+<span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Stop the container after finishing the test run</span>
+docker-compose stop -t 1
+</pre>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -1124,7 +1427,7 @@ runTests<span style="color: #00cd68;">(</span>tests<span style="color: #00cd68;"
 <p class="author">Author: Mark Armstrong</p>
      <p class="author">Contact: <a href="mailto:markparmstrong@gmail.com">markparmstrong@gmail.com</a></p>
      <p class="date">Original date: September 21st, 2020</p>
-     <p class="date">Last updated: 2020-10-13 Tue 18:41</p>
+     <p class="date">Last updated: 2020-10-14 Wed 03:10</p>
      <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.90 (<a href="https://orgmode.org">Org</a> mode 9.4)</p>
      <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

@@ -1,4 +1,4 @@
-% Created 2020-10-13 Tue 18:43
+% Created 2020-10-14 Wed 03:10
 % Intended LaTeX compiler: lualatex
 \documentclass[11pt]{article}
 \usepackage{graphicx}
@@ -42,7 +42,7 @@
 
 
 \section*{Introduction}
-\label{sec:org56bb7c6}
+\label{sec:org5e1e16f}
 This assignment asks you to construct interpreters
 for a simple language of mathematical expressions.
 To put it another way, you are asked to construct simple calculators.
@@ -53,15 +53,15 @@ in Scala and Prolog, using the languages' facilities for
 representing such data.
 
 \section*{Updates and file history}
-\label{sec:org37e774b}
+\label{sec:org9c5fbe2}
 \subsection*{September 21st}
-\label{sec:org58e8b23}
+\label{sec:org978c46d}
 \begin{itemize}
 \item Original version published.
 \end{itemize}
 
 \subsection*{October 13th}
-\label{sec:org83c1a79}
+\label{sec:org42d6108}
 \begin{itemize}
 \item \textbf{A documentation requirement has been added!}
 \begin{itemize}
@@ -89,9 +89,9 @@ has also been standardised.
 \end{itemize}
 
 \section*{Boilerplate}
-\label{sec:org36ddc76}
+\label{sec:org77bac14}
 \subsection*{Documentation}
-\label{sec:org4b9c956}
+\label{sec:org61092f5}
 In addition to the code for the assignments,
 you are required to submit (relatively light) documentation,
 along the lines of that found in
@@ -146,13 +146,13 @@ Feel free to omit some “repetitive” portions.
 which look almost identical, only one or two need to be shown.)
 
 \subsection*{Submission procedures}
-\label{sec:orgc5e40e7}
+\label{sec:org6b5eae1}
 The same guidelines as for homework
 (which can be seen in any of the homework files)
 apply to assignments, except for the differences below.
 
 \subsubsection*{Assignment naming requirements}
-\label{sec:orgfce67ad}
+\label{sec:org7116500}
 
 Place all files for the assignment
 inside a folder titled \texttt{an}, where \texttt{n} is the number of the assignment.
@@ -173,12 +173,12 @@ save your code for that part. Follow those instructions!
 This is slightly decreased from the 10\% for homeworks.
 
 \subsection*{Proper conduct for coursework}
-\label{sec:org6d6d9c0}
+\label{sec:orgea76c5a}
 Refer to the homework code of conduct available in any of the homework files.
 The same guidelines apply to assignments.
 
 \section*{Informal description of the expression language}
-\label{sec:org1f35761}
+\label{sec:org868294a}
 The language consists of integer constants and seven \emph{prefix} operators.
 \begin{itemize}
 \item The unary operator \texttt{const} which operates on integers.
@@ -194,7 +194,7 @@ that is, even without using parentheses,
 there is only one possible reading of a given expression.
 
 \subsection*{Example 1}
-\label{sec:org6fda3b2}
+\label{sec:org6c16cdc}
 As an example of a syntactically correct expression, consider
 \begin{minted}[breaklines=true]{text}
 abs minus abs const 5 abs const 6
@@ -207,7 +207,7 @@ or, in the usual notation,
 $|(|5| - |6|)|$
 
 \subsection*{Example 2}
-\label{sec:orgfbd6389}
+\label{sec:org5351414}
 As an additional example, consider
 \begin{minted}[breaklines=true]{text}
 plus plus plus exp const 1 const 2 exp const 2 const 2
@@ -221,13 +221,13 @@ or, in the usual notation,
 (((1² + 2²) + 3²) + 4²)
 
 \section*{Part 1 – Interpreter written in Scala  [20 marks]}
-\label{sec:org6e92a97}
+\label{sec:org46ad24a}
 \begin{center}
 \textbf{Place your code for this part in a file \texttt{a1p1.sc}.}
 \end{center}
 
 \subsection*{1.1 Representation [5 marks]}
-\label{sec:org2340d53}
+\label{sec:org98e7424}
 Create a representation of the above described expressions
 in Scala using the standard approach for algebraic datatypes,
 and call this type \texttt{Expr}.
@@ -245,18 +245,18 @@ Abs(Minus(Abs(Const(5)), Abs(Const(6))))
 \end{minted}
 
 \subsection*{1.2 Interpreter    [15 marks]}
-\label{sec:org42b6f3c}
+\label{sec:org802c83c}
 Define a method \texttt{interpretExpr} acting on \texttt{Expr} which
 calculates the value of an \texttt{Expr}.
 
 \section*{Part 2 – Interpreter written in Prolog [20 marks]}
-\label{sec:org69ac6cd}
+\label{sec:org56c5faf}
 \begin{center}
 \textbf{Place your code for this part in a file \texttt{a1p2.pl}.}
 \end{center}
 
-\subsection*{1.1 Expression recogniser [5 marks]}
-\label{sec:org6682154}
+\subsection*{2.1 Expression recogniser [5 marks]}
+\label{sec:org4a0fda5}
 Define a predicate \texttt{isExpr} in Prolog which recognises
 trees which represent the above defined expressions.
 
@@ -275,8 +275,8 @@ absE(minusE(absE(constE(5)), absE(constE(6))))
 and the query \texttt{isExpr(absE(minusE(absE(constE(5)), absE(constE(6)))))} would
 result in the response \texttt{true}.
 
-\subsection*{1.2 Interpreter           [15 marks]}
-\label{sec:org6994958}
+\subsection*{2.2 Interpreter           [15 marks]}
+\label{sec:orgfb6d063}
 Define a binary predicate \texttt{interpretExpr} which
 relates these expressions to their numerical values.
 
@@ -293,13 +293,13 @@ or avoid an exception altogether
 but this is not expected even as a bonus.)
 
 \section*{Part 3 – Variables and substitution    [30 marks]}
-\label{sec:org5227300}
+\label{sec:org4116fec}
 \begin{center}
 \textbf{Place your code for this part in files \texttt{a1p3.sc} and \texttt{a1p3.pl}.}
 \end{center}
 
 \subsection*{Part 3 description}
-\label{sec:org100e0b8}
+\label{sec:org66ed361}
 In this part, we wish to add variables to our expressions.
 
 This can be done by adding a new operator \texttt{var} to our expressions,
@@ -339,7 +339,7 @@ which maps variables to values.
 We will use states in later assignments for this purpose.)
 
 \subsection*{The part 3}
-\label{sec:org6be88c1}
+\label{sec:org08f2cfc}
 In Scala, create a new algebraic datatype \texttt{VarExpr} and a new
 interpretation method \texttt{interpretVarExpr} in Scala ([15 marks].)
 Your new constructors should be called \texttt{Var} and \texttt{Subst}.
@@ -371,20 +371,20 @@ Just ensure you use Ammonite-compatible import directives
 in your Scala code.
 
 \subsubsection*{Hint (added October 13th)}
-\label{sec:org38b1c21}
+\label{sec:org819373b}
 \begin{center}
 \textbf{You may need to define a helper function/predicate}
 \textbf{before you can define interpretation here.}
 \end{center}
 
 \section*{Part 4 – Boolean expressions           [30 marks]}
-\label{sec:org1c8c4de}
+\label{sec:org65579b2}
 \begin{center}
 \textbf{Place your code for this part in files \texttt{a1p4.sc} and \texttt{a1p4.pl}.}
 \end{center}
 
 \subsection*{Part 4 description}
-\label{sec:orgc5e669f}
+\label{sec:org47e0059}
 In this part, we create an alternate extension to
 our first language of expressions
 (that is, we build on to \texttt{Expr}, not \texttt{VarExpr}.)
@@ -412,7 +412,7 @@ trying to apply a integer operator to a boolean expression
 or vice versa is not legal.
 
 \subsection*{The part 4}
-\label{sec:org9a15782}
+\label{sec:org0aad232}
 In Scala, create a new algebraic datatype \texttt{MixedExpr} and a new
 interpretation method \texttt{interpretMixedExpr} in Scala ([15 marks].)
 Your new constructors should be named \texttt{TT}, \texttt{FF}, \texttt{Band}, \texttt{Bor} and \texttt{Bnot}.
@@ -428,13 +428,13 @@ As in part 3, you will need to repeat the constructors from the
 \texttt{Expr} type in part 1 in this type's definition.
 
 In Prolog, create a new recognising predicate \texttt{isMixedExpr} which
-recognising valid expressions in this extended language,
+recognises valid expressions in this extended language,
 with the new labels being the operator names given in the description,
 and a new predicate \texttt{interpretMixedExpr} which relates
 expressions to their interpreted value ([15 marks].)
 
 \section*{Part 5 – Bonus: parsing                [10 bonus marks]}
-\label{sec:org54ad894}
+\label{sec:org43119c8}
 \begin{center}
 \textbf{Place your code for the bonus, if you attempt it, in \texttt{a1p5.sc} and/or \texttt{a1p5.pl}.}
 \end{center}
@@ -455,7 +455,7 @@ that converts a string to a list of lexemes
 Such a list is far easier to match over than a string.
 
 \section*{Submission checklist}
-\label{sec:org8f988f1}
+\label{sec:orgeec4e5d}
 For your convenience, this checklist is provided
 to track the files you need to submit.
 Use it if you wish.
@@ -487,14 +487,67 @@ Use it if you wish.
 \end{minted}
 
 \section*{Testing}
-\label{sec:orgc9f5046}
+\label{sec:org29c3501}
+Unit tests for the requested types, methods and predicates
+are available here.
+\begin{itemize}
+\item \href{./testing/a1/a1p1\_test.sc}{a1p1\_test.sc}
+\item \href{./testing/a1/a1p3\_test.sc}{a1p3\_test.sc}
+\item \href{./testing/a1/a1p4\_test.sc}{a1p4\_test.sc}
+\item \href{./testing/a1/a1p2.plt}{a1p2.plt}
+\item \href{./testing/a1/a1p3.plt}{a1p2.plt}
+\item \href{./testing/a1/a1p4.plt}{a1p2.plt}
+\end{itemize}
+The contents of the unit test files are also repeated below.
+
+The tests can be run by placing the test files
+in the same directory as your code files.
+
+To run the tests for the Scala portions, use the commands
+\begin{minted}[breaklines=true]{shell}
+amm a1pn_test.sc
+\end{minted}
+where the \texttt{n} in \texttt{a1pn\_test.sc} is the appropriate part number.
+
+To run the tests for the Prolog portions,us the commands
+\begin{minted}[breaklines=true]{shell}
+swipl -t "load_test_files([]), run_tests." -s a1pn.pl
+\end{minted}
+where the \texttt{n} in \texttt{a1pn.pl} is the appropriate part number.
+
+\begin{center}
+\textbf{You are strongly encouraged to add your own additional test cases}
+\textbf{to those provided for you.}
+
+The provided test cases check a very minimal amount!
+\end{center}
+
+\subsection*{Automated testing via Docker}
+\label{sec:org1e2d101}
+The Docker setup and usage scripts are available at the following links.
+Their contents are also repeated below.
+\begin{itemize}
+\item \href{./testing/a1/Dockerfile}{Dockerfile}
+\item \href{./testing/a1/docker-compose.yml}{docker-compose.yml}
+\item \href{./testing/a1/setup.sh}{setup.sh}
+\item \href{./testing/a1/run.sh}{run.sh}
+\end{itemize}
+Place them into your \texttt{a1} directory where your code files
+and the test files (linked to above) exist,
+then run \texttt{setup.sh} and \texttt{run.sh}.
+
+Note that the use of the \texttt{setup.sh} and \texttt{run.sh} scripts assumes
+that you are in a \texttt{bash} like shell; if you are on Windows,
+and not using WSL or WSL2, you may have
+to run the commands contained in those scripts manually.
+
 \subsection*{The tests}
-\label{sec:orgc225927}
+\label{sec:org0f9ed64}
 \subsubsection*{Scala}
-\label{sec:org8e44558}
+\label{sec:orgffcf454}
 \begin{itemize}
 \item Framework
-\label{sec:orgd43d99f}
+\label{sec:org0a61d53}
 \href{./testing/a1/a1\_testframework.sc}{a1\_testframework.sc}
 \begin{minted}[breaklines=true]{scala}
 /* Given an expected result and a computed result,
@@ -528,8 +581,8 @@ def runTests[A](tests: List[Tuple3[A,A,String]]): Unit = {
 }
 \end{minted}
 
-\item Part 1
-\label{sec:org6dff61a}
+\item Scala testing code for Part 1
+\label{sec:org71574b3}
 \href{./testing/a1/a1p1\_test.sc}{a1p1\_test.sc}
 \begin{minted}[breaklines=true]{scala}
 import $file.a1_testframework, a1_testframework._
@@ -544,12 +597,12 @@ val tests = List(
 runTests(tests)
 \end{minted}
 
-\item Part 2
-\label{sec:org88adae2}
+\item Scala testing code for Part 2
+\label{sec:org46aa52e}
 There is no Scala code for part 2.
 
-\item Part 3
-\label{sec:orga4a1c43}
+\item Scala testing code for Part 3
+\label{sec:orgdb1d3c1}
 \href{./testing/a1/a1p3\_test.sc}{a1p3\_test.sc}
 \begin{minted}[breaklines=true]{scala}
 import $file.a1_testframework, a1_testframework._
@@ -573,8 +626,8 @@ val tests = List(
 runTests(tests)
 \end{minted}
 
-\item Part 4
-\label{sec:orgc5218fa}
+\item Scala testing code for Part 4
+\label{sec:org08c24a0}
 \href{./testing/a1/a1p4\_test.sc}{a1p4\_test.sc}
 \begin{minted}[breaklines=true]{scala}
 import $file.a1_testframework, a1_testframework._
@@ -592,4 +645,185 @@ val tests = List(
 runTests(tests)
 \end{minted}
 \end{itemize}
+
+\subsubsection*{Prolog}
+\label{sec:orgb9de9b9}
+\begin{itemize}
+\item Prolog testing code for Part 1
+\label{sec:org3e9209f}
+There is no Prolog code for part 1.
+
+\item Prolog testing code for Part 2
+\label{sec:org96cd628}
+\href{./testing/a1/a1p2.plt}{a1p2.plt}
+\begin{minted}[breaklines=true]{prolog}
+:- begin_tests(a1p2).
+:- include(a1p2).
+
+test('Constant expression 0 is expression', nondet) :-
+        isExpr(constE(0)).
+test('Additive expression 5 + 4 is expression', nondet) :-
+        isExpr(plusE(constE(5),constE(4))).
+test('Exponential expression 5 ^ 4 is expression', nondet) :-
+        isExpr(expE(constE(5),constE(4))).
+
+test('Constant expression 0', nondet) :-
+        interpretExpr(constE(0),0).
+test('Additive expression 5 + 4', nondet) :-
+        interpretExpr(plusE(constE(5),constE(4)),9).
+test('Exponential expression 5 ^ 4', nondet) :-
+        interpretExpr(expE(constE(5),constE(4)),625).
+\end{minted}
+
+\item Prolog testing code for Part 3
+\label{sec:org5df9532}
+\href{./testing/a1/a1p3.plt}{a1p3.plt}
+\begin{minted}[breaklines=true]{prolog}
+:- begin_tests(a1p3).
+:- include(a1p3).
+
+test('Constant expression 0 is expression', nondet) :-
+        isVarExpr(constE(0)).
+test('Additive expression 5 + 4 is expression', nondet) :-
+        isVarExpr(plusE(constE(5),constE(4))).
+test('Exponential expression 5 ^ 4 is expression', nondet) :-
+        isVarExpr(expE(constE(5),constE(4))).
+
+test('Constant expression 0', nondet) :-
+        interpretVarExpr(constE(0),0).
+test('Additive expression 5 + 4', nondet) :-
+        interpretVarExpr(plusE(constE(5),constE(4)),9).
+test('Exponential expression 5 ^ 4', nondet) :-
+        interpretVarExpr(expE(constE(5),constE(4)),625).
+
+% New tests for this part specifically.
+test('Simple substitution x[x := 0] is expression', nondet) :-
+        isVarExpr(subst(var(x),x,constE(0))).
+test('Nested substitution ((x + y)[x := 5])[y := 4] is expression', nondet) :-
+        isVarExpr(subst(subst(plusE(var(x),var(y)),
+                              x,
+                              constE(5)),
+                        y,
+                        constE(4))).
+test('Simple substitution x[x := 0]', nondet) :-
+        interpretVarExpr(subst(var(x),x,constE(0)),0).
+test('Nested substitution ((x + y)[x := 5])[y := 4]', nondet) :-
+        interpretVarExpr(subst(subst(plusE(var(x),var(y)),
+                                     x,
+                                     constE(5)),
+                               y,
+                               constE(4)),
+                         9).
+\end{minted}
+
+\item Prolog testing code for Part 4
+\label{sec:orgf1308ad}
+\href{./testing/a1/a1p4.plt}{a1p4.plt}
+\begin{minted}[breaklines=true]{prolog}
+:- begin_tests(a1p4).
+:- include(a1p4).
+
+test('Constant expression 0 is expression', nondet) :-
+        isMixedExpr(constE(0)).
+test('Additive expression 5 + 4 is expression', nondet) :-
+        isMixedExpr(plusE(constE(5),constE(4))).
+test('Exponential expression 5 ^ 4 is expression', nondet) :-
+        isMixedExpr(expE(constE(5),constE(4))).
+
+test('Constant expression 0', nondet) :-
+        interpretMixedExpr(constE(0),0).
+test('Additive expression 5 + 4', nondet) :-
+        interpretMixedExpr(plusE(constE(5),constE(4)),9).
+test('Exponential expression 5 ^ 4', nondet) :-
+        interpretMixedExpr(expE(constE(5),constE(4)),625).
+
+% New tests for this part specifically.
+test('Constant expression true is expression', nondet) :-
+        isMixedExpr(tt).
+test('And expression true && false is expression', nondet) :-
+        isMixedExpr(band(tt,ff)).
+test('Constant expression true', nondet) :-
+        interpretMixedExpr(tt,true).
+test('And expression true && false', nondet) :-
+        interpretMixedExpr(band(tt,ff),false).
+\end{minted}
+\end{itemize}
+
+\subsection*{The Docker setup}
+\label{sec:orgd2d6843}
+\href{./testing/a1/Dockerfile}{Dockerfile}
+\begin{minted}[breaklines=true]{docker}
+# Define the argument for openjdk version
+ARG OPENJDK_TAG=8u232
+# Use the SWI Prolog image as a base, then add Scala after.
+FROM swipl
+
+# Set the name of the maintainers
+MAINTAINER Habib Ghaffari Hadigheh, Mark Armstrong <ghaffh1@mcmaster.ca, armstmp@mcmaster.ca>
+
+RUN apt-get update && \
+    apt-get install scala -y && \
+    apt-get install -y curl && \
+    sh -c '(echo "#!/usr/bin/env sh" && \
+    curl -L https://github.com/lihaoyi/Ammonite/releases/download/2.1.1/2.12-2.1.1) > /usr/local/bin/amm && \
+    chmod +x /usr/local/bin/amm'
+RUN (rm -rf /root/.cache)
+
+# Set the working directory
+WORKDIR /opt/a1/
+
+CMD ['bash']
+\end{minted}
+
+\href{./testing/a1/docker-compose.yml}{docker-compose.yml}
+\begin{minted}[breaklines=true]{yaml}
+version: '2'
+services:
+  service:
+    build: .
+    image: 3mi3_a1_docker_image
+    volumes:
+      - .:/opt/a1
+    container_name: 3mi3_a1_container
+    command: bash -c
+      "echo 'Part 1 tests' &&
+       echo '----------------------------------------------------------------------' &&
+       amm a1p1_test.sc &&
+       echo '\n\n\n' &&
+       echo 'Part 2 tests' &&
+       echo '----------------------------------------------------------------------' &&
+       swipl -t \"load_test_files([]), run_tests.\" -s a1p2.plt &&
+       echo '----------------------------------------------------------------------' &&
+       echo '\n\n\n' &&
+       echo 'Part 3 Scala tests' &&
+       echo '----------------------------------------------------------------------' &&
+       amm a1p3_test.sc &&
+       echo '\n\n\n' &&
+       echo 'Part 3 Prolog tests' &&
+       echo '----------------------------------------------------------------------' &&
+       swipl -t \"load_test_files([]), run_tests.\" -s a1p3.plt &&
+       echo '----------------------------------------------------------------------' &&
+       echo '\n\n\n' &&
+       echo 'Part 4 Scala tests' &&
+       echo '----------------------------------------------------------------------' &&
+       amm a1p4_test.sc &&
+       echo '\n\n\n' &&
+       echo 'Part 4 Prolog tests' &&
+       echo '----------------------------------------------------------------------' &&
+       swipl -t \"load_test_files([]), run_tests.\" -s a1p4.plt &&
+       echo '----------------------------------------------------------------------'"
+\end{minted}
+
+\href{./testing/a1/setup.sh}{setup.sh}
+\begin{minted}[breaklines=true]{shell}
+docker-compose build --force-rm
+\end{minted}
+
+\href{./testing/a1/run.sh}{run.sh}
+\begin{minted}[breaklines=true]{shell}
+# Run the container
+docker-compose up --force-recreate
+# Stop the container after finishing the test run
+docker-compose stop -t 1
+\end{minted}
 \end{document}

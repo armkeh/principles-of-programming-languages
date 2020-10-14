@@ -12,6 +12,9 @@ better viewed at
 
 ## October
 
+  - October 14th  
+    The Prolog tests and Docker setup have been added to assignment 1.
+
   - October 13th
     
       - Assignment 1 has undergone a fairly major update,

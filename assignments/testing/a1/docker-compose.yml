@@ -1,0 +1,35 @@
+version: '2'
+services:
+  service:
+    build: .
+    image: 3mi3_a1_docker_image
+    volumes:
+      - .:/opt/a1
+    container_name: 3mi3_a1_container
+    command: bash -c
+      "echo 'Part 1 tests' &&
+       echo '----------------------------------------------------------------------' &&
+       amm a1p1_test.sc &&
+       echo '\n\n\n' &&
+       echo 'Part 2 tests' &&
+       echo '----------------------------------------------------------------------' &&
+       swipl -t \"load_test_files([]), run_tests.\" -s a1p2.plt &&
+       echo '----------------------------------------------------------------------' &&
+       echo '\n\n\n' &&
+       echo 'Part 3 Scala tests' &&
+       echo '----------------------------------------------------------------------' &&
+       amm a1p3_test.sc &&
+       echo '\n\n\n' &&
+       echo 'Part 3 Prolog tests' &&
+       echo '----------------------------------------------------------------------' &&
+       swipl -t \"load_test_files([]), run_tests.\" -s a1p3.plt &&
+       echo '----------------------------------------------------------------------' &&
+       echo '\n\n\n' &&
+       echo 'Part 4 Scala tests' &&
+       echo '----------------------------------------------------------------------' &&
+       amm a1p4_test.sc &&
+       echo '\n\n\n' &&
+       echo 'Part 4 Prolog tests' &&
+       echo '----------------------------------------------------------------------' &&
+       swipl -t \"load_test_files([]), run_tests.\" -s a1p4.plt &&
+       echo '----------------------------------------------------------------------'"
