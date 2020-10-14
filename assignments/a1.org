@@ -455,8 +455,8 @@ are available here.
 - [[./testing/a1/a1p3_test.sc][a1p3_test.sc]]
 - [[./testing/a1/a1p4_test.sc][a1p4_test.sc]]
 - [[./testing/a1/a1p2.plt][a1p2.plt]]
-- [[./testing/a1/a1p3.plt][a1p2.plt]]
-- [[./testing/a1/a1p4.plt][a1p2.plt]]
+- [[./testing/a1/a1p3.plt][a1p3.plt]]
+- [[./testing/a1/a1p4.plt][a1p4.plt]]
 The contents of the unit test files are also repeated below.
 
 The tests can be run by placing the test files
