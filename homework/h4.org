@@ -269,7 +269,7 @@ import $file.h4, h4._
 def testTake[A](n: Int, s: => Stream[A]): List[A] = s match {
   case SNil => Nil
   case Cons(a,f) => n match {
-    case n if n > 0 => a :: take(n-1,f())
+    case n if n > 0 => a :: testTake(n-1,f())
     case _ => Nil
     }
   }

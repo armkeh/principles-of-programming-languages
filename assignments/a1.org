@@ -810,12 +810,12 @@ services:
 #+end_src
 
 [[./testing/a1/setup.sh][setup.sh]]
-#+begin_src shell :tangle ./testing/a1/setup.sh :shebang t
+#+begin_src shell :tangle ./testing/a1/setup.sh :tangle-mode (identity #o755)
 docker-compose build --force-rm
 #+end_src
 
 [[./testing/a1/run.sh][run.sh]]
-#+begin_src shell :tangle ./testing/a1/run.sh :shebang t
+#+begin_src shell :tangle ./testing/a1/run.sh :tangle-mode (identity #o755)
 # Run the container
 docker-compose up --force-recreate
 # Stop the container after finishing the test run
