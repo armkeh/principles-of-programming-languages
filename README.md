@@ -12,6 +12,11 @@ better viewed at
 
 ## October
 
+  - October 17th
+    
+      - Homework 3 sample solutions are now posted (inside the homework
+        document as usual.)
+
   - October 14th  
     The Prolog tests and Docker setup have been added to assignment 1.
 

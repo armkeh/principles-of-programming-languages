@@ -139,7 +139,7 @@ in an infinite stream.
 :CUSTOM_ID: Part-2:-Zipping-and-merging-streams-------------[20 points]
 :END:
 
-Create the following three methods on streams.
+Create the following two methods on streams.
 1. ~zip~, which when given two streams /of equal length/,
    but potentially with different element types,
    returns a stream of /pairs/ consisting of the elements of those streams.
@@ -375,11 +375,11 @@ services:
     command: ['amm', 'h4t.sc']
 #+end_src
 
-#+begin_src shell :tangle ./testing/h4/setup.sh :shebang t
+#+begin_src shell :tangle ./testing/h4/setup.sh :tangle-mode (identity #o755)
 docker-compose build --force-rm
 #+end_src
 
-#+begin_src shell :tangle ./testing/h4/run.sh :shebang t
+#+begin_src shell :tangle ./testing/h4/run.sh :tangle-mode (identity #o755)
 # Run the container
 docker-compose up --force-recreate
 # Stop the container after finishing the test run

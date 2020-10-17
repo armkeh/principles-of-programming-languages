@@ -1,4 +1,4 @@
-% Created 2020-10-15 Thu 18:11
+% Created 2020-10-17 Sat 01:33
 % Intended LaTeX compiler: lualatex
 \documentclass[11pt]{article}
 \usepackage{graphicx}
@@ -42,9 +42,9 @@
 
 
 \section*{Introduction}
-\label{sec:orgf820b69}
+\label{sec:orgf1180ed}
 \subsection*{Preamble}
-\label{sec:org3a9fb41}
+\label{sec:org45468cb}
 Throughout this course, we will investigate
 many evaluation/parameter passing methods.
 Specifically, we begin to investigate this topic
@@ -94,7 +94,7 @@ in any language which supports higher-order functions
 and algebraic datatypes (which can take functions as parameters).
 
 \subsection*{A type for this assignment}
-\label{sec:org2ac9efc}
+\label{sec:org409c057}
 (In Friday's lecture, we stated that we would not construct
 our own “infinite” datatypes; this was revised during the tutorial,
 and in this homework, we work with the following new type.)
@@ -123,11 +123,11 @@ In particular, you will likely want to use the \texttt{take} method
 to be able to print portions of your streams.
 
 \section*{Boilerplate}
-\label{sec:org24bfd20}
+\label{sec:org5675385}
 \subsection*{Submission procedures}
-\label{sec:org0fb309d}
+\label{sec:org84314da}
 \subsubsection*{Submission method}
-\label{sec:orgc6f536a}
+\label{sec:org6ad291e}
 
 Homework should be submitted to your McMaster CAS Gitlab respository
 in the \texttt{cs3mi3-fall2020} project.
@@ -136,7 +136,7 @@ Ensure that you have \textbf{pushed} the commits to the remote repository
 in time for the deadline, and not just committed to your local copy.
 
 \subsubsection*{Naming requirements}
-\label{sec:org24208bb}
+\label{sec:orgd522cda}
 
 Place all files for the homework
 inside a folder titled \texttt{hn}, where \texttt{n} is the number of the homework.
@@ -167,7 +167,7 @@ submit a \texttt{hn.ext} file for each language.
 \end{center}
 
 \subsubsection*{Do not submit testing or diagnostic code}
-\label{sec:orgce2e90b}
+\label{sec:org9e74aec}
 
 Unless you are instructed to do so in the homework questions,
 \textbf{you should not submit testing code with your homework submission}.
@@ -187,7 +187,7 @@ in your final submission.
 For instance, by using a wrapper on the print function or macros.
 
 \subsubsection*{Due date and allowance for technical difficulties}
-\label{sec:org81d1859}
+\label{sec:org53a9708}
 
 Homework is due on the second Sunday following its release,
 by the end of the day (midnight).
@@ -202,9 +202,9 @@ This information will help ensure we are able
 to accept your submission once the technical difficulties are resolved.
 
 \subsection*{Proper conduct for coursework}
-\label{sec:org2794005}
+\label{sec:org6568746}
 \subsubsection*{Individual work}
-\label{sec:org217083e}
+\label{sec:org8492436}
 
 Unless explicitely stated in the homework questions,
 all homework in this course is intended
@@ -253,7 +253,7 @@ probably add a catch-all \texttt{\_} case to your \texttt{match} expressions.”
 \end{enumerate}
 
 \subsubsection*{Language library resources}
-\label{sec:org758729f}
+\label{sec:org024b5c2}
 
 Unless explicitely stated in the questions,
 it is not expected that you will use any language library resources
@@ -277,9 +277,9 @@ including \texttt{map}, \texttt{reduce}, \texttt{flatten}, and \texttt{filter} a
 unless the task is to implement such a higher-order operator.
 
 \section*{Part 1: Filtering streams                       [10 points]}
-\label{sec:org65d7b47}
+\label{sec:orgad1a3ff}
 Using the custom \texttt{Stream} type for this assignment,
-defined in “\hyperref[sec:org2ac9efc]{a type for this assignment}” above,
+defined in “\hyperref[sec:org409c057]{a type for this assignment}” above,
 create a method \texttt{filter} on \texttt{Stream}.
 
 The first argument to \texttt{filter} should be a predicate
@@ -293,7 +293,7 @@ then \texttt{e} is in the new stream; otherwise, if \texttt{p(e)} is \texttt{fal
 then \texttt{e} is not in the new stream.
 
 \subsection*{Take care!}
-\label{sec:orgc388e9b}
+\label{sec:org210194c}
 If you encounter problems in this definition or those below,
 do review the lecture/tutorial notes;
 in particular, see the subsection
@@ -306,8 +306,8 @@ In particular, think about the result of filtering out \emph{every} element
 in an infinite stream.
 
 \section*{Part 2: Zipping and merging streams             [20 points]}
-\label{sec:org408045e}
-Create the following three methods on streams.
+\label{sec:org83ca29f}
+Create the following two methods on streams.
 \begin{enumerate}
 \item \texttt{zip}, which when given two streams \emph{of equal length},
 but potentially with different element types,
@@ -341,7 +341,7 @@ are of different length, but it should not cause an exception.
 \end{enumerate}
 
 \section*{Part 3: “Quantifying” over streams              [10 points]}
-\label{sec:orgc0988d6}
+\label{sec:org24f8754}
 Define the two higher order predicates \texttt{all} and \texttt{exists} on streams,
 which correspond to the ∀ and ∃ quantifiers respectively.
 \begin{itemize}
@@ -354,7 +354,7 @@ which satisfies the predicate \texttt{p}.
 there is a reason I have stated the behaviour this way.)
 
 \section*{Part 4: Tolerant zipping and merging of streams [10 bonus points]}
-\label{sec:org5207323}
+\label{sec:org8284c9a}
 Implement alternative versions of the \texttt{zip} and \texttt{merge} methods
 from part 2, called \texttt{zipSafe} and \texttt{mergeSafe}.
 
@@ -380,7 +380,7 @@ is lost by your methods, and
 \end{itemize}
 
 \section*{Testing}
-\label{sec:orgfdfe18e}
+\label{sec:orgce59eaf}
 Unit tests for the requested methods/functions
 are available here: \url{./testing/h4/h4t.sc}
 The contents of the unit test file are also repeated below.
@@ -402,7 +402,7 @@ or move the tests to their source file
 (if so, be sure to remove them before submission!)
 
 \subsection*{Automated testing via Docker}
-\label{sec:orgde546ac}
+\label{sec:org9d9fd86}
 The Docker setup and usage scripts are available at the following links.
 Their contents are also repeated below.
 \begin{itemize}
@@ -425,7 +425,7 @@ and not using WSL or WSL2, you may have
 to run the commands contained in those scripts manually.
 
 \subsection*{The tests}
-\label{sec:orge03a78e}
+\label{sec:orgb8d6996}
 The contents of the testing script are repeated here.
 
 \begin{minted}[breaklines=true]{scala}
@@ -502,7 +502,7 @@ println("+---------------------------------------------------")
 \end{minted}
 
 \subsection*{The Docker setup}
-\label{sec:org0d72e61}
+\label{sec:orge8d02ea}
 The contents of the Docker setup files and scripts are repeated here.
 \begin{minted}[breaklines=true]{docker}
 # This Dockerfile has two required ARGs to determine which base image

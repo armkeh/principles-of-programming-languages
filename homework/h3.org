@@ -268,3 +268,72 @@ test(order_empty, nondet) :- elemsOrdered(empty,[]).
 test(order_node, nondet) :- elemsOrdered(node(empty,5,empty),[5]).
 test(order_large_bintree, nondet) :- largeBinTree(X), largeBinTreeOrdered(L), elemsOrdered(X,L).
 #+end_src
+
+* Sample solution
+:PROPERTIES:
+:CUSTOM_ID: Sample-solution
+:END:
+
+The source code can be downloaded
+- for the Scala portion, [[./solutions/h3/h3.sc][here]], and
+- for the Prolog portion, [[./solutions/h3/h3.pl][here]].
+It is also shown below.
+
+#+begin_src amm :results none :tangle ./solutions/h3/h3.sc
+// An imperative-style prime check.
+def isPrime(n: Int): Boolean = {
+  if (n < 2) return false
+
+  // For efficiency, we can check up to only sqrt of n.
+  val sqrt_n = (math.sqrt(n.toDouble)).toInt
+  
+  for (i <- 2 to sqrt_n if n % i == 0) return false
+
+  return true
+}
+
+def isPalindrome[A](xs: List[A]): Boolean = xs match {
+  case Nil => true
+  case _ :: Nil => true
+  case (x :: xs) => x == xs.last && isPalindrome(xs.dropRight(1))
+}
+
+def digitList(n: Int): List[Int] = {
+  // Treat negatives as if they were positive.
+  val abs_n = n.abs
+
+  if(0 <= abs_n && abs_n <= 9)
+    List(abs_n)
+  else
+    digitList(abs_n / 10) ++ List(abs_n % 10)
+}
+
+def isPrimePalindrome(n: Int): Boolean = isPrime(n) && isPalindrome(digitList(n))
+#+end_src
+
+#+begin_src prolog :tangle ./solutions/h3/h3.pl
+flatten(leaf(X),[X]).
+flatten(branch(L,R),Xs) :- flatten(L,Ls), flatten(R,Rs), append(Ls,Rs,Xs).
+
+flatten(empty,[]).
+flatten(node(L,A,R),Xs) :- flatten(L,Ls), flatten(R,Rs), append(Ls,[A|Rs],Xs).
+
+isSorted([]).
+isSorted([_]).
+isSorted([H,N|T]) :- H =< N, isSorted([N|T]).
+
+bubble([],[]).
+bubble([X],[X]).
+bubble([X1,X2|Xs],[X1|Ys]) :- X1 =< X2, bubble([X2|Xs],Ys).
+bubble([X1,X2|Xs],[X2|Ys]) :- X1 > X2, bubble([X1|Xs],Ys).
+
+bubbleSort(X,X) :- isSorted(X), !.
+% Note: this is very inefficient, but hopefully easy to understand.
+bubbleSort(X,Y) :- bubble(X,Z), bubbleSort(Z,Y).
+
+orderedElems(leaf(X),[X]).
+orderedElems(branch(L,R),X) :- flatten(branch(L,R),Y), bubbleSort(Y,X).
+
+orderedElems(empty,[]).
+orderedElems(node(L,A,R),X) :- flatten(node(L,A,R),Y), bubbleSort(Y,X).
+#+end_src

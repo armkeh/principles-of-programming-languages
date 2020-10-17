@@ -1,4 +1,4 @@
-% Created 2020-10-01 Thu 17:10
+% Created 2020-10-17 Sat 02:51
 % Intended LaTeX compiler: lualatex
 \documentclass[11pt]{article}
 \usepackage{graphicx}
@@ -42,7 +42,7 @@
 
 
 \section*{Introduction}
-\label{sec:org99c0ef2}
+\label{sec:org561baed}
 We have now worked in Scala for one homework,
 representing different kinds of trees
 and defining operations on them.
@@ -58,11 +58,11 @@ although the problems are the same,
 your solutions will out of necessity be quite different.
 
 \section*{Boilerplate}
-\label{sec:orgea8ed27}
+\label{sec:orgd4bc16b}
 \subsection*{Submission procedures}
-\label{sec:org1e9e294}
+\label{sec:org172795c}
 \subsubsection*{Submission method}
-\label{sec:org4cba52b}
+\label{sec:org699a4e4}
 
 Homework should be submitted to your McMaster CAS Gitlab respository
 in the \texttt{cs3mi3-fall2020} project.
@@ -71,11 +71,11 @@ Ensure that you have \textbf{pushed} the commits to the remote repository
 in time for the deadline, and not just committed to your local copy.
 
 \subsubsection*{Naming requirements}
-\label{sec:org4d0b764}
+\label{sec:org7099cc3}
 
 Place all files for the homework
 inside a folder titled \texttt{hn}, where \texttt{n} is the number of the homework.
-So, for homework 1, the use the folder \texttt{h1}, for homework 2 the folder \texttt{h2}, etc.
+So, for homework 1, use the folder \texttt{h1}, for homework 2 the folder \texttt{h2}, etc.
 Ensure you do not capitalise the \texttt{h}.
 
 Unless otherwise instructed in the homework questions,
@@ -102,7 +102,7 @@ submit a \texttt{hn.ext} file for each language.
 \end{center}
 
 \subsubsection*{Do not submit testing or diagnostic code}
-\label{sec:org0e1d18f}
+\label{sec:org674e3a5}
 
 Unless you are instructed to do so in the homework questions,
 \textbf{you should not submit testing code with your homework submission}.
@@ -122,7 +122,7 @@ in your final submission.
 For instance, by using a wrapper on the print function or macros.
 
 \subsubsection*{Due date and allowance for technical difficulties}
-\label{sec:orgad45641}
+\label{sec:orgb82806f}
 
 Homework is due on the second Sunday following its release,
 by the end of the day (midnight).
@@ -137,9 +137,9 @@ This information will help ensure we are able
 to accept your submission once the technical difficulties are resolved.
 
 \subsection*{Proper conduct for coursework}
-\label{sec:org3b24eca}
+\label{sec:orgfb701fa}
 \subsubsection*{Individual work}
-\label{sec:org50d48ab}
+\label{sec:orgf23c342}
 
 Unless explicitely stated in the homework questions,
 all homework in this course is intended
@@ -188,7 +188,7 @@ probably add a catch-all \texttt{\_} case to your \texttt{match} expressions.”
 \end{enumerate}
 
 \subsubsection*{Language library resources}
-\label{sec:orgf9cd926}
+\label{sec:orgc866b02}
 
 Unless explicitely stated in the questions,
 it is not expected that you will use any language library resources
@@ -212,7 +212,7 @@ including \texttt{map}, \texttt{reduce}, \texttt{flatten}, and \texttt{filter} a
 unless the task is to implement such a higher-order operator.
 
 \section*{Part 1: Flattening and ordering trees in Prolog [20 points]}
-\label{sec:org425785e}
+\label{sec:orgdbf4c78}
 Using the representations (not technically types)
 of \texttt{BinTree} and \texttt{LeafTree} trees discussed in the
 “Trees in Prolog” lecture (links below),
@@ -241,7 +241,7 @@ Refer to the “Trees in Prolog” lecture notes, available as
 \end{itemize}
 
 \section*{Part 2: Predicates in Scala                     [20 points]}
-\label{sec:org118dcc3}
+\label{sec:org52dd07e}
 In Scala and other non-logical languages,
 we can represent predicates as boolean-valued functions/methods
 (functions/methods which return booleans).
@@ -273,7 +273,7 @@ the “ones” digits, the second element being the “tens” digit, etc.
 \end{itemize}
 
 \section*{Testing}
-\label{sec:org8176b75}
+\label{sec:org7f729b8}
 As of September 28th, unit tests for the requested predicates
 are available through the following links.
 \begin{itemize}
@@ -304,7 +304,7 @@ or move the tests to their source file
 (if so, be sure to remove them before submission!)
 
 \subsection*{Automated testing via Docker}
-\label{sec:orga6fd67e}
+\label{sec:org1f6b498}
 (Updated October 1st.)
 
 The Docker setup and usage scripts are available at the following links.
@@ -328,11 +328,11 @@ and not using WSL or WSL2, you may have
 to run the commands contained in those scripts manually.
 
 \subsection*{The tests}
-\label{sec:org8d5a63d}
+\label{sec:orgc45792a}
 The contents of the testing scripts are repeated here.
 
 \subsubsection*{The Scala tests}
-\label{sec:org70c4d21}
+\label{sec:org82f191c}
 \begin{minted}[breaklines=true]{scala}
 import $file.h3, h3._
 
@@ -383,7 +383,7 @@ println("+---------------------------------------------------")
 \end{minted}
 
 \subsubsection*{The Prolog tests}
-\label{sec:org7bb561a}
+\label{sec:org53212e4}
 \begin{minted}[breaklines=true]{prolog}
 :- begin_tests(h3).
 :- include(h3).
@@ -433,5 +433,73 @@ test(flatten_large_bintree, nondet) :- largeBinTree(X), largeBinTreeFlat(L), fla
 test(order_empty, nondet) :- elemsOrdered(empty,[]).
 test(order_node, nondet) :- elemsOrdered(node(empty,5,empty),[5]).
 test(order_large_bintree, nondet) :- largeBinTree(X), largeBinTreeOrdered(L), elemsOrdered(X,L).
+\end{minted}
+
+\section*{Sample solution}
+\label{sec:orga7ebedc}
+The source code can be downloaded
+\begin{itemize}
+\item for the Scala portion, \href{./solutions/h3/h3.sc}{here}, and
+\item for the Prolog portion, \href{./solutions/h3/h3.pl}{here}.
+\end{itemize}
+It is also shown below.
+
+\begin{minted}[breaklines=true]{scala}
+// An imperative-style prime check.
+def isPrime(n: Int): Boolean = {
+  if (n < 2) return false
+
+  // For efficiency, we can check up to only sqrt of n.
+  val sqrt_n = (math.sqrt(n.toDouble)).toInt
+  
+  for (i <- 2 to sqrt_n if n % i == 0) return false
+
+  return true
+}
+
+def isPalindrome[A](xs: List[A]): Boolean = xs match {
+  case Nil => true
+  case _ :: Nil => true
+  case (x :: xs) => x == xs.last && isPalindrome(xs.dropRight(1))
+}
+
+def digitList(n: Int): List[Int] = {
+  // Treat negatives as if they were positive.
+  val abs_n = n.abs
+
+  if(0 <= abs_n && abs_n <= 9)
+    List(abs_n)
+  else
+    digitList(abs_n / 10) ++ List(abs_n % 10)
+}
+
+def isPrimePalindrome(n: Int): Boolean = isPrime(n) && isPalindrome(digitList(n))
+\end{minted}
+
+\begin{minted}[breaklines=true]{prolog}
+flatten(leaf(X),[X]).
+flatten(branch(L,R),Xs) :- flatten(L,Ls), flatten(R,Rs), append(Ls,Rs,Xs).
+
+flatten(empty,[]).
+flatten(node(L,A,R),Xs) :- flatten(L,Ls), flatten(R,Rs), append(Ls,[A|Rs],Xs).
+
+isSorted([]).
+isSorted([_]).
+isSorted([H,N|T]) :- H =< N, isSorted([N|T]).
+
+bubble([],[]).
+bubble([X],[X]).
+bubble([X1,X2|Xs],[X1|Ys]) :- X1 =< X2, bubble([X2|Xs],Ys).
+bubble([X1,X2|Xs],[X2|Ys]) :- X1 > X2, bubble([X1|Xs],Ys).
+
+bubbleSort(X,X) :- isSorted(X), !.
+% Note: this is very inefficient, but hopefully easy to understand.
+bubbleSort(X,Y) :- bubble(X,Z), bubbleSort(Z,Y).
+
+orderedElems(leaf(X),[X]).
+orderedElems(branch(L,R),X) :- flatten(branch(L,R),Y), bubbleSort(Y,X).
+
+orderedElems(empty,[]).
+orderedElems(node(L,A,R),X) :- flatten(node(L,A,R),Y), bubbleSort(Y,X).
 \end{minted}
 \end{document}
