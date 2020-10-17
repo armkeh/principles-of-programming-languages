@@ -14,6 +14,10 @@ better viewed at
 
   - October 17th
     
+      - Marks for homework 1 have now been distributed to your GitLab
+        repositories. See the file `marks.org`, which can be viewed with
+        nice formatting on the web interface for your repo.
+    
       - Homework 3 sample solutions are now posted (inside the homework
         document as usual.)
 
