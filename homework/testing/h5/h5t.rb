@@ -24,7 +24,7 @@ class TestLooper < Test::Unit::TestCase
 end
 # END fizzbuzzLooper tests -------------------------------------
 
-# BEGIN fizzbuzzLooper tests -----------------------------------
+# BEGIN fizzbuzzIterator tests ---------------------------------
 class TestIterator < Test::Unit::TestCase
 
   def test_simple
@@ -32,9 +32,9 @@ class TestIterator < Test::Unit::TestCase
   end
 
 end
-# END fizzbuzzLooper tests -------------------------------------
+# END fizzbuzzIterator tests -----------------------------------
 
-# BEGIN fizzbuzzLooper tests -----------------------------------
+# BEGIN zuzzer tests -------------------------------------------
 class TestZuzzer < Test::Unit::TestCase
 
   def test_simple
@@ -42,4 +42,4 @@ class TestZuzzer < Test::Unit::TestCase
   end
 
 end
-# END fizzbuzzLooper tests -------------------------------------
+# END zuzzer tests ---------------------------------------------

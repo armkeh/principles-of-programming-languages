@@ -124,7 +124,7 @@ the fizzbuzzing problem, which we will call “zuzzing”.
 
 To generalise the problem, we assume that we may have
 several rules which should be applied to the elements of this list,
-instead of just the two (if it's disible by 3, output “fizz”,
+instead of just the two (if it's divisible by 3, output “fizz”,
 if it's divisible by 5, output “buzz”.)
 
 We want to create a method which accomodates any number of rules,
@@ -274,7 +274,7 @@ class TestLooper < Test::Unit::TestCase
 end
 # END fizzbuzzLooper tests -------------------------------------
 
-# BEGIN fizzbuzzLooper tests -----------------------------------
+# BEGIN fizzbuzzIterator tests ---------------------------------
 class TestIterator < Test::Unit::TestCase
 
   def test_simple
@@ -282,9 +282,9 @@ class TestIterator < Test::Unit::TestCase
   end
 
 end
-# END fizzbuzzLooper tests -------------------------------------
+# END fizzbuzzIterator tests -----------------------------------
 
-# BEGIN fizzbuzzLooper tests -----------------------------------
+# BEGIN zuzzer tests -------------------------------------------
 class TestZuzzer < Test::Unit::TestCase
 
   def test_simple
@@ -292,27 +292,8 @@ class TestZuzzer < Test::Unit::TestCase
   end
 
 end
-# END fizzbuzzLooper tests -------------------------------------
+# END zuzzer tests ---------------------------------------------
 #+end_src
-
-#+RESULTS:
-#+begin_example
-1
-2
-3
-4
-buzz
-6
-7
-8
-9
-buzz
-11
-12
-13
-14
-buzz
-#+end_example
 
 ** The Docker setup
 :PROPERTIES:

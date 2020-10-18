@@ -425,20 +425,20 @@ Use it if you wish.
   - [ ] README.org
 - [ ] Part 1
   - [ ] a1p1.sc
-  - [ ] a1p1_test.sc tests passed!
+  - [ ] a1p1_test.sc tests have passed! (No submission needed.)
 - [ ] Part 2
   - [ ] a1p2.pl
-  - [ ] a1p2_test.plt tests passed!
+  - [ ] a1p2_test.plt tests have passed! (No submission needed.)
 - [ ] Part 3
   - [ ] a1p3.sc
   - [ ] a1p3.pl
-  - [ ] a1p3_test.sc tests passed!
-  - [ ] a1p3_test.plt tests passed!
+  - [ ] a1p3_test.sc tests have passed! (No submission needed.)
+  - [ ] a1p3_test.plt tests have passed! (No submission needed.)
 - [ ] Part 4
   - [ ] a1p4.sc
   - [ ] a1p4.pl
-  - [ ] a1p4_test.sc tests passed!
-  - [ ] a1p4_test.plt tests passed!
+  - [ ] a1p4_test.sc tests have passed! (No submission needed.)
+  - [ ] a1p4_test.plt tests have passed! (No submission needed.)
 - [ ] Part 5 (Bonus)
   - [ ] a1p5.sc
   - [ ] a1p5.pl
