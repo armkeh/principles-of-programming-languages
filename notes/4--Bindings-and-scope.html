@@ -25,6 +25,7 @@ Introduction to semantics."/>
         document.getElementsByTagName( 'head' )[0].appendChild( link );
     }
 </script>
+<style>pre.src{background:#000000;color:white;} </style>
 </head>
 <body>
 <div class="reveal">
@@ -36,24 +37,24 @@ Introduction to semantics."/>
 </section>
 
 <section>
-<section id="slide-orgbe17bd8">
-<h2 id="orgbe17bd8"><span class="section-number-2">1</span> Preamble</h2>
+<section id="slide-orgd12af19">
+<h2 id="orgd12af19"><span class="section-number-2">1</span> Preamble</h2>
 <div class="outline-text-2" id="text-1">
 </div>
 </section>
-<section id="slide-orgba195a3">
-<h3 id="orgba195a3"><span class="section-number-3">1.1</span> <span class="todo TODO">TODO</span> Notable references</h3>
+<section id="slide-org8bd5cd5">
+<h3 id="org8bd5cd5"><span class="section-number-3">1.1</span> <span class="todo TODO">TODO</span> Notable references</h3>
 <p>
 :TODO:
 </p>
 
 </section>
-<section id="slide-org9ae8d51">
-<h3 id="org9ae8d51"><span class="section-number-3">1.2</span> <span class="todo TODO">TODO</span> Table of contents</h3>
+<section id="slide-org74917ff">
+<h3 id="org74917ff"><span class="section-number-3">1.2</span> <span class="todo TODO">TODO</span> Table of contents</h3>
 <font size="-1">
-<div class="scriptsize" id="org2c1562e">
+<div class="scriptsize" id="org1d4f0e1">
 <ul>
-<li><a href="#/slide-orgbe17bd8">Preamble</a></li>
+<li><a href="#/slide-orgd12af19">Preamble</a></li>
 
 </ul>
 
@@ -63,8 +64,8 @@ Introduction to semantics."/>
 </section>
 </section>
 <section>
-<section id="slide-org85cccf1">
-<h2 id="org85cccf1"><span class="section-number-2">2</span> Introduction</h2>
+<section id="slide-org34dbc98">
+<h2 id="org34dbc98"><span class="section-number-2">2</span> Introduction</h2>
 <p>
 This section introduces several concepts
 relating to names and bindings of those names.
@@ -76,55 +77,721 @@ throughout a program.
 </p>
 
 </section>
-<section id="slide-org795ab41">
-<h3 id="org795ab41"><span class="section-number-3">2.1</span> The life stages of a program; binding times</h3>
+<section id="slide-org9c9203c">
+<h3 id="org9c9203c"><span class="section-number-3">2.1</span> What's a binding?</h3>
+<p>
+A <i>binding</i> is a general term that refers
+to any association between an entity and an attribute.
+</p>
+<ul>
+<li>This is a very vague definition, which allows us to apply it
+to a great many instances.</li>
+
+</ul>
+
+<p>
+The <i>entities</i> are “syntactic units” of the language.
+</p>
+<ul>
+<li>That is, some piece of the language syntax.</li>
+
+</ul>
+
+<p>
+The <i>attributes</i> may happen to also an entity of the language,
+or may be a more “external” concept.
+</p>
+
+<p>
+For instance,
+</p>
+<ul>
+<li>a variable (entity) will usually have a name (attribute)
+<ul>
+<li>and often a type (attribute),</li>
+
+</ul></li>
+<li>a type (entity) should have also have a name (attribute).</li>
+
+</ul>
+
+</section>
+<section id="slide-orgf31f261">
+<h3 id="orgf31f261"><span class="section-number-3">2.2</span> Uses of names</h3>
+<p>
+Many entities may be have names bound to them;
+</p>
+<ul>
+<li>variables, constants, parameters/arguments,</li>
+<li>functions, methods, procedures, subroutines,</li>
+<li>modules, packages, contexts, typeclasses, records, and</li>
+<li>types,</li>
+
+</ul>
+<p>
+to name a few.
+</p>
+
+</section>
+<section id="slide-orgaca7f70">
+<h3 id="orgaca7f70"><span class="section-number-3">2.3</span> Persistance of names</h3>
+<p>
+Take note!
+</p>
+<ul>
+<li>Some namings are “global”; they persist for “all time and space”.
+<ul>
+<li>Such as the namings of builtin language methods,
+<ul>
+<li>(assuming the language does not allow their names to be reused
+or shadowed.)</li>
+
+</ul></li>
+
+</ul></li>
+<li>But many namings are temporary!
+<ul>
+<li>And one instance of a name may shadow another.
+<ul>
+<li>(Such as when you declare a local variable/argument
+with the same name as one already in scope.)</li>
+
+</ul></li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-orgf76c0e7">
+<h3 id="orgf76c0e7"><span class="section-number-3">2.4</span> A note about time and space</h3>
+<p>
+Throughout these notes, we will discuss <i>when</i> and <i>where</i> bindings
+are in effect.
+</p>
+
+<p>
+These discussions of “time” and “space” are relative to the program.
+</p>
+<ul>
+<li>Our notion of “<i>time</i>” is in terms of the program's runtime.
+<ul>
+<li>Or occasionally, its design time.</li>
+
+</ul></li>
+<li>Our notion of “<i>space</i>” is in terms of the program's <i>text</i>.</li>
+
+</ul>
+
+</section>
+<section id="slide-org0cb82c5">
+<h3 id="org0cb82c5"><span class="section-number-3">2.5</span> Static and dynamic bindings (or “checking of bindings”)</h3>
+<p>
+Bindings which are decided (or known) <i>before</i> runtime
+are called <i>static</i>.
+</p>
+
+<p>
+Conversely, bindings which are not decided (or known) until <i>during</i> runtime
+are called <i>dynamic</i>.
+</p>
+
+<p>
+We say “or known” because some bindings, such as the types of values,
+are not so much “decided” as “discovered”.
+</p>
+<ul>
+<li>All values have a type, whether or not that type is checked
+statically or dynamically.</li>
+
+</ul>
 
 </section>
 </section>
 <section>
-<section id="slide-orgb1caf0c">
-<h2 id="orgb1caf0c"><span class="section-number-2">3</span> Type checking</h2>
+<section id="slide-org0129acc">
+<h2 id="org0129acc"><span class="section-number-2">3</span> Type checking and polymorphism</h2>
 <p>
-:TODO:
+Type checking is the process of determining
+the binding between a name of an entity and a type.
+</p>
+<ul>
+<li>Usually, only variables, arguments, functions and similar entities
+have types.
+<ul>
+<li>There is at least one exception to this;
+sometimes, types may have a type!</li>
+
+</ul></li>
+<li>We will discuss types in more detail in the next section.</li>
+
+</ul>
+
+</section>
+<section id="slide-org17c9ff5">
+<h3 id="org17c9ff5"><span class="section-number-3">3.1</span> “Dynamically checked” instead of “dynamically typed”</h3>
+<p>
+As with many bindings, languages can be categorised as
+being either <i>statically</i> or <i>dynamically</i> typed.
+</p>
+
+<p>
+In “Types and Programming Languages”, though, Pierce argues
+that the term “dynamically typed language” is a misnomer.
+</p>
+<ul>
+<li>It would be better to say “dynamically (type) checked”.</li>
+<li>All values have a type, even before type checking.</li>
+
+</ul>
+
+</section>
+<section id="slide-orgdcec85f">
+<h3 id="orgdcec85f"><span class="section-number-3">3.2</span> Static and dynamic type checking</h3>
+<p>
+It's somewhat natural for interpreted languages to be dynamically typed,
+and compiled languages to be statically typed.
+</p>
+<ul>
+<li>The process of type checking is an upfront cost.
+<ul>
+<li>Compilation is a natural time to carry out that costly process.</li>
+
+</ul></li>
+<li>Consider the (primarily) interpreted “scripting” languages;
+Python, Ruby, Javascript, Lua, Perl, PHP, etc.</li>
+<li>But it's far from universally true that interpreters use
+dynamic typing!
+<ul>
+<li>Haskell has an interpreter, and is definitely
+statically typed.</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-orga3aaa4e">
+<h3 id="orga3aaa4e"><span class="section-number-3">3.3</span> Polymorphism</h3>
+<p>
+Assigning each value in a program a single type, and then
+enforcing type correctness (preventint type clashes)
+introduces a (solveable) problem; it prohibits code reuse!
+</p>
+<ul>
+<li>Subroutines can only be used on a particular type of arguments.</li>
+
+</ul>
+
+<p>
+Subtyping and polymorphism provide solutions to this.
+</p>
+<ul>
+<li>With <i>subtyping</i>, there is a sub/super relation between types.
+<ul>
+<li>One classic examples involves a type of “shapes”, which has
+a subtype “polygon”, which in turn has subtypes “triangle”
+and “rectangle”, etc.</li>
+<li>Subtypes closely resemble the notion of <i>subsets</i>.</li>
+<li>Values of a subtype can be used anywhere
+a value of their supertype is expected.</li>
+<li>Sub-<i>classing</i> is one instance of subtyping.
+<ul>
+<li>And is usually just called subtyping.</li>
+
+</ul></li>
+<li>Subranges and, sometimes, enumeration types are other examples.</li>
+
+</ul></li>
+<li>With <i>polymorphism</i>, a subroutine can have several types.</li>
+
+</ul>
+
+</section>
+<section id="slide-orgf75b7df">
+<h3 id="orgf75b7df"><span class="section-number-3">3.4</span> Ad hoc polymorphism (overloading)</h3>
+<p>
+One notion of polymorphism is <i>ad hoc</i> polymorphism,
+also called <i>overloading</i>.
+</p>
+<ul>
+<li>With overloading, subroutine names
+can be reused as long as the types of arguments
+differ (in some specified way).</li>
+<li>The downside is the programmer must define
+the “same” subroutine many times; once for each type.</li>
+
+</ul>
+
+</section>
+<section id="slide-org623ab72">
+<h3 id="org623ab72"><span class="section-number-3">3.5</span> Parametric polymorphism</h3>
+<p>
+With parametric polymorphism, subroutines have a
+<i>most general</i> type, based on the <i>shape</i> or <i>form</i> of their arguments.
+</p>
+<ul>
+<li>This involves the use of <i>type variables</i>.</li>
+<li>The subroutines behaviour can only be based on the form,
+not the specific types.</li>
+<li>This is commonly used in functional languages.
+<ul>
+<li>Several object-oriented languages have <i>generics</i>, which are
+essentially the same concept.</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-org5e65701">
+<h3 id="org5e65701"><span class="section-number-3">3.6</span> Duck typing</h3>
+<p>
+More formally called <i>row polymorphism</i>.
+</p>
+<ul>
+<li>Types are not actually checked.</li>
+<li>We only check that an entity has the correct method defined for it.</li>
+<li>“If it walks like a duck, and quacks like a duck, it's a duck!”</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-org0e57a1d">
+<h2 id="org0e57a1d"><span class="section-number-2">4</span> Lifetime</h2>
+<p>
+The <i>lifetime</i> of an entity is the portion of the runtime
+(not the code) during which that entity has allocated memory.
+</p>
+
+<p>
+To discuss lifetimes, we first need to discuss
+the layout of memory and the process of memory allocation.
 </p>
 
 </section>
-<section id="slide-org2f39bd7">
-<h3 id="org2f39bd7"><span class="section-number-3">3.1</span> “Dynamically checked” instead of “dynamically typed”</h3>
+<section id="slide-orgb76c1ef">
+<h3 id="orgb76c1ef"><span class="section-number-3">4.1</span> The data segment, stack, and heap</h3>
 <p>
-:TODO:
+In the context of running a program (or a thread of a program):
 </p>
+<ul>
+<li>The <i>data segment</i> is a portion of memory used to store the
+program itself and static/global variables.</li>
+<li>The <i>stack</i> is an organised portion of memory allocated for the program.
+<ul>
+<li>Blocks at the “top” of the stack are reserved when entering
+a scope.
+<ul>
+<li>These blocks are called <i>stack frames</i>.</li>
+
+</ul></li>
+<li>Stack frames are <i>popped off</i> the stack when leaving the unit of code.</li>
+
+</ul></li>
+<li>The <i>heap</i> is an unorganised portion of memory allocated for the program.
+<ul>
+<li>Allocation/deallocation may be independent of units of code.</li>
+<li>Disorganisation can lead to inefficiency and other problems.
+<ul>
+<li>Cache misses, page faults, etc.</li>
+<li>Running out of memory or appropriately sized continguous blocks.</li>
+<li>Garbage, dangling references, etc.</li>
+
+</ul></li>
+
+</ul></li>
+
+</ul>
 
 </section>
-<section id="slide-orgd407093">
-<h3 id="orgd407093"><span class="section-number-3">3.2</span> Polymorphism</h3>
+<section id="slide-orgcd22c6f">
+<h3 id="orgcd22c6f"><span class="section-number-3">4.2</span> Picturing memory</h3>
+
+<div id="org7eb081d" class="figure">
+<p><img src="media/data-segment-stack-heap.png" alt="data-segment-stack-heap.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-org9c5289e">
+<h3 id="org9c5289e"><span class="section-number-3">4.3</span> Kinds of memory allocation</h3>
 <p>
-:TODO:
+We can distinguish four kinds of memory allocation;
+</p>
+<ul>
+<li>static,</li>
+<li>stack dynamic,</li>
+<li>implicit heap dynamic, and</li>
+<li>explicit heap dynamic.</li>
+
+</ul>
+
+</section>
+<section id="slide-org85500b7">
+<h3 id="org85500b7"><span class="section-number-3">4.4</span> Static and stack dynamic allocation</h3>
+<ul>
+<li>Static
+<ul>
+<li>Allocation is done <i>before runtime</i> (static), in the data segment.
+<ul>
+<li>At load time, when the program is loaded into memory.
+(Not compile time).</li>
+
+</ul></li>
+
+</ul></li>
+<li>Stack dynamic
+<ul>
+<li>Allocation is dynamic, automatic, and on the stack.</li>
+<li>Amount of memory needed must be known when entering their scope.</li>
+<li>This is “the usual method” in most imperative languages.</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-orgcebd1d3">
+<h3 id="orgcebd1d3"><span class="section-number-3">4.5</span> Implicit and explicit heap dynamic allocation</h3>
+<ul>
+<li>Implicit heap dynamic
+<ul>
+<li>Allocation is dynamic, automatic, and on the heap.</li>
+<li>Memory is simply allocated when the variable is assigned;
+the programmer does not need to “do anything”.</li>
+
+</ul></li>
+<li>Explicit heap dynamic
+<ul>
+<li>Allocation is dynamic, <i>manual</i>, and on the heap.</li>
+<li>The programmer must use a command to allocate memory
+<i>before</i> assignments can be made.
+<ul>
+<li>E.g., <code>malloc</code> or <code>new</code>.</li>
+
+</ul></li>
+<li>In fact these blocks of memory can be considered
+<i>nameless variables</i>; we need other,
+<i>reference</i> variables to <i>point</i> to their address.</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-org596acd0">
+<h3 id="org596acd0"><span class="section-number-3">4.6</span> Exercise: Memory allocation methods</h3>
+<p>
+Investigate:
+</p>
+<ul>
+<li>Which of the five kinds of memory allocation are available in
+Scala and in Ruby.</li>
+<li>How each kind of memory allocation is denoted.</li>
+
+</ul>
+
+</section>
+<section id="slide-org8037614">
+<h3 id="org8037614"><span class="section-number-3">4.7</span> The lifetime</h3>
+<p>
+To repeat,
+the <i>lifetime</i> of an entity is the portion of the runtime
+(not the code) during which that entity has allocated memory.
+</p>
+<ul>
+<li>There may be several <i>instances</i> of a single variable in the code,
+each with its own lifetime.</li>
+<li>The lifetime of a variable depends upon the memory allocation
+strategy used for it.
+<ul>
+<li><b>Static</b>: lifetime is the whole of runtime.</li>
+<li><b>Stack dynamic</b>: lifetime is the portion of runtime between
+when the scope containing the variable is entered
+and when control returns to the invoker of that scope.
+<ul>
+<li>In the case of functions/procedures, local variables
+end their lifetime when the function/procedure returns.</li>
+<li>Note that a variable may go out of scope, but still be alive.</li>
+
+</ul></li>
+<li><b>Implicit heap-dynamic</b>: lifetime begins when assigned.
+The end of lifetime depends upon garbage collection.</li>
+<li><b>Explicit heap-dynamic</b>: lifetime begins when the allocation
+command is used. The end of lifetime may be
+<ul>
+<li>when the programmer issues a deallocation command, or</li>
+<li>depend upon garbage collection.</li>
+
+</ul></li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-org7b3ad26">
+<h3 id="org7b3ad26"><span class="section-number-3">4.8</span> Garbage collection</h3>
+<p>
+<i>Garbage</i> is allocated memory which is no longer accessible.
+</p>
+
+<p>
+<i>Garbage collection</i> is the process of deallocating garbage.
+</p>
+<ul>
+<li>A complex activity.
+<ul>
+<li>We will discuss the basics here, and then likely not
+touch on it again.</li>
+<li>Has a large influence on the efficiency of
+compiled/interpreted code.</li>
+
+</ul></li>
+<li>There are two main categories of garbage collection algorithms;
+<ul>
+<li>tracing,
+<ul>
+<li>which includes the “mark &amp; sweep” algorithm, and</li>
+
+</ul></li>
+<li>reference counting.</li>
+
+</ul></li>
+<li>Additionally, language implementations may include compile time
+“escape analysis”.
+<ul>
+<li>Memory may be allocated off the stack instead of the heap
+<i>if</i> no references to the variable are available outside its scope
+(if it doesn't “escape”).</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-org1032e7a">
+<h4 id="org1032e7a"><span class="section-number-4">4.8.1</span> Tracing garbage collection (mark &amp; sweep)</h4>
+<ul>
+<li>Usually triggered when a certain memory threshold is reached.</li>
+<li>Starting from some set of base references
+(usually those in the stack and data segment),
+“trace” references, somehow marking those that are reachable.
+<ul>
+<li>Starting from the set of base references,
+“determine the transitive closure of reachability”.</li>
+
+</ul></li>
+<li>Once done, free any memory that is not marked.</li>
+<li>“Naive” mark &amp; sweep:
+<ul>
+<li>Each object in memory has a bitflag for this “marking”,
+kept clear except during garbage collection.</li>
+<li>When activated, traverse all reachable memory,
+“marking” what's reached, then “sweep” away all unmarked memory
+(and reset the flags of marked memory).
+<ul>
+<li>With this naive approach, we have to pause the program to do this;</li>
+<li>better methods do not require pausing.</li>
+
+</ul></li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-org217e075">
+<h4 id="org217e075"><span class="section-number-4">4.8.2</span> Reference counting garbage collection</h4>
+<ul>
+<li>An “eager” approach.</li>
+<li>As the program runs, keep a count of the number of references
+to every object in memory.
+<ul>
+<li>So we must perform some tallying on every assignment!</li>
+
+</ul></li>
+<li>When the number of references reaches zero, we can free the memory
+for that object.</li>
+<li>This approach needs to account for cycles, though!
+<ul>
+<li>Every object in a cyclic (portion of a) data structure
+will always have at least one pointer to it,
+even if the structure as a whole is unreachable.</li>
+<li>This necessity increases the overhead.</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-orge6c2c58">
+<h3 id="orge6c2c58"><span class="section-number-3">4.9</span> Dangling/wild references</h3>
+<p>
+Garbage is not the only problem that can occur with
+references to memory.
+</p>
+
+<p>
+A <i>dangling</i> or <i>wild</i> reference is a reference to memory
+which has already been freed.
+</p>
+<ul>
+<li>Presumably, by a programmer's action.</li>
+<li>After being freed, memory may be left as is until it
+is allocated again, or may be wiped in some way.
+<ul>
+<li>Accessing memory that is no longer reserved
+usually leads to undefined behaviour.</li>
+
+</ul></li>
+
+</ul>
+
+<p>
+We will discuss methods of preventing use of wild/dangling references
+when we discuss reference types later in the course.
 </p>
 
 </section>
 </section>
 <section>
-<section id="slide-orgb359b26">
-<h2 id="orgb359b26"><span class="section-number-2">4</span> Lifetime</h2>
+<section id="slide-orgac787c8">
+<h2 id="orgac787c8"><span class="section-number-2">5</span> Scope</h2>
 <p>
-:TODO:
+A <i>scope</i> (singular) is a portion of the program to which the visibility
+of entities may be limited.
 </p>
+<ul>
+<li>This is a design decision: what constructs introduce scopes?
+<ul>
+<li>Almost certainly subroutines do.</li>
+<li>Do conditional branches? Loop bodies?</li>
+
+</ul></li>
+<li>As a general term, within this section we say <i>block</i> for a construct which
+introduces a scope.
+<ul>
+<li>Outside of this section, we have used and will continue to use the
+singular <i>scope</i> for this, but here that will conflict with
+the adjective scope we are about to define.</li>
+
+</ul></li>
+
+</ul>
 
 </section>
-<section id="slide-orgaa381ff">
-<h3 id="orgaa381ff"><span class="section-number-3">4.1</span> Garbage</h3>
+<section id="slide-orgbda30ee">
+<h3 id="orgbda30ee"><span class="section-number-3">5.1</span> Static scoping</h3>
 <p>
-:TODO:
+The <i>scope</i> (adjective) of an entity is the portion of the program
+in which it is “visible”.
 </p>
+<ul>
+<li>Usually scope is statically determined.
+<ul>
+<li>It is usually the block in which it is defined,
+and all subblocks of that block,
+<ul>
+<li>unless it is shadowed by another entity of the same name.</li>
+
+</ul></li>
+
+</ul></li>
+<li>Static scoping is so pervasive, you have likely
+never come across a language where scope works differently,
+outside of differences in what constructs introduce scope.</li>
+
+</ul>
 
 </section>
-</section>
-<section>
-<section id="slide-orgbdc28b9">
-<h2 id="orgbdc28b9"><span class="section-number-2">5</span> Scope</h2>
+<section id="slide-org5f487d9">
+<h3 id="org5f487d9"><span class="section-number-3">5.2</span> Dynamic scoping</h3>
 <p>
-:TODO:
+With dynamic scoping, the scope of entities depends upon the
+    “execution trace”, i.e., the “path” through the program.
+</p>
+<ul>
+<li>Dynamic scoping is rarely used.
+<ul>
+<li>The detriments strongly outweigh the benefits in most cases.</li>
+<li>The one major benefit is relief from having to pass arguments;</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-org89f93c6">
+<h3 id="org89f93c6"><span class="section-number-3">5.3</span> Exercise: On dynamic scoping</h3>
+<ul>
+<li>Historically, Lisps (languages directly descended from Lisp)
+were dynamically scoped.</li>
+<li>Presently, the only widely used Lisp which uses dynamic scoping
+by default is Emacs Lisp (eLisp).</li>
+
+</ul>
+
+<p>
+Try out this snippet of Emacs lisp code,
+either in Emacs (if you have it) or using an
+<a href="https://repl.it/languages/elisp">online REPL</a>.
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp"><code trim><span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">let</span> <span style="color: #b6a0ff;">(</span><span style="color: #6ae4b9;">(</span>x 2<span style="color: #6ae4b9;">)</span> <span style="color: #6ae4b9;">(</span>y 5<span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span> <span style="color: #a8a8a8;">; </span><span style="color: #a8a8a8;">"global" variables x and y</span>
+  <span style="color: #b6a0ff;">(</span><span style="color: #b6a0ff;">progn</span>
+    <span style="color: #6ae4b9;">(</span><span style="color: #b6a0ff;">defun</span> <span style="color: #feacd0;">mult-x-y</span> <span style="color: #f0ce43;">()</span>
+      <span style="color: #f0ce43;">(</span>* x y<span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span> <span style="color: #a8a8a8;">; </span><span style="color: #a8a8a8;">returns x * y</span>
+
+    <span style="color: #6ae4b9;">(</span><span style="color: #b6a0ff;">defun</span> <span style="color: #feacd0;">A</span> <span style="color: #f0ce43;">()</span>
+      <span style="color: #f0ce43;">(</span><span style="color: #b6a0ff;">let</span> <span style="color: #00bcff;">(</span><span style="color: #80d200;">(</span>x 3<span style="color: #80d200;">)</span><span style="color: #00bcff;">)</span> <span style="color: #a8a8a8;">; </span><span style="color: #a8a8a8;">local variable x</span>
+        <span style="color: #00bcff;">(</span>mult-x-y<span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>
+
+    <span style="color: #6ae4b9;">(</span><span style="color: #b6a0ff;">defun</span> <span style="color: #feacd0;">B</span> <span style="color: #f0ce43;">()</span>
+      <span style="color: #f0ce43;">(</span><span style="color: #b6a0ff;">let</span> <span style="color: #00bcff;">(</span><span style="color: #80d200;">(</span>y 10<span style="color: #80d200;">)</span><span style="color: #00bcff;">)</span> <span style="color: #a8a8a8;">; </span><span style="color: #a8a8a8;">local variable y</span>
+        <span style="color: #00bcff;">(</span>A<span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>
+
+    <span style="color: #6ae4b9;">(</span>message <span style="color: #79a8ff;">"mult-x-y returns %d, A returns %d and B returns %d"</span>
+      <span style="color: #f0ce43;">(</span>mult-x-y<span style="color: #f0ce43;">)</span> <span style="color: #f0ce43;">(</span>A<span style="color: #f0ce43;">)</span> <span style="color: #f0ce43;">(</span>B<span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+</code></pre>
+</div>
+
+<ol>
+<li>Ensure you understand the results.</li>
+<li>Using this understanding, formulate some advantages and disadvantages
+of dynamic scoping.</li>
+
+</ol>
+
+</section>
+<section id="slide-org82a8379">
+<h3 id="org82a8379"><span class="section-number-3">5.4</span> Exercise: Entities which introduce scope</h3>
+<p>
+In a few different programming languages, investigate whether
+condition branches and loop bodies introduce scopes.
+</p>
+
+<p>
+I.e., test out code such as
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-text"><code trim>if B then
+  int x = 0
+endif
+
+y = x   % Is x still in scope?
+</code></pre>
+</div>
+
+<p>
+Specifically, investigate languages which have <i>iterating loops</i>,
+(usually called <code>for</code> loops). What is the scope of an iterator
+for such loops?
 </p>
 </section>
 </section>
