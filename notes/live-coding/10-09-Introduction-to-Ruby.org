@@ -85,6 +85,40 @@ and implemented them. I posted Ruby 0.95 to
 the Japanese domestic newsgroups in Dec. 1995.
 #+end_quote
 
+* General syntax
+
+See the
+[[https://docs.ruby-lang.org/en/2.4.0/syntax_rdoc.html][Ruby documentation]]
+for a good overview of the syntax. We try to cover
+the most important parts here and in the following sections.
+
+Ruby, being a “scripting language”, has a somewhat C-like syntax
+that may remind you of Python or possibly Javascript.
+
+The major difference
+
+:TODO:
+#+begin_src ruby
+def f(x)
+#+end_src
+
+:TODO: begin/end, {}
+
+:TODO: [[https://docs.ruby-lang.org/en/2.4.0/syntax/control_expressions_rdoc.html][Control expressions]]
+
+* Dynamic typing, homogenous collections
+
+:TODO:
+
+#+begin_src ruby :results output
+a = ["Arrays", :can, "contain", 1, "or more different types"] 
+h = {:and => "So can hashes.", :see? => a}
+
+print a
+print "\n"
+print h
+#+end_src
+
 * “Purely object-oriented”
 :PROPERTIES:
 :CUSTOM_ID: “Purely-object-oriented”
@@ -98,6 +132,9 @@ that they are purely object oriented?
 Quite simply, that all /data/ is represented as an /object,
 and all operations are /methods/!
 
+Another view of this: all data is objects,
+and all operations are messages between objects.
+
 ** Integers are objects, operations are methods
 :PROPERTIES:
 :CUSTOM_ID: Integers-are-objects,-operations-are-methods
@@ -106,38 +143,39 @@ and all operations are /methods/!
 For instance, consider integers, which in many languages are
 a /basic/, /builtin/ type that do not have an implementation
 within the language. This is not the case in a pure language!
-In both Ruby and Scala, integers are objects, and operations on them
-are methods.
+In both Ruby and Scala, integers are objects,
+and operations on them are methods.
 
 So code such as
 #+begin_src ruby :session
-5 + 2
+5 + 8
 #+end_src
 
 #+RESULTS:
-: true
+: 13
 
+or in Scala,
 #+begin_src amm
 5 + 2
 #+end_src
 
 #+RESULTS:
-: res4: Boolean = true
+: res1: Int = 7
 
 could instead be written
 #+begin_src ruby :session
-5.+(2)
+5.+(9)
 #+end_src
 
 #+RESULTS:
-: 7
+: 14
 
 #+begin_src amm
 5.+(2)
 #+end_src
 
 #+RESULTS:
-: res5: Int = 7
+: res3: Int = 7
 
 that is, ~+~ is a method of the first argument, being passed
 the second argument as a parameter.
@@ -149,44 +187,164 @@ The form ~x ⊕ y~ is just /syntactic sugar/.
 :END:
 
 In Ruby, we can move one level of abstraction higher:
-all data are objects, and all operations are /messages between objects/.
+all data are objects, and all operations
+are /messages between objects/.
 This harkens back to SmallTalk, one of the founding languages
 of the object oriented paradigm.
 #+begin_src ruby :session
-5.send("==", 3)
+5.send("+", 3)
 #+end_src
 
 #+RESULTS:
-: false
+: 8
 
 So even the form ~x.⊕(y)~ is syntactic sugar!
 
 In Scala, moving to this message passing abstraction
-is not possible, aat least not easily; why?
+is not possible, at least not easily; why?
+- Answer: because Scala is statically typed!
+  It is unlikely the typechecker will parse a string
+  to see what method is being invoked.
+  - And even if we wanted to make the typechecker do so,
+    that only handles to case of constant strings;
+    what if the string is constructed earlier in the program,
+    or its value is given as an argument?
+
+* Output methods
+
 :TODO:
+#+begin_src ruby :results output
+print(["Prints", "out", "the", "object", "without", "a", "new", "line"])
+print "\n"
+
+puts(["Each", "element", "on", "a", "newline"])
+puts "And a newline at the end as well."
+puts "See?"
+
+p "Outputs the raw string\n"
+#+end_src
+
+#+RESULTS:
+: ["Prints", "out", "the", "object", "without", "a", "new", "line"]
+: Each
+: element
+: on
+: a
+: newline
+: And a newline at the end as well.
+: See?
+: "Outputs the raw string\n"
 
 * Postfix forms
 :PROPERTIES:
 :CUSTOM_ID: Postfix-forms
 :END:
 
-:TODO:
+One nice feature of Ruby is that it has
+an abuntant amount of syntactic sugar.
+For instance, we have the standard control structures
+such as ~if~:
+#+begin_src ruby :results output
+x = if 2 + 3 == 5
+      "2 + 3 is 5; good"
+    elsif 2 + 3 == 6
+      "oh no!!!"
+    else
+      "oh no"
+    end
+
+print("x is: ", x)
+#+end_src
+
+#+RESULTS:
+: x is 2 + 3 is 5; good
+
+If you are only using a “then” branch, you can write
+the ~if~ after the body.
+#+begin_src ruby :results output
+puts("1 + 1 is 2") if 1 + 1 == 2
+#+end_src
+
+#+RESULTS:
+: 1 + 1 is 2
+
+
+We can do the same with at least some of the loops
+#+begin_src ruby :results output
+x = 0
+y = 0
+
+x = x + 1 while x < 10
+while y < 10 do y = y + 1 end
+
+puts(x)
+puts(y)
+#+end_src
+
+#+RESULTS:
+: 10
+: 10
 
 * Method naming conventions
 :PROPERTIES:
 :CUSTOM_ID: Method-naming-conventions
 :END:
 
-By convention, methods ending with a ~?~ are predicates.
+Note; in this section, we use the phrase “by convention” frequently.
+This is because the method naming conventions are exactly that:
+conventions. Their properties are not actually enforced by Ruby.
+
+By convention, methods ending with a ~?~ are /predicates/.
 They do not /necessarily/ return a boolean, but should
 return a “truth value” of some kind.
-:TODO:
+#+begin_src ruby
+6.even?
+#+end_src
 
-Methods ending with a ~!~ are /descructive/; they modify the receiver.
-:TODO:
+#+RESULTS:
+: true
+
+By convention, methods ending with a ~!~ are /destructive/;
+they modify the receiver.
+#+begin_src ruby :results output
+x = [1,3,2]
+y = [5,6,4]
+
+x.sort! # Changes the value of x
+z = y.sort # Does not change the value of y. 
+
+print("[1,3,2] sorted is ", x, "\n")
+print("The original ", y, " did not get sorted; see?\n")
+print("Here's the sorted version: ", z)
+#+end_src
+
+#+RESULTS:
+: [1,3,2] sorted is [1, 2, 3]
+: The original [5, 6, 4] did not get sorted; see?
+: Here's the sorted version: [4, 5, 6]
+
+See the Ruby documentation on [[https://docs.ruby-lang.org/en/2.7.0/doc/syntax/methods_rdoc.html#label-Method+Names][method names]]
+for discussion of the the bang and question mark postfixes.
 
 Methods ending with a ~=~ indicate an /assignment/ method.
-:TODO:
+These methods should “behave like assignment”.
+See the [[https://docs.ruby-lang.org/en/2.7.0/doc/syntax/assignment_rdoc.html#label-Assignment+Methods][Ruby documentation]].
+Unlike with the ~?~ and ~!~ postfixes,
+*using the ~=~ postfix /does/ actually change the method's behaviour*;
+specifically, the return value of a ~=~ method is ignored.
+The arguments to the method are returned instead.
+
+Assignment methods can be called using a special syntax;
+given an assignment method ~my_attribute=~ and
+an instance of the class ~my_instance~,
+we can write
+#+begin_example ruby
+my_instance.my_attribute = "A new value"
+#+end_example
+instead of
+#+begin_example ruby
+my_instance.my_attribute=("A new value")
+#+end_example
 
 * Defining classes
 :PROPERTIES:
@@ -207,7 +365,7 @@ class Name
 Instance variables
 (whose value is unique per object of the class)
 begin with a ~@~.
-We do not declare explicitely declare variables in Ruby,
+We do not declare explicitly declare variables in Ruby,
 but you can initialise them to “declare” them
 (you don't need to though; they can be initialised inside
 a constructor or other methods.)
@@ -215,6 +373,7 @@ a constructor or other methods.)
 Class variables
 (whose value is shared by each object of the class)
 begin with a ~@@~.
+(In other languages, these are often called ~static~ members.)
 
 It is common to want to define /getters/ and /setters/ for instance
 variables in OO programming.
@@ -222,12 +381,18 @@ For example,
 #+begin_src ruby :results output
 class MyContainer
   
-  def initialize(thing=nil) @thing = thing end
+  def initialize(thing=nil)
+    @thing = thing
+  end
 
-  def thing; @thing end
+  def thing
+    @thing
+  end
 
   # Assignment method syntax
-  def thing=(thing) @thing = thing end
+  def thing=(thing)
+    @thing = thing
+  end
 end
 
 container = MyContainer.new()
@@ -240,14 +405,26 @@ puts(container.thing)
 
 Because this is so common, there is a shorthand
 to avoid declaring these methods.
-#+begin_src ruby
+#+begin_src ruby :results output
 class MyContainer
   attr_accessor :thing   # :thing is a symbol; essentially in interned string
   # attr_reader   provides only the getter
   # attr_writer   provides only the setter
+
+  def initialize(thing=nil)
+    @thing = thing
+  end
+end
+
+container = MyContainer.new()
+container.thing = 5
+puts(container.thing)
 #+end_src
 
-:TODO: initialize
+#+RESULTS:
+: 5
+
+:TODO: initialize is the constructor
 
 ** Inheritance
 :PROPERTIES:
@@ -267,7 +444,7 @@ class C2 < C1
 :CUSTOM_ID: Mixins
 :END:
 
-:TODO:
+https://ruby-doc.com/docs/ProgrammingRuby/html/tut_modules.html
 
 ** COMMENT Custom lists
 :PROPERTIES:
