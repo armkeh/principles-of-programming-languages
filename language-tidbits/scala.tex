@@ -1,0 +1,115 @@
+% Created 2020-10-19 Mon 02:04
+% Intended LaTeX compiler: lualatex
+\documentclass[11pt]{article}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{etoolbox}
+\makeatletter
+\def\dontdofcolorbox{\renewcommand\fcolorbox[4][]{##4}}
+\AtBeginEnvironment{minted}{\dontdofcolorbox}
+\makeatother
+\usepackage[newfloat]{minted}
+\author{Mark Armstrong}
+\date{October 19th, 2020}
+\title{Computer Science 3MI3 – Scala tidbits}
+\hypersetup{
+   pdfauthor={Mark Armstrong},
+   pdftitle={Computer Science 3MI3 – Scala tidbits},
+   pdfkeywords={},
+   pdfsubject={Examples and code tidbits which help us understand Scala and functional programming in general.},
+   pdfcreator={Emacs 27.0.91 (Org mode 9.4)},
+   pdflang={English},
+   colorlinks,
+   linkcolor=blue,
+   citecolor=blue,
+   urlcolor=blue
+   }
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+
+\section*{Example of \texttt{Option[Either[A,B]]} recursive functions}
+\label{sec:org76f710d}
+In the first assignment, the final interpreter requires
+the return type of \texttt{Option[Either[Int,Boolean]]}.
+The idea is that \texttt{Option[Either[Int,Boolean]]} contains
+\begin{itemize}
+\item the value \texttt{None} which represents failure,
+\item for each integer \texttt{n}, the value \texttt{Some(Left(n))},
+\item for each boolean \texttt{b}, the value \texttt{Some(Right(b))}
+\end{itemize}
+so this return type can be used for an interpreter
+which might return an integer, might return a boolean, or
+might fail.
+
+This type can be somewhat awkward to work with,
+at least until we discuss the concept of \emph{combining} such values
+(also known as \emph{monadic bind}'s.)
+
+For the moment, this example code may help you with
+your own definitions for the assignment.
+
+Here, we work with that same type of \texttt{Option[Either[Int,Boolean]]} to
+define \texttt{sum} and \texttt{product} methods, with the idea that
+\begin{itemize}
+\item the \texttt{sum} of two integers is their sum in the usual sense,
+\item the \texttt{sum} of two booleans is the result of “logically or-ing” them,
+\item and the \texttt{sum} of two values of different types is undefined.
+\end{itemize}
+The \texttt{product} is similar, but uses logical and for the boolean case.
+
+The important takeaway here is how we (using pattern matching)
+\begin{enumerate}
+\item “unwrap” the argument values \texttt{x} and \texttt{y},
+\item then in the cases we have two integers or two booleans,
+perform the relevant operation before
+\item “rewrap”-ing the result; and
+\item for the other cases,
+\begin{itemize}
+\item (having a \texttt{None} for one or both of the arguments,
+\item or having an integer for one argument and a boolean for the other)
+\end{itemize}
+which we summarise with the “catch-all” case using underscores,
+we return \texttt{None}, representing failure.
+\end{enumerate}
+\begin{minted}[breaklines=true]{scala}
+def sum(x: Option[Either[Int,Boolean]],
+        y: Option[Either[Int,Boolean]]): Option[Either[Int,Boolean]] =
+  (x, y) match {
+    case (Some(Left(m)), Some(Left(n))) => Some(Left(m + n))
+    case (Some(Right(a)), Some(Right(b))) => Some(Right(a || b))
+    case (_ , _) => None
+  }
+
+def product(x: Option[Either[Int,Boolean]],
+            y: Option[Either[Int,Boolean]]): Option[Either[Int,Boolean]] =
+  (x, y) match {
+    case (Some(Left(m)), Some(Left(n))) => Some(Left(m * n))
+    case (Some(Right(a)), Some(Right(b))) => Some(Right(a && b))
+    case (_ , _) => None
+  }
+\end{minted}
+
+You may have noticed the extreme similarity between these two methods.
+And indeed, you may see similarity between these methods
+and the code you may write for the assignment.
+
+If you are considering how we can \emph{generalise} these
+operations in order to avoid repeating ourselves as I have above
+(having rewritten or copied/pasted the pattern matching,
+changing on the first two righthand sides)
+stay tuned; as mentioned earlier, we will discuss these concepts
+later on in the course.
+\end{document}

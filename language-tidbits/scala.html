@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2020-10-19 Mon 02:04 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Computer Science 3MI3 – Scala tidbits</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Mark Armstrong" />
+<meta name="description" content="Examples and code tidbits which help us understand Scala
+and functional programming in general."
+ />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="styles/readtheorg/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="styles/readtheorg/css/readtheorg.css"/>
+<script type="text/javascript" src="styles/lib/js/jquery.min.js"></script>
+<script type="text/javascript" src="styles/lib/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="styles/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" src="styles/readtheorg/js/readtheorg.js"></script>
+<style>pre.src{background:#000000;color:white;} </style>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:e95b018ef3580986a04669f1b5879592219e2a7a&dn=public-domain.txt Public Domain
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.add("code-highlighted");
+         target.classList.add("code-highlighted");
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.remove("code-highlighted");
+         target.classList.remove("code-highlighted");
+       }
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Computer Science 3MI3 – Scala tidbits</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#Example-of-~Option[Either[A,B]]~-recursive-functions">Example of <code>Option[Either[A,B]]</code> recursive functions</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-Example-of-~Option[Either[A,B]]~-recursive-functions" class="outline-2">
+<h2 id="Example-of-~Option[Either[A,B]]~-recursive-functions">Example of <code>Option[Either[A,B]]</code> recursive functions</h2>
+<div class="outline-text-2" id="text-Example-of-~Option[Either[A,B]]~-recursive-functions">
+<p>
+In the first assignment, the final interpreter requires
+the return type of <code>Option[Either[Int,Boolean]]</code>.
+The idea is that <code>Option[Either[Int,Boolean]]</code> contains
+</p>
+<ul class="org-ul">
+<li>the value <code>None</code> which represents failure,</li>
+<li>for each integer <code>n</code>, the value <code>Some(Left(n))</code>,</li>
+<li>for each boolean <code>b</code>, the value <code>Some(Right(b))</code></li>
+</ul>
+<p>
+so this return type can be used for an interpreter
+which might return an integer, might return a boolean, or
+might fail.
+</p>
+
+<p>
+This type can be somewhat awkward to work with,
+at least until we discuss the concept of <i>combining</i> such values
+(also known as <i>monadic bind</i>'s.)
+</p>
+
+<p>
+For the moment, this example code may help you with
+your own definitions for the assignment.
+</p>
+
+<p>
+Here, we work with that same type of <code>Option[Either[Int,Boolean]]</code> to
+define <code>sum</code> and <code>product</code> methods, with the idea that
+</p>
+<ul class="org-ul">
+<li>the <code>sum</code> of two integers is their sum in the usual sense,</li>
+<li>the <code>sum</code> of two booleans is the result of “logically or-ing” them,</li>
+<li>and the <code>sum</code> of two values of different types is undefined.</li>
+</ul>
+<p>
+The <code>product</code> is similar, but uses logical and for the boolean case.
+</p>
+
+<p>
+The important takeaway here is how we (using pattern matching)
+</p>
+<ol class="org-ol">
+<li>“unwrap” the argument values <code>x</code> and <code>y</code>,</li>
+<li>then in the cases we have two integers or two booleans,
+perform the relevant operation before</li>
+<li>“rewrap”-ing the result; and</li>
+<li><p>
+for the other cases,
+</p>
+<ul class="org-ul">
+<li>(having a <code>None</code> for one or both of the arguments,</li>
+<li>or having an integer for one argument and a boolean for the other)</li>
+</ul>
+<p>
+which we summarise with the “catch-all” case using underscores,
+we return <code>None</code>, representing failure.
+</p></li>
+</ol>
+<div class="org-src-container">
+<pre class="src src-amm"><span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">sum</span><span style="color: #00cd68;">(</span>x<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Option</span><span style="color: #b6a0ff;">[</span><span style="color: #00bcff;">Either</span><span style="color: #6ae4b9;">[</span><span style="color: #00bcff;">Int</span>,<span style="color: #00bcff;">Boolean</span><span style="color: #6ae4b9;">]</span><span style="color: #b6a0ff;">]</span>,
+        y<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Option</span><span style="color: #b6a0ff;">[</span><span style="color: #00bcff;">Either</span><span style="color: #6ae4b9;">[</span><span style="color: #00bcff;">Int</span>,<span style="color: #00bcff;">Boolean</span><span style="color: #6ae4b9;">]</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Option</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">Either</span><span style="color: #b6a0ff;">[</span><span style="color: #00bcff;">Int</span>,<span style="color: #00bcff;">Boolean</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">]</span> <span style="color: #b6a0ff;">=</span>
+  <span style="color: #00cd68;">(</span>x, y<span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">match</span> <span style="color: #00cd68;">{</span>
+    <span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">(</span><span style="color: #f78fe7;">Some</span><span style="color: #6ae4b9;">(</span><span style="color: #f78fe7;">Left</span><span style="color: #f0ce43;">(</span><span style="color: #00d3d0;">m</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>, <span style="color: #f78fe7;">Some</span><span style="color: #6ae4b9;">(</span><span style="color: #f78fe7;">Left</span><span style="color: #f0ce43;">(</span><span style="color: #00d3d0;">n</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">Some</span><span style="color: #b6a0ff;">(</span><span style="color: #00bcff;">Left</span><span style="color: #6ae4b9;">(</span>m + n<span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span>
+    <span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">(</span><span style="color: #f78fe7;">Some</span><span style="color: #6ae4b9;">(</span><span style="color: #f78fe7;">Right</span><span style="color: #f0ce43;">(</span><span style="color: #00d3d0;">a</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>, <span style="color: #f78fe7;">Some</span><span style="color: #6ae4b9;">(</span><span style="color: #f78fe7;">Right</span><span style="color: #f0ce43;">(</span><span style="color: #00d3d0;">b</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">Some</span><span style="color: #b6a0ff;">(</span><span style="color: #00bcff;">Right</span><span style="color: #6ae4b9;">(</span>a || b<span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span>
+    <span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">(</span><span style="color: #b6a0ff;">_</span> , <span style="color: #b6a0ff;">_</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">None</span>
+  <span style="color: #00cd68;">}</span>
+
+<span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">product</span><span style="color: #00cd68;">(</span>x<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Option</span><span style="color: #b6a0ff;">[</span><span style="color: #00bcff;">Either</span><span style="color: #6ae4b9;">[</span><span style="color: #00bcff;">Int</span>,<span style="color: #00bcff;">Boolean</span><span style="color: #6ae4b9;">]</span><span style="color: #b6a0ff;">]</span>,
+            y<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Option</span><span style="color: #b6a0ff;">[</span><span style="color: #00bcff;">Either</span><span style="color: #6ae4b9;">[</span><span style="color: #00bcff;">Int</span>,<span style="color: #00bcff;">Boolean</span><span style="color: #6ae4b9;">]</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Option</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">Either</span><span style="color: #b6a0ff;">[</span><span style="color: #00bcff;">Int</span>,<span style="color: #00bcff;">Boolean</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">]</span> <span style="color: #b6a0ff;">=</span>
+  <span style="color: #00cd68;">(</span>x, y<span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">match</span> <span style="color: #00cd68;">{</span>
+    <span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">(</span><span style="color: #f78fe7;">Some</span><span style="color: #6ae4b9;">(</span><span style="color: #f78fe7;">Left</span><span style="color: #f0ce43;">(</span><span style="color: #00d3d0;">m</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>, <span style="color: #f78fe7;">Some</span><span style="color: #6ae4b9;">(</span><span style="color: #f78fe7;">Left</span><span style="color: #f0ce43;">(</span><span style="color: #00d3d0;">n</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">Some</span><span style="color: #b6a0ff;">(</span><span style="color: #00bcff;">Left</span><span style="color: #6ae4b9;">(</span>m * n<span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span>
+    <span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">(</span><span style="color: #f78fe7;">Some</span><span style="color: #6ae4b9;">(</span><span style="color: #f78fe7;">Right</span><span style="color: #f0ce43;">(</span><span style="color: #00d3d0;">a</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>, <span style="color: #f78fe7;">Some</span><span style="color: #6ae4b9;">(</span><span style="color: #f78fe7;">Right</span><span style="color: #f0ce43;">(</span><span style="color: #00d3d0;">b</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">Some</span><span style="color: #b6a0ff;">(</span><span style="color: #00bcff;">Right</span><span style="color: #6ae4b9;">(</span>a &amp;&amp; b<span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span>
+    <span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">(</span><span style="color: #b6a0ff;">_</span> , <span style="color: #b6a0ff;">_</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">None</span>
+  <span style="color: #00cd68;">}</span>
+</pre>
+</div>
+
+<p>
+You may have noticed the extreme similarity between these two methods.
+And indeed, you may see similarity between these methods
+and the code you may write for the assignment.
+</p>
+
+<p>
+If you are considering how we can <i>generalise</i> these
+operations in order to avoid repeating ourselves as I have above
+(having rewritten or copied/pasted the pattern matching,
+changing on the first two righthand sides)
+stay tuned; as mentioned earlier, we will discuss these concepts
+later on in the course.
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Mark Armstrong</p>
+     <p class="author">Contact: <a href="mailto:markparmstrong@gmail.com">markparmstrong@gmail.com</a></p>
+     <p class="date">Original date: October 19th, 2020</p>
+     <p class="date">Last updated: 2020-10-19 Mon 02:03</p>
+     <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4)</p>
+     <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

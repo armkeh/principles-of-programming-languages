@@ -18,6 +18,15 @@
 :CUSTOM_ID: October
 :END:
 
+- October 19th ::
+  - A short example of using the ~Option[Either[Int,Boolean]]~ type,
+    which is used in part 4 of the assignment,
+    has been in the notes now posted at the top of
+    the Scala section of this site.
+    - See the [[./language-tidbits/scala.html][HTML site]] or
+    - [[./language-tidbits/scala.pdf][PDF]].
+
+
 - October 17th ::
   - Marks for homework 1 have now been distributed to your
     GitLab repositories. See the file ~marks.org~,
@@ -815,6 +824,12 @@ The webpage is also embedded here for convenience.
 :PROPERTIES:
 :CUSTOM_ID: Scala
 :END:
+
+Answers to some common or interesting questions regarding Prolog
+can be found in the Prolog tidbits file, available as
+- an [[./language-tidbits/scala.html][HTML site]],
+- a [[./language-tidbits/scala.pdf][PDF]], or
+- a plaintext [[./language-tidbits/scala.org][Org document]].
 
 ** Installation instructions
 :PROPERTIES:
