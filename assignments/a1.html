@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-10-17 Sat 17:18 -->
+<!-- 2020-10-20 Tue 01:19 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Computer Science 3MI3 – 2020 assignment 1</title>
@@ -224,6 +224,28 @@
     /*]]>*///-->
 // @license-end
 </script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
 </head>
 <body>
 <div id="content">
@@ -240,6 +262,7 @@
 <ul>
 <li><a href="#September-21st">September 21st</a></li>
 <li><a href="#October-13th">October 13th</a></li>
+<li><a href="#October-19th">October 19th</a></li>
 </ul>
 </li>
 <li><a href="#Boilerplate">Boilerplate</a>
@@ -247,7 +270,7 @@
 <li><a href="#Submission-procedures">Documentation</a></li>
 <li><a href="#Submission-procedures">Submission procedures</a>
 <ul>
-<li><a href="#org44794cd">Assignment naming requirements</a></li>
+<li><a href="#org1469612">Assignment naming requirements</a></li>
 </ul>
 </li>
 <li><a href="#Proper-conduct-for-coursework">Proper conduct for coursework</a></li>
@@ -279,6 +302,11 @@
 <li><a href="#Hint-(added-October-13th)">Hint (added October 13th)</a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li><a href="#Aside-–-review-of-substitution">Aside – review of substitution</a>
+<ul>
+<li><a href="#The-scope-of-substitution">The scope of substitution</a></li>
 </ul>
 </li>
 <li><a href="#Part-4-–-Boolean-expressions-----------[30 marks]">Part 4 – Boolean expressions           [30 marks]</a>
@@ -365,6 +393,15 @@ as to the filenames.</li>
 has also been standardised.</li>
 <li>The word “task” has been replaced by “part”.</li>
 </ul>
+</div>
+</div>
+
+<div id="outline-container-October-19th" class="outline-3">
+<h3 id="October-19th">October 19th</h3>
+<div class="outline-text-3" id="text-October-19th">
+<p>
+An aside giving a review of substitution was added following part 3.
+</p>
 </div>
 </div>
 </div>
@@ -454,9 +491,9 @@ apply to assignments, except for the differences below.
 </p>
 </div>
 
-<div id="outline-container-org44794cd" class="outline-4">
-<h4 id="org44794cd">Assignment naming requirements</h4>
-<div class="outline-text-4" id="text-org44794cd">
+<div id="outline-container-org1469612" class="outline-4">
+<h4 id="org1469612">Assignment naming requirements</h4>
+<div class="outline-text-4" id="text-org1469612">
 <p>
 Place all files for the assignment
 inside a folder titled <code>an</code>, where <code>n</code> is the number of the assignment.
@@ -816,6 +853,82 @@ in your Scala code.
 </p>
 </div>
 </div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-Aside-–-review-of-substitution" class="outline-2">
+<h2 id="Aside-–-review-of-substitution">Aside – review of substitution</h2>
+<div class="outline-text-2" id="text-Aside-–-review-of-substitution">
+<p>
+Substitution of variables in terms should have been covered
+in previous courses. Here we give a brief refresher
+on the topic.
+</p>
+
+<p>
+Consider a language of terms \(L\) which consists of
+</p>
+<ul class="org-ul">
+<li>a set of constant symbols
+<ul class="org-ul">
+<li>(in our part 3, these are integers)</li>
+</ul></li>
+<li>a set of operation symbols
+<ul class="org-ul">
+<li>(in our part 3, these are the operators <code>const</code>, <code>neg</code>, <code>plus</code>, etc.). and</li>
+</ul></li>
+<li>a set of variable names
+<ul class="org-ul">
+<li>(in our part 3, the symbol type is used for variable names).</li>
+</ul></li>
+</ul>
+
+<p>
+We define substitution of terms for variables,
+denoted \(e[x ≔ f]\), where
+</p>
+<ul class="org-ul">
+<li>\(e\) is the starting term,</li>
+<li>\(x\) is the variable being substituted for, and</li>
+<li>\(f\) is the term being substituted for \(x\).</li>
+</ul>
+<p>
+The definition is by <i>structural induction</i> on the term \(e\).
+</p>
+
+<p>
+As base cases, we have substitution on <i>constants</i> and <i>variables</i>.
+</p>
+<ul class="org-ul">
+<li>For any constant \(c\), \(c[x ≔ f] = c\).</li>
+<li>For any variable \(y ≠ x\), \(y[x ≔ f] = y\).</li>
+<li>And \(x[x ≔ f] = f\).</li>
+</ul>
+
+<p>
+And we have one inductive case.
+</p>
+<ul class="org-ul">
+<li>For any operation \(r\) and terms \(e₁\), \(e₂\), …, \(eₙ\),
+\((r(e₁,e₂,…,eₙ))[x ≔ f] = r(e₁[x ≔ f], e₂[x ≔ f], …, eₙ[x ≔ f])\).</li>
+</ul>
+</div>
+
+<div id="outline-container-The-scope-of-substitution" class="outline-3">
+<h3 id="The-scope-of-substitution">The scope of substitution</h3>
+<div class="outline-text-3" id="text-The-scope-of-substitution">
+<p>
+From the definition by structural recursion, it should be clear
+that a substitution within a term <i>only affects the subterm</i> to which
+that substitution is applied.
+</p>
+
+<p>
+So, for instance, in the term <code>plus (subst (var x) (var x) (const 2)) var x</code>,
+which would be written \(x[x ≔ 2] + x\) in our usual syntax,
+the variable <code>x</code> on the right is <i>not</i> substituted.
+</p>
 </div>
 </div>
 </div>
@@ -1427,7 +1540,7 @@ docker-compose stop -t 1
 <p class="author">Author: Mark Armstrong</p>
      <p class="author">Contact: <a href="mailto:markparmstrong@gmail.com">markparmstrong@gmail.com</a></p>
      <p class="date">Original date: September 21st, 2020</p>
-     <p class="date">Last updated: 2020-10-17 Sat 17:18</p>
+     <p class="date">Last updated: 2020-10-20 Tue 01:18</p>
      <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.90 (<a href="https://orgmode.org">Org</a> mode 9.4)</p>
      <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

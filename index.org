@@ -18,6 +18,10 @@
 :CUSTOM_ID: October
 :END:
 
+- October 20th ::
+  - An aside about variable substitution was added to the assignment 1,
+    as requested during lecture yesterday.
+
 - October 19th ::
   - A short example of using the ~Option[Either[Int,Boolean]]~ type,
     which is used in part 4 of the assignment,
@@ -25,7 +29,6 @@
     the Scala section of this site.
     - See the [[./language-tidbits/scala.html][HTML site]] or
     - [[./language-tidbits/scala.pdf][PDF]].
-
 
 - October 17th ::
   - Marks for homework 1 have now been distributed to your

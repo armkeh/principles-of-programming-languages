@@ -54,7 +54,14 @@ representing such data.
 - The naming of the types and the interpretation functions/predicates
   has also been standardised.
 - The word “task” has been replaced by “part”.
-  
+
+** October 19th
+:PROPERTIES:
+:CUSTOM_ID: October-19th
+:END:
+
+An aside giving a review of substitution was added following part 3.
+
 * Boilerplate
 :PROPERTIES:
 :CUSTOM_ID: Boilerplate
@@ -319,6 +326,52 @@ in your Scala code.
 *You may need to define a helper function/predicate*
 *before you can define interpretation here.*
 #+end_center
+
+* Aside – review of substitution
+:PROPERTIES:
+:CUSTOM_ID: Aside-–-review-of-substitution
+:END:
+
+Substitution of variables in terms should have been covered
+in previous courses. Here we give a brief refresher
+on the topic.
+
+Consider a language of terms $L$ which consists of
+- a set of constant symbols
+  - (in our part 3, these are integers)
+- a set of operation symbols
+  - (in our part 3, these are the operators ~const~, ~neg~, ~plus~, etc.). and
+- a set of variable names
+  - (in our part 3, the symbol type is used for variable names).
+
+We define substitution of terms for variables,
+denoted $e[x ≔ f]$, where
+- $e$ is the starting term,
+- $x$ is the variable being substituted for, and
+- $f$ is the term being substituted for $x$.
+The definition is by /structural induction/ on the term $e$.
+
+As base cases, we have substitution on /constants/ and /variables/.
+- For any constant $c$, $c[x ≔ f] = c$.
+- For any variable $y ≠ x$, $y[x ≔ f] = y$.
+- And $x[x ≔ f] = f$.
+
+And we have one inductive case.
+- For any operation $r$ and terms $e₁$, $e₂$, …, $eₙ$,
+  $(r(e₁,e₂,…,eₙ))[x ≔ f] = r(e₁[x ≔ f], e₂[x ≔ f], …, eₙ[x ≔ f])$.
+
+** The scope of substitution
+:PROPERTIES:
+:CUSTOM_ID: The-scope-of-substitution
+:END:
+
+From the definition by structural recursion, it should be clear
+that a substitution within a term /only affects the subterm/ to which
+that substitution is applied.
+
+So, for instance, in the term ~plus (subst (var x) (var x) (const 2)) var x~,
+which would be written $x[x ≔ 2] + x$ in our usual syntax,
+the variable ~x~ on the right is /not/ substituted.
 
 * Part 4 – Boolean expressions           [30 marks]
 :PROPERTIES:

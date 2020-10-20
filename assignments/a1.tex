@@ -1,4 +1,4 @@
-% Created 2020-10-17 Sat 17:18
+% Created 2020-10-20 Tue 01:19
 % Intended LaTeX compiler: lualatex
 \documentclass[11pt]{article}
 \usepackage{graphicx}
@@ -42,7 +42,7 @@
 
 
 \section*{Introduction}
-\label{sec:orgc506d6a}
+\label{sec:org209dabf}
 This assignment asks you to construct interpreters
 for a simple language of mathematical expressions.
 To put it another way, you are asked to construct simple calculators.
@@ -53,15 +53,15 @@ in Scala and Prolog, using the languages' facilities for
 representing such data.
 
 \section*{Updates and file history}
-\label{sec:org3c8754c}
+\label{sec:org4178ad6}
 \subsection*{September 21st}
-\label{sec:org8a8c940}
+\label{sec:org84db13c}
 \begin{itemize}
 \item Original version published.
 \end{itemize}
 
 \subsection*{October 13th}
-\label{sec:org7100498}
+\label{sec:orgd937abc}
 \begin{itemize}
 \item \textbf{A documentation requirement has been added!}
 \begin{itemize}
@@ -88,10 +88,14 @@ has also been standardised.
 \item The word “task” has been replaced by “part”.
 \end{itemize}
 
+\subsection*{October 19th}
+\label{sec:orgbd6e7a7}
+An aside giving a review of substitution was added following part 3.
+
 \section*{Boilerplate}
-\label{sec:orgbad1a5e}
+\label{sec:org23e1a86}
 \subsection*{Documentation}
-\label{sec:org29e8aa3}
+\label{sec:orgc4344b4}
 In addition to the code for the assignments,
 you are required to submit (relatively light) documentation,
 along the lines of that found in
@@ -146,13 +150,13 @@ Feel free to omit some “repetitive” portions.
 which look almost identical, only one or two need to be shown.)
 
 \subsection*{Submission procedures}
-\label{sec:org4d7965e}
+\label{sec:org7fb0f4d}
 The same guidelines as for homework
 (which can be seen in any of the homework files)
 apply to assignments, except for the differences below.
 
 \subsubsection*{Assignment naming requirements}
-\label{sec:org58ad701}
+\label{sec:org7fd1eff}
 
 Place all files for the assignment
 inside a folder titled \texttt{an}, where \texttt{n} is the number of the assignment.
@@ -173,12 +177,12 @@ save your code for that part. Follow those instructions!
 This is slightly decreased from the 10\% for homeworks.
 
 \subsection*{Proper conduct for coursework}
-\label{sec:orge8f7ab0}
+\label{sec:orgfc67068}
 Refer to the homework code of conduct available in any of the homework files.
 The same guidelines apply to assignments.
 
 \section*{Informal description of the expression language}
-\label{sec:orga4db0e6}
+\label{sec:orge7d5c98}
 The language consists of integer constants and seven \emph{prefix} operators.
 \begin{itemize}
 \item The unary operator \texttt{const} which operates on integers.
@@ -194,7 +198,7 @@ that is, even without using parentheses,
 there is only one possible reading of a given expression.
 
 \subsection*{Example 1}
-\label{sec:org04ae699}
+\label{sec:org585f48a}
 As an example of a syntactically correct expression, consider
 \begin{minted}[breaklines=true]{text}
 abs minus abs const 5 abs const 6
@@ -207,7 +211,7 @@ or, in the usual notation,
 $|(|5| - |6|)|$
 
 \subsection*{Example 2}
-\label{sec:orgdc1c151}
+\label{sec:orgc7eb9a3}
 As an additional example, consider
 \begin{minted}[breaklines=true]{text}
 plus plus plus exp const 1 const 2 exp const 2 const 2
@@ -221,13 +225,13 @@ or, in the usual notation,
 (((1² + 2²) + 3²) + 4²)
 
 \section*{Part 1 – Interpreter written in Scala  [20 marks]}
-\label{sec:orgf3cc265}
+\label{sec:org8b41f1f}
 \begin{center}
 \textbf{Place your code for this part in a file \texttt{a1p1.sc}.}
 \end{center}
 
 \subsection*{1.1 Representation [5 marks]}
-\label{sec:org8ad20ae}
+\label{sec:orgad8adae}
 Create a representation of the above described expressions
 in Scala using the standard approach for algebraic datatypes,
 and call this type \texttt{Expr}.
@@ -245,18 +249,18 @@ Abs(Minus(Abs(Const(5)), Abs(Const(6))))
 \end{minted}
 
 \subsection*{1.2 Interpreter    [15 marks]}
-\label{sec:org589146e}
+\label{sec:orgea6ff64}
 Define a method \texttt{interpretExpr} acting on \texttt{Expr} which
 calculates the value of an \texttt{Expr}.
 
 \section*{Part 2 – Interpreter written in Prolog [20 marks]}
-\label{sec:org878812c}
+\label{sec:org5114fb1}
 \begin{center}
 \textbf{Place your code for this part in a file \texttt{a1p2.pl}.}
 \end{center}
 
 \subsection*{2.1 Expression recogniser [5 marks]}
-\label{sec:org06d889e}
+\label{sec:org6914d85}
 Define a predicate \texttt{isExpr} in Prolog which recognises
 trees which represent the above defined expressions.
 
@@ -276,7 +280,7 @@ and the query \texttt{isExpr(absE(minusE(absE(constE(5)), absE(constE(6)))))} wo
 result in the response \texttt{true}.
 
 \subsection*{2.2 Interpreter           [15 marks]}
-\label{sec:org847aff6}
+\label{sec:org3e957a2}
 Define a binary predicate \texttt{interpretExpr} which
 relates these expressions to their numerical values.
 
@@ -293,13 +297,13 @@ or avoid an exception altogether
 but this is not expected even as a bonus.)
 
 \section*{Part 3 – Variables and substitution    [30 marks]}
-\label{sec:org96765de}
+\label{sec:org7e47921}
 \begin{center}
 \textbf{Place your code for this part in files \texttt{a1p3.sc} and \texttt{a1p3.pl}.}
 \end{center}
 
 \subsection*{Part 3 description}
-\label{sec:org4239fe5}
+\label{sec:org8acb249}
 In this part, we wish to add variables to our expressions.
 
 This can be done by adding a new operator \texttt{var} to our expressions,
@@ -339,7 +343,7 @@ which maps variables to values.
 We will use states in later assignments for this purpose.)
 
 \subsection*{The part 3}
-\label{sec:org6217cbe}
+\label{sec:org9fe40be}
 In Scala, create a new algebraic datatype \texttt{VarExpr} and a new
 interpretation method \texttt{interpretVarExpr} in Scala ([15 marks].)
 Your new constructors should be called \texttt{Var} and \texttt{Subst}.
@@ -371,20 +375,74 @@ Just ensure you use Ammonite-compatible import directives
 in your Scala code.
 
 \subsubsection*{Hint (added October 13th)}
-\label{sec:orgf36187a}
+\label{sec:org1b9d0e3}
 \begin{center}
 \textbf{You may need to define a helper function/predicate}
 \textbf{before you can define interpretation here.}
 \end{center}
 
+\section*{Aside – review of substitution}
+\label{sec:orgd9a4a35}
+Substitution of variables in terms should have been covered
+in previous courses. Here we give a brief refresher
+on the topic.
+
+Consider a language of terms \(L\) which consists of
+\begin{itemize}
+\item a set of constant symbols
+\begin{itemize}
+\item (in our part 3, these are integers)
+\end{itemize}
+\item a set of operation symbols
+\begin{itemize}
+\item (in our part 3, these are the operators \texttt{const}, \texttt{neg}, \texttt{plus}, etc.). and
+\end{itemize}
+\item a set of variable names
+\begin{itemize}
+\item (in our part 3, the symbol type is used for variable names).
+\end{itemize}
+\end{itemize}
+
+We define substitution of terms for variables,
+denoted \(e[x ≔ f]\), where
+\begin{itemize}
+\item \(e\) is the starting term,
+\item \(x\) is the variable being substituted for, and
+\item \(f\) is the term being substituted for \(x\).
+\end{itemize}
+The definition is by \emph{structural induction} on the term \(e\).
+
+As base cases, we have substitution on \emph{constants} and \emph{variables}.
+\begin{itemize}
+\item For any constant \(c\), \(c[x ≔ f] = c\).
+\item For any variable \(y ≠ x\), \(y[x ≔ f] = y\).
+\item And \(x[x ≔ f] = f\).
+\end{itemize}
+
+And we have one inductive case.
+\begin{itemize}
+\item For any operation \(r\) and terms \(e₁\), \(e₂\), …, \(eₙ\),
+\((r(e₁,e₂,…,eₙ))[x ≔ f] = r(e₁[x ≔ f], e₂[x ≔ f], …, eₙ[x ≔ f])\).
+\end{itemize}
+
+\subsection*{The scope of substitution}
+\label{sec:orgd5ca8f3}
+From the definition by structural recursion, it should be clear
+that a substitution within a term \emph{only affects the subterm} to which
+that substitution is applied.
+
+So, for instance, in the term \texttt{plus (subst (var x) (var x) (const 2)) var x},
+which would be written \(x[x ≔ 2] + x\) in our usual syntax,
+the variable \texttt{x} on the right is \emph{not} substituted.
+
 \section*{Part 4 – Boolean expressions           [30 marks]}
-\label{sec:orgc163d34}
+\label{sec:org8e393a0}
 \begin{center}
 \textbf{Place your code for this part in files \texttt{a1p4.sc} and \texttt{a1p4.pl}.}
 \end{center}
 
 \subsection*{Part 4 description}
-\label{sec:org8b5b635}
+\label{sec:orgc8616a3}
 In this part, we create an alternate extension to
 our first language of expressions
 (that is, we build on to \texttt{Expr}, not \texttt{VarExpr}.)
@@ -412,7 +470,7 @@ trying to apply a integer operator to a boolean expression
 or vice versa is not legal.
 
 \subsection*{The part 4}
-\label{sec:org4bb3d55}
+\label{sec:org91f4fa2}
 In Scala, create a new algebraic datatype \texttt{MixedExpr} and a new
 interpretation method \texttt{interpretMixedExpr} in Scala ([15 marks].)
 Your new constructors should be named \texttt{TT}, \texttt{FF}, \texttt{Band}, \texttt{Bor} and \texttt{Bnot}.
@@ -434,7 +492,7 @@ and a new predicate \texttt{interpretMixedExpr} which relates
 expressions to their interpreted value ([15 marks].)
 
 \section*{Part 5 – Bonus: parsing                [10 bonus marks]}
-\label{sec:orgb64f396}
+\label{sec:org2789284}
 \begin{center}
 \textbf{Place your code for the bonus, if you attempt it, in \texttt{a1p5.sc} and/or \texttt{a1p5.pl}.}
 \end{center}
@@ -455,7 +513,7 @@ that converts a string to a list of lexemes
 Such a list is far easier to match over than a string.
 
 \section*{Submission checklist}
-\label{sec:org7fff4b2}
+\label{sec:org3742989}
 For your convenience, this checklist is provided
 to track the files you need to submit.
 Use it if you wish.
@@ -487,7 +545,7 @@ Use it if you wish.
 \end{minted}
 
 \section*{Testing}
-\label{sec:org7328565}
+\label{sec:org1b79451}
 Unit tests for the requested types, methods and predicates
 are available here.
 \begin{itemize}
@@ -523,7 +581,7 @@ The provided test cases check a very minimal amount!
 \end{center}
 
 \subsection*{Automated testing via Docker}
-\label{sec:orgf610096}
+\label{sec:org344048d}
 The Docker setup and usage scripts are available at the following links.
 Their contents are also repeated below.
 \begin{itemize}
@@ -542,12 +600,12 @@ and not using WSL or WSL2, you may have
 to run the commands contained in those scripts manually.
 
 \subsection*{The tests}
-\label{sec:org811be1f}
+\label{sec:orgfdbab34}
 \subsubsection*{Scala}
-\label{sec:org85e71fb}
+\label{sec:org3a3996b}
 \begin{itemize}
 \item Framework
-\label{sec:org73e570b}
+\label{sec:orgb59d6a8}
 \href{./testing/a1/a1\_testframework.sc}{a1\_testframework.sc}
 \begin{minted}[breaklines=true]{scala}
 /* Given an expected result and a computed result,
@@ -582,7 +640,7 @@ def runTests[A](tests: List[Tuple3[A,A,String]]): Unit = {
 \end{minted}
 
 \item Scala testing code for Part 1
-\label{sec:orgd42c08b}
+\label{sec:org4833352}
 \href{./testing/a1/a1p1\_test.sc}{a1p1\_test.sc}
 \begin{minted}[breaklines=true]{scala}
 import $file.a1_testframework, a1_testframework._
@@ -598,11 +656,11 @@ runTests(tests)
 \end{minted}
 
 \item Scala testing code for Part 2
-\label{sec:orgfe29ec5}
+\label{sec:org5cb81df}
 There is no Scala code for part 2.
 
 \item Scala testing code for Part 3
-\label{sec:org9f104d5}
+\label{sec:org883caa1}
 \href{./testing/a1/a1p3\_test.sc}{a1p3\_test.sc}
 \begin{minted}[breaklines=true]{scala}
 import $file.a1_testframework, a1_testframework._
@@ -627,7 +685,7 @@ runTests(tests)
 \end{minted}
 
 \item Scala testing code for Part 4
-\label{sec:org14ca4ea}
+\label{sec:org26eba0d}
 \href{./testing/a1/a1p4\_test.sc}{a1p4\_test.sc}
 \begin{minted}[breaklines=true]{scala}
 import $file.a1_testframework, a1_testframework._
@@ -647,14 +705,14 @@ runTests(tests)
 \end{itemize}
 
 \subsubsection*{Prolog}
-\label{sec:org24ffb42}
+\label{sec:orgf467813}
 \begin{itemize}
 \item Prolog testing code for Part 1
-\label{sec:org6953840}
+\label{sec:org96dcbad}
 There is no Prolog code for part 1.
 
 \item Prolog testing code for Part 2
-\label{sec:org84963bd}
+\label{sec:org5cde7d5}
 \href{./testing/a1/a1p2.plt}{a1p2.plt}
 \begin{minted}[breaklines=true]{prolog}
 :- begin_tests(a1p2).
@@ -676,7 +734,7 @@ test('Exponential expression 5 ^ 4', nondet) :-
 \end{minted}
 
 \item Prolog testing code for Part 3
-\label{sec:orgdc7e655}
+\label{sec:orgacbbfb1}
 \href{./testing/a1/a1p3.plt}{a1p3.plt}
 \begin{minted}[breaklines=true]{prolog}
 :- begin_tests(a1p3).
@@ -717,7 +775,7 @@ test('Nested substitution ((x + y)[x := 5])[y := 4]', nondet) :-
 \end{minted}
 
 \item Prolog testing code for Part 4
-\label{sec:orgd9f7181}
+\label{sec:org2d83f52}
 \href{./testing/a1/a1p4.plt}{a1p4.plt}
 \begin{minted}[breaklines=true]{prolog}
 :- begin_tests(a1p4).
@@ -750,7 +808,7 @@ test('And expression true && false', nondet) :-
 \end{itemize}
 
 \subsection*{The Docker setup}
-\label{sec:org29cea3e}
+\label{sec:org30d397e}
 \href{./testing/a1/Dockerfile}{Dockerfile}
 \begin{minted}[breaklines=true]{docker}
 # Define the argument for openjdk version

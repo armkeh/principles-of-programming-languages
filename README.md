@@ -12,6 +12,11 @@ better viewed at
 
 ## October
 
+  - October 20th
+    
+      - An aside about variable substitution was added to the assignment
+        1, as requested during lecture yesterday.
+
   - October 19th
     
       - A short example of using the `Option[Either[Int,Boolean]]` type,
