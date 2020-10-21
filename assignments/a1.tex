@@ -1,4 +1,4 @@
-% Created 2020-10-20 Tue 01:19
+% Created 2020-10-21 Wed 10:19
 % Intended LaTeX compiler: lualatex
 \documentclass[11pt]{article}
 \usepackage{graphicx}
@@ -42,7 +42,7 @@
 
 
 \section*{Introduction}
-\label{sec:org209dabf}
+\label{sec:org76ae72a}
 This assignment asks you to construct interpreters
 for a simple language of mathematical expressions.
 To put it another way, you are asked to construct simple calculators.
@@ -53,15 +53,15 @@ in Scala and Prolog, using the languages' facilities for
 representing such data.
 
 \section*{Updates and file history}
-\label{sec:org4178ad6}
+\label{sec:org1722a02}
 \subsection*{September 21st}
-\label{sec:org84db13c}
+\label{sec:org34238df}
 \begin{itemize}
 \item Original version published.
 \end{itemize}
 
 \subsection*{October 13th}
-\label{sec:orgd937abc}
+\label{sec:org28b196c}
 \begin{itemize}
 \item \textbf{A documentation requirement has been added!}
 \begin{itemize}
@@ -89,13 +89,13 @@ has also been standardised.
 \end{itemize}
 
 \subsection*{October 19th}
-\label{sec:orgbd6e7a7}
+\label{sec:org9d88a74}
 An aside giving a review of substitution was added following part 3.
 
 \section*{Boilerplate}
-\label{sec:org23e1a86}
+\label{sec:org01fd887}
 \subsection*{Documentation}
-\label{sec:orgc4344b4}
+\label{sec:org84d0fae}
 In addition to the code for the assignments,
 you are required to submit (relatively light) documentation,
 along the lines of that found in
@@ -108,6 +108,10 @@ should be similar to the \emph{end} of those documents,
 where only the purpose and implementation details
 of types, functions, etc., are discussed.
 \end{itemize}
+
+This documentation is not assigned its own marks;
+rather, 20\% of the marks of each part of the assignment
+will be for the documentation.
 
 This documentation \textbf{must be} in the literate style,
 with (nicely typeset) English paragraphs alongside code snippets;
@@ -150,13 +154,13 @@ Feel free to omit some “repetitive” portions.
 which look almost identical, only one or two need to be shown.)
 
 \subsection*{Submission procedures}
-\label{sec:org7fb0f4d}
+\label{sec:orgfa0f844}
 The same guidelines as for homework
 (which can be seen in any of the homework files)
 apply to assignments, except for the differences below.
 
 \subsubsection*{Assignment naming requirements}
-\label{sec:org7fd1eff}
+\label{sec:org7792d9b}
 
 Place all files for the assignment
 inside a folder titled \texttt{an}, where \texttt{n} is the number of the assignment.
@@ -177,12 +181,12 @@ save your code for that part. Follow those instructions!
 This is slightly decreased from the 10\% for homeworks.
 
 \subsection*{Proper conduct for coursework}
-\label{sec:orgfc67068}
+\label{sec:org9cc9f18}
 Refer to the homework code of conduct available in any of the homework files.
 The same guidelines apply to assignments.
 
 \section*{Informal description of the expression language}
-\label{sec:orge7d5c98}
+\label{sec:org66120b5}
 The language consists of integer constants and seven \emph{prefix} operators.
 \begin{itemize}
 \item The unary operator \texttt{const} which operates on integers.
@@ -198,7 +202,7 @@ that is, even without using parentheses,
 there is only one possible reading of a given expression.
 
 \subsection*{Example 1}
-\label{sec:org585f48a}
+\label{sec:orgfff160a}
 As an example of a syntactically correct expression, consider
 \begin{minted}[breaklines=true]{text}
 abs minus abs const 5 abs const 6
@@ -211,7 +215,7 @@ or, in the usual notation,
 $|(|5| - |6|)|$
 
 \subsection*{Example 2}
-\label{sec:orgc7eb9a3}
+\label{sec:orgc19eac0}
 As an additional example, consider
 \begin{minted}[breaklines=true]{text}
 plus plus plus exp const 1 const 2 exp const 2 const 2
@@ -225,13 +229,13 @@ or, in the usual notation,
 (((1² + 2²) + 3²) + 4²)
 
 \section*{Part 1 – Interpreter written in Scala  [20 marks]}
-\label{sec:org8b41f1f}
+\label{sec:org70d8712}
 \begin{center}
 \textbf{Place your code for this part in a file \texttt{a1p1.sc}.}
 \end{center}
 
 \subsection*{1.1 Representation [5 marks]}
-\label{sec:orgad8adae}
+\label{sec:orgfb5ac2a}
 Create a representation of the above described expressions
 in Scala using the standard approach for algebraic datatypes,
 and call this type \texttt{Expr}.
@@ -249,18 +253,18 @@ Abs(Minus(Abs(Const(5)), Abs(Const(6))))
 \end{minted}
 
 \subsection*{1.2 Interpreter    [15 marks]}
-\label{sec:orgea6ff64}
+\label{sec:orgd1576b4}
 Define a method \texttt{interpretExpr} acting on \texttt{Expr} which
 calculates the value of an \texttt{Expr}.
 
 \section*{Part 2 – Interpreter written in Prolog [20 marks]}
-\label{sec:org5114fb1}
+\label{sec:orge79bd5c}
 \begin{center}
 \textbf{Place your code for this part in a file \texttt{a1p2.pl}.}
 \end{center}
 
 \subsection*{2.1 Expression recogniser [5 marks]}
-\label{sec:org6914d85}
+\label{sec:orgd0b3b19}
 Define a predicate \texttt{isExpr} in Prolog which recognises
 trees which represent the above defined expressions.
 
@@ -280,7 +284,7 @@ and the query \texttt{isExpr(absE(minusE(absE(constE(5)), absE(constE(6)))))} wo
 result in the response \texttt{true}.
 
 \subsection*{2.2 Interpreter           [15 marks]}
-\label{sec:org3e957a2}
+\label{sec:orge9bdab7}
 Define a binary predicate \texttt{interpretExpr} which
 relates these expressions to their numerical values.
 
@@ -297,13 +301,13 @@ or avoid an exception altogether
 but this is not expected even as a bonus.)
 
 \section*{Part 3 – Variables and substitution    [30 marks]}
-\label{sec:org7e47921}
+\label{sec:org4d29893}
 \begin{center}
 \textbf{Place your code for this part in files \texttt{a1p3.sc} and \texttt{a1p3.pl}.}
 \end{center}
 
 \subsection*{Part 3 description}
-\label{sec:org8acb249}
+\label{sec:org6df7664}
 In this part, we wish to add variables to our expressions.
 
 This can be done by adding a new operator \texttt{var} to our expressions,
@@ -343,7 +347,7 @@ which maps variables to values.
 We will use states in later assignments for this purpose.)
 
 \subsection*{The part 3}
-\label{sec:org9fe40be}
+\label{sec:org8a4c381}
 In Scala, create a new algebraic datatype \texttt{VarExpr} and a new
 interpretation method \texttt{interpretVarExpr} in Scala ([15 marks].)
 Your new constructors should be called \texttt{Var} and \texttt{Subst}.
@@ -375,14 +379,14 @@ Just ensure you use Ammonite-compatible import directives
 in your Scala code.
 
 \subsubsection*{Hint (added October 13th)}
-\label{sec:org1b9d0e3}
+\label{sec:orgcd22087}
 \begin{center}
 \textbf{You may need to define a helper function/predicate}
 \textbf{before you can define interpretation here.}
 \end{center}
 
 \section*{Aside – review of substitution}
-\label{sec:orgd9a4a35}
+\label{sec:org8520de3}
 Substitution of variables in terms should have been covered
 in previous courses. Here we give a brief refresher
 on the topic.
@@ -426,7 +430,7 @@ And we have one inductive case.
 \end{itemize}
 
 \subsection*{The scope of substitution}
-\label{sec:orgd5ca8f3}
+\label{sec:org2013e0d}
 From the definition by structural recursion, it should be clear
 that a substitution within a term \emph{only affects the subterm} to which
 that substitution is applied.
@@ -436,13 +440,13 @@ which would be written \(x[x ≔ 2] + x\) in our usual syntax,
 the variable \texttt{x} on the right is \emph{not} substituted.
 
 \section*{Part 4 – Boolean expressions           [30 marks]}
-\label{sec:org8e393a0}
+\label{sec:orgf95f5e5}
 \begin{center}
 \textbf{Place your code for this part in files \texttt{a1p4.sc} and \texttt{a1p4.pl}.}
 \end{center}
 
 \subsection*{Part 4 description}
-\label{sec:orgc8616a3}
+\label{sec:org5094a7b}
 In this part, we create an alternate extension to
 our first language of expressions
 (that is, we build on to \texttt{Expr}, not \texttt{VarExpr}.)
@@ -470,7 +474,7 @@ trying to apply a integer operator to a boolean expression
 or vice versa is not legal.
 
 \subsection*{The part 4}
-\label{sec:org91f4fa2}
+\label{sec:org8b71578}
 In Scala, create a new algebraic datatype \texttt{MixedExpr} and a new
 interpretation method \texttt{interpretMixedExpr} in Scala ([15 marks].)
 Your new constructors should be named \texttt{TT}, \texttt{FF}, \texttt{Band}, \texttt{Bor} and \texttt{Bnot}.
@@ -492,7 +496,7 @@ and a new predicate \texttt{interpretMixedExpr} which relates
 expressions to their interpreted value ([15 marks].)
 
 \section*{Part 5 – Bonus: parsing                [10 bonus marks]}
-\label{sec:org2789284}
+\label{sec:org89c84f8}
 \begin{center}
 \textbf{Place your code for the bonus, if you attempt it, in \texttt{a1p5.sc} and/or \texttt{a1p5.pl}.}
 \end{center}
@@ -513,7 +517,7 @@ that converts a string to a list of lexemes
 Such a list is far easier to match over than a string.
 
 \section*{Submission checklist}
-\label{sec:org3742989}
+\label{sec:orgc03ae60}
 For your convenience, this checklist is provided
 to track the files you need to submit.
 Use it if you wish.
@@ -545,7 +549,7 @@ Use it if you wish.
 \end{minted}
 
 \section*{Testing}
-\label{sec:org1b79451}
+\label{sec:orgb2ed51a}
 Unit tests for the requested types, methods and predicates
 are available here.
 \begin{itemize}
@@ -581,7 +585,7 @@ The provided test cases check a very minimal amount!
 \end{center}
 
 \subsection*{Automated testing via Docker}
-\label{sec:org344048d}
+\label{sec:orgb035c75}
 The Docker setup and usage scripts are available at the following links.
 Their contents are also repeated below.
 \begin{itemize}
@@ -600,12 +604,12 @@ and not using WSL or WSL2, you may have
 to run the commands contained in those scripts manually.
 
 \subsection*{The tests}
-\label{sec:orgfdbab34}
+\label{sec:org866c2e2}
 \subsubsection*{Scala}
-\label{sec:org3a3996b}
+\label{sec:orgf64f997}
 \begin{itemize}
 \item Framework
-\label{sec:orgb59d6a8}
+\label{sec:org3576356}
 \href{./testing/a1/a1\_testframework.sc}{a1\_testframework.sc}
 \begin{minted}[breaklines=true]{scala}
 /* Given an expected result and a computed result,
@@ -640,7 +644,7 @@ def runTests[A](tests: List[Tuple3[A,A,String]]): Unit = {
 \end{minted}
 
 \item Scala testing code for Part 1
-\label{sec:org4833352}
+\label{sec:org5f3e0b0}
 \href{./testing/a1/a1p1\_test.sc}{a1p1\_test.sc}
 \begin{minted}[breaklines=true]{scala}
 import $file.a1_testframework, a1_testframework._
@@ -656,11 +660,11 @@ runTests(tests)
 \end{minted}
 
 \item Scala testing code for Part 2
-\label{sec:org5cb81df}
+\label{sec:org2a83280}
 There is no Scala code for part 2.
 
 \item Scala testing code for Part 3
-\label{sec:org883caa1}
+\label{sec:org9f18db8}
 \href{./testing/a1/a1p3\_test.sc}{a1p3\_test.sc}
 \begin{minted}[breaklines=true]{scala}
 import $file.a1_testframework, a1_testframework._
@@ -685,7 +689,7 @@ runTests(tests)
 \end{minted}
 
 \item Scala testing code for Part 4
-\label{sec:org26eba0d}
+\label{sec:orgf131a1f}
 \href{./testing/a1/a1p4\_test.sc}{a1p4\_test.sc}
 \begin{minted}[breaklines=true]{scala}
 import $file.a1_testframework, a1_testframework._
@@ -705,14 +709,14 @@ runTests(tests)
 \end{itemize}
 
 \subsubsection*{Prolog}
-\label{sec:orgf467813}
+\label{sec:orgbb04af9}
 \begin{itemize}
 \item Prolog testing code for Part 1
-\label{sec:org96dcbad}
+\label{sec:org5cfa426}
 There is no Prolog code for part 1.
 
 \item Prolog testing code for Part 2
-\label{sec:org5cde7d5}
+\label{sec:org3dcf6a7}
 \href{./testing/a1/a1p2.plt}{a1p2.plt}
 \begin{minted}[breaklines=true]{prolog}
 :- begin_tests(a1p2).
@@ -734,7 +738,7 @@ test('Exponential expression 5 ^ 4', nondet) :-
 \end{minted}
 
 \item Prolog testing code for Part 3
-\label{sec:orgacbbfb1}
+\label{sec:org0c61450}
 \href{./testing/a1/a1p3.plt}{a1p3.plt}
 \begin{minted}[breaklines=true]{prolog}
 :- begin_tests(a1p3).
@@ -775,7 +779,7 @@ test('Nested substitution ((x + y)[x := 5])[y := 4]', nondet) :-
 \end{minted}
 
 \item Prolog testing code for Part 4
-\label{sec:org2d83f52}
+\label{sec:orga7ea604}
 \href{./testing/a1/a1p4.plt}{a1p4.plt}
 \begin{minted}[breaklines=true]{prolog}
 :- begin_tests(a1p4).
@@ -808,7 +812,7 @@ test('And expression true && false', nondet) :-
 \end{itemize}
 
 \subsection*{The Docker setup}
-\label{sec:org30d397e}
+\label{sec:org55685df}
 \href{./testing/a1/Dockerfile}{Dockerfile}
 \begin{minted}[breaklines=true]{docker}
 # Define the argument for openjdk version

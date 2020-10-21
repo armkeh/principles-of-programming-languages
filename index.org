@@ -18,6 +18,12 @@
 :CUSTOM_ID: October
 :END:
 
+- October 21st ::
+  - The assignment's boilerplate now specifies the grading
+    for the documentation portion.
+    It is not assigned a specific grade;
+    instead, 20% of each part is for documentation.
+
 - October 20th ::
   - An aside about variable substitution was added to the assignment 1,
     as requested during lecture yesterday.

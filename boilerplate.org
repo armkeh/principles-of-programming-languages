@@ -147,6 +147,10 @@ from lectures and tutorials.
   where only the purpose and implementation details
   of types, functions, etc., are discussed.
 
+This documentation is not assigned its own marks;
+rather, 20% of the marks of each part of the assignment
+will be for the documentation.
+
 This documentation *must be* in the literate style,
 with (nicely typeset) English paragraphs alongside code snippets;
 comments in your source code do not count.

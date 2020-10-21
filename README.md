@@ -12,6 +12,12 @@ better viewed at
 
 ## October
 
+  - October 21st
+    
+      - The assignment's boilerplate now specifies the grading for the
+        documentation portion. It is not assigned a specific grade;
+        instead, 20% of each part is for documentation.
+
   - October 20th
     
       - An aside about variable substitution was added to the assignment
