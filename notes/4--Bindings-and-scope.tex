@@ -1,4 +1,4 @@
-% Created 2020-10-19 Mon 11:24
+% Created 2020-10-21 Wed 11:28
 % Intended LaTeX compiler: lualatex
 \documentclass[11pt]{article}
 \usepackage{graphicx}
@@ -45,25 +45,26 @@
 \maketitle
 
 \section{Preamble}
-\label{sec:orgaef609c}
-
-\subsection{{\bfseries\sffamily TODO} Notable references}
-\label{sec:org2fc4a77}
-
-:TODO:
+\label{sec:org06ee6d7}
+\subsection{Notable references}
+\label{sec:org8b8c03a}
+\begin{itemize}
+\item Robert W. Sebesta, “Concepts of Programming Languages” (10th edition)
+\begin{itemize}
+\item Chapter 5, Names, Bindings, and Scopes
+\end{itemize}
+\end{itemize}
 
 \subsection{{\bfseries\sffamily TODO} Table of contents}
-\label{sec:org04a8596}
-
+\label{sec:orge870e59}
 \begin{scriptsize}
 \begin{itemize}
-\item \hyperref[sec:orgaef609c]{Preamble}
+\item \hyperref[sec:org06ee6d7]{Preamble}
 \end{itemize}
 \end{scriptsize}
 
 \section{Introduction}
-\label{sec:org7bc3d93}
-
+\label{sec:org26d74ec}
 This section introduces several concepts
 relating to names and bindings of those names.
 
@@ -71,8 +72,7 @@ Of particular note is \emph{scope}, the “visibility” of names
 throughout a program.
 
 \subsection{What's a binding?}
-\label{sec:orgb5cf801}
-
+\label{sec:orgfd4bfac}
 A \emph{binding} is a general term that refers
 to any association between an entity and an attribute.
 \begin{itemize}
@@ -94,12 +94,14 @@ For instance,
 \begin{itemize}
 \item and often a type (attribute),
 \end{itemize}
-\item a type (entity) should have also have a name (attribute).
+\item a type (entity) should have also have a name (attribute.)
 \end{itemize}
 
-\subsection{Uses of names}
-\label{sec:org5fb8c2b}
+In these notes, we primarily discuss bindings of \emph{types}, \emph{lifetimes} and \emph{scopes}.
+Other bindings may come up later in the course.
 
+\subsection{Uses of names}
+\label{sec:orga5d15d9}
 Many entities may be have names bound to them;
 \begin{itemize}
 \item variables, constants, parameters/arguments,
@@ -110,8 +112,7 @@ Many entities may be have names bound to them;
 to name a few.
 
 \subsection{Persistance of names}
-\label{sec:org7cf9a95}
-
+\label{sec:org5c0fe15}
 Take note!
 \begin{itemize}
 \item Some namings are “global”; they persist for “all time and space”.
@@ -133,8 +134,7 @@ with the same name as one already in scope.)
 \end{itemize}
 
 \subsection{A note about time and space}
-\label{sec:org436ecc4}
-
+\label{sec:org7eb2818}
 Throughout these notes, we will discuss \emph{when} and \emph{where} bindings
 are in effect.
 
@@ -148,8 +148,7 @@ These discussions of “time” and “space” are relative to the program.
 \end{itemize}
 
 \subsection{Static and dynamic bindings (or “checking of bindings”)}
-\label{sec:org83846dc}
-
+\label{sec:org5d50d34}
 Bindings which are decided (or known) \emph{before} runtime
 are called \emph{static}.
 
@@ -164,8 +163,7 @@ statically or dynamically.
 \end{itemize}
 
 \section{Type checking and polymorphism}
-\label{sec:orgb1a62ed}
-
+\label{sec:org051166b}
 Type checking is the process of determining
 the binding between a name of an entity and a type.
 \begin{itemize}
@@ -179,8 +177,7 @@ sometimes, types may have a type!
 \end{itemize}
 
 \subsection{“Dynamically checked” instead of “dynamically typed”}
-\label{sec:org6862d95}
-
+\label{sec:orgbe6df73}
 As with many bindings, languages can be categorised as
 being either \emph{statically} or \emph{dynamically} typed.
 
@@ -192,8 +189,7 @@ that the term “dynamically typed language” is a misnomer.
 \end{itemize}
 
 \subsection{Static and dynamic type checking}
-\label{sec:orgfbbfbd8}
-
+\label{sec:orgf2b1436}
 It's somewhat natural for interpreted languages to be dynamically typed,
 and compiled languages to be statically typed.
 \begin{itemize}
@@ -212,8 +208,7 @@ statically typed.
 \end{itemize}
 
 \subsection{Polymorphism}
-\label{sec:orgbc0d2c0}
-
+\label{sec:org6e48263}
 Assigning each value in a program a single type, and then
 enforcing type correctness (preventint type clashes)
 introduces a (solveable) problem; it prohibits code reuse!
@@ -241,21 +236,25 @@ a value of their supertype is expected.
 \end{itemize}
 
 \subsection{Ad hoc polymorphism (overloading)}
-\label{sec:orga68b2b6}
-
+\label{sec:org5734ee9}
 One notion of polymorphism is \emph{ad hoc} polymorphism,
 also called \emph{overloading}.
 \begin{itemize}
 \item With overloading, subroutine names
 can be reused as long as the types of arguments
-differ (in some specified way).
+differ (in some specified way.)
 \item The downside is the programmer must define
 the “same” subroutine many times; once for each type.
 \end{itemize}
 
-\subsection{Parametric polymorphism}
-\label{sec:orgc0b9d04}
+Here is an example of ad hoc polymorphism in Scala.
+\begin{minted}[breaklines=true]{scala}
+def sum(a: Int, b: Int): Int = a + b
+def sum(a: Boolean, b: Boolean): Boolean = a || b
+\end{minted}
 
+\subsection{Parametric polymorphism}
+\label{sec:orgace2543}
 With parametric polymorphism, subroutines have a
 \emph{most general} type, based on the \emph{shape} or \emph{form} of their arguments.
 \begin{itemize}
@@ -269,19 +268,46 @@ essentially the same concept.
 \end{itemize}
 \end{itemize}
 
-\subsection{Duck typing}
-\label{sec:org7648408}
+Here is an example of parametric polymorphism in Scala.
+\begin{minted}[breaklines=true]{scala}
+def swap[A](p : Tuple2[A,A]): Tuple2[A,A] = p match {
+  case (p1, p2) => (p2, p1)
+}
+\end{minted}
 
+\subsection{Duck typing}
+\label{sec:org88d7e6a}
 More formally called \emph{row polymorphism}.
 \begin{itemize}
-\item Types are not actually checked.
-\item We only check that an entity has the correct method defined for it.
+\item Duck typing does not actually check the types of values.
+\item It is used when calling a method on a value;
+the only check is that that method is defined for that value.
 \item “If it walks like a duck, and quacks like a duck, it's a duck!”
 \end{itemize}
 
-\section{Lifetime}
-\label{sec:orgce00318}
+Here is an example of duck typing in Ruby.
+\begin{minted}[breaklines=true]{ruby}
+class Thing1
+  def initialize(v,w); @v = v; @w = w end
+  def do_the_thing() "I'll implement this later." end
+end
 
+class Thing2
+  def initialize(v,w); @v = v; @w = w end
+  def do_the_thing() @v + @w end
+end
+  
+def doit(x) x.do_the_thing end
+
+x = Thing1.new(1,2)
+y = Thing2.new(1,2)
+
+puts doit(x) # Outputs a string
+puts doit(y) # Outputs an integer
+\end{minted}
+
+\section{Lifetime}
+\label{sec:org0c9fc0b}
 The \emph{lifetime} of an entity is the portion of the runtime
 (not the code) during which that entity has allocated memory.
 
@@ -289,8 +315,7 @@ To discuss lifetimes, we first need to discuss
 the layout of memory and the process of memory allocation.
 
 \subsection{The data segment, stack, and heap}
-\label{sec:org96771e8}
-
+\label{sec:orgcd5d82c}
 In the context of running a program (or a thread of a program):
 \begin{itemize}
 \item The \emph{data segment} is a portion of memory used to store the
@@ -317,15 +342,13 @@ a scope.
 \end{itemize}
 
 \subsection{Picturing memory}
-\label{sec:org65c8e59}
-
+\label{sec:orgcf7f7c0}
 \begin{center}
 \includegraphics[width=\textwidth]{media/data-segment-stack-heap.png}
 \end{center}
 
 \subsection{Kinds of memory allocation}
-\label{sec:orga863a67}
-
+\label{sec:org145c219}
 We can distinguish four kinds of memory allocation;
 \begin{itemize}
 \item static,
@@ -335,15 +358,14 @@ We can distinguish four kinds of memory allocation;
 \end{itemize}
 
 \subsection{Static and stack dynamic allocation}
-\label{sec:org8bbee00}
-
+\label{sec:org34df112}
 \begin{itemize}
 \item Static
 \begin{itemize}
 \item Allocation is done \emph{before runtime} (static), in the data segment.
 \begin{itemize}
 \item At load time, when the program is loaded into memory.
-(Not compile time).
+(Not compile time.)
 \end{itemize}
 \end{itemize}
 \item Stack dynamic
@@ -355,8 +377,7 @@ We can distinguish four kinds of memory allocation;
 \end{itemize}
 
 \subsection{Implicit and explicit heap dynamic allocation}
-\label{sec:orgaf64057}
-
+\label{sec:org9b41642}
 \begin{itemize}
 \item Implicit heap dynamic
 \begin{itemize}
@@ -379,8 +400,7 @@ the programmer does not need to “do anything”.
 \end{itemize}
 
 \subsection{Exercise: Memory allocation methods}
-\label{sec:org9eed82b}
-
+\label{sec:orgad1b70d}
 Investigate:
 \begin{itemize}
 \item Which of the five kinds of memory allocation are available in
@@ -389,8 +409,7 @@ Scala and in Ruby.
 \end{itemize}
 
 \subsection{The lifetime}
-\label{sec:org6190c27}
-
+\label{sec:org3779266}
 To repeat,
 the \emph{lifetime} of an entity is the portion of the runtime
 (not the code) during which that entity has allocated memory.
@@ -421,8 +440,7 @@ command is used. The end of lifetime may be
 \end{itemize}
 
 \subsection{Garbage collection}
-\label{sec:org8d93afb}
-
+\label{sec:org2a32e22}
 \emph{Garbage} is allocated memory which is no longer accessible.
 
 \emph{Garbage collection} is the process of deallocating garbage.
@@ -447,13 +465,12 @@ compiled/interpreted code.
 \begin{itemize}
 \item Memory may be allocated off the stack instead of the heap
 \emph{if} no references to the variable are available outside its scope
-(if it doesn't “escape”).
+(if it doesn't “escape”.)
 \end{itemize}
 \end{itemize}
 
 \subsubsection{Tracing garbage collection (mark \& sweep)}
-\label{sec:orgd7a3c6f}
-
+\label{sec:org9152e54}
 \begin{itemize}
 \item Usually triggered when a certain memory threshold is reached.
 \item Starting from some set of base references
@@ -470,7 +487,7 @@ compiled/interpreted code.
 kept clear except during garbage collection.
 \item When activated, traverse all reachable memory,
 “marking” what's reached, then “sweep” away all unmarked memory
-(and reset the flags of marked memory).
+(and reset the flags of marked memory.)
 \begin{itemize}
 \item With this naive approach, we have to pause the program to do this;
 \item better methods do not require pausing.
@@ -479,8 +496,7 @@ kept clear except during garbage collection.
 \end{itemize}
 
 \subsubsection{Reference counting garbage collection}
-\label{sec:org1a27432}
-
+\label{sec:org49057c0}
 \begin{itemize}
 \item An “eager” approach.
 \item As the program runs, keep a count of the number of references
@@ -500,8 +516,7 @@ even if the structure as a whole is unreachable.
 \end{itemize}
 
 \subsection{Dangling/wild references}
-\label{sec:orga17d3ef}
-
+\label{sec:orgb5e28f7}
 Garbage is not the only problem that can occur with
 references to memory.
 
@@ -521,8 +536,7 @@ We will discuss methods of preventing use of wild/dangling references
 when we discuss reference types later in the course.
 
 \section{Scope}
-\label{sec:org9c67daf}
-
+\label{sec:org05d4793}
 A \emph{scope} (singular) is a portion of the program to which the visibility
 of entities may be limited.
 \begin{itemize}
@@ -541,8 +555,7 @@ the adjective scope we are about to define.
 \end{itemize}
 
 \subsection{Static scoping}
-\label{sec:org4cfa56d}
-
+\label{sec:orgd2c250c}
 The \emph{scope} (adjective) of an entity is the portion of the program
 in which it is “visible”.
 \begin{itemize}
@@ -560,8 +573,7 @@ outside of differences in what constructs introduce scope.
 \end{itemize}
 
 \subsection{Dynamic scoping}
-\label{sec:org34dc550}
-
+\label{sec:orgae206ae}
 With dynamic scoping, the scope of entities depends upon the
     “execution trace”, i.e., the “path” through the program.
 \begin{itemize}
@@ -573,13 +585,12 @@ With dynamic scoping, the scope of entities depends upon the
 \end{itemize}
 
 \subsection{Exercise: On dynamic scoping}
-\label{sec:orgb204887}
-
+\label{sec:org2c12adf}
 \begin{itemize}
 \item Historically, Lisps (languages directly descended from Lisp)
 were dynamically scoped.
 \item Presently, the only widely used Lisp which uses dynamic scoping
-by default is Emacs Lisp (eLisp).
+by default is Emacs Lisp (eLisp.)
 \end{itemize}
 
 Try out this snippet of Emacs lisp code,
@@ -610,8 +621,7 @@ of dynamic scoping.
 \end{enumerate}
 
 \subsection{Exercise: Entities which introduce scope}
-\label{sec:org4d2e7a6}
-
+\label{sec:orgd21fcd2}
 In a few different programming languages, investigate whether
 condition branches and loop bodies introduce scopes.
 
@@ -625,6 +635,6 @@ y = x   % Is x still in scope?
 \end{minted}
 
 Specifically, investigate languages which have \emph{iterating loops},
-(usually called \texttt{for} loops). What is the scope of an iterator
+(usually called \texttt{for} loops.) What is the scope of an iterator
 for such loops?
 \end{document}

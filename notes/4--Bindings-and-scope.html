@@ -37,24 +37,27 @@ Introduction to semantics."/>
 </section>
 
 <section>
-<section id="slide-orgd12af19">
-<h2 id="orgd12af19"><span class="section-number-2">1</span> Preamble</h2>
-<div class="outline-text-2" id="text-1">
-</div>
+<section id="slide-Preamble">
+<h2 id="Preamble"><span class="section-number-2">1</span> Preamble</h2>
 </section>
-<section id="slide-org8bd5cd5">
-<h3 id="org8bd5cd5"><span class="section-number-3">1.1</span> <span class="todo TODO">TODO</span> Notable references</h3>
-<p>
-:TODO:
-</p>
+<section id="slide-Notable-references">
+<h3 id="Notable-references"><span class="section-number-3">1.1</span> Notable references</h3>
+<ul>
+<li>Robert W. Sebesta, “Concepts of Programming Languages” (10th edition)
+<ul>
+<li>Chapter 5, Names, Bindings, and Scopes</li>
+
+</ul></li>
+
+</ul>
 
 </section>
-<section id="slide-org74917ff">
-<h3 id="org74917ff"><span class="section-number-3">1.2</span> <span class="todo TODO">TODO</span> Table of contents</h3>
+<section id="slide-Table-of-contents">
+<h3 id="Table-of-contents"><span class="section-number-3">1.2</span> <span class="todo TODO">TODO</span> Table of contents</h3>
 <font size="-1">
-<div class="scriptsize" id="org1d4f0e1">
+<div class="scriptsize" id="orgef59093">
 <ul>
-<li><a href="#/slide-orgd12af19">Preamble</a></li>
+<li><a href="#/slide-Preamble">Preamble</a></li>
 
 </ul>
 
@@ -64,8 +67,8 @@ Introduction to semantics."/>
 </section>
 </section>
 <section>
-<section id="slide-org34dbc98">
-<h2 id="org34dbc98"><span class="section-number-2">2</span> Introduction</h2>
+<section id="slide-Introduction">
+<h2 id="Introduction"><span class="section-number-2">2</span> Introduction</h2>
 <p>
 This section introduces several concepts
 relating to names and bindings of those names.
@@ -77,8 +80,8 @@ throughout a program.
 </p>
 
 </section>
-<section id="slide-org9c9203c">
-<h3 id="org9c9203c"><span class="section-number-3">2.1</span> What's a binding?</h3>
+<section id="slide-What's-a-binding?">
+<h3 id="What's-a-binding?"><span class="section-number-3">2.1</span> What's a binding?</h3>
 <p>
 A <i>binding</i> is a general term that refers
 to any association between an entity and an attribute.
@@ -111,13 +114,18 @@ For instance,
 <li>and often a type (attribute),</li>
 
 </ul></li>
-<li>a type (entity) should have also have a name (attribute).</li>
+<li>a type (entity) should have also have a name (attribute.)</li>
 
 </ul>
 
+<p>
+In these notes, we primarily discuss bindings of <i>types</i>, <i>lifetimes</i> and <i>scopes</i>.
+Other bindings may come up later in the course.
+</p>
+
 </section>
-<section id="slide-orgf31f261">
-<h3 id="orgf31f261"><span class="section-number-3">2.2</span> Uses of names</h3>
+<section id="slide-Uses-of-names">
+<h3 id="Uses-of-names"><span class="section-number-3">2.2</span> Uses of names</h3>
 <p>
 Many entities may be have names bound to them;
 </p>
@@ -133,8 +141,8 @@ to name a few.
 </p>
 
 </section>
-<section id="slide-orgaca7f70">
-<h3 id="orgaca7f70"><span class="section-number-3">2.3</span> Persistance of names</h3>
+<section id="slide-Persistance-of-names">
+<h3 id="Persistance-of-names"><span class="section-number-3">2.3</span> Persistance of names</h3>
 <p>
 Take note!
 </p>
@@ -163,8 +171,8 @@ with the same name as one already in scope.)</li>
 </ul>
 
 </section>
-<section id="slide-orgf76c0e7">
-<h3 id="orgf76c0e7"><span class="section-number-3">2.4</span> A note about time and space</h3>
+<section id="slide-A-note-about-time-and-space">
+<h3 id="A-note-about-time-and-space"><span class="section-number-3">2.4</span> A note about time and space</h3>
 <p>
 Throughout these notes, we will discuss <i>when</i> and <i>where</i> bindings
 are in effect.
@@ -184,8 +192,8 @@ These discussions of “time” and “space” are relative to the program.
 </ul>
 
 </section>
-<section id="slide-org0cb82c5">
-<h3 id="org0cb82c5"><span class="section-number-3">2.5</span> Static and dynamic bindings (or “checking of bindings”)</h3>
+<section id="slide-Static-and-dynamic-bindings-(or-“checking-of-bindings”)">
+<h3 id="Static-and-dynamic-bindings-(or-“checking-of-bindings”)"><span class="section-number-3">2.5</span> Static and dynamic bindings (or “checking of bindings”)</h3>
 <p>
 Bindings which are decided (or known) <i>before</i> runtime
 are called <i>static</i>.
@@ -209,8 +217,8 @@ statically or dynamically.</li>
 </section>
 </section>
 <section>
-<section id="slide-org0129acc">
-<h2 id="org0129acc"><span class="section-number-2">3</span> Type checking and polymorphism</h2>
+<section id="slide-Type-checking-and-polymorphism">
+<h2 id="Type-checking-and-polymorphism"><span class="section-number-2">3</span> Type checking and polymorphism</h2>
 <p>
 Type checking is the process of determining
 the binding between a name of an entity and a type.
@@ -228,8 +236,8 @@ sometimes, types may have a type!</li>
 </ul>
 
 </section>
-<section id="slide-org17c9ff5">
-<h3 id="org17c9ff5"><span class="section-number-3">3.1</span> “Dynamically checked” instead of “dynamically typed”</h3>
+<section id="slide-“Dynamically-checked”-instead-of-“dynamically-typed”">
+<h3 id="“Dynamically-checked”-instead-of-“dynamically-typed”"><span class="section-number-3">3.1</span> “Dynamically checked” instead of “dynamically typed”</h3>
 <p>
 As with many bindings, languages can be categorised as
 being either <i>statically</i> or <i>dynamically</i> typed.
@@ -246,8 +254,8 @@ that the term “dynamically typed language” is a misnomer.
 </ul>
 
 </section>
-<section id="slide-orgdcec85f">
-<h3 id="orgdcec85f"><span class="section-number-3">3.2</span> Static and dynamic type checking</h3>
+<section id="slide-Static-and-dynamic-type-checking">
+<h3 id="Static-and-dynamic-type-checking"><span class="section-number-3">3.2</span> Static and dynamic type checking</h3>
 <p>
 It's somewhat natural for interpreted languages to be dynamically typed,
 and compiled languages to be statically typed.
@@ -271,8 +279,8 @@ statically typed.</li>
 </ul>
 
 </section>
-<section id="slide-orga3aaa4e">
-<h3 id="orga3aaa4e"><span class="section-number-3">3.3</span> Polymorphism</h3>
+<section id="slide-Polymorphism">
+<h3 id="Polymorphism"><span class="section-number-3">3.3</span> Polymorphism</h3>
 <p>
 Assigning each value in a program a single type, and then
 enforcing type correctness (preventint type clashes)
@@ -308,8 +316,8 @@ a value of their supertype is expected.</li>
 </ul>
 
 </section>
-<section id="slide-orgf75b7df">
-<h3 id="orgf75b7df"><span class="section-number-3">3.4</span> Ad hoc polymorphism (overloading)</h3>
+<section id="slide-Ad-hoc-polymorphism-(overloading)">
+<h3 id="Ad-hoc-polymorphism-(overloading)"><span class="section-number-3">3.4</span> Ad hoc polymorphism (overloading)</h3>
 <p>
 One notion of polymorphism is <i>ad hoc</i> polymorphism,
 also called <i>overloading</i>.
@@ -317,15 +325,25 @@ also called <i>overloading</i>.
 <ul>
 <li>With overloading, subroutine names
 can be reused as long as the types of arguments
-differ (in some specified way).</li>
+differ (in some specified way.)</li>
 <li>The downside is the programmer must define
 the “same” subroutine many times; once for each type.</li>
 
 </ul>
 
+<p>
+Here is an example of ad hoc polymorphism in Scala.
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-amm"><code trim><span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">sum</span><span style="color: #00cd68;">(</span>a<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Int</span>, b<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Int</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Int</span> <span style="color: #b6a0ff;">=</span> a + b
+<span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">sum</span><span style="color: #00cd68;">(</span>a<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Boolean</span>, b<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Boolean</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Boolean</span> <span style="color: #b6a0ff;">=</span> a || b
+</code></pre>
+</div>
+
 </section>
-<section id="slide-org623ab72">
-<h3 id="org623ab72"><span class="section-number-3">3.5</span> Parametric polymorphism</h3>
+<section id="slide-Parametric-polymorphism">
+<h3 id="Parametric-polymorphism"><span class="section-number-3">3.5</span> Parametric polymorphism</h3>
 <p>
 With parametric polymorphism, subroutines have a
 <i>most general</i> type, based on the <i>shape</i> or <i>form</i> of their arguments.
@@ -343,24 +361,61 @@ essentially the same concept.</li>
 
 </ul>
 
+<p>
+Here is an example of parametric polymorphism in Scala.
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-amm"><code trim><span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">swap</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">](</span>p <span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Tuple2</span><span style="color: #b6a0ff;">[</span><span style="color: #00bcff;">A</span>,<span style="color: #00bcff;">A</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Tuple2</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span>,<span style="color: #00bcff;">A</span><span style="color: #00cd68;">]</span> <span style="color: #b6a0ff;">=</span> p <span style="color: #b6a0ff;">match</span> <span style="color: #00cd68;">{</span>
+  <span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">(</span><span style="color: #00d3d0;">p1</span>, <span style="color: #00d3d0;">p2</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #b6a0ff;">(</span>p2, p1<span style="color: #b6a0ff;">)</span>
+<span style="color: #00cd68;">}</span>
+</code></pre>
+</div>
+
 </section>
-<section id="slide-org5e65701">
-<h3 id="org5e65701"><span class="section-number-3">3.6</span> Duck typing</h3>
+<section id="slide-Duck-typing">
+<h3 id="Duck-typing"><span class="section-number-3">3.6</span> Duck typing</h3>
 <p>
 More formally called <i>row polymorphism</i>.
 </p>
 <ul>
-<li>Types are not actually checked.</li>
-<li>We only check that an entity has the correct method defined for it.</li>
+<li>Duck typing does not actually check the types of values.</li>
+<li>It is used when calling a method on a value;
+the only check is that that method is defined for that value.</li>
 <li>“If it walks like a duck, and quacks like a duck, it's a duck!”</li>
 
 </ul>
 
+<p>
+Here is an example of duck typing in Ruby.
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-ruby"><code trim><span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">Thing1</span>
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">initialize</span><span style="color: #00cd68;">(</span>v,w<span style="color: #00cd68;">)</span>; <span style="color: #00d3d0;">@v</span> = v; <span style="color: #00d3d0;">@w</span> = w <span style="color: #b6a0ff;">end</span>
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">do_the_thing</span><span style="color: #00cd68;">()</span> <span style="color: #79a8ff;">"I'll implement this later."</span> <span style="color: #b6a0ff;">end</span>
+<span style="color: #b6a0ff;">end</span>
+
+<span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">Thing2</span>
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">initialize</span><span style="color: #00cd68;">(</span>v,w<span style="color: #00cd68;">)</span>; <span style="color: #00d3d0;">@v</span> = v; <span style="color: #00d3d0;">@w</span> = w <span style="color: #b6a0ff;">end</span>
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">do_the_thing</span><span style="color: #00cd68;">()</span> <span style="color: #00d3d0;">@v</span> + <span style="color: #00d3d0;">@w</span> <span style="color: #b6a0ff;">end</span>
+<span style="color: #b6a0ff;">end</span>
+  
+<span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">doit</span><span style="color: #00cd68;">(</span>x<span style="color: #00cd68;">)</span> x.do_the_thing <span style="color: #b6a0ff;">end</span>
+
+x = <span style="color: #f78fe7;">Thing1</span>.new<span style="color: #00cd68;">(</span>1,2<span style="color: #00cd68;">)</span>
+y = <span style="color: #f78fe7;">Thing2</span>.new<span style="color: #00cd68;">(</span>1,2<span style="color: #00cd68;">)</span>
+
+<span style="color: #f78fe7;">puts</span> doit<span style="color: #00cd68;">(</span>x<span style="color: #00cd68;">)</span> <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Outputs a string</span>
+<span style="color: #f78fe7;">puts</span> doit<span style="color: #00cd68;">(</span>y<span style="color: #00cd68;">)</span> <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Outputs an integer</span>
+</code></pre>
+</div>
+
 </section>
 </section>
 <section>
-<section id="slide-org0e57a1d">
-<h2 id="org0e57a1d"><span class="section-number-2">4</span> Lifetime</h2>
+<section id="slide-Lifetime">
+<h2 id="Lifetime"><span class="section-number-2">4</span> Lifetime</h2>
 <p>
 The <i>lifetime</i> of an entity is the portion of the runtime
 (not the code) during which that entity has allocated memory.
@@ -372,8 +427,8 @@ the layout of memory and the process of memory allocation.
 </p>
 
 </section>
-<section id="slide-orgb76c1ef">
-<h3 id="orgb76c1ef"><span class="section-number-3">4.1</span> The data segment, stack, and heap</h3>
+<section id="slide-The-data-segment,-stack,-and-heap">
+<h3 id="The-data-segment,-stack,-and-heap"><span class="section-number-3">4.1</span> The data segment, stack, and heap</h3>
 <p>
 In the context of running a program (or a thread of a program):
 </p>
@@ -407,17 +462,17 @@ a scope.
 </ul>
 
 </section>
-<section id="slide-orgcd22c6f">
-<h3 id="orgcd22c6f"><span class="section-number-3">4.2</span> Picturing memory</h3>
+<section id="slide-Picturing-memory">
+<h3 id="Picturing-memory"><span class="section-number-3">4.2</span> Picturing memory</h3>
 
-<div id="org7eb081d" class="figure">
+<div id="org0510edd" class="figure">
 <p><img src="media/data-segment-stack-heap.png" alt="data-segment-stack-heap.png" />
 </p>
 </div>
 
 </section>
-<section id="slide-org9c5289e">
-<h3 id="org9c5289e"><span class="section-number-3">4.3</span> Kinds of memory allocation</h3>
+<section id="slide-Kinds-of-memory-allocation">
+<h3 id="Kinds-of-memory-allocation"><span class="section-number-3">4.3</span> Kinds of memory allocation</h3>
 <p>
 We can distinguish four kinds of memory allocation;
 </p>
@@ -430,15 +485,15 @@ We can distinguish four kinds of memory allocation;
 </ul>
 
 </section>
-<section id="slide-org85500b7">
-<h3 id="org85500b7"><span class="section-number-3">4.4</span> Static and stack dynamic allocation</h3>
+<section id="slide-Static-and-stack-dynamic-allocation">
+<h3 id="Static-and-stack-dynamic-allocation"><span class="section-number-3">4.4</span> Static and stack dynamic allocation</h3>
 <ul>
 <li>Static
 <ul>
 <li>Allocation is done <i>before runtime</i> (static), in the data segment.
 <ul>
 <li>At load time, when the program is loaded into memory.
-(Not compile time).</li>
+(Not compile time.)</li>
 
 </ul></li>
 
@@ -454,8 +509,8 @@ We can distinguish four kinds of memory allocation;
 </ul>
 
 </section>
-<section id="slide-orgcebd1d3">
-<h3 id="orgcebd1d3"><span class="section-number-3">4.5</span> Implicit and explicit heap dynamic allocation</h3>
+<section id="slide-Implicit-and-explicit-heap-dynamic-allocation">
+<h3 id="Implicit-and-explicit-heap-dynamic-allocation"><span class="section-number-3">4.5</span> Implicit and explicit heap dynamic allocation</h3>
 <ul>
 <li>Implicit heap dynamic
 <ul>
@@ -482,8 +537,8 @@ the programmer does not need to “do anything”.</li>
 </ul>
 
 </section>
-<section id="slide-org596acd0">
-<h3 id="org596acd0"><span class="section-number-3">4.6</span> Exercise: Memory allocation methods</h3>
+<section id="slide-Exercise:-Memory-allocation-methods">
+<h3 id="Exercise:-Memory-allocation-methods"><span class="section-number-3">4.6</span> Exercise: Memory allocation methods</h3>
 <p>
 Investigate:
 </p>
@@ -495,8 +550,8 @@ Scala and in Ruby.</li>
 </ul>
 
 </section>
-<section id="slide-org8037614">
-<h3 id="org8037614"><span class="section-number-3">4.7</span> The lifetime</h3>
+<section id="slide-The-lifetime">
+<h3 id="The-lifetime"><span class="section-number-3">4.7</span> The lifetime</h3>
 <p>
 To repeat,
 the <i>lifetime</i> of an entity is the portion of the runtime
@@ -533,8 +588,8 @@ command is used. The end of lifetime may be
 </ul>
 
 </section>
-<section id="slide-org7b3ad26">
-<h3 id="org7b3ad26"><span class="section-number-3">4.8</span> Garbage collection</h3>
+<section id="slide-Garbage-collection">
+<h3 id="Garbage-collection"><span class="section-number-3">4.8</span> Garbage collection</h3>
 <p>
 <i>Garbage</i> is allocated memory which is no longer accessible.
 </p>
@@ -566,15 +621,15 @@ compiled/interpreted code.</li>
 <ul>
 <li>Memory may be allocated off the stack instead of the heap
 <i>if</i> no references to the variable are available outside its scope
-(if it doesn't “escape”).</li>
+(if it doesn't “escape”.)</li>
 
 </ul></li>
 
 </ul>
 
 </section>
-<section id="slide-org1032e7a">
-<h4 id="org1032e7a"><span class="section-number-4">4.8.1</span> Tracing garbage collection (mark &amp; sweep)</h4>
+<section id="slide-Tracing-garbage-collection-(mark-&amp;-sweep)">
+<h4 id="Tracing-garbage-collection-(mark-&-sweep)"><span class="section-number-4">4.8.1</span> Tracing garbage collection (mark &amp; sweep)</h4>
 <ul>
 <li>Usually triggered when a certain memory threshold is reached.</li>
 <li>Starting from some set of base references
@@ -592,7 +647,7 @@ compiled/interpreted code.</li>
 kept clear except during garbage collection.</li>
 <li>When activated, traverse all reachable memory,
 “marking” what's reached, then “sweep” away all unmarked memory
-(and reset the flags of marked memory).
+(and reset the flags of marked memory.)
 <ul>
 <li>With this naive approach, we have to pause the program to do this;</li>
 <li>better methods do not require pausing.</li>
@@ -604,8 +659,8 @@ kept clear except during garbage collection.</li>
 </ul>
 
 </section>
-<section id="slide-org217e075">
-<h4 id="org217e075"><span class="section-number-4">4.8.2</span> Reference counting garbage collection</h4>
+<section id="slide-Reference-counting-garbage-collection">
+<h4 id="Reference-counting-garbage-collection"><span class="section-number-4">4.8.2</span> Reference counting garbage collection</h4>
 <ul>
 <li>An “eager” approach.</li>
 <li>As the program runs, keep a count of the number of references
@@ -628,8 +683,8 @@ even if the structure as a whole is unreachable.</li>
 </ul>
 
 </section>
-<section id="slide-orge6c2c58">
-<h3 id="orge6c2c58"><span class="section-number-3">4.9</span> Dangling/wild references</h3>
+<section id="slide-Dangling/wild-references">
+<h3 id="Dangling/wild-references"><span class="section-number-3">4.9</span> Dangling/wild references</h3>
 <p>
 Garbage is not the only problem that can occur with
 references to memory.
@@ -659,8 +714,8 @@ when we discuss reference types later in the course.
 </section>
 </section>
 <section>
-<section id="slide-orgac787c8">
-<h2 id="orgac787c8"><span class="section-number-2">5</span> Scope</h2>
+<section id="slide-Scope">
+<h2 id="Scope"><span class="section-number-2">5</span> Scope</h2>
 <p>
 A <i>scope</i> (singular) is a portion of the program to which the visibility
 of entities may be limited.
@@ -684,8 +739,8 @@ the adjective scope we are about to define.</li>
 </ul>
 
 </section>
-<section id="slide-orgbda30ee">
-<h3 id="orgbda30ee"><span class="section-number-3">5.1</span> Static scoping</h3>
+<section id="slide-Static-scoping">
+<h3 id="Static-scoping"><span class="section-number-3">5.1</span> Static scoping</h3>
 <p>
 The <i>scope</i> (adjective) of an entity is the portion of the program
 in which it is “visible”.
@@ -708,8 +763,8 @@ outside of differences in what constructs introduce scope.</li>
 </ul>
 
 </section>
-<section id="slide-org5f487d9">
-<h3 id="org5f487d9"><span class="section-number-3">5.2</span> Dynamic scoping</h3>
+<section id="slide-Dynamic-scoping">
+<h3 id="Dynamic-scoping"><span class="section-number-3">5.2</span> Dynamic scoping</h3>
 <p>
 With dynamic scoping, the scope of entities depends upon the
     “execution trace”, i.e., the “path” through the program.
@@ -725,13 +780,13 @@ With dynamic scoping, the scope of entities depends upon the
 </ul>
 
 </section>
-<section id="slide-org89f93c6">
-<h3 id="org89f93c6"><span class="section-number-3">5.3</span> Exercise: On dynamic scoping</h3>
+<section id="slide-Exercise:-On-dynamic-scoping">
+<h3 id="Exercise:-On-dynamic-scoping"><span class="section-number-3">5.3</span> Exercise: On dynamic scoping</h3>
 <ul>
 <li>Historically, Lisps (languages directly descended from Lisp)
 were dynamically scoped.</li>
 <li>Presently, the only widely used Lisp which uses dynamic scoping
-by default is Emacs Lisp (eLisp).</li>
+by default is Emacs Lisp (eLisp.)</li>
 
 </ul>
 
@@ -768,8 +823,8 @@ of dynamic scoping.</li>
 </ol>
 
 </section>
-<section id="slide-org82a8379">
-<h3 id="org82a8379"><span class="section-number-3">5.4</span> Exercise: Entities which introduce scope</h3>
+<section id="slide-Exercise:-Entities-which-introduce-scope">
+<h3 id="Exercise:-Entities-which-introduce-scope"><span class="section-number-3">5.4</span> Exercise: Entities which introduce scope</h3>
 <p>
 In a few different programming languages, investigate whether
 condition branches and loop bodies introduce scopes.
@@ -790,7 +845,7 @@ y = x   % Is x still in scope?
 
 <p>
 Specifically, investigate languages which have <i>iterating loops</i>,
-(usually called <code>for</code> loops). What is the scope of an iterator
+(usually called <code>for</code> loops.) What is the scope of an iterator
 for such loops?
 </p>
 </section>

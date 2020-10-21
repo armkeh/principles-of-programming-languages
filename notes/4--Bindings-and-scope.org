@@ -47,12 +47,22 @@ as we evaluate the code block.
 #+END_SRC
 
 * Preamble
+:PROPERTIES:
+:CUSTOM_ID: Preamble
+:END:
 
-** TODO Notable references
+** Notable references
+:PROPERTIES:
+:CUSTOM_ID: Notable-references
+:END:
 
-:TODO:
+- Robert W. Sebesta, “Concepts of Programming Languages” (10th edition)
+  - Chapter 5, Names, Bindings, and Scopes
 
 ** TODO Table of contents
+:PROPERTIES:
+:CUSTOM_ID: Table-of-contents
+:END:
 
 # The table of contents are added using org-reveal-manual-toc,
 # and so must be updated upon changes or added last.
@@ -65,6 +75,9 @@ as we evaluate the code block.
 #+HTML: </font>
 
 * Introduction
+:PROPERTIES:
+:CUSTOM_ID: Introduction
+:END:
 
 This section introduces several concepts
 relating to names and bindings of those names.
@@ -73,6 +86,9 @@ Of particular note is /scope/, the “visibility” of names
 throughout a program.
 
 ** What's a binding?
+:PROPERTIES:
+:CUSTOM_ID: What's-a-binding?
+:END:
 
 A /binding/ is a general term that refers
 to any association between an entity and an attribute.
@@ -88,9 +104,15 @@ or may be a more “external” concept.
 For instance,
 - a variable (entity) will usually have a name (attribute)
   - and often a type (attribute),
-- a type (entity) should have also have a name (attribute).
+- a type (entity) should have also have a name (attribute.)
+
+In these notes, we primarily discuss bindings of /types/, /lifetimes/ and /scopes/.
+Other bindings may come up later in the course.
   
 ** Uses of names
+:PROPERTIES:
+:CUSTOM_ID: Uses-of-names
+:END:
 
 Many entities may be have names bound to them;
 - variables, constants, parameters/arguments,
@@ -100,6 +122,9 @@ Many entities may be have names bound to them;
 to name a few.
 
 ** Persistance of names
+:PROPERTIES:
+:CUSTOM_ID: Persistance-of-names
+:END:
 
 Take note!
 - Some namings are “global”; they persist for “all time and space”.
@@ -112,6 +137,9 @@ Take note!
       with the same name as one already in scope.)
 
 ** A note about time and space
+:PROPERTIES:
+:CUSTOM_ID: A-note-about-time-and-space
+:END:
 
 Throughout these notes, we will discuss /when/ and /where/ bindings
 are in effect.
@@ -122,6 +150,9 @@ These discussions of “time” and “space” are relative to the program.
 - Our notion of “/space/” is in terms of the program's /text/.
 
 ** Static and dynamic bindings (or “checking of bindings”)
+:PROPERTIES:
+:CUSTOM_ID: Static-and-dynamic-bindings-(or-“checking-of-bindings”)
+:END:
 
 Bindings which are decided (or known) /before/ runtime
 are called /static/.
@@ -135,6 +166,9 @@ are not so much “decided” as “discovered”.
   statically or dynamically.
 
 * Type checking and polymorphism
+:PROPERTIES:
+:CUSTOM_ID: Type-checking-and-polymorphism
+:END:
 
 Type checking is the process of determining
 the binding between a name of an entity and a type.
@@ -145,6 +179,9 @@ the binding between a name of an entity and a type.
 - We will discuss types in more detail in the next section.
 
 ** “Dynamically checked” instead of “dynamically typed”
+:PROPERTIES:
+:CUSTOM_ID: “Dynamically-checked”-instead-of-“dynamically-typed”
+:END:
 
 As with many bindings, languages can be categorised as
 being either /statically/ or /dynamically/ typed.
@@ -155,6 +192,9 @@ that the term “dynamically typed language” is a misnomer.
 - All values have a type, even before type checking.
 
 ** Static and dynamic type checking
+:PROPERTIES:
+:CUSTOM_ID: Static-and-dynamic-type-checking
+:END:
 
 It's somewhat natural for interpreted languages to be dynamically typed,
 and compiled languages to be statically typed.
@@ -168,6 +208,9 @@ and compiled languages to be statically typed.
     statically typed.
 
 ** Polymorphism
+:PROPERTIES:
+:CUSTOM_ID: Polymorphism
+:END:
 
 Assigning each value in a program a single type, and then
 enforcing type correctness (preventint type clashes)
@@ -188,16 +231,28 @@ Subtyping and polymorphism provide solutions to this.
 - With /polymorphism/, a subroutine can have several types.
 
 ** Ad hoc polymorphism (overloading)
+:PROPERTIES:
+:CUSTOM_ID: Ad-hoc-polymorphism-(overloading)
+:END:
 
 One notion of polymorphism is /ad hoc/ polymorphism,
 also called /overloading/.
 - With overloading, subroutine names
   can be reused as long as the types of arguments
-  differ (in some specified way).
+  differ (in some specified way.)
 - The downside is the programmer must define
   the “same” subroutine many times; once for each type.
 
+Here is an example of ad hoc polymorphism in Scala.
+#+begin_src amm :exports src
+def sum(a: Int, b: Int): Int = a + b
+def sum(a: Boolean, b: Boolean): Boolean = a || b
+#+end_src
+
 ** Parametric polymorphism
+:PROPERTIES:
+:CUSTOM_ID: Parametric-polymorphism
+:END:
 
 With parametric polymorphism, subroutines have a
 /most general/ type, based on the /shape/ or /form/ of their arguments.
@@ -208,14 +263,53 @@ With parametric polymorphism, subroutines have a
   - Several object-oriented languages have /generics/, which are
     essentially the same concept.
 
+Here is an example of parametric polymorphism in Scala.
+#+begin_src amm :exports src
+def swap[A](p : Tuple2[A,A]): Tuple2[A,A] = p match {
+  case (p1, p2) => (p2, p1)
+}
+#+end_src
+  
 ** Duck typing
+:PROPERTIES:
+:CUSTOM_ID: Duck-typing
+:END:
 
 More formally called /row polymorphism/.
-- Types are not actually checked.
-- We only check that an entity has the correct method defined for it.
+- Duck typing does not actually check the types of values.
+- It is used when calling a method on a value;
+  the only check is that that method is defined for that value.
 - “If it walks like a duck, and quacks like a duck, it's a duck!”
 
+Here is an example of duck typing in Ruby.
+#+begin_src ruby :results output
+class Thing1
+  def initialize(v,w); @v = v; @w = w end
+  def do_the_thing() "I'll implement this later." end
+end
+
+class Thing2
+  def initialize(v,w); @v = v; @w = w end
+  def do_the_thing() @v + @w end
+end
+  
+def doit(x) x.do_the_thing end
+
+x = Thing1.new(1,2)
+y = Thing2.new(1,2)
+
+puts doit(x) # Outputs a string
+puts doit(y) # Outputs an integer
+#+end_src
+
+#+RESULTS:
+: Maybe later...
+: 3
+
 * Lifetime
+:PROPERTIES:
+:CUSTOM_ID: Lifetime
+:END:
 
 The /lifetime/ of an entity is the portion of the runtime
 (not the code) during which that entity has allocated memory.
@@ -224,6 +318,9 @@ To discuss lifetimes, we first need to discuss
 the layout of memory and the process of memory allocation.
 
 ** The data segment, stack, and heap
+:PROPERTIES:
+:CUSTOM_ID: The-data-segment,-stack,-and-heap
+:END:
 
 In the context of running a program (or a thread of a program):
 - The /data segment/ is a portion of memory used to store the
@@ -241,6 +338,9 @@ In the context of running a program (or a thread of a program):
     - Garbage, dangling references, etc.
 
 ** Picturing memory
+:PROPERTIES:
+:CUSTOM_ID: Picturing-memory
+:END:
 
 #+begin_src ditaa :file media/data-segment-stack-heap.png :exports results :results drawer :post attr_wrap(data=*this*)
 +----------------------+
@@ -321,6 +421,9 @@ In the context of running a program (or a thread of a program):
 :end:
 
 ** Kinds of memory allocation
+:PROPERTIES:
+:CUSTOM_ID: Kinds-of-memory-allocation
+:END:
 
 We can distinguish four kinds of memory allocation;
 - static,
@@ -329,17 +432,23 @@ We can distinguish four kinds of memory allocation;
 - explicit heap dynamic.
 
 ** Static and stack dynamic allocation
+:PROPERTIES:
+:CUSTOM_ID: Static-and-stack-dynamic-allocation
+:END:
   
 - Static
   - Allocation is done /before runtime/ (static), in the data segment.
     - At load time, when the program is loaded into memory.
-      (Not compile time).
+      (Not compile time.)
 - Stack dynamic
   - Allocation is dynamic, automatic, and on the stack.
   - Amount of memory needed must be known when entering their scope.
   - This is “the usual method” in most imperative languages.
 
 ** Implicit and explicit heap dynamic allocation
+:PROPERTIES:
+:CUSTOM_ID: Implicit-and-explicit-heap-dynamic-allocation
+:END:
 
 - Implicit heap dynamic
   - Allocation is dynamic, automatic, and on the heap.
@@ -355,6 +464,9 @@ We can distinguish four kinds of memory allocation;
     /reference/ variables to /point/ to their address.
 
 ** Exercise: Memory allocation methods
+:PROPERTIES:
+:CUSTOM_ID: Exercise:-Memory-allocation-methods
+:END:
 
 Investigate:
 - Which of the five kinds of memory allocation are available in
@@ -362,6 +474,9 @@ Investigate:
 - How each kind of memory allocation is denoted.
 
 ** The lifetime
+:PROPERTIES:
+:CUSTOM_ID: The-lifetime
+:END:
 
 To repeat,
 the /lifetime/ of an entity is the portion of the runtime
@@ -385,6 +500,9 @@ the /lifetime/ of an entity is the portion of the runtime
     - depend upon garbage collection.
 
 ** Garbage collection
+:PROPERTIES:
+:CUSTOM_ID: Garbage-collection
+:END:
 
 /Garbage/ is allocated memory which is no longer accessible.
 
@@ -402,9 +520,12 @@ the /lifetime/ of an entity is the portion of the runtime
   “escape analysis”.
   - Memory may be allocated off the stack instead of the heap
     /if/ no references to the variable are available outside its scope
-    (if it doesn't “escape”).
+    (if it doesn't “escape”.)
 
 *** Tracing garbage collection (mark & sweep)
+:PROPERTIES:
+:CUSTOM_ID: Tracing-garbage-collection-(mark-&-sweep)
+:END:
 
 - Usually triggered when a certain memory threshold is reached.
 - Starting from some set of base references
@@ -418,11 +539,14 @@ the /lifetime/ of an entity is the portion of the runtime
     kept clear except during garbage collection.
   - When activated, traverse all reachable memory,
     “marking” what's reached, then “sweep” away all unmarked memory
-    (and reset the flags of marked memory).
+    (and reset the flags of marked memory.)
     - With this naive approach, we have to pause the program to do this;
     - better methods do not require pausing.
 
 *** Reference counting garbage collection
+:PROPERTIES:
+:CUSTOM_ID: Reference-counting-garbage-collection
+:END:
 
 - An “eager” approach.
 - As the program runs, keep a count of the number of references
@@ -437,6 +561,9 @@ the /lifetime/ of an entity is the portion of the runtime
   - This necessity increases the overhead.
 
 ** Dangling/wild references
+:PROPERTIES:
+:CUSTOM_ID: Dangling/wild-references
+:END:
 
 Garbage is not the only problem that can occur with
 references to memory.
@@ -453,6 +580,9 @@ We will discuss methods of preventing use of wild/dangling references
 when we discuss reference types later in the course.
 
 * Scope
+:PROPERTIES:
+:CUSTOM_ID: Scope
+:END:
 
 A /scope/ (singular) is a portion of the program to which the visibility
 of entities may be limited.
@@ -466,6 +596,9 @@ of entities may be limited.
     the adjective scope we are about to define.
     
 ** Static scoping
+:PROPERTIES:
+:CUSTOM_ID: Static-scoping
+:END:
 
 The /scope/ (adjective) of an entity is the portion of the program
 in which it is “visible”.
@@ -478,6 +611,9 @@ in which it is “visible”.
   outside of differences in what constructs introduce scope.
       
 ** Dynamic scoping
+:PROPERTIES:
+:CUSTOM_ID: Dynamic-scoping
+:END:
 
 With dynamic scoping, the scope of entities depends upon the
     “execution trace”, i.e., the “path” through the program.
@@ -486,11 +622,14 @@ With dynamic scoping, the scope of entities depends upon the
   - The one major benefit is relief from having to pass arguments;
     
 ** Exercise: On dynamic scoping
+:PROPERTIES:
+:CUSTOM_ID: Exercise:-On-dynamic-scoping
+:END:
 
 - Historically, Lisps (languages directly descended from Lisp)
   were dynamically scoped.
 - Presently, the only widely used Lisp which uses dynamic scoping
-  by default is Emacs Lisp (eLisp).
+  by default is Emacs Lisp (eLisp.)
 
 Try out this snippet of Emacs lisp code,
 either in Emacs (if you have it) or using an
@@ -518,6 +657,9 @@ either in Emacs (if you have it) or using an
    of dynamic scoping.
 
 ** Exercise: Entities which introduce scope
+:PROPERTIES:
+:CUSTOM_ID: Exercise:-Entities-which-introduce-scope
+:END:
 
 In a few different programming languages, investigate whether
 condition branches and loop bodies introduce scopes.
@@ -532,5 +674,5 @@ y = x   % Is x still in scope?
 #+end_src
 
 Specifically, investigate languages which have /iterating loops/,
-(usually called ~for~ loops). What is the scope of an iterator
+(usually called ~for~ loops.) What is the scope of an iterator
 for such loops?
