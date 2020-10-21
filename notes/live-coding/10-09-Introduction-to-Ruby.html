@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-10-09 Fri 13:33 -->
+<!-- 2020-10-20 Tue 23:10 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Introduction to Ruby</title>
@@ -235,19 +235,22 @@
 <li><a href="#Introduction">1. Introduction</a></li>
 <li><a href="#Motivation">2. Motivation</a></li>
 <li><a href="#Background-on-Ruby">3. Background on Ruby</a></li>
-<li><a href="#“Purely-object-oriented”">4. “Purely object-oriented”</a>
+<li><a href="#General-syntax">4. General syntax</a></li>
+<li><a href="#Dynamic-typing,-heterogenous-collections">5. Dynamic typing, heterogenous collections</a></li>
+<li><a href="#“Purely-object-oriented”">6. “Purely object-oriented”</a>
 <ul>
-<li><a href="#Integers-are-objects,-operations-are-methods">4.1. Integers are objects, operations are methods</a></li>
-<li><a href="#Integers-are-objects,-operations-are-/messages/">4.2. Integers are objects, operations are <i>messages</i></a></li>
+<li><a href="#Integers-are-objects,-operations-are-methods">6.1. Integers are objects, operations are methods</a></li>
+<li><a href="#Integers-are-objects,-operations-are-/messages/">6.2. Integers are objects, operations are <i>messages</i></a></li>
 </ul>
 </li>
-<li><a href="#Postfix-forms">5. Postfix forms</a></li>
-<li><a href="#Method-naming-conventions">6. Method naming conventions</a></li>
-<li><a href="#Defining-classes">7. Defining classes</a>
+<li><a href="#Output-methods">7. Output methods</a></li>
+<li><a href="#Postfix-forms">8. Postfix forms</a></li>
+<li><a href="#Method-naming-conventions">9. Method naming conventions</a></li>
+<li><a href="#Defining-classes">10. Defining classes</a>
 <ul>
-<li><a href="#The-basics">7.1. The basics</a></li>
-<li><a href="#Inheritance">7.2. Inheritance</a></li>
-<li><a href="#Mixins">7.3. <span class="todo TODO">TODO</span> Mixins</a></li>
+<li><a href="#The-basics">10.1. The basics</a></li>
+<li><a href="#Inheritance">10.2. Inheritance</a></li>
+<li><a href="#Mixins">10.3. <span class="todo TODO">TODO</span> Mixins</a></li>
 </ul>
 </li>
 </ul>
@@ -361,8 +364,134 @@ the Japanese domestic newsgroups in Dec. 1995.
 </div>
 </div>
 
+<div id="outline-container-General-syntax" class="outline-2">
+<h2 id="General-syntax"><span class="section-number-2">4</span> General syntax</h2>
+<div class="outline-text-2" id="text-General-syntax">
+<p>
+See the
+<a href="https://docs.ruby-lang.org/en/2.4.0/syntax_rdoc.html">Ruby documentation</a>
+for a good overview of the syntax. We try to cover
+the most important parts here and in the following sections.
+</p>
+
+<p>
+Ruby, being a “scripting language”, has a somewhat C-like syntax
+that may remind you of Python or possibly Javascript.
+</p>
+
+<p>
+The major difference between Ruby and Python
+is that whitespace does not indicate structure in Ruby.
+</p>
+
+<p>
+Instead, to indicate the beginning and ending of a scope,
+we use <code>begin</code> and <code>end</code> keywords.
+(<code>begin</code> is not used if there is already an indication
+of the beginning of the scope.)
+</p>
+<div class="org-src-container">
+<pre class="src src-ruby"><span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Denote the end of a method with an end keyword</span>
+<span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">begin is not used, since we have a def.</span>
+<span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">f</span><span style="color: #00cd68;">(</span>x<span style="color: #00cd68;">)</span>
+  <span style="color: #b6a0ff;">return</span> x
+<span style="color: #b6a0ff;">end</span>
+
+<span style="color: #f78fe7;">puts</span> f<span style="color: #00cd68;">(</span>5<span style="color: #00cd68;">)</span>
+</pre>
+</div>
+
+<p>
+Ruby has a good variety of control structures.
+</p>
+<div class="org-src-container">
+<pre class="src src-ruby"><span style="color: #b6a0ff;">if</span> <span style="color: #00cd68;">(</span><span style="color: #00bcff;">true</span><span style="color: #00cd68;">)</span>
+  <span style="color: #f78fe7;">puts</span> <span style="color: #79a8ff;">"hello"</span>
+<span style="color: #b6a0ff;">end</span>
+
+<span style="color: #b6a0ff;">if</span> <span style="color: #00bcff;">false</span>
+  <span style="color: #f78fe7;">puts</span> <span style="color: #79a8ff;">"goodbye"</span>
+<span style="color: #b6a0ff;">elsif</span> <span style="color: #00bcff;">true</span>
+  <span style="color: #f78fe7;">puts</span> <span style="color: #79a8ff;">"world"</span>
+<span style="color: #b6a0ff;">else</span>
+  <span style="color: #f78fe7;">puts</span> <span style="color: #79a8ff;">"I don't get here."</span>
+<span style="color: #b6a0ff;">end</span>
+
+<span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">There is the "ternary if"</span>
+<span style="color: #00bcff;">true</span> ? <span style="color: #f78fe7;">puts</span><span style="color: #00cd68;">(</span><span style="color: #79a8ff;">"first one"</span><span style="color: #00cd68;">)</span> : <span style="color: #f78fe7;">puts</span><span style="color: #00cd68;">(</span><span style="color: #79a8ff;">"second one"</span><span style="color: #00cd68;">)</span>
+x = <span style="color: #00bcff;">true</span> ? <span style="color: #79a8ff;">"first one"</span> : <span style="color: #79a8ff;">"second one"</span>
+<span style="color: #f78fe7;">puts</span> x
+
+<span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">It's not needed really.</span>
+y = <span style="color: #b6a0ff;">if</span> <span style="color: #00bcff;">true</span> <span style="color: #b6a0ff;">then</span> <span style="color: #79a8ff;">"this works"</span> <span style="color: #b6a0ff;">else</span> <span style="color: #79a8ff;">"or does it?"</span> <span style="color: #b6a0ff;">end</span>
+<span style="color: #f78fe7;">puts</span> y
+
+<span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">We don't need to negate conditions; we have an unless operator</span>
+<span style="color: #b6a0ff;">unless</span> <span style="color: #00bcff;">true</span>
+  <span style="color: #f78fe7;">puts</span> <span style="color: #79a8ff;">"The meaning of life"</span>
+<span style="color: #b6a0ff;">else</span>
+  <span style="color: #f78fe7;">puts</span> <span style="color: #79a8ff;">"You're out of luck"</span>
+<span style="color: #b6a0ff;">end</span>
+
+<span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">There is a switch statement</span>
+x = 12345
+<span style="color: #b6a0ff;">case</span> x
+<span style="color: #b6a0ff;">when</span> 12345
+  <span style="color: #f78fe7;">puts</span> <span style="color: #79a8ff;">"here we are"</span>
+<span style="color: #b6a0ff;">when</span> 123
+  <span style="color: #f78fe7;">puts</span> <span style="color: #79a8ff;">"not here"</span>
+<span style="color: #b6a0ff;">else</span>
+  <span style="color: #f78fe7;">puts</span> <span style="color: #79a8ff;">"and not here"</span>
+<span style="color: #b6a0ff;">end</span>
+</pre>
+</div>
+
+<p>
+Not discussed here:
+</p>
+<ul class="org-ul">
+<li><code>while</code> loops</li>
+<li><code>until</code> loops</li>
+<li><code>for</code> loops</li>
+<li><code>break</code> statements</li>
+<li><code>next</code> statements
+<ul class="org-ul">
+<li>(skips to the next iteration in a loop.)</li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-Dynamic-typing,-heterogenous-collections" class="outline-2">
+<h2 id="Dynamic-typing,-heterogenous-collections"><span class="section-number-2">5</span> Dynamic typing, heterogenous collections</h2>
+<div class="outline-text-2" id="text-Dynamic-typing,-heterogenous-collections">
+<p>
+In most languages, lists, arrays and (hash)maps
+are <i>homogenous</i> collections; they include only one type of element.
+</p>
+
+<p>
+This is not the case in a dynamic (typed) language
+such as Ruby.
+</p>
+
+<p>
+So we can have arrays and maps with multiple types.
+</p>
+<div class="org-src-container">
+<pre class="src src-ruby">a = <span style="color: #00cd68;">[</span><span style="color: #79a8ff;">"Arrays"</span>, <span style="color: #00bcff;">:can</span>, <span style="color: #79a8ff;">"contain"</span>, 1, <span style="color: #79a8ff;">"or more different types"</span><span style="color: #00cd68;">]</span> 
+h = <span style="color: #00cd68;">{</span><span style="color: #00bcff;">:and</span> =&gt; <span style="color: #79a8ff;">"So can hashes."</span>, <span style="color: #79a8ff;">"see"</span> =&gt; a, 0 =&gt; 12345<span style="color: #00cd68;">}</span>
+
+<span style="color: #f78fe7;">print</span> a
+<span style="color: #f78fe7;">print</span> <span style="color: #79a8ff;">"\n"</span>
+<span style="color: #f78fe7;">print</span> h
+</pre>
+</div>
+</div>
+</div>
+
 <div id="outline-container-“Purely-object-oriented”" class="outline-2">
-<h2 id="“Purely-object-oriented”"><span class="section-number-2">4</span> “Purely object-oriented”</h2>
+<h2 id="“Purely-object-oriented”"><span class="section-number-2">6</span> “Purely object-oriented”</h2>
 <div class="outline-text-2" id="text-“Purely-object-oriented”">
 <p>
 What does it mean when I have said, both about Ruby and Scala,
@@ -373,27 +502,35 @@ that they are purely object oriented?
 Quite simply, that all <i>data</i> is represented as an <i>object,
 and all operations are /methods</i>!
 </p>
+
+<p>
+Another view of this: all data is objects,
+and all operations are messages between objects.
+</p>
 </div>
 
 <div id="outline-container-Integers-are-objects,-operations-are-methods" class="outline-3">
-<h3 id="Integers-are-objects,-operations-are-methods"><span class="section-number-3">4.1</span> Integers are objects, operations are methods</h3>
+<h3 id="Integers-are-objects,-operations-are-methods"><span class="section-number-3">6.1</span> Integers are objects, operations are methods</h3>
 <div class="outline-text-3" id="text-Integers-are-objects,-operations-are-methods">
 <p>
 For instance, consider integers, which in many languages are
 a <i>basic</i>, <i>builtin</i> type that do not have an implementation
 within the language. This is not the case in a pure language!
-In both Ruby and Scala, integers are objects, and operations on them
-are methods.
+In both Ruby and Scala, integers are objects,
+and operations on them are methods.
 </p>
 
 <p>
 So code such as
 </p>
 <div class="org-src-container">
-<pre class="src src-ruby">5 + 2
+<pre class="src src-ruby">5 + 8
 </pre>
 </div>
 
+<p>
+or in Scala,
+</p>
 <div class="org-src-container">
 <pre class="src src-amm"><span style="color: #00bcff;">5</span> + <span style="color: #00bcff;">2</span>
 </pre>
@@ -403,7 +540,7 @@ So code such as
 could instead be written
 </p>
 <div class="org-src-container">
-<pre class="src src-ruby">5.+<span style="color: #00cd68;">(</span>2<span style="color: #00cd68;">)</span>
+<pre class="src src-ruby">5.+<span style="color: #00cd68;">(</span>9<span style="color: #00cd68;">)</span>
 </pre>
 </div>
 
@@ -421,16 +558,17 @@ The form <code>x ⊕ y</code> is just <i>syntactic sugar</i>.
 </div>
 
 <div id="outline-container-Integers-are-objects,-operations-are-/messages/" class="outline-3">
-<h3 id="Integers-are-objects,-operations-are-/messages/"><span class="section-number-3">4.2</span> Integers are objects, operations are <i>messages</i></h3>
+<h3 id="Integers-are-objects,-operations-are-/messages/"><span class="section-number-3">6.2</span> Integers are objects, operations are <i>messages</i></h3>
 <div class="outline-text-3" id="text-Integers-are-objects,-operations-are-/messages/">
 <p>
 In Ruby, we can move one level of abstraction higher:
-all data are objects, and all operations are <i>messages between objects</i>.
+all data are objects, and all operations
+are <i>messages between objects</i>.
 This harkens back to SmallTalk, one of the founding languages
 of the object oriented paradigm.
 </p>
 <div class="org-src-container">
-<pre class="src src-ruby">5.send<span style="color: #00cd68;">(</span><span style="color: #79a8ff;">"=="</span>, 3<span style="color: #00cd68;">)</span>
+<pre class="src src-ruby">5.send<span style="color: #00cd68;">(</span><span style="color: #79a8ff;">"+"</span>, 3<span style="color: #00cd68;">)</span>
 </pre>
 </div>
 
@@ -440,57 +578,181 @@ So even the form <code>x.⊕(y)</code> is syntactic sugar!
 
 <p>
 In Scala, moving to this message passing abstraction
-is not possible, aat least not easily; why?
-:TODO:
+is not possible, at least not easily; why?
 </p>
+<ul class="org-ul">
+<li>Answer: because Scala is statically typed!
+It is unlikely the typechecker will parse a string
+to see what method is being invoked.
+<ul class="org-ul">
+<li>And even if we wanted to make the typechecker do so,
+that only handles to case of constant strings;
+what if the string is constructed earlier in the program,
+or its value is given as an argument?</li>
+</ul></li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-Output-methods" class="outline-2">
+<h2 id="Output-methods"><span class="section-number-2">7</span> Output methods</h2>
+<div class="outline-text-2" id="text-Output-methods">
+<p>
+There are at least three useful output methods in Ruby.
+</p>
+<ul class="org-ul">
+<li><code>print</code> prints out an object without a newline at the end.</li>
+<li><code>puts</code> does output a newline, and on arrays, outputs each element
+on its own line.</li>
+<li><code>p</code> just outputs raw objects.</li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-ruby"><span style="color: #f78fe7;">print</span><span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">[</span><span style="color: #79a8ff;">"Prints"</span>, <span style="color: #79a8ff;">"out"</span>, <span style="color: #79a8ff;">"the"</span>, <span style="color: #79a8ff;">"object"</span>, <span style="color: #79a8ff;">"without"</span>, <span style="color: #79a8ff;">"a"</span>, <span style="color: #79a8ff;">"new"</span>, <span style="color: #79a8ff;">"line"</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span>
+<span style="color: #f78fe7;">print</span> <span style="color: #79a8ff;">"\n"</span>
+
+<span style="color: #f78fe7;">puts</span><span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">[</span><span style="color: #79a8ff;">"Each"</span>, <span style="color: #79a8ff;">"element"</span>, <span style="color: #79a8ff;">"on"</span>, <span style="color: #79a8ff;">"a"</span>, <span style="color: #79a8ff;">"newline"</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span>
+<span style="color: #f78fe7;">puts</span> <span style="color: #79a8ff;">"And a newline at the end as well."</span>
+<span style="color: #f78fe7;">puts</span> <span style="color: #79a8ff;">"See?"</span>
+
+<span style="color: #f78fe7;">print</span> <span style="color: #79a8ff;">"Outputs a string with a newline\n"</span>
+<span style="color: #f78fe7;">p</span> <span style="color: #79a8ff;">"Outputs the raw string\n"</span>
+</pre>
 </div>
 </div>
 </div>
 
 <div id="outline-container-Postfix-forms" class="outline-2">
-<h2 id="Postfix-forms"><span class="section-number-2">5</span> Postfix forms</h2>
+<h2 id="Postfix-forms"><span class="section-number-2">8</span> Postfix forms</h2>
 <div class="outline-text-2" id="text-Postfix-forms">
 <p>
-:TODO:
+One nice feature of Ruby is that it has
+an abuntant amount of syntactic sugar.
+For instance, we have the standard control structures
+such as <code>if</code>:
 </p>
+<div class="org-src-container">
+<pre class="src src-ruby">x = <span style="color: #b6a0ff;">if</span> 2 + 3 == 5
+      <span style="color: #79a8ff;">"2 + 3 is 5; good"</span>
+    <span style="color: #b6a0ff;">elsif</span> 2 + 3 == 6
+      <span style="color: #79a8ff;">"oh no!!!"</span>
+    <span style="color: #b6a0ff;">else</span>
+      <span style="color: #79a8ff;">"oh no"</span>
+    <span style="color: #b6a0ff;">end</span>
+
+<span style="color: #f78fe7;">print</span><span style="color: #00cd68;">(</span><span style="color: #79a8ff;">"x is: "</span>, x<span style="color: #00cd68;">)</span>
+</pre>
+</div>
+
+<p>
+If you are only using a “then” branch, you can write
+the <code>if</code> after the body.
+</p>
+<div class="org-src-container">
+<pre class="src src-ruby"><span style="color: #f78fe7;">puts</span><span style="color: #00cd68;">(</span><span style="color: #79a8ff;">"1 + 1 is 2"</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">if</span> 1 + 1 == 2
+</pre>
+</div>
+
+
+<p>
+We can do the same with at least some of the loops
+</p>
+<div class="org-src-container">
+<pre class="src src-ruby">x = 0
+y = 0
+
+x = x + 1 <span style="color: #b6a0ff;">while</span> x &lt; 10
+<span style="color: #b6a0ff;">while</span> y &lt; 10 <span style="color: #b6a0ff;">do</span> y = y + 1 <span style="color: #b6a0ff;">end</span>
+
+<span style="color: #f78fe7;">puts</span><span style="color: #00cd68;">(</span>x<span style="color: #00cd68;">)</span>
+<span style="color: #f78fe7;">puts</span><span style="color: #00cd68;">(</span>y<span style="color: #00cd68;">)</span>
+</pre>
+</div>
 </div>
 </div>
 
 <div id="outline-container-Method-naming-conventions" class="outline-2">
-<h2 id="Method-naming-conventions"><span class="section-number-2">6</span> Method naming conventions</h2>
+<h2 id="Method-naming-conventions"><span class="section-number-2">9</span> Method naming conventions</h2>
 <div class="outline-text-2" id="text-Method-naming-conventions">
 <p>
-By convention, methods ending with a <code>?</code> are predicates.
-They do not <i>necessarily</i> return a boolean, but should
-return a “truth value” of some kind.
-:TODO:
+Note; in this section, we use the phrase “by convention” frequently.
+This is because the method naming conventions are exactly that:
+conventions. Their properties are not actually enforced by Ruby.
 </p>
 
 <p>
-Methods ending with a <code>!</code> are <i>descructive</i>; they modify the receiver.
-:TODO:
+By convention, methods ending with a <code>?</code> are <i>predicates</i>.
+They do not <i>necessarily</i> return a boolean, but should
+return a “truth value” of some kind.
+</p>
+<div class="org-src-container">
+<pre class="src src-ruby">6.even?
+</pre>
+</div>
+
+<p>
+By convention, methods ending with a <code>!</code> are <i>destructive</i>;
+they modify the receiver.
+</p>
+<div class="org-src-container">
+<pre class="src src-ruby">x = <span style="color: #00cd68;">[</span>1,3,2<span style="color: #00cd68;">]</span>
+y = <span style="color: #00cd68;">[</span>5,6,4<span style="color: #00cd68;">]</span>
+
+x.sort! <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Changes the value of x</span>
+z = y.sort <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Does not change the value of y. </span>
+
+<span style="color: #f78fe7;">print</span><span style="color: #00cd68;">(</span><span style="color: #79a8ff;">"[1,3,2] sorted is "</span>, x, <span style="color: #79a8ff;">"\n"</span><span style="color: #00cd68;">)</span>
+<span style="color: #f78fe7;">print</span><span style="color: #00cd68;">(</span><span style="color: #79a8ff;">"The original "</span>, y, <span style="color: #79a8ff;">" did not get sorted; see?\n"</span><span style="color: #00cd68;">)</span>
+<span style="color: #f78fe7;">print</span><span style="color: #00cd68;">(</span><span style="color: #79a8ff;">"Here's the sorted version: "</span>, z<span style="color: #00cd68;">)</span>
+</pre>
+</div>
+
+<p>
+See the Ruby documentation on <a href="https://docs.ruby-lang.org/en/2.7.0/doc/syntax/methods_rdoc.html#label-Method+Names">method names</a>
+for discussion of the the bang and question mark postfixes.
 </p>
 
 <p>
 Methods ending with a <code>=</code> indicate an <i>assignment</i> method.
-:TODO:
+These methods should “behave like assignment”.
+See the <a href="https://docs.ruby-lang.org/en/2.7.0/doc/syntax/assignment_rdoc.html#label-Assignment+Methods">Ruby documentation</a>.
+Unlike with the <code>?</code> and <code>!</code> postfixes,
+<b>using the <code>=</code> postfix <i>does</i> actually change the method's behaviour</b>;
+specifically, the return value of a <code>=</code> method is ignored.
+The arguments to the method are returned instead.
 </p>
+
+<p>
+Assignment methods can be called using a special syntax;
+given an assignment method <code>my_attribute=</code> and
+an instance of the class <code>my_instance</code>,
+we can write
+</p>
+<pre class="example" id="org809d529">
+my_instance.my_attribute = "A new value"
+</pre>
+<p>
+instead of
+</p>
+<pre class="example" id="org01f3450">
+my_instance.my_attribute=("A new value")
+</pre>
 </div>
 </div>
 
 <div id="outline-container-Defining-classes" class="outline-2">
-<h2 id="Defining-classes"><span class="section-number-2">7</span> Defining classes</h2>
+<h2 id="Defining-classes"><span class="section-number-2">10</span> Defining classes</h2>
 <div class="outline-text-2" id="text-Defining-classes">
 </div>
 
 <div id="outline-container-The-basics" class="outline-3">
-<h3 id="The-basics"><span class="section-number-3">7.1</span> The basics</h3>
+<h3 id="The-basics"><span class="section-number-3">10.1</span> The basics</h3>
 <div class="outline-text-3" id="text-The-basics">
 <p>
 A class declaration in Ruby for a class named <code>Name</code> is
 begun by simply saying
 </p>
-<pre class="example" id="org4a88312">
+<pre class="example" id="orgdd7edc5">
 class Name
 </pre>
 
@@ -498,7 +760,7 @@ class Name
 Instance variables
 (whose value is unique per object of the class)
 begin with a <code>@</code>.
-We do not declare explicitely declare variables in Ruby,
+We do not declare explicitly declare variables in Ruby,
 but you can initialise them to “declare” them
 (you don't need to though; they can be initialised inside
 a constructor or other methods.)
@@ -508,6 +770,7 @@ a constructor or other methods.)
 Class variables
 (whose value is shared by each object of the class)
 begin with a <code>@@</code>.
+(In other languages, these are often called <code>static</code> members.)
 </p>
 
 <p>
@@ -518,12 +781,18 @@ For example,
 <div class="org-src-container">
 <pre class="src src-ruby"><span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">MyContainer</span>
   
-  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">initialize</span><span style="color: #00cd68;">(</span>thing=<span style="color: #00bcff;">nil</span><span style="color: #00cd68;">)</span> <span style="color: #00d3d0;">@thing</span> = thing <span style="color: #b6a0ff;">end</span>
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">initialize</span><span style="color: #00cd68;">(</span>thing=<span style="color: #00bcff;">nil</span><span style="color: #00cd68;">)</span>
+    <span style="color: #00d3d0;">@thing</span> = thing
+  <span style="color: #b6a0ff;">end</span>
 
-  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">thing;</span> <span style="color: #00d3d0;">@thing</span> <span style="color: #b6a0ff;">end</span>
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">thing</span>
+    <span style="color: #00d3d0;">@thing</span>
+  <span style="color: #b6a0ff;">end</span>
 
   <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Assignment method syntax</span>
-  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">thing=</span><span style="color: #00cd68;">(</span>thing<span style="color: #00cd68;">)</span> <span style="color: #00d3d0;">@thing</span> = thing <span style="color: #b6a0ff;">end</span>
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">thing=</span><span style="color: #00cd68;">(</span>thing<span style="color: #00cd68;">)</span>
+    <span style="color: #00d3d0;">@thing</span> = thing
+  <span style="color: #b6a0ff;">end</span>
 <span style="color: #b6a0ff;">end</span>
 
 container = <span style="color: #f78fe7;">MyContainer</span>.new<span style="color: #00cd68;">()</span>
@@ -541,17 +810,26 @@ to avoid declaring these methods.
   <span style="color: #f78fe7;">attr_accessor</span> <span style="color: #00bcff;">:thing</span>   <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">:thing is a symbol; essentially in interned string</span>
   <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">attr_reader   provides only the getter</span>
   <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">attr_writer   provides only the setter</span>
+
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">initialize</span><span style="color: #00cd68;">(</span>thing=<span style="color: #00bcff;">nil</span><span style="color: #00cd68;">)</span>
+    <span style="color: #00d3d0;">@thing</span> = thing
+  <span style="color: #b6a0ff;">end</span>
+<span style="color: #b6a0ff;">end</span>
+
+container = <span style="color: #f78fe7;">MyContainer</span>.new<span style="color: #00cd68;">()</span>
+container.thing = 5
+<span style="color: #f78fe7;">puts</span><span style="color: #00cd68;">(</span>container.thing<span style="color: #00cd68;">)</span>
 </pre>
 </div>
 
 <p>
-:TODO: initialize
+:TODO: initialize is the constructor
 </p>
 </div>
 </div>
 
 <div id="outline-container-Inheritance" class="outline-3">
-<h3 id="Inheritance"><span class="section-number-3">7.2</span> Inheritance</h3>
+<h3 id="Inheritance"><span class="section-number-3">10.2</span> Inheritance</h3>
 <div class="outline-text-3" id="text-Inheritance">
 <p>
 :TODO:
@@ -567,10 +845,10 @@ to avoid declaring these methods.
 </div>
 
 <div id="outline-container-Mixins" class="outline-3">
-<h3 id="Mixins"><span class="section-number-3">7.3</span> <span class="todo TODO">TODO</span> Mixins</h3>
+<h3 id="Mixins"><span class="section-number-3">10.3</span> <span class="todo TODO">TODO</span> Mixins</h3>
 <div class="outline-text-3" id="text-Mixins">
 <p>
-:TODO:
+<a href="https://ruby-doc.com/docs/ProgrammingRuby/html/tut_modules.html">https://ruby-doc.com/docs/ProgrammingRuby/html/tut_modules.html</a>
 </p>
 </div>
 </div>
@@ -580,8 +858,8 @@ to avoid declaring these methods.
 <p class="author">Author: Mark Armstrong</p>
      <p class="author">Contact: <a href="mailto:markparmstrong@gmail.com">markparmstrong@gmail.com</a></p>
      <p class="date">Original date: </p>
-     <p class="date">Last updated: 2020-10-09 Fri 13:33</p>
-     <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4)</p>
+     <p class="date">Last updated: 2020-10-20 Tue 23:05</p>
+     <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.90 (<a href="https://orgmode.org">Org</a> mode 9.4)</p>
      <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

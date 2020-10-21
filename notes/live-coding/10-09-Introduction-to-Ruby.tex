@@ -1,4 +1,4 @@
-% Created 2020-10-09 Fri 13:34
+% Created 2020-10-20 Tue 23:10
 % Intended LaTeX compiler: lualatex
 \documentclass[11pt]{article}
 \usepackage{graphicx}
@@ -29,7 +29,7 @@
    pdftitle={Introduction to Ruby},
    pdfkeywords={},
    pdfsubject={A brief tour of Ruby.},
-   pdfcreator={Emacs 27.0.91 (Org mode 9.4)},
+   pdfcreator={Emacs 27.0.90 (Org mode 9.4)},
    pdflang={English},
    colorlinks,
    linkcolor=blue,
@@ -43,12 +43,12 @@
 
 
 \section{Introduction}
-\label{sec:org4305229}
+\label{sec:orgfb4035b}
 These notes were created for, and in some parts \textbf{during},
 the lecture on October 9th and the following tutorials.
 
 \section{Motivation}
-\label{sec:org277e45a}
+\label{sec:org80dc3df}
 So far, we have been investigating
 \begin{itemize}
 \item the functional paradigm, using Scala,
@@ -66,7 +66,7 @@ is a Lisp.
 So Ruby acts as a stepping stone to that point.
 
 \section{Background on Ruby}
-\label{sec:org98679b3}
+\label{sec:org2b0313c}
 Ruby is an almost purely object-oriented language,
 heavily inspired by Smalltalk, Lisp and Perl.
 
@@ -116,34 +116,137 @@ and implemented them. I posted Ruby 0.95 to
 the Japanese domestic newsgroups in Dec. 1995.
 \end{quote}
 
+\section{General syntax}
+\label{sec:org1182064}
+See the
+\href{https://docs.ruby-lang.org/en/2.4.0/syntax\_rdoc.html}{Ruby documentation}
+for a good overview of the syntax. We try to cover
+the most important parts here and in the following sections.
+
+Ruby, being a “scripting language”, has a somewhat C-like syntax
+that may remind you of Python or possibly Javascript.
+
+The major difference between Ruby and Python
+is that whitespace does not indicate structure in Ruby.
+
+Instead, to indicate the beginning and ending of a scope,
+we use \texttt{begin} and \texttt{end} keywords.
+(\texttt{begin} is not used if there is already an indication
+of the beginning of the scope.)
+\begin{minted}[breaklines=true]{ruby}
+# Denote the end of a method with an end keyword
+# begin is not used, since we have a def.
+def f(x)
+  return x
+end
+
+puts f(5)
+\end{minted}
+
+Ruby has a good variety of control structures.
+\begin{minted}[breaklines=true]{ruby}
+if (true)
+  puts "hello"
+end
+
+if false
+  puts "goodbye"
+elsif true
+  puts "world"
+else
+  puts "I don't get here."
+end
+
+# There is the "ternary if"
+true ? puts("first one") : puts("second one")
+x = true ? "first one" : "second one"
+puts x
+
+# It's not needed really.
+y = if true then "this works" else "or does it?" end
+puts y
+
+# We don't need to negate conditions; we have an unless operator
+unless true
+  puts "The meaning of life"
+else
+  puts "You're out of luck"
+end
+
+# There is a switch statement
+x = 12345
+case x
+when 12345
+  puts "here we are"
+when 123
+  puts "not here"
+else
+  puts "and not here"
+end
+\end{minted}
+
+Not discussed here:
+\begin{itemize}
+\item \texttt{while} loops
+\item \texttt{until} loops
+\item \texttt{for} loops
+\item \texttt{break} statements
+\item \texttt{next} statements
+\begin{itemize}
+\item (skips to the next iteration in a loop.)
+\end{itemize}
+\end{itemize}
+
+\section{Dynamic typing, heterogenous collections}
+\label{sec:org0d94f5b}
+In most languages, lists, arrays and (hash)maps
+are \emph{homogenous} collections; they include only one type of element.
+
+This is not the case in a dynamic (typed) language
+such as Ruby.
+
+So we can have arrays and maps with multiple types.
+\begin{minted}[breaklines=true]{ruby}
+a = ["Arrays", :can, "contain", 1, "or more different types"] 
+h = {:and => "So can hashes.", "see" => a, 0 => 12345}
+
+print a
+print "\n"
+print h
+\end{minted}
+
 \section{“Purely object-oriented”}
-\label{sec:org7cbd489}
+\label{sec:orgf5b61a8}
 What does it mean when I have said, both about Ruby and Scala,
 that they are purely object oriented?
 
 Quite simply, that all \emph{data} is represented as an \emph{object,
 and all operations are /methods}!
 
+Another view of this: all data is objects,
+and all operations are messages between objects.
+
 \subsection{Integers are objects, operations are methods}
-\label{sec:orgdcfe76f}
+\label{sec:orgf169b17}
 For instance, consider integers, which in many languages are
 a \emph{basic}, \emph{builtin} type that do not have an implementation
 within the language. This is not the case in a pure language!
-In both Ruby and Scala, integers are objects, and operations on them
-are methods.
+In both Ruby and Scala, integers are objects,
+and operations on them are methods.
 
 So code such as
 \begin{minted}[breaklines=true]{ruby}
-5 + 2
+5 + 8
 \end{minted}
 
+or in Scala,
 \begin{minted}[breaklines=true]{scala}
 5 + 2
 \end{minted}
 
 could instead be written
 \begin{minted}[breaklines=true]{ruby}
-5.+(2)
+5.+(9)
 \end{minted}
 
 \begin{minted}[breaklines=true]{scala}
@@ -155,42 +258,144 @@ the second argument as a parameter.
 The form \texttt{x ⊕ y} is just \emph{syntactic sugar}.
 
 \subsection{Integers are objects, operations are \emph{messages}}
-\label{sec:orgbfc6cce}
+\label{sec:org7af4f3d}
 In Ruby, we can move one level of abstraction higher:
-all data are objects, and all operations are \emph{messages between objects}.
+all data are objects, and all operations
+are \emph{messages between objects}.
 This harkens back to SmallTalk, one of the founding languages
 of the object oriented paradigm.
 \begin{minted}[breaklines=true]{ruby}
-5.send("==", 3)
+5.send("+", 3)
 \end{minted}
 
 So even the form \texttt{x.⊕(y)} is syntactic sugar!
 
 In Scala, moving to this message passing abstraction
-is not possible, aat least not easily; why?
-:TODO:
+is not possible, at least not easily; why?
+\begin{itemize}
+\item Answer: because Scala is statically typed!
+It is unlikely the typechecker will parse a string
+to see what method is being invoked.
+\begin{itemize}
+\item And even if we wanted to make the typechecker do so,
+that only handles to case of constant strings;
+what if the string is constructed earlier in the program,
+or its value is given as an argument?
+\end{itemize}
+\end{itemize}
+
+\section{Output methods}
+\label{sec:orga48128e}
+There are at least three useful output methods in Ruby.
+\begin{itemize}
+\item \texttt{print} prints out an object without a newline at the end.
+\item \texttt{puts} does output a newline, and on arrays, outputs each element
+on its own line.
+\item \texttt{p} just outputs raw objects.
+\end{itemize}
+\begin{minted}[breaklines=true]{ruby}
+print(["Prints", "out", "the", "object", "without", "a", "new", "line"])
+print "\n"
+
+puts(["Each", "element", "on", "a", "newline"])
+puts "And a newline at the end as well."
+puts "See?"
+
+print "Outputs a string with a newline\n"
+p "Outputs the raw string\n"
+\end{minted}
 
 \section{Postfix forms}
-\label{sec:org274bd90}
-:TODO:
+\label{sec:org2d869bc}
+One nice feature of Ruby is that it has
+an abuntant amount of syntactic sugar.
+For instance, we have the standard control structures
+such as \texttt{if}:
+\begin{minted}[breaklines=true]{ruby}
+x = if 2 + 3 == 5
+      "2 + 3 is 5; good"
+    elsif 2 + 3 == 6
+      "oh no!!!"
+    else
+      "oh no"
+    end
+
+print("x is: ", x)
+\end{minted}
+
+If you are only using a “then” branch, you can write
+the \texttt{if} after the body.
+\begin{minted}[breaklines=true]{ruby}
+puts("1 + 1 is 2") if 1 + 1 == 2
+\end{minted}
+
+
+We can do the same with at least some of the loops
+\begin{minted}[breaklines=true]{ruby}
+x = 0
+y = 0
+
+x = x + 1 while x < 10
+while y < 10 do y = y + 1 end
+
+puts(x)
+puts(y)
+\end{minted}
 
 \section{Method naming conventions}
-\label{sec:orga1f4c67}
-By convention, methods ending with a \texttt{?} are predicates.
+\label{sec:orgedf48e4}
+Note; in this section, we use the phrase “by convention” frequently.
+This is because the method naming conventions are exactly that:
+conventions. Their properties are not actually enforced by Ruby.
+
+By convention, methods ending with a \texttt{?} are \emph{predicates}.
 They do not \emph{necessarily} return a boolean, but should
 return a “truth value” of some kind.
-:TODO:
+\begin{minted}[breaklines=true]{ruby}
+6.even?
+\end{minted}
 
-Methods ending with a \texttt{!} are \emph{descructive}; they modify the receiver.
-:TODO:
+By convention, methods ending with a \texttt{!} are \emph{destructive};
+they modify the receiver.
+\begin{minted}[breaklines=true]{ruby}
+x = [1,3,2]
+y = [5,6,4]
+
+x.sort! # Changes the value of x
+z = y.sort # Does not change the value of y. 
+
+print("[1,3,2] sorted is ", x, "\n")
+print("The original ", y, " did not get sorted; see?\n")
+print("Here's the sorted version: ", z)
+\end{minted}
+
+See the Ruby documentation on \href{https://docs.ruby-lang.org/en/2.7.0/doc/syntax/methods\_rdoc.html\#label-Method+Names}{method names}
+for discussion of the the bang and question mark postfixes.
 
 Methods ending with a \texttt{=} indicate an \emph{assignment} method.
-:TODO:
+These methods should “behave like assignment”.
+See the \href{https://docs.ruby-lang.org/en/2.7.0/doc/syntax/assignment\_rdoc.html\#label-Assignment+Methods}{Ruby documentation}.
+Unlike with the \texttt{?} and \texttt{!} postfixes,
+\textbf{using the \texttt{=} postfix \emph{does} actually change the method's behaviour};
+specifically, the return value of a \texttt{=} method is ignored.
+The arguments to the method are returned instead.
+
+Assignment methods can be called using a special syntax;
+given an assignment method \texttt{my\_attribute=} and
+an instance of the class \texttt{my\_instance},
+we can write
+\begin{verbatim}
+my_instance.my_attribute = "A new value"
+\end{verbatim}
+instead of
+\begin{verbatim}
+my_instance.my_attribute=("A new value")
+\end{verbatim}
 
 \section{Defining classes}
-\label{sec:org0550c29}
+\label{sec:org25c99ed}
 \subsection{The basics}
-\label{sec:org8ebb317}
+\label{sec:org9098bf3}
 A class declaration in Ruby for a class named \texttt{Name} is
 begun by simply saying
 \begin{verbatim}
@@ -200,7 +405,7 @@ class Name
 Instance variables
 (whose value is unique per object of the class)
 begin with a \texttt{@}.
-We do not declare explicitely declare variables in Ruby,
+We do not declare explicitly declare variables in Ruby,
 but you can initialise them to “declare” them
 (you don't need to though; they can be initialised inside
 a constructor or other methods.)
@@ -208,6 +413,7 @@ a constructor or other methods.)
 Class variables
 (whose value is shared by each object of the class)
 begin with a \texttt{@@}.
+(In other languages, these are often called \texttt{static} members.)
 
 It is common to want to define \emph{getters} and \emph{setters} for instance
 variables in OO programming.
@@ -215,12 +421,18 @@ For example,
 \begin{minted}[breaklines=true]{ruby}
 class MyContainer
   
-  def initialize(thing=nil) @thing = thing end
+  def initialize(thing=nil)
+    @thing = thing
+  end
 
-  def thing; @thing end
+  def thing
+    @thing
+  end
 
   # Assignment method syntax
-  def thing=(thing) @thing = thing end
+  def thing=(thing)
+    @thing = thing
+  end
 end
 
 container = MyContainer.new()
@@ -235,12 +447,21 @@ class MyContainer
   attr_accessor :thing   # :thing is a symbol; essentially in interned string
   # attr_reader   provides only the getter
   # attr_writer   provides only the setter
+
+  def initialize(thing=nil)
+    @thing = thing
+  end
+end
+
+container = MyContainer.new()
+container.thing = 5
+puts(container.thing)
 \end{minted}
 
-:TODO: initialize
+:TODO: initialize is the constructor
 
 \subsection{Inheritance}
-\label{sec:org83d12ad}
+\label{sec:org499ad58}
 :TODO:
 
 \begin{minted}[breaklines=true]{ruby}
@@ -250,6 +471,6 @@ class C2 < C1
 \end{minted}
 
 \subsection{{\bfseries\sffamily TODO} Mixins}
-\label{sec:orgb8ef083}
-:TODO:
+\label{sec:org67ab7ff}
+\url{https://ruby-doc.com/docs/ProgrammingRuby/html/tut\_modules.html}
 \end{document}

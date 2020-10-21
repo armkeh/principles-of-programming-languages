@@ -86,6 +86,9 @@ the Japanese domestic newsgroups in Dec. 1995.
 #+end_quote
 
 * General syntax
+:PROPERTIES:
+:CUSTOM_ID: General-syntax
+:END:
 
 See the
 [[https://docs.ruby-lang.org/en/2.4.0/syntax_rdoc.html][Ruby documentation]]
@@ -95,29 +98,109 @@ the most important parts here and in the following sections.
 Ruby, being a “scripting language”, has a somewhat C-like syntax
 that may remind you of Python or possibly Javascript.
 
-The major difference
+The major difference between Ruby and Python
+is that whitespace does not indicate structure in Ruby.
 
-:TODO:
-#+begin_src ruby
+Instead, to indicate the beginning and ending of a scope,
+we use ~begin~ and ~end~ keywords.
+(~begin~ is not used if there is already an indication
+of the beginning of the scope.)
+#+begin_src ruby :results output
+# Denote the end of a method with an end keyword
+# begin is not used, since we have a def.
 def f(x)
+  return x
+end
+
+puts f(5)
 #+end_src
 
-:TODO: begin/end, {}
+#+RESULTS:
+: 5
 
-:TODO: [[https://docs.ruby-lang.org/en/2.4.0/syntax/control_expressions_rdoc.html][Control expressions]]
+Ruby has a good variety of control structures.
+#+begin_src ruby :results output
+if (true)
+  puts "hello"
+end
 
-* Dynamic typing, homogenous collections
+if false
+  puts "goodbye"
+elsif true
+  puts "world"
+else
+  puts "I don't get here."
+end
 
-:TODO:
+# There is the "ternary if"
+true ? puts("first one") : puts("second one")
+x = true ? "first one" : "second one"
+puts x
 
+# It's not needed really.
+y = if true then "this works" else "or does it?" end
+puts y
+
+# We don't need to negate conditions; we have an unless operator
+unless true
+  puts "The meaning of life"
+else
+  puts "You're out of luck"
+end
+
+# There is a switch statement
+x = 12345
+case x
+when 12345
+  puts "here we are"
+when 123
+  puts "not here"
+else
+  puts "and not here"
+end
+#+end_src
+
+#+RESULTS:
+: hello
+: world
+: first one
+: first one
+: this works
+: You're out of luck
+: here we are
+
+Not discussed here:
+- ~while~ loops
+- ~until~ loops
+- ~for~ loops
+- ~break~ statements
+- ~next~ statements
+  - (skips to the next iteration in a loop.)
+
+* Dynamic typing, heterogenous collections
+:PROPERTIES:
+:CUSTOM_ID: Dynamic-typing,-heterogenous-collections
+:END:
+
+In most languages, lists, arrays and (hash)maps
+are /homogenous/ collections; they include only one type of element.
+
+This is not the case in a dynamic (typed) language
+such as Ruby.
+
+So we can have arrays and maps with multiple types.
 #+begin_src ruby :results output
 a = ["Arrays", :can, "contain", 1, "or more different types"] 
-h = {:and => "So can hashes.", :see? => a}
+h = {:and => "So can hashes.", "see" => a, 0 => 12345}
 
 print a
 print "\n"
 print h
 #+end_src
+
+#+RESULTS:
+: ["Arrays", :can, "contain", 1, "or more different types"]
+: {:and=>"So can hashes.", "see"=>["Arrays", :can, "contain", 1, "or more different types"], 0=>12345}
 
 * “Purely object-oriented”
 :PROPERTIES:
@@ -211,8 +294,15 @@ is not possible, at least not easily; why?
     or its value is given as an argument?
 
 * Output methods
+:PROPERTIES:
+:CUSTOM_ID: Output-methods
+:END:
 
-:TODO:
+There are at least three useful output methods in Ruby.
+- ~print~ prints out an object without a newline at the end.
+- ~puts~ does output a newline, and on arrays, outputs each element
+  on its own line.
+- ~p~ just outputs raw objects.
 #+begin_src ruby :results output
 print(["Prints", "out", "the", "object", "without", "a", "new", "line"])
 print "\n"
@@ -221,19 +311,23 @@ puts(["Each", "element", "on", "a", "newline"])
 puts "And a newline at the end as well."
 puts "See?"
 
+print "Outputs a string with a newline\n"
 p "Outputs the raw string\n"
 #+end_src
 
 #+RESULTS:
-: ["Prints", "out", "the", "object", "without", "a", "new", "line"]
-: Each
-: element
-: on
-: a
-: newline
-: And a newline at the end as well.
-: See?
-: "Outputs the raw string\n"
+#+begin_example
+["Prints", "out", "the", "object", "without", "a", "new", "line"]
+Each
+element
+on
+a
+newline
+And a newline at the end as well.
+See?
+Outputs a string with a newline
+"Outputs the raw string\n"
+#+end_example
 
 * Postfix forms
 :PROPERTIES:
