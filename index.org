@@ -19,6 +19,11 @@
 :END:
 
 - October 23rd ::
+  - Today's (live coding) lecture is cancelled, and I'll be posting notes
+    and a recording to replace it sometime over the weekend.
+    - I apologise; I'm just not quite up for the lecture today.
+    - The content of the lecture is not required for the planned
+      homework in any case, which will still be posted today.
   - Instructions for installing Ruby and the version used for
     the Docker testing (2.7.2) are now given in a “part 0”
     of homework 5, and under the Ruby section of this page.
