@@ -1,200 +1,28 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<!-- 2020-10-18 Sun 00:06 -->
-<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta charset="utf-8"/>
 <title>Computer Science 3MI3 – 2020 homework 5</title>
-<meta name="generator" content="Org mode" />
-<meta name="author" content="Mark Armstrong" />
-<meta name="description" content="Iterating on a simple programming task in Ruby."
- />
+<meta name="author" content="(Mark Armstrong)"/>
+<meta name="description" content="Iterating on a simple programming task in Ruby."/>
 <style type="text/css">
- <!--/*--><![CDATA[/*><!--*/
-  .title  { text-align: center;
-             margin-bottom: .2em; }
-  .subtitle { text-align: center;
-              font-size: medium;
-              font-weight: bold;
-              margin-top:0; }
-  .todo   { font-family: monospace; color: red; }
-  .done   { font-family: monospace; color: green; }
-  .priority { font-family: monospace; color: orange; }
-  .tag    { background-color: #eee; font-family: monospace;
-            padding: 2px; font-size: 80%; font-weight: normal; }
-  .timestamp { color: #bebebe; }
-  .timestamp-kwd { color: #5f9ea0; }
-  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
-  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
-  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
-  .underline { text-decoration: underline; }
-  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
-  p.verse { margin-left: 3%; }
-  pre {
-    border: 1px solid #ccc;
-    box-shadow: 3px 3px 3px #eee;
-    padding: 8pt;
-    font-family: monospace;
-    overflow: auto;
-    margin: 1.2em;
-  }
-  pre.src {
-    position: relative;
-    overflow: auto;
-    padding-top: 1.2em;
-  }
-  pre.src:before {
-    display: none;
-    position: absolute;
-    background-color: white;
-    top: -10px;
-    right: 10px;
-    padding: 3px;
-    border: 1px solid black;
-  }
-  pre.src:hover:before { display: inline;}
-  /* Languages per Org manual */
-  pre.src-asymptote:before { content: 'Asymptote'; }
-  pre.src-awk:before { content: 'Awk'; }
-  pre.src-C:before { content: 'C'; }
-  /* pre.src-C++ doesn't work in CSS */
-  pre.src-clojure:before { content: 'Clojure'; }
-  pre.src-css:before { content: 'CSS'; }
-  pre.src-D:before { content: 'D'; }
-  pre.src-ditaa:before { content: 'ditaa'; }
-  pre.src-dot:before { content: 'Graphviz'; }
-  pre.src-calc:before { content: 'Emacs Calc'; }
-  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
-  pre.src-fortran:before { content: 'Fortran'; }
-  pre.src-gnuplot:before { content: 'gnuplot'; }
-  pre.src-haskell:before { content: 'Haskell'; }
-  pre.src-hledger:before { content: 'hledger'; }
-  pre.src-java:before { content: 'Java'; }
-  pre.src-js:before { content: 'Javascript'; }
-  pre.src-latex:before { content: 'LaTeX'; }
-  pre.src-ledger:before { content: 'Ledger'; }
-  pre.src-lisp:before { content: 'Lisp'; }
-  pre.src-lilypond:before { content: 'Lilypond'; }
-  pre.src-lua:before { content: 'Lua'; }
-  pre.src-matlab:before { content: 'MATLAB'; }
-  pre.src-mscgen:before { content: 'Mscgen'; }
-  pre.src-ocaml:before { content: 'Objective Caml'; }
-  pre.src-octave:before { content: 'Octave'; }
-  pre.src-org:before { content: 'Org mode'; }
-  pre.src-oz:before { content: 'OZ'; }
-  pre.src-plantuml:before { content: 'Plantuml'; }
-  pre.src-processing:before { content: 'Processing.js'; }
-  pre.src-python:before { content: 'Python'; }
-  pre.src-R:before { content: 'R'; }
-  pre.src-ruby:before { content: 'Ruby'; }
-  pre.src-sass:before { content: 'Sass'; }
-  pre.src-scheme:before { content: 'Scheme'; }
-  pre.src-screen:before { content: 'Gnu Screen'; }
-  pre.src-sed:before { content: 'Sed'; }
-  pre.src-sh:before { content: 'shell'; }
-  pre.src-sql:before { content: 'SQL'; }
-  pre.src-sqlite:before { content: 'SQLite'; }
-  /* additional languages in org.el's org-babel-load-languages alist */
-  pre.src-forth:before { content: 'Forth'; }
-  pre.src-io:before { content: 'IO'; }
-  pre.src-J:before { content: 'J'; }
-  pre.src-makefile:before { content: 'Makefile'; }
-  pre.src-maxima:before { content: 'Maxima'; }
-  pre.src-perl:before { content: 'Perl'; }
-  pre.src-picolisp:before { content: 'Pico Lisp'; }
-  pre.src-scala:before { content: 'Scala'; }
-  pre.src-shell:before { content: 'Shell Script'; }
-  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
-  /* additional language identifiers per "defun org-babel-execute"
-       in ob-*.el */
-  pre.src-cpp:before  { content: 'C++'; }
-  pre.src-abc:before  { content: 'ABC'; }
-  pre.src-coq:before  { content: 'Coq'; }
-  pre.src-groovy:before  { content: 'Groovy'; }
-  /* additional language identifiers from org-babel-shell-names in
-     ob-shell.el: ob-shell is the only babel language using a lambda to put
-     the execution function name together. */
-  pre.src-bash:before  { content: 'bash'; }
-  pre.src-csh:before  { content: 'csh'; }
-  pre.src-ash:before  { content: 'ash'; }
-  pre.src-dash:before  { content: 'dash'; }
-  pre.src-ksh:before  { content: 'ksh'; }
-  pre.src-mksh:before  { content: 'mksh'; }
-  pre.src-posh:before  { content: 'posh'; }
-  /* Additional Emacs modes also supported by the LaTeX listings package */
-  pre.src-ada:before { content: 'Ada'; }
-  pre.src-asm:before { content: 'Assembler'; }
-  pre.src-caml:before { content: 'Caml'; }
-  pre.src-delphi:before { content: 'Delphi'; }
-  pre.src-html:before { content: 'HTML'; }
-  pre.src-idl:before { content: 'IDL'; }
-  pre.src-mercury:before { content: 'Mercury'; }
-  pre.src-metapost:before { content: 'MetaPost'; }
-  pre.src-modula-2:before { content: 'Modula-2'; }
-  pre.src-pascal:before { content: 'Pascal'; }
-  pre.src-ps:before { content: 'PostScript'; }
-  pre.src-prolog:before { content: 'Prolog'; }
-  pre.src-simula:before { content: 'Simula'; }
-  pre.src-tcl:before { content: 'tcl'; }
-  pre.src-tex:before { content: 'TeX'; }
-  pre.src-plain-tex:before { content: 'Plain TeX'; }
-  pre.src-verilog:before { content: 'Verilog'; }
-  pre.src-vhdl:before { content: 'VHDL'; }
-  pre.src-xml:before { content: 'XML'; }
-  pre.src-nxml:before { content: 'XML'; }
-  /* add a generic configuration mode; LaTeX export needs an additional
-     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
-  pre.src-conf:before { content: 'Configuration File'; }
-
-  table { border-collapse:collapse; }
-  caption.t-above { caption-side: top; }
-  caption.t-bottom { caption-side: bottom; }
-  td, th { vertical-align:top;  }
-  th.org-right  { text-align: center;  }
-  th.org-left   { text-align: center;   }
-  th.org-center { text-align: center; }
-  td.org-right  { text-align: right;  }
-  td.org-left   { text-align: left;   }
-  td.org-center { text-align: center; }
-  dt { font-weight: bold; }
-  .footpara { display: inline; }
-  .footdef  { margin-bottom: 1em; }
-  .figure { padding: 1em; }
-  .figure p { text-align: center; }
-  .equation-container {
-    display: table;
-    text-align: center;
-    width: 100%;
-  }
-  .equation {
-    vertical-align: middle;
-  }
-  .equation-label {
-    display: table-cell;
-    text-align: right;
-    vertical-align: middle;
-  }
-  .inlinetask {
-    padding: 10px;
-    border: 2px solid gray;
-    margin: 10px;
-    background: #ffffcc;
-  }
-  #org-div-home-and-up
-   { text-align: right; font-size: 70%; white-space: nowrap; }
-  textarea { overflow-x: auto; }
-  .linenr { font-size: smaller }
-  .code-highlighted { background-color: #ffff00; }
-  .org-info-js_info-navigation { border-style: none; }
-  #org-info-js_console-label
-    { font-size: 10px; font-weight: bold; white-space: nowrap; }
-  .org-info-js_search-highlight
-    { background-color: #ffff00; color: #000000; font-weight: bold; }
-  .org-svg { width: 90%; }
-  /*]]>*/-->
+.underline { text-decoration: underline; }
 </style>
+<link rel="stylesheet" href="file:///home/markparmstrong/Dropbox/Organisation/downloaded/reveal.js-3.8.0/dist/reveal.css"/>
+
+<link rel="stylesheet" href="file:///home/markparmstrong/Dropbox/Organisation/downloaded/reveal.js-3.8.0/dist/theme/black.css" id="theme"/>
+
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'file:///home/markparmstrong/Dropbox/Organisation/downloaded/reveal.js-3.8.0/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
 <link rel="stylesheet" type="text/css" href="styles/readtheorg/css/htmlize.css"/>
 <link rel="stylesheet" type="text/css" href="styles/readtheorg/css/readtheorg.css"/>
 <script type="text/javascript" src="styles/lib/js/jquery.min.js"></script>
@@ -202,77 +30,59 @@
 <script type="text/javascript" src="styles/lib/js/jquery.stickytableheaders.min.js"></script>
 <script type="text/javascript" src="styles/readtheorg/js/readtheorg.js"></script>
 <style>pre.src{background:#000000;color:white;} </style>
-<script type="text/javascript">
-// @license magnet:?xt=urn:btih:e95b018ef3580986a04669f1b5879592219e2a7a&dn=public-domain.txt Public Domain
-<!--/*--><![CDATA[/*><!--*/
-     function CodeHighlightOn(elem, id)
-     {
-       var target = document.getElementById(id);
-       if(null != target) {
-         elem.classList.add("code-highlighted");
-         target.classList.add("code-highlighted");
-       }
-     }
-     function CodeHighlightOff(elem, id)
-     {
-       var target = document.getElementById(id);
-       if(null != target) {
-         elem.classList.remove("code-highlighted");
-         target.classList.remove("code-highlighted");
-       }
-     }
-    /*]]>*///-->
-// @license-end
-</script>
 </head>
 <body>
-<div id="content">
-<h1 class="title">Computer Science 3MI3 – 2020 homework 5
-<br />
-<span class="subtitle">“Fizzbuzz”-ing in Ruby</span>
-</h1>
-<div id="table-of-contents">
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide"><h2 class="title">Computer Science 3MI3 – 2020 homework 5</h2>
+   <h3>“Fizzbuzz”-ing in Ruby</h3>
+   <h4>Mark Armstrong</h4>
+   <h5>October 12th, 2020</h5>
+</section>
+<section id="table-of-contents"><div id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#Introduction">Introduction</a></li>
-<li><a href="#Boilerplate">Boilerplate</a>
+<li><a href="#/slide-Introduction">Introduction</a></li>
+<li><a href="#/slide-Boilerplate">Boilerplate</a>
 <ul>
-<li><a href="#Submission-procedures">Submission procedures</a>
+<li><a href="#/slide-Submission-procedures">Submission procedures</a>
 <ul>
-<li><a href="#org1f43dc4">Submission method</a></li>
-<li><a href="#org6fbfb01">Naming requirements</a></li>
-<li><a href="#org083d155">Do not submit testing or diagnostic code</a></li>
-<li><a href="#orgd15a63b">Due date and allowance for technical difficulties</a></li>
+<li><a href="#/slide-orgf4c822f">Submission method</a></li>
+<li><a href="#/slide-orgf17bd0e">Naming requirements</a></li>
+<li><a href="#/slide-org49716f6">Do not submit testing or diagnostic code</a></li>
+<li><a href="#/slide-org81a2791">Due date and allowance for technical difficulties</a></li>
 </ul>
 </li>
-<li><a href="#Proper-conduct-for-coursework">Proper conduct for coursework</a>
+<li><a href="#/slide-Proper-conduct-for-coursework">Proper conduct for coursework</a>
 <ul>
-<li><a href="#org5ca1f21">Individual work</a></li>
-<li><a href="#org898bb7f">Language library resources</a></li>
+<li><a href="#/slide-orgce3b379">Individual work</a></li>
+<li><a href="#/slide-org62761a1">Language library resources</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#Part-1:-Fizzbuzzing-by-loops----------------------------[5 points]">Part 1: Fizzbuzzing by loops                            [5 points]</a></li>
-<li><a href="#Part-2:-Fizzbuzzing-by-iterators-(higher-order-methods)-[10 points]">Part 2: Fizzbuzzing by iterators (higher-order methods) [10 points]</a></li>
-<li><a href="#Part-3:-Generalising-fizzbuzzing------------------------[20 points]">Part 3: Generalising fizzbuzzing                        [20 points]</a></li>
-<li><a href="#Part-4:-Generalised-fizzbuzzing-in-Scala----------------[10 bonus points]">Part 4: Generalised fizzbuzzing in Scala                [10 bonus points]</a></li>
-<li><a href="#Part-5:-Generalised-fizzbuzzing-in-Prolog---------------[10 bonus points]">Part 5: Generalised fizzbuzzing in Prolog               [10 bonus points]</a></li>
-<li><a href="#Testing">Testing</a>
+<li><a href="#/slide-Part-0:-Installing-and-using-Ruby">Part 0: Installing and using Ruby                       [0 points]</a></li>
+<li><a href="#/slide-Part-1:-Fizzbuzzing-by-loops----------------------------[5 points]">Part 1: Fizzbuzzing by loops                            [5 points]</a></li>
+<li><a href="#/slide-Part-2:-Fizzbuzzing-by-iterators-(higher-order-methods)-[10 points]">Part 2: Fizzbuzzing by iterators (higher-order methods) [10 points]</a></li>
+<li><a href="#/slide-Part-3:-Generalising-fizzbuzzing------------------------[20 points]">Part 3: Generalising fizzbuzzing                        [20 points]</a></li>
+<li><a href="#/slide-Part-4:-Generalised-fizzbuzzing-in-Scala----------------[10 bonus points]">Part 4: Generalised fizzbuzzing in Scala                [10 bonus points]</a></li>
+<li><a href="#/slide-Part-5:-Generalised-fizzbuzzing-in-Prolog---------------[10 bonus points]">Part 5: Generalised fizzbuzzing in Prolog               [10 bonus points]</a></li>
+<li><a href="#/slide-Testing">Testing</a>
 <ul>
-<li><a href="#Automated-testing-via-Docker">Automated testing via Docker</a></li>
-<li><a href="#The-tests">The tests</a></li>
-<li><a href="#The-Docker-setup">The Docker setup</a></li>
+<li><a href="#/slide-Automated-testing-via-Docker">Automated testing via Docker</a></li>
+<li><a href="#/slide-The-tests">The tests</a></li>
+<li><a href="#/slide-The-Docker-setup">The Docker setup</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
+</section>
 
-<div id="outline-container-Introduction" class="outline-2">
+<section>
+<section id="slide-Introduction">
 <h2 id="Introduction">Introduction</h2>
-<div class="outline-text-2" id="text-Introduction">
 <p>
 The “fizzbuzz” problem is a very simple programming task,
 sometimes used in interviews to check for a basic understanding
@@ -287,22 +97,18 @@ We begin with the familiar looping statements,
 and then move to using “higher-order” methods,
 as well as solving a generalisation of the problem.
 </p>
-</div>
-</div>
 
-<div id="outline-container-Boilerplate" class="outline-2">
+</section>
+</section>
+<section>
+<section id="slide-Boilerplate">
 <h2 id="Boilerplate">Boilerplate</h2>
-<div class="outline-text-2" id="text-Boilerplate">
-</div>
-
-<div id="outline-container-Submission-procedures" class="outline-3">
+</section>
+<section id="slide-Submission-procedures">
 <h3 id="Submission-procedures">Submission procedures</h3>
-<div class="outline-text-3" id="text-Submission-procedures">
-</div>
-
-<div id="outline-container-org1f43dc4" class="outline-4">
-<h4 id="org1f43dc4">Submission method</h4>
-<div class="outline-text-4" id="text-org1f43dc4">
+</section>
+<section id="slide-orgf4c822f">
+<h4 id="orgf4c822f">Submission method</h4>
 <p>
 Homework should be submitted to your McMaster CAS Gitlab respository
 in the <code>cs3mi3-fall2020</code> project.
@@ -312,12 +118,10 @@ in the <code>cs3mi3-fall2020</code> project.
 Ensure that you have <b>pushed</b> the commits to the remote repository
 in time for the deadline, and not just committed to your local copy.
 </p>
-</div>
-</div>
 
-<div id="outline-container-org6fbfb01" class="outline-4">
-<h4 id="org6fbfb01">Naming requirements</h4>
-<div class="outline-text-4" id="text-org6fbfb01">
+</section>
+<section id="slide-orgf17bd0e">
+<h4 id="orgf17bd0e">Naming requirements</h4>
 <p>
 Place all files for the homework
 inside a folder titled <code>hn</code>, where <code>n</code> is the number of the homework.
@@ -332,11 +136,12 @@ in a single file in the <code>hn</code> folder named <code>hn.ext</code>,
 where <code>ext</code> is the appropriate extension for the language used
 according to this list:
 </p>
-<ul class="org-ul">
+<ul>
 <li>For Scala, <code>ext</code> is <code>sc</code>.</li>
 <li>For Prolog, <code>ext</code> is <code>pl</code>.</li>
 <li>For Ruby, <code>ext</code> is <code>rb</code>.</li>
 <li>For Clojure, <code>ext</code> is <code>clg</code>.</li>
+
 </ul>
 <p>
 If multiple languages are used in the homework,
@@ -355,12 +160,10 @@ submit a <code>hn.ext</code> file for each language.
 <b>Incorrect naming of files may result in up to a 10% deduction in your grade.</b>
 </p>
 </div>
-</div>
-</div>
 
-<div id="outline-container-org083d155" class="outline-4">
-<h4 id="org083d155">Do not submit testing or diagnostic code</h4>
-<div class="outline-text-4" id="text-org083d155">
+</section>
+<section id="slide-org49716f6">
+<h4 id="org49716f6">Do not submit testing or diagnostic code</h4>
 <p>
 Unless you are instructed to do so in the homework questions,
 <b>you should not submit testing code with your homework submission</b>.
@@ -369,11 +172,12 @@ Unless you are instructed to do so in the homework questions,
 <p>
 This includes
 </p>
-<ul class="org-ul">
+<ul>
 <li>any <code>main</code> function,</li>
 <li>any <code>print</code> statements which output information
 <b>that is not directly requested as console output</b>
 <b>in the homework questions</b>.</li>
+
 </ul>
 
 <p>
@@ -385,12 +189,10 @@ in your final submission.
 <p>
 For instance, by using a wrapper on the print function or macros.
 </p>
-</div>
-</div>
 
-<div id="outline-container-orgd15a63b" class="outline-4">
-<h4 id="orgd15a63b">Due date and allowance for technical difficulties</h4>
-<div class="outline-text-4" id="text-orgd15a63b">
+</section>
+<section id="slide-org81a2791">
+<h4 id="org81a2791">Due date and allowance for technical difficulties</h4>
 <p>
 Homework is due on the second Sunday following its release,
 by the end of the day (midnight).
@@ -406,18 +208,13 @@ to the communication.
 This information will help ensure we are able
 to accept your submission once the technical difficulties are resolved.
 </p>
-</div>
-</div>
-</div>
 
-<div id="outline-container-Proper-conduct-for-coursework" class="outline-3">
+</section>
+<section id="slide-Proper-conduct-for-coursework">
 <h3 id="Proper-conduct-for-coursework">Proper conduct for coursework</h3>
-<div class="outline-text-3" id="text-Proper-conduct-for-coursework">
-</div>
-
-<div id="outline-container-org5ca1f21" class="outline-4">
-<h4 id="org5ca1f21">Individual work</h4>
-<div class="outline-text-4" id="text-org5ca1f21">
+</section>
+<section id="slide-orgce3b379">
+<h4 id="orgce3b379">Individual work</h4>
 <p>
 Unless explicitely stated in the homework questions,
 all homework in this course is intended
@@ -455,32 +252,34 @@ in your homework.
 To clarify what is considered appropriate discussions
 of homework content, here are some examples:
 </p>
-<ol class="org-ol">
+<ol>
 <li>Discussing the language features introduced or needed for the homework.
-<ul class="org-ul">
+<ul>
 <li>Such as relevant builtin datatypes
 and datatype definition methods and their general use.</li>
 <li>Code snippets that are not partial solutions to the homework
 are welcome and encouraged.</li>
+
 </ul></li>
 <li>Questions of the form “What is meant by <code>x</code>?”,
 “Does <code>x</code> really mean <code>y</code>?” or “Is there a mistake with <code>x</code>?”
-<ul class="org-ul">
+<ul>
 <li>Of course, questions of those form which would be answered
 by partial solutions are not considered appropriate.</li>
+
 </ul></li>
 <li>Questions or advice about errors that may be encountered.
-<ul class="org-ul">
+<ul>
 <li>Such as “If you see a <code>scala.MatchError</code> you should
 probably add a catch-all <code>_</code> case to your <code>match</code> expressions.”</li>
-</ul></li>
-</ol>
-</div>
-</div>
 
-<div id="outline-container-org898bb7f" class="outline-4">
-<h4 id="org898bb7f">Language library resources</h4>
-<div class="outline-text-4" id="text-org898bb7f">
+</ul></li>
+
+</ol>
+
+</section>
+<section id="slide-org62761a1">
+<h4 id="org62761a1">Language library resources</h4>
 <p>
 Unless explicitely stated in the questions,
 it is not expected that you will use any language library resources
@@ -497,11 +296,12 @@ instead of being builtin.
 <p>
 <i>Basic</i> operations on such types would also be allowed.
 </p>
-<ul class="org-ul">
+<ul>
 <li>For instance, <code>head</code>, <code>tail</code>, <code>append</code>, etc. on lists
 would not require explicit permission to be used.</li>
 <li>More complex operations such as sorting procedures
 would require permission before you used them.</li>
+
 </ul>
 
 <p>
@@ -509,14 +309,44 @@ Additionally, the standard <i>higher-order</i> operations
 including <code>map</code>, <code>reduce</code>, <code>flatten</code>, and <code>filter</code> are permitted generally,
 unless the task is to implement such a higher-order operator.
 </p>
-</div>
-</div>
-</div>
-</div>
 
-<div id="outline-container-Part-1:-Fizzbuzzing-by-loops----------------------------[5 points]" class="outline-2">
+</section>
+</section>
+<section>
+<section id="slide-Part-0:-Installing-and-using-Ruby">
+<h2 id="Part-0:-Installing-and-using-Ruby">Part 0: Installing and using Ruby                       [0 points]</h2>
+<p>
+If you are on a Unix based system
+(including the Windows Subsystem for Linux)
+you most likely already have Ruby installed on your system.
+Try <code>ruby -v</code> from your terminal of choice to confirm.
+</p>
+
+<p>
+Otherwise, or if you want a different version,
+see the <a href="https://www.ruby-lang.org/en/documentation/installation/#rubyinstaller">Ruby installation guide</a>.
+</p>
+
+<p>
+The Docker images used for testing will be using Ruby version 2.7.2,
+but as usual, (small) differences in the version of Ruby you use
+should not matter for this course. 
+</p>
+
+<p>
+You can get started with an interpreter session by running <code>irb</code> from
+your favourite terminal, or writing your code in a <code>.rb</code> file
+and running it with, for instance, <code>ruby h5.rb</code>.
+(You can also use <code>irb</code> to run your code; this will echo
+each line of your file as it is run, which you may find helpful
+for debugging purposes.)
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-Part-1:-Fizzbuzzing-by-loops----------------------------[5 points]">
 <h2 id="Part-1:-Fizzbuzzing-by-loops----------------------------[5 points]">Part 1: Fizzbuzzing by loops                            [5 points]</h2>
-<div class="outline-text-2" id="text-Part-1:-Fizzbuzzing-by-loops----------------------------[5 points]">
 <p>
 In Ruby, create a method <code>fizzbuzzLooper</code> which, given a list
 (presumably of integers, though it may contain any type)
@@ -524,13 +354,14 @@ creates a new list whose elements
 are the elements of the original list
 converted into strings, unless they are
 </p>
-<ul class="org-ul">
+<ul>
 <li>an integer divisible by both <code>3</code> and <code>5</code>, in which case
 they are replaced by <code>"fizzbuzz"</code>,</li>
 <li>an integer divisible by <code>3</code> but not by <code>5</code>, in which case
 they are replaced by <code>"fizz"</code>, or</li>
 <li>an integer divisible by <code>5</code> but not by <code>3</code>, in which case
 they are replaced by <code>"buzz"</code>.</li>
+
 </ul>
 
 <p>
@@ -549,8 +380,9 @@ but the result should be a list in any case.)
 Your <code>fizzbuzzLooper</code> must make use of some manner of
 looping construct.
 </p>
-<ul class="org-ul">
+<ul>
 <li>Such as a <code>loop</code>, <code>while</code> loop or <code>for</code> loop.</li>
+
 </ul>
 
 <div class="org-center">
@@ -563,12 +395,12 @@ looping construct.
 especially <i>not repeating yourself</i>.)
 </p>
 </div>
-</div>
-</div>
 
-<div id="outline-container-Part-2:-Fizzbuzzing-by-iterators-(higher-order-methods)-[10 points]" class="outline-2">
+</section>
+</section>
+<section>
+<section id="slide-Part-2:-Fizzbuzzing-by-iterators-(higher-order-methods)-[10 points]">
 <h2 id="Part-2:-Fizzbuzzing-by-iterators-(higher-order-methods)-[10 points]">Part 2: Fizzbuzzing by iterators (higher-order methods) [10 points]</h2>
-<div class="outline-text-2" id="text-Part-2:-Fizzbuzzing-by-iterators-(higher-order-methods)-[10 points]">
 <p>
 Construct another method <code>fizzbuzzIterator</code>,
 whose behaviour is identical to <code>fizzbuzzLooper</code>,
@@ -597,19 +429,20 @@ be written <code>{ |x| x + 1 }</code> in Ruby.
 So for instance,
 </p>
 <div class="org-src-container">
-<pre class="src src-ruby"><span style="color: #00cd68;">[</span>1,2,3<span style="color: #00cd68;">]</span>.each <span style="color: #00cd68;">{</span> |x| <span style="color: #f78fe7;">puts</span><span style="color: #b6a0ff;">(</span>x<span style="color: #b6a0ff;">)</span> <span style="color: #00cd68;">}</span>
-</pre>
+
+<pre  class="src src-ruby"><code trim><span style="color: #00cd68;">[</span>1,2,3<span style="color: #00cd68;">]</span>.each <span style="color: #00cd68;">{</span> |x| <span style="color: #f78fe7;">puts</span><span style="color: #b6a0ff;">(</span>x<span style="color: #b6a0ff;">)</span> <span style="color: #00cd68;">}</span>
+</code></pre>
 </div>
 
 <p>
 outputs each element of the list <code>[1,2,3]</code>.
 </p>
-</div>
-</div>
 
-<div id="outline-container-Part-3:-Generalising-fizzbuzzing------------------------[20 points]" class="outline-2">
+</section>
+</section>
+<section>
+<section id="slide-Part-3:-Generalising-fizzbuzzing------------------------[20 points]">
 <h2 id="Part-3:-Generalising-fizzbuzzing------------------------[20 points]">Part 3: Generalising fizzbuzzing                        [20 points]</h2>
-<div class="outline-text-2" id="text-Part-3:-Generalising-fizzbuzzing------------------------[20 points]">
 <p>
 We now consider a slight generalisation to
 the fizzbuzzing problem, which we will call “zuzzing”.
@@ -621,6 +454,11 @@ several rules which should be applied to the elements of this list,
 instead of just the two (if it's divisible by 3, output “fizz”,
 if it's divisible by 5, output “buzz”.)
 </p>
+<ul>
+<li>If no rules apply, we still replace the element
+by its string conversion.</li>
+
+</ul>
 
 <p>
 We want to create a method which accomodates any number of rules,
@@ -633,14 +471,16 @@ on the elements of the list
 To represent this multitude of rules, we use a list of lists,
 assuming each of the lists within the list contain two elements;
 </p>
-<ul class="org-ul">
+<ul>
 <li>the first element being a <code>lambda</code> for the rule, and</li>
 <li>the second element being a <code>lambda</code> for the string
 associated with that rule.
-<ul class="org-ul">
+<ul>
 <li>We use a <code>lambda</code> here as well so that the resulting string
 may depend upon the element.</li>
+
 </ul></li>
+
 </ul>
 
 <p>
@@ -654,16 +494,18 @@ For instance, to get the original behaviour of “fizzbuzz”
 using this “zuzz”, we would use the rules
 </p>
 <div class="org-src-container">
-<pre class="src src-ruby">rules = <span style="color: #00cd68;">[</span><span style="color: #b6a0ff;">[</span><span style="color: #f78fe7;">lambda</span> <span style="color: #6ae4b9;">{</span> |x| x % 3 == 0 <span style="color: #6ae4b9;">}</span>, <span style="color: #f78fe7;">lambda</span> <span style="color: #6ae4b9;">{</span> |x| <span style="color: #79a8ff;">"fizz"</span> <span style="color: #6ae4b9;">}</span><span style="color: #b6a0ff;">]</span>,
+
+<pre  class="src src-ruby"><code trim>rules = <span style="color: #00cd68;">[</span><span style="color: #b6a0ff;">[</span><span style="color: #f78fe7;">lambda</span> <span style="color: #6ae4b9;">{</span> |x| x % 3 == 0 <span style="color: #6ae4b9;">}</span>, <span style="color: #f78fe7;">lambda</span> <span style="color: #6ae4b9;">{</span> |x| <span style="color: #79a8ff;">"fizz"</span> <span style="color: #6ae4b9;">}</span><span style="color: #b6a0ff;">]</span>,
          <span style="color: #b6a0ff;">[</span><span style="color: #f78fe7;">lambda</span> <span style="color: #6ae4b9;">{</span> |x| x % 5 == 0 <span style="color: #6ae4b9;">}</span>, <span style="color: #f78fe7;">lambda</span> <span style="color: #6ae4b9;">{</span> |x| <span style="color: #79a8ff;">"buzz"</span> <span style="color: #6ae4b9;">}</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">]</span>
-</pre>
+</code></pre>
 </div>
 <p>
 as in
 </p>
 <div class="org-src-container">
-<pre class="src src-ruby">zuzzer<span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">[</span>1,2,3,4,5,6,7,8,9,10,11,12,13,14,15<span style="color: #b6a0ff;">]</span>,rules<span style="color: #00cd68;">)</span>
-</pre>
+
+<pre  class="src src-ruby"><code trim>zuzzer<span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">[</span>1,2,3,4,5,6,7,8,9,10,11,12,13,14,15<span style="color: #b6a0ff;">]</span>,rules<span style="color: #00cd68;">)</span>
+</code></pre>
 </div>
 
 <p>
@@ -681,12 +523,12 @@ the result is <code>"fizzbuzz"</code>, not <code>"fizz"</code>, <code>"buzz"</co
 <p>
 Create the method <code>zuzzer</code>.
 </p>
-</div>
-</div>
 
-<div id="outline-container-Part-4:-Generalised-fizzbuzzing-in-Scala----------------[10 bonus points]" class="outline-2">
+</section>
+</section>
+<section>
+<section id="slide-Part-4:-Generalised-fizzbuzzing-in-Scala----------------[10 bonus points]">
 <h2 id="Part-4:-Generalised-fizzbuzzing-in-Scala----------------[10 bonus points]">Part 4: Generalised fizzbuzzing in Scala                [10 bonus points]</h2>
-<div class="outline-text-2" id="text-Part-4:-Generalised-fizzbuzzing-in-Scala----------------[10 bonus points]">
 <p>
 Implement the generalised fizzbuzzing operation from part 3 in Scala.
 </p>
@@ -698,12 +540,12 @@ Your solution may be (sometimes subjectively) judged based on
 the choices you make. The purpose of the comments is then
 for you to convince us your choices are appropriate.
 </p>
-</div>
-</div>
 
-<div id="outline-container-Part-5:-Generalised-fizzbuzzing-in-Prolog---------------[10 bonus points]" class="outline-2">
+</section>
+</section>
+<section>
+<section id="slide-Part-5:-Generalised-fizzbuzzing-in-Prolog---------------[10 bonus points]">
 <h2 id="Part-5:-Generalised-fizzbuzzing-in-Prolog---------------[10 bonus points]">Part 5: Generalised fizzbuzzing in Prolog               [10 bonus points]</h2>
-<div class="outline-text-2" id="text-Part-5:-Generalised-fizzbuzzing-in-Prolog---------------[10 bonus points]">
 <p>
 Implement the generalised fizzbuzzing operation from part 3 in Scala.
 </p>
@@ -715,12 +557,12 @@ Your solution may be (sometimes subjectively) judged based on
 the choices you make. The purpose of the comments is then
 for you to convince us your choices are appropriate.
 </p>
-</div>
-</div>
 
-<div id="outline-container-Testing" class="outline-2">
+</section>
+</section>
+<section>
+<section id="slide-Testing">
 <h2 id="Testing">Testing</h2>
-<div class="outline-text-2" id="text-Testing">
 <p>
 Unit tests for the requested methods/functions
 are available <a href="./testing/h5/h5t.rb">here</a>.
@@ -733,8 +575,9 @@ in the same directory as your <code>h5.rb</code> file, and
 running the following command.
 </p>
 <div class="org-src-container">
-<pre class="src src-shell">ruby h5t.rb
-</pre>
+
+<pre  class="src src-shell"><code trim>ruby h5t.rb
+</code></pre>
 </div>
 <p>
 You may also use <code>irb h5t.rb</code>, which will echo the script
@@ -746,20 +589,20 @@ If you wish to add more tests yourself,
 see the <a href="https://en.wikibooks.org/wiki/Ruby_Programming/Unit_testing">documentation</a>
 for Ruby.
 </p>
-</div>
 
-<div id="outline-container-Automated-testing-via-Docker" class="outline-3">
+</section>
+<section id="slide-Automated-testing-via-Docker">
 <h3 id="Automated-testing-via-Docker">Automated testing via Docker</h3>
-<div class="outline-text-3" id="text-Automated-testing-via-Docker">
 <p>
 The Docker setup and usage scripts are available at the following links.
 Their contents are also repeated below.
 </p>
-<ul class="org-ul">
+<ul>
 <li><a href="./testing/h5/Dockerfile">Dockerfile</a></li>
 <li><a href="./testing/h5/docker-compose.yml">docker-compose.yml</a></li>
 <li><a href="./testing/h5/setup.sh">setup.sh</a></li>
 <li><a href="./testing/h5/run.sh">run.sh</a></li>
+
 </ul>
 <p>
 Place them into your <code>h5</code> directory where your <code>h5.rb</code> file
@@ -779,12 +622,10 @@ that you are in a <code>bash</code> like shell; if you are on Windows,
 and not using WSL or WSL2, you may have
 to run the commands contained in those scripts manually.
 </p>
-</div>
-</div>
 
-<div id="outline-container-The-tests" class="outline-3">
+</section>
+<section id="slide-The-tests">
 <h3 id="The-tests">The tests</h3>
-<div class="outline-text-3" id="text-The-tests">
 <p>
 The contents of the testing script are repeated here.
 </p>
@@ -793,7 +634,8 @@ The contents of the testing script are repeated here.
 <a href="./testing/h5/h5t.rb">h5t.rb</a>
 </p>
 <div class="org-src-container">
-<pre class="src src-ruby"><span style="color: #f78fe7;">require_relative</span> <span style="color: #79a8ff;">"h5"</span>
+
+<pre  class="src src-ruby"><code trim><span style="color: #f78fe7;">require_relative</span> <span style="color: #79a8ff;">"h5"</span>
 <span style="color: #f78fe7;">require</span> <span style="color: #79a8ff;">"test/unit"</span>
 
 <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">BEGIN constants for use in testing ---------------------------</span>
@@ -838,14 +680,12 @@ The contents of the testing script are repeated here.
 
 <span style="color: #b6a0ff;">end</span>
 <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">END zuzzer tests ---------------------------------------------</span>
-</pre>
-</div>
-</div>
+</code></pre>
 </div>
 
-<div id="outline-container-The-Docker-setup" class="outline-3">
+</section>
+<section id="slide-The-Docker-setup">
 <h3 id="The-Docker-setup">The Docker setup</h3>
-<div class="outline-text-3" id="text-The-Docker-setup">
 <p>
 The contents of the Docker setup files and scripts are repeated here.
 </p>
@@ -854,21 +694,23 @@ The contents of the Docker setup files and scripts are repeated here.
 <a href="./testing/h5/Dockerfile">Dockerfile</a>
 </p>
 <div class="org-src-container">
-<pre class="src src-docker">FROM ruby:2.7.2-buster
+
+<pre  class="src src-docker"><code trim>FROM ruby:2.7.2-buster
 
 # Set the name of the maintainers
 MAINTAINER Habib Ghaffari Hadigheh, Mark Armstrong &lt;ghaffh1@mcmaster.ca, armstmp@mcmaster.ca&gt;
 
 # Set the working directory
 WORKDIR /opt/h5
-</pre>
+</code></pre>
 </div>
 
 <p>
 <a href="./testing/h5/docker-compose.yml">docker-compose.yml</a>
 </p>
 <div class="org-src-container">
-<pre class="src src-yaml">version: '2'
+
+<pre  class="src src-yaml"><code trim>version: '2'
 services:
   service:
     build: .
@@ -877,33 +719,36 @@ services:
       - .:/opt/h5
     container_name: 3mi3_h5_container
     command: ['ruby', 'h5t.rb']
-</pre>
+</code></pre>
 </div>
 
 <p>
 <a href="./testing/h5/setup.sh">setup.sh</a>
 </p>
 <div class="org-src-container">
-<pre class="src src-shell">docker-compose build --force-rm
-</pre>
+
+<pre  class="src src-shell"><code trim>docker-compose build --force-rm
+</code></pre>
 </div>
 
 <p>
 <a href="./testing/h5/run.sh">run.sh</a>
 </p>
 <div class="org-src-container">
-<pre class="src src-shell"><span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Run the container</span>
+
+<pre  class="src src-shell"><code trim><span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Run the container</span>
 docker-compose up --force-recreate
 <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Stop the container after finishing the test run</span>
 docker-compose stop -t 1
-</pre>
+</code></pre>
 </div>
 
 <p>
 <a href="./testing/h5/README.md">README.md</a>
 </p>
 <div class="org-src-container">
-<pre class="src src-text"># Instructions for automated testing using Docker
+
+<pre  class="src src-text"><code trim># Instructions for automated testing using Docker
 
 We have already created a `Dockerfile` here which specifies
 all the necessary packages, etc., for compiling and running your code.
@@ -931,19 +776,33 @@ Simply execute
 ./run.sh
 ```
 to run and see the results of the tests.
-</pre>
+</code></pre>
+</div>
+</section>
+</section>
 </div>
 </div>
-</div>
-</div>
-</div>
-<div id="postamble" class="status">
-<p class="author">Author: Mark Armstrong</p>
-     <p class="author">Contact: <a href="mailto:markparmstrong@gmail.com">markparmstrong@gmail.com</a></p>
-     <p class="date">Original date: October 12th, 2020</p>
-     <p class="date">Last updated: 2020-10-18 Sun 00:05</p>
-     <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.90 (<a href="https://orgmode.org">Org</a> mode 9.4)</p>
-     <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
-</div>
+<script src="file:///home/markparmstrong/Dropbox/Organisation/downloaded/reveal.js-3.8.0/dist/reveal.js"></script>
+<script src="file:///home/markparmstrong/Dropbox/Organisation/downloaded/reveal.js-3.8.0/plugin/markdown/markdown.js"></script>
+<script src="file:///home/markparmstrong/Dropbox/Organisation/downloaded/reveal.js-3.8.0/plugin/zoom/zoom.js"></script>
+<script src="file:///home/markparmstrong/Dropbox/Organisation/downloaded/reveal.js-3.8.0/plugin/notes/notes.js"></script>
+
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+plugins: [RevealMarkdown,RevealZoom,RevealNotes],
+multiplex: {
+    secret: '', // null if client
+    id: '', // id, obtained from socket.io server
+    url: '' // Location of socket.io server
+},
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+]
+});
+</script>
 </body>
 </html>

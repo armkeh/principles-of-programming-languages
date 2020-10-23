@@ -18,6 +18,11 @@
 :CUSTOM_ID: October
 :END:
 
+- October 23rd ::
+  - Instructions for installing Ruby and the version used for
+    the Docker testing (2.7.2) are now given in a “part 0”
+    of homework 5, and under the Ruby section of this page.
+
 - October 21st ::
   - The assignment's boilerplate now specifies the grading
     for the documentation portion.
@@ -870,7 +875,12 @@ can be found in the Prolog tidbits file, available as
 :CUSTOM_ID: Ruby
 :END:
 
-:TODO:
+** Installation instructions
+:PROPERTIES:
+:CUSTOM_ID: Installation-instructions
+:END:
+
+#+INCLUDE: "./homework/h5.org::* Part 0: Installing and using Ruby                       [0 points]" :only-contents t
 
 * Clojure
 :PROPERTIES:

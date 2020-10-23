@@ -12,6 +12,12 @@ better viewed at
 
 ## October
 
+  - October 23rd
+    
+      - Instructions for installing Ruby and the version used for the
+        Docker testing (2.7.2) are now given in a “part 0” of homework
+        5, and under the Ruby section of this page.
+
   - October 21st
     
       - The assignment's boilerplate now specifies the grading for the
@@ -843,7 +849,25 @@ That said, any recent version should suffice.
 
 # Ruby
 
-:TODO:
+## Installation instructions
+
+If you are on a Unix based system (including the Windows Subsystem for
+Linux) you most likely already have Ruby installed on your system. Try
+`ruby -v` from your terminal of choice to confirm.
+
+Otherwise, or if you want a different version, see the [Ruby
+installation
+guide](https://www.ruby-lang.org/en/documentation/installation/#rubyinstaller).
+
+The Docker images used for testing will be using Ruby version 2.7.2, but
+as usual, (small) differences in the version of Ruby you use should not
+matter for this course.
+
+You can get started with an interpreter session by running `irb` from
+your favourite terminal, or writing your code in a `.rb` file and
+running it with, for instance, `ruby h5.rb`. (You can also use `irb` to
+run your code; this will echo each line of your file as it is run, which
+you may find helpful for debugging purposes.)
 
 # Clojure
 

@@ -41,6 +41,30 @@ as well as solving a generalisation of the problem.
 
 #+INCLUDE: "./../boilerplate.org::*Homework conduct" :only-contents t
 
+* Part 0: Installing and using Ruby                       [0 points]
+:PROPERTIES:
+:CUSTOM_ID: Part-0:-Installing-and-using-Ruby
+:END:
+
+If you are on a Unix based system
+(including the Windows Subsystem for Linux)
+you most likely already have Ruby installed on your system.
+Try ~ruby -v~ from your terminal of choice to confirm.
+
+Otherwise, or if you want a different version,
+see the [[https://www.ruby-lang.org/en/documentation/installation/#rubyinstaller][Ruby installation guide]].
+
+The Docker images used for testing will be using Ruby version 2.7.2,
+but as usual, (small) differences in the version of Ruby you use
+should not matter for this course. 
+
+You can get started with an interpreter session by running ~irb~ from
+your favourite terminal, or writing your code in a ~.rb~ file
+and running it with, for instance, ~ruby h5.rb~.
+(You can also use ~irb~ to run your code; this will echo
+each line of your file as it is run, which you may find helpful
+for debugging purposes.)
+
 * Part 1: Fizzbuzzing by loops                            [5 points]
 :PROPERTIES:
 :CUSTOM_ID: Part-1:-Fizzbuzzing-by-loops----------------------------[5 points]
@@ -126,6 +150,8 @@ To generalise the problem, we assume that we may have
 several rules which should be applied to the elements of this list,
 instead of just the two (if it's divisible by 3, output “fizz”,
 if it's divisible by 5, output “buzz”.)
+- If no rules apply, we still replace the element
+  by its string conversion.
 
 We want to create a method which accomodates any number of rules,
 and where the rules can be arbitrary predicates

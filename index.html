@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-10-21 Wed 10:37 -->
+<!-- 2020-10-23 Fri 00:33 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Computer Science 3MI3 - Principles of Programming Languages</title>
@@ -336,7 +336,11 @@
 </li>
 </ul>
 </li>
-<li><a href="#Ruby">Ruby</a></li>
+<li><a href="#Ruby">Ruby</a>
+<ul>
+<li><a href="#Installation-instructions">Installation instructions</a></li>
+</ul>
+</li>
 <li><a href="#Clojure">Clojure</a></li>
 </ul>
 </div>
@@ -351,6 +355,12 @@
 <h3 id="October">October</h3>
 <div class="outline-text-3" id="text-October">
 <dl class="org-dl">
+<dt>October 23rd</dt><dd><ul class="org-ul">
+<li>Instructions for installing Ruby and the version used for
+the Docker testing (2.7.2) are now given in a “part 0”
+of homework 5, and under the Ruby section of this page.</li>
+</ul></dd>
+
 <dt>October 21st</dt><dd><ul class="org-ul">
 <li>The assignment's boilerplate now specifies the grading
 for the documentation portion.
@@ -1566,9 +1576,38 @@ provides downloads of prebuilt binaries for SWI Prolog 8.2.1.</li>
 <div id="outline-container-Ruby" class="outline-2">
 <h2 id="Ruby">Ruby</h2>
 <div class="outline-text-2" id="text-Ruby">
+</div>
+
+<div id="outline-container-Installation-instructions" class="outline-3">
+<h3 id="Installation-instructions">Installation instructions</h3>
+<div class="outline-text-3" id="text-Installation-instructions">
 <p>
-:TODO:
+If you are on a Unix based system
+(including the Windows Subsystem for Linux)
+you most likely already have Ruby installed on your system.
+Try <code>ruby -v</code> from your terminal of choice to confirm.
 </p>
+
+<p>
+Otherwise, or if you want a different version,
+see the <a href="https://www.ruby-lang.org/en/documentation/installation/#rubyinstaller">Ruby installation guide</a>.
+</p>
+
+<p>
+The Docker images used for testing will be using Ruby version 2.7.2,
+but as usual, (small) differences in the version of Ruby you use
+should not matter for this course. 
+</p>
+
+<p>
+You can get started with an interpreter session by running <code>irb</code> from
+your favourite terminal, or writing your code in a <code>.rb</code> file
+and running it with, for instance, <code>ruby h5.rb</code>.
+(You can also use <code>irb</code> to run your code; this will echo
+each line of your file as it is run, which you may find helpful
+for debugging purposes.)
+</p>
+</div>
 </div>
 </div>
 
@@ -1583,9 +1622,9 @@ provides downloads of prebuilt binaries for SWI Prolog 8.2.1.</li>
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Mark Armstrong</p>
-     <p class="author">Contact: <a href="mailto:markparmstrong@gmail.com">markparmstrong@gmail.com</a></p>
+     <p class="author">Contact: <a href="mailto:armstmp@mcmaster.ca">armstmp@mcmaster.ca</a></p>
      <p class="date">Original date: July 31st, 2020</p>
-     <p class="date">Last updated: 2020-10-21 Wed 10:37</p>
+     <p class="date">Last updated: 2020-10-23 Fri 00:32</p>
      <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.90 (<a href="https://orgmode.org">Org</a> mode 9.4)</p>
      <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
