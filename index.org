@@ -19,6 +19,7 @@
 :END:
 
 - October 23rd ::
+  - Homework 6 has been posted.
   - Today's (live coding) lecture is cancelled, and I'll be posting notes
     and a recording to replace it sometime over the weekend.
     - I apologise; I'm just not quite up for the lecture today.
@@ -707,7 +708,16 @@ difference between Monday and Wednesday.
 :CUSTOM_ID: Current-homeworks
 :END:
 
-*** Homework 5 – “Fizzbuzz”-ing in Ruby – October 12th to Oct 25th
+*** Homework 6 – Representing and interpreting ~Expr~ in Ruby – Oct 23rd to Nov 1st
+:PROPERTIES:
+:CUSTOM_ID: Homework-6-–-Representing-and-interpreting-~Expr~-in-Ruby-–-Oct-23rd-to-Nov-1st
+:END:
+
+- [[./homework/h6.html][HTML]]
+- [[./homework/h6.pdf][PDF]]
+- [[./homework/h6.org][Org plaintext]]
+
+*** Homework 5 – “Fizzbuzz”-ing in Ruby – Oct 12th to Oct 25th
 :PROPERTIES:
 :CUSTOM_ID: Homework-5-–-“Fizzbuzz”-ing-in-Ruby-–-October-12th-to-Oct-25th
 :END:
@@ -717,17 +727,6 @@ Note the due date: the Sunday following reading week.
 - [[./homework/h5.html][HTML]]
 - [[./homework/h5.pdf][PDF]]
 - [[./homework/h5.org][Org plaintext]]
-
-*** Homework 4 – Working with lazy (potentially infinite) lists in Scala – Oct 7th to Oct 19th
-:PROPERTIES:
-:CUSTOM_ID: Homework-4-–-Working-with-lazy-(potentially-infinite)-lists-in-Scala-–-Oct-7th-to-Oct-19th
-:END:
-
-Note the due date: the Monday following reading week!
-
-- [[./homework/h4.html][HTML]]
-- [[./homework/h4.pdf][PDF]]
-- [[./homework/h4.org][Org plaintext]]
 
 ** Homework testing policy
 :PROPERTIES:
@@ -757,6 +756,15 @@ will be used for every student's submission.
 :PROPERTIES:
 :CUSTOM_ID: Previous-homeworks
 :END:
+
+*** Homework 4 – Working with lazy (potentially infinite) lists in Scala – Oct 7th to Oct 19th
+:PROPERTIES:
+:CUSTOM_ID: Homework-4-–-Working-with-lazy-(potentially-infinite)-lists-in-Scala-–-Oct-7th-to-Oct-19th
+:END:
+
+- [[./homework/h4.html][HTML]]
+- [[./homework/h4.pdf][PDF]]
+- [[./homework/h4.org][Org plaintext]]
 
 *** Homework 3 – Revisiting homework 1 in Prolog and homework 2 in Scala – Sept 25th to Oct 4th
 :PROPERTIES:

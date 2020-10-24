@@ -1,0 +1,9 @@
+version: '2'
+services:
+  service:
+    build: .
+    image: 3mi3_h6_docker_image
+    volumes:
+      - .:/opt/h6
+    container_name: 3mi3_h6_container
+    command: ['ruby', 'h6t.rb']

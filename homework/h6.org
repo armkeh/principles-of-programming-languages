@@ -1,0 +1,383 @@
+#+Title: Computer Science 3MI3 – 2020 homework 6
+#+Subtitle: Representing and interpreting ~Expr~ in Ruby
+#+Author: Mark Armstrong
+#+Date: October 23rd, 2020
+#+Description: Repeating part 1 of the first assignment in Ruby.
+#+Options: num:nil
+#+SETUPFILE: ../org-html-themes/setup/theme-readtheorg-local.setup
+
+* Introduction
+:PROPERTIES:
+:CUSTOM_ID: Introduction
+:END:
+
+Recall the ~Expr~ language of integer expressions
+using prefix operators from part 1 of assignment 1.
+
+In this homework, we task you with representing this type
+using an object-oriented approach in Ruby.
+
+* Boilerplate
+:PROPERTIES:
+:CUSTOM_ID: Boilerplate
+:END:
+
+** Submission procedures
+:PROPERTIES:
+:CUSTOM_ID: Submission-procedures
+:END:
+
+#+INCLUDE: "./../boilerplate.org::*Homework submission" :only-contents t
+
+** Proper conduct for coursework
+:PROPERTIES:
+:CUSTOM_ID: Proper-conduct-for-coursework
+:END:
+
+#+INCLUDE: "./../boilerplate.org::*Homework conduct" :only-contents t
+
+* Part 0: Example written in C++                   [0 points]
+:PROPERTIES:
+:CUSTOM_ID: Part-0:-Example-written-in-C++-------------------[0 points]
+:END:
+
+There are at least two approaches to representing the ~Expr~ type
+in an object-oriented style;
+either by
+1. using a single ~Expr~ class which uses fields to track,
+   for a given object of the class,
+   which kind of expression is the top-level expression, or by
+2. using an ~Expr~ interface or class which has as a /subclass/ for
+   each kind of expression.
+
+** Approach 1: A single class with fields
+:PROPERTIES:
+:CUSTOM_ID: Approach-1:-A-single-class-with-fields
+:END:
+
+We use standard output to print the expressions.
+#+begin_src c++ :tangle src/expr1.cpp
+#include <stdio.h>
+#+end_src
+
+There is not a basic exponent operator in C++;
+we simply define one ourselves.
+#+begin_src c++ :tangle src/expr1.cpp
+int pow(int x, int y){
+  int r = 1;
+  while (y-- > 0) {
+    r *= x;
+  }
+  return r;
+}
+#+end_src
+
+Our class contains several types (~enum~'s, ~union~'s and ~struct~'s)
+for internal use in tracking the kind of expression used.
+In Ruby, most of this setup is not necessary due to
+the dynamic type system.
+The ~UOp~ and ~BOp~ enumerations are outside the class,
+as they will be used as arguments to the constructors.
+#+begin_src C++ :tangle src/expr1.cpp
+enum UOp { neg, abs };
+enum BOp { plus, times, minus, exp };
+
+class IExpr {
+
+  enum Arity { constant, unary, binary };
+
+  // An operator is either a UOp or a BOp.
+  // Do be careful with such an untagged union!
+  union Op {UOp uop; BOp bop;};
+
+  // An IExpr2 is a pair of IExpr's.
+  struct IExpr2 {IExpr* fst; IExpr* snd;};
+
+  // The arguments are either:
+  // - a single integer (in case of constant),
+  // - a single IExpr (in case of unary operator), or
+  // - two IExpr's (in case of binary operator).
+  // Again, be careful with untagged union type!
+  union Arg {int value; IExpr* subexpr; IExpr2 subexprs;};
+#+end_src
+
+Now, each object has an arity, a (top-level) operator,
+and an argument (which, remember from the definition of ~Arg~ just above,
+might be an integer, and ~IExpr~, or a pair of ~IExpr~'s.)
+#+begin_src C++ :tangle src/expr1.cpp
+  Arity ar;
+  Op op;
+  Arg arg;
+#+end_src
+
+The only methods are the constructors and the ~interpret~ method.
+#+begin_src C++ :tangle src/expr1.cpp
+  public:
+    IExpr(int c);
+    IExpr(UOp op, IExpr* e);
+    IExpr(BOp op, IExpr* e1, IExpr* e2);
+    int interpret();
+};
+#+end_src
+
+The constructors are fairly uninteresting.
+#+begin_src C++ :tangle src/expr1.cpp
+IExpr::IExpr(int c) {
+  ar = constant;
+  arg.value = c;
+}
+
+IExpr::IExpr(UOp uop, IExpr* e) {
+  ar = unary;
+  op.uop = uop;
+  arg.subexpr = e;
+}
+
+IExpr::IExpr(BOp bop, IExpr* e1, IExpr* e2) {
+  ar = binary;
+  op.bop = bop;
+  arg.subexprs.fst = e1;
+  arg.subexprs.snd = e2;
+}
+#+end_src
+
+The interpreter uses ~switch~ statements
+on the arity and then on the top-level operator.
+#+begin_src C++ :tangle src/expr1.cpp
+int IExpr::interpret() {
+  switch(ar) {
+    case constant : { return arg.value; }
+
+    case unary : {
+      // Single subexpression to evaluate
+      int r = arg.subexpr->interpret();
+      switch(op.uop) {
+        case neg : { return - r; }
+        case abs : { return r > -r ? r : -r; }
+      }
+    }
+
+    case binary : {
+      // Two subexpressions to evaluate
+      int r1 = arg.subexprs.fst->interpret();
+      int r2 = arg.subexprs.snd->interpret();
+      switch(op.bop) {
+        case plus  : { return r1 + r2; }
+        case times : { return r1 * r2; }
+        case minus : { return r1 - r2; }
+        case exp   : { return pow(r1,r2); }
+      }
+    }
+  }
+}
+#+end_src
+
+We include a main method with some example uses of the interpreter.
+As usual, do not include such code with your submission!
+#+begin_src C++ :tangle src/expr1.cpp
+int main() {
+  IExpr five(5);
+  IExpr six(6);
+  IExpr e1(neg, &five);
+  IExpr e2(exp, &five, &six);
+
+  printf("neg 5 evaluates to %d\n", e1.interpret());
+  printf("exp 5 6 evaluates to %d\n", e2.interpret());
+  return 0;
+}
+#+end_src
+
+** Approach 2: Subclasses for each kind of expression
+:PROPERTIES:
+:CUSTOM_ID: Approach-2:-Subclasses-for-each-kind-of-expression
+:END:
+
+:TODO:
+
+* Part 1: A representation and interpreter in Ruby [40 points]
+:PROPERTIES:
+:CUSTOM_ID: Part-1:-A-representation-and-interpreter-in-Ruby-[40 points]
+:END:
+
+In Ruby, create a class ~Expr~ to represent
+the type of integer expressions from part 1 of assignment 1.
+
+In order to ensure that your code is compatible
+with the tests provided, please also
+create methods ~construct_const~, ~construct_neg~, ~construct_abs~,
+~construct_plus~, ~construct_times~, ~construct_minus~, and ~construct_exp~ which,
+given either an integer, ~Expr~, or two ~Expr~ arguments as appropriate,
+returns the corresponding expression.
+
+(The body of these methods should simply be call to an ~Expr~ constructor;
+requiring you implement these simply ensures the tests will be
+compatible with whatever constructors you have.)
+
+* Part 2: Add variables and substitution           [10 bonus points]
+:PROPERTIES:
+:CUSTOM_ID: Part-2:-Add-variables-and-substitution-----------[10 bonus points]
+:END:
+
+Repeat part 2 of the assignment,
+adding variables and a substitution operator to the language
+of expressions ~Expr~, in Ruby.
+
+Call your new type ~VarExpr~, and submit both it code to test it
+in a file ~h5b.rb~.
+
+* Testing
+:PROPERTIES:
+:CUSTOM_ID: Testing
+:END:
+
+Unit tests for the requested methods/functions
+are available [[./testing/h6/h6t.rb][here]].
+The contents of the unit test file are also repeated below.
+
+The tests can be run by placing the ~h6t.rb~ file
+in the same directory as your ~h6.rb~ file, and
+running the following command.
+#+begin_src shell
+ruby h6t.rb
+#+end_src
+You may also use ~irb h6t.rb~, which will echo the script
+as it is run.
+
+If you wish to add more tests yourself,
+see the [[https://en.wikibooks.org/wiki/Ruby_Programming/Unit_testing][documentation]]
+for Ruby.
+
+** Automated testing via Docker
+:PROPERTIES:
+:CUSTOM_ID: Automated-testing-via-Docker
+:END:
+
+The Docker setup and usage scripts are available at the following links.
+Their contents are also repeated below.
+- [[./testing/h6/Dockerfile][Dockerfile]]
+- [[./testing/h6/docker-compose.yml][docker-compose.yml]]
+- [[./testing/h6/setup.sh][setup.sh]]
+- [[./testing/h6/run.sh][run.sh]]
+Place them into your ~h6~ directory where your ~h6.rb~ file
+and the ~h6t.rb~ (linked to above) file exist,
+then run ~setup.sh~ and ~run.sh~.
+
+You may also refer to the README
+for this testing setup and those files
+[[https://github.com/armkeh/principles-of-programming-languages/tree/master/homework/testing/h5][on the course GitHub repo]].
+
+Note that the use of the ~setup.sh~ and ~run.sh~ scripts assumes
+that you are in a ~bash~ like shell; if you are on Windows,
+and not using WSL or WSL2, you may have
+to run the commands contained in those scripts manually.
+
+** The tests
+:PROPERTIES:
+:CUSTOM_ID: The-tests
+:END:
+
+The contents of the testing script are repeated here.
+
+[[./testing/h6/h6t.rb][h6t.rb]]
+#+begin_src ruby :results output :tangle ./testing/h6/h6t.rb
+require_relative "h6"
+require "test/unit"
+
+class SimpleTests < Test::Unit::TestCase
+
+  def test_constant_expression_zero
+    e = construct_const(0)
+    assert_equal(0, e.interpret)
+  end
+
+  def test_additive_expression
+    e1 = construct_const(5)
+    e2 = construct_const(4)
+    e = construct_plus(e1,e2)
+    assert_equal(9, e.interpret)
+  end
+
+  def test_exponential_expression
+    e1 = construct_const(5)
+    e2 = construct_const(4)
+    e = construct_exp(e1,e2)
+    assert_equal(625, e.interpret)
+  end
+end
+#+end_src
+
+** The Docker setup
+:PROPERTIES:
+:CUSTOM_ID: The-Docker-setup
+:END:
+
+The contents of the Docker setup files and scripts are repeated here.
+
+[[./testing/h5/Dockerfile][Dockerfile]]
+#+begin_src docker :tangle ./testing/h6/Dockerfile
+FROM ruby:2.7.2-buster
+
+# Set the name of the maintainers
+MAINTAINER Habib Ghaffari Hadigheh, Mark Armstrong <ghaffh1@mcmaster.ca, armstmp@mcmaster.ca>
+
+# Set the working directory
+WORKDIR /opt/h6
+#+end_src
+
+[[./testing/h5/docker-compose.yml][docker-compose.yml]]
+#+begin_src yaml :tangle ./testing/h6/docker-compose.yml
+version: '2'
+services:
+  service:
+    build: .
+    image: 3mi3_h6_docker_image
+    volumes:
+      - .:/opt/h6
+    container_name: 3mi3_h6_container
+    command: ['ruby', 'h6t.rb']
+#+end_src
+
+[[./testing/h5/setup.sh][setup.sh]]
+#+begin_src shell :tangle ./testing/h6/setup.sh :shebang t
+docker-compose build --force-rm
+#+end_src
+
+[[./testing/h5/run.sh][run.sh]]
+#+begin_src shell :tangle ./testing/h6/run.sh :shebang t
+# Run the container
+docker-compose up --force-recreate
+# Stop the container after finishing the test run
+docker-compose stop -t 1
+#+end_src
+
+[[./testing/h5/README.md][README.md]]
+#+begin_src text :tangle ./testing/h6/README.md
+# Instructions for automated testing using Docker
+
+We have already created a `Dockerfile` here which specifies
+all the necessary packages, etc., for compiling and running your code.
+You only need to follow the instructions below to see 
+the results of unit tests designed to check your implementation.
+
+## Setup
+We use `docker-compose` and its configuration file to build the image.
+Assuming you have `docker` and `docker-compose` installed,
+simply execute
+```shell script
+./setup.sh
+```
+to generate the image.
+
+## Prepare your code for the running the tests
+You only need to place the `h5t.rb` unit test file and
+the `run.sh` file in the same directory as your `h5.rb` source file.
+
+## Running the tests
+As with the build process, we have already put
+the configuration needed for running the test inside `docker-compose.yml`.
+Simply execute
+```shell script
+./run.sh
+```
+to run and see the results of the tests.
+#+end_src

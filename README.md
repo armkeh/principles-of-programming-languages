@@ -14,6 +14,7 @@ better viewed at
 
   - October 23rd
     
+      - Homework 6 has been posted.
       - Today's (live coding) lecture is cancelled, and I'll be posting
         notes and a recording to replace it sometime over the weekend.
           - I apologise; I'm just not quite up for the lecture today.
@@ -679,22 +680,19 @@ significant difference between Monday and Wednesday.
 
 ## Current homeworks
 
-### Homework 5 – “Fizzbuzz”-ing in Ruby – October 12th to Oct 25th
+### Homework 6 – Representing and interpreting `Expr` in Ruby – Oct 23rd to Nov 1st
+
+  - [HTML](./homework/h6.html)
+  - [PDF](./homework/h6.pdf)
+  - [Org plaintext](./homework/h6.org)
+
+### Homework 5 – “Fizzbuzz”-ing in Ruby – Oct 12th to Oct 25th
 
 Note the due date: the Sunday following reading week.
 
   - [HTML](./homework/h5.html)
   - [PDF](./homework/h5.pdf)
-  - [Org
-plaintext](./homework/h5.org)
-
-### Homework 4 – Working with lazy (potentially infinite) lists in Scala – Oct 7th to Oct 19th
-
-Note the due date: the Monday following reading week\!
-
-  - [HTML](./homework/h4.html)
-  - [PDF](./homework/h4.pdf)
-  - [Org plaintext](./homework/h4.org)
+  - [Org plaintext](./homework/h5.org)
 
 ## Homework testing policy
 
@@ -717,6 +715,13 @@ used for every student's
 submission.
 
 ## Previous homeworks
+
+### Homework 4 – Working with lazy (potentially infinite) lists in Scala – Oct 7th to Oct 19th
+
+  - [HTML](./homework/h4.html)
+  - [PDF](./homework/h4.pdf)
+  - [Org
+plaintext](./homework/h4.org)
 
 ### Homework 3 – Revisiting homework 1 in Prolog and homework 2 in Scala – Sept 25th to Oct 4th
 
