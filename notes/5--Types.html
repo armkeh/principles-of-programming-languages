@@ -24,6 +24,7 @@
         document.getElementsByTagName( 'head' )[0].appendChild( link );
     }
 </script>
+<style>pre.src{background:#000000;color:white;} </style>
 </head>
 <body>
 <div class="reveal">
@@ -35,24 +36,24 @@
 </section>
 
 <section>
-<section id="slide-org97cc1fe">
-<h2 id="org97cc1fe"><span class="section-number-2">1</span> Preamble</h2>
+<section id="slide-org5e406b8">
+<h2 id="org5e406b8"><span class="section-number-2">1</span> Preamble</h2>
 <div class="outline-text-2" id="text-1">
 </div>
 </section>
-<section id="slide-org2ccf6fa">
-<h3 id="org2ccf6fa"><span class="section-number-3">1.1</span> <span class="todo TODO">TODO</span> Notable references</h3>
+<section id="slide-org3bfb262">
+<h3 id="org3bfb262"><span class="section-number-3">1.1</span> <span class="todo TODO">TODO</span> Notable references</h3>
 <p>
 :TODO:
 </p>
 
 </section>
-<section id="slide-orgb57bb51">
-<h3 id="orgb57bb51"><span class="section-number-3">1.2</span> <span class="todo TODO">TODO</span> Table of contents</h3>
+<section id="slide-org207ae71">
+<h3 id="org207ae71"><span class="section-number-3">1.2</span> <span class="todo TODO">TODO</span> Table of contents</h3>
 <font size="-1">
-<div class="scriptsize" id="orgf6c6de9">
+<div class="scriptsize" id="org2f1f694">
 <ul>
-<li><a href="#/slide-org97cc1fe">Preamble</a></li>
+<li><a href="#/slide-org5e406b8">Preamble</a></li>
 
 </ul>
 
@@ -62,8 +63,8 @@
 </section>
 </section>
 <section>
-<section id="slide-orge2e0106">
-<h2 id="orge2e0106"><span class="section-number-2">2</span> Introduction</h2>
+<section id="slide-orgb387ce1">
+<h2 id="orgb387ce1"><span class="section-number-2">2</span> Introduction</h2>
 <p>
 This section introduces the concepts of <i>types</i>,
 a particularly useful language safety feature.
@@ -77,8 +78,259 @@ as well as some more advanced topics.
 </section>
 </section>
 <section>
-<section id="slide-org1d9e528">
-<h2 id="org1d9e528"><span class="section-number-2">3</span> Atomic types</h2>
+<section id="slide-org9e2b641">
+<h2 id="org9e2b641"><span class="section-number-2">3</span> Properties of type systems</h2>
+<p>
+In the previous notes, we have discussed
+</p>
+<ul>
+<li>polymorphism and</li>
+<li>static/dynamic typing</li>
+
+</ul>
+<p>
+which are two important properties of a type system.
+</p>
+
+<p>
+Here we discuss some other commonly discussed properties,
+before discussing in the following sections
+what is arguably the most important property:
+what types a language might have.
+</p>
+
+</section>
+<section id="slide-orgfc79942">
+<h3 id="orgfc79942"><span class="section-number-3">3.1</span> “Strong” and “weak” typing</h3>
+<p>
+These are comparative terms.
+</p>
+<ul>
+<li>We'll consider them a subjective criteria.</li>
+
+</ul>
+
+<p>
+“Strongly typed”
+</p>
+<ul>
+<li>Languages are frequently called strongly typed.
+<ul>
+<li>But less frequently do they state what they mean by that.</li>
+<li>The term is used inconsistently.
+<ul>
+<li>“C is a strongly typed, weakly checked language”
+– Dennis Ritchie, creator of C</li>
+
+</ul></li>
+
+</ul></li>
+<li>We will take it to mean “type clashes are restricted”.</li>
+<li>That definition does not make a good objective property.
+<ul>
+<li>What does restricted mean?
+<ul>
+<li>Is it a warning or an error?</li>
+<li>Does type casting violate this?</li>
+
+</ul></li>
+<li>What qualifies as a type clash?
+<ul>
+<li>Is implicit type casting allowed?</li>
+
+</ul></li>
+
+</ul></li>
+
+</ul>
+
+<p>
+“Weakly typed” simply means not strongly typed.
+</p>
+
+</section>
+<section id="slide-orgb8c2666">
+<h3 id="orgb8c2666"><span class="section-number-3">3.2</span> Explicit and implicit typing</h3>
+<p>
+Languages may require annotations on variables and functions
+(<i>explicit typing</i>) or allow them to be omitted (<i>implicit typing</i>).
+</p>
+<ul>
+<li>Implicit typing does not weaken the typing system in any way!
+<ul>
+<li>A very common misconception.</li>
+
+</ul></li>
+<li>In general, type inference is an undecidable problem
+(its not guaranteed that the compiler/interpreter can
+determine the type).
+<ul>
+<li>Most languages have relatively simple type systems,
+and this is not a problem.</li>
+
+</ul></li>
+
+</ul>
+
+<p>
+Some languages make type annotations a part of the name,
+or annotate names with sigils to indicate type details.
+</p>
+<ul>
+<li>In older versions of Fortran, names beginning with
+<code>i</code>, <code>j</code> or <code>k</code> were for integer variables,
+and all variables were of floating point.</li>
+<li>In Perl, names beginning with the sigil
+<ul>
+<li><code>$</code> have scalar type,</li>
+<li><code>@</code> have array type,</li>
+<li><code>%</code> have hash type, and</li>
+<li><code>&amp;</code> have subroutine type.</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-org889b4bc">
+<h2 id="org889b4bc"><span class="section-number-2">4</span> Atomic types</h2>
+<p>
+We begin our discussion of what types languages have
+with what are usually the “simplest” types: <i>atomic</i> types.
+</p>
+<ul>
+<li>Atomic in the sense that they cannot be broken down any further.</li>
+<li>Sometimes called <i>primitive</i> or <i>basic</i>.</li>
+
+</ul>
+
+<p>
+Most languages have at least these atomic types.
+</p>
+<ul>
+<li><b>Integers</b>; <code>int</code>
+<ul>
+<li>Including possibly signed, unsigned, short, and/or long variants.</li>
+
+</ul></li>
+<li><b>Floating point</b> numbers
+<ul>
+<li>Including possibly single precision and double precision variants.</li>
+
+</ul></li>
+<li><b>Characters</b>
+<ul>
+<li>Sometimes an alternate name for the byte type (8-bit integers).</li>
+
+</ul></li>
+<li><b>Booleans</b></li>
+<li><b>Unit</b> (the <i>singleton</i> type)
+<ul>
+<li>Sometimes called <code>void</code>, <code>nil</code>-type, <code>null</code>-type or <code>none</code>-type.
+<ul>
+<li>In C like languages, you cannot store something of type <code>void</code>.</li>
+<li>Commonly represented as the type of 0-ary tuples,
+whose only element is <code>()</code>.</li>
+
+</ul></li>
+
+</ul></li>
+<li><b>Empty</b>
+<ul>
+<li>Unlike a singleton type, which has a single value
+(called <code>nil</code>, <code>null</code> or <code>none</code>), there is <b>nothing</b> in the empty type.</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-orga4f728d">
+<h3 id="orga4f728d"><span class="section-number-3">4.1</span> Implementation of atomic types</h3>
+<p>
+When we discussed the pure untyped λ-calculus,
+we discussed the process of <i>encoding</i> the integers and booleans
+as functions, since they were not included in the language.
+</p>
+<ul>
+<li>We also mentioned that we can add constants for them
+to the language, forming an <i>unpure</i> untyped λ-calculus.
+<ul>
+<li>Such added constants are called</li>
+
+</ul></li>
+
+</ul>
+
+<p>
+This raises a question we can ask about
+“practical” programming languages as well;
+</p>
+<ul>
+<li>are the “atomic” (“primitive”, “basic”) types <i>truly</i> atomic
+(primitive, basic), or are they represented
+using one of the language's abstractions?</li>
+<li>We have discussed the fact that in Scala and Ruby, which we call
+“purely object-oriented”, even these atomic types are classes!
+<ul>
+<li>Whereas in Java and C++, they are not;
+there, they are “primitives” which exist
+outside the object-oriented abstraction.</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-org2821bbb">
+<h3 id="org2821bbb"><span class="section-number-3">4.2</span> Uncommon basic types</h3>
+<p>
+Some languages include these less common basic types.
+</p>
+<ul>
+<li><b>Complex</b> numbers
+<ul>
+<li>Especially for scientific computation.</li>
+
+</ul></li>
+<li><b>Decimal</b> (representation of) numbers
+<ul>
+<li>Especially for business (monetary) applications.</li>
+<li>There are decimal numbers that cannot be properly represented
+using binary (e.g. <code>0.3 = 0.010011</code>, repeating)</li>
+<li>Not included in all languages because
+they cannot be efficiently represented.
+<ul>
+<li>It takes at least 4 bits to represent a single decimal digit,
+but 4 bits could represent 16 digits, instead of the 10
+that are actually possible.</li>
+
+</ul></li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-orga2c7177">
+<h3 id="orga2c7177"><span class="section-number-3">4.3</span> Ordinal types</h3>
+<p>
+Many languages include a means of defining other <i>finite</i> types.
+Instances include
+</p>
+<ul>
+<li>enumeration types (<code>enum</code>'s) and</li>
+<li>subset/subrange types.</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-orgdd3c71d">
+<h2 id="orgdd3c71d"><span class="section-number-2">5</span> Sequences</h2>
 <p>
 :TODO:
 </p>
@@ -86,8 +338,8 @@ as well as some more advanced topics.
 </section>
 </section>
 <section>
-<section id="slide-org3ecc7b9">
-<h2 id="org3ecc7b9"><span class="section-number-2">4</span> Sequences</h2>
+<section id="slide-org9224f48">
+<h2 id="org9224f48"><span class="section-number-2">6</span> Algebraic types</h2>
 <p>
 :TODO:
 </p>
@@ -95,8 +347,8 @@ as well as some more advanced topics.
 </section>
 </section>
 <section>
-<section id="slide-org94db145">
-<h2 id="org94db145"><span class="section-number-2">5</span> Algebraic types</h2>
+<section id="slide-org666cbbb">
+<h2 id="org666cbbb"><span class="section-number-2">7</span> References</h2>
 <p>
 :TODO:
 </p>
@@ -104,8 +356,8 @@ as well as some more advanced topics.
 </section>
 </section>
 <section>
-<section id="slide-org264d359">
-<h2 id="org264d359"><span class="section-number-2">6</span> References</h2>
+<section id="slide-orga5459c6">
+<h2 id="orga5459c6"><span class="section-number-2">8</span> Advanced type systems</h2>
 <p>
 :TODO:
 </p>
@@ -113,17 +365,8 @@ as well as some more advanced topics.
 </section>
 </section>
 <section>
-<section id="slide-orged3b17d">
-<h2 id="orged3b17d"><span class="section-number-2">7</span> Advanced type systems</h2>
-<p>
-:TODO:
-</p>
-
-</section>
-</section>
-<section>
-<section id="slide-orgea86e24">
-<h2 id="orgea86e24"><span class="section-number-2">8</span> Further advanced topics</h2>
+<section id="slide-orgfa40444">
+<h2 id="orgfa40444"><span class="section-number-2">9</span> Further advanced topics</h2>
 <p>
 Depending upon time at the end of the course,
 we may return to discuss more about types.

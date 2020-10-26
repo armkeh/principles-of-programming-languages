@@ -1,4 +1,4 @@
-% Created 2020-09-02 Wed 17:00
+% Created 2020-10-26 Mon 11:15
 % Intended LaTeX compiler: lualatex
 \documentclass[11pt]{article}
 \usepackage{graphicx}
@@ -33,7 +33,7 @@
    pdftitle={Types},
    pdfkeywords={},
    pdfsubject={Introduction to types},
-   pdfcreator={Emacs 27.0.90 (Org mode 9.3.7)},
+   pdfcreator={Emacs 27.0.90 (Org mode 9.4)},
    pdflang={English},
    colorlinks,
    linkcolor=blue,
@@ -45,24 +45,24 @@
 \maketitle
 
 \section{Preamble}
-\label{sec:orge41145d}
+\label{sec:org5f263db}
 
 \subsection{{\bfseries\sffamily TODO} Notable references}
-\label{sec:org39e58c2}
+\label{sec:org4a04fd6}
 
 :TODO:
 
 \subsection{{\bfseries\sffamily TODO} Table of contents}
-\label{sec:org07cf0a1}
+\label{sec:org6730055}
 
 \begin{scriptsize}
 \begin{itemize}
-\item \hyperref[sec:orge41145d]{Preamble}
+\item \hyperref[sec:org5f263db]{Preamble}
 \end{itemize}
 \end{scriptsize}
 
 \section{Introduction}
-\label{sec:org0bb2705}
+\label{sec:org44c2a58}
 
 This section introduces the concepts of \emph{types},
 a particularly useful language safety feature.
@@ -70,33 +70,217 @@ a particularly useful language safety feature.
 Common simple types and methods of building new types are discussed,
 as well as some more advanced topics.
 
-\section{Atomic types}
-\label{sec:org967b421}
+\section{Properties of type systems}
+\label{sec:orgb02556e}
 
-:TODO:
+In the previous notes, we have discussed
+\begin{itemize}
+\item polymorphism and
+\item static/dynamic typing
+\end{itemize}
+which are two important properties of a type system.
+
+Here we discuss some other commonly discussed properties,
+before discussing in the following sections
+what is arguably the most important property:
+what types a language might have.
+
+\subsection{“Strong” and “weak” typing}
+\label{sec:org03b9cdc}
+
+These are comparative terms.
+\begin{itemize}
+\item We'll consider them a subjective criteria.
+\end{itemize}
+
+“Strongly typed”
+\begin{itemize}
+\item Languages are frequently called strongly typed.
+\begin{itemize}
+\item But less frequently do they state what they mean by that.
+\item The term is used inconsistently.
+\begin{itemize}
+\item “C is a strongly typed, weakly checked language”
+– Dennis Ritchie, creator of C
+\end{itemize}
+\end{itemize}
+\item We will take it to mean “type clashes are restricted”.
+\item That definition does not make a good objective property.
+\begin{itemize}
+\item What does restricted mean?
+\begin{itemize}
+\item Is it a warning or an error?
+\item Does type casting violate this?
+\end{itemize}
+\item What qualifies as a type clash?
+\begin{itemize}
+\item Is implicit type casting allowed?
+\end{itemize}
+\end{itemize}
+\end{itemize}
+
+“Weakly typed” simply means not strongly typed.
+
+\subsection{Explicit and implicit typing}
+\label{sec:org3318602}
+
+Languages may require annotations on variables and functions
+(\emph{explicit typing}) or allow them to be omitted (\emph{implicit typing}).
+\begin{itemize}
+\item Implicit typing does not weaken the typing system in any way!
+\begin{itemize}
+\item A very common misconception.
+\end{itemize}
+\item In general, type inference is an undecidable problem
+(its not guaranteed that the compiler/interpreter can
+determine the type).
+\begin{itemize}
+\item Most languages have relatively simple type systems,
+and this is not a problem.
+\end{itemize}
+\end{itemize}
+
+Some languages make type annotations a part of the name,
+or annotate names with sigils to indicate type details.
+\begin{itemize}
+\item In older versions of Fortran, names beginning with
+\texttt{i}, \texttt{j} or \texttt{k} were for integer variables,
+and all variables were of floating point.
+\item In Perl, names beginning with the sigil
+\begin{itemize}
+\item \texttt{\$} have scalar type,
+\item \texttt{@} have array type,
+\item \texttt{\%} have hash type, and
+\item \texttt{\&} have subroutine type.
+\end{itemize}
+\end{itemize}
+
+\section{Atomic types}
+\label{sec:org94a4e65}
+
+We begin our discussion of what types languages have
+with what are usually the “simplest” types: \emph{atomic} types.
+\begin{itemize}
+\item Atomic in the sense that they cannot be broken down any further.
+\item Sometimes called \emph{primitive} or \emph{basic}.
+\end{itemize}
+
+Most languages have at least these atomic types.
+\begin{itemize}
+\item \textbf{Integers}; \texttt{int}
+\begin{itemize}
+\item Including possibly signed, unsigned, short, and/or long variants.
+\end{itemize}
+\item \textbf{Floating point} numbers
+\begin{itemize}
+\item Including possibly single precision and double precision variants.
+\end{itemize}
+\item \textbf{Characters}
+\begin{itemize}
+\item Sometimes an alternate name for the byte type (8-bit integers).
+\end{itemize}
+\item \textbf{Booleans}
+\item \textbf{Unit} (the \emph{singleton} type)
+\begin{itemize}
+\item Sometimes called \texttt{void}, \texttt{nil}-type, \texttt{null}-type or \texttt{none}-type.
+\begin{itemize}
+\item In C like languages, you cannot store something of type \texttt{void}.
+\item Commonly represented as the type of 0-ary tuples,
+whose only element is \texttt{()}.
+\end{itemize}
+\end{itemize}
+\item \textbf{Empty}
+\begin{itemize}
+\item Unlike a singleton type, which has a single value
+(called \texttt{nil}, \texttt{null} or \texttt{none}), there is \textbf{nothing} in the empty type.
+\end{itemize}
+\end{itemize}
+
+\subsection{Implementation of atomic types}
+\label{sec:org0e87217}
+
+When we discussed the pure untyped λ-calculus,
+we discussed the process of \emph{encoding} the integers and booleans
+as functions, since they were not included in the language.
+\begin{itemize}
+\item We also mentioned that we can add constants for them
+to the language, forming an \emph{unpure} untyped λ-calculus.
+\begin{itemize}
+\item Such added constants are called
+\end{itemize}
+\end{itemize}
+
+This raises a question we can ask about
+“practical” programming languages as well;
+\begin{itemize}
+\item are the “atomic” (“primitive”, “basic”) types \emph{truly} atomic
+(primitive, basic), or are they represented
+using one of the language's abstractions?
+\item We have discussed the fact that in Scala and Ruby, which we call
+“purely object-oriented”, even these atomic types are classes!
+\begin{itemize}
+\item Whereas in Java and C++, they are not;
+there, they are “primitives” which exist
+outside the object-oriented abstraction.
+\end{itemize}
+\end{itemize}
+
+\subsection{Uncommon basic types}
+\label{sec:orgfe5a8a9}
+
+Some languages include these less common basic types.
+\begin{itemize}
+\item \textbf{Complex} numbers
+\begin{itemize}
+\item Especially for scientific computation.
+\end{itemize}
+\item \textbf{Decimal} (representation of) numbers
+\begin{itemize}
+\item Especially for business (monetary) applications.
+\item There are decimal numbers that cannot be properly represented
+using binary (e.g. \texttt{0.3 = 0.010011}, repeating)
+\item Not included in all languages because
+they cannot be efficiently represented.
+\begin{itemize}
+\item It takes at least 4 bits to represent a single decimal digit,
+but 4 bits could represent 16 digits, instead of the 10
+that are actually possible.
+\end{itemize}
+\end{itemize}
+\end{itemize}
+
+\subsection{Ordinal types}
+\label{sec:org63241e0}
+
+Many languages include a means of defining other \emph{finite} types.
+Instances include
+\begin{itemize}
+\item enumeration types (\texttt{enum}'s) and
+\item subset/subrange types.
+\end{itemize}
 
 \section{Sequences}
-\label{sec:org43e2a5d}
+\label{sec:org7e8f841}
 
 :TODO:
 
 \section{Algebraic types}
-\label{sec:org5f6635b}
+\label{sec:org242f44b}
 
 :TODO:
 
 \section{References}
-\label{sec:orgae353d3}
+\label{sec:orge9136ec}
 
 :TODO:
 
 \section{Advanced type systems}
-\label{sec:org241e51a}
+\label{sec:orgff14d16}
 
 :TODO:
 
 \section{Further advanced topics}
-\label{sec:org9cbe85d}
+\label{sec:org2deb098}
 
 Depending upon time at the end of the course,
 we may return to discuss more about types.
