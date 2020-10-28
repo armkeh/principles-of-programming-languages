@@ -1,0 +1,226 @@
+% Created 2020-10-28 Wed 10:26
+% Intended LaTeX compiler: lualatex
+\documentclass[11pt]{article}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{etoolbox}
+\makeatletter
+\def\dontdofcolorbox{\renewcommand\fcolorbox[4][]{##4}}
+\AtBeginEnvironment{minted}{\dontdofcolorbox}
+\makeatother
+\usepackage[newfloat]{minted}
+\usepackage{unicode-math}
+\usepackage{unicode}
+\author{Mark Armstrong}
+\date{\today}
+\title{Trees in Ruby}
+\hypersetup{
+   pdfauthor={Mark Armstrong},
+   pdftitle={Trees in Ruby},
+   pdfkeywords={},
+   pdfsubject={A first real look at defining tree-like data in Ruby using classes.},
+   pdfcreator={Emacs 27.0.91 (Org mode 9.4)},
+   pdflang={English},
+   colorlinks,
+   linkcolor=blue,
+   citecolor=blue,
+   urlcolor=blue
+   }
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+
+\section{Introduction}
+\label{sec:org3008666}
+These notes were created during the tutorials on October 26th and 28th.
+
+\section{Motivation}
+\label{sec:org389bbd9}
+
+\section{Wednesday: Leaf trees using subclasses}
+\label{sec:org992f739}
+\begin{minted}[breaklines=true]{ruby}
+class LeafTree
+
+  # We shouldn't be able to initialize
+  # a LeafTree directly, only one of its subclasses
+  # (there might be a better way to implement
+  # an "abstract" class like this in Ruby;
+  # I am not certain.)
+  def initialize; throw "Cannot construct a LeafTree directly" end
+  
+  # All LeafTree's should have a flatten
+  # But we can't really write it until we know
+  # what kind of LeafTree we have.
+  # Just throw an exception if it's called
+  # and we forgot to implement it in the subclass
+  def flatten; throw "flatten not implemented!" end
+end
+
+class Branch < LeafTree
+  attr_reader :left
+  attr_reader :right
+  
+  def initialize(l,r)
+    # First, check immediately if these are LeafTrees
+    if l.is_a?(LeafTree) && r.is_a?(LeafTree)
+      @left = l
+      @right = r
+    else
+      throw "Constructing a branch with a non-leaftree"
+    end
+  end
+
+  def flatten
+    @left.flatten + @right.flatten
+    # flatten(@left) will cause a complaint of "too many arguments"
+    # flatten(@left) is implicitely called on "this" object,
+    # (called `self` in Ruby) so we'd be giving an extra argument.
+  end
+end
+
+class Leaf < LeafTree
+  attr_reader :value
+  
+  def initialize(v)
+    @value = v
+  end
+
+  def flatten; [@value] end
+end
+
+# Test it out.
+x = Branch.new(Leaf.new(1),Leaf.new(2))
+print x.flatten
+\end{minted}
+
+\section{Wednesday: Leaf trees using a single class}
+\label{sec:org329d482}
+\begin{minted}[breaklines=true]{ruby}
+class LeafTree
+  attr_reader :kind
+  attr_reader :value
+  attr_reader :left
+  attr_reader :right
+
+  # In the constructor, the second parameter
+  # defaults to nil. So if we are constructing a leaf,
+  # we just don't give the second parameter.
+  def initialize(x, y=nil)
+    if y == nil
+      @kind = :leaf
+      @value = x
+    else
+      @kind = :branch
+      @left = x
+      @right = y
+    end
+  end
+
+  def flatten
+    if @kind == :leaf
+      [@value]
+    elsif @kind == :branch
+      @left.flatten + @right.flatten
+    else
+      throw "Unknown kind of LeafTree"
+    end
+  end
+end
+
+x = LeafTree.new(LeafTree.new(1),LeafTree.new(2))
+print x.flatten
+\end{minted}
+
+\section{Monday: Leaf trees using subclasses}
+\label{sec:org0ed1b51}
+\begin{minted}[breaklines=true]{ruby}
+class LeafTree
+end
+
+class Branch < LeafTree
+  # Getters and setters for the left and right subtrees
+  attr_reader :left
+  attr_reader :right
+
+  # Constructor; require two trees as parameters
+  def initialize(l,r)
+    if l.is_a?(LeafTree) && r.is_a?(LeafTree)
+      @left = l
+      @right = r
+    else
+      raise "Branch constructed with non-leaftrees"
+    end
+  end
+
+  def flatten; @left.flatten + @right.flatten end
+end
+
+class Leaf < LeafTree
+  attr_accessor :val
+
+  def initialize(v)
+    @val = v
+  end
+
+  def flatten; [@val] end
+end
+
+z = Branch.new(2,3)
+y = Branch.new(Leaf.new(1), Leaf.new(2))
+x = Branch.new(y,y)
+print x.flatten
+\end{minted}
+
+\section{Monday: Leaf trees using a single class}
+\label{sec:org9a630fc}
+\begin{minted}[breaklines=true]{ruby}
+class LeafTree
+  # Type is either :leaf or :branch.
+  attr_reader :type
+
+  # If type is :leaf, val will be set to a value.
+  attr_reader :val
+
+  # If type is :branch, left and right will be the subtrees.
+  attr_reader :left
+  attr_reader :right
+
+  def initialize(x, y=nil)
+    if y == nil
+      @type = :leaf
+      @val = x
+    else
+      @type = :branch
+      # Could check here that x and y are LeafTrees
+      @left = x
+      @right = y
+    end
+  end
+
+  def flatten
+    if @type == :leaf
+      [@val]
+    elsif @type == :branch
+      @left.flatten + @right.flatten
+    else
+      raise "Unknown type of tree."
+    end
+  end
+end
+
+print LeafTree.new(LeafTree.new(1),LeafTree.new(2)).flatten
+\end{minted}
+\end{document}
