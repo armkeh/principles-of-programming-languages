@@ -12,6 +12,23 @@ better viewed at
 
 ## October
 
+  - October 28th
+    
+      - I am very sorry to cancel another lecture, and without any
+        notice, but I am cancelling today's lecture.
+          - The content of what would have been today's lecture will
+            instead be covered on Friday,
+              - and there will not be a live coding lecture this week.
+          - I will try to have the recorded lecture promised from Friday
+            out today,
+          - but it will only be posted after the assignment 2 is posted
+            (which will be published today.)
+      - Notes from the tutorials this week have been uploaded, under the
+        tutorials subsection of the literate programs section.
+          - They should be cleaned up later today or tomorrow, (some
+            commentary should be added to the literate portions) but
+            they are provided for your convenience now.
+
   - October 23rd
     
       - Homework 6 has been posted.
@@ -585,6 +602,20 @@ Relevant raw code:
 Files from the Wednesday tutorial, led by Habib, are collected here. In
 most cases, the material is largely similar to the material from the
 lecture notes.
+
+### Monday October 26th & Wednesday October 28th – Trees in Ruby
+
+  - [HTML](./notes/tutorial/10-26-Trees-in-Ruby.html)
+  - [PDF](./notes/tutorial/10-26-Trees-in-Ruby.pdf)
+  - [Org plaintext](./notes/tutorial/10-26-Trees-in-Ruby.org)
+
+### Wednesday October 21st –
+
+:TODO:
+
+### Wednesday October 7th –
+
+:TODO:
 
 ### Wednesday September 30th – Trees in Prolog
 
