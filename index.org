@@ -18,6 +18,14 @@
 :CUSTOM_ID: October
 :END:
 
+- October 28th ::
+
+  - Notes from the tutorials this week have been uploaded,
+    under the tutorials subsection of the literate programs section.
+    - They should be cleaned up later today or tomorrow,
+      (some commentary should be added to the literate portions)
+      but they are provided for your convenience now.
+
 - October 23rd ::
   - Homework 6 has been posted.
   - Today's (live coding) lecture is cancelled, and I'll be posting notes
@@ -118,7 +126,7 @@
 - October 1st ::
   - Docker setup has been added for the homework 3 testing.
   - A sample solution has been added to the homework 1 document.
-  
+    
 ** September
 :PROPERTIES:
 :CUSTOM_ID: September
@@ -615,6 +623,29 @@ Relevant raw code:
 Files from the Wednesday tutorial, led by Habib, are collected here.
 In most cases, the material is largely similar to the
 material from the lecture notes.
+
+*** Monday October 26th & Wednesday October 28th – Trees in Ruby
+:PROPERTIES:
+:CUSTOM_ID: Monday-October-26th-&-Wednesday-October-28th-–-Trees-in-Ruby
+:END:
+
+- [[./notes/tutorial/10-26-Trees-in-Ruby.html][HTML]]
+- [[./notes/tutorial/10-26-Trees-in-Ruby.pdf][PDF]]
+- [[./notes/tutorial/10-26-Trees-in-Ruby.org][Org plaintext]]
+
+*** Wednesday October 21st –
+:PROPERTIES:
+:CUSTOM_ID: Wednesday-October-21st-–
+:END:
+
+:TODO:
+
+*** Wednesday October 7th –
+:PROPERTIES:
+:CUSTOM_ID: Wednesday-October-7th-–
+:END:
+
+:TODO:
 
 *** Wednesday September 30th – Trees in Prolog
 :PROPERTIES:

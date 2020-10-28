@@ -22,6 +22,9 @@ These notes were created during the tutorials on October 26th and 28th.
 :END:
 
 * Wednesday: Leaf trees using subclasses
+:PROPERTIES:
+:CUSTOM_ID: Wednesday:-Leaf-trees-using-subclasses
+:END:
 
 #+begin_src ruby :results output
 class LeafTree
@@ -82,6 +85,9 @@ print x.flatten
 : [1, 2]
 
 * Wednesday: Leaf trees using a single class
+:PROPERTIES:
+:CUSTOM_ID: Wednesday:-Leaf-trees-using-a-single-class
+:END:
 
 #+begin_src ruby :results output
 class LeafTree
@@ -123,6 +129,9 @@ print x.flatten
 : [1, 2]
 
 * Monday: Leaf trees using subclasses
+:PROPERTIES:
+:CUSTOM_ID: Monday:-Leaf-trees-using-subclasses
+:END:
 
 #+begin_src ruby :results output
 class LeafTree
@@ -165,6 +174,9 @@ print x.flatten
 #+RESULTS:
 
 * Monday: Leaf trees using a single class
+:PROPERTIES:
+:CUSTOM_ID: Monday:-Leaf-trees-using-a-single-class
+:END:
 
 #+begin_src ruby :results output
 class LeafTree
