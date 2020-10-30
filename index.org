@@ -18,6 +18,11 @@
 :CUSTOM_ID: October
 :END:
 
+- October 30th ::
+
+  - The first version of assignment 2 is posted.
+    - The due date is currently not set. It will be announced.
+    
 - October 29th ::
 
   - The second C++ example has been added to homework 6,
@@ -849,6 +854,15 @@ will be used for every student's submission.
 :PROPERTIES:
 :CUSTOM_ID: Assignments
 :END:
+
+** Assignment 2 – Typing a λ-calculus – Oct 30th to ???.
+:PROPERTIES:
+:CUSTOM_ID: Assignment-1-–-Interpreting-simple-integer-expressions-–-Sept-26th-to-Oct-21st.
+:END:
+
+- [[./assignments/a2.html][HTML]]
+- [[./assignments/a2.pdf][PDF]]
+- [[./assignments/a2.org][Org plaintext]]
 
 ** Assignment 1 – Interpreting simple integer expressions – Sept 26th to Oct 21st.
 :PROPERTIES:

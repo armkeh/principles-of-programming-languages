@@ -1,0 +1,1006 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2020-10-30 Fri 13:34 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Computer Science 3MI3 – 2020 assignment 2</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Mark Armstrong" />
+<meta name="description" content="Type checking and erasing on a simply-typed λ-calculus."
+ />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="styles/readtheorg/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="styles/readtheorg/css/readtheorg.css"/>
+<script type="text/javascript" src="styles/lib/js/jquery.min.js"></script>
+<script type="text/javascript" src="styles/lib/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="styles/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" src="styles/readtheorg/js/readtheorg.js"></script>
+<style>pre.src{background:#000000;color:white;} </style>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:e95b018ef3580986a04669f1b5879592219e2a7a&dn=public-domain.txt Public Domain
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.add("code-highlighted");
+         target.classList.add("code-highlighted");
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.remove("code-highlighted");
+         target.classList.remove("code-highlighted");
+       }
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Computer Science 3MI3 – 2020 assignment 2
+<br />
+<span class="subtitle">Typing a λ-calculus</span>
+</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#Introduction">Introduction</a></li>
+<li><a href="#Updates-and-file-history">Updates and file history</a>
+<ul>
+<li><a href="#October-30th">October 30th</a></li>
+</ul>
+</li>
+<li><a href="#Boilerplate">Boilerplate</a>
+<ul>
+<li><a href="#Submission-procedures">Documentation</a></li>
+<li><a href="#Submission-procedures">Submission procedures</a>
+<ul>
+<li><a href="#org99726be">Assignment naming requirements</a></li>
+</ul>
+</li>
+<li><a href="#Proper-conduct-for-coursework">Proper conduct for coursework</a></li>
+</ul>
+</li>
+<li><a href="#Informal-description-of-the-expression-language">Part 0.1 – Description of the λ-calculus, <i>ST</i>                 [0 marks]</a></li>
+<li><a href="#Part-0.2-–-A-representation-of-the-untyped-λ-calculus,-/UL/----[0 marks]">Part 0.2 – A representation of the untyped λ-calculus, <i>UL</i>    [0 marks]</a>
+<ul>
+<li><a href="#Nameless-representation-of-terms">Nameless representation of terms</a></li>
+<li><a href="#Scala-implementation">Scala implementation</a></li>
+<li><a href="#Ruby-implementation">Ruby implementation</a></li>
+</ul>
+</li>
+<li><a href="#Part-1-–-The-representation----------------------------------[10 marks]">Part 1 – The representation                                  [10 marks]</a></li>
+<li><a href="#Part-1-–-Interpreter-written-in-Scala--[20 marks]">Part 2 – Type checking                                       [40 marks]</a></li>
+<li><a href="#Part-2-–-Interpreter-written-in-Prolog-[20 marks]">Part 3 – Translation to the untyped λ-calculus; type erasure [40 marks]</a></li>
+<li><a href="#Part-4-–-Interpreting-/SL/-programs----------------------------[10 marks]">Part 4 – Interpreting <i>SL</i> programs                            [10 marks]</a></li>
+<li><a href="#Part-5-–-Bonus:-pairs----------------------------------------[10 bonus marks]">Part 5 – Bonus: pairs                                        [10 bonus marks]</a></li>
+<li><a href="#Submission-checklist">Submission checklist</a></li>
+<li><a href="#Testing">Testing</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-Introduction" class="outline-2">
+<h2 id="Introduction">Introduction</h2>
+<div class="outline-text-2" id="text-Introduction">
+<p>
+This assignment asks you to construct representation
+of a simply-typed λ-calculus, construct a typechecker for that
+λ-calculus, and finally to implement <i>type-erasure</i> and a
+simple translator to simplify terms to untyped λ-calculus terms.
+</p>
+</div>
+</div>
+
+<div id="outline-container-Updates-and-file-history" class="outline-2">
+<h2 id="Updates-and-file-history">Updates and file history</h2>
+<div class="outline-text-2" id="text-Updates-and-file-history">
+</div>
+
+<div id="outline-container-October-30th" class="outline-3">
+<h3 id="October-30th">October 30th</h3>
+<div class="outline-text-3" id="text-October-30th">
+<ul class="org-ul">
+<li>Initial version posted.
+<ul class="org-ul">
+<li>Testing not posted yet.</li>
+</ul></li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-Boilerplate" class="outline-2">
+<h2 id="Boilerplate">Boilerplate</h2>
+<div class="outline-text-2" id="text-Boilerplate">
+</div>
+
+<div id="outline-container-Submission-procedures" class="outline-3">
+<h3 id="Submission-procedures">Documentation</h3>
+<div class="outline-text-3" id="text-Submission-procedures">
+<p>
+In addition to the code for the assignments,
+you are required to submit (relatively light) documentation,
+along the lines of that found in
+<a href="https://armkeh.github.io/principles-of-programming-languages/#outline-container-Lecture-literate-programs">the literate programs</a>
+from lectures and tutorials.
+</p>
+<ul class="org-ul">
+<li>Those occasionally include a lot of writing when introducing concepts;
+you do not have to introduce concepts, so your documentation
+should be similar to the <i>end</i> of those documents,
+where only the purpose and implementation details
+of types, functions, etc., are discussed.</li>
+</ul>
+
+<p>
+This documentation is not assigned its own marks;
+rather, 20% of the marks of each part of the assignment
+will be for the documentation.
+</p>
+
+<p>
+This documentation <b>must be</b> in the literate style,
+with (nicely typeset) English paragraphs alongside code snippets;
+comments in your source code do not count.
+The basic requirement is
+</p>
+<ul class="org-ul">
+<li>the English paragraphs must use non-fixed width font, whereas</li>
+<li>the code snippets must use fixed width font.</li>
+<li>For example, see these lecture notes on Prolog:
+<ul class="org-ul">
+<li><a href="https://courses.cs.washington.edu/courses/cse341/98sp/logic/prolog.html">https://courses.cs.washington.edu/courses/cse341/98sp/logic/prolog.html</a></li>
+</ul></li>
+</ul>
+<p>
+But you are encouraged to strive for nicer than just
+“the basic requirement”.
+(the ability to write decent looking documentation is an asset!
+</p>
+
+<p>
+You are free to present your documentation in any of these formats:
+</p>
+<ul class="org-ul">
+<li>an HTML file,
+<ul class="org-ul">
+<li>(named <code>README.html</code>)</li>
+</ul></li>
+<li>a PDF (for instance, by writing it in LaTeX using
+the <code>listings</code> or <code>minted</code> package for your code blocks),
+<ul class="org-ul">
+<li>(named <code>README.pdf</code>), or</li>
+</ul></li>
+<li>rendering on GitLab (for instance, by writing it in markdown or Org)
+<ul class="org-ul">
+<li>(named <code>README.md</code> or <code>README.org</code>.)</li>
+</ul></li>
+</ul>
+<p>
+If you wish to use another format, contact Mark to discuss it.
+</p>
+
+<p>
+Not all of your code needs to be shown;
+only portions which are of interest are needed.
+Feel free to omit some “repetitive” portions.
+(For instance, if there are several cases in a definition
+which look almost identical, only one or two need to be shown.)
+</p>
+</div>
+</div>
+
+<div id="outline-container-Submission-procedures" class="outline-3">
+<h3 id="Submission-procedures">Submission procedures</h3>
+<div class="outline-text-3" id="text-Submission-procedures">
+<p>
+The same guidelines as for homework
+(which can be seen in any of the homework files)
+apply to assignments, except for the differences below.
+</p>
+</div>
+
+<div id="outline-container-org99726be" class="outline-4">
+<h4 id="org99726be">Assignment naming requirements</h4>
+<div class="outline-text-4" id="text-org99726be">
+<p>
+Place all files for the assignment
+inside a folder titled <code>an</code>, where <code>n</code> is the number of the assignment.
+So, for assignment 1, use the folder <code>a1</code>, for assignment 2 the folder <code>a2</code>, etc.
+Ensure you do not capitalise the <code>a</code>.
+</p>
+
+<p>
+Each part of the assignments will direct you on where to
+save your code for that part. Follow those instructions!
+</p>
+
+<div class="org-center">
+<p>
+<b>If the language supports multiple different file extensions,</b>
+<b>you must still follow the extension conventions noted in the assignment.</b>
+</p>
+</div>
+
+<div class="org-center">
+<p>
+<b>Incorrect naming of files may result in up to a 5% deduction in your grade.</b>
+</p>
+</div>
+<p>
+This is slightly decreased from the 10% for homeworks.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-Proper-conduct-for-coursework" class="outline-3">
+<h3 id="Proper-conduct-for-coursework">Proper conduct for coursework</h3>
+<div class="outline-text-3" id="text-Proper-conduct-for-coursework">
+<p>
+Refer to the homework code of conduct available in any of the homework files.
+The same guidelines apply to assignments.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-Informal-description-of-the-expression-language" class="outline-2">
+<h2 id="Informal-description-of-the-expression-language">Part 0.1 – Description of the λ-calculus, <i>ST</i>                 [0 marks]</h2>
+<div class="outline-text-2" id="text-Informal-description-of-the-expression-language">
+<p>
+The λ-calculus you are to work with during this assignment
+we call <i>ST</i>, standing for <i>simply typed</i>.
+It adds to the pure untyped λ-calculus <i>UL</i>
+terms <code>zero</code>, <code>suc</code>, <code>iszero</code>, <code>tt</code>, <code>ff</code>, and <code>test</code>, with the following syntax.
+</p>
+<div class="org-src-container">
+<pre class="src src-text"><span style="color: #00cd68;">&#10216;</span>typedterm<span style="color: #00cd68;">&#10217;</span> &#8759;= var
+             | <span style="color: #00cd68;">&#10216;</span>typedterm<span style="color: #00cd68;">&#10217;</span> <span style="color: #00cd68;">&#10216;</span>typedterm<span style="color: #00cd68;">&#10217;</span>
+             | &#955; var : <span style="color: #00cd68;">&#10216;</span>type<span style="color: #00cd68;">&#10217;</span> &#8594; <span style="color: #00cd68;">&#10216;</span>typedterm<span style="color: #00cd68;">&#10217;</span>
+             | zero
+             | suc <span style="color: #00cd68;">&#10216;</span>typedterm<span style="color: #00cd68;">&#10217;</span>
+             | iszero <span style="color: #00cd68;">&#10216;</span>typedterm<span style="color: #00cd68;">&#10217;</span>
+             | true
+             | false
+             | test <span style="color: #00cd68;">&#10216;</span>typedterm<span style="color: #00cd68;">&#10217;</span> <span style="color: #00cd68;">&#10216;</span>typedterm<span style="color: #00cd68;">&#10217;</span> <span style="color: #00cd68;">&#10216;</span>typedterm<span style="color: #00cd68;">&#10217;</span>
+
+<span style="color: #00cd68;">&#10216;</span>type<span style="color: #00cd68;">&#10217;</span> &#8759;= <span style="color: #00cd68;">&#10216;</span>type<span style="color: #00cd68;">&#10217;</span> &#8594; <span style="color: #00cd68;">&#10216;</span>type<span style="color: #00cd68;">&#10217;</span>
+        | natural
+        | boolean
+</pre>
+</div>
+
+<p>
+We also introduce the following <i>typing rules</i> for these typed λ-terms.
+The rules make use of a <i>typing context</i> or <i>type environment</i> Γ.
+:TODO:
+</p>
+</div>
+</div>
+
+<div id="outline-container-Part-0.2-–-A-representation-of-the-untyped-λ-calculus,-/UL/----[0 marks]" class="outline-2">
+<h2 id="Part-0.2-–-A-representation-of-the-untyped-λ-calculus,-/UL/----[0 marks]">Part 0.2 – A representation of the untyped λ-calculus, <i>UL</i>    [0 marks]</h2>
+<div class="outline-text-2" id="text-Part-0.2-–-A-representation-of-the-untyped-λ-calculus,-/UL/----[0 marks]">
+</div>
+
+<div id="outline-container-Nameless-representation-of-terms" class="outline-3">
+<h3 id="Nameless-representation-of-terms">Nameless representation of terms</h3>
+<div class="outline-text-3" id="text-Nameless-representation-of-terms">
+<p>
+We use <i>de Bruijn indices</i> in place of named variables.
+The index “points” to a binder, or to a free variable.
+</p>
+<ul class="org-ul">
+<li><code>0</code> points to the first enclosing variable binder,
+or the first free variable if there are no enclosing binders.</li>
+<li><code>1</code> points to the second enclosing variable binder,
+or the <code>2-n</code>'th free variable if there are only <code>n</code> enclosing binders, <code>n ≤ 1</code>.</li>
+<li><code>2</code> points to the second enclosing variable binder,
+or the <code>3-n</code>'th free variable if there are only <code>n</code> enclosing binders, <code>n ≤ 2</code>.</li>
+<li>…</li>
+<li><code>i</code> points to the <code>i</code>'th enclosing variable binder,
+or the <code>(i+1)-n</code>'th free variable if there are only <code>n</code> enclosing binders, <code>n ≤ i</code>.</li>
+<li>…</li>
+</ul>
+
+<p>
+This representation avoids any need for renaming variables
+during substitution.
+</p>
+
+<p>
+It does make terms less human readable;
+we can correct for this by writing a <i>pretty printer</i> for λ-terms
+(which will be the focus of a homework.)
+</p>
+</div>
+</div>
+
+<div id="outline-container-Scala-implementation" class="outline-3">
+<h3 id="Scala-implementation">Scala implementation</h3>
+<div class="outline-text-3" id="text-Scala-implementation">
+<p>
+Pure untyped λ-terms can only be variables, abstractions or applications.
+</p>
+<div class="org-src-container">
+<pre class="src src-amm"><span style="color: #f78fe7;">sealed</span> <span style="color: #b6a0ff;">trait</span> <span style="color: #f78fe7;">ULTerm</span>
+<span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">ULVar</span><span style="color: #00cd68;">(</span>index<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Int</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">ULTerm</span>
+<span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">ULAbs</span><span style="color: #00cd68;">(</span>t<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">ULTerm</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">ULTerm</span>
+<span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">ULApp</span><span style="color: #00cd68;">(</span>t1<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">ULTerm</span>, t2<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">ULTerm</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">ULTerm</span>
+</pre>
+</div>
+
+<p>
+The use of de Bruijn indices necessitates a method to
+“shift” the indices of free variables up or down;
+for instance, when applying a term to an abstraction,
+we must shift them up to avoid capturing what should be free variables
+in a variable binder.
+</p>
+
+<p>
+Shifting is done by walking through the term,
+incrementing the variable indices by the shift amount
+if their index is greater than the number of enclosing binders.
+</p>
+<div class="org-src-container">
+<pre class="src src-amm"><span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Shift the numbering of unbound variables</span>
+<span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">shift</span><span style="color: #00cd68;">(</span>shiftAmount<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Int</span>, t<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">ULTerm</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">ULTerm</span> <span style="color: #b6a0ff;">=</span> <span style="color: #00cd68;">{</span>
+  <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Walk through the term and shift all variables with index</span>
+  <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">greater than or equal to c, which is maintained to be</span>
+  <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">the number of variable binders (abstractions) outside the current subterm.</span>
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">walk</span><span style="color: #b6a0ff;">(</span>currentBinders<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Int</span>, t<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">ULTerm</span><span style="color: #b6a0ff;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">ULTerm</span> <span style="color: #b6a0ff;">=</span> t <span style="color: #b6a0ff;">match</span> <span style="color: #b6a0ff;">{</span>
+    <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Check if x is a free variable; that is,</span>
+    <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">if the number x is greater than or equal to</span>
+    <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">the number of variable binders encountered outside this subterm.</span>
+    <span style="color: #b6a0ff;">case</span> <span style="color: #f78fe7;">ULVar</span><span style="color: #6ae4b9;">(</span><span style="color: #00d3d0;">x</span><span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">if</span> <span style="color: #6ae4b9;">(</span>x &gt;= currentBinders<span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">ULVar</span><span style="color: #6ae4b9;">(</span>x+shiftAmount<span style="color: #6ae4b9;">)</span>
+    <span style="color: #b6a0ff;">case</span> <span style="color: #f78fe7;">ULVar</span><span style="color: #6ae4b9;">(</span><span style="color: #00d3d0;">x</span><span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">ULVar</span><span style="color: #6ae4b9;">(</span>x<span style="color: #6ae4b9;">)</span>
+      
+    <span style="color: #b6a0ff;">case</span> <span style="color: #f78fe7;">ULAbs</span><span style="color: #6ae4b9;">(</span><span style="color: #00d3d0;">t</span><span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">=&gt;</span>
+      <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">We now have one more variable binder outside the subterm.</span>
+      <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Increment c and walk into the subterm.</span>
+      <span style="color: #00bcff;">ULAbs</span><span style="color: #6ae4b9;">(</span>walk<span style="color: #f0ce43;">(</span>c+<span style="color: #00bcff;">1</span>, t<span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>
+
+    <span style="color: #b6a0ff;">case</span> <span style="color: #f78fe7;">ULApp</span><span style="color: #6ae4b9;">(</span><span style="color: #00d3d0;">t1</span>,<span style="color: #00d3d0;">t2</span><span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">=&gt;</span>
+      <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">No new variable binders. Just walk into the subterms.</span>
+      <span style="color: #00bcff;">ULApp</span><span style="color: #6ae4b9;">(</span>walk<span style="color: #f0ce43;">(</span>c,t1<span style="color: #f0ce43;">)</span>,walk<span style="color: #f0ce43;">(</span>c,t2<span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>
+  <span style="color: #b6a0ff;">}</span>
+
+  <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Walk the term and perform the shift of free variables.</span>
+  <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">We begin with 0 variable binders outside.</span>
+  walk<span style="color: #b6a0ff;">(</span><span style="color: #00bcff;">0</span>, t<span style="color: #b6a0ff;">)</span>
+<span style="color: #00cd68;">}</span>
+</pre>
+</div>
+
+<p>
+Substitution is similarly defined by “walking” through the term,
+but here, when we find variables, we choose whether to “replace them”
+by the term being subbed in or not.
+We have to adjust the variable being substituted and the
+free variables in the term being subbed in according to
+the number of variable binders we enter.
+</p>
+<div class="org-src-container">
+<pre class="src src-amm"><span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">In our usual syntax, we would write substitution as `t[x := r]`.</span>
+<span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Here we write `substitute(t,x,r)`.</span>
+<span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">substitute</span><span style="color: #00cd68;">(</span>t<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">ULTerm</span>, x<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Int</span>, r<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">ULTerm</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">ULTerm</span> <span style="color: #b6a0ff;">=</span> <span style="color: #00cd68;">{</span>
+  <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">We want to substitute for the free variable with number x.</span>
+  <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Inside a variable binder (abstraction),</span>
+  <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">the index of all free variables is shifted up by 1.</span>
+  <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">So we must keep track of the number of binders outside the current subterm.</span>
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">walk</span><span style="color: #b6a0ff;">(</span>c<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Int</span>, t<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">ULTerm</span><span style="color: #b6a0ff;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">ULTerm</span> <span style="color: #b6a0ff;">=</span> t <span style="color: #b6a0ff;">match</span> <span style="color: #b6a0ff;">{</span>
+    <span style="color: #b6a0ff;">case</span> <span style="color: #f78fe7;">ULVar</span><span style="color: #6ae4b9;">(</span><span style="color: #00d3d0;">y</span><span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">if</span> y == x + c <span style="color: #b6a0ff;">=&gt;</span>
+      <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">y is the xth free variable. Substitute for it,</span>
+      <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">making sure to shift the free variables in r</span>
+      <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">to account for the number of variable binders outside this subterm.</span>
+      shift<span style="color: #6ae4b9;">(</span>c,r<span style="color: #6ae4b9;">)</span>
+    
+    <span style="color: #b6a0ff;">case</span> <span style="color: #f78fe7;">ULVar</span><span style="color: #6ae4b9;">(</span><span style="color: #00d3d0;">y</span><span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">=&gt;</span>
+      <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Otherwise, y is not the xth free variable;</span>
+      <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">leave it as is.</span>
+      <span style="color: #00bcff;">ULVar</span><span style="color: #6ae4b9;">(</span>y<span style="color: #6ae4b9;">)</span>
+    
+    <span style="color: #b6a0ff;">case</span> <span style="color: #f78fe7;">ULAbs</span><span style="color: #6ae4b9;">(</span><span style="color: #00d3d0;">t</span><span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">=&gt;</span>
+      <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">We now have one more variable binder outside the subterm.</span>
+      <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Increment c and walk into the subterm.</span>
+      <span style="color: #00bcff;">ULAbs</span><span style="color: #6ae4b9;">(</span>walk<span style="color: #f0ce43;">(</span>c+<span style="color: #00bcff;">1</span>,t<span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>
+
+    <span style="color: #b6a0ff;">case</span> <span style="color: #f78fe7;">ULApp</span><span style="color: #6ae4b9;">(</span><span style="color: #00d3d0;">t1</span>,<span style="color: #00d3d0;">t2</span><span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">=&gt;</span>
+      <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">No new variable binders. Just walk into the subterms.</span>
+      <span style="color: #00bcff;">ULApp</span><span style="color: #6ae4b9;">(</span>walk<span style="color: #f0ce43;">(</span>c,t1<span style="color: #f0ce43;">)</span>,walk<span style="color: #f0ce43;">(</span>c,t2<span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>
+  <span style="color: #b6a0ff;">}</span>
+
+  <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Walk the term, performing the substitution.</span>
+  <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">We begin with 0 variable binders outside.</span>
+  walk<span style="color: #b6a0ff;">(</span><span style="color: #00bcff;">0</span>,t<span style="color: #b6a0ff;">)</span>
+<span style="color: #00cd68;">}</span>
+</pre>
+</div>
+
+<p>
+We need to check if terms are values for call-by-value semantics.
+</p>
+<div class="org-src-container">
+<pre class="src src-amm"><span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">We need to know if a term is a value during reduction</span>
+<span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">when using call-by-value semantics.</span>
+<span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">isValue</span><span style="color: #00cd68;">(</span>t<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">ULTerm</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Boolean</span> <span style="color: #b6a0ff;">=</span> t <span style="color: #b6a0ff;">match</span> <span style="color: #00cd68;">{</span>
+  <span style="color: #b6a0ff;">case</span> <span style="color: #f78fe7;">ULAbs</span><span style="color: #b6a0ff;">(</span><span style="color: #b6a0ff;">_</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">true</span>
+  <span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">_</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">false</span>
+<span style="color: #00cd68;">}</span>
+</pre>
+</div>
+
+<p>
+Those semantics are given by a reduction function,
+which reduces terms by one step, and then an evaluation function,
+which keeps reducing until we get stuck (<i>if</i> we get stuck;
+we might have an infinite reduction sequence.)
+</p>
+<div class="org-src-container">
+<pre class="src src-amm"><span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Call-by-value reduction function.</span>
+<span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Performs one step of evaluation, if possible according to the call-by-value rules.</span>
+<span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">If no reduction is possible, returns None.</span>
+<span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">reduce</span><span style="color: #00cd68;">(</span>t<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">ULTerm</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Option</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">ULTerm</span><span style="color: #00cd68;">]</span> <span style="color: #b6a0ff;">=</span> t <span style="color: #b6a0ff;">match</span> <span style="color: #00cd68;">{</span>
+
+  <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Case: the left term is an abstraction, and the right is a value.</span>
+  <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Then apply the value to the abstraction.</span>
+  <span style="color: #b6a0ff;">case</span> <span style="color: #f78fe7;">ULApp</span><span style="color: #b6a0ff;">(</span><span style="color: #f78fe7;">ULAbs</span><span style="color: #6ae4b9;">(</span><span style="color: #00d3d0;">t</span><span style="color: #6ae4b9;">)</span>,<span style="color: #00d3d0;">v</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">if</span> isValue<span style="color: #b6a0ff;">(</span>v<span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">=&gt;</span>
+    <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">When we apply the value to the abstraction,</span>
+    <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">we must shift the value's free variables up by 1 to account</span>
+    <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">for the abstraction's variable binder.</span>
+    <span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">r</span> <span style="color: #b6a0ff;">=</span> substitute<span style="color: #b6a0ff;">(</span>t,<span style="color: #00bcff;">0</span>,shift<span style="color: #6ae4b9;">(</span><span style="color: #00bcff;">1</span>,v<span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span>
+    <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Then, we need to shift the result back.</span>
+    <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Since the abstraction's variable is now "used up".</span>
+    <span style="color: #00bcff;">Some</span><span style="color: #b6a0ff;">(</span>shift<span style="color: #6ae4b9;">(</span><span style="color: #00bcff;">-1</span>,r<span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span>
+
+  <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Case: the left term is a value, then try to reduce the right term.</span>
+  <span style="color: #b6a0ff;">case</span> <span style="color: #f78fe7;">ULApp</span><span style="color: #b6a0ff;">(</span><span style="color: #00d3d0;">v</span>,<span style="color: #00d3d0;">t</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">if</span> isValue<span style="color: #b6a0ff;">(</span>v<span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">=&gt;</span>
+    reduce<span style="color: #b6a0ff;">(</span>t<span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">match</span> <span style="color: #b6a0ff;">{</span>
+      <span style="color: #b6a0ff;">case</span> <span style="color: #f78fe7;">Some</span><span style="color: #6ae4b9;">(</span><span style="color: #00d3d0;">r</span><span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">Some</span><span style="color: #6ae4b9;">(</span><span style="color: #00bcff;">ULApp</span><span style="color: #f0ce43;">(</span>v,r<span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>
+      <span style="color: #b6a0ff;">case</span> <span style="color: #00bcff;">None</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">None</span>
+    <span style="color: #b6a0ff;">}</span>
+
+  <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Case: the left term is not a value (not an abstraction.)</span>
+  <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Try to reduce it.</span>
+  <span style="color: #b6a0ff;">case</span> <span style="color: #f78fe7;">ULApp</span><span style="color: #b6a0ff;">(</span><span style="color: #00d3d0;">t1</span>,<span style="color: #00d3d0;">t2</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">=&gt;</span>
+    reduce<span style="color: #b6a0ff;">(</span>t1<span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">match</span> <span style="color: #b6a0ff;">{</span>
+      <span style="color: #b6a0ff;">case</span> <span style="color: #f78fe7;">Some</span><span style="color: #6ae4b9;">(</span><span style="color: #00d3d0;">r1</span><span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">Some</span><span style="color: #6ae4b9;">(</span><span style="color: #00bcff;">ULApp</span><span style="color: #f0ce43;">(</span>r1,t2<span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>
+      <span style="color: #b6a0ff;">case</span> <span style="color: #00bcff;">None</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">None</span>
+    <span style="color: #b6a0ff;">}</span>
+    
+  <span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">_</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">None</span>
+<span style="color: #00cd68;">}</span>
+
+<span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Evaluation just repeatedly applies reduce,</span>
+<span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">until we reach None (signifying reduction failed.)</span>
+<span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">evaluate</span><span style="color: #00cd68;">(</span>t<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">ULTerm</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">ULTerm</span> <span style="color: #b6a0ff;">=</span> reduce<span style="color: #00cd68;">(</span>t<span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">match</span> <span style="color: #00cd68;">{</span>
+  <span style="color: #b6a0ff;">case</span> <span style="color: #00bcff;">None</span> <span style="color: #b6a0ff;">=&gt;</span> t
+  <span style="color: #b6a0ff;">case</span> <span style="color: #f78fe7;">Some</span><span style="color: #b6a0ff;">(</span><span style="color: #00d3d0;">r</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">=&gt;</span> evaluate<span style="color: #b6a0ff;">(</span>r<span style="color: #b6a0ff;">)</span>
+<span style="color: #00cd68;">}</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-Ruby-implementation" class="outline-3">
+<h3 id="Ruby-implementation">Ruby implementation</h3>
+<div class="outline-text-3" id="text-Ruby-implementation">
+<p>
+:TODO: Document this literately, as with the Scala above.
+</p>
+<div class="org-src-container">
+<pre class="src src-ruby"><span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Our top-level ULTerm class defines some default</span>
+<span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">methods to track what kind of term we have</span>
+<span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">(which must be overidden in non-default cases)</span>
+<span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">as well as the shift, substitute and eval methods</span>
+<span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">which are defined in terms of other methods</span>
+<span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">defined by the subclasses.</span>
+<span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">ULTerm</span>
+
+  <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">By default, we assume terms are irreducible,</span>
+  <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">not abstractions, and not values.</span>
+  <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Subclasses which should have these properties</span>
+  <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">must override these methods.</span>
+  <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">(In our basic calculus with call-by-value semantics,</span>
+  <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">only applications are reducible and only abstractions</span>
+  <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">are values. This can be changed for different calculi/semantics.)</span>
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">reduce;</span> <span style="color: #00bcff;">nil</span> <span style="color: #b6a0ff;">end</span>
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">absBody;</span> <span style="color: #00bcff;">nil</span> <span style="color: #b6a0ff;">end</span>
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">isValue?;</span> <span style="color: #00bcff;">false</span> <span style="color: #b6a0ff;">end</span>
+
+  <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Shifting is just walking, where in the base case,</span>
+  <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">we either increment the variable by d or</span>
+  <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">leave it alone.</span>
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">shift</span><span style="color: #00cd68;">(</span>d<span style="color: #00cd68;">)</span>
+    <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">walk is an iterator.</span>
+    <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">The block tells us what to do with variables.</span>
+    walk<span style="color: #00cd68;">(</span>0<span style="color: #00cd68;">)</span> <span style="color: #00cd68;">{</span> |x,c|
+      <span style="color: #b6a0ff;">if</span> x &gt;= c
+        <span style="color: #f78fe7;">ULVar</span>.new<span style="color: #b6a0ff;">(</span>x+d<span style="color: #b6a0ff;">)</span>
+      <span style="color: #b6a0ff;">else</span>
+        <span style="color: #f78fe7;">ULVar</span>.new<span style="color: #b6a0ff;">(</span>x<span style="color: #b6a0ff;">)</span>
+      <span style="color: #b6a0ff;">end</span> <span style="color: #00cd68;">}</span>
+  <span style="color: #b6a0ff;">end</span>
+
+  <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Substitution is just walking, where we either</span>
+  <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">replace the variable, or leave it alone.</span>
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">substitute</span><span style="color: #00cd68;">(</span>x,r<span style="color: #00cd68;">)</span>
+    walk<span style="color: #00cd68;">(</span>0<span style="color: #00cd68;">)</span> <span style="color: #00cd68;">{</span> |y,c|
+      <span style="color: #b6a0ff;">if</span> y == x + c
+        r
+      <span style="color: #b6a0ff;">else</span>
+        <span style="color: #f78fe7;">ULVar</span>.new<span style="color: #b6a0ff;">(</span>y<span style="color: #b6a0ff;">)</span>
+      <span style="color: #b6a0ff;">end</span> <span style="color: #00cd68;">}</span>
+  <span style="color: #b6a0ff;">end</span>
+
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">eval</span>
+    r = <span style="color: #00bcff;">nil</span>
+    r_next = <span style="color: #b6a0ff;">self</span>
+    <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Keep reducing until it fails (reduce returns nil.)</span>
+    <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">This is the recommended "do...while" form in Ruby.</span>
+    <span style="color: #f78fe7;">loop</span> <span style="color: #b6a0ff;">do</span>
+      r = r_next
+      r_next = r.reduce
+      <span style="color: #b6a0ff;">break</span> <span style="color: #b6a0ff;">unless</span> r_next
+    <span style="color: #b6a0ff;">end</span>
+
+    <span style="color: #b6a0ff;">return</span> r
+  <span style="color: #b6a0ff;">end</span>
+<span style="color: #b6a0ff;">end</span>
+
+<span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">ULVar</span> &lt; <span style="color: #f78fe7;">ULTerm</span>
+  <span style="color: #f78fe7;">attr_reader</span> <span style="color: #00bcff;">:index</span>
+
+  <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">We require our variables are only indexed by integers.</span>
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">initialize</span><span style="color: #00cd68;">(</span>i<span style="color: #00cd68;">)</span>
+    <span style="color: #b6a0ff;">unless</span> i.is_a?<span style="color: #00cd68;">(</span><span style="color: #f78fe7;">Integer</span><span style="color: #00cd68;">)</span>
+      <span style="color: #f78fe7;">throw</span> <span style="color: #79a8ff;">"Constructing a lambda term out of non-lambda terms"</span>
+    <span style="color: #b6a0ff;">end</span>
+    <span style="color: #00d3d0;">@index</span> = i
+  <span style="color: #b6a0ff;">end</span>
+  
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">walk</span><span style="color: #00cd68;">(</span>c,&amp;block<span style="color: #00cd68;">)</span>
+    <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">This is a variable. Run the code in &amp;block.</span>
+    <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">(yield does this; it "yields" control to the block.)</span>
+    <span style="color: #b6a0ff;">yield</span><span style="color: #00cd68;">(</span><span style="color: #00d3d0;">@index</span>, c<span style="color: #00cd68;">)</span>
+  <span style="color: #b6a0ff;">end</span>
+
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">to_s</span>
+    <span style="color: #00d3d0;">@index</span>.to_s
+  <span style="color: #b6a0ff;">end</span>
+<span style="color: #b6a0ff;">end</span>
+
+<span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">ULAbs</span> &lt; <span style="color: #f78fe7;">ULTerm</span>
+  <span style="color: #f78fe7;">attr_reader</span> <span style="color: #00bcff;">:t</span>
+
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">initialize</span><span style="color: #00cd68;">(</span>t<span style="color: #00cd68;">)</span>
+    <span style="color: #b6a0ff;">unless</span> t.is_a?<span style="color: #00cd68;">(</span><span style="color: #f78fe7;">ULTerm</span><span style="color: #00cd68;">)</span>
+      <span style="color: #f78fe7;">throw</span> <span style="color: #79a8ff;">"Constructing a lambda term out of a non-lambda term"</span>
+    <span style="color: #b6a0ff;">end</span>
+    <span style="color: #00d3d0;">@t</span> = t
+  <span style="color: #b6a0ff;">end</span>
+  
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">walk</span><span style="color: #00cd68;">(</span>c,&amp;block<span style="color: #00cd68;">)</span>
+    <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Increment the local variable counter within the variable binder.</span>
+    t = <span style="color: #00d3d0;">@t</span>.walk<span style="color: #00cd68;">(</span>c+1,&amp;block<span style="color: #00cd68;">)</span>
+    <span style="color: #f78fe7;">ULAbs</span>.new<span style="color: #00cd68;">(</span>t<span style="color: #00cd68;">)</span>
+  <span style="color: #b6a0ff;">end</span>
+
+  <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Abstractions are an abstraction (of course),</span>
+  <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">with body @t,</span>
+  <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">and are also considered values.</span>
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">absBody;</span> <span style="color: #00d3d0;">@t</span> <span style="color: #b6a0ff;">end</span>
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">isValue?;</span> <span style="color: #00bcff;">true</span> <span style="color: #b6a0ff;">end</span>
+  
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">to_s</span>
+    <span style="color: #79a8ff;">"lambda . "</span> + <span style="color: #00d3d0;">@t</span>.to_s
+  <span style="color: #b6a0ff;">end</span>
+<span style="color: #b6a0ff;">end</span>
+
+<span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">ULApp</span> &lt; <span style="color: #f78fe7;">ULTerm</span>
+  <span style="color: #f78fe7;">attr_reader</span> <span style="color: #00bcff;">:t1</span>
+  <span style="color: #f78fe7;">attr_reader</span> <span style="color: #00bcff;">:t2</span>
+
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">initialize</span><span style="color: #00cd68;">(</span>t1,t2<span style="color: #00cd68;">)</span>
+    <span style="color: #b6a0ff;">unless</span> t1.is_a?<span style="color: #00cd68;">(</span><span style="color: #f78fe7;">ULTerm</span><span style="color: #00cd68;">)</span> &amp;&amp; t2.is_a?<span style="color: #00cd68;">(</span><span style="color: #f78fe7;">ULTerm</span><span style="color: #00cd68;">)</span>
+      <span style="color: #f78fe7;">throw</span> <span style="color: #79a8ff;">"Constructing a lambda term out of non-lambda terms"</span>
+    <span style="color: #b6a0ff;">end</span>
+    <span style="color: #00d3d0;">@t1</span> = t1; <span style="color: #00d3d0;">@t2</span> = t2
+  <span style="color: #b6a0ff;">end</span>
+  
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">walk</span><span style="color: #00cd68;">(</span>c,&amp;block<span style="color: #00cd68;">)</span>
+    t1 = <span style="color: #00d3d0;">@t1</span>.walk<span style="color: #00cd68;">(</span>c,&amp;block<span style="color: #00cd68;">)</span>
+    t2 = <span style="color: #00d3d0;">@t2</span>.walk<span style="color: #00cd68;">(</span>c,&amp;block<span style="color: #00cd68;">)</span>
+    <span style="color: #f78fe7;">ULApp</span>.new<span style="color: #00cd68;">(</span>t1,t2<span style="color: #00cd68;">)</span>
+  <span style="color: #b6a0ff;">end</span>
+
+  <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Applications can be reduced.</span>
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">reduce</span>
+    <span style="color: #b6a0ff;">if</span> <span style="color: #00d3d0;">@t1</span>.absBody &amp;&amp; <span style="color: #00d3d0;">@t2</span>.isValue?
+      body = <span style="color: #00d3d0;">@t1</span>.absBody
+      <span style="color: #00cd68;">(</span>body.substitute<span style="color: #b6a0ff;">(</span>0,<span style="color: #00d3d0;">@t2</span>.shift<span style="color: #6ae4b9;">(</span>1<span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>.shift<span style="color: #00cd68;">(</span>-1<span style="color: #00cd68;">)</span>
+    <span style="color: #b6a0ff;">elsif</span> <span style="color: #00d3d0;">@t1</span>.isValue?
+      <span style="color: #f78fe7;">print</span> <span style="color: #79a8ff;">"Reducing an argument\n"</span>
+      r = <span style="color: #00d3d0;">@t2</span>.reduce
+      <span style="color: #b6a0ff;">if</span> r
+        <span style="color: #f78fe7;">ULApp</span>.new<span style="color: #00cd68;">(</span><span style="color: #00d3d0;">@t1</span>,r<span style="color: #00cd68;">)</span>
+      <span style="color: #b6a0ff;">else</span>
+        <span style="color: #00bcff;">nil</span>
+      <span style="color: #b6a0ff;">end</span>
+    <span style="color: #b6a0ff;">else</span>
+      <span style="color: #f78fe7;">print</span> <span style="color: #79a8ff;">"Reducing a function\n"</span>
+      r = <span style="color: #00d3d0;">@t1</span>.reduce
+      <span style="color: #b6a0ff;">if</span> r
+        <span style="color: #f78fe7;">ULApp</span>.new<span style="color: #00cd68;">(</span>r,<span style="color: #00d3d0;">@t2</span><span style="color: #00cd68;">)</span>
+      <span style="color: #b6a0ff;">else</span>
+        <span style="color: #00bcff;">nil</span>
+      <span style="color: #b6a0ff;">end</span>
+    <span style="color: #b6a0ff;">end</span>
+  <span style="color: #b6a0ff;">end</span>
+
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">to_s</span>
+    <span style="color: #79a8ff;">"("</span> + <span style="color: #00d3d0;">@t1</span>.to_s + <span style="color: #79a8ff;">") ("</span> + <span style="color: #00d3d0;">@t2</span>.to_s + <span style="color: #79a8ff;">")"</span> 
+  <span style="color: #b6a0ff;">end</span>
+<span style="color: #b6a0ff;">end</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-Part-1-–-The-representation----------------------------------[10 marks]" class="outline-2">
+<h2 id="Part-1-–-The-representation----------------------------------[10 marks]">Part 1 – The representation                                  [10 marks]</h2>
+<div class="outline-text-2" id="text-Part-1-–-The-representation----------------------------------[10 marks]">
+<div class="org-center">
+<p>
+<b>Place your code for this part in the files <code>a2.sc</code> and <code>a2.rb</code>.</b>
+</p>
+</div>
+
+<p>
+Implement, in both Scala and Ruby,
+a type <code>STTerm</code> to represent terms of the λ-calculus <i>ST</i> defined above.
+</p>
+
+<p>
+The constructors of the type should be named
+</p>
+<ul class="org-ul">
+<li><code>STVar</code>,</li>
+<li><code>STApp</code>,</li>
+<li><code>STAbs</code>,</li>
+<li><code>STZero</code>,</li>
+<li><code>STSuc</code>,</li>
+<li><code>STIsZero</code>,</li>
+<li><code>STTrue</code>,</li>
+<li><code>STFalse</code>, and</li>
+<li><code>STTest</code>.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-Part-1-–-Interpreter-written-in-Scala--[20 marks]" class="outline-2">
+<h2 id="Part-1-–-Interpreter-written-in-Scala--[20 marks]">Part 2 – Type checking                                       [40 marks]</h2>
+<div class="outline-text-2" id="text-Part-1-–-Interpreter-written-in-Scala--[20 marks]">
+<div class="org-center">
+<p>
+<b>Place your code for this part in the files <code>a2.sc</code> and <code>a2.rb</code>.</b>
+</p>
+</div>
+
+<p>
+Implement, in both Scala and Ruby,
+a <i>type checker</i> method for elements of <code>STTerm</code>.
+</p>
+
+<p>
+This type checker takes an <code>STTerm</code>, and returns <code>true</code> if
+the represented term obeys the type rules of <i>ST</i>;
+otherwise, it returns <code>false</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-Part-2-–-Interpreter-written-in-Prolog-[20 marks]" class="outline-2">
+<h2 id="Part-2-–-Interpreter-written-in-Prolog-[20 marks]">Part 3 – Translation to the untyped λ-calculus; type erasure [40 marks]</h2>
+<div class="outline-text-2" id="text-Part-2-–-Interpreter-written-in-Prolog-[20 marks]">
+<div class="org-center">
+<p>
+<b>Place your code for this part in the files <code>a2.sc</code> and <code>a2.rb</code>.</b>
+</p>
+</div>
+
+<p>
+Implement, in both Scala and Ruby,
+a <i>type eraser</i> method for elements of <code>STTerm</code>,
+which <i>translates</i> them into elements of <code>ULTerm</code> (definition given above.)
+</p>
+
+<p>
+This translation also needs to translate the natural and boolean constants
+into the pure λ-calculus encodings that represent them.
+</p>
+
+<p>
+(You should the definition of <code>ULTerm</code> and its methods into your file,
+or import it in a way compatible with the testing environments.)
+</p>
+</div>
+</div>
+
+<div id="outline-container-Part-4-–-Interpreting-/SL/-programs----------------------------[10 marks]" class="outline-2">
+<h2 id="Part-4-–-Interpreting-/SL/-programs----------------------------[10 marks]">Part 4 – Interpreting <i>SL</i> programs                            [10 marks]</h2>
+<div class="outline-text-2" id="text-Part-4-–-Interpreting-/SL/-programs----------------------------[10 marks]">
+<p>
+Implement an evaluation method for your <code>STTerm</code> type.
+</p>
+
+<p>
+Make use of the evaluation method for <code>ULTerm</code>'s in your definition.
+Code to translate results from <code>STTerm</code>'s back to <code>ULTerm</code>'s will be provided
+here in an update.
+</p>
+</div>
+</div>
+
+<div id="outline-container-Part-5-–-Bonus:-pairs----------------------------------------[10 bonus marks]" class="outline-2">
+<h2 id="Part-5-–-Bonus:-pairs----------------------------------------[10 bonus marks]">Part 5 – Bonus: pairs                                        [10 bonus marks]</h2>
+<div class="outline-text-2" id="text-Part-5-–-Bonus:-pairs----------------------------------------[10 bonus marks]">
+<div class="org-center">
+<p>
+<b>Place any code for this part in files <code>a2p4.sc</code> and <code>a2p4.rb</code>.</b>
+</p>
+</div>
+
+<p>
+Implement another λ-calculus, called <i>ST2</i>, which includes
+the type of <i>pairs</i> as well as naturals and booleans,
+along with a type checker, type eraser and evaluation method.
+</p>
+</div>
+</div>
+
+<div id="outline-container-Submission-checklist" class="outline-2">
+<h2 id="Submission-checklist">Submission checklist</h2>
+<div class="outline-text-2" id="text-Submission-checklist">
+<p>
+For your convenience, this checklist is provided
+to track the files you need to submit.
+Use it if you wish.
+</p>
+<div class="org-src-container">
+<pre class="src src-text">- <span style="color: #00cd68;">[</span> <span style="color: #00cd68;">]</span> Documentation; one of
+  - <span style="color: #00cd68;">[</span> <span style="color: #00cd68;">]</span> README.html
+  - <span style="color: #00cd68;">[</span> <span style="color: #00cd68;">]</span> README.pdf
+  - <span style="color: #00cd68;">[</span> <span style="color: #00cd68;">]</span> README.md
+  - <span style="color: #00cd68;">[</span> <span style="color: #00cd68;">]</span> README.org
+- <span style="color: #00cd68;">[</span> <span style="color: #00cd68;">]</span> Code files
+  - <span style="color: #00cd68;">[</span> <span style="color: #00cd68;">]</span> a2.sc
+  - <span style="color: #00cd68;">[</span> <span style="color: #00cd68;">]</span> a2.rb
+- <span style="color: #00cd68;">[</span> <span style="color: #00cd68;">]</span> Part 2 tests
+  - <span style="color: #00cd68;">[</span> <span style="color: #00cd68;">]</span> a2p2_test.sc tests have passed! <span style="color: #00cd68;">(</span>No submission needed.<span style="color: #00cd68;">)</span>
+  - <span style="color: #00cd68;">[</span> <span style="color: #00cd68;">]</span> a2p2_test.rb tests have passed! <span style="color: #00cd68;">(</span>No submission needed.<span style="color: #00cd68;">)</span>
+- <span style="color: #00cd68;">[</span> <span style="color: #00cd68;">]</span> Part 3 tests
+  - <span style="color: #00cd68;">[</span> <span style="color: #00cd68;">]</span> a2p3_test.sc tests have passed! <span style="color: #00cd68;">(</span>No submission needed.<span style="color: #00cd68;">)</span>
+  - <span style="color: #00cd68;">[</span> <span style="color: #00cd68;">]</span> a2p3_test.rb tests have passed! <span style="color: #00cd68;">(</span>No submission needed.<span style="color: #00cd68;">)</span>
+- <span style="color: #00cd68;">[</span> <span style="color: #00cd68;">]</span> Part 4 <span style="color: #00cd68;">(</span>Bonus<span style="color: #00cd68;">)</span>
+  - <span style="color: #00cd68;">[</span> <span style="color: #00cd68;">]</span> a2p4.sc
+  - <span style="color: #00cd68;">[</span> <span style="color: #00cd68;">]</span> a2p4.rb
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-Testing" class="outline-2">
+<h2 id="Testing">Testing</h2>
+<div class="outline-text-2" id="text-Testing">
+<p>
+:TODO:
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Mark Armstrong</p>
+     <p class="author">Contact: <a href="mailto:markparmstrong@gmail.com">markparmstrong@gmail.com</a></p>
+     <p class="date">Original date: October 30th, 2020</p>
+     <p class="date">Last updated: 2020-10-30 Fri 13:33</p>
+     <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4)</p>
+     <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

@@ -1,0 +1,618 @@
+% Created 2020-10-30 Fri 13:34
+% Intended LaTeX compiler: lualatex
+\documentclass[11pt]{article}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{etoolbox}
+\makeatletter
+\def\dontdofcolorbox{\renewcommand\fcolorbox[4][]{##4}}
+\AtBeginEnvironment{minted}{\dontdofcolorbox}
+\makeatother
+\usepackage[newfloat]{minted}
+\author{Mark Armstrong}
+\date{October 30th, 2020}
+\title{Computer Science 3MI3 – 2020 assignment 2\\\medskip
+\large Typing a λ-calculus}
+\hypersetup{
+   pdfauthor={Mark Armstrong},
+   pdftitle={Computer Science 3MI3 – 2020 assignment 2},
+   pdfkeywords={},
+   pdfsubject={Type checking and erasing on a simply-typed λ-calculus.},
+   pdfcreator={Emacs 27.0.91 (Org mode 9.4)},
+   pdflang={English},
+   colorlinks,
+   linkcolor=blue,
+   citecolor=blue,
+   urlcolor=blue
+   }
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+
+\section*{Introduction}
+\label{sec:org2fac194}
+This assignment asks you to construct representation
+of a simply-typed λ-calculus, construct a typechecker for that
+λ-calculus, and finally to implement \emph{type-erasure} and a
+simple translator to simplify terms to untyped λ-calculus terms.
+
+\section*{Updates and file history}
+\label{sec:orgd986b52}
+\subsection*{October 30th}
+\label{sec:orgfce143a}
+
+\begin{itemize}
+\item Initial version posted.
+\begin{itemize}
+\item Testing not posted yet.
+\end{itemize}
+\end{itemize}
+
+\section*{Boilerplate}
+\label{sec:org4f56fb0}
+\subsection*{Documentation}
+\label{sec:org3be3349}
+In addition to the code for the assignments,
+you are required to submit (relatively light) documentation,
+along the lines of that found in
+\href{https://armkeh.github.io/principles-of-programming-languages/\#outline-container-Lecture-literate-programs}{the literate programs}
+from lectures and tutorials.
+\begin{itemize}
+\item Those occasionally include a lot of writing when introducing concepts;
+you do not have to introduce concepts, so your documentation
+should be similar to the \emph{end} of those documents,
+where only the purpose and implementation details
+of types, functions, etc., are discussed.
+\end{itemize}
+
+This documentation is not assigned its own marks;
+rather, 20\% of the marks of each part of the assignment
+will be for the documentation.
+
+This documentation \textbf{must be} in the literate style,
+with (nicely typeset) English paragraphs alongside code snippets;
+comments in your source code do not count.
+The basic requirement is
+\begin{itemize}
+\item the English paragraphs must use non-fixed width font, whereas
+\item the code snippets must use fixed width font.
+\item For example, see these lecture notes on Prolog:
+\begin{itemize}
+\item \url{https://courses.cs.washington.edu/courses/cse341/98sp/logic/prolog.html}
+\end{itemize}
+\end{itemize}
+But you are encouraged to strive for nicer than just
+“the basic requirement”.
+(the ability to write decent looking documentation is an asset!
+
+You are free to present your documentation in any of these formats:
+\begin{itemize}
+\item an HTML file,
+\begin{itemize}
+\item (named \texttt{README.html})
+\end{itemize}
+\item a PDF (for instance, by writing it in \LaTeX{} using
+the \texttt{listings} or \texttt{minted} package for your code blocks),
+\begin{itemize}
+\item (named \texttt{README.pdf}), or
+\end{itemize}
+\item rendering on GitLab (for instance, by writing it in markdown or Org)
+\begin{itemize}
+\item (named \texttt{README.md} or \texttt{README.org}.)
+\end{itemize}
+\end{itemize}
+If you wish to use another format, contact Mark to discuss it.
+
+Not all of your code needs to be shown;
+only portions which are of interest are needed.
+Feel free to omit some “repetitive” portions.
+(For instance, if there are several cases in a definition
+which look almost identical, only one or two need to be shown.)
+
+\subsection*{Submission procedures}
+\label{sec:orge1cf179}
+The same guidelines as for homework
+(which can be seen in any of the homework files)
+apply to assignments, except for the differences below.
+
+\subsubsection*{Assignment naming requirements}
+\label{sec:orgf3efd8c}
+
+Place all files for the assignment
+inside a folder titled \texttt{an}, where \texttt{n} is the number of the assignment.
+So, for assignment 1, use the folder \texttt{a1}, for assignment 2 the folder \texttt{a2}, etc.
+Ensure you do not capitalise the \texttt{a}.
+
+Each part of the assignments will direct you on where to
+save your code for that part. Follow those instructions!
+
+\begin{center}
+\textbf{If the language supports multiple different file extensions,}
+\textbf{you must still follow the extension conventions noted in the assignment.}
+\end{center}
+
+\begin{center}
+\textbf{Incorrect naming of files may result in up to a 5\% deduction in your grade.}
+\end{center}
+This is slightly decreased from the 10\% for homeworks.
+
+\subsection*{Proper conduct for coursework}
+\label{sec:orgb2b0c1b}
+Refer to the homework code of conduct available in any of the homework files.
+The same guidelines apply to assignments.
+
+\section*{Part 0.1 – Description of the λ-calculus, \emph{ST}                 [0 marks]}
+\label{sec:org85adb71}
+The λ-calculus you are to work with during this assignment
+we call \emph{ST}, standing for \emph{simply typed}.
+It adds to the pure untyped λ-calculus \emph{UL}
+terms \texttt{zero}, \texttt{suc}, \texttt{iszero}, \texttt{tt}, \texttt{ff}, and \texttt{test}, with the following syntax.
+\begin{minted}[breaklines=true]{text}
+⟨typedterm⟩ ∷= var
+             | ⟨typedterm⟩ ⟨typedterm⟩
+             | λ var : ⟨type⟩ → ⟨typedterm⟩
+             | zero
+             | suc ⟨typedterm⟩
+             | iszero ⟨typedterm⟩
+             | true
+             | false
+             | test ⟨typedterm⟩ ⟨typedterm⟩ ⟨typedterm⟩
+
+⟨type⟩ ∷= ⟨type⟩ → ⟨type⟩
+        | natural
+        | boolean
+\end{minted}
+
+We also introduce the following \emph{typing rules} for these typed λ-terms.
+The rules make use of a \emph{typing context} or \emph{type environment} Γ.
+:TODO:
+
+\section*{Part 0.2 – A representation of the untyped λ-calculus, \emph{UL}    [0 marks]}
+\label{sec:org1dc2e30}
+
+\subsection*{Nameless representation of terms}
+\label{sec:orgf3ead39}
+
+We use \emph{de Bruijn indices} in place of named variables.
+The index “points” to a binder, or to a free variable.
+\begin{itemize}
+\item \texttt{0} points to the first enclosing variable binder,
+or the first free variable if there are no enclosing binders.
+\item \texttt{1} points to the second enclosing variable binder,
+or the \texttt{2-n}'th free variable if there are only \texttt{n} enclosing binders, \texttt{n ≤ 1}.
+\item \texttt{2} points to the second enclosing variable binder,
+or the \texttt{3-n}'th free variable if there are only \texttt{n} enclosing binders, \texttt{n ≤ 2}.
+\item …
+\item \texttt{i} points to the \texttt{i}'th enclosing variable binder,
+or the \texttt{(i+1)-n}'th free variable if there are only \texttt{n} enclosing binders, \texttt{n ≤ i}.
+\item …
+\end{itemize}
+
+This representation avoids any need for renaming variables
+during substitution.
+
+It does make terms less human readable;
+we can correct for this by writing a \emph{pretty printer} for λ-terms
+(which will be the focus of a homework.)
+
+\subsection*{Scala implementation}
+\label{sec:org82d22e5}
+
+Pure untyped λ-terms can only be variables, abstractions or applications.
+\begin{minted}[breaklines=true]{scala}
+sealed trait ULTerm
+case class ULVar(index: Int) extends ULTerm
+case class ULAbs(t: ULTerm) extends ULTerm
+case class ULApp(t1: ULTerm, t2: ULTerm) extends ULTerm
+\end{minted}
+
+The use of de Bruijn indices necessitates a method to
+“shift” the indices of free variables up or down;
+for instance, when applying a term to an abstraction,
+we must shift them up to avoid capturing what should be free variables
+in a variable binder.
+
+Shifting is done by walking through the term,
+incrementing the variable indices by the shift amount
+if their index is greater than the number of enclosing binders.
+\begin{minted}[breaklines=true]{scala}
+// Shift the numbering of unbound variables
+def shift(shiftAmount: Int, t: ULTerm): ULTerm = {
+  // Walk through the term and shift all variables with index
+  // greater than or equal to c, which is maintained to be
+  // the number of variable binders (abstractions) outside the current subterm.
+  def walk(currentBinders: Int, t: ULTerm): ULTerm = t match {
+    // Check if x is a free variable; that is,
+    // if the number x is greater than or equal to
+    // the number of variable binders encountered outside this subterm.
+    case ULVar(x) if (x >= currentBinders) => ULVar(x+shiftAmount)
+    case ULVar(x) => ULVar(x)
+      
+    case ULAbs(t) =>
+      // We now have one more variable binder outside the subterm.
+      // Increment c and walk into the subterm.
+      ULAbs(walk(c+1, t))
+
+    case ULApp(t1,t2) =>
+      // No new variable binders. Just walk into the subterms.
+      ULApp(walk(c,t1),walk(c,t2))
+  }
+
+  // Walk the term and perform the shift of free variables.
+  // We begin with 0 variable binders outside.
+  walk(0, t)
+}
+\end{minted}
+
+Substitution is similarly defined by “walking” through the term,
+but here, when we find variables, we choose whether to “replace them”
+by the term being subbed in or not.
+We have to adjust the variable being substituted and the
+free variables in the term being subbed in according to
+the number of variable binders we enter.
+\begin{minted}[breaklines=true]{scala}
+// In our usual syntax, we would write substitution as `t[x := r]`.
+// Here we write `substitute(t,x,r)`.
+def substitute(t: ULTerm, x: Int, r: ULTerm): ULTerm = {
+  // We want to substitute for the free variable with number x.
+  // Inside a variable binder (abstraction),
+  // the index of all free variables is shifted up by 1.
+  // So we must keep track of the number of binders outside the current subterm.
+  def walk(c: Int, t: ULTerm): ULTerm = t match {
+    case ULVar(y) if y == x + c =>
+      // y is the xth free variable. Substitute for it,
+      // making sure to shift the free variables in r
+      // to account for the number of variable binders outside this subterm.
+      shift(c,r)
+    
+    case ULVar(y) =>
+      // Otherwise, y is not the xth free variable;
+      // leave it as is.
+      ULVar(y)
+    
+    case ULAbs(t) =>
+      // We now have one more variable binder outside the subterm.
+      // Increment c and walk into the subterm.
+      ULAbs(walk(c+1,t))
+
+    case ULApp(t1,t2) =>
+      // No new variable binders. Just walk into the subterms.
+      ULApp(walk(c,t1),walk(c,t2))
+  }
+
+  // Walk the term, performing the substitution.
+  // We begin with 0 variable binders outside.
+  walk(0,t)
+}
+\end{minted}
+
+We need to check if terms are values for call-by-value semantics.
+\begin{minted}[breaklines=true]{scala}
+// We need to know if a term is a value during reduction
+// when using call-by-value semantics.
+def isValue(t: ULTerm): Boolean = t match {
+  case ULAbs(_) => true
+  case _ => false
+}
+\end{minted}
+
+Those semantics are given by a reduction function,
+which reduces terms by one step, and then an evaluation function,
+which keeps reducing until we get stuck (\emph{if} we get stuck;
+we might have an infinite reduction sequence.)
+\begin{minted}[breaklines=true]{scala}
+// Call-by-value reduction function.
+// Performs one step of evaluation, if possible according to the call-by-value rules.
+// If no reduction is possible, returns None.
+def reduce(t: ULTerm): Option[ULTerm] = t match {
+
+  // Case: the left term is an abstraction, and the right is a value.
+  // Then apply the value to the abstraction.
+  case ULApp(ULAbs(t),v) if isValue(v) =>
+    // When we apply the value to the abstraction,
+    // we must shift the value's free variables up by 1 to account
+    // for the abstraction's variable binder.
+    val r = substitute(t,0,shift(1,v))
+    // Then, we need to shift the result back.
+    // Since the abstraction's variable is now "used up".
+    Some(shift(-1,r))
+
+  // Case: the left term is a value, then try to reduce the right term.
+  case ULApp(v,t) if isValue(v) =>
+    reduce(t) match {
+      case Some(r) => Some(ULApp(v,r))
+      case None => None
+    }
+
+  // Case: the left term is not a value (not an abstraction.)
+  // Try to reduce it.
+  case ULApp(t1,t2) =>
+    reduce(t1) match {
+      case Some(r1) => Some(ULApp(r1,t2))
+      case None => None
+    }
+    
+  case _ => None
+}
+
+// Evaluation just repeatedly applies reduce,
+// until we reach None (signifying reduction failed.)
+def evaluate(t: ULTerm): ULTerm = reduce(t) match {
+  case None => t
+  case Some(r) => evaluate(r)
+}
+\end{minted}
+
+\subsection*{Ruby implementation}
+\label{sec:org14f9980}
+
+:TODO: Document this literately, as with the Scala above.
+\begin{minted}[breaklines=true]{ruby}
+# Our top-level ULTerm class defines some default
+# methods to track what kind of term we have
+# (which must be overidden in non-default cases)
+# as well as the shift, substitute and eval methods
+# which are defined in terms of other methods
+# defined by the subclasses.
+class ULTerm
+
+  # By default, we assume terms are irreducible,
+  # not abstractions, and not values.
+  # Subclasses which should have these properties
+  # must override these methods.
+  # (In our basic calculus with call-by-value semantics,
+  # only applications are reducible and only abstractions
+  # are values. This can be changed for different calculi/semantics.)
+  def reduce; nil end
+  def absBody; nil end
+  def isValue?; false end
+
+  # Shifting is just walking, where in the base case,
+  # we either increment the variable by d or
+  # leave it alone.
+  def shift(d)
+    # walk is an iterator.
+    # The block tells us what to do with variables.
+    walk(0) { |x,c|
+      if x >= c
+        ULVar.new(x+d)
+      else
+        ULVar.new(x)
+      end }
+  end
+
+  # Substitution is just walking, where we either
+  # replace the variable, or leave it alone.
+  def substitute(x,r)
+    walk(0) { |y,c|
+      if y == x + c
+        r
+      else
+        ULVar.new(y)
+      end }
+  end
+
+  def eval
+    r = nil
+    r_next = self
+    # Keep reducing until it fails (reduce returns nil.)
+    # This is the recommended "do...while" form in Ruby.
+    loop do
+      r = r_next
+      r_next = r.reduce
+      break unless r_next
+    end
+
+    return r
+  end
+end
+
+class ULVar < ULTerm
+  attr_reader :index
+
+  # We require our variables are only indexed by integers.
+  def initialize(i)
+    unless i.is_a?(Integer)
+      throw "Constructing a lambda term out of non-lambda terms"
+    end
+    @index = i
+  end
+  
+  def walk(c,&block)
+    # This is a variable. Run the code in &block.
+    # (yield does this; it "yields" control to the block.)
+    yield(@index, c)
+  end
+
+  def to_s
+    @index.to_s
+  end
+end
+
+class ULAbs < ULTerm
+  attr_reader :t
+
+  def initialize(t)
+    unless t.is_a?(ULTerm)
+      throw "Constructing a lambda term out of a non-lambda term"
+    end
+    @t = t
+  end
+  
+  def walk(c,&block)
+    # Increment the local variable counter within the variable binder.
+    t = @t.walk(c+1,&block)
+    ULAbs.new(t)
+  end
+
+  # Abstractions are an abstraction (of course),
+  # with body @t,
+  # and are also considered values.
+  def absBody; @t end
+  def isValue?; true end
+  
+  def to_s
+    "lambda . " + @t.to_s
+  end
+end
+
+class ULApp < ULTerm
+  attr_reader :t1
+  attr_reader :t2
+
+  def initialize(t1,t2)
+    unless t1.is_a?(ULTerm) && t2.is_a?(ULTerm)
+      throw "Constructing a lambda term out of non-lambda terms"
+    end
+    @t1 = t1; @t2 = t2
+  end
+  
+  def walk(c,&block)
+    t1 = @t1.walk(c,&block)
+    t2 = @t2.walk(c,&block)
+    ULApp.new(t1,t2)
+  end
+
+  # Applications can be reduced.
+  def reduce
+    if @t1.absBody && @t2.isValue?
+      body = @t1.absBody
+      (body.substitute(0,@t2.shift(1))).shift(-1)
+    elsif @t1.isValue?
+      print "Reducing an argument\n"
+      r = @t2.reduce
+      if r
+        ULApp.new(@t1,r)
+      else
+        nil
+      end
+    else
+      print "Reducing a function\n"
+      r = @t1.reduce
+      if r
+        ULApp.new(r,@t2)
+      else
+        nil
+      end
+    end
+  end
+
+  def to_s
+    "(" + @t1.to_s + ") (" + @t2.to_s + ")" 
+  end
+end
+\end{minted}
+
+\section*{Part 1 – The representation                                  [10 marks]}
+\label{sec:org6ac6b22}
+
+\begin{center}
+\textbf{Place your code for this part in the files \texttt{a2.sc} and \texttt{a2.rb}.}
+\end{center}
+
+Implement, in both Scala and Ruby,
+a type \texttt{STTerm} to represent terms of the λ-calculus \emph{ST} defined above.
+
+The constructors of the type should be named
+\begin{itemize}
+\item \texttt{STVar},
+\item \texttt{STApp},
+\item \texttt{STAbs},
+\item \texttt{STZero},
+\item \texttt{STSuc},
+\item \texttt{STIsZero},
+\item \texttt{STTrue},
+\item \texttt{STFalse}, and
+\item \texttt{STTest}.
+\end{itemize}
+
+\section*{Part 2 – Type checking                                       [40 marks]}
+\label{sec:org9ad6d36}
+\begin{center}
+\textbf{Place your code for this part in the files \texttt{a2.sc} and \texttt{a2.rb}.}
+\end{center}
+
+Implement, in both Scala and Ruby,
+a \emph{type checker} method for elements of \texttt{STTerm}.
+
+This type checker takes an \texttt{STTerm}, and returns \texttt{true} if
+the represented term obeys the type rules of \emph{ST};
+otherwise, it returns \texttt{false}.
+
+\section*{Part 3 – Translation to the untyped λ-calculus; type erasure [40 marks]}
+\label{sec:org11a0953}
+\begin{center}
+\textbf{Place your code for this part in the files \texttt{a2.sc} and \texttt{a2.rb}.}
+\end{center}
+
+Implement, in both Scala and Ruby,
+a \emph{type eraser} method for elements of \texttt{STTerm},
+which \emph{translates} them into elements of \texttt{ULTerm} (definition given above.)
+
+This translation also needs to translate the natural and boolean constants
+into the pure λ-calculus encodings that represent them.
+
+(You should the definition of \texttt{ULTerm} and its methods into your file,
+or import it in a way compatible with the testing environments.)
+
+\section*{Part 4 – Interpreting \emph{SL} programs                            [10 marks]}
+\label{sec:org9df7253}
+
+Implement an evaluation method for your \texttt{STTerm} type.
+
+Make use of the evaluation method for \texttt{ULTerm}'s in your definition.
+Code to translate results from \texttt{STTerm}'s back to \texttt{ULTerm}'s will be provided
+here in an update.
+
+\section*{Part 5 – Bonus: pairs                                        [10 bonus marks]}
+\label{sec:orgbd53bca}
+
+\begin{center}
+\textbf{Place any code for this part in files \texttt{a2p4.sc} and \texttt{a2p4.rb}.}
+\end{center}
+
+Implement another λ-calculus, called \emph{ST2}, which includes
+the type of \emph{pairs} as well as naturals and booleans,
+along with a type checker, type eraser and evaluation method.
+
+\section*{Submission checklist}
+\label{sec:org410d7a8}
+For your convenience, this checklist is provided
+to track the files you need to submit.
+Use it if you wish.
+\begin{minted}[breaklines=true]{text}
+- [ ] Documentation; one of
+  - [ ] README.html
+  - [ ] README.pdf
+  - [ ] README.md
+  - [ ] README.org
+- [ ] Code files
+  - [ ] a2.sc
+  - [ ] a2.rb
+- [ ] Part 2 tests
+  - [ ] a2p2_test.sc tests have passed! (No submission needed.)
+  - [ ] a2p2_test.rb tests have passed! (No submission needed.)
+- [ ] Part 3 tests
+  - [ ] a2p3_test.sc tests have passed! (No submission needed.)
+  - [ ] a2p3_test.rb tests have passed! (No submission needed.)
+- [ ] Part 4 (Bonus)
+  - [ ] a2p4.sc
+  - [ ] a2p4.rb
+\end{minted}
+
+\section*{Testing}
+\label{sec:orgf05da3b}
+:TODO:
+\end{document}

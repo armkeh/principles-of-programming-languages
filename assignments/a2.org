@@ -1,0 +1,895 @@
+#+Title: Computer Science 3MI3 – 2020 assignment 2
+#+Subtitle: Typing a λ-calculus
+#+Author: Mark Armstrong
+#+Date: October 30th, 2020
+#+Description: Type checking and erasing on a simply-typed λ-calculus.
+#+Options: num:nil
+#+SETUPFILE: ../org-html-themes/setup/theme-readtheorg-local.setup
+
+* Introduction
+:PROPERTIES:
+:CUSTOM_ID: Introduction
+:END:
+
+This assignment asks you to construct representation
+of a simply-typed λ-calculus, construct a typechecker for that
+λ-calculus, and finally to implement /type-erasure/ and a
+simple translator to simplify terms to untyped λ-calculus terms.
+
+* Updates and file history
+:PROPERTIES:
+:CUSTOM_ID: Updates-and-file-history
+:END:
+
+** October 30th
+
+- Initial version posted.
+  - Testing not posted yet.
+
+* Boilerplate
+:PROPERTIES:
+:CUSTOM_ID: Boilerplate
+:END:
+
+** Documentation
+:PROPERTIES:
+:CUSTOM_ID: Submission-procedures
+:END:
+
+#+INCLUDE: "./../boilerplate.org::*Assignment documentation" :only-contents t
+
+** Submission procedures
+:PROPERTIES:
+:CUSTOM_ID: Submission-procedures
+:END:
+
+#+INCLUDE: "./../boilerplate.org::*Assignment submission" :only-contents t
+
+** Proper conduct for coursework
+:PROPERTIES:
+:CUSTOM_ID: Proper-conduct-for-coursework
+:END:
+
+#+INCLUDE: "./../boilerplate.org::*Assignment conduct" :only-contents t
+
+* Part 0.1 – Description of the λ-calculus, /ST/                 [0 marks]
+:PROPERTIES:
+:CUSTOM_ID: Informal-description-of-the-expression-language
+:END:
+
+The λ-calculus you are to work with during this assignment
+we call /ST/, standing for /simply typed/.
+It adds to the pure untyped λ-calculus /UL/
+terms ~zero~, ~suc~, ~iszero~, ~tt~, ~ff~, and ~test~, with the following syntax.
+#+begin_src text
+⟨typedterm⟩ ∷= var
+             | ⟨typedterm⟩ ⟨typedterm⟩
+             | λ var : ⟨type⟩ → ⟨typedterm⟩
+             | zero
+             | suc ⟨typedterm⟩
+             | iszero ⟨typedterm⟩
+             | true
+             | false
+             | test ⟨typedterm⟩ ⟨typedterm⟩ ⟨typedterm⟩
+
+⟨type⟩ ∷= ⟨type⟩ → ⟨type⟩
+        | natural
+        | boolean
+#+end_src
+
+We also introduce the following /typing rules/ for these typed λ-terms.
+The rules make use of a /typing context/ or /type environment/ Γ.
+:TODO:
+
+* Part 0.2 – A representation of the untyped λ-calculus, /UL/    [0 marks]
+
+** Nameless representation of terms
+
+We use /de Bruijn indices/ in place of named variables.
+The index “points” to a binder, or to a free variable.
+- ~0~ points to the first enclosing variable binder,
+  or the first free variable if there are no enclosing binders.
+- ~1~ points to the second enclosing variable binder,
+  or the ~2-n~'th free variable if there are only ~n~ enclosing binders, ~n ≤ 1~.
+- ~2~ points to the second enclosing variable binder,
+  or the ~3-n~'th free variable if there are only ~n~ enclosing binders, ~n ≤ 2~.
+- …
+- ~i~ points to the ~i~'th enclosing variable binder,
+  or the ~(i+1)-n~'th free variable if there are only ~n~ enclosing binders, ~n ≤ i~.
+- …
+
+This representation avoids any need for renaming variables
+during substitution.
+
+It does make terms less human readable;
+we can correct for this by writing a /pretty printer/ for λ-terms
+(which will be the focus of a homework.)
+
+** Scala implementation
+
+Pure untyped λ-terms can only be variables, abstractions or applications.
+#+begin_src amm
+sealed trait ULTerm
+case class ULVar(index: Int) extends ULTerm
+case class ULAbs(t: ULTerm) extends ULTerm
+case class ULApp(t1: ULTerm, t2: ULTerm) extends ULTerm
+#+end_src
+
+The use of de Bruijn indices necessitates a method to
+“shift” the indices of free variables up or down;
+for instance, when applying a term to an abstraction,
+we must shift them up to avoid capturing what should be free variables
+in a variable binder.
+
+Shifting is done by walking through the term,
+incrementing the variable indices by the shift amount
+if their index is greater than the number of enclosing binders.
+#+begin_src amm
+// Shift the numbering of unbound variables
+def shift(shiftAmount: Int, t: ULTerm): ULTerm = {
+  // Walk through the term and shift all variables with index
+  // greater than or equal to c, which is maintained to be
+  // the number of variable binders (abstractions) outside the current subterm.
+  def walk(currentBinders: Int, t: ULTerm): ULTerm = t match {
+    // Check if x is a free variable; that is,
+    // if the number x is greater than or equal to
+    // the number of variable binders encountered outside this subterm.
+    case ULVar(x) if (x >= currentBinders) => ULVar(x+shiftAmount)
+    case ULVar(x) => ULVar(x)
+      
+    case ULAbs(t) =>
+      // We now have one more variable binder outside the subterm.
+      // Increment c and walk into the subterm.
+      ULAbs(walk(c+1, t))
+
+    case ULApp(t1,t2) =>
+      // No new variable binders. Just walk into the subterms.
+      ULApp(walk(c,t1),walk(c,t2))
+  }
+
+  // Walk the term and perform the shift of free variables.
+  // We begin with 0 variable binders outside.
+  walk(0, t)
+}
+#+end_src
+
+Substitution is similarly defined by “walking” through the term,
+but here, when we find variables, we choose whether to “replace them”
+by the term being subbed in or not.
+We have to adjust the variable being substituted and the
+free variables in the term being subbed in according to
+the number of variable binders we enter.
+#+begin_src amm
+// In our usual syntax, we would write substitution as `t[x := r]`.
+// Here we write `substitute(t,x,r)`.
+def substitute(t: ULTerm, x: Int, r: ULTerm): ULTerm = {
+  // We want to substitute for the free variable with number x.
+  // Inside a variable binder (abstraction),
+  // the index of all free variables is shifted up by 1.
+  // So we must keep track of the number of binders outside the current subterm.
+  def walk(c: Int, t: ULTerm): ULTerm = t match {
+    case ULVar(y) if y == x + c =>
+      // y is the xth free variable. Substitute for it,
+      // making sure to shift the free variables in r
+      // to account for the number of variable binders outside this subterm.
+      shift(c,r)
+    
+    case ULVar(y) =>
+      // Otherwise, y is not the xth free variable;
+      // leave it as is.
+      ULVar(y)
+    
+    case ULAbs(t) =>
+      // We now have one more variable binder outside the subterm.
+      // Increment c and walk into the subterm.
+      ULAbs(walk(c+1,t))
+
+    case ULApp(t1,t2) =>
+      // No new variable binders. Just walk into the subterms.
+      ULApp(walk(c,t1),walk(c,t2))
+  }
+
+  // Walk the term, performing the substitution.
+  // We begin with 0 variable binders outside.
+  walk(0,t)
+}
+#+end_src
+
+We need to check if terms are values for call-by-value semantics.
+#+begin_src amm
+// We need to know if a term is a value during reduction
+// when using call-by-value semantics.
+def isValue(t: ULTerm): Boolean = t match {
+  case ULAbs(_) => true
+  case _ => false
+}
+#+end_src
+
+Those semantics are given by a reduction function,
+which reduces terms by one step, and then an evaluation function,
+which keeps reducing until we get stuck (/if/ we get stuck;
+we might have an infinite reduction sequence.)
+#+begin_src amm
+// Call-by-value reduction function.
+// Performs one step of evaluation, if possible according to the call-by-value rules.
+// If no reduction is possible, returns None.
+def reduce(t: ULTerm): Option[ULTerm] = t match {
+
+  // Case: the left term is an abstraction, and the right is a value.
+  // Then apply the value to the abstraction.
+  case ULApp(ULAbs(t),v) if isValue(v) =>
+    // When we apply the value to the abstraction,
+    // we must shift the value's free variables up by 1 to account
+    // for the abstraction's variable binder.
+    val r = substitute(t,0,shift(1,v))
+    // Then, we need to shift the result back.
+    // Since the abstraction's variable is now "used up".
+    Some(shift(-1,r))
+
+  // Case: the left term is a value, then try to reduce the right term.
+  case ULApp(v,t) if isValue(v) =>
+    reduce(t) match {
+      case Some(r) => Some(ULApp(v,r))
+      case None => None
+    }
+
+  // Case: the left term is not a value (not an abstraction.)
+  // Try to reduce it.
+  case ULApp(t1,t2) =>
+    reduce(t1) match {
+      case Some(r1) => Some(ULApp(r1,t2))
+      case None => None
+    }
+    
+  case _ => None
+}
+
+// Evaluation just repeatedly applies reduce,
+// until we reach None (signifying reduction failed.)
+def evaluate(t: ULTerm): ULTerm = reduce(t) match {
+  case None => t
+  case Some(r) => evaluate(r)
+}
+#+end_src
+
+** Ruby implementation
+
+:TODO: Document this literately, as with the Scala above.
+#+begin_src ruby
+# Our top-level ULTerm class defines some default
+# methods to track what kind of term we have
+# (which must be overidden in non-default cases)
+# as well as the shift, substitute and eval methods
+# which are defined in terms of other methods
+# defined by the subclasses.
+class ULTerm
+
+  # By default, we assume terms are irreducible,
+  # not abstractions, and not values.
+  # Subclasses which should have these properties
+  # must override these methods.
+  # (In our basic calculus with call-by-value semantics,
+  # only applications are reducible and only abstractions
+  # are values. This can be changed for different calculi/semantics.)
+  def reduce; nil end
+  def absBody; nil end
+  def isValue?; false end
+
+  # Shifting is just walking, where in the base case,
+  # we either increment the variable by d or
+  # leave it alone.
+  def shift(d)
+    # walk is an iterator.
+    # The block tells us what to do with variables.
+    walk(0) { |x,c|
+      if x >= c
+        ULVar.new(x+d)
+      else
+        ULVar.new(x)
+      end }
+  end
+
+  # Substitution is just walking, where we either
+  # replace the variable, or leave it alone.
+  def substitute(x,r)
+    walk(0) { |y,c|
+      if y == x + c
+        r
+      else
+        ULVar.new(y)
+      end }
+  end
+
+  def eval
+    r = nil
+    r_next = self
+    # Keep reducing until it fails (reduce returns nil.)
+    # This is the recommended "do...while" form in Ruby.
+    loop do
+      r = r_next
+      r_next = r.reduce
+      break unless r_next
+    end
+
+    return r
+  end
+end
+
+class ULVar < ULTerm
+  attr_reader :index
+
+  # We require our variables are only indexed by integers.
+  def initialize(i)
+    unless i.is_a?(Integer)
+      throw "Constructing a lambda term out of non-lambda terms"
+    end
+    @index = i
+  end
+  
+  def walk(c,&block)
+    # This is a variable. Run the code in &block.
+    # (yield does this; it "yields" control to the block.)
+    yield(@index, c)
+  end
+
+  def to_s
+    @index.to_s
+  end
+end
+
+class ULAbs < ULTerm
+  attr_reader :t
+
+  def initialize(t)
+    unless t.is_a?(ULTerm)
+      throw "Constructing a lambda term out of a non-lambda term"
+    end
+    @t = t
+  end
+  
+  def walk(c,&block)
+    # Increment the local variable counter within the variable binder.
+    t = @t.walk(c+1,&block)
+    ULAbs.new(t)
+  end
+
+  # Abstractions are an abstraction (of course),
+  # with body @t,
+  # and are also considered values.
+  def absBody; @t end
+  def isValue?; true end
+  
+  def to_s
+    "lambda . " + @t.to_s
+  end
+end
+
+class ULApp < ULTerm
+  attr_reader :t1
+  attr_reader :t2
+
+  def initialize(t1,t2)
+    unless t1.is_a?(ULTerm) && t2.is_a?(ULTerm)
+      throw "Constructing a lambda term out of non-lambda terms"
+    end
+    @t1 = t1; @t2 = t2
+  end
+  
+  def walk(c,&block)
+    t1 = @t1.walk(c,&block)
+    t2 = @t2.walk(c,&block)
+    ULApp.new(t1,t2)
+  end
+
+  # Applications can be reduced.
+  def reduce
+    if @t1.absBody && @t2.isValue?
+      body = @t1.absBody
+      (body.substitute(0,@t2.shift(1))).shift(-1)
+    elsif @t1.isValue?
+      print "Reducing an argument\n"
+      r = @t2.reduce
+      if r
+        ULApp.new(@t1,r)
+      else
+        nil
+      end
+    else
+      print "Reducing a function\n"
+      r = @t1.reduce
+      if r
+        ULApp.new(r,@t2)
+      else
+        nil
+      end
+    end
+  end
+
+  def to_s
+    "(" + @t1.to_s + ") (" + @t2.to_s + ")" 
+  end
+end
+#+end_src
+
+* Part 1 – The representation                                  [10 marks]
+
+#+begin_center
+*Place your code for this part in the files ~a2.sc~ and ~a2.rb~.*
+#+end_center
+
+Implement, in both Scala and Ruby,
+a type ~STTerm~ to represent terms of the λ-calculus /ST/ defined above.
+
+The constructors of the type should be named
+- ~STVar~,
+- ~STApp~,
+- ~STAbs~,
+- ~STZero~,
+- ~STSuc~,
+- ~STIsZero~,
+- ~STTrue~,
+- ~STFalse~, and
+- ~STTest~.
+
+* Part 2 – Type checking                                       [40 marks]
+:PROPERTIES:
+:CUSTOM_ID: Part-1-–-Interpreter-written-in-Scala--[20 marks]
+:END:
+
+#+begin_center
+*Place your code for this part in the files ~a2.sc~ and ~a2.rb~.*
+#+end_center
+
+Implement, in both Scala and Ruby,
+a /type checker/ method for elements of ~STTerm~.
+
+This type checker takes an ~STTerm~, and returns ~true~ if
+the represented term obeys the type rules of /ST/;
+otherwise, it returns ~false~.
+
+* Part 3 – Translation to the untyped λ-calculus; type erasure [40 marks]
+:PROPERTIES:
+:CUSTOM_ID: Part-2-–-Interpreter-written-in-Prolog-[20 marks]
+:END:
+
+#+begin_center
+*Place your code for this part in the files ~a2.sc~ and ~a2.rb~.*
+#+end_center
+
+Implement, in both Scala and Ruby,
+a /type eraser/ method for elements of ~STTerm~,
+which /translates/ them into elements of ~ULTerm~ (definition given above.)
+
+This translation also needs to translate the natural and boolean constants
+into the pure λ-calculus encodings that represent them.
+
+(You should the definition of ~ULTerm~ and its methods into your file,
+or import it in a way compatible with the testing environments.)
+
+* Part 4 – Interpreting /SL/ programs                            [10 marks]
+
+Implement an evaluation method for your ~STTerm~ type.
+
+Make use of the evaluation method for ~ULTerm~'s in your definition.
+Code to translate results from ~STTerm~'s back to ~ULTerm~'s will be provided
+here in an update.
+
+* Part 5 – Bonus: pairs                                        [10 bonus marks]
+
+#+begin_center
+*Place any code for this part in files ~a2p4.sc~ and ~a2p4.rb~.*
+#+end_center
+
+Implement another λ-calculus, called /ST2/, which includes
+the type of /pairs/ as well as naturals and booleans,
+along with a type checker, type eraser and evaluation method.
+
+* Submission checklist
+:PROPERTIES:
+:CUSTOM_ID: Submission-checklist
+:END:
+
+For your convenience, this checklist is provided
+to track the files you need to submit.
+Use it if you wish.
+#+begin_src text
+- [ ] Documentation; one of
+  - [ ] README.html
+  - [ ] README.pdf
+  - [ ] README.md
+  - [ ] README.org
+- [ ] Code files
+  - [ ] a2.sc
+  - [ ] a2.rb
+- [ ] Part 2 tests
+  - [ ] a2p2_test.sc tests have passed! (No submission needed.)
+  - [ ] a2p2_test.rb tests have passed! (No submission needed.)
+- [ ] Part 3 tests
+  - [ ] a2p3_test.sc tests have passed! (No submission needed.)
+  - [ ] a2p3_test.rb tests have passed! (No submission needed.)
+- [ ] Part 4 (Bonus)
+  - [ ] a2p4.sc
+  - [ ] a2p4.rb
+#+end_src
+
+* Testing
+:PROPERTIES:
+:CUSTOM_ID: Testing
+:END:
+
+:TODO:
+
+* COMMENT Testing description from last assignment
+
+Unit tests for the requested types, methods and predicates
+are available here.
+- [[./testing/a1/a1p1_test.sc][a1p1_test.sc]]
+- [[./testing/a1/a1p3_test.sc][a1p3_test.sc]]
+- [[./testing/a1/a1p4_test.sc][a1p4_test.sc]]
+- [[./testing/a1/a1p2.plt][a1p2.plt]]
+- [[./testing/a1/a1p3.plt][a1p3.plt]]
+- [[./testing/a1/a1p4.plt][a1p4.plt]]
+The contents of the unit test files are also repeated below.
+
+The tests can be run by placing the test files
+in the same directory as your code files.
+
+To run the tests for the Scala portions, use the commands
+#+begin_src shell
+amm a1pn_test.sc
+#+end_src
+where the ~n~ in ~a1pn_test.sc~ is the appropriate part number.
+
+To run the tests for the Prolog portions,us the commands
+#+begin_src shell
+swipl -t "load_test_files([]), run_tests." -s a1pn.pl
+#+end_src
+where the ~n~ in ~a1pn.pl~ is the appropriate part number.
+
+#+begin_center
+*You are strongly encouraged to add your own additional test cases*
+*to those provided for you.*
+
+The provided test cases check a very minimal amount!
+#+end_center
+
+** Automated testing via Docker
+:PROPERTIES:
+:CUSTOM_ID: Automated-testing-via-Docker
+:END:
+
+The Docker setup and usage scripts are available at the following links.
+Their contents are also repeated below.
+- [[./testing/a1/Dockerfile][Dockerfile]]
+- [[./testing/a1/docker-compose.yml][docker-compose.yml]]
+- [[./testing/a1/setup.sh][setup.sh]]
+- [[./testing/a1/run.sh][run.sh]]
+Place them into your ~a1~ directory where your code files
+and the test files (linked to above) exist,
+then run ~setup.sh~ and ~run.sh~.
+
+Note that the use of the ~setup.sh~ and ~run.sh~ scripts assumes
+that you are in a ~bash~ like shell; if you are on Windows,
+and not using WSL or WSL2, you may have
+to run the commands contained in those scripts manually.
+
+** The tests
+:PROPERTIES:
+:CUSTOM_ID: The-tests
+:END:
+
+*** Scala
+:PROPERTIES:
+:CUSTOM_ID: Scala
+:END:
+
+**** Framework
+:PROPERTIES:
+:CUSTOM_ID: Framework
+:END:
+
+[[./testing/a1/a1_testframework.sc][a1_testframework.sc]]
+#+begin_src amm :tangle ./testing/a1/a1_testframework.sc
+/* Given an expected result and a computed result,
+   check if they are equal in value.
+   If so, return 0. Otherwise, inform the user, and return 1,
+   so the number of failures can be counted. */
+def test[A](given: A, expected: A, the_test: String) =
+  if (!(given equals expected)) {
+    println("+---------------------------------------------------")
+    println("| " + the_test + " failed.")
+    println("| Expected " + expected + ", got " + given + ".")
+    println("+---------------------------------------------------")
+    1
+  } else {
+    0
+  }
+
+def runTests[A](tests: List[Tuple3[A,A,String]]): Unit = {
+  // Apply test to each element of tests, and sum the return values.
+  // This is essentially a for loop.
+  val failed = tests.foldLeft(0) {
+    (failures, next) => next match {
+      // Deconstruct the tuple to get its parts
+      case (given, expected, the_test) => failures + test(given, expected, the_test)
+    }
+  }
+  
+  println("+---------------------------------------------------")
+  println("| " + failed + " tests failed")
+  println("+---------------------------------------------------")
+}
+#+end_src
+
+**** Scala testing code for Part 1
+:PROPERTIES:
+:CUSTOM_ID: Scala-testing-code-for-Part-1
+:END:
+
+[[./testing/a1/a1p1_test.sc][a1p1_test.sc]]
+#+begin_src amm :tangle ./testing/a1/a1p1_test.sc
+import $file.a1_testframework, a1_testframework._
+import $file.a1p1, a1p1._
+
+val tests = List(
+  (interpretExpr(Const(0)), 0, "Constant expression 0"),
+  (interpretExpr(Plus(Const(5),Const(4))), 9, "Additive expression 5 + 4"),
+  (interpretExpr(Exp(Const(5),Const(4))), 625, "Exponential expression 5 ^ 4"),
+  )
+
+runTests(tests)
+#+end_src
+
+**** Scala testing code for Part 2
+:PROPERTIES:
+:CUSTOM_ID: Scala-testing-code-for-Part-2
+:END:
+
+There is no Scala code for part 2.
+
+**** Scala testing code for Part 3
+:PROPERTIES:
+:CUSTOM_ID: Scala-testing-code-for-Part-3
+:END:
+
+[[./testing/a1/a1p3_test.sc][a1p3_test.sc]]
+#+begin_src amm :tangle ./testing/a1/a1p3_test.sc
+import $file.a1_testframework, a1_testframework._
+import $file.a1p3, a1p3._
+
+val tests = List(
+  (interpretVarExpr(Const(0)), 0, "Constant expression 0"),
+  (interpretVarExpr(Plus(Const(5),Const(4))), 9, "Additive expression 5 + 4"),
+  (interpretVarExpr(Exp(Const(5),Const(4))), 625, "Exponential expression 5 ^ 4"),
+  // New tests for this part specifically.
+  (interpretVarExpr(Subst(Var('x), 'x, Const(0))), 0,
+                    "Simple substitution x[x := 0] expression"),
+  (interpretVarExpr(Subst(Subst(Plus(Var('x),Var('y)),
+                                'x,
+                                Const(5)),
+                          'y,
+                          Const(4))),
+                    9, "Nested substitution ((x + y)[x := 5])[y := 4]"),
+  )
+
+runTests(tests)
+#+end_src
+
+**** Scala testing code for Part 4
+:PROPERTIES:
+:CUSTOM_ID: Scala-testing-code-for-Part-4
+:END:
+
+[[./testing/a1/a1p4_test.sc][a1p4_test.sc]]
+#+begin_src amm :tangle ./testing/a1/a1p4_test.sc
+import $file.a1_testframework, a1_testframework._
+import $file.a1p4, a1p4._
+
+val tests = List(
+  (interpretMixedExpr(Const(0)), Some(Left(0)), "Constant expression 0"),
+  (interpretMixedExpr(Plus(Const(5),Const(4))), Some(Left(9)), "Additive expression 5 + 4"),
+  (interpretMixedExpr(Exp(Const(5),Const(4))), Some(Left(625)), "Exponential expression 5 ^ 4"),
+  // New tests for this part specifically.
+  (interpretMixedExpr(TT),Some(Right(true)),"Constant expression true"),
+  (interpretMixedExpr(Band(TT,FF)),Some(Right(false)),"And expression true && false"),
+  )
+
+runTests(tests)
+#+end_src
+
+*** Prolog
+:PROPERTIES:
+:CUSTOM_ID: Prolog
+:END:
+
+**** Prolog testing code for Part 1
+:PROPERTIES:
+:CUSTOM_ID: Prolog-testing-code-for-Part-1
+:END:
+
+There is no Prolog code for part 1.
+
+**** Prolog testing code for Part 2
+:PROPERTIES:
+:CUSTOM_ID: Prolog-testing-code-for-Part-2
+:END:
+
+[[./testing/a1/a1p2.plt][a1p2.plt]]
+#+begin_src prolog :tangle ./testing/a1/a1p2.plt
+:- begin_tests(a1p2).
+:- include(a1p2).
+
+test('Constant expression 0 is expression', nondet) :-
+        isExpr(constE(0)).
+test('Additive expression 5 + 4 is expression', nondet) :-
+        isExpr(plusE(constE(5),constE(4))).
+test('Exponential expression 5 ^ 4 is expression', nondet) :-
+        isExpr(expE(constE(5),constE(4))).
+
+test('Constant expression 0', nondet) :-
+        interpretExpr(constE(0),0).
+test('Additive expression 5 + 4', nondet) :-
+        interpretExpr(plusE(constE(5),constE(4)),9).
+test('Exponential expression 5 ^ 4', nondet) :-
+        interpretExpr(expE(constE(5),constE(4)),625).
+#+end_src
+
+**** Prolog testing code for Part 3
+:PROPERTIES:
+:CUSTOM_ID: Prolog-testing-code-for-Part-3
+:END:
+
+[[./testing/a1/a1p3.plt][a1p3.plt]]
+#+begin_src prolog :tangle ./testing/a1/a1p3.plt
+:- begin_tests(a1p3).
+:- include(a1p3).
+
+test('Constant expression 0 is expression', nondet) :-
+        isVarExpr(constE(0)).
+test('Additive expression 5 + 4 is expression', nondet) :-
+        isVarExpr(plusE(constE(5),constE(4))).
+test('Exponential expression 5 ^ 4 is expression', nondet) :-
+        isVarExpr(expE(constE(5),constE(4))).
+
+test('Constant expression 0', nondet) :-
+        interpretVarExpr(constE(0),0).
+test('Additive expression 5 + 4', nondet) :-
+        interpretVarExpr(plusE(constE(5),constE(4)),9).
+test('Exponential expression 5 ^ 4', nondet) :-
+        interpretVarExpr(expE(constE(5),constE(4)),625).
+
+% New tests for this part specifically.
+test('Simple substitution x[x := 0] is expression', nondet) :-
+        isVarExpr(subst(var(x),x,constE(0))).
+test('Nested substitution ((x + y)[x := 5])[y := 4] is expression', nondet) :-
+        isVarExpr(subst(subst(plusE(var(x),var(y)),
+                              x,
+                              constE(5)),
+                        y,
+                        constE(4))).
+test('Simple substitution x[x := 0]', nondet) :-
+        interpretVarExpr(subst(var(x),x,constE(0)),0).
+test('Nested substitution ((x + y)[x := 5])[y := 4]', nondet) :-
+        interpretVarExpr(subst(subst(plusE(var(x),var(y)),
+                                     x,
+                                     constE(5)),
+                               y,
+                               constE(4)),
+                         9).
+#+end_src
+
+**** Prolog testing code for Part 4
+:PROPERTIES:
+:CUSTOM_ID: Prolog-testing-code-for-Part-4
+:END:
+
+[[./testing/a1/a1p4.plt][a1p4.plt]]
+#+begin_src prolog :tangle ./testing/a1/a1p4.plt
+:- begin_tests(a1p4).
+:- include(a1p4).
+
+test('Constant expression 0 is expression', nondet) :-
+        isMixedExpr(constE(0)).
+test('Additive expression 5 + 4 is expression', nondet) :-
+        isMixedExpr(plusE(constE(5),constE(4))).
+test('Exponential expression 5 ^ 4 is expression', nondet) :-
+        isMixedExpr(expE(constE(5),constE(4))).
+
+test('Constant expression 0', nondet) :-
+        interpretMixedExpr(constE(0),0).
+test('Additive expression 5 + 4', nondet) :-
+        interpretMixedExpr(plusE(constE(5),constE(4)),9).
+test('Exponential expression 5 ^ 4', nondet) :-
+        interpretMixedExpr(expE(constE(5),constE(4)),625).
+
+% New tests for this part specifically.
+test('Constant expression true is expression', nondet) :-
+        isMixedExpr(tt).
+test('And expression true && false is expression', nondet) :-
+        isMixedExpr(band(tt,ff)).
+test('Constant expression true', nondet) :-
+        interpretMixedExpr(tt,true).
+test('And expression true && false', nondet) :-
+        interpretMixedExpr(band(tt,ff),false).
+#+end_src
+
+** The Docker setup
+:PROPERTIES:
+:CUSTOM_ID: The-Docker-setup
+:END:
+
+[[./testing/a1/Dockerfile][Dockerfile]]
+#+begin_src docker :tangle ./testing/a1/Dockerfile
+# Define the argument for openjdk version
+ARG OPENJDK_TAG=8u232
+# Use the SWI Prolog image as a base, then add Scala after.
+FROM swipl
+
+# Set the name of the maintainers
+MAINTAINER Habib Ghaffari Hadigheh, Mark Armstrong <ghaffh1@mcmaster.ca, armstmp@mcmaster.ca>
+
+RUN apt-get update && \
+    apt-get install scala -y && \
+    apt-get install -y curl && \
+    sh -c '(echo "#!/usr/bin/env sh" && \
+    curl -L https://github.com/lihaoyi/Ammonite/releases/download/2.1.1/2.12-2.1.1) > /usr/local/bin/amm && \
+    chmod +x /usr/local/bin/amm'
+RUN (rm -rf /root/.cache)
+
+# Set the working directory
+WORKDIR /opt/a1/
+
+CMD ['bash']
+#+end_src
+
+[[./testing/a1/docker-compose.yml][docker-compose.yml]]
+#+begin_src yaml :tangle ./testing/a1/docker-compose.yml
+version: '2'
+services:
+  service:
+    build: .
+    image: 3mi3_a1_docker_image
+    volumes:
+      - .:/opt/a1
+    container_name: 3mi3_a1_container
+    command: bash -c
+      "echo 'Part 1 tests' &&
+       echo '----------------------------------------------------------------------' &&
+       amm a1p1_test.sc &&
+       echo '\n\n\n' &&
+       echo 'Part 2 tests' &&
+       echo '----------------------------------------------------------------------' &&
+       swipl -t \"load_test_files([]), run_tests.\" -s a1p2.plt &&
+       echo '----------------------------------------------------------------------' &&
+       echo '\n\n\n' &&
+       echo 'Part 3 Scala tests' &&
+       echo '----------------------------------------------------------------------' &&
+       amm a1p3_test.sc &&
+       echo '\n\n\n' &&
+       echo 'Part 3 Prolog tests' &&
+       echo '----------------------------------------------------------------------' &&
+       swipl -t \"load_test_files([]), run_tests.\" -s a1p3.plt &&
+       echo '----------------------------------------------------------------------' &&
+       echo '\n\n\n' &&
+       echo 'Part 4 Scala tests' &&
+       echo '----------------------------------------------------------------------' &&
+       amm a1p4_test.sc &&
+       echo '\n\n\n' &&
+       echo 'Part 4 Prolog tests' &&
+       echo '----------------------------------------------------------------------' &&
+       swipl -t \"load_test_files([]), run_tests.\" -s a1p4.plt &&
+       echo '----------------------------------------------------------------------'"
+#+end_src
+
+[[./testing/a1/setup.sh][setup.sh]]
+#+begin_src shell :tangle ./testing/a1/setup.sh :tangle-mode (identity #o755)
+docker-compose build --force-rm
+#+end_src
+
+[[./testing/a1/run.sh][run.sh]]
+#+begin_src shell :tangle ./testing/a1/run.sh :tangle-mode (identity #o755)
+# Run the container
+docker-compose up --force-recreate
+# Stop the container after finishing the test run
+docker-compose stop -t 1
+#+end_src
