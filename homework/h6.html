@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-10-23 Fri 23:53 -->
+<!-- 2020-10-29 Thu 23:50 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Computer Science 3MI3 – 2020 homework 6</title>
@@ -240,16 +240,16 @@
 <ul>
 <li><a href="#Submission-procedures">Submission procedures</a>
 <ul>
-<li><a href="#orgebefadd">Submission method</a></li>
-<li><a href="#org4b2582d">Naming requirements</a></li>
-<li><a href="#org7e85047">Do not submit testing or diagnostic code</a></li>
-<li><a href="#org47b86c8">Due date and allowance for technical difficulties</a></li>
+<li><a href="#org0512c51">Submission method</a></li>
+<li><a href="#org4e19203">Naming requirements</a></li>
+<li><a href="#orga3b167d">Do not submit testing or diagnostic code</a></li>
+<li><a href="#orgfca8294">Due date and allowance for technical difficulties</a></li>
 </ul>
 </li>
 <li><a href="#Proper-conduct-for-coursework">Proper conduct for coursework</a>
 <ul>
-<li><a href="#orgc5e9c88">Individual work</a></li>
-<li><a href="#orgbadd44d">Language library resources</a></li>
+<li><a href="#orgc8fdb02">Individual work</a></li>
+<li><a href="#orgd0da691">Language library resources</a></li>
 </ul>
 </li>
 </ul>
@@ -298,9 +298,9 @@ using an object-oriented approach in Ruby.
 <div class="outline-text-3" id="text-Submission-procedures">
 </div>
 
-<div id="outline-container-orgebefadd" class="outline-4">
-<h4 id="orgebefadd">Submission method</h4>
-<div class="outline-text-4" id="text-orgebefadd">
+<div id="outline-container-org0512c51" class="outline-4">
+<h4 id="org0512c51">Submission method</h4>
+<div class="outline-text-4" id="text-org0512c51">
 <p>
 Homework should be submitted to your McMaster CAS Gitlab respository
 in the <code>cs3mi3-fall2020</code> project.
@@ -313,9 +313,9 @@ in time for the deadline, and not just committed to your local copy.
 </div>
 </div>
 
-<div id="outline-container-org4b2582d" class="outline-4">
-<h4 id="org4b2582d">Naming requirements</h4>
-<div class="outline-text-4" id="text-org4b2582d">
+<div id="outline-container-org4e19203" class="outline-4">
+<h4 id="org4e19203">Naming requirements</h4>
+<div class="outline-text-4" id="text-org4e19203">
 <p>
 Place all files for the homework
 inside a folder titled <code>hn</code>, where <code>n</code> is the number of the homework.
@@ -356,9 +356,9 @@ submit a <code>hn.ext</code> file for each language.
 </div>
 </div>
 
-<div id="outline-container-org7e85047" class="outline-4">
-<h4 id="org7e85047">Do not submit testing or diagnostic code</h4>
-<div class="outline-text-4" id="text-org7e85047">
+<div id="outline-container-orga3b167d" class="outline-4">
+<h4 id="orga3b167d">Do not submit testing or diagnostic code</h4>
+<div class="outline-text-4" id="text-orga3b167d">
 <p>
 Unless you are instructed to do so in the homework questions,
 <b>you should not submit testing code with your homework submission</b>.
@@ -386,9 +386,9 @@ For instance, by using a wrapper on the print function or macros.
 </div>
 </div>
 
-<div id="outline-container-org47b86c8" class="outline-4">
-<h4 id="org47b86c8">Due date and allowance for technical difficulties</h4>
-<div class="outline-text-4" id="text-org47b86c8">
+<div id="outline-container-orgfca8294" class="outline-4">
+<h4 id="orgfca8294">Due date and allowance for technical difficulties</h4>
+<div class="outline-text-4" id="text-orgfca8294">
 <p>
 Homework is due on the second Sunday following its release,
 by the end of the day (midnight).
@@ -413,9 +413,9 @@ to accept your submission once the technical difficulties are resolved.
 <div class="outline-text-3" id="text-Proper-conduct-for-coursework">
 </div>
 
-<div id="outline-container-orgc5e9c88" class="outline-4">
-<h4 id="orgc5e9c88">Individual work</h4>
-<div class="outline-text-4" id="text-orgc5e9c88">
+<div id="outline-container-orgc8fdb02" class="outline-4">
+<h4 id="orgc8fdb02">Individual work</h4>
+<div class="outline-text-4" id="text-orgc8fdb02">
 <p>
 Unless explicitely stated in the homework questions,
 all homework in this course is intended
@@ -476,9 +476,9 @@ probably add a catch-all <code>_</code> case to your <code>match</code> expressi
 </div>
 </div>
 
-<div id="outline-container-orgbadd44d" class="outline-4">
-<h4 id="orgbadd44d">Language library resources</h4>
-<div class="outline-text-4" id="text-orgbadd44d">
+<div id="outline-container-orgd0da691" class="outline-4">
+<h4 id="orgd0da691">Language library resources</h4>
+<div class="outline-text-4" id="text-orgd0da691">
 <p>
 Unless explicitely stated in the questions,
 it is not expected that you will use any language library resources
@@ -694,8 +694,185 @@ As usual, do not include such code with your submission!
 <h3 id="Approach-2:-Subclasses-for-each-kind-of-expression">Approach 2: Subclasses for each kind of expression</h3>
 <div class="outline-text-3" id="text-Approach-2:-Subclasses-for-each-kind-of-expression">
 <p>
-:TODO:
+As above, we use standard input to print out test results,
+and implement our own exponent method.
 </p>
+<div class="org-src-container">
+<pre class="src src-C++"><span style="color: #ff9977;">#include</span> <span style="color: #00cd68;">&lt;</span><span style="color: #79a8ff;">stdio.h</span><span style="color: #00cd68;">&gt;</span>
+
+<span style="color: #f78fe7;">int</span> <span style="color: #feacd0;">pow</span><span style="color: #00cd68;">(</span><span style="color: #f78fe7;">int</span> <span style="color: #00d3d0;">x</span>, <span style="color: #f78fe7;">int</span> <span style="color: #00d3d0;">y</span><span style="color: #00cd68;">){</span>
+  <span style="color: #f78fe7;">int</span> <span style="color: #00d3d0;">r</span> = 1;
+  <span style="color: #b6a0ff;">while</span> <span style="color: #b6a0ff;">(</span>y-- &gt; 0<span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">{</span>
+    r *= x;
+  <span style="color: #b6a0ff;">}</span>
+  <span style="color: #b6a0ff;">return</span> r;
+<span style="color: #00cd68;">}</span>
+</pre>
+</div>
+
+<p>
+The <code>IExpr</code> (abstract) class is now quite barebones; we specify
+that it has a <code>virtual</code> method <code>interpret</code>, which will need to be implemented
+for each subclass.
+</p>
+<div class="org-src-container">
+<pre class="src src-C++"><span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">IExpr</span> <span style="color: #00cd68;">{</span>
+  <span style="color: #b6a0ff;">public</span>:
+    <span style="color: #b6a0ff;">virtual</span> <span style="color: #f78fe7;">int</span> <span style="color: #feacd0;">interpret</span><span style="color: #b6a0ff;">()</span> = 0; <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">The = 0 makes this a pure virtual method.</span>
+    <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">And the presence of a pure virtual method makes this an abstract class.</span>
+    <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">(It cannot be constructed, only used as a superclass.)</span>
+<span style="color: #00cd68;">}</span>;
+</pre>
+</div>
+
+<p>
+Now, we give a subclass for each kind of expression, implementing
+constructor and interpret methods as we go.
+These methods are nice an small,
+since no logic is really needed; we know what kind of expression
+we are looking at.
+</p>
+<div class="org-src-container">
+<pre class="src src-C++"><span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">Cons</span> : <span style="color: #b6a0ff;">public</span> <span style="color: #f78fe7;">IExpr</span> <span style="color: #00cd68;">{</span>
+    <span style="color: #f78fe7;">int</span> <span style="color: #00d3d0;">val</span>;
+  <span style="color: #b6a0ff;">public</span>:
+    <span style="color: #feacd0;">Cons</span><span style="color: #b6a0ff;">(</span><span style="color: #f78fe7;">int</span> <span style="color: #00d3d0;">c</span><span style="color: #b6a0ff;">)</span>;
+    <span style="color: #f78fe7;">int</span> <span style="color: #feacd0;">interpret</span><span style="color: #b6a0ff;">()</span>;
+<span style="color: #00cd68;">}</span>;
+
+<span style="color: #00bcff;">Cons</span>::<span style="color: #feacd0;">Cons</span><span style="color: #00cd68;">(</span><span style="color: #f78fe7;">int</span> <span style="color: #00d3d0;">c</span><span style="color: #00cd68;">)</span> <span style="color: #00cd68;">{</span>
+  val = c;
+<span style="color: #00cd68;">}</span>
+
+<span style="color: #f78fe7;">int</span> <span style="color: #00bcff;">Cons</span>::<span style="color: #feacd0;">interpret</span><span style="color: #00cd68;">()</span> <span style="color: #00cd68;">{</span>
+  <span style="color: #b6a0ff;">return</span> val;
+<span style="color: #00cd68;">}</span>
+
+<span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">Neg</span> : <span style="color: #b6a0ff;">public</span> <span style="color: #f78fe7;">IExpr</span> <span style="color: #00cd68;">{</span>
+    <span style="color: #f78fe7;">IExpr</span>* <span style="color: #00d3d0;">subexpr</span>;
+  <span style="color: #b6a0ff;">public</span>:
+    <span style="color: #feacd0;">Neg</span><span style="color: #b6a0ff;">(</span><span style="color: #f78fe7;">IExpr</span>* <span style="color: #00d3d0;">e</span><span style="color: #b6a0ff;">)</span>;
+    <span style="color: #f78fe7;">int</span> <span style="color: #feacd0;">interpret</span><span style="color: #b6a0ff;">()</span>;
+<span style="color: #00cd68;">}</span>;
+
+<span style="color: #00bcff;">Neg</span>::<span style="color: #feacd0;">Neg</span><span style="color: #00cd68;">(</span><span style="color: #f78fe7;">IExpr</span>* <span style="color: #00d3d0;">e</span><span style="color: #00cd68;">)</span> <span style="color: #00cd68;">{</span>
+  subexpr = e;
+<span style="color: #00cd68;">}</span>
+
+<span style="color: #f78fe7;">int</span> <span style="color: #00bcff;">Neg</span>::<span style="color: #feacd0;">interpret</span><span style="color: #00cd68;">()</span> <span style="color: #00cd68;">{</span>
+  <span style="color: #b6a0ff;">return</span> - subexpr-&gt;interpret<span style="color: #b6a0ff;">()</span>;
+<span style="color: #00cd68;">}</span>
+
+<span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">Abs</span> : <span style="color: #b6a0ff;">public</span> <span style="color: #f78fe7;">IExpr</span> <span style="color: #00cd68;">{</span>
+    <span style="color: #f78fe7;">IExpr</span>* <span style="color: #00d3d0;">subexpr</span>;
+  <span style="color: #b6a0ff;">public</span>:
+    <span style="color: #feacd0;">Abs</span><span style="color: #b6a0ff;">(</span><span style="color: #f78fe7;">IExpr</span>* <span style="color: #00d3d0;">e</span><span style="color: #b6a0ff;">)</span>;
+    <span style="color: #f78fe7;">int</span> <span style="color: #feacd0;">interpret</span><span style="color: #b6a0ff;">()</span>;
+<span style="color: #00cd68;">}</span>;
+
+<span style="color: #00bcff;">Abs</span>::<span style="color: #feacd0;">Abs</span><span style="color: #00cd68;">(</span><span style="color: #f78fe7;">IExpr</span>* <span style="color: #00d3d0;">e</span><span style="color: #00cd68;">)</span> <span style="color: #00cd68;">{</span>
+  subexpr = e;
+<span style="color: #00cd68;">}</span>
+
+<span style="color: #f78fe7;">int</span> <span style="color: #00bcff;">Abs</span>::<span style="color: #feacd0;">interpret</span><span style="color: #00cd68;">()</span> <span style="color: #00cd68;">{</span>
+  <span style="color: #f78fe7;">int</span> <span style="color: #00d3d0;">r</span> = subexpr-&gt;interpret<span style="color: #b6a0ff;">()</span>;
+  <span style="color: #b6a0ff;">return</span> r &gt; -r ? r : -r;
+<span style="color: #00cd68;">}</span>
+
+<span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">Plus</span> : <span style="color: #b6a0ff;">public</span> <span style="color: #f78fe7;">IExpr</span> <span style="color: #00cd68;">{</span>
+    <span style="color: #f78fe7;">IExpr</span>* <span style="color: #00d3d0;">subexpr1</span>;
+    <span style="color: #f78fe7;">IExpr</span>* <span style="color: #00d3d0;">subexpr2</span>;
+  <span style="color: #b6a0ff;">public</span>:
+    <span style="color: #feacd0;">Plus</span><span style="color: #b6a0ff;">(</span><span style="color: #f78fe7;">IExpr</span>* <span style="color: #00d3d0;">e1</span>, <span style="color: #f78fe7;">IExpr</span>* <span style="color: #00d3d0;">e2</span><span style="color: #b6a0ff;">)</span>;
+    <span style="color: #f78fe7;">int</span> <span style="color: #feacd0;">interpret</span><span style="color: #b6a0ff;">()</span>;
+<span style="color: #00cd68;">}</span>;
+
+<span style="color: #00bcff;">Plus</span>::<span style="color: #feacd0;">Plus</span><span style="color: #00cd68;">(</span><span style="color: #f78fe7;">IExpr</span>* <span style="color: #00d3d0;">e1</span>, <span style="color: #f78fe7;">IExpr</span>* <span style="color: #00d3d0;">e2</span><span style="color: #00cd68;">){</span>
+  subexpr1 = e1;
+  subexpr2 = e2;
+<span style="color: #00cd68;">}</span>
+
+<span style="color: #f78fe7;">int</span> <span style="color: #00bcff;">Plus</span>::<span style="color: #feacd0;">interpret</span><span style="color: #00cd68;">()</span> <span style="color: #00cd68;">{</span>
+  <span style="color: #f78fe7;">int</span> <span style="color: #00d3d0;">r1</span> = subexpr1-&gt;interpret<span style="color: #b6a0ff;">()</span>;
+  <span style="color: #f78fe7;">int</span> <span style="color: #00d3d0;">r2</span> = subexpr2-&gt;interpret<span style="color: #b6a0ff;">()</span>;
+  <span style="color: #b6a0ff;">return</span> r1 + r2;
+<span style="color: #00cd68;">}</span>
+
+<span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">Times</span> : <span style="color: #b6a0ff;">public</span> <span style="color: #f78fe7;">IExpr</span> <span style="color: #00cd68;">{</span>
+    <span style="color: #f78fe7;">IExpr</span>* <span style="color: #00d3d0;">subexpr1</span>;
+    <span style="color: #f78fe7;">IExpr</span>* <span style="color: #00d3d0;">subexpr2</span>;
+  <span style="color: #b6a0ff;">public</span>:
+    <span style="color: #feacd0;">Times</span><span style="color: #b6a0ff;">(</span><span style="color: #f78fe7;">IExpr</span>* <span style="color: #00d3d0;">e1</span>, <span style="color: #f78fe7;">IExpr</span>* <span style="color: #00d3d0;">e2</span><span style="color: #b6a0ff;">)</span>;
+    <span style="color: #f78fe7;">int</span> <span style="color: #feacd0;">interpret</span><span style="color: #b6a0ff;">()</span>;
+<span style="color: #00cd68;">}</span>;
+
+<span style="color: #00bcff;">Times</span>::<span style="color: #feacd0;">Times</span><span style="color: #00cd68;">(</span><span style="color: #f78fe7;">IExpr</span>* <span style="color: #00d3d0;">e1</span>, <span style="color: #f78fe7;">IExpr</span>* <span style="color: #00d3d0;">e2</span><span style="color: #00cd68;">){</span>
+  subexpr1 = e1;
+  subexpr2 = e2;
+<span style="color: #00cd68;">}</span>
+
+<span style="color: #f78fe7;">int</span> <span style="color: #00bcff;">Times</span>::<span style="color: #feacd0;">interpret</span><span style="color: #00cd68;">()</span> <span style="color: #00cd68;">{</span>
+  <span style="color: #f78fe7;">int</span> <span style="color: #00d3d0;">r1</span> = subexpr1-&gt;interpret<span style="color: #b6a0ff;">()</span>;
+  <span style="color: #f78fe7;">int</span> <span style="color: #00d3d0;">r2</span> = subexpr2-&gt;interpret<span style="color: #b6a0ff;">()</span>;
+  <span style="color: #b6a0ff;">return</span> r1 * r2;
+<span style="color: #00cd68;">}</span>
+
+<span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">Minus</span> : <span style="color: #b6a0ff;">public</span> <span style="color: #f78fe7;">IExpr</span> <span style="color: #00cd68;">{</span>
+    <span style="color: #f78fe7;">IExpr</span>* <span style="color: #00d3d0;">subexpr1</span>;
+    <span style="color: #f78fe7;">IExpr</span>* <span style="color: #00d3d0;">subexpr2</span>;
+  <span style="color: #b6a0ff;">public</span>:
+    <span style="color: #feacd0;">Minus</span><span style="color: #b6a0ff;">(</span><span style="color: #f78fe7;">IExpr</span>* <span style="color: #00d3d0;">e1</span>, <span style="color: #f78fe7;">IExpr</span>* <span style="color: #00d3d0;">e2</span><span style="color: #b6a0ff;">)</span>;
+    <span style="color: #f78fe7;">int</span> <span style="color: #feacd0;">interpret</span><span style="color: #b6a0ff;">()</span>;
+<span style="color: #00cd68;">}</span>;
+
+<span style="color: #00bcff;">Minus</span>::<span style="color: #feacd0;">Minus</span><span style="color: #00cd68;">(</span><span style="color: #f78fe7;">IExpr</span>* <span style="color: #00d3d0;">e1</span>, <span style="color: #f78fe7;">IExpr</span>* <span style="color: #00d3d0;">e2</span><span style="color: #00cd68;">){</span>
+  subexpr1 = e1;
+  subexpr2 = e2;
+<span style="color: #00cd68;">}</span>
+
+<span style="color: #f78fe7;">int</span> <span style="color: #00bcff;">Minus</span>::<span style="color: #feacd0;">interpret</span><span style="color: #00cd68;">()</span> <span style="color: #00cd68;">{</span>
+  <span style="color: #f78fe7;">int</span> <span style="color: #00d3d0;">r1</span> = subexpr1-&gt;interpret<span style="color: #b6a0ff;">()</span>;
+  <span style="color: #f78fe7;">int</span> <span style="color: #00d3d0;">r2</span> = subexpr2-&gt;interpret<span style="color: #b6a0ff;">()</span>;
+  <span style="color: #b6a0ff;">return</span> r1 - r2;
+<span style="color: #00cd68;">}</span>
+
+<span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">Exp</span> : <span style="color: #b6a0ff;">public</span> <span style="color: #f78fe7;">IExpr</span> <span style="color: #00cd68;">{</span>
+    <span style="color: #f78fe7;">IExpr</span>* <span style="color: #00d3d0;">subexpr1</span>;
+    <span style="color: #f78fe7;">IExpr</span>* <span style="color: #00d3d0;">subexpr2</span>;
+  <span style="color: #b6a0ff;">public</span>:
+    <span style="color: #feacd0;">Exp</span><span style="color: #b6a0ff;">(</span><span style="color: #f78fe7;">IExpr</span>* <span style="color: #00d3d0;">e1</span>, <span style="color: #f78fe7;">IExpr</span>* <span style="color: #00d3d0;">e2</span><span style="color: #b6a0ff;">)</span>;
+    <span style="color: #f78fe7;">int</span> <span style="color: #feacd0;">interpret</span><span style="color: #b6a0ff;">()</span>;
+<span style="color: #00cd68;">}</span>;
+
+<span style="color: #00bcff;">Exp</span>::<span style="color: #feacd0;">Exp</span><span style="color: #00cd68;">(</span><span style="color: #f78fe7;">IExpr</span>* <span style="color: #00d3d0;">e1</span>, <span style="color: #f78fe7;">IExpr</span>* <span style="color: #00d3d0;">e2</span><span style="color: #00cd68;">){</span>
+  subexpr1 = e1;
+  subexpr2 = e2;
+<span style="color: #00cd68;">}</span>
+
+<span style="color: #f78fe7;">int</span> <span style="color: #00bcff;">Exp</span>::<span style="color: #feacd0;">interpret</span><span style="color: #00cd68;">()</span> <span style="color: #00cd68;">{</span>
+  <span style="color: #f78fe7;">int</span> <span style="color: #00d3d0;">r1</span> = subexpr1-&gt;interpret<span style="color: #b6a0ff;">()</span>;
+  <span style="color: #f78fe7;">int</span> <span style="color: #00d3d0;">r2</span> = subexpr2-&gt;interpret<span style="color: #b6a0ff;">()</span>;
+  <span style="color: #b6a0ff;">return</span> pow<span style="color: #b6a0ff;">(</span>r1, r2<span style="color: #b6a0ff;">)</span>;
+<span style="color: #00cd68;">}</span>
+</pre>
+</div>
+
+<p>
+And as before, we include a <code>main</code> function to test it out.
+</p>
+<div class="org-src-container">
+<pre class="src src-C++"><span style="color: #f78fe7;">int</span> <span style="color: #feacd0;">main</span><span style="color: #00cd68;">()</span> <span style="color: #00cd68;">{</span>
+  <span style="color: #f78fe7;">Cons</span> <span style="color: #00d3d0;">five</span> = Cons<span style="color: #b6a0ff;">(</span>5<span style="color: #b6a0ff;">)</span>;
+  <span style="color: #f78fe7;">Cons</span> <span style="color: #00d3d0;">six</span> = Cons<span style="color: #b6a0ff;">(</span>6<span style="color: #b6a0ff;">)</span>;
+  <span style="color: #f78fe7;">Neg</span> <span style="color: #00d3d0;">e1</span> = Neg<span style="color: #b6a0ff;">(</span>&amp;five<span style="color: #b6a0ff;">)</span>;
+  <span style="color: #f78fe7;">Exp</span> <span style="color: #00d3d0;">e2</span> = Exp<span style="color: #b6a0ff;">(</span>&amp;five, &amp;six<span style="color: #b6a0ff;">)</span>;
+
+  printf<span style="color: #b6a0ff;">(</span><span style="color: #79a8ff;">"neg 5 evaluates to %d\n"</span>, e1.interpret<span style="color: #6ae4b9;">()</span><span style="color: #b6a0ff;">)</span>;
+  printf<span style="color: #b6a0ff;">(</span><span style="color: #79a8ff;">"exp 5 6 evaluates to %d\n"</span>, e2.interpret<span style="color: #6ae4b9;">()</span><span style="color: #b6a0ff;">)</span>;
+  <span style="color: #b6a0ff;">return</span> 0;
+<span style="color: #00cd68;">}</span>
+</pre>
+</div>
 </div>
 </div>
 </div>
@@ -722,6 +899,11 @@ returns the corresponding expression.
 requiring you implement these simply ensures the tests will be
 compatible with whatever constructors you have.)
 </p>
+
+<p>
+Then write an <code>interpret</code> method for <code>Expr</code>'s which returns the integer
+represented by that expression.
+</p>
 </div>
 </div>
 
@@ -736,7 +918,7 @@ of expressions <code>Expr</code>, in Ruby.
 
 <p>
 Call your new type <code>VarExpr</code>, and submit both it code to test it
-in a file <code>h5b.rb</code>.
+in a file <code>h6b.rb</code>.
 </p>
 </div>
 </div>
@@ -941,10 +1123,10 @@ to run and see the results of the tests.
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Mark Armstrong</p>
-     <p class="author">Contact: <a href="mailto:armstmp@mcmaster.ca">armstmp@mcmaster.ca</a></p>
+     <p class="author">Contact: <a href="mailto:markparmstrong@gmail.com">markparmstrong@gmail.com</a></p>
      <p class="date">Original date: October 23rd, 2020</p>
-     <p class="date">Last updated: 2020-10-23 Fri 23:53</p>
-     <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.90 (<a href="https://orgmode.org">Org</a> mode 9.4)</p>
+     <p class="date">Last updated: 2020-10-29 Thu 23:50</p>
+     <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4)</p>
      <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

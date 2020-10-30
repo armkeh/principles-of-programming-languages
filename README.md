@@ -12,6 +12,17 @@ better viewed at
 
 ## October
 
+  - October 29th
+    
+      - The second C++ example has been added to homework 6, showing an
+        approach to representing the expression language using
+        subclasses.
+        
+        Some errors were also fixed; the “part 2” now correctly
+        specifies that you should construct an `interpret` method, and
+        the specified name of the file for the bonus portion was
+        corrected.
+
   - October 28th
     
       - I am very sorry to cancel another lecture, and without any

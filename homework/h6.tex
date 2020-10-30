@@ -1,4 +1,4 @@
-% Created 2020-10-23 Fri 23:51
+% Created 2020-10-29 Thu 23:50
 % Intended LaTeX compiler: lualatex
 \documentclass[11pt]{article}
 \usepackage{graphicx}
@@ -28,7 +28,7 @@
    pdftitle={Computer Science 3MI3 – 2020 homework 6},
    pdfkeywords={},
    pdfsubject={Repeating part 1 of the first assignment in Ruby.},
-   pdfcreator={Emacs 27.0.90 (Org mode 9.4)},
+   pdfcreator={Emacs 27.0.91 (Org mode 9.4)},
    pdflang={English},
    colorlinks,
    linkcolor=blue,
@@ -42,7 +42,7 @@
 
 
 \section*{Introduction}
-\label{sec:orgc6ce153}
+\label{sec:org5b00dcb}
 Recall the \texttt{Expr} language of integer expressions
 using prefix operators from part 1 of assignment 1.
 
@@ -50,11 +50,11 @@ In this homework, we task you with representing this type
 using an object-oriented approach in Ruby.
 
 \section*{Boilerplate}
-\label{sec:orgbce4191}
+\label{sec:org5f38c60}
 \subsection*{Submission procedures}
-\label{sec:org5694653}
+\label{sec:orgab0c253}
 \subsubsection*{Submission method}
-\label{sec:orgbafe198}
+\label{sec:org63e8f4b}
 
 Homework should be submitted to your McMaster CAS Gitlab respository
 in the \texttt{cs3mi3-fall2020} project.
@@ -63,7 +63,7 @@ Ensure that you have \textbf{pushed} the commits to the remote repository
 in time for the deadline, and not just committed to your local copy.
 
 \subsubsection*{Naming requirements}
-\label{sec:org844b9d6}
+\label{sec:org15f55ca}
 
 Place all files for the homework
 inside a folder titled \texttt{hn}, where \texttt{n} is the number of the homework.
@@ -94,7 +94,7 @@ submit a \texttt{hn.ext} file for each language.
 \end{center}
 
 \subsubsection*{Do not submit testing or diagnostic code}
-\label{sec:org5f2eda1}
+\label{sec:org49ddb4a}
 
 Unless you are instructed to do so in the homework questions,
 \textbf{you should not submit testing code with your homework submission}.
@@ -114,7 +114,7 @@ in your final submission.
 For instance, by using a wrapper on the print function or macros.
 
 \subsubsection*{Due date and allowance for technical difficulties}
-\label{sec:org50850bd}
+\label{sec:org5077b64}
 
 Homework is due on the second Sunday following its release,
 by the end of the day (midnight).
@@ -129,9 +129,9 @@ This information will help ensure we are able
 to accept your submission once the technical difficulties are resolved.
 
 \subsection*{Proper conduct for coursework}
-\label{sec:org6614d65}
+\label{sec:org378cfcd}
 \subsubsection*{Individual work}
-\label{sec:orgab1544a}
+\label{sec:org69c7686}
 
 Unless explicitely stated in the homework questions,
 all homework in this course is intended
@@ -180,7 +180,7 @@ probably add a catch-all \texttt{\_} case to your \texttt{match} expressions.”
 \end{enumerate}
 
 \subsubsection*{Language library resources}
-\label{sec:org2c1f0dd}
+\label{sec:org1d7ac60}
 
 Unless explicitely stated in the questions,
 it is not expected that you will use any language library resources
@@ -204,7 +204,7 @@ including \texttt{map}, \texttt{reduce}, \texttt{flatten}, and \texttt{filter} a
 unless the task is to implement such a higher-order operator.
 
 \section*{Part 0: Example written in C++                   [0 points]}
-\label{sec:org6055041}
+\label{sec:org6c792b1}
 There are at least two approaches to representing the \texttt{Expr} type
 in an object-oriented style;
 either by
@@ -217,7 +217,7 @@ each kind of expression.
 \end{enumerate}
 
 \subsection*{Approach 1: A single class with fields}
-\label{sec:orga7349cf}
+\label{sec:orgbf2d644}
 We use standard output to print the expressions.
 \begin{minted}[breaklines=true]{c++}
 #include <stdio.h>
@@ -351,11 +351,178 @@ int main() {
 \end{minted}
 
 \subsection*{Approach 2: Subclasses for each kind of expression}
-\label{sec:org8130fdc}
-:TODO:
+\label{sec:org779c62b}
+As above, we use standard input to print out test results,
+and implement our own exponent method.
+\begin{minted}[breaklines=true]{c++}
+#include <stdio.h>
+
+int pow(int x, int y){
+  int r = 1;
+  while (y-- > 0) {
+    r *= x;
+  }
+  return r;
+}
+\end{minted}
+
+The \texttt{IExpr} (abstract) class is now quite barebones; we specify
+that it has a \texttt{virtual} method \texttt{interpret}, which will need to be implemented
+for each subclass.
+\begin{minted}[breaklines=true]{c++}
+class IExpr {
+  public:
+    virtual int interpret() = 0; // The = 0 makes this a pure virtual method.
+    // And the presence of a pure virtual method makes this an abstract class.
+    // (It cannot be constructed, only used as a superclass.)
+};
+\end{minted}
+
+Now, we give a subclass for each kind of expression, implementing
+constructor and interpret methods as we go.
+These methods are nice an small,
+since no logic is really needed; we know what kind of expression
+we are looking at.
+\begin{minted}[breaklines=true]{c++}
+class Cons : public IExpr {
+    int val;
+  public:
+    Cons(int c);
+    int interpret();
+};
+
+Cons::Cons(int c) {
+  val = c;
+}
+
+int Cons::interpret() {
+  return val;
+}
+
+class Neg : public IExpr {
+    IExpr* subexpr;
+  public:
+    Neg(IExpr* e);
+    int interpret();
+};
+
+Neg::Neg(IExpr* e) {
+  subexpr = e;
+}
+
+int Neg::interpret() {
+  return - subexpr->interpret();
+}
+
+class Abs : public IExpr {
+    IExpr* subexpr;
+  public:
+    Abs(IExpr* e);
+    int interpret();
+};
+
+Abs::Abs(IExpr* e) {
+  subexpr = e;
+}
+
+int Abs::interpret() {
+  int r = subexpr->interpret();
+  return r > -r ? r : -r;
+}
+
+class Plus : public IExpr {
+    IExpr* subexpr1;
+    IExpr* subexpr2;
+  public:
+    Plus(IExpr* e1, IExpr* e2);
+    int interpret();
+};
+
+Plus::Plus(IExpr* e1, IExpr* e2){
+  subexpr1 = e1;
+  subexpr2 = e2;
+}
+
+int Plus::interpret() {
+  int r1 = subexpr1->interpret();
+  int r2 = subexpr2->interpret();
+  return r1 + r2;
+}
+
+class Times : public IExpr {
+    IExpr* subexpr1;
+    IExpr* subexpr2;
+  public:
+    Times(IExpr* e1, IExpr* e2);
+    int interpret();
+};
+
+Times::Times(IExpr* e1, IExpr* e2){
+  subexpr1 = e1;
+  subexpr2 = e2;
+}
+
+int Times::interpret() {
+  int r1 = subexpr1->interpret();
+  int r2 = subexpr2->interpret();
+  return r1 * r2;
+}
+
+class Minus : public IExpr {
+    IExpr* subexpr1;
+    IExpr* subexpr2;
+  public:
+    Minus(IExpr* e1, IExpr* e2);
+    int interpret();
+};
+
+Minus::Minus(IExpr* e1, IExpr* e2){
+  subexpr1 = e1;
+  subexpr2 = e2;
+}
+
+int Minus::interpret() {
+  int r1 = subexpr1->interpret();
+  int r2 = subexpr2->interpret();
+  return r1 - r2;
+}
+
+class Exp : public IExpr {
+    IExpr* subexpr1;
+    IExpr* subexpr2;
+  public:
+    Exp(IExpr* e1, IExpr* e2);
+    int interpret();
+};
+
+Exp::Exp(IExpr* e1, IExpr* e2){
+  subexpr1 = e1;
+  subexpr2 = e2;
+}
+
+int Exp::interpret() {
+  int r1 = subexpr1->interpret();
+  int r2 = subexpr2->interpret();
+  return pow(r1, r2);
+}
+\end{minted}
+
+And as before, we include a \texttt{main} function to test it out.
+\begin{minted}[breaklines=true]{c++}
+int main() {
+  Cons five = Cons(5);
+  Cons six = Cons(6);
+  Neg e1 = Neg(&five);
+  Exp e2 = Exp(&five, &six);
+
+  printf("neg 5 evaluates to %d\n", e1.interpret());
+  printf("exp 5 6 evaluates to %d\n", e2.interpret());
+  return 0;
+}
+\end{minted}
 
 \section*{Part 1: A representation and interpreter in Ruby [40 points]}
-\label{sec:orgc12ad1a}
+\label{sec:org40602bf}
 In Ruby, create a class \texttt{Expr} to represent
 the type of integer expressions from part 1 of assignment 1.
 
@@ -370,17 +537,20 @@ returns the corresponding expression.
 requiring you implement these simply ensures the tests will be
 compatible with whatever constructors you have.)
 
+Then write an \texttt{interpret} method for \texttt{Expr}'s which returns the integer
+represented by that expression.
+
 \section*{Part 2: Add variables and substitution           [10 bonus points]}
-\label{sec:org020cb0d}
+\label{sec:org6892ee4}
 Repeat part 2 of the assignment,
 adding variables and a substitution operator to the language
 of expressions \texttt{Expr}, in Ruby.
 
 Call your new type \texttt{VarExpr}, and submit both it code to test it
-in a file \texttt{h5b.rb}.
+in a file \texttt{h6b.rb}.
 
 \section*{Testing}
-\label{sec:orgfa7449e}
+\label{sec:orga922b4c}
 Unit tests for the requested methods/functions
 are available \href{./testing/h6/h6t.rb}{here}.
 The contents of the unit test file are also repeated below.
@@ -399,7 +569,7 @@ see the \href{https://en.wikibooks.org/wiki/Ruby\_Programming/Unit\_testing}{doc
 for Ruby.
 
 \subsection*{Automated testing via Docker}
-\label{sec:org69b21b1}
+\label{sec:orgc489eca}
 The Docker setup and usage scripts are available at the following links.
 Their contents are also repeated below.
 \begin{itemize}
@@ -422,7 +592,7 @@ and not using WSL or WSL2, you may have
 to run the commands contained in those scripts manually.
 
 \subsection*{The tests}
-\label{sec:org9e3ae21}
+\label{sec:org0ae1d54}
 The contents of the testing script are repeated here.
 
 \href{./testing/h6/h6t.rb}{h6t.rb}
@@ -454,7 +624,7 @@ end
 \end{minted}
 
 \subsection*{The Docker setup}
-\label{sec:orgb65ea2b}
+\label{sec:orgb0e58e2}
 The contents of the Docker setup files and scripts are repeated here.
 
 \href{./testing/h5/Dockerfile}{Dockerfile}

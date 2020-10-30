@@ -56,13 +56,13 @@ either by
 :END:
 
 We use standard output to print the expressions.
-#+begin_src c++ :tangle src/expr1.cpp
+#+begin_src c++ :tangle src/expr1.cpp :main no
 #include <stdio.h>
 #+end_src
 
 There is not a basic exponent operator in C++;
 we simply define one ourselves.
-#+begin_src c++ :tangle src/expr1.cpp
+#+begin_src c++ :tangle src/expr1.cpp :main no
 int pow(int x, int y){
   int r = 1;
   while (y-- > 0) {
@@ -78,7 +78,7 @@ In Ruby, most of this setup is not necessary due to
 the dynamic type system.
 The ~UOp~ and ~BOp~ enumerations are outside the class,
 as they will be used as arguments to the constructors.
-#+begin_src C++ :tangle src/expr1.cpp
+#+begin_src C++ :tangle src/expr1.cpp :main no
 enum UOp { neg, abs };
 enum BOp { plus, times, minus, exp };
 
@@ -104,14 +104,14 @@ class IExpr {
 Now, each object has an arity, a (top-level) operator,
 and an argument (which, remember from the definition of ~Arg~ just above,
 might be an integer, and ~IExpr~, or a pair of ~IExpr~'s.)
-#+begin_src C++ :tangle src/expr1.cpp
+#+begin_src C++ :tangle src/expr1.cpp :main no
   Arity ar;
   Op op;
   Arg arg;
 #+end_src
 
 The only methods are the constructors and the ~interpret~ method.
-#+begin_src C++ :tangle src/expr1.cpp
+#+begin_src C++ :tangle src/expr1.cpp :main no
   public:
     IExpr(int c);
     IExpr(UOp op, IExpr* e);
@@ -121,7 +121,7 @@ The only methods are the constructors and the ~interpret~ method.
 #+end_src
 
 The constructors are fairly uninteresting.
-#+begin_src C++ :tangle src/expr1.cpp
+#+begin_src C++ :tangle src/expr1.cpp :main no
 IExpr::IExpr(int c) {
   ar = constant;
   arg.value = c;
@@ -143,7 +143,7 @@ IExpr::IExpr(BOp bop, IExpr* e1, IExpr* e2) {
 
 The interpreter uses ~switch~ statements
 on the arity and then on the top-level operator.
-#+begin_src C++ :tangle src/expr1.cpp
+#+begin_src C++ :tangle src/expr1.cpp :main no
 int IExpr::interpret() {
   switch(ar) {
     case constant : { return arg.value; }
@@ -174,7 +174,7 @@ int IExpr::interpret() {
 
 We include a main method with some example uses of the interpreter.
 As usual, do not include such code with your submission!
-#+begin_src C++ :tangle src/expr1.cpp
+#+begin_src C++ :tangle src/expr1.cpp :main no
 int main() {
   IExpr five(5);
   IExpr six(6);
@@ -192,7 +192,174 @@ int main() {
 :CUSTOM_ID: Approach-2:-Subclasses-for-each-kind-of-expression
 :END:
 
-:TODO:
+As above, we use standard input to print out test results,
+and implement our own exponent method.
+#+begin_src C++ :tangle src/expr2.cpp :main no
+#include <stdio.h>
+
+int pow(int x, int y){
+  int r = 1;
+  while (y-- > 0) {
+    r *= x;
+  }
+  return r;
+}
+#+end_src
+
+The ~IExpr~ (abstract) class is now quite barebones; we specify
+that it has a ~virtual~ method ~interpret~, which will need to be implemented
+for each subclass.
+#+begin_src C++ :tangle src/expr2.cpp :main no
+class IExpr {
+  public:
+    virtual int interpret() = 0; // The = 0 makes this a pure virtual method.
+    // And the presence of a pure virtual method makes this an abstract class.
+    // (It cannot be constructed, only used as a superclass.)
+};
+#+end_src
+
+Now, we give a subclass for each kind of expression, implementing
+constructor and interpret methods as we go.
+These methods are nice an small,
+since no logic is really needed; we know what kind of expression
+we are looking at.
+#+begin_src C++ :tangle src/expr2.cpp :main no
+class Cons : public IExpr {
+    int val;
+  public:
+    Cons(int c);
+    int interpret();
+};
+
+Cons::Cons(int c) {
+  val = c;
+}
+
+int Cons::interpret() {
+  return val;
+}
+
+class Neg : public IExpr {
+    IExpr* subexpr;
+  public:
+    Neg(IExpr* e);
+    int interpret();
+};
+
+Neg::Neg(IExpr* e) {
+  subexpr = e;
+}
+
+int Neg::interpret() {
+  return - subexpr->interpret();
+}
+
+class Abs : public IExpr {
+    IExpr* subexpr;
+  public:
+    Abs(IExpr* e);
+    int interpret();
+};
+
+Abs::Abs(IExpr* e) {
+  subexpr = e;
+}
+
+int Abs::interpret() {
+  int r = subexpr->interpret();
+  return r > -r ? r : -r;
+}
+
+class Plus : public IExpr {
+    IExpr* subexpr1;
+    IExpr* subexpr2;
+  public:
+    Plus(IExpr* e1, IExpr* e2);
+    int interpret();
+};
+
+Plus::Plus(IExpr* e1, IExpr* e2){
+  subexpr1 = e1;
+  subexpr2 = e2;
+}
+
+int Plus::interpret() {
+  int r1 = subexpr1->interpret();
+  int r2 = subexpr2->interpret();
+  return r1 + r2;
+}
+
+class Times : public IExpr {
+    IExpr* subexpr1;
+    IExpr* subexpr2;
+  public:
+    Times(IExpr* e1, IExpr* e2);
+    int interpret();
+};
+
+Times::Times(IExpr* e1, IExpr* e2){
+  subexpr1 = e1;
+  subexpr2 = e2;
+}
+
+int Times::interpret() {
+  int r1 = subexpr1->interpret();
+  int r2 = subexpr2->interpret();
+  return r1 * r2;
+}
+
+class Minus : public IExpr {
+    IExpr* subexpr1;
+    IExpr* subexpr2;
+  public:
+    Minus(IExpr* e1, IExpr* e2);
+    int interpret();
+};
+
+Minus::Minus(IExpr* e1, IExpr* e2){
+  subexpr1 = e1;
+  subexpr2 = e2;
+}
+
+int Minus::interpret() {
+  int r1 = subexpr1->interpret();
+  int r2 = subexpr2->interpret();
+  return r1 - r2;
+}
+
+class Exp : public IExpr {
+    IExpr* subexpr1;
+    IExpr* subexpr2;
+  public:
+    Exp(IExpr* e1, IExpr* e2);
+    int interpret();
+};
+
+Exp::Exp(IExpr* e1, IExpr* e2){
+  subexpr1 = e1;
+  subexpr2 = e2;
+}
+
+int Exp::interpret() {
+  int r1 = subexpr1->interpret();
+  int r2 = subexpr2->interpret();
+  return pow(r1, r2);
+}
+#+end_src
+
+And as before, we include a ~main~ function to test it out.
+#+begin_src C++ :tangle src/expr2.cpp :main no
+int main() {
+  Cons five = Cons(5);
+  Cons six = Cons(6);
+  Neg e1 = Neg(&five);
+  Exp e2 = Exp(&five, &six);
+
+  printf("neg 5 evaluates to %d\n", e1.interpret());
+  printf("exp 5 6 evaluates to %d\n", e2.interpret());
+  return 0;
+}
+#+end_src
 
 * Part 1: A representation and interpreter in Ruby [40 points]
 :PROPERTIES:
@@ -213,6 +380,9 @@ returns the corresponding expression.
 requiring you implement these simply ensures the tests will be
 compatible with whatever constructors you have.)
 
+Then write an ~interpret~ method for ~Expr~'s which returns the integer
+represented by that expression.
+
 * Part 2: Add variables and substitution           [10 bonus points]
 :PROPERTIES:
 :CUSTOM_ID: Part-2:-Add-variables-and-substitution-----------[10 bonus points]
@@ -223,7 +393,7 @@ adding variables and a substitution operator to the language
 of expressions ~Expr~, in Ruby.
 
 Call your new type ~VarExpr~, and submit both it code to test it
-in a file ~h5b.rb~.
+in a file ~h6b.rb~.
 
 * Testing
 :PROPERTIES:

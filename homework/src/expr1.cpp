@@ -8,7 +8,6 @@ int pow(int x, int y){
   return r;
 }
 
-int main() {
 enum UOp { neg, abs };
 enum BOp { plus, times, minus, exp };
 
@@ -29,27 +28,18 @@ class IExpr {
   // - two IExpr's (in case of binary operator).
   // Again, be careful with untagged union type!
   union Arg {int value; IExpr* subexpr; IExpr2 subexprs;};
-return 0;
-}
 
-int main() {
   Arity ar;
   Op op;
   Arg arg;
-return 0;
-}
 
-int main() {
   public:
     IExpr(int c);
     IExpr(UOp op, IExpr* e);
     IExpr(BOp op, IExpr* e1, IExpr* e2);
     int interpret();
 };
-return 0;
-}
 
-int main() {
 IExpr::IExpr(int c) {
   ar = constant;
   arg.value = c;
@@ -67,10 +57,7 @@ IExpr::IExpr(BOp bop, IExpr* e1, IExpr* e2) {
   arg.subexprs.fst = e1;
   arg.subexprs.snd = e2;
 }
-return 0;
-}
 
-int main() {
 int IExpr::interpret() {
   switch(ar) {
     case constant : { return arg.value; }
@@ -96,8 +83,6 @@ int IExpr::interpret() {
       }
     }
   }
-}
-return 0;
 }
 
 int main() {
