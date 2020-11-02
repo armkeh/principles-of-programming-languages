@@ -28,9 +28,18 @@
 
 * Preamble
 
-** TODO Notable references
+** Notable references
 
-:TODO:
+- Robert W. Sebesta, “Concepts of Programming Languages” (10th edition)
+  - Chapter 6, Data Types
+
+- Benjamin Pierce,
+  “[[https://ebookcentral.proquest.com/lib/mcmu/detail.action?docID=3338823][Types and Programming Languages]]”
+  - Chapter 11, Simple Extensions
+    - Unit, Tuples, Sums, Variants, Lists.
+  - Chapter 13, References
+    - Reference types.
+  - Chapter 20, Recursive types
 
 ** TODO Table of contents
 
@@ -51,6 +60,10 @@ a particularly useful language safety feature.
 
 Common simple types and methods of building new types are discussed,
 as well as some more advanced topics.
+
+The discussion in this section is fairly “encyclopedic”;
+the next section on the typed λ-calculus give some insight about
+how some of these types can be incorporated into a programming system.
 
 * Properties of type systems
 
@@ -75,7 +88,15 @@ These are comparative terms.
   - The term is used inconsistently.
     - “C is a strongly typed, weakly checked language”
       – Dennis Ritchie, creator of C
-- We will take it to mean “type clashes are restricted”.
+
+“Weakly typed” simply means not strongly typed.
+
+*** So what does “strongly typed” mean?
+
+We will take it to mean “type clashes are restricted”.
+- A /type clash/ being an instance where one type is expected
+  but a different, incompatible type is provided.
+  - Such as added a string to an integer.
 - That definition does not make a good objective property.
   - What does restricted mean?
     - Is it a warning or an error?
@@ -83,7 +104,30 @@ These are comparative terms.
   - What qualifies as a type clash?
     - Is implicit type casting allowed?
 
-“Weakly typed” simply means not strongly typed.
+*** Exercise: Examples of implicit type casting
+
+What are the results of these two Javascript output statements?
+#+begin_src js :results output
+console.log(1 + 2 + "3")
+console.log("1" + 2 + 3)
+#+end_src
+
+#+RESULTS:
+: 33
+: 123
+
+How about the following C++ code?
+(This is arguably not quite an example of implicit type casting.)
+#+begin_src C++
+#include<iostream>
+
+int main() {
+  std::cout << ("Hello" + 1);
+}
+#+end_src
+
+#+RESULTS:
+: ello
 
 ** Explicit and implicit typing
 
@@ -96,6 +140,11 @@ Languages may require annotations on variables and functions
   determine the type).
   - Most languages have relatively simple type systems,
     and this is not a problem.
+  - We will likely later study the /Hindley-Milner/ type system
+    for the λ-calculus, which is used for many
+    functional languages and supports parametric polymorphism.
+    
+*** Implicit typing by name
 
 Some languages make type annotations a part of the name,
 or annotate names with sigils to indicate type details.
@@ -110,10 +159,14 @@ or annotate names with sigils to indicate type details.
 
 * Atomic types
 
+** Preamble                                    :ignore:
+
 We begin our discussion of what types languages have
 with what are usually the “simplest” types: /atomic/ types.
 - Atomic in the sense that they cannot be broken down any further.
 - Sometimes called /primitive/ or /basic/.
+
+** Ubiquitous basic types
   
 Most languages have at least these atomic types.
 - *Integers*; ~int~
@@ -123,14 +176,66 @@ Most languages have at least these atomic types.
 - *Characters*
   - Sometimes an alternate name for the byte type (8-bit integers).
 - *Booleans*
+  - Which, of course, can be stored in a bit,
+    but will usually be stored in at least a byte for
+    convenience of memory access.
+  
+** Singleton and empty types
+
 - *Unit* (the /singleton/ type)
   - Sometimes called ~void~, ~nil~-type, ~null~-type or ~none~-type.
-    - In C like languages, you cannot store something of type ~void~.
+    - In C-like languages, you cannot store something of type ~void~.
+      - But this value still implicitely exists;
+        a function of type ~void~ can certainly
+        return, implying it returns something of type ~void~.
     - Commonly represented as the type of 0-ary tuples,
       whose only element is ~()~.
 - *Empty*
   - Unlike a singleton type, which has a single value
-    (called ~nil~, ~null~ or ~none~), there is *nothing* in the empty type.
+    (called ~nil~, ~null~ or ~none~), there is
+    (or should be) *nothing* in the empty type.
+    - This might be violated by using error values.
+    - For instance, in Haskell, the term referred to as ~bottom~ or ⊥
+      —which refers to any computation which never completes—
+       is a member of all types, even the empty type.
+  - No function with return type ~Empty~ should
+    ever be able return.
+
+*** Singleton and empty types in Haskell
+
+#+begin_src haskell :results output
+data Unit = Unit -- This type Unit has a single constructor, also called Unit.
+data Empty -- Empty has no constructors.
+
+-- Previous versions of Haskell required a workaround to write Empty,
+-- as a constructor list was mandatory;
+-- this alternate definition has a constructor also called EmptyAlt,
+-- but using this constructor requires an argument of type EmptyAlt
+-- to already exist, so should never actually be usable.
+data EmptyAlt = EmptyAlt EmptyAlt
+
+
+-- The bottom can be defined by unending recursion.
+bottom = bottom
+  
+x = Unit
+
+-- We can cheat and get Empty/EmptyAlt "values" by using bottom.
+y = bottom :: Empty
+z = bottom :: EmptyAlt
+
+-- Check the types of these values
+:t x   -- reports x :: Unit
+:t y   -- reports y :: Empty
+:t z   -- reports z :: EmptyAlt
+#+end_src
+@@html:Use the scroll bar to see the full example.@@
+
+#+RESULTS:
+: 
+: Prelude> Prelude> Prelude> Prelude> Prelude> Prelude> Prelude> Prelude> Prelude> Prelude> Prelude> Prelude> Prelude> Prelude> Prelude> Prelude> Prelude> Prelude> x :: Unit
+: y :: Empty
+: z :: EmptyAlt
 
 ** Implementation of atomic types
 
@@ -139,7 +244,6 @@ we discussed the process of /encoding/ the integers and booleans
 as functions, since they were not included in the language.
 - We also mentioned that we can add constants for them
   to the language, forming an /unpure/ untyped λ-calculus.
-  - Such added constants are called 
 
 This raises a question we can ask about
 “practical” programming languages as well;
@@ -152,7 +256,63 @@ This raises a question we can ask about
     there, they are “primitives” which exist
     outside the object-oriented abstraction.
 
-** Uncommon basic types
+** Atom or symbol types
+
+Many languages include a type of /atoms/ or /symbols/,
+which are essentially interned strings.
+- Strings which are immutable,
+  and of which there is only one copy in memory.
+
+Specifically, decendents of Lisp and Prolog tend to have a symbol type.
+
+For instance, in Ruby:
+#+begin_src ruby :results output
+# A symbol in Ruby begins with a :
+x = :hello
+
+# We can intern strings using an intern method
+y = "hello".intern
+
+# The equal? method checks if two values are the same object.
+# These all evaluate to true, since there's only one copy of the symbol hello.
+puts x.equal?(y)
+puts :hello.equal?(x)
+puts y.equal?(:hello)
+
+# But this to false, because these are two copies of the same string!
+puts "hello".equal?("hello")
+#+end_src
+
+#+RESULTS:
+: true
+: true
+: true
+: false
+  
+** Ordinal types
+
+Many languages include a means of defining other /finite/ types.
+Instances include
+- enumeration types (~enum~'s) and
+- subset/subrange types.
+
+For instance, Pascal supports both enumerations
+and subranges.
+(This example based on one from the [[https://wiki.freepascal.org/Data_type][Free Pascal and Lazarus Wiki]].)
+#+begin_src pascal
+type
+  // An enumeration type; unless specified,
+  // the first element is implicitely assigned the ordinal value 0,
+  // the second ordinal value 1, etc.
+  DaysOfWeek = (Sunday, Monday, Tuesday, Wednesday,
+                Thursday, Friday, Saturday);
+
+  // A subrange type.
+  // In this case, DaysOfWorkWeek contains the ordinals 1,2,3,4 and 5.
+  DaysOfWorkWeek = Monday..Friday;
+#+end_src
+
+** Less common basic types
 
 Some languages include these less common basic types.
 - *Complex* numbers
@@ -163,30 +323,299 @@ Some languages include these less common basic types.
     using binary (e.g. ~0.3 = 0.010011~, repeating)
   - Not included in all languages because
     they cannot be efficiently represented.
-    - It takes at least 4 bits to represent a single decimal digit,
-      but 4 bits could represent 16 digits, instead of the 10
-      that are actually possible.
+    - For instance, to store a decimal digit directly
+      (without conversion to binary) takes at least 4 bits.
+      - There are 10 possibilities, too many for 3 bits, which can
+        encode 8 different states.
+      - But 4 bits could represent 16 states, instead of the 10
+        that are actually need.
+      - For memory access reasons, some such implementations
+        even use 8 bits per decimal digit.
+
+*** Complex numbers in C#
+
+(This example code taken from the
+[[https://docs.microsoft.com/en-us/dotnet/api/system.numerics.complex?view=netcore-3.1][.NET documentation]].)
+#+begin_src C#
+using System;
+using System.Numerics;
+
+public class Example
+{
+   public static void Main()
+   {
+      // Create a complex number by calling its class constructor.
+      Complex c1 = new Complex(12, 6);
+      Console.WriteLine(c1);
+
+      // Assign a Double to a complex number.
+      Complex c2 = 3.14;
+      Console.WriteLine(c2);
+
+      // Cast a Decimal to a complex number.
+      Complex c3 = (Complex) 12.3m;
+      Console.WriteLine(c3);
+
+      // Assign the return value of a method to a Complex variable.
+      Complex c4 = Complex.Pow(Complex.One, -1);
+      Console.WriteLine(c4);
+
+      // Assign the value returned by an operator to a Complex variable.
+      Complex c5 = Complex.One + Complex.One;
+      Console.WriteLine(c5);
+
+      // Instantiate a complex number from its polar coordinates.
+      Complex c6 = Complex.FromPolarCoordinates(10, .524);
+      Console.WriteLine(c6);
+   }
+}
+// The example displays the following output:
+//       (12, 6)
+//       (3.14, 0)
+//       (12.3, 0)
+//       (1, 0)
+//       (2, 0)
+//       (8.65824721882145, 5.00347430269914)
+#+end_src
+@@html: Use the scroll bar to see the full example.@@
+
+*** Decimal numbers in C#
+
+(This example code taken from the
+[[https://docs.microsoft.com/en-us/dotnet/api/system.decimal?view=netcore-3.1][.NET documentation]].)
+#+begin_src C#
+// Keeping my fortune in Decimals to avoid the round-off errors.
+class PiggyBank {
+    protected decimal MyFortune;
+
+    public void AddPenny() {
+        MyFortune = Decimal.Add(MyFortune, .01m);
+    }
+
+    public decimal Capacity {
+        get {
+            return Decimal.MaxValue;
+        }
+    }
+
+    public decimal Dollars {
+        get {
+            return Decimal.Floor(MyFortune);
+        }
+    }
+
+    public decimal Cents {
+        get {
+            return Decimal.Subtract(MyFortune, Decimal.Floor(MyFortune));
+        }
+    }
+
+    public override string ToString() {
+        return MyFortune.ToString("C")+" in piggy bank";
+    }
+}
+#+end_src
+@@html: Use the scroll bar to see the full example.@@
+
+* Structured data
+
+** Preamble                                    :ignore:
+
+Of course, we rarely want to deal only with “atomic” data.
+More commonly, we are interested in /collections/ of data,
+or /alternatives/ between different data types;
+these are captured in the notion of /structured/ data.
+
+Specifically, we consider
+- products,
+- sequences,
+  - including arrays and lists
+- “sets”
+  - (really associative arrays (maps/hashes/tables))
+- and unions/variants.
+  
+** Homogeneous or heterogeneous
+
+An important design decision for any structured type
+is whether it is /homogeneous/ or /heterogeneous/.
+- “Heterogeneous” structures store elements of differing types.
+- “Homogeneous” store only elements of the same type.
+
+** Product types (tuples)
+
+A /heterogeneous/ collection of a /fixed/ number of elements.
+- Implemented by, for instance,
+  - ~struct~'s or records,
+    - both of which have labelled fields,
+  - tuples,
+    - which are often be implemented as records with
+      specially named fields, such as “~first~” or “~_1~”, and
+  - classes,
+    - which have /methods/ as well as fields.
+- In lower level languages, programmers may be concerned
+  with the alignment/packing of the data.
+  - See [[http://www.catb.org/esr/structure-packing/][this overview]] of structure packing in C,
+    and the sort of memory inefficiency that can result
+    from poorly ordering the fields of a ~struct~.
     
-** Ordinal types
+** Array types
 
-Many languages include a means of defining other /finite/ types.
-Instances include
-- enumeration types (~enum~'s) and
-- subset/subrange types.
+Arrays are an abstraction of finite sequences of
+adjacent memory cells.
+- Programmers are guaranteed (or required to work around) certain properties.
+  - ~O(1)~ access/update time for any element.
+    - Implying elements are stored in adjacent memory cells
+      (a /contiguous block/ of memory cells.)
+    - Also implying each element is of a known, usually constant, size.
+      - Heterogeneous arrays can store /references/ to elements of differing types
+        instead of elements of those types themselve to maintain this property.
+    - To perform a lookup, just look ~element_space * index~ bits
+      past the start of the array.
+  - ~O(n)~ insert time (if inserting is possible.)
+    - To perform an insertion, the elements after the insertion point
+      must be shifted.
+  - It may be computationally costly or impossible to modify length.
 
-* Sequences
+We can classify arrays by where and how their memory is allocated.
 
-:TODO:
+** Classification of arrays based on memory allocation: data segment and stack
 
-* Algebraic types
+- Static arrays
+  - (Memory) allocation is static, and presumably in the data segment.
+  - Subscript ranges are statically bound.
+- Fixed stack-dynamic arrays
+  - Allocation is dynamic and on the stack,
+    done when the declaration of the array is reached.
+  - Subscript ranges are statically bound.
+- Stack-dynamic arrays
+  - Allocation is dynamic and on the stack,
+    done when the declaration of the array is reached.
+  - Subscript ranges are dynamically bound when the declaration is reached.
+  - After declaration, subscript range and storage remain fixed.
+
+** Classification of arrays based on memory allocation: heap
+
+- Fixed heap-dynamic arrays
+  - Allocation is dynamic, done when the user program requests.
+  - Subscript ranges are dynamically bound at allocation time.
+    After allocation, subscript range and storage remain fixed.
+- Heap-dynamic arrays
+  - Allocation is dynamic, done when the user program requests.
+  - Subscript ranges are dynamically bound at allocation time.
+  - Subscript range and storage can change throughout runtime!
+  - These are commonly implemented as /array-lists/, discussed shortly.
+    
+** List types
+
+Lists are simply an abstract notion of sequences.
+- May be implemented by arrays or by structures such as linked lists.
+- Often we do not ~O(1)~ access time for lists.
+- But we do have better flexibility;
+  - appending or prepending an element into a linked list
+    only requires changing a pointer,
+  - and inserting into a list only requires changing ~O(n)~ pointers.
+
+Persistance of data is more feasible using linked lists;
+parts of the list can be reused.
+- For instance, two immutable lists ~[1,2,3,4]~ ~[5,6,3,4]~ can share
+  the storage for the ~3~ and ~4~ elements.
+    
+Lazily (non-strictly) constructed lists may even be “infinite”.
+For instance, the infinite list of 1's in Haskell:
+#+begin_src haskell
+ones = 1 :: ones
+#+end_src
+
+** Array lists
+
+An /array list/ type provides the flexibility of a list,
+but the performance of an array (except for the occasional reallocation.)
+- Array lists are stored in a continguous block of memory cells.
+- And the block is just reallocated when the array grows too large.
+  - Reallocating memory is costly,
+    and it requires copying the elements to the new memory,
+    and so there is a performance dip when this is needed.
+  - Generally, /twice as much/ memory as is needed is allocated.
+    - So as the size of the list grows, so does the extra memory allocated
+      at each reallocation.
+    - This mitigates the cost of reallocation; it becomes less frequent
+      as time goes on.
+
+** “Sets”
+
+It is notoriously difficult to represent unordered collections
+such as sets and bags on computers.
+- Computers are extremely ordered machines; how do we store
+  unordered collections in ordered memory?
+- When available, “set types” are usually implemented
+  using /trees/ or /associative arrays/.
+
+** Associative array (map, hash, table) types
+
+Associative arrays, also called /hashes/, /maps/ or sometimes /tables/,
+are sets of key/value pairs.
+- Abstracts away the ordering of the sequence.
+  - (Though we could order the keys, and so impose
+     an order on the collection.)
+- The programmer can imagine they are lists of key/value pairs.
+
+** Unions, variants
+
+Whereas an element of a product type contains
+- a collection of elements of some types,
+a /union/ or variant type contains
+- one element of a selection of types.
+
+Unions can be /tagged/ or /untagged/.
+- With an untagged union, we have no idea /which/ of the possible
+  types it is storing at any time.
+  - So it's type is dynamic! (Amongst the types it can store.)
+  - Accessing it as the wrong type simply treats the bits
+    as if they were of that type; it is not a cast!
+  - This is /very/ unsafe; it allows for type clashes.
+- Whereas a tagged union keeps a /tag/ identifying which type
+  of element it is currently storing.
+
+Tagged unions are also known as
+- /sum/ and /either/ types, or
+- as /variant/ types when the labels are chosen by the programmer.
+
+Note that union types are unnecessary in a dynamically typed language.
+
+** Untagged unions in C++
+
+We can see the danger of untagged unions in a short C++ example;
+we are legally allowed to interpret the bits of an integer
+as if they were the bits of a floating point,
+which has a very different arrangement in memory!
+#+begin_src C++ :results output
+#include<iostream>
+
+union foo {
+  int a;
+  float b;
+};
+
+int main() {
+  foo x;
+
+  x.a = 1; // Set x as an integer.
+  
+  std::cout << x.b; // Treat x as a float, even though it's an int right now.
+                    // The typechecker does not complain!
+  
+  // Outputs 1.4013e-45; the result of interpreting the bits of x as a float.
+}
+#+end_src
+
+#+RESULTS:
+: 1.4013e-45
+
+* The algebra of types
 
 :TODO:
 
 * References
-
-:TODO:
-
-* Advanced type systems
 
 :TODO:
 

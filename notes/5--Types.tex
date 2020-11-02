@@ -1,4 +1,4 @@
-% Created 2020-10-26 Mon 11:15
+% Created 2020-11-02 Mon 11:37
 % Intended LaTeX compiler: lualatex
 \documentclass[11pt]{article}
 \usepackage{graphicx}
@@ -33,7 +33,7 @@
    pdftitle={Types},
    pdfkeywords={},
    pdfsubject={Introduction to types},
-   pdfcreator={Emacs 27.0.90 (Org mode 9.4)},
+   pdfcreator={Emacs 27.0.91 (Org mode 9.4)},
    pdflang={English},
    colorlinks,
    linkcolor=blue,
@@ -45,24 +45,43 @@
 \maketitle
 
 \section{Preamble}
-\label{sec:org5f263db}
+\label{sec:org564beec}
 
-\subsection{{\bfseries\sffamily TODO} Notable references}
-\label{sec:org4a04fd6}
+\subsection{Notable references}
+\label{sec:orgefdde63}
 
-:TODO:
+\begin{itemize}
+\item Robert W. Sebesta, “Concepts of Programming Languages” (10th edition)
+\begin{itemize}
+\item Chapter 6, Data Types
+\end{itemize}
+
+\item Benjamin Pierce,
+“\href{https://ebookcentral.proquest.com/lib/mcmu/detail.action?docID=3338823}{Types and Programming Languages}”
+\begin{itemize}
+\item Chapter 11, Simple Extensions
+\begin{itemize}
+\item Unit, Tuples, Sums, Variants, Lists.
+\end{itemize}
+\item Chapter 13, References
+\begin{itemize}
+\item Reference types.
+\end{itemize}
+\item Chapter 20, Recursive types
+\end{itemize}
+\end{itemize}
 
 \subsection{{\bfseries\sffamily TODO} Table of contents}
-\label{sec:org6730055}
+\label{sec:orgbc45b00}
 
 \begin{scriptsize}
 \begin{itemize}
-\item \hyperref[sec:org5f263db]{Preamble}
+\item \hyperref[sec:org564beec]{Preamble}
 \end{itemize}
 \end{scriptsize}
 
 \section{Introduction}
-\label{sec:org44c2a58}
+\label{sec:org1593f15}
 
 This section introduces the concepts of \emph{types},
 a particularly useful language safety feature.
@@ -70,8 +89,12 @@ a particularly useful language safety feature.
 Common simple types and methods of building new types are discussed,
 as well as some more advanced topics.
 
+The discussion in this section is fairly “encyclopedic”;
+the next section on the typed λ-calculus give some insight about
+how some of these types can be incorporated into a programming system.
+
 \section{Properties of type systems}
-\label{sec:orgb02556e}
+\label{sec:org22411ce}
 
 In the previous notes, we have discussed
 \begin{itemize}
@@ -86,7 +109,7 @@ what is arguably the most important property:
 what types a language might have.
 
 \subsection{“Strong” and “weak” typing}
-\label{sec:org03b9cdc}
+\label{sec:org1805043}
 
 These are comparative terms.
 \begin{itemize}
@@ -104,7 +127,20 @@ These are comparative terms.
 – Dennis Ritchie, creator of C
 \end{itemize}
 \end{itemize}
-\item We will take it to mean “type clashes are restricted”.
+\end{itemize}
+
+“Weakly typed” simply means not strongly typed.
+
+\subsubsection{So what does “strongly typed” mean?}
+\label{sec:orgee4dc06}
+
+We will take it to mean “type clashes are restricted”.
+\begin{itemize}
+\item A \emph{type clash} being an instance where one type is expected
+but a different, incompatible type is provided.
+\begin{itemize}
+\item Such as added a string to an integer.
+\end{itemize}
 \item That definition does not make a good objective property.
 \begin{itemize}
 \item What does restricted mean?
@@ -119,10 +155,27 @@ These are comparative terms.
 \end{itemize}
 \end{itemize}
 
-“Weakly typed” simply means not strongly typed.
+\subsubsection{Exercise: Examples of implicit type casting}
+\label{sec:org9605ba6}
+
+What are the results of these two Javascript output statements?
+\begin{minted}[breaklines=true]{js}
+console.log(1 + 2 + "3")
+console.log("1" + 2 + 3)
+\end{minted}
+
+How about the following C++ code?
+(This is arguably not quite an example of implicit type casting.)
+\begin{minted}[breaklines=true]{c++}
+#include<iostream>
+
+int main() {
+  std::cout << ("Hello" + 1);
+}
+\end{minted}
 
 \subsection{Explicit and implicit typing}
-\label{sec:org3318602}
+\label{sec:org55685ed}
 
 Languages may require annotations on variables and functions
 (\emph{explicit typing}) or allow them to be omitted (\emph{implicit typing}).
@@ -137,8 +190,14 @@ determine the type).
 \begin{itemize}
 \item Most languages have relatively simple type systems,
 and this is not a problem.
+\item We will likely later study the \emph{Hindley-Milner} type system
+for the λ-calculus, which is used for many
+functional languages and supports parametric polymorphism.
 \end{itemize}
 \end{itemize}
+
+\subsubsection{Implicit typing by name}
+\label{sec:orga2edfc2}
 
 Some languages make type annotations a part of the name,
 or annotate names with sigils to indicate type details.
@@ -156,7 +215,7 @@ and all variables were of floating point.
 \end{itemize}
 
 \section{Atomic types}
-\label{sec:org94a4e65}
+\label{sec:orgde4faed}
 
 We begin our discussion of what types languages have
 with what are usually the “simplest” types: \emph{atomic} types.
@@ -164,6 +223,9 @@ with what are usually the “simplest” types: \emph{atomic} types.
 \item Atomic in the sense that they cannot be broken down any further.
 \item Sometimes called \emph{primitive} or \emph{basic}.
 \end{itemize}
+
+\subsection{Ubiquitous basic types}
+\label{sec:orgfb47e85}
 
 Most languages have at least these atomic types.
 \begin{itemize}
@@ -180,11 +242,27 @@ Most languages have at least these atomic types.
 \item Sometimes an alternate name for the byte type (8-bit integers).
 \end{itemize}
 \item \textbf{Booleans}
+\begin{itemize}
+\item Which, of course, can be stored in a bit,
+but will usually be stored in at least a byte for
+convenience of memory access.
+\end{itemize}
+\end{itemize}
+
+\subsection{Singleton and empty types}
+\label{sec:org73994e0}
+
+\begin{itemize}
 \item \textbf{Unit} (the \emph{singleton} type)
 \begin{itemize}
 \item Sometimes called \texttt{void}, \texttt{nil}-type, \texttt{null}-type or \texttt{none}-type.
 \begin{itemize}
-\item In C like languages, you cannot store something of type \texttt{void}.
+\item In C-like languages, you cannot store something of type \texttt{void}.
+\begin{itemize}
+\item But this value still implicitely exists;
+a function of type \texttt{void} can certainly
+return, implying it returns something of type \texttt{void}.
+\end{itemize}
 \item Commonly represented as the type of 0-ary tuples,
 whose only element is \texttt{()}.
 \end{itemize}
@@ -192,12 +270,59 @@ whose only element is \texttt{()}.
 \item \textbf{Empty}
 \begin{itemize}
 \item Unlike a singleton type, which has a single value
-(called \texttt{nil}, \texttt{null} or \texttt{none}), there is \textbf{nothing} in the empty type.
+(called \texttt{nil}, \texttt{null} or \texttt{none}), there is
+(or should be) \textbf{nothing} in the empty type.
+\begin{itemize}
+\item This might be violated by using error values.
+\item For instance, in Haskell, the term referred to as \texttt{bottom} or ⊥
+—which refers to any computation which never completes—
+ is a member of all types, even the empty type.
+\end{itemize}
+\item No function with return type \texttt{Empty} should
+ever be able return.
 \end{itemize}
 \end{itemize}
 
+\subsubsection{Singleton and empty types in Haskell}
+\label{sec:org49c008a}
+
+\begin{minted}[breaklines=true]{haskell}
+data Unit = Unit -- This type Unit has a single constructor, also called Unit.
+data Empty -- Empty has no constructors.
+
+-- Previous versions of Haskell required a workaround to write Empty,
+-- as a constructor list was mandatory;
+-- this alternate definition has a constructor also called EmptyAlt,
+-- but using this constructor requires an argument of type EmptyAlt
+-- to already exist, so should never actually be usable.
+data EmptyAlt = EmptyAlt EmptyAlt
+
+
+-- The bottom can be defined by unending recursion.
+bottom = bottom
+  
+x = Unit
+
+-- We can cheat and get Empty/EmptyAlt "values" by using bottom.
+y = bottom :: Empty
+z = bottom :: EmptyAlt
+
+-- Check the types of these values
+:t x   -- reports x :: Unit
+:t y   -- reports y :: Empty
+:t z   -- reports z :: EmptyAlt
+\end{minted}
+
+
+\begin{verbatim}
+
+Prelude> Prelude> Prelude> Prelude> Prelude> Prelude> Prelude> Prelude> Prelude> Prelude> Prelude> Prelude> Prelude> Prelude> Prelude> Prelude> Prelude> Prelude> x :: Unit
+y :: Empty
+z :: EmptyAlt
+\end{verbatim}
+
 \subsection{Implementation of atomic types}
-\label{sec:org0e87217}
+\label{sec:orga1e673c}
 
 When we discussed the pure untyped λ-calculus,
 we discussed the process of \emph{encoding} the integers and booleans
@@ -205,9 +330,6 @@ as functions, since they were not included in the language.
 \begin{itemize}
 \item We also mentioned that we can add constants for them
 to the language, forming an \emph{unpure} untyped λ-calculus.
-\begin{itemize}
-\item Such added constants are called
-\end{itemize}
 \end{itemize}
 
 This raises a question we can ask about
@@ -225,8 +347,64 @@ outside the object-oriented abstraction.
 \end{itemize}
 \end{itemize}
 
-\subsection{Uncommon basic types}
-\label{sec:orgfe5a8a9}
+\subsection{Atom or symbol types}
+\label{sec:org282a556}
+
+Many languages include a type of \emph{atoms} or \emph{symbols},
+which are essentially interned strings.
+\begin{itemize}
+\item Strings which are immutable,
+and of which there is only one copy in memory.
+\end{itemize}
+
+Specifically, decendents of Lisp and Prolog tend to have a symbol type.
+
+For instance, in Ruby:
+\begin{minted}[breaklines=true]{ruby}
+# A symbol in Ruby begins with a :
+x = :hello
+
+# We can intern strings using an intern method
+y = "hello".intern
+
+# The equal? method checks if two values are the same object.
+# These all evaluate to true, since there's only one copy of the symbol hello.
+puts x.equal?(y)
+puts :hello.equal?(x)
+puts y.equal?(:hello)
+
+# But this to false, because these are two copies of the same string!
+puts "hello".equal?("hello")
+\end{minted}
+
+\subsection{Ordinal types}
+\label{sec:org150e45b}
+
+Many languages include a means of defining other \emph{finite} types.
+Instances include
+\begin{itemize}
+\item enumeration types (\texttt{enum}'s) and
+\item subset/subrange types.
+\end{itemize}
+
+For instance, Pascal supports both enumerations
+and subranges.
+(This example based on one from the \href{https://wiki.freepascal.org/Data\_type}{Free Pascal and Lazarus Wiki}.)
+\begin{minted}[breaklines=true]{pascal}
+type
+  // An enumeration type; unless specified,
+  // the first element is implicitely assigned the ordinal value 0,
+  // the second ordinal value 1, etc.
+  DaysOfWeek = (Sunday, Monday, Tuesday, Wednesday,
+                Thursday, Friday, Saturday);
+
+  // A subrange type.
+  // In this case, DaysOfWorkWeek contains the ordinals 1,2,3,4 and 5.
+  DaysOfWorkWeek = Monday..Friday;
+\end{minted}
+
+\subsection{Less common basic types}
+\label{sec:org7b3d780}
 
 Some languages include these less common basic types.
 \begin{itemize}
@@ -242,45 +420,390 @@ using binary (e.g. \texttt{0.3 = 0.010011}, repeating)
 \item Not included in all languages because
 they cannot be efficiently represented.
 \begin{itemize}
-\item It takes at least 4 bits to represent a single decimal digit,
-but 4 bits could represent 16 digits, instead of the 10
-that are actually possible.
-\end{itemize}
-\end{itemize}
-\end{itemize}
-
-\subsection{Ordinal types}
-\label{sec:org63241e0}
-
-Many languages include a means of defining other \emph{finite} types.
-Instances include
+\item For instance, to store a decimal digit directly
+(without conversion to binary) takes at least 4 bits.
 \begin{itemize}
-\item enumeration types (\texttt{enum}'s) and
-\item subset/subrange types.
+\item There are 10 possibilities, too many for 3 bits, which can
+encode 8 different states.
+\item But 4 bits could represent 16 states, instead of the 10
+that are actually need.
+\item For memory access reasons, some such implementations
+even use 8 bits per decimal digit.
+\end{itemize}
+\end{itemize}
+\end{itemize}
 \end{itemize}
 
-\section{Sequences}
-\label{sec:org7e8f841}
+\subsubsection{Complex numbers in C\#}
+\label{sec:org06c4a1d}
 
-:TODO:
+(This example code taken from the
+\href{https://docs.microsoft.com/en-us/dotnet/api/system.numerics.complex?view=netcore-3.1}{.NET documentation}.)
+\begin{minted}[breaklines=true]{c#}
+using System;
+using System.Numerics;
 
-\section{Algebraic types}
-\label{sec:org242f44b}
+public class Example
+{
+   public static void Main()
+   {
+      // Create a complex number by calling its class constructor.
+      Complex c1 = new Complex(12, 6);
+      Console.WriteLine(c1);
+
+      // Assign a Double to a complex number.
+      Complex c2 = 3.14;
+      Console.WriteLine(c2);
+
+      // Cast a Decimal to a complex number.
+      Complex c3 = (Complex) 12.3m;
+      Console.WriteLine(c3);
+
+      // Assign the return value of a method to a Complex variable.
+      Complex c4 = Complex.Pow(Complex.One, -1);
+      Console.WriteLine(c4);
+
+      // Assign the value returned by an operator to a Complex variable.
+      Complex c5 = Complex.One + Complex.One;
+      Console.WriteLine(c5);
+
+      // Instantiate a complex number from its polar coordinates.
+      Complex c6 = Complex.FromPolarCoordinates(10, .524);
+      Console.WriteLine(c6);
+   }
+}
+// The example displays the following output:
+//       (12, 6)
+//       (3.14, 0)
+//       (12.3, 0)
+//       (1, 0)
+//       (2, 0)
+//       (8.65824721882145, 5.00347430269914)
+\end{minted}
+
+\subsubsection{Decimal numbers in C\#}
+\label{sec:orgdf17fc0}
+
+(This example code taken from the
+\href{https://docs.microsoft.com/en-us/dotnet/api/system.decimal?view=netcore-3.1}{.NET documentation}.)
+\begin{minted}[breaklines=true]{c#}
+// Keeping my fortune in Decimals to avoid the round-off errors.
+class PiggyBank {
+    protected decimal MyFortune;
+
+    public void AddPenny() {
+        MyFortune = Decimal.Add(MyFortune, .01m);
+    }
+
+    public decimal Capacity {
+        get {
+            return Decimal.MaxValue;
+        }
+    }
+
+    public decimal Dollars {
+        get {
+            return Decimal.Floor(MyFortune);
+        }
+    }
+
+    public decimal Cents {
+        get {
+            return Decimal.Subtract(MyFortune, Decimal.Floor(MyFortune));
+        }
+    }
+
+    public override string ToString() {
+        return MyFortune.ToString("C")+" in piggy bank";
+    }
+}
+\end{minted}
+
+\section{Structured data}
+\label{sec:orgc4aaf9e}
+
+Of course, we rarely want to deal only with “atomic” data.
+More commonly, we are interested in \emph{collections} of data,
+or \emph{alternatives} between different data types;
+these are captured in the notion of \emph{structured} data.
+
+Specifically, we consider
+\begin{itemize}
+\item products,
+\item sequences,
+\begin{itemize}
+\item including arrays and lists
+\end{itemize}
+\item “sets”
+\begin{itemize}
+\item (really associative arrays (maps/hashes/tables))
+\end{itemize}
+\item and unions/variants.
+\end{itemize}
+
+\subsection{Homogeneous or heterogeneous}
+\label{sec:org69bfe2b}
+
+An important design decision for any structured type
+is whether it is \emph{homogeneous} or \emph{heterogeneous}.
+\begin{itemize}
+\item “Heterogeneous” structures store elements of differing types.
+\item “Homogeneous” store only elements of the same type.
+\end{itemize}
+
+\subsection{Product types (tuples)}
+\label{sec:org5d65879}
+
+A \emph{heterogeneous} collection of a \emph{fixed} number of elements.
+\begin{itemize}
+\item Implemented by, for instance,
+\begin{itemize}
+\item \texttt{struct}'s or records,
+\begin{itemize}
+\item both of which have labelled fields,
+\end{itemize}
+\item tuples,
+\begin{itemize}
+\item which are often be implemented as records with
+specially named fields, such as “\texttt{first}” or “\texttt{\_1}”, and
+\end{itemize}
+\item classes,
+\begin{itemize}
+\item which have \emph{methods} as well as fields.
+\end{itemize}
+\end{itemize}
+\item In lower level languages, programmers may be concerned
+with the alignment/packing of the data.
+\begin{itemize}
+\item See \href{http://www.catb.org/esr/structure-packing/}{this overview} of structure packing in C,
+and the sort of memory inefficiency that can result
+from poorly ordering the fields of a \texttt{struct}.
+\end{itemize}
+\end{itemize}
+
+\subsection{Array types}
+\label{sec:orgfc21c30}
+
+Arrays are an abstraction of finite sequences of
+adjacent memory cells.
+\begin{itemize}
+\item Programmers are guaranteed (or required to work around) certain properties.
+\begin{itemize}
+\item \texttt{O(1)} access/update time for any element.
+\begin{itemize}
+\item Implying elements are stored in adjacent memory cells
+(a \emph{contiguous block} of memory cells.)
+\item Also implying each element is of a known, usually constant, size.
+\begin{itemize}
+\item Heterogeneous arrays can store \emph{references} to elements of differing types
+instead of elements of those types themselve to maintain this property.
+\end{itemize}
+\item To perform a lookup, just look \texttt{element\_space * index} bits
+past the start of the array.
+\end{itemize}
+\item \texttt{O(n)} insert time (if inserting is possible.)
+\begin{itemize}
+\item To perform an insertion, the elements after the insertion point
+must be shifted.
+\end{itemize}
+\item It may be computationally costly or impossible to modify length.
+\end{itemize}
+\end{itemize}
+
+We can classify arrays by where and how their memory is allocated.
+
+\subsection{Classification of arrays based on memory allocation: data segment and stack}
+\label{sec:orgcfd9a77}
+
+\begin{itemize}
+\item Static arrays
+\begin{itemize}
+\item (Memory) allocation is static, and presumably in the data segment.
+\item Subscript ranges are statically bound.
+\end{itemize}
+\item Fixed stack-dynamic arrays
+\begin{itemize}
+\item Allocation is dynamic and on the stack,
+done when the declaration of the array is reached.
+\item Subscript ranges are statically bound.
+\end{itemize}
+\item Stack-dynamic arrays
+\begin{itemize}
+\item Allocation is dynamic and on the stack,
+done when the declaration of the array is reached.
+\item Subscript ranges are dynamically bound when the declaration is reached.
+\item After declaration, subscript range and storage remain fixed.
+\end{itemize}
+\end{itemize}
+
+\subsection{Classification of arrays based on memory allocation: heap}
+\label{sec:orgab9b4a1}
+
+\begin{itemize}
+\item Fixed heap-dynamic arrays
+\begin{itemize}
+\item Allocation is dynamic, done when the user program requests.
+\item Subscript ranges are dynamically bound at allocation time.
+After allocation, subscript range and storage remain fixed.
+\end{itemize}
+\item Heap-dynamic arrays
+\begin{itemize}
+\item Allocation is dynamic, done when the user program requests.
+\item Subscript ranges are dynamically bound at allocation time.
+\item Subscript range and storage can change throughout runtime!
+\item These are commonly implemented as \emph{array-lists}, discussed shortly.
+\end{itemize}
+\end{itemize}
+
+\subsection{List types}
+\label{sec:org86a2905}
+
+Lists are simply an abstract notion of sequences.
+\begin{itemize}
+\item May be implemented by arrays or by structures such as linked lists.
+\item Often we do not \texttt{O(1)} access time for lists.
+\item But we do have better flexibility;
+\begin{itemize}
+\item appending or prepending an element into a linked list
+only requires changing a pointer,
+\item and inserting into a list only requires changing \texttt{O(n)} pointers.
+\end{itemize}
+\end{itemize}
+
+Persistance of data is more feasible using linked lists;
+parts of the list can be reused.
+\begin{itemize}
+\item For instance, two immutable lists \texttt{[1,2,3,4]} \texttt{[5,6,3,4]} can share
+the storage for the \texttt{3} and \texttt{4} elements.
+\end{itemize}
+
+Lazily (non-strictly) constructed lists may even be “infinite”.
+For instance, the infinite list of 1's in Haskell:
+\begin{minted}[breaklines=true]{haskell}
+ones = 1 :: ones
+\end{minted}
+
+\subsection{Array lists}
+\label{sec:org1e6ac91}
+
+An \emph{array list} type provides the flexibility of a list,
+but the performance of an array (except for the occasional reallocation.)
+\begin{itemize}
+\item Array lists are stored in a continguous block of memory cells.
+\item And the block is just reallocated when the array grows too large.
+\begin{itemize}
+\item Reallocating memory is costly,
+and it requires copying the elements to the new memory,
+and so there is a performance dip when this is needed.
+\item Generally, \emph{twice as much} memory as is needed is allocated.
+\begin{itemize}
+\item So as the size of the list grows, so does the extra memory allocated
+at each reallocation.
+\item This mitigates the cost of reallocation; it becomes less frequent
+as time goes on.
+\end{itemize}
+\end{itemize}
+\end{itemize}
+
+\subsection{“Sets”}
+\label{sec:orgf8503c5}
+
+It is notoriously difficult to represent unordered collections
+such as sets and bags on computers.
+\begin{itemize}
+\item Computers are extremely ordered machines; how do we store
+unordered collections in ordered memory?
+\item When available, “set types” are usually implemented
+using \emph{trees} or \emph{associative arrays}.
+\end{itemize}
+
+\subsection{Associative array (map, hash, table) types}
+\label{sec:orga2dd922}
+
+Associative arrays, also called \emph{hashes}, \emph{maps} or sometimes \emph{tables},
+are sets of key/value pairs.
+\begin{itemize}
+\item Abstracts away the ordering of the sequence.
+\begin{itemize}
+\item (Though we could order the keys, and so impose
+an order on the collection.)
+\end{itemize}
+\item The programmer can imagine they are lists of key/value pairs.
+\end{itemize}
+
+\subsection{Unions, variants}
+\label{sec:org5056c45}
+
+Whereas an element of a product type contains
+\begin{itemize}
+\item a collection of elements of some types,
+\end{itemize}
+a \emph{union} or variant type contains
+\begin{itemize}
+\item one element of a selection of types.
+\end{itemize}
+
+Unions can be \emph{tagged} or \emph{untagged}.
+\begin{itemize}
+\item With an untagged union, we have no idea \emph{which} of the possible
+types it is storing at any time.
+\begin{itemize}
+\item So it's type is dynamic! (Amongst the types it can store.)
+\item Accessing it as the wrong type simply treats the bits
+as if they were of that type; it is not a cast!
+\item This is \emph{very} unsafe; it allows for type clashes.
+\end{itemize}
+\item Whereas a tagged union keeps a \emph{tag} identifying which type
+of element it is currently storing.
+\end{itemize}
+
+Tagged unions are also known as
+\begin{itemize}
+\item \emph{sum} and \emph{either} types, or
+\item as \emph{variant} types when the labels are chosen by the programmer.
+\end{itemize}
+
+Note that union types are unnecessary in a dynamically typed language.
+
+\subsection{Untagged unions in C++}
+\label{sec:org778662b}
+
+We can see the danger of untagged unions in a short C++ example;
+we are legally allowed to interpret the bits of an integer
+as if they were the bits of a floating point,
+which has a very different arrangement in memory!
+\begin{minted}[breaklines=true]{c++}
+#include<iostream>
+
+union foo {
+  int a;
+  float b;
+};
+
+int main() {
+  foo x;
+
+  x.a = 1; // Set x as an integer.
+  
+  std::cout << x.b; // Treat x as a float, even though it's an int right now.
+                    // The typechecker does not complain!
+  
+  // Outputs 1.4013e-45; the result of interpreting the bits of x as a float.
+}
+\end{minted}
+
+\section{The algebra of types}
+\label{sec:org20929e9}
 
 :TODO:
 
 \section{References}
-\label{sec:orge9136ec}
-
-:TODO:
-
-\section{Advanced type systems}
-\label{sec:orgff14d16}
+\label{sec:org84cb0c5}
 
 :TODO:
 
 \section{Further advanced topics}
-\label{sec:org2deb098}
+\label{sec:org5eef00a}
 
 Depending upon time at the end of the course,
 we may return to discuss more about types.
