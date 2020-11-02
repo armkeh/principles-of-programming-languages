@@ -1,4 +1,4 @@
-% Created 2020-10-30 Fri 13:34
+% Created 2020-11-01 Sun 23:06
 % Intended LaTeX compiler: lualatex
 \documentclass[11pt]{article}
 \usepackage{graphicx}
@@ -28,7 +28,7 @@
    pdftitle={Computer Science 3MI3 – 2020 assignment 2},
    pdfkeywords={},
    pdfsubject={Type checking and erasing on a simply-typed λ-calculus.},
-   pdfcreator={Emacs 27.0.91 (Org mode 9.4)},
+   pdfcreator={Emacs 27.0.90 (Org mode 9.4)},
    pdflang={English},
    colorlinks,
    linkcolor=blue,
@@ -42,17 +42,26 @@
 
 
 \section*{Introduction}
-\label{sec:org2fac194}
+\label{sec:org7b8bf9e}
 This assignment asks you to construct representation
 of a simply-typed λ-calculus, construct a typechecker for that
 λ-calculus, and finally to implement \emph{type-erasure} and a
 simple translator to simplify terms to untyped λ-calculus terms.
 
 \section*{Updates and file history}
-\label{sec:orgd986b52}
-\subsection*{October 30th}
-\label{sec:orgfce143a}
+\label{sec:orge88a3e8}
+\subsection*{November 1st}
+\label{sec:orge7bd119}
+\begin{itemize}
+\item Part 4 was made bonus
+\begin{itemize}
+\item and the task of translating from \texttt{ULTerm}'s to \texttt{STTerm}'s was
+made part of the question.
+\end{itemize}
+\end{itemize}
 
+\subsection*{October 30th}
+\label{sec:org3c3b91a}
 \begin{itemize}
 \item Initial version posted.
 \begin{itemize}
@@ -61,9 +70,9 @@ simple translator to simplify terms to untyped λ-calculus terms.
 \end{itemize}
 
 \section*{Boilerplate}
-\label{sec:org4f56fb0}
+\label{sec:orge6f8c03}
 \subsection*{Documentation}
-\label{sec:org3be3349}
+\label{sec:org140e83f}
 In addition to the code for the assignments,
 you are required to submit (relatively light) documentation,
 along the lines of that found in
@@ -122,13 +131,13 @@ Feel free to omit some “repetitive” portions.
 which look almost identical, only one or two need to be shown.)
 
 \subsection*{Submission procedures}
-\label{sec:orge1cf179}
+\label{sec:org89a8de0}
 The same guidelines as for homework
 (which can be seen in any of the homework files)
 apply to assignments, except for the differences below.
 
 \subsubsection*{Assignment naming requirements}
-\label{sec:orgf3efd8c}
+\label{sec:orgb23a2a9}
 
 Place all files for the assignment
 inside a folder titled \texttt{an}, where \texttt{n} is the number of the assignment.
@@ -149,12 +158,12 @@ save your code for that part. Follow those instructions!
 This is slightly decreased from the 10\% for homeworks.
 
 \subsection*{Proper conduct for coursework}
-\label{sec:orgb2b0c1b}
+\label{sec:org75d2837}
 Refer to the homework code of conduct available in any of the homework files.
 The same guidelines apply to assignments.
 
 \section*{Part 0.1 – Description of the λ-calculus, \emph{ST}                 [0 marks]}
-\label{sec:org85adb71}
+\label{sec:org3af55d5}
 The λ-calculus you are to work with during this assignment
 we call \emph{ST}, standing for \emph{simply typed}.
 It adds to the pure untyped λ-calculus \emph{UL}
@@ -180,11 +189,9 @@ The rules make use of a \emph{typing context} or \emph{type environment} Γ.
 :TODO:
 
 \section*{Part 0.2 – A representation of the untyped λ-calculus, \emph{UL}    [0 marks]}
-\label{sec:org1dc2e30}
-
+\label{sec:orgfac408e}
 \subsection*{Nameless representation of terms}
-\label{sec:orgf3ead39}
-
+\label{sec:org24d3017}
 We use \emph{de Bruijn indices} in place of named variables.
 The index “points” to a binder, or to a free variable.
 \begin{itemize}
@@ -208,8 +215,7 @@ we can correct for this by writing a \emph{pretty printer} for λ-terms
 (which will be the focus of a homework.)
 
 \subsection*{Scala implementation}
-\label{sec:org82d22e5}
-
+\label{sec:org64cc022}
 Pure untyped λ-terms can only be variables, abstractions or applications.
 \begin{minted}[breaklines=true]{scala}
 sealed trait ULTerm
@@ -239,15 +245,15 @@ def shift(shiftAmount: Int, t: ULTerm): ULTerm = {
     // the number of variable binders encountered outside this subterm.
     case ULVar(x) if (x >= currentBinders) => ULVar(x+shiftAmount)
     case ULVar(x) => ULVar(x)
-      
+
     case ULAbs(t) =>
       // We now have one more variable binder outside the subterm.
-      // Increment c and walk into the subterm.
-      ULAbs(walk(c+1, t))
+      // Increment currentBinders and walk into the subterm.
+      ULAbs(walk(currentBinders+1, t))
 
     case ULApp(t1,t2) =>
       // No new variable binders. Just walk into the subterms.
-      ULApp(walk(c,t1),walk(c,t2))
+      ULApp(walk(currentBinders,t1),walk(currentBinders,t2))
   }
 
   // Walk the term and perform the shift of free variables.
@@ -270,12 +276,12 @@ def substitute(t: ULTerm, x: Int, r: ULTerm): ULTerm = {
   // Inside a variable binder (abstraction),
   // the index of all free variables is shifted up by 1.
   // So we must keep track of the number of binders outside the current subterm.
-  def walk(c: Int, t: ULTerm): ULTerm = t match {
-    case ULVar(y) if y == x + c =>
+  def walk(currentBinders: Int, t: ULTerm): ULTerm = t match {
+    case ULVar(y) if y == x + currentBinders =>
       // y is the xth free variable. Substitute for it,
       // making sure to shift the free variables in r
       // to account for the number of variable binders outside this subterm.
-      shift(c,r)
+      shift(currentBinders,r)
     
     case ULVar(y) =>
       // Otherwise, y is not the xth free variable;
@@ -284,12 +290,12 @@ def substitute(t: ULTerm, x: Int, r: ULTerm): ULTerm = {
     
     case ULAbs(t) =>
       // We now have one more variable binder outside the subterm.
-      // Increment c and walk into the subterm.
-      ULAbs(walk(c+1,t))
+      // Increment currentBinders and walk into the subterm.
+      ULAbs(walk(currentBinders+1,t))
 
     case ULApp(t1,t2) =>
       // No new variable binders. Just walk into the subterms.
-      ULApp(walk(c,t1),walk(c,t2))
+      ULApp(walk(currentBinders,t1),walk(currentBinders,t2))
   }
 
   // Walk the term, performing the substitution.
@@ -356,8 +362,7 @@ def evaluate(t: ULTerm): ULTerm = reduce(t) match {
 \end{minted}
 
 \subsection*{Ruby implementation}
-\label{sec:org14f9980}
-
+\label{sec:org3b4725a}
 :TODO: Document this literately, as with the Scala above.
 \begin{minted}[breaklines=true]{ruby}
 # Our top-level ULTerm class defines some default
@@ -380,14 +385,14 @@ class ULTerm
   def isValue?; false end
 
   # Shifting is just walking, where in the base case,
-  # we either increment the variable by d or
+  # we either increment the variable by shiftAmount or
   # leave it alone.
-  def shift(d)
+  def shift(shiftAmount)
     # walk is an iterator.
     # The block tells us what to do with variables.
-    walk(0) { |x,c|
-      if x >= c
-        ULVar.new(x+d)
+    walk(0) { |x,currentBinders|
+      if x >= currentBinders
+        ULVar.new(x+shiftAmount)
       else
         ULVar.new(x)
       end }
@@ -396,8 +401,8 @@ class ULTerm
   # Substitution is just walking, where we either
   # replace the variable, or leave it alone.
   def substitute(x,r)
-    walk(0) { |y,c|
-      if y == x + c
+    walk(0) { |y,currentBinders|
+      if y == x + currentBinders
         r
       else
         ULVar.new(y)
@@ -430,7 +435,7 @@ class ULVar < ULTerm
     @index = i
   end
   
-  def walk(c,&block)
+  def walk(currentBinders,&block)
     # This is a variable. Run the code in &block.
     # (yield does this; it "yields" control to the block.)
     yield(@index, c)
@@ -451,9 +456,9 @@ class ULAbs < ULTerm
     @t = t
   end
   
-  def walk(c,&block)
+  def walk(currentBinders,&block)
     # Increment the local variable counter within the variable binder.
-    t = @t.walk(c+1,&block)
+    t = @t.walk(currentBinders+1,&block)
     ULAbs.new(t)
   end
 
@@ -479,9 +484,9 @@ class ULApp < ULTerm
     @t1 = t1; @t2 = t2
   end
   
-  def walk(c,&block)
-    t1 = @t1.walk(c,&block)
-    t2 = @t2.walk(c,&block)
+  def walk(currentBinders,&block)
+    t1 = @t1.walk(currentBinders,&block)
+    t2 = @t2.walk(currentBinders,&block)
     ULApp.new(t1,t2)
   end
 
@@ -516,8 +521,7 @@ end
 \end{minted}
 
 \section*{Part 1 – The representation                                  [10 marks]}
-\label{sec:org6ac6b22}
-
+\label{sec:orgdbcd8eb}
 \begin{center}
 \textbf{Place your code for this part in the files \texttt{a2.sc} and \texttt{a2.rb}.}
 \end{center}
@@ -539,7 +543,7 @@ The constructors of the type should be named
 \end{itemize}
 
 \section*{Part 2 – Type checking                                       [40 marks]}
-\label{sec:org9ad6d36}
+\label{sec:org184e964}
 \begin{center}
 \textbf{Place your code for this part in the files \texttt{a2.sc} and \texttt{a2.rb}.}
 \end{center}
@@ -552,7 +556,7 @@ the represented term obeys the type rules of \emph{ST};
 otherwise, it returns \texttt{false}.
 
 \section*{Part 3 – Translation to the untyped λ-calculus; type erasure [40 marks]}
-\label{sec:org11a0953}
+\label{sec:org30a85cd}
 \begin{center}
 \textbf{Place your code for this part in the files \texttt{a2.sc} and \texttt{a2.rb}.}
 \end{center}
@@ -567,18 +571,16 @@ into the pure λ-calculus encodings that represent them.
 (You should the definition of \texttt{ULTerm} and its methods into your file,
 or import it in a way compatible with the testing environments.)
 
-\section*{Part 4 – Interpreting \emph{SL} programs                            [10 marks]}
-\label{sec:org9df7253}
-
+\section*{Part 4 – Bonus: Interpreting \emph{SL} programs                     [10 marks]}
+\label{sec:org63838f4}
 Implement an evaluation method for your \texttt{STTerm} type.
 
 Make use of the evaluation method for \texttt{ULTerm}'s in your definition.
-Code to translate results from \texttt{STTerm}'s back to \texttt{ULTerm}'s will be provided
-here in an update.
+You will also need a method to convert results back
+to the \texttt{STTerm} representation.
 
 \section*{Part 5 – Bonus: pairs                                        [10 bonus marks]}
-\label{sec:orgbd53bca}
-
+\label{sec:org5d33016}
 \begin{center}
 \textbf{Place any code for this part in files \texttt{a2p4.sc} and \texttt{a2p4.rb}.}
 \end{center}
@@ -588,7 +590,7 @@ the type of \emph{pairs} as well as naturals and booleans,
 along with a type checker, type eraser and evaluation method.
 
 \section*{Submission checklist}
-\label{sec:org410d7a8}
+\label{sec:orgcc60cdb}
 For your convenience, this checklist is provided
 to track the files you need to submit.
 Use it if you wish.
@@ -613,6 +615,6 @@ Use it if you wish.
 \end{minted}
 
 \section*{Testing}
-\label{sec:orgf05da3b}
+\label{sec:orge70b896}
 :TODO:
 \end{document}

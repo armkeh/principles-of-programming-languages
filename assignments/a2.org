@@ -21,7 +21,19 @@ simple translator to simplify terms to untyped λ-calculus terms.
 :CUSTOM_ID: Updates-and-file-history
 :END:
 
+** November 1st
+:PROPERTIES:
+:CUSTOM_ID: November-1st
+:END:
+
+- Part 4 was made bonus
+  - and the task of translating from ~ULTerm~'s to ~STTerm~'s was
+    made part of the question.
+
 ** October 30th
+:PROPERTIES:
+:CUSTOM_ID: October-30th
+:END:
 
 - Initial version posted.
   - Testing not posted yet.
@@ -82,8 +94,14 @@ The rules make use of a /typing context/ or /type environment/ Γ.
 :TODO:
 
 * Part 0.2 – A representation of the untyped λ-calculus, /UL/    [0 marks]
+:PROPERTIES:
+:CUSTOM_ID: Part-0.2-–-A-representation-of-the-untyped-λ-calculus,-/UL/----[0 marks]
+:END:
 
 ** Nameless representation of terms
+:PROPERTIES:
+:CUSTOM_ID: Nameless-representation-of-terms
+:END:
 
 We use /de Bruijn indices/ in place of named variables.
 The index “points” to a binder, or to a free variable.
@@ -106,9 +124,12 @@ we can correct for this by writing a /pretty printer/ for λ-terms
 (which will be the focus of a homework.)
 
 ** Scala implementation
+:PROPERTIES:
+:CUSTOM_ID: Scala-implementation
+:END:
 
 Pure untyped λ-terms can only be variables, abstractions or applications.
-#+begin_src amm
+#+begin_src amm :tangle ./src/a2_ulterm.sc
 sealed trait ULTerm
 case class ULVar(index: Int) extends ULTerm
 case class ULAbs(t: ULTerm) extends ULTerm
@@ -124,7 +145,7 @@ in a variable binder.
 Shifting is done by walking through the term,
 incrementing the variable indices by the shift amount
 if their index is greater than the number of enclosing binders.
-#+begin_src amm
+#+begin_src amm :tangle ./src/a2_ulterm.sc
 // Shift the numbering of unbound variables
 def shift(shiftAmount: Int, t: ULTerm): ULTerm = {
   // Walk through the term and shift all variables with index
@@ -136,15 +157,15 @@ def shift(shiftAmount: Int, t: ULTerm): ULTerm = {
     // the number of variable binders encountered outside this subterm.
     case ULVar(x) if (x >= currentBinders) => ULVar(x+shiftAmount)
     case ULVar(x) => ULVar(x)
-      
+
     case ULAbs(t) =>
       // We now have one more variable binder outside the subterm.
-      // Increment c and walk into the subterm.
-      ULAbs(walk(c+1, t))
+      // Increment currentBinders and walk into the subterm.
+      ULAbs(walk(currentBinders+1, t))
 
     case ULApp(t1,t2) =>
       // No new variable binders. Just walk into the subterms.
-      ULApp(walk(c,t1),walk(c,t2))
+      ULApp(walk(currentBinders,t1),walk(currentBinders,t2))
   }
 
   // Walk the term and perform the shift of free variables.
@@ -159,7 +180,7 @@ by the term being subbed in or not.
 We have to adjust the variable being substituted and the
 free variables in the term being subbed in according to
 the number of variable binders we enter.
-#+begin_src amm
+#+begin_src amm :tangle ./src/a2_ulterm.sc
 // In our usual syntax, we would write substitution as `t[x := r]`.
 // Here we write `substitute(t,x,r)`.
 def substitute(t: ULTerm, x: Int, r: ULTerm): ULTerm = {
@@ -167,12 +188,12 @@ def substitute(t: ULTerm, x: Int, r: ULTerm): ULTerm = {
   // Inside a variable binder (abstraction),
   // the index of all free variables is shifted up by 1.
   // So we must keep track of the number of binders outside the current subterm.
-  def walk(c: Int, t: ULTerm): ULTerm = t match {
-    case ULVar(y) if y == x + c =>
+  def walk(currentBinders: Int, t: ULTerm): ULTerm = t match {
+    case ULVar(y) if y == x + currentBinders =>
       // y is the xth free variable. Substitute for it,
       // making sure to shift the free variables in r
       // to account for the number of variable binders outside this subterm.
-      shift(c,r)
+      shift(currentBinders,r)
     
     case ULVar(y) =>
       // Otherwise, y is not the xth free variable;
@@ -181,12 +202,12 @@ def substitute(t: ULTerm, x: Int, r: ULTerm): ULTerm = {
     
     case ULAbs(t) =>
       // We now have one more variable binder outside the subterm.
-      // Increment c and walk into the subterm.
-      ULAbs(walk(c+1,t))
+      // Increment currentBinders and walk into the subterm.
+      ULAbs(walk(currentBinders+1,t))
 
     case ULApp(t1,t2) =>
       // No new variable binders. Just walk into the subterms.
-      ULApp(walk(c,t1),walk(c,t2))
+      ULApp(walk(currentBinders,t1),walk(currentBinders,t2))
   }
 
   // Walk the term, performing the substitution.
@@ -196,7 +217,7 @@ def substitute(t: ULTerm, x: Int, r: ULTerm): ULTerm = {
 #+end_src
 
 We need to check if terms are values for call-by-value semantics.
-#+begin_src amm
+#+begin_src amm :tangle ./src/a2_ulterm.sc
 // We need to know if a term is a value during reduction
 // when using call-by-value semantics.
 def isValue(t: ULTerm): Boolean = t match {
@@ -209,7 +230,7 @@ Those semantics are given by a reduction function,
 which reduces terms by one step, and then an evaluation function,
 which keeps reducing until we get stuck (/if/ we get stuck;
 we might have an infinite reduction sequence.)
-#+begin_src amm
+#+begin_src amm :tangle ./src/a2_ulterm.sc
 // Call-by-value reduction function.
 // Performs one step of evaluation, if possible according to the call-by-value rules.
 // If no reduction is possible, returns None.
@@ -253,9 +274,12 @@ def evaluate(t: ULTerm): ULTerm = reduce(t) match {
 #+end_src
 
 ** Ruby implementation
+:PROPERTIES:
+:CUSTOM_ID: Ruby-implementation
+:END:
 
 :TODO: Document this literately, as with the Scala above.
-#+begin_src ruby
+#+begin_src ruby :tangle ./src/a2_ulterm.rb
 # Our top-level ULTerm class defines some default
 # methods to track what kind of term we have
 # (which must be overidden in non-default cases)
@@ -276,14 +300,14 @@ class ULTerm
   def isValue?; false end
 
   # Shifting is just walking, where in the base case,
-  # we either increment the variable by d or
+  # we either increment the variable by shiftAmount or
   # leave it alone.
-  def shift(d)
+  def shift(shiftAmount)
     # walk is an iterator.
     # The block tells us what to do with variables.
-    walk(0) { |x,c|
-      if x >= c
-        ULVar.new(x+d)
+    walk(0) { |x,currentBinders|
+      if x >= currentBinders
+        ULVar.new(x+shiftAmount)
       else
         ULVar.new(x)
       end }
@@ -292,8 +316,8 @@ class ULTerm
   # Substitution is just walking, where we either
   # replace the variable, or leave it alone.
   def substitute(x,r)
-    walk(0) { |y,c|
-      if y == x + c
+    walk(0) { |y,currentBinders|
+      if y == x + currentBinders
         r
       else
         ULVar.new(y)
@@ -326,7 +350,7 @@ class ULVar < ULTerm
     @index = i
   end
   
-  def walk(c,&block)
+  def walk(currentBinders,&block)
     # This is a variable. Run the code in &block.
     # (yield does this; it "yields" control to the block.)
     yield(@index, c)
@@ -347,9 +371,9 @@ class ULAbs < ULTerm
     @t = t
   end
   
-  def walk(c,&block)
+  def walk(currentBinders,&block)
     # Increment the local variable counter within the variable binder.
-    t = @t.walk(c+1,&block)
+    t = @t.walk(currentBinders+1,&block)
     ULAbs.new(t)
   end
 
@@ -375,9 +399,9 @@ class ULApp < ULTerm
     @t1 = t1; @t2 = t2
   end
   
-  def walk(c,&block)
-    t1 = @t1.walk(c,&block)
-    t2 = @t2.walk(c,&block)
+  def walk(currentBinders,&block)
+    t1 = @t1.walk(currentBinders,&block)
+    t2 = @t2.walk(currentBinders,&block)
     ULApp.new(t1,t2)
   end
 
@@ -412,6 +436,9 @@ end
 #+end_src
 
 * Part 1 – The representation                                  [10 marks]
+:PROPERTIES:
+:CUSTOM_ID: Part-1-–-The-representation----------------------------------[10 marks]
+:END:
 
 #+begin_center
 *Place your code for this part in the files ~a2.sc~ and ~a2.rb~.*
@@ -466,15 +493,21 @@ into the pure λ-calculus encodings that represent them.
 (You should the definition of ~ULTerm~ and its methods into your file,
 or import it in a way compatible with the testing environments.)
 
-* Part 4 – Interpreting /SL/ programs                            [10 marks]
+* Part 4 – Bonus: Interpreting /SL/ programs                     [10 marks]
+:PROPERTIES:
+:CUSTOM_ID: Part-4-–-Bonus:-Interpreting-/SL/-programs---------------------[10 marks]
+:END:
 
 Implement an evaluation method for your ~STTerm~ type.
 
 Make use of the evaluation method for ~ULTerm~'s in your definition.
-Code to translate results from ~STTerm~'s back to ~ULTerm~'s will be provided
-here in an update.
+You will also need a method to convert results back
+to the ~STTerm~ representation.
 
 * Part 5 – Bonus: pairs                                        [10 bonus marks]
+:PROPERTIES:
+:CUSTOM_ID: Part-5-–-Bonus:-pairs----------------------------------------[10 bonus marks]
+:END:
 
 #+begin_center
 *Place any code for this part in files ~a2p4.sc~ and ~a2p4.rb~.*
@@ -520,6 +553,9 @@ Use it if you wish.
 :TODO:
 
 * COMMENT Testing description from last assignment
+:PROPERTIES:
+:CUSTOM_ID: COMMENT-Testing-description-from-last-assignment
+:END:
 
 Unit tests for the requested types, methods and predicates
 are available here.

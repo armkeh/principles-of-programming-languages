@@ -12,6 +12,23 @@ better viewed at
 
 ## October
 
+  - November 1st
+    
+      - Homework 7 has been posted.
+          - This is slightly delayed from Friday; however, this homework
+            is fairly light (there's just one part.)
+      - I've made a first small update to assignment 2.
+          - Part 4 has been made bonus, though some code I was planning
+            to supply is now part of the required work for that bonus.
+      - More assignment 2 updates are to come ASAP; in particular, I
+        will decide upon the change to the due date and provide the
+        testing.
+
+  - October 30th
+    
+      - The first version of assignment 2 is posted.
+          - The due date is currently not set. It will be announced.
+
   - October 29th
     
       - The second C++ example has been added to homework 6, showing an
@@ -781,10 +798,16 @@ plaintext](./homework/h4.org)
 
   - [HTML](./homework/h1.html)
   - [PDF](./homework/h1.pdf)
-  - [Org
-plaintext](./homework/h1.org)
+  - [Org plaintext](./homework/h1.org)
 
 # Assignments
+
+## Assignment 2 – Typing a λ-calculus – Oct 30th to ???.
+
+  - [HTML](./assignments/a2.html)
+  - [PDF](./assignments/a2.pdf)
+  - [Org
+plaintext](./assignments/a2.org)
 
 ## Assignment 1 – Interpreting simple integer expressions – Sept 26th to Oct 21st.
 

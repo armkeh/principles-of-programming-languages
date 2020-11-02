@@ -1,0 +1,612 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2020-11-01 Sun 23:20 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Computer Science 3MI3 – 2020 homework 7</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Mark Armstrong" />
+<meta name="description" content="Preparing for assignment 2 by writing pretty printers."
+ />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="styles/readtheorg/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="styles/readtheorg/css/readtheorg.css"/>
+<script type="text/javascript" src="styles/lib/js/jquery.min.js"></script>
+<script type="text/javascript" src="styles/lib/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="styles/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" src="styles/readtheorg/js/readtheorg.js"></script>
+<style>pre.src{background:#000000;color:white;} </style>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:e95b018ef3580986a04669f1b5879592219e2a7a&dn=public-domain.txt Public Domain
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.add("code-highlighted");
+         target.classList.add("code-highlighted");
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.remove("code-highlighted");
+         target.classList.remove("code-highlighted");
+       }
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Computer Science 3MI3 – 2020 homework 7
+<br />
+<span class="subtitle">Pretty printing a representation of the untyped λ-calculus.</span>
+</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#Introduction">Introduction</a></li>
+<li><a href="#Boilerplate">Boilerplate</a>
+<ul>
+<li><a href="#Submission-procedures">Submission procedures</a>
+<ul>
+<li><a href="#org185d02a">Submission method</a></li>
+<li><a href="#org537da15">Naming requirements</a></li>
+<li><a href="#org44972e3">Do not submit testing or diagnostic code</a></li>
+<li><a href="#orgd6c2cff">Due date and allowance for technical difficulties</a></li>
+</ul>
+</li>
+<li><a href="#Proper-conduct-for-coursework">Proper conduct for coursework</a>
+<ul>
+<li><a href="#orge398685">Individual work</a></li>
+<li><a href="#org624b2dc">Language library resources</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#Part-1:-The-“pretty-printer”-~prettify~-method--[30 marks]">Part 1: The “pretty printer” <code>prettify</code> method  [30 marks]</a></li>
+<li><a href="#Testing">Testing</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-Introduction" class="outline-2">
+<h2 id="Introduction">Introduction</h2>
+<div class="outline-text-2" id="text-Introduction">
+<p>
+For this homework, you will extend the implementations
+of the <code>UL</code> untyped λ-calculus in Scala and Ruby,
+which are provided in assignment 2,
+with a <i>pretty printing</i> method.
+</p>
+
+<p>
+This language implementation makes use of unnamed variables
+through <i>de Bruijn</i> indices.
+This simplifies the implementation; specifically,
+</p>
+<ul class="org-ul">
+<li>we eliminate the need to replace names of variables
+with “fresh” names during substitution; instead,
+<ul class="org-ul">
+<li>(a relatively tedious problem;
+how do we keep track of fresh names?)</li>
+</ul></li>
+<li>we must only shift variable indexes according to the
+number of enclosing λ's (variable binders.)
+<ul class="org-ul">
+<li>(a relatively trivial problem.)</li>
+</ul></li>
+</ul>
+
+<p>
+The one major downside to a representation using unnamed variables
+is that the terms are far less human readable.
+Instead of terms such as
+</p>
+<div class="org-src-container">
+<pre class="src src-text">&#955; x &#8594; &#955; y &#8594; &#955; z &#8594; x y z
+</pre>
+</div>
+<p>
+we now have terms such as
+</p>
+<div class="org-src-container">
+<pre class="src src-text">&#955; &#955; &#955; 2 1 0
+</pre>
+</div>
+
+<p>
+Hence, the task of this homework to implement a <i>pretty printer</i>,
+that chooses variable names for a term and “prints” the term
+(in fact, it should convert terms to strings,
+not print them directly.)
+</p>
+</div>
+</div>
+
+<div id="outline-container-Boilerplate" class="outline-2">
+<h2 id="Boilerplate">Boilerplate</h2>
+<div class="outline-text-2" id="text-Boilerplate">
+</div>
+
+<div id="outline-container-Submission-procedures" class="outline-3">
+<h3 id="Submission-procedures">Submission procedures</h3>
+<div class="outline-text-3" id="text-Submission-procedures">
+</div>
+
+<div id="outline-container-org185d02a" class="outline-4">
+<h4 id="org185d02a">Submission method</h4>
+<div class="outline-text-4" id="text-org185d02a">
+<p>
+Homework should be submitted to your McMaster CAS Gitlab respository
+in the <code>cs3mi3-fall2020</code> project.
+</p>
+
+<p>
+Ensure that you have <b>pushed</b> the commits to the remote repository
+in time for the deadline, and not just committed to your local copy.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org537da15" class="outline-4">
+<h4 id="org537da15">Naming requirements</h4>
+<div class="outline-text-4" id="text-org537da15">
+<p>
+Place all files for the homework
+inside a folder titled <code>hn</code>, where <code>n</code> is the number of the homework.
+So, for homework 1, use the folder <code>h1</code>, for homework 2 the folder <code>h2</code>, etc.
+Ensure you do not capitalise the <code>h</code>.
+</p>
+
+<p>
+Unless otherwise instructed in the homework questions,
+place all of your code for the homework
+in a single file in the <code>hn</code> folder named <code>hn.ext</code>,
+where <code>ext</code> is the appropriate extension for the language used
+according to this list:
+</p>
+<ul class="org-ul">
+<li>For Scala, <code>ext</code> is <code>sc</code>.</li>
+<li>For Prolog, <code>ext</code> is <code>pl</code>.</li>
+<li>For Ruby, <code>ext</code> is <code>rb</code>.</li>
+<li>For Clojure, <code>ext</code> is <code>clg</code>.</li>
+</ul>
+<p>
+If multiple languages are used in the homework,
+submit a <code>hn.ext</code> file for each language.
+</p>
+
+<div class="org-center">
+<p>
+<b>If the language supports multiple different file extensions,</b>
+<b>you must still follow the extension conventions above.</b>
+</p>
+</div>
+
+<div class="org-center">
+<p>
+<b>Incorrect naming of files may result in up to a 10% deduction in your grade.</b>
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org44972e3" class="outline-4">
+<h4 id="org44972e3">Do not submit testing or diagnostic code</h4>
+<div class="outline-text-4" id="text-org44972e3">
+<p>
+Unless you are instructed to do so in the homework questions,
+<b>you should not submit testing code with your homework submission</b>.
+</p>
+
+<p>
+This includes
+</p>
+<ul class="org-ul">
+<li>any <code>main</code> function,</li>
+<li>any <code>print</code> statements which output information
+<b>that is not directly requested as console output</b>
+<b>in the homework questions</b>.</li>
+</ul>
+
+<p>
+If you do not wish to remove diagnostic print statements manually,
+you will have to find a way to ensure that they disabled
+in your final submission.
+</p>
+
+<p>
+For instance, by using a wrapper on the print function or macros.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgd6c2cff" class="outline-4">
+<h4 id="orgd6c2cff">Due date and allowance for technical difficulties</h4>
+<div class="outline-text-4" id="text-orgd6c2cff">
+<p>
+Homework is due on the second Sunday following its release,
+by the end of the day (midnight).
+Submissions past 00:00 may not be considered.
+</p>
+
+<p>
+If you experience technical difficulties
+leading up to the submission time,
+please contact Mark <b>ASAP</b> with the details of the problem
+and, if possible, attach the current state of your homework
+to the communication.
+This information will help ensure we are able
+to accept your submission once the technical difficulties are resolved.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-Proper-conduct-for-coursework" class="outline-3">
+<h3 id="Proper-conduct-for-coursework">Proper conduct for coursework</h3>
+<div class="outline-text-3" id="text-Proper-conduct-for-coursework">
+</div>
+
+<div id="outline-container-orge398685" class="outline-4">
+<h4 id="orge398685">Individual work</h4>
+<div class="outline-text-4" id="text-orge398685">
+<p>
+Unless explicitely stated in the homework questions,
+all homework in this course is intended
+to be <i>individually completed</i>.
+</p>
+
+<p>
+You are welcome to discuss the content of the homework in
+the public forum of the class Microsoft Teams team homework channel,
+though obviously solutions or partial solutions should not
+be posted or described.
+</p>
+
+<p>
+Private discussions about the homework cannot reasonably be
+forbidden, but such discussions should follow the same guidelines
+as public discussions.
+</p>
+
+<div class="org-center">
+<p>
+<b>Inappopriate collaboration via private discussions</b>
+<b>which is later discovered by course staff</b>
+<b>may be considered academic dishonesty.</b>
+</p>
+
+<p>
+When in doubt, make the discussion private, or report its contents
+to the course staff by making a note of it
+in your homework.
+</p>
+</div>
+
+<p>
+To clarify what is considered appropriate discussions
+of homework content, here are some examples:
+</p>
+<ol class="org-ol">
+<li>Discussing the language features introduced or needed for the homework.
+<ul class="org-ul">
+<li>Such as relevant builtin datatypes
+and datatype definition methods and their general use.</li>
+<li>Code snippets that are not partial solutions to the homework
+are welcome and encouraged.</li>
+</ul></li>
+<li>Questions of the form “What is meant by <code>x</code>?”,
+“Does <code>x</code> really mean <code>y</code>?” or “Is there a mistake with <code>x</code>?”
+<ul class="org-ul">
+<li>Of course, questions of those form which would be answered
+by partial solutions are not considered appropriate.</li>
+</ul></li>
+<li>Questions or advice about errors that may be encountered.
+<ul class="org-ul">
+<li>Such as “If you see a <code>scala.MatchError</code> you should
+probably add a catch-all <code>_</code> case to your <code>match</code> expressions.”</li>
+</ul></li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org624b2dc" class="outline-4">
+<h4 id="org624b2dc">Language library resources</h4>
+<div class="outline-text-4" id="text-org624b2dc">
+<p>
+Unless explicitely stated in the questions,
+it is not expected that you will use any language library resources
+in the homeworks.
+</p>
+
+<p>
+Possible exceptions to this rule include implementations
+of datatypes we discuss in this course, such as lists
+or options/maybes, if they are included in a standard library
+instead of being builtin.
+</p>
+
+<p>
+<i>Basic</i> operations on such types would also be allowed.
+</p>
+<ul class="org-ul">
+<li>For instance, <code>head</code>, <code>tail</code>, <code>append</code>, etc. on lists
+would not require explicit permission to be used.</li>
+<li>More complex operations such as sorting procedures
+would require permission before you used them.</li>
+</ul>
+
+<p>
+Additionally, the standard <i>higher-order</i> operations
+including <code>map</code>, <code>reduce</code>, <code>flatten</code>, and <code>filter</code> are permitted generally,
+unless the task is to implement such a higher-order operator.
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-Part-1:-The-“pretty-printer”-~prettify~-method--[30 marks]" class="outline-2">
+<h2 id="Part-1:-The-“pretty-printer”-~prettify~-method--[30 marks]">Part 1: The “pretty printer” <code>prettify</code> method  [30 marks]</h2>
+<div class="outline-text-2" id="text-Part-1:-The-“pretty-printer”-~prettify~-method--[30 marks]">
+<p>
+Implement a method <code>prettify</code> on the <code>UTTerm</code> type
+provided in assignment.
+The implementation of the <code>UTTerm</code> type can be found
+</p>
+<ul class="org-ul">
+<li><a href="./../assignments/src/a2_ulterm.sc">here</a> in Scala, and</li>
+<li><a href="./../assignments/src/a2_ulterm.rb">here</a> in Ruby.</li>
+</ul>
+
+<p>
+Your method should take a <code>UTTerm</code> are return a string.
+As an example, given the <code>UTTerm</code> representing the
+λ-term (with unnamed variables)
+</p>
+<div class="org-src-container">
+<pre class="src src-text">&#955; &#955; &#955; 2 1 0
+</pre>
+</div>
+<p>
+which is internally represented as a 
+should produce a string such as
+</p>
+<div class="org-src-container">
+<pre class="src src-text">lambda x . lambda y . lambda z . x y z
+</pre>
+</div>
+
+<p>
+The exact choices of variable names do not matter;
+however, you must not change the meaning of the term.
+For instance, considering the above term, output
+</p>
+<div class="org-src-container">
+<pre class="src src-text">lambda x . lambda y . lambda x . x y x
+</pre>
+</div>
+<p>
+would be <i>incorrect</i>.
+</p>
+
+<p>
+(You may want to use a helper method which has an argument to
+keep track of the variable names already in use.
+But as usual, the implementation details are within your control.)
+</p>
+</div>
+</div>
+
+<div id="outline-container-Testing" class="outline-2">
+<h2 id="Testing">Testing</h2>
+<div class="outline-text-2" id="text-Testing">
+<p>
+:TODO:
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Mark Armstrong</p>
+     <p class="author">Contact: <a href="mailto:markparmstrong@gmail.com">markparmstrong@gmail.com</a></p>
+     <p class="date">Original date: November 1st, 2020</p>
+     <p class="date">Last updated: 2020-11-01 Sun 23:20</p>
+     <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.90 (<a href="https://orgmode.org">Org</a> mode 9.4)</p>
+     <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

@@ -1,0 +1,275 @@
+% Created 2020-11-01 Sun 23:20
+% Intended LaTeX compiler: lualatex
+\documentclass[11pt]{article}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{etoolbox}
+\makeatletter
+\def\dontdofcolorbox{\renewcommand\fcolorbox[4][]{##4}}
+\AtBeginEnvironment{minted}{\dontdofcolorbox}
+\makeatother
+\usepackage[newfloat]{minted}
+\author{Mark Armstrong}
+\date{November 1st, 2020}
+\title{Computer Science 3MI3 – 2020 homework 7\\\medskip
+\large Pretty printing a representation of the untyped λ-calculus.}
+\hypersetup{
+   pdfauthor={Mark Armstrong},
+   pdftitle={Computer Science 3MI3 – 2020 homework 7},
+   pdfkeywords={},
+   pdfsubject={Preparing for assignment 2 by writing pretty printers.},
+   pdfcreator={Emacs 27.0.90 (Org mode 9.4)},
+   pdflang={English},
+   colorlinks,
+   linkcolor=blue,
+   citecolor=blue,
+   urlcolor=blue
+   }
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+
+\section*{Introduction}
+\label{sec:org8f94955}
+For this homework, you will extend the implementations
+of the \texttt{UL} untyped λ-calculus in Scala and Ruby,
+which are provided in assignment 2,
+with a \emph{pretty printing} method.
+
+This language implementation makes use of unnamed variables
+through \emph{de Bruijn} indices.
+This simplifies the implementation; specifically,
+\begin{itemize}
+\item we eliminate the need to replace names of variables
+with “fresh” names during substitution; instead,
+\begin{itemize}
+\item (a relatively tedious problem;
+how do we keep track of fresh names?)
+\end{itemize}
+\item we must only shift variable indexes according to the
+number of enclosing λ's (variable binders.)
+\begin{itemize}
+\item (a relatively trivial problem.)
+\end{itemize}
+\end{itemize}
+
+The one major downside to a representation using unnamed variables
+is that the terms are far less human readable.
+Instead of terms such as
+\begin{minted}[breaklines=true]{text}
+λ x → λ y → λ z → x y z
+\end{minted}
+we now have terms such as
+\begin{minted}[breaklines=true]{text}
+λ λ λ 2 1 0
+\end{minted}
+
+Hence, the task of this homework to implement a \emph{pretty printer},
+that chooses variable names for a term and “prints” the term
+(in fact, it should convert terms to strings,
+not print them directly.)
+
+\section*{Boilerplate}
+\label{sec:orgc67caac}
+\subsection*{Submission procedures}
+\label{sec:orgb0933ac}
+\subsubsection*{Submission method}
+\label{sec:org135d092}
+
+Homework should be submitted to your McMaster CAS Gitlab respository
+in the \texttt{cs3mi3-fall2020} project.
+
+Ensure that you have \textbf{pushed} the commits to the remote repository
+in time for the deadline, and not just committed to your local copy.
+
+\subsubsection*{Naming requirements}
+\label{sec:org23af7fa}
+
+Place all files for the homework
+inside a folder titled \texttt{hn}, where \texttt{n} is the number of the homework.
+So, for homework 1, use the folder \texttt{h1}, for homework 2 the folder \texttt{h2}, etc.
+Ensure you do not capitalise the \texttt{h}.
+
+Unless otherwise instructed in the homework questions,
+place all of your code for the homework
+in a single file in the \texttt{hn} folder named \texttt{hn.ext},
+where \texttt{ext} is the appropriate extension for the language used
+according to this list:
+\begin{itemize}
+\item For Scala, \texttt{ext} is \texttt{sc}.
+\item For Prolog, \texttt{ext} is \texttt{pl}.
+\item For Ruby, \texttt{ext} is \texttt{rb}.
+\item For Clojure, \texttt{ext} is \texttt{clg}.
+\end{itemize}
+If multiple languages are used in the homework,
+submit a \texttt{hn.ext} file for each language.
+
+\begin{center}
+\textbf{If the language supports multiple different file extensions,}
+\textbf{you must still follow the extension conventions above.}
+\end{center}
+
+\begin{center}
+\textbf{Incorrect naming of files may result in up to a 10\% deduction in your grade.}
+\end{center}
+
+\subsubsection*{Do not submit testing or diagnostic code}
+\label{sec:org865db25}
+
+Unless you are instructed to do so in the homework questions,
+\textbf{you should not submit testing code with your homework submission}.
+
+This includes
+\begin{itemize}
+\item any \texttt{main} function,
+\item any \texttt{print} statements which output information
+\textbf{that is not directly requested as console output}
+\textbf{in the homework questions}.
+\end{itemize}
+
+If you do not wish to remove diagnostic print statements manually,
+you will have to find a way to ensure that they disabled
+in your final submission.
+
+For instance, by using a wrapper on the print function or macros.
+
+\subsubsection*{Due date and allowance for technical difficulties}
+\label{sec:orgcaf9ce8}
+
+Homework is due on the second Sunday following its release,
+by the end of the day (midnight).
+Submissions past 00:00 may not be considered.
+
+If you experience technical difficulties
+leading up to the submission time,
+please contact Mark \textbf{ASAP} with the details of the problem
+and, if possible, attach the current state of your homework
+to the communication.
+This information will help ensure we are able
+to accept your submission once the technical difficulties are resolved.
+
+\subsection*{Proper conduct for coursework}
+\label{sec:org2a531f4}
+\subsubsection*{Individual work}
+\label{sec:org9729a00}
+
+Unless explicitely stated in the homework questions,
+all homework in this course is intended
+to be \emph{individually completed}.
+
+You are welcome to discuss the content of the homework in
+the public forum of the class Microsoft Teams team homework channel,
+though obviously solutions or partial solutions should not
+be posted or described.
+
+Private discussions about the homework cannot reasonably be
+forbidden, but such discussions should follow the same guidelines
+as public discussions.
+
+\begin{center}
+\textbf{Inappopriate collaboration via private discussions}
+\textbf{which is later discovered by course staff}
+\textbf{may be considered academic dishonesty.}
+
+When in doubt, make the discussion private, or report its contents
+to the course staff by making a note of it
+in your homework.
+\end{center}
+
+To clarify what is considered appropriate discussions
+of homework content, here are some examples:
+\begin{enumerate}
+\item Discussing the language features introduced or needed for the homework.
+\begin{itemize}
+\item Such as relevant builtin datatypes
+and datatype definition methods and their general use.
+\item Code snippets that are not partial solutions to the homework
+are welcome and encouraged.
+\end{itemize}
+\item Questions of the form “What is meant by \texttt{x}?”,
+“Does \texttt{x} really mean \texttt{y}?” or “Is there a mistake with \texttt{x}?”
+\begin{itemize}
+\item Of course, questions of those form which would be answered
+by partial solutions are not considered appropriate.
+\end{itemize}
+\item Questions or advice about errors that may be encountered.
+\begin{itemize}
+\item Such as “If you see a \texttt{scala.MatchError} you should
+probably add a catch-all \texttt{\_} case to your \texttt{match} expressions.”
+\end{itemize}
+\end{enumerate}
+
+\subsubsection*{Language library resources}
+\label{sec:orge167ab0}
+
+Unless explicitely stated in the questions,
+it is not expected that you will use any language library resources
+in the homeworks.
+
+Possible exceptions to this rule include implementations
+of datatypes we discuss in this course, such as lists
+or options/maybes, if they are included in a standard library
+instead of being builtin.
+
+\emph{Basic} operations on such types would also be allowed.
+\begin{itemize}
+\item For instance, \texttt{head}, \texttt{tail}, \texttt{append}, etc. on lists
+would not require explicit permission to be used.
+\item More complex operations such as sorting procedures
+would require permission before you used them.
+\end{itemize}
+
+Additionally, the standard \emph{higher-order} operations
+including \texttt{map}, \texttt{reduce}, \texttt{flatten}, and \texttt{filter} are permitted generally,
+unless the task is to implement such a higher-order operator.
+
+\section*{Part 1: The “pretty printer” \texttt{prettify} method  [30 marks]}
+\label{sec:org4b74ea6}
+Implement a method \texttt{prettify} on the \texttt{UTTerm} type
+provided in assignment.
+The implementation of the \texttt{UTTerm} type can be found
+\begin{itemize}
+\item \href{./../assignments/src/a2\_ulterm.sc}{here} in Scala, and
+\item \href{./../assignments/src/a2\_ulterm.rb}{here} in Ruby.
+\end{itemize}
+
+Your method should take a \texttt{UTTerm} are return a string.
+As an example, given the \texttt{UTTerm} representing the
+λ-term (with unnamed variables)
+\begin{minted}[breaklines=true]{text}
+λ λ λ 2 1 0
+\end{minted}
+which is internally represented as a 
+should produce a string such as
+\begin{minted}[breaklines=true]{text}
+lambda x . lambda y . lambda z . x y z
+\end{minted}
+
+The exact choices of variable names do not matter;
+however, you must not change the meaning of the term.
+For instance, considering the above term, output
+\begin{minted}[breaklines=true]{text}
+lambda x . lambda y . lambda x . x y x
+\end{minted}
+would be \emph{incorrect}.
+
+(You may want to use a helper method which has an argument to
+keep track of the variable names already in use.
+But as usual, the implementation details are within your control.)
+
+\section*{Testing}
+\label{sec:orge1f7841}
+:TODO:
+\end{document}

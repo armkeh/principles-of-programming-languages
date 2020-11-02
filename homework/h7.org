@@ -1,0 +1,261 @@
+#+Title: Computer Science 3MI3 – 2020 homework 7
+#+Subtitle: Pretty printing a representation of the untyped λ-calculus.
+#+Author: Mark Armstrong
+#+Date: November 1st, 2020
+#+Description: Preparing for assignment 2 by writing pretty printers.
+#+Options: num:nil
+#+SETUPFILE: ../org-html-themes/setup/theme-readtheorg-local.setup
+
+* Introduction
+:PROPERTIES:
+:CUSTOM_ID: Introduction
+:END:
+
+For this homework, you will extend the implementations
+of the ~UL~ untyped λ-calculus in Scala and Ruby,
+which are provided in assignment 2,
+with a /pretty printing/ method.
+
+This language implementation makes use of unnamed variables
+through /de Bruijn/ indices.
+This simplifies the implementation; specifically,
+- we eliminate the need to replace names of variables
+  with “fresh” names during substitution; instead,
+  - (a relatively tedious problem;
+    how do we keep track of fresh names?)
+- we must only shift variable indexes according to the
+  number of enclosing λ's (variable binders.)
+  - (a relatively trivial problem.)
+
+The one major downside to a representation using unnamed variables
+is that the terms are far less human readable.
+Instead of terms such as
+#+begin_src text
+λ x → λ y → λ z → x y z
+#+end_src
+we now have terms such as
+#+begin_src text
+λ λ λ 2 1 0
+#+end_src
+
+Hence, the task of this homework to implement a /pretty printer/,
+that chooses variable names for a term and “prints” the term
+(in fact, it should convert terms to strings,
+not print them directly.)
+
+* Boilerplate
+:PROPERTIES:
+:CUSTOM_ID: Boilerplate
+:END:
+
+** Submission procedures
+:PROPERTIES:
+:CUSTOM_ID: Submission-procedures
+:END:
+
+#+INCLUDE: "./../boilerplate.org::*Homework submission" :only-contents t
+
+** Proper conduct for coursework
+:PROPERTIES:
+:CUSTOM_ID: Proper-conduct-for-coursework
+:END:
+
+#+INCLUDE: "./../boilerplate.org::*Homework conduct" :only-contents t
+
+* Part 1: The “pretty printer” ~prettify~ method  [30 marks]
+:PROPERTIES:
+:CUSTOM_ID: Part-1:-The-“pretty-printer”-~prettify~-method--[30 marks]
+:END:
+
+Implement a method ~prettify~ on the ~UTTerm~ type
+provided in assignment.
+The implementation of the ~UTTerm~ type can be found
+- [[./../assignments/src/a2_ulterm.sc][here]] in Scala, and
+- [[./../assignments/src/a2_ulterm.rb][here]] in Ruby.
+
+Your method should take a ~UTTerm~ are return a string.
+As an example, given the ~UTTerm~ representing the
+λ-term (with unnamed variables)
+#+begin_src text
+λ λ λ 2 1 0
+#+end_src
+which is internally represented as a 
+should produce a string such as
+#+begin_src text
+lambda x . lambda y . lambda z . x y z
+#+end_src
+
+The exact choices of variable names do not matter;
+however, you must not change the meaning of the term.
+For instance, considering the above term, output
+#+begin_src text
+lambda x . lambda y . lambda x . x y x
+#+end_src
+would be /incorrect/.
+
+(You may want to use a helper method which has an argument to
+keep track of the variable names already in use.
+But as usual, the implementation details are within your control.)
+
+* Testing
+:PROPERTIES:
+:CUSTOM_ID: Testing
+:END:
+
+:TODO:
+
+* COMMENT Testing language
+:PROPERTIES:
+:CUSTOM_ID: COMMENT-Testing-language
+:END:
+
+Unit tests for the requested methods/functions
+are available
+- here [[./testing/h7/h7t.sc][h7t.sc]] and
+- here [[./testing/h7/h7t.rb][h7t.rb]].
+The contents of the unit test file are also repeated below.
+
+#+begin_center
+*Unlike previous homeworks, passing these tests does not guarantee*
+*your solution behaves as expected.*
+
+The tests will print an example string and the string your method returns.
+They do not have to match exactly; instead, the terms they show
+must be equivalent except for naming of bound variables.
+(This is to allow for variations in how variable names are chosen.)
+#+end_center
+
+** Automated testing via Docker
+:PROPERTIES:
+:CUSTOM_ID: Automated-testing-via-Docker
+:END:
+
+The Docker setup and usage scripts are available at the following links.
+Their contents are also repeated below.
+- [[./testing/h7/Dockerfile][Dockerfile]]
+- [[./testing/h7/docker-compose.yml][docker-compose.yml]]
+- [[./testing/h7/setup.sh][setup.sh]]
+- [[./testing/h7/run.sh][run.sh]]
+Place them into your ~h7~ directory where your ~h7.sc~ and ~h7.rb~ files
+and the ~h7t.sc~ and ~h7t.rb~ (linked to above) files exist,
+then run ~setup.sh~ and ~run.sh~.
+
+You may also refer to the README
+for this testing setup and those files
+[[https://github.com/armkeh/principles-of-programming-languages/tree/master/homework/testing/h5][on the course GitHub repo]].
+
+Note that the use of the ~setup.sh~ and ~run.sh~ scripts assumes
+that you are in a ~bash~ like shell; if you are on Windows,
+and not using WSL or WSL2, you may have
+to run the commands contained in those scripts manually.
+
+** The tests
+:PROPERTIES:
+:CUSTOM_ID: The-tests
+:END:
+
+The contents of the testing script are repeated here.
+
+[[./testing/h7/h7t.rb][h7t.rb]]
+#+begin_src ruby :results output :tangle ./testing/h7/h7t.rb
+require_relative "h7"
+require "test/unit"
+
+class SimpleTests < Test::Unit::TestCase
+
+#  def test_constant_expression_zero
+#    e = construct_const(0)
+#    assert_equal(0, e.interpret)
+#  end
+#
+#  def test_additive_expression
+#    e1 = construct_const(5)
+#    e2 = construct_const(4)
+#    e = construct_plus(e1,e2)
+#    assert_equal(9, e.interpret)
+#  end
+#
+#  def test_exponential_expression
+#    e1 = construct_const(5)
+#    e2 = construct_const(4)
+#    e = construct_exp(e1,e2)
+#    assert_equal(625, e.interpret)
+#  end
+end
+#+end_src
+
+** The Docker setup
+:PROPERTIES:
+:CUSTOM_ID: The-Docker-setup
+:END:
+
+The contents of the Docker setup files and scripts are repeated here.
+
+[[./testing/h7/Dockerfile][Dockerfile]]
+#+begin_src docker :tangle ./testing/h7/Dockerfile
+FROM ruby:2.7.2-buster
+
+# Set the name of the maintainers
+MAINTAINER Habib Ghaffari Hadigheh, Mark Armstrong <ghaffh1@mcmaster.ca, armstmp@mcmaster.ca>
+
+# Set the working directory
+WORKDIR /opt/h6
+#+end_src
+
+[[./testing/h7/docker-compose.yml][docker-compose.yml]]
+#+begin_src yaml :tangle ./testing/h7/docker-compose.yml
+version: '2'
+services:
+  service:
+    build: .
+    image: 3mi3_h7_docker_image
+    volumes:
+      - .:/opt/h7
+    container_name: 3mi3_h7_container
+    command: ['ruby', 'h7t.rb']
+#+end_src
+
+[[./testing/h5/setup.sh][setup.sh]]
+#+begin_src shell :tangle ./testing/h7/setup.sh :shebang t
+docker-compose build --force-rm
+#+end_src
+
+[[./testing/h5/run.sh][run.sh]]
+#+begin_src shell :tangle ./testing/h7/run.sh :shebang t
+# Run the container
+docker-compose up --force-recreate
+# Stop the container after finishing the test run
+docker-compose stop -t 1
+#+end_src
+
+[[./testing/h5/README.md][README.md]]
+#+begin_src text :tangle ./testing/h7/README.md
+# Instructions for automated testing using Docker
+
+We have already created a `Dockerfile` here which specifies
+all the necessary packages, etc., for compiling and running your code.
+You only need to follow the instructions below to see 
+the results of unit tests designed to check your implementation.
+
+## Setup
+We use `docker-compose` and its configuration file to build the image.
+Assuming you have `docker` and `docker-compose` installed,
+simply execute
+```shell script
+./setup.sh
+```
+to generate the image.
+
+## Prepare your code for the running the tests
+You only need to place the `h7t.sc` and `h7t.rb` unit test files and
+the `run.sh` file in the same directory as your `h7.sc` and `h7.rb` source files.
+
+## Running the tests
+As with the build process, we have already put
+the configuration needed for running the test inside `docker-compose.yml`.
+Simply execute
+```shell script
+./run.sh
+```
+to run and see the results of the tests.
+#+end_src
