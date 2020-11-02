@@ -739,19 +739,11 @@ significant difference between Monday and Wednesday.
 
 ## Current homeworks
 
-### Homework 6 – Representing and interpreting `Expr` in Ruby – Oct 23rd to Nov 1st
+### Homework 7 – Pretty printing a representation of the untyped λ-calculus – Nov 1st to Nov 8th
 
-  - [HTML](./homework/h6.html)
-  - [PDF](./homework/h6.pdf)
-  - [Org plaintext](./homework/h6.org)
-
-### Homework 5 – “Fizzbuzz”-ing in Ruby – Oct 12th to Oct 25th
-
-Note the due date: the Sunday following reading week.
-
-  - [HTML](./homework/h5.html)
-  - [PDF](./homework/h5.pdf)
-  - [Org plaintext](./homework/h5.org)
+  - [HTML](./homework/h7.html)
+  - [PDF](./homework/h7.pdf)
+  - [Org plaintext](./homework/h7.org)
 
 ## Homework testing policy
 
@@ -774,6 +766,21 @@ used for every student's
 submission.
 
 ## Previous homeworks
+
+### Homework 6 – Representing and interpreting `Expr` in Ruby – Oct 23rd to Nov 1st
+
+  - [HTML](./homework/h6.html)
+  - [PDF](./homework/h6.pdf)
+  - [Org plaintext](./homework/h6.org)
+
+### Homework 5 – “Fizzbuzz”-ing in Ruby – Oct 12th to Oct 25th
+
+Note the due date: the Sunday following reading week.
+
+  - [HTML](./homework/h5.html)
+  - [PDF](./homework/h5.pdf)
+  - [Org
+plaintext](./homework/h5.org)
 
 ### Homework 4 – Working with lazy (potentially infinite) lists in Scala – Oct 7th to Oct 19th
 

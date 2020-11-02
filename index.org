@@ -781,6 +781,9 @@ difference between Monday and Wednesday.
 :END:
 
 *** Homework 7 – Pretty printing a representation of the untyped λ-calculus – Nov 1st to Nov 8th
+:PROPERTIES:
+:CUSTOM_ID: Homework-7-–-Pretty-printing-a-representation-of-the-untyped-λ-calculus-–-Nov-1st-to-Nov-8th
+:END:
 
 - [[./homework/h7.html][HTML]]
 - [[./homework/h7.pdf][PDF]]
