@@ -10,7 +10,12 @@ better viewed at
 
 # Communication
 
-## October
+## November
+
+  - November 2nd
+    
+      - The recordings section has been updated with new links (for the
+        first time in a while 🙁.)
 
   - November 1st
     
@@ -23,6 +28,8 @@ better viewed at
       - More assignment 2 updates are to come ASAP; in particular, I
         will decide upon the change to the due date and provide the
         testing.
+
+## October
 
   - October 30th
     
@@ -676,6 +683,20 @@ but this may not be updated quickly after lectures/tutorials.
 These lectures cover material from the [Notes](#Notes) section of the
 website, and usually take place on Mondays and Wednesdays.
 
+  - [November 2nd (Monday) – Types
+    (part 2)](https://web.microsoftstream.com/video/5d454b17-ce30-42e3-b775-f5b2216cf451)
+  - [October 30th (Friday) – Some λ-calculus
+    topics](https://web.microsoftstream.com/video/efa0e5bf-3a86-43dc-bf61-1e26ea8fefb2)
+  - [October 26th (Monday) – Bindings and Scopes (part 3),
+    Types](https://web.microsoftstream.com/video/8dbb8f80-3317-46be-91b0-28333c94effa)
+  - [October 21st (Wednesday) – Bindings and scope
+    (part 2)](https://web.microsoftstream.com/video/89249645-df76-4960-ae1f-46dfb1d2539b)
+  - [October 19th (Monday) – Bindings and
+    scope](https://web.microsoftstream.com/video/4ac95e0c-37b9-4d93-af02-d828e72983fc)
+  - [October 7th (Wednesday) – And untyped λ-calculus, *UL* (part
+    3)](https://web.microsoftstream.com/video/521fe4e3-e3b5-40a0-b59a-3237136887e7)
+  - [October 5th (Monday) – And untyped λ-calculus, *UL* (part
+    2)](https://web.microsoftstream.com/video/0c33b318-f644-49a9-905e-676594e9d5da)
   - [September 30th (Wednesday) – An untyped λ-calculus,
     *UL*](https://web.microsoftstream.com/video/7c37e57d-4c10-4cae-914d-89b4e2e58a92)
   - [September 28th (Monday) – Formal languages
@@ -700,6 +721,10 @@ programs](#Literate%20programs) section of the website. Usually this
 material lays the groundwork for the weeks homework. These lectures
 usually take place on Fridays.
 
+  - [October 26th (Monday) – Trees in
+    Ruby](https://web.microsoftstream.com/video/03995825-e0dd-42bc-81b4-cc3e41f9a741)
+  - [October 9th (Friday) – Introduction to
+    Ruby](https://web.microsoftstream.com/video/65c0ab12-344e-4bca-8b16-dc469b6e2339)
   - [September 25th (Friday) – Trees in
     Prolog](https://web.microsoftstream.com/video/6201a5a8-3757-4dc4-bb98-ff49628f4639)
   - [September 18th (Friday) – Logical games in
@@ -713,6 +738,25 @@ The contents of each week's tutorials is usually consistent across the
 two tutorials. We will put a note here in the case that there is a
 significant difference between Monday and Wednesday.
 
+  - [Week 7 Monday, November 2nd – Propagating failure with the Option
+    type](https://web.microsoftstream.com/video/4040de86-4326-4543-9b7e-893f980cb0b4)
+  - [Week 6 Wednesday, October 28th – Trees in
+    Ruby](https://web.microsoftstream.com/video/204cb8c0-196f-4982-864e-882b91629e2a)
+    (Mark)
+  - [Week 6 Monday, October 26th – Trees in
+    Ruby](https://web.microsoftstream.com/video/03995825-e0dd-42bc-81b4-cc3e41f9a741)
+    (Mark)
+  - Week 5 Wednesday, October 21st – Introduction to Ruby
+      - Unfortunately not recorded.
+  - [Week 5 Monday, October 19th – Introduction to
+    Ruby](https://web.microsoftstream.com/video/9df1e93a-629c-4e8e-95c4-1326cc81e555)
+    (Mark)
+  - [Week 4 Wednesday, October 7th – More infinite data in
+    Scala](https://web.microsoftstream.com/video/63bf6efc-7f16-4a0e-86ea-68778fc1e0ea)
+    (Habib)
+  - [Week 4 Monday, October 5th – More infinite data in
+    Scala](https://web.microsoftstream.com/video/a44b3b3c-b61d-499f-b6c0-041613e13ccb)
+    (Mark)
   - [Week 3 Wednesday, September 30th – More trees in
     Prolog](https://web.microsoftstream.com/video/bb9938cd-ffec-43e6-b9d4-3a1e93b1ce2a)
     (Habib)
