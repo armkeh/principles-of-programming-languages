@@ -71,7 +71,7 @@ class ULVar < ULTerm
   def walk(currentBinders,&block)
     # This is a variable. Run the code in &block.
     # (yield does this; it "yields" control to the block.)
-    yield(@index, c)
+    yield(@index, currentBinders)
   end
 
   def to_s
