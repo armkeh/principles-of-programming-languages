@@ -3,12 +3,15 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-11-04 Wed 00:24 -->
+<!-- 2020-11-04 Wed 00:38 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Propagating failure with the <code>Option</code> type</title>
 <meta name="generator" content="Org mode" />
 <meta name="author" content="Mark Armstrong" />
+<meta name="description" content="Easing the use of the ~Option~ type by
+abstracting away the handling of failure."
+ />
 <style type="text/css">
  <!--/*--><![CDATA[/*><!--*/
   .title  { text-align: center;
@@ -193,6 +196,12 @@
   .org-svg { width: 90%; }
   /*]]>*/-->
 </style>
+<link rel="stylesheet" type="text/css" href="styles/readtheorg/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="styles/readtheorg/css/readtheorg.css"/>
+<script type="text/javascript" src="styles/lib/js/jquery.min.js"></script>
+<script type="text/javascript" src="styles/lib/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="styles/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" src="styles/readtheorg/js/readtheorg.js"></script>
 <style>pre.src{background:#000000;color:white;} </style>
 <script type="text/javascript">
 // @license magnet:?xt=urn:btih:e95b018ef3580986a04669f1b5879592219e2a7a&dn=public-domain.txt Public Domain
@@ -224,23 +233,53 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#Using-~Option~-to-represent-failure">1. Using <code>Option</code> to represent failure</a></li>
-<li><a href="#Propagating-the-empty-list">2. Propagating the empty list</a></li>
-<li><a href="#Improving-the-syntax">3. Improving the syntax</a></li>
-<li><a href="#It's-a-monad!">4. It's a monad!</a></li>
-<li><a href="#Aside-–-Other-means-to-represent-failure">5. Aside – Other means to represent failure</a>
+<li><a href="#Introduction">1. Introduction</a></li>
+<li><a href="#Motivation">2. Motivation</a></li>
+<li><a href="#Using-~Option~-to-represent-failure">3. Using <code>Option</code> to represent failure</a></li>
+<li><a href="#Propagating-the-empty-list">4. Propagating the empty list</a></li>
+<li><a href="#Improving-the-syntax">5. Improving the syntax</a></li>
+<li><a href="#It's-a-monad!">6. It's a monad!</a></li>
+<li><a href="#Aside-–-Other-means-to-represent-failure">7. Aside – Other means to represent failure</a>
 <ul>
-<li><a href="#The-~Either~-type">5.1. The <code>Either</code> type</a></li>
-<li><a href="#The-~Try~-type">5.2. The <code>Try</code> type</a></li>
-<li><a href="#Which-to-use?-~Option~,-~Either~-or-~Try~?">5.3. Which to use? <code>Option</code>, <code>Either</code> or <code>Try</code>?</a></li>
+<li><a href="#The-~Either~-type">7.1. The <code>Either</code> type</a></li>
+<li><a href="#The-~Try~-type">7.2. The <code>Try</code> type</a></li>
+<li><a href="#Which-to-use?-~Option~,-~Either~-or-~Try~?">7.3. Which to use? <code>Option</code>, <code>Either</code> or <code>Try</code>?</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
 
+<div id="outline-container-Introduction" class="outline-2">
+<h2 id="Introduction"><span class="section-number-2">1</span> Introduction</h2>
+<div class="outline-text-2" id="text-Introduction">
+<p>
+These notes were created during and after
+the tutorial on November 2nd.
+</p>
+</div>
+</div>
+
+<div id="outline-container-Motivation" class="outline-2">
+<h2 id="Motivation"><span class="section-number-2">2</span> Motivation</h2>
+<div class="outline-text-2" id="text-Motivation">
+<p>
+We have used the <code>Option</code> type previously to represent
+some sort of <i>failure</i>, but you have likely found
+it tedious to work with the results of functions
+which return <code>Option</code>'s.
+</p>
+
+<p>
+Today, we investigate this tediousness,
+and offer a way to avoid it,
+using the idea of a method which propagates failure.
+</p>
+</div>
+</div>
+
 <div id="outline-container-Using-~Option~-to-represent-failure" class="outline-2">
-<h2 id="Using-~Option~-to-represent-failure"><span class="section-number-2">1</span> Using <code>Option</code> to represent failure</h2>
+<h2 id="Using-~Option~-to-represent-failure"><span class="section-number-2">3</span> Using <code>Option</code> to represent failure</h2>
 <div class="outline-text-2" id="text-Using-~Option~-to-represent-failure">
 <p>
 The <code>Option</code> type in Scala, called <code>Maybe</code> type in some other languages,
@@ -390,7 +429,7 @@ in a fairly succicent way.
 </div>
 
 <div id="outline-container-Propagating-the-empty-list" class="outline-2">
-<h2 id="Propagating-the-empty-list"><span class="section-number-2">2</span> Propagating the empty list</h2>
+<h2 id="Propagating-the-empty-list"><span class="section-number-2">4</span> Propagating the empty list</h2>
 <div class="outline-text-2" id="text-Propagating-the-empty-list">
 <p>
 We can carry out a similar exercise on <code>List</code>'s.
@@ -431,7 +470,7 @@ to use this.
 </div>
 
 <div id="outline-container-Improving-the-syntax" class="outline-2">
-<h2 id="Improving-the-syntax"><span class="section-number-2">3</span> Improving the syntax</h2>
+<h2 id="Improving-the-syntax"><span class="section-number-2">5</span> Improving the syntax</h2>
 <div class="outline-text-2" id="text-Improving-the-syntax">
 <p>
 We can vastly improve the user-friendliness of our
@@ -478,7 +517,7 @@ of applying operations; the <code>&gt;&gt;=</code> is almost like a semicolon.
 </div>
 
 <div id="outline-container-It's-a-monad!" class="outline-2">
-<h2 id="It's-a-monad!"><span class="section-number-2">4</span> It's a monad!</h2>
+<h2 id="It's-a-monad!"><span class="section-number-2">6</span> It's a monad!</h2>
 <div class="outline-text-2" id="text-It's-a-monad!">
 <p>
 :TODO:
@@ -487,7 +526,7 @@ of applying operations; the <code>&gt;&gt;=</code> is almost like a semicolon.
 </div>
 
 <div id="outline-container-Aside-–-Other-means-to-represent-failure" class="outline-2">
-<h2 id="Aside-–-Other-means-to-represent-failure"><span class="section-number-2">5</span> Aside – Other means to represent failure</h2>
+<h2 id="Aside-–-Other-means-to-represent-failure"><span class="section-number-2">7</span> Aside – Other means to represent failure</h2>
 <div class="outline-text-2" id="text-Aside-–-Other-means-to-represent-failure">
 <p>
 There are at least two types other than <code>Option</code> which
@@ -500,7 +539,7 @@ are commonly used to represent failure in Scala;
 </div>
 
 <div id="outline-container-The-~Either~-type" class="outline-3">
-<h3 id="The-~Either~-type"><span class="section-number-3">5.1</span> The <code>Either</code> type</h3>
+<h3 id="The-~Either~-type"><span class="section-number-3">7.1</span> The <code>Either</code> type</h3>
 <div class="outline-text-3" id="text-The-~Either~-type">
 <p>
 We have used <code>Either</code> before; it is an instance of a sum or
@@ -544,7 +583,7 @@ as in correct.)
 </div>
 
 <div id="outline-container-The-~Try~-type" class="outline-3">
-<h3 id="The-~Try~-type"><span class="section-number-3">5.2</span> The <code>Try</code> type</h3>
+<h3 id="The-~Try~-type"><span class="section-number-3">7.2</span> The <code>Try</code> type</h3>
 <div class="outline-text-3" id="text-The-~Try~-type">
 <p>
 The <code>Try</code> type is somewhat “in between” an <code>Option</code> and an <code>Either</code> type.
@@ -580,7 +619,7 @@ safediv<span style="color: #00cd68;">(</span><span style="color: #00bcff;">4</sp
 </div>
 
 <div id="outline-container-Which-to-use?-~Option~,-~Either~-or-~Try~?" class="outline-3">
-<h3 id="Which-to-use?-~Option~,-~Either~-or-~Try~?"><span class="section-number-3">5.3</span> Which to use? <code>Option</code>, <code>Either</code> or <code>Try</code>?</h3>
+<h3 id="Which-to-use?-~Option~,-~Either~-or-~Try~?"><span class="section-number-3">7.3</span> Which to use? <code>Option</code>, <code>Either</code> or <code>Try</code>?</h3>
 <div class="outline-text-3" id="text-Which-to-use?-~Option~,-~Either~-or-~Try~?">
 <p>
 Compared to the use of the <code>Option</code> type,
@@ -610,7 +649,7 @@ In fact, it could be used to represent both the <code>Option[A]</code> type
 <p class="author">Author: Mark Armstrong</p>
      <p class="author">Contact: <a href="mailto:markparmstrong@gmail.com">markparmstrong@gmail.com</a></p>
      <p class="date">Original date: </p>
-     <p class="date">Last updated: 2020-11-04 Wed 00:24</p>
+     <p class="date">Last updated: 2020-11-04 Wed 00:38</p>
      <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.90 (<a href="https://orgmode.org">Org</a> mode 9.4)</p>
      <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

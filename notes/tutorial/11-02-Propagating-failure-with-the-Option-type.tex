@@ -1,4 +1,4 @@
-% Created 2020-11-04 Wed 00:24
+% Created 2020-11-04 Wed 00:38
 % Intended LaTeX compiler: lualatex
 \documentclass[11pt]{article}
 \usepackage{graphicx}
@@ -19,6 +19,8 @@
 \AtBeginEnvironment{minted}{\dontdofcolorbox}
 \makeatother
 \usepackage[newfloat]{minted}
+\usepackage{unicode-math}
+\usepackage{unicode}
 \author{Mark Armstrong}
 \date{\today}
 \title{Propagating failure with the \texttt{Option} type}
@@ -26,7 +28,7 @@
    pdfauthor={Mark Armstrong},
    pdftitle={Propagating failure with the \texttt{Option} type},
    pdfkeywords={},
-   pdfsubject={},
+   pdfsubject={Easing the use of the \texttt{Option} type by abstracting away the handling of failure.},
    pdfcreator={Emacs 27.0.90 (Org mode 9.4)},
    pdflang={English},
    colorlinks,
@@ -40,12 +42,28 @@
 \tableofcontents
 
 
+\section{Introduction}
+\label{sec:org3d6d534}
+These notes were created during and after
+the tutorial on November 2nd.
+
+\section{Motivation}
+\label{sec:orgc1249f2}
+We have used the \texttt{Option} type previously to represent
+some sort of \emph{failure}, but you have likely found
+it tedious to work with the results of functions
+which return \texttt{Option}'s.
+
+Today, we investigate this tediousness,
+and offer a way to avoid it,
+using the idea of a method which propagates failure.
+
 \section{Using \texttt{Option} to represent failure}
-\label{sec:orge65a92c}
+\label{sec:org1f58244}
 The \texttt{Option} type in Scala, called \texttt{Maybe} type in some other languages,
 lets us represent \emph{in the type system} the possibility of failure
 for a computation.
-(See the \hyperref[sec:org3860b46]{aside} below for a discussion
+(See the \hyperref[sec:orga0c6232]{aside} below for a discussion
  of other types for representing failure in Scala.)
 
 For instance, consider division. Usually, division by 0 results
@@ -152,7 +170,7 @@ def half_of_third_of_quarter(x: Int): Option[Int] =
 \end{minted}
 
 \section{Propagating the empty list}
-\label{sec:orge09bfb0}
+\label{sec:org0d4f8f0}
 We can carry out a similar exercise on \texttt{List}'s.
 
 In this case, since the return value must be a list,
@@ -182,7 +200,7 @@ def bunnyInvasion[A](xs: List[A]): List[A] =
 \end{minted}
 
 \section{Improving the syntax}
-\label{sec:orgd2a2046}
+\label{sec:org8105288}
 We can vastly improve the user-friendliness of our
 methods above by using a better name.
 In fact, we should use an \emph{operator}; a name consisting of symbols.
@@ -218,11 +236,11 @@ def half_of_third_of_quarter(x: Int): Option[Int] =
 \end{minted}
 
 \section{It's a monad!}
-\label{sec:org3ae5971}
+\label{sec:orgf0c46fc}
 :TODO:
 
 \section{Aside – Other means to represent failure}
-\label{sec:org3860b46}
+\label{sec:orga0c6232}
 There are at least two types other than \texttt{Option} which
 are commonly used to represent failure in Scala;
 \begin{itemize}
@@ -231,7 +249,7 @@ are commonly used to represent failure in Scala;
 \end{itemize}
 
 \subsection{The \texttt{Either} type}
-\label{sec:orgcc82a72}
+\label{sec:org1872663}
 We have used \texttt{Either} before; it is an instance of a sum or
 disjoint union type, which can represent two possible types.
 
@@ -262,7 +280,7 @@ and the \texttt{Right} case is used for success (since it is “right”,
 as in correct.)
 
 \subsection{The \texttt{Try} type}
-\label{sec:org5181eeb}
+\label{sec:orgb7569e1}
 The \texttt{Try} type is somewhat “in between” an \texttt{Option} and an \texttt{Either} type.
 
 Like an \texttt{Either}, the \texttt{Try} type's two constructors, \texttt{Success} and \texttt{Failure},
@@ -286,7 +304,7 @@ safediv(4,2)   // Returns Success(2)
 \end{minted}
 
 \subsection{Which to use? \texttt{Option}, \texttt{Either} or \texttt{Try}?}
-\label{sec:org568ba4f}
+\label{sec:orgfe5a597}
 Compared to the use of the \texttt{Option} type,
 the \texttt{Try} type does take a bit less work;
 we don't have to specifically check for the cases that

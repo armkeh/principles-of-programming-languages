@@ -1,6 +1,35 @@
 #+Title: Propagating failure with the ~Option~ type
 #+Author: Mark Armstrong
-#+Description: 
+#+Description: Easing the use of the ~Option~ type by
+#+Description: abstracting away the handling of failure.
+#+SETUPFILE: ../../org-html-themes/setup/theme-readtheorg-local.setup
+
+* LaTeX settings                                :noexport:
+
+#+LaTeX_header: \usepackage{unicode-math}
+#+LaTeX_header: \usepackage{unicode}
+
+* Introduction
+:PROPERTIES:
+:CUSTOM_ID: Introduction
+:END:
+
+These notes were created during and after
+the tutorial on November 2nd.
+
+* Motivation
+:PROPERTIES:
+:CUSTOM_ID: Motivation
+:END:
+
+We have used the ~Option~ type previously to represent
+some sort of /failure/, but you have likely found
+it tedious to work with the results of functions
+which return ~Option~'s.
+
+Today, we investigate this tediousness,
+and offer a way to avoid it,
+using the idea of a method which propagates failure.
 
 * Using ~Option~ to represent failure
 :PROPERTIES:
