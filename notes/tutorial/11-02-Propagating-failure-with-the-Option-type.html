@@ -1,0 +1,618 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2020-11-04 Wed 00:24 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Propagating failure with the <code>Option</code> type</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Mark Armstrong" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<style>pre.src{background:#000000;color:white;} </style>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:e95b018ef3580986a04669f1b5879592219e2a7a&dn=public-domain.txt Public Domain
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.add("code-highlighted");
+         target.classList.add("code-highlighted");
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.remove("code-highlighted");
+         target.classList.remove("code-highlighted");
+       }
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Propagating failure with the <code>Option</code> type</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#Using-~Option~-to-represent-failure">1. Using <code>Option</code> to represent failure</a></li>
+<li><a href="#Propagating-the-empty-list">2. Propagating the empty list</a></li>
+<li><a href="#Improving-the-syntax">3. Improving the syntax</a></li>
+<li><a href="#It's-a-monad!">4. It's a monad!</a></li>
+<li><a href="#Aside-–-Other-means-to-represent-failure">5. Aside – Other means to represent failure</a>
+<ul>
+<li><a href="#The-~Either~-type">5.1. The <code>Either</code> type</a></li>
+<li><a href="#The-~Try~-type">5.2. The <code>Try</code> type</a></li>
+<li><a href="#Which-to-use?-~Option~,-~Either~-or-~Try~?">5.3. Which to use? <code>Option</code>, <code>Either</code> or <code>Try</code>?</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-Using-~Option~-to-represent-failure" class="outline-2">
+<h2 id="Using-~Option~-to-represent-failure"><span class="section-number-2">1</span> Using <code>Option</code> to represent failure</h2>
+<div class="outline-text-2" id="text-Using-~Option~-to-represent-failure">
+<p>
+The <code>Option</code> type in Scala, called <code>Maybe</code> type in some other languages,
+lets us represent <i>in the type system</i> the possibility of failure
+for a computation.
+(See the <a href="#Aside-–-Other-means-to-represent-failure">aside</a> below for a discussion
+ of other types for representing failure in Scala.)
+</p>
+
+<p>
+For instance, consider division. Usually, division by 0 results
+in an exception, which breaks control flow, and unless caught,
+results in a crash. Such breaks in control flow make programs
+harder to reason about; they are essentially unconditional jump statements.
+</p>
+
+<p>
+We can write a “safe” division method using <code>Option</code>:
+</p>
+<div class="org-src-container">
+<pre class="src src-amm"><span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">safediv</span><span style="color: #00cd68;">(</span>x<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Int</span>, y<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Int</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Option</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">Int</span><span style="color: #00cd68;">]</span> <span style="color: #b6a0ff;">=</span> <span style="color: #00cd68;">{</span>
+  <span style="color: #b6a0ff;">if</span> <span style="color: #b6a0ff;">(</span>y == <span style="color: #00bcff;">0</span><span style="color: #b6a0ff;">)</span>
+    <span style="color: #00bcff;">None</span>
+  <span style="color: #b6a0ff;">else</span>
+    <span style="color: #00bcff;">Some</span><span style="color: #b6a0ff;">(</span>x / y<span style="color: #b6a0ff;">)</span>
+<span style="color: #00cd68;">}</span>
+</pre>
+</div>
+<p>
+The use of <code>safediv</code> requires the user to “unwrap” the result.
+The returned value is an <code>Option[Int]</code>, not an <code>Int</code>,
+and cannot be used as if it were just an <code>Int</code>.
+</p>
+
+<p>
+This is by design; we want to force the user to handle
+the possibility of failure.
+But notice that to use <code>safediv</code> twice in a row, we have to unwrap
+the result of the first call before making the second call,
+and if it's <code>None</code>, we just propagate the error
+and just return <code>None</code>.
+</p>
+<div class="org-src-container">
+<pre class="src src-amm"><span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">half_of_third</span><span style="color: #00cd68;">(</span>x<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Int</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Option</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">Int</span><span style="color: #00cd68;">]</span> <span style="color: #b6a0ff;">=</span>
+  <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">First, try to take a third.</span>
+  safediv<span style="color: #00cd68;">(</span>x,<span style="color: #00bcff;">3</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">match</span> <span style="color: #00cd68;">{</span>
+    <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">If that succeeds, try to halve the result.</span>
+    <span style="color: #b6a0ff;">case</span> <span style="color: #f78fe7;">Some</span><span style="color: #b6a0ff;">(</span><span style="color: #00d3d0;">y</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">=&gt;</span> safediv<span style="color: #b6a0ff;">(</span>y,<span style="color: #00bcff;">2</span><span style="color: #b6a0ff;">)</span>
+    <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Otherwise, propagate the failure.</span>
+    <span style="color: #b6a0ff;">case</span> <span style="color: #00bcff;">None</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">None</span>
+  <span style="color: #00cd68;">}</span>
+</pre>
+</div>
+<p>
+This is a lot more to write than the pseudocode
+</p>
+<div class="org-src-container">
+<pre class="src src-text">safediv<span style="color: #00cd68;">(</span>safediv<span style="color: #b6a0ff;">(</span>x,3<span style="color: #b6a0ff;">)</span>,2<span style="color: #00cd68;">)</span>
+</pre>
+</div>
+<p>
+we might have in mind.
+</p>
+
+<p>
+And if we wanted to compose this safe division together
+more than two times, the situation gets even worse.
+</p>
+<div class="org-src-container">
+<pre class="src src-amm"><span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">half_of_third_of_quarter</span><span style="color: #00cd68;">(</span>x<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Int</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Option</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">Int</span><span style="color: #00cd68;">]</span> <span style="color: #b6a0ff;">=</span>
+  <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Try to quarter the argument.</span>
+  safediv<span style="color: #00cd68;">(</span>x,<span style="color: #00bcff;">4</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">match</span> <span style="color: #00cd68;">{</span>
+    <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">If that succeeds, try to take a third of the result.</span>
+    <span style="color: #b6a0ff;">case</span> <span style="color: #f78fe7;">Some</span><span style="color: #b6a0ff;">(</span><span style="color: #00d3d0;">y</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">=&gt;</span> safediv<span style="color: #b6a0ff;">(</span>y,<span style="color: #00bcff;">3</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">match</span> <span style="color: #b6a0ff;">{</span>
+      <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">If that succeeds, halve the result.</span>
+      <span style="color: #b6a0ff;">case</span> <span style="color: #f78fe7;">Some</span><span style="color: #6ae4b9;">(</span><span style="color: #00d3d0;">z</span><span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">=&gt;</span> safediv<span style="color: #6ae4b9;">(</span>z,<span style="color: #00bcff;">2</span><span style="color: #6ae4b9;">)</span>
+      <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Otherwise, if taking a third failed, propagate the failure.</span>
+      <span style="color: #b6a0ff;">case</span> <span style="color: #00bcff;">None</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">None</span>
+    <span style="color: #b6a0ff;">}</span>
+    <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Otherwise, if taking a quarter failed, propagate the failure.</span>
+    <span style="color: #b6a0ff;">case</span> <span style="color: #00bcff;">None</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">None</span>
+  <span style="color: #00cd68;">}</span>
+</pre>
+</div>
+
+<p>
+this is <b>much</b> worse to write than the already lengthy
+</p>
+<div class="org-src-container">
+<pre class="src src-text">safediv<span style="color: #00cd68;">(</span>safediv<span style="color: #b6a0ff;">(</span>safediv<span style="color: #6ae4b9;">(</span>x,4<span style="color: #6ae4b9;">)</span>,3<span style="color: #b6a0ff;">)</span>,2<span style="color: #00cd68;">)</span>
+</pre>
+</div>
+
+<p>
+It would be nice if at each step, we could just assume that the
+operation was successful, and only write the code
+for that case (since the code to handle failure is routine;
+just propogate the <code>None</code>.)
+We cannot do this directly, but we can write a method
+which does the tedious part for us! 
+</p>
+
+<p>
+The idea is that this method with take an <code>Option</code> valuew
+and a <i>function</i> that specifies “what to do in the case of success”.
+The method has builtin what to do with failure,
+so we only need to give it the code to handle
+</p>
+
+<p>
+So, this method we want has the type
+</p>
+<div class="org-src-container">
+<pre class="src src-text">Option<span style="color: #00cd68;">[</span>A<span style="color: #00cd68;">]</span> =&gt; <span style="color: #00cd68;">(</span>A =&gt; Option<span style="color: #b6a0ff;">[</span>B<span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span> =&gt; Option<span style="color: #00cd68;">[</span>B<span style="color: #00cd68;">]</span>
+</pre>
+</div>
+
+<p>
+And here it is (with a bit of a lengthy name.)
+</p>
+<div class="org-src-container">
+<pre class="src src-amm"><span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">propagateFailure</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span>,<span style="color: #00bcff;">B</span><span style="color: #00cd68;">](</span>ma<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Option</span><span style="color: #b6a0ff;">[</span><span style="color: #00bcff;">A</span><span style="color: #b6a0ff;">]</span>,
+                          f<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">A</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">Option</span><span style="color: #b6a0ff;">[</span><span style="color: #00bcff;">B</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Option</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">B</span><span style="color: #00cd68;">]</span> <span style="color: #b6a0ff;">=</span>
+  ma <span style="color: #b6a0ff;">match</span> <span style="color: #00cd68;">{</span>
+    <span style="color: #b6a0ff;">case</span> <span style="color: #f78fe7;">Some</span><span style="color: #b6a0ff;">(</span><span style="color: #00d3d0;">a</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">=&gt;</span> f<span style="color: #b6a0ff;">(</span>a<span style="color: #b6a0ff;">)</span>
+    <span style="color: #b6a0ff;">case</span> <span style="color: #00bcff;">None</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">None</span>
+  <span style="color: #00cd68;">}</span>
+</pre>
+</div>
+
+<p>
+Now we can write the two methods we had before,
+which had long, multi-line definitions,
+in a fairly succicent way.
+</p>
+<div class="org-src-container">
+<pre class="src src-amm"><span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">half_of_third</span><span style="color: #00cd68;">(</span>x<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Int</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Option</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">Int</span><span style="color: #00cd68;">]</span> <span style="color: #b6a0ff;">=</span>
+  propagateFailure<span style="color: #00cd68;">(</span>safediv<span style="color: #b6a0ff;">(</span>x,<span style="color: #00bcff;">3</span><span style="color: #b6a0ff;">)</span>, y <span style="color: #b6a0ff;">=&gt;</span> safediv<span style="color: #b6a0ff;">(</span>y,<span style="color: #00bcff;">2</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+
+<span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">half_of_third_of_quarter</span><span style="color: #00cd68;">(</span>x<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Int</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Option</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">Int</span><span style="color: #00cd68;">]</span> <span style="color: #b6a0ff;">=</span>
+  propagateFailure<span style="color: #00cd68;">(</span>propagateFailure<span style="color: #b6a0ff;">(</span>safediv<span style="color: #6ae4b9;">(</span>x,<span style="color: #00bcff;">4</span><span style="color: #6ae4b9;">)</span>,
+                                    <span style="color: #6ae4b9;">(</span>y<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Int</span><span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">=&gt;</span> safediv<span style="color: #6ae4b9;">(</span>y,<span style="color: #00bcff;">3</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span>,
+                   <span style="color: #b6a0ff;">(</span>z<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Int</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">=&gt;</span> safediv<span style="color: #b6a0ff;">(</span>z,<span style="color: #00bcff;">2</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-Propagating-the-empty-list" class="outline-2">
+<h2 id="Propagating-the-empty-list"><span class="section-number-2">2</span> Propagating the empty list</h2>
+<div class="outline-text-2" id="text-Propagating-the-empty-list">
+<p>
+We can carry out a similar exercise on <code>List</code>'s.
+</p>
+
+<p>
+In this case, since the return value must be a list,
+we concatenate the results in the case of the non-empty list.
+</p>
+<div class="org-src-container">
+<pre class="src src-amm"><span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">propagateEmpty</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span>,<span style="color: #00bcff;">B</span><span style="color: #00cd68;">](</span>xs<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">List</span><span style="color: #b6a0ff;">[</span><span style="color: #00bcff;">A</span><span style="color: #b6a0ff;">]</span>,
+                        f<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">A</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">List</span><span style="color: #b6a0ff;">[</span><span style="color: #00bcff;">B</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">List</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">B</span><span style="color: #00cd68;">]</span> <span style="color: #b6a0ff;">=</span>
+  xs <span style="color: #b6a0ff;">match</span> <span style="color: #00cd68;">{</span>
+    <span style="color: #b6a0ff;">case</span> <span style="color: #00d3d0;">y</span> <span style="color: #f78fe7;">::</span> <span style="color: #00d3d0;">ys</span> <span style="color: #b6a0ff;">=&gt;</span> f<span style="color: #b6a0ff;">(</span>y<span style="color: #b6a0ff;">)</span> ++ propagateEmpty<span style="color: #b6a0ff;">(</span>ys,f<span style="color: #b6a0ff;">)</span>
+    <span style="color: #b6a0ff;">case</span> <span style="color: #00bcff;">Nil</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">Nil</span>
+  <span style="color: #00cd68;">}</span>
+</pre>
+</div>
+
+<p>
+In the tutorial, I could only think of this contrived example
+(even more contrived than the previous ones!)
+to use this.
+</p>
+<div class="org-src-container">
+<pre class="src src-amm"><span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Bunny invasion example from the Haskell wiki</span>
+<span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Replicate each element in a list 3 times.</span>
+
+<span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">First, we give a method to repeat a value 3 times in a list.</span>
+<span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">replicate</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">](</span>x<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">A</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">List</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">]</span> <span style="color: #b6a0ff;">=</span>
+  <span style="color: #00bcff;">List</span><span style="color: #00cd68;">(</span>x,x,x<span style="color: #00cd68;">)</span>
+
+<span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">bunnyInvasion</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">](</span>xs<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">List</span><span style="color: #b6a0ff;">[</span><span style="color: #00bcff;">A</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">List</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">]</span> <span style="color: #b6a0ff;">=</span>
+  propagateEmpty<span style="color: #00cd68;">(</span>xs, <span style="color: #b6a0ff;">(</span>y<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">A</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">=&gt;</span> replicate<span style="color: #b6a0ff;">(</span>y<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-Improving-the-syntax" class="outline-2">
+<h2 id="Improving-the-syntax"><span class="section-number-2">3</span> Improving the syntax</h2>
+<div class="outline-text-2" id="text-Improving-the-syntax">
+<p>
+We can vastly improve the user-friendliness of our
+methods above by using a better name.
+In fact, we should use an <i>operator</i>; a name consisting of symbols.
+</p>
+
+<p>
+A common name for what we have been calling
+propagation is <code>&gt;&gt;=</code>, which is read/pronounced as <i>bind</i>.
+This operator evokes the idea of “piping” successful computations
+into the “next” expression.
+(So far as I know, in order for this operator to be written
+ using infix notation, it must be wrapped in a <code>class</code>;
+ we use an implicit class, essentially as a wrapper to <code>Option</code>.
+ If anyone knows how to avoid this, please let me know.)
+</p>
+<div class="org-src-container">
+<pre class="src src-amm"><span style="color: #f78fe7;">implicit</span> <span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">OptionBind</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">](</span><span style="color: #f78fe7;">private</span> <span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">ma</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Option</span><span style="color: #b6a0ff;">[</span><span style="color: #00bcff;">A</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">AnyVal</span> <span style="color: #00cd68;">{</span>
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">&gt;&gt;=</span><span style="color: #b6a0ff;">[</span><span style="color: #00bcff;">B</span><span style="color: #b6a0ff;">](</span>f<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">A</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">Option</span><span style="color: #6ae4b9;">[</span><span style="color: #00bcff;">B</span><span style="color: #6ae4b9;">]</span><span style="color: #b6a0ff;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Option</span><span style="color: #b6a0ff;">[</span><span style="color: #00bcff;">B</span><span style="color: #b6a0ff;">]</span> <span style="color: #b6a0ff;">=</span> ma <span style="color: #b6a0ff;">match</span> <span style="color: #b6a0ff;">{</span>
+    <span style="color: #b6a0ff;">case</span> <span style="color: #f78fe7;">Some</span><span style="color: #6ae4b9;">(</span><span style="color: #00d3d0;">a</span><span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">=&gt;</span> f<span style="color: #6ae4b9;">(</span>a<span style="color: #6ae4b9;">)</span>
+    <span style="color: #b6a0ff;">case</span> <span style="color: #00bcff;">None</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">None</span>
+  <span style="color: #b6a0ff;">}</span>
+<span style="color: #00cd68;">}</span>
+</pre>
+</div>
+
+<p>
+Now our code becomes even more readable.
+Notice how this syntax emphasizes the sequential nature
+of applying operations; the <code>&gt;&gt;=</code> is almost like a semicolon.
+</p>
+<div class="org-src-container">
+<pre class="src src-amm"><span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">half_of_third</span><span style="color: #00cd68;">(</span>x<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Int</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Option</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">Int</span><span style="color: #00cd68;">]</span> <span style="color: #b6a0ff;">=</span>
+  safediv<span style="color: #00cd68;">(</span>x,<span style="color: #00bcff;">3</span><span style="color: #00cd68;">)</span> &gt;&gt;= <span style="color: #00cd68;">(</span>y <span style="color: #b6a0ff;">=&gt;</span> safediv<span style="color: #b6a0ff;">(</span>y,<span style="color: #00bcff;">2</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+
+<span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">half_of_third_of_quarter</span><span style="color: #00cd68;">(</span>x<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Int</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Option</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">Int</span><span style="color: #00cd68;">]</span> <span style="color: #b6a0ff;">=</span>
+  safediv<span style="color: #00cd68;">(</span>x,<span style="color: #00bcff;">4</span><span style="color: #00cd68;">)</span> &gt;&gt;=
+    <span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">(</span>y<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Int</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">=&gt;</span> safediv<span style="color: #b6a0ff;">(</span>y,<span style="color: #00bcff;">3</span><span style="color: #b6a0ff;">)</span> &gt;&gt;=
+      <span style="color: #b6a0ff;">(</span><span style="color: #6ae4b9;">(</span>z<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Int</span><span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">=&gt;</span> safediv<span style="color: #6ae4b9;">(</span>z,<span style="color: #00bcff;">2</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-It's-a-monad!" class="outline-2">
+<h2 id="It's-a-monad!"><span class="section-number-2">4</span> It's a monad!</h2>
+<div class="outline-text-2" id="text-It's-a-monad!">
+<p>
+:TODO:
+</p>
+</div>
+</div>
+
+<div id="outline-container-Aside-–-Other-means-to-represent-failure" class="outline-2">
+<h2 id="Aside-–-Other-means-to-represent-failure"><span class="section-number-2">5</span> Aside – Other means to represent failure</h2>
+<div class="outline-text-2" id="text-Aside-–-Other-means-to-represent-failure">
+<p>
+There are at least two types other than <code>Option</code> which
+are commonly used to represent failure in Scala;
+</p>
+<ul class="org-ul">
+<li>the <code>Either</code> type and</li>
+<li>the <code>Try</code> type.</li>
+</ul>
+</div>
+
+<div id="outline-container-The-~Either~-type" class="outline-3">
+<h3 id="The-~Either~-type"><span class="section-number-3">5.1</span> The <code>Either</code> type</h3>
+<div class="outline-text-3" id="text-The-~Either~-type">
+<p>
+We have used <code>Either</code> before; it is an instance of a sum or
+disjoint union type, which can represent two possible types.
+</p>
+
+<p>
+Compared to the <code>Option[A]</code> type, which has constructors
+</p>
+<ul class="org-ul">
+<li><code>Some</code>, which carries an <code>A</code> value, and</li>
+<li><code>None</code>, which does not carry a value,</li>
+</ul>
+<p>
+the <code>Either[A,B]</code> type has constructors
+</p>
+<ul class="org-ul">
+<li><code>Left</code>, which carries an <code>A</code> value, and</li>
+<li><code>Right</code>, which carries a <code>B</code> value.</li>
+</ul>
+
+<p>
+So <code>Either</code> can be used to represent a possible failure,
+by deciding one of the two constructors represents failure
+and the other success.
+But compared to the <code>Option</code> type, failure values using
+an <code>Either</code> can carry some value, probably providing
+some information about the failure, such as
+a string that could be printed to the user,
+or some numerical or enum value representing an error type,
+such as a HTTP status code (e.g., a <code>404</code> standing for “file not found”. )
+</p>
+
+<p>
+By convention, when the <code>Either</code> type is used to represent
+possible failure, the <code>Left</code> case is used for failure,
+and the <code>Right</code> case is used for success (since it is “right”,
+as in correct.)
+</p>
+</div>
+</div>
+
+<div id="outline-container-The-~Try~-type" class="outline-3">
+<h3 id="The-~Try~-type"><span class="section-number-3">5.2</span> The <code>Try</code> type</h3>
+<div class="outline-text-3" id="text-The-~Try~-type">
+<p>
+The <code>Try</code> type is somewhat “in between” an <code>Option</code> and an <code>Either</code> type.
+</p>
+
+<p>
+Like an <code>Either</code>, the <code>Try</code> type's two constructors, <code>Success</code> and <code>Failure</code>,
+each carry a value.
+</p>
+
+<p>
+However, unlike the two constructors of an <code>Either</code>,
+the <code>Failure</code> constructor of a <code>Try</code> can <i>only</i> carry a <code>Throwable</code> value;
+that is, an exception value.
+</p>
+
+<p>
+The <code>Try</code> constructor then takes an expression that
+may result in an exception; if it does, that exception value
+is returned wrapped in a <code>Failure</code>. Otherwise, it returns
+the resulting value wrapped in a <code>Success</code>.
+</p>
+<div class="org-src-container">
+<pre class="src src-amm"><span style="color: #b6a0ff;">import</span> scala.util.<span style="color: #00cd68;">{</span><span style="color: #00bcff;">Try</span>, <span style="color: #00bcff;">Success</span>, <span style="color: #00bcff;">Failure</span><span style="color: #00cd68;">}</span>
+
+<span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">safediv</span><span style="color: #00cd68;">(</span>x<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Int</span>, y<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Int</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Try</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">Int</span><span style="color: #00cd68;">]</span> <span style="color: #b6a0ff;">=</span> <span style="color: #00bcff;">Try</span><span style="color: #00cd68;">(</span>x/y<span style="color: #00cd68;">)</span>
+
+safediv<span style="color: #00cd68;">(</span><span style="color: #00bcff;">4</span>,<span style="color: #00bcff;">0</span><span style="color: #00cd68;">)</span>   <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Returns Failure(java.lang.ArithmeticException: / by zero)</span>
+safediv<span style="color: #00cd68;">(</span><span style="color: #00bcff;">4</span>,<span style="color: #00bcff;">2</span><span style="color: #00cd68;">)</span>   <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Returns Success(2)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-Which-to-use?-~Option~,-~Either~-or-~Try~?" class="outline-3">
+<h3 id="Which-to-use?-~Option~,-~Either~-or-~Try~?"><span class="section-number-3">5.3</span> Which to use? <code>Option</code>, <code>Either</code> or <code>Try</code>?</h3>
+<div class="outline-text-3" id="text-Which-to-use?-~Option~,-~Either~-or-~Try~?">
+<p>
+Compared to the use of the <code>Option</code> type,
+the <code>Try</code> type does take a bit less work;
+we don't have to specifically check for the cases that
+will cause an exception.
+</p>
+
+<p>
+However, the <code>Try</code> type does not allow us to represent failures
+that are not rooted in a possible exception.
+An <code>Option</code> can be used to represent the lack of a result,
+regardless of the reason for that lack of result.
+</p>
+
+<p>
+And of course, since it can carry any two types in its two constructors,
+the <code>Either</code> type offers the most flexibility of all.
+In fact, it could be used to represent both the <code>Option[A]</code> type
+(<code>Either[Unit,A]</code>) and the <code>Try[A]</code> type (<code>Either[Throwable,A]</code>.)
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Mark Armstrong</p>
+     <p class="author">Contact: <a href="mailto:markparmstrong@gmail.com">markparmstrong@gmail.com</a></p>
+     <p class="date">Original date: </p>
+     <p class="date">Last updated: 2020-11-04 Wed 00:24</p>
+     <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.90 (<a href="https://orgmode.org">Org</a> mode 9.4)</p>
+     <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

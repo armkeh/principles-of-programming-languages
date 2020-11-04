@@ -18,6 +18,13 @@
 :CUSTOM_ID: November
 :END:
 
+- November 3rd ::
+
+  - The notes on propagating errors using the ~Option~ type
+    from Monday's tutorial have been cleaned up,
+    added to, and now posted under the tutorial notes
+    subsection of the literate program section of the site.
+
 - November 2nd ::
 
   - The recordings section has been updated with new links
@@ -675,6 +682,15 @@ Files from the Wednesday tutorial, led by Habib, are collected here.
 In most cases, the material is largely similar to the
 material from the lecture notes.
 
+*** Monday November 2nd – Propagating failure with the Option type
+:PROPERTIES:
+:CUSTOM_ID: Monday-November-2nd-–-Propagating-failure-with-the-Option-type
+:END:
+
+- [[./notes/tutorial/11-02-Propagating-failure-with-the-Option-type.html][HTML]]
+- [[./notes/tutorial/11-02-Propagating-failure-with-the-Option-type.pdf][PDF]]
+- [[./notes/tutorial/11-02-Propagating-failure-with-the-Option-type.org][Org plaintext]]
+  
 *** Monday October 26th & Wednesday October 28th – Trees in Ruby
 :PROPERTIES:
 :CUSTOM_ID: Monday-October-26th-&-Wednesday-October-28th-–-Trees-in-Ruby
@@ -764,8 +780,8 @@ found in the [[Literate programs]] section of the website.
 Usually this material lays the groundwork for the weeks homework.
 These lectures usually take place on Fridays.
 
-- [[https://web.microsoftstream.com/video/03995825-e0dd-42bc-81b4-cc3e41f9a741][October 26th (Monday) – Trees in Ruby]]
 - [[https://web.microsoftstream.com/video/65c0ab12-344e-4bca-8b16-dc469b6e2339][October 9th (Friday) – Introduction to Ruby]]
+- [[https://web.microsoftstream.com/video/0a516345-0f40-40f3-a309-6bf9a3046188][October 2nd (Friday) – Infinite data in Scala]]
 - [[https://web.microsoftstream.com/video/6201a5a8-3757-4dc4-bb98-ff49628f4639][September 25th (Friday) – Trees in Prolog]]
 - [[https://web.microsoftstream.com/video/f29fc2dd-f3c0-40f6-9e67-a81eeb273065][September 18th (Friday) – Logical games in Prolog]]
 - [[https://web.microsoftstream.com/video/fe0b46f8-2512-4084-a399-f9d1b33257b6][September 14th (Monday) – The Boom hierarchy in Scala]]

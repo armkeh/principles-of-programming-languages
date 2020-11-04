@@ -1,0 +1,304 @@
+% Created 2020-11-04 Wed 00:24
+% Intended LaTeX compiler: lualatex
+\documentclass[11pt]{article}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{etoolbox}
+\makeatletter
+\def\dontdofcolorbox{\renewcommand\fcolorbox[4][]{##4}}
+\AtBeginEnvironment{minted}{\dontdofcolorbox}
+\makeatother
+\usepackage[newfloat]{minted}
+\author{Mark Armstrong}
+\date{\today}
+\title{Propagating failure with the \texttt{Option} type}
+\hypersetup{
+   pdfauthor={Mark Armstrong},
+   pdftitle={Propagating failure with the \texttt{Option} type},
+   pdfkeywords={},
+   pdfsubject={},
+   pdfcreator={Emacs 27.0.90 (Org mode 9.4)},
+   pdflang={English},
+   colorlinks,
+   linkcolor=blue,
+   citecolor=blue,
+   urlcolor=blue
+   }
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+
+\section{Using \texttt{Option} to represent failure}
+\label{sec:orge65a92c}
+The \texttt{Option} type in Scala, called \texttt{Maybe} type in some other languages,
+lets us represent \emph{in the type system} the possibility of failure
+for a computation.
+(See the \hyperref[sec:org3860b46]{aside} below for a discussion
+ of other types for representing failure in Scala.)
+
+For instance, consider division. Usually, division by 0 results
+in an exception, which breaks control flow, and unless caught,
+results in a crash. Such breaks in control flow make programs
+harder to reason about; they are essentially unconditional jump statements.
+
+We can write a “safe” division method using \texttt{Option}:
+\begin{minted}[breaklines=true]{scala}
+def safediv(x: Int, y: Int): Option[Int] = {
+  if (y == 0)
+    None
+  else
+    Some(x / y)
+}
+\end{minted}
+The use of \texttt{safediv} requires the user to “unwrap” the result.
+The returned value is an \texttt{Option[Int]}, not an \texttt{Int},
+and cannot be used as if it were just an \texttt{Int}.
+
+This is by design; we want to force the user to handle
+the possibility of failure.
+But notice that to use \texttt{safediv} twice in a row, we have to unwrap
+the result of the first call before making the second call,
+and if it's \texttt{None}, we just propagate the error
+and just return \texttt{None}.
+\begin{minted}[breaklines=true]{scala}
+def half_of_third(x: Int): Option[Int] =
+  // First, try to take a third.
+  safediv(x,3) match {
+    // If that succeeds, try to halve the result.
+    case Some(y) => safediv(y,2)
+    // Otherwise, propagate the failure.
+    case None => None
+  }
+\end{minted}
+This is a lot more to write than the pseudocode
+\begin{minted}[breaklines=true]{text}
+safediv(safediv(x,3),2)
+\end{minted}
+we might have in mind.
+
+And if we wanted to compose this safe division together
+more than two times, the situation gets even worse.
+\begin{minted}[breaklines=true]{scala}
+def half_of_third_of_quarter(x: Int): Option[Int] =
+  // Try to quarter the argument.
+  safediv(x,4) match {
+    // If that succeeds, try to take a third of the result.
+    case Some(y) => safediv(y,3) match {
+      // If that succeeds, halve the result.
+      case Some(z) => safediv(z,2)
+      // Otherwise, if taking a third failed, propagate the failure.
+      case None => None
+    }
+    // Otherwise, if taking a quarter failed, propagate the failure.
+    case None => None
+  }
+\end{minted}
+
+this is \textbf{much} worse to write than the already lengthy
+\begin{minted}[breaklines=true]{text}
+safediv(safediv(safediv(x,4),3),2)
+\end{minted}
+
+It would be nice if at each step, we could just assume that the
+operation was successful, and only write the code
+for that case (since the code to handle failure is routine;
+just propogate the \texttt{None}.)
+We cannot do this directly, but we can write a method
+which does the tedious part for us! 
+
+The idea is that this method with take an \texttt{Option} valuew
+and a \emph{function} that specifies “what to do in the case of success”.
+The method has builtin what to do with failure,
+so we only need to give it the code to handle
+
+So, this method we want has the type
+\begin{minted}[breaklines=true]{text}
+Option[A] => (A => Option[B]) => Option[B]
+\end{minted}
+
+And here it is (with a bit of a lengthy name.)
+\begin{minted}[breaklines=true]{scala}
+def propagateFailure[A,B](ma: Option[A],
+                          f: A => Option[B]): Option[B] =
+  ma match {
+    case Some(a) => f(a)
+    case None => None
+  }
+\end{minted}
+
+Now we can write the two methods we had before,
+which had long, multi-line definitions,
+in a fairly succicent way.
+\begin{minted}[breaklines=true]{scala}
+def half_of_third(x: Int): Option[Int] =
+  propagateFailure(safediv(x,3), y => safediv(y,2))
+
+def half_of_third_of_quarter(x: Int): Option[Int] =
+  propagateFailure(propagateFailure(safediv(x,4),
+                                    (y: Int) => safediv(y,3)),
+                   (z: Int) => safediv(z,2))
+\end{minted}
+
+\section{Propagating the empty list}
+\label{sec:orge09bfb0}
+We can carry out a similar exercise on \texttt{List}'s.
+
+In this case, since the return value must be a list,
+we concatenate the results in the case of the non-empty list.
+\begin{minted}[breaklines=true]{scala}
+def propagateEmpty[A,B](xs: List[A],
+                        f: A => List[B]): List[B] =
+  xs match {
+    case y :: ys => f(y) ++ propagateEmpty(ys,f)
+    case Nil => Nil
+  }
+\end{minted}
+
+In the tutorial, I could only think of this contrived example
+(even more contrived than the previous ones!)
+to use this.
+\begin{minted}[breaklines=true]{scala}
+// Bunny invasion example from the Haskell wiki
+// Replicate each element in a list 3 times.
+
+// First, we give a method to repeat a value 3 times in a list.
+def replicate[A](x: A): List[A] =
+  List(x,x,x)
+
+def bunnyInvasion[A](xs: List[A]): List[A] =
+  propagateEmpty(xs, (y: A) => replicate(y))
+\end{minted}
+
+\section{Improving the syntax}
+\label{sec:orgd2a2046}
+We can vastly improve the user-friendliness of our
+methods above by using a better name.
+In fact, we should use an \emph{operator}; a name consisting of symbols.
+
+A common name for what we have been calling
+propagation is \texttt{>>=}, which is read/pronounced as \emph{bind}.
+This operator evokes the idea of “piping” successful computations
+into the “next” expression.
+(So far as I know, in order for this operator to be written
+ using infix notation, it must be wrapped in a \texttt{class};
+ we use an implicit class, essentially as a wrapper to \texttt{Option}.
+ If anyone knows how to avoid this, please let me know.)
+\begin{minted}[breaklines=true]{scala}
+implicit class OptionBind[A](private val ma: Option[A]) extends AnyVal {
+  def >>=[B](f: A => Option[B]): Option[B] = ma match {
+    case Some(a) => f(a)
+    case None => None
+  }
+}
+\end{minted}
+
+Now our code becomes even more readable.
+Notice how this syntax emphasizes the sequential nature
+of applying operations; the \texttt{>>=} is almost like a semicolon.
+\begin{minted}[breaklines=true]{scala}
+def half_of_third(x: Int): Option[Int] =
+  safediv(x,3) >>= (y => safediv(y,2))
+
+def half_of_third_of_quarter(x: Int): Option[Int] =
+  safediv(x,4) >>=
+    ((y: Int) => safediv(y,3) >>=
+      ((z: Int) => safediv(z,2)))
+\end{minted}
+
+\section{It's a monad!}
+\label{sec:org3ae5971}
+:TODO:
+
+\section{Aside – Other means to represent failure}
+\label{sec:org3860b46}
+There are at least two types other than \texttt{Option} which
+are commonly used to represent failure in Scala;
+\begin{itemize}
+\item the \texttt{Either} type and
+\item the \texttt{Try} type.
+\end{itemize}
+
+\subsection{The \texttt{Either} type}
+\label{sec:orgcc82a72}
+We have used \texttt{Either} before; it is an instance of a sum or
+disjoint union type, which can represent two possible types.
+
+Compared to the \texttt{Option[A]} type, which has constructors
+\begin{itemize}
+\item \texttt{Some}, which carries an \texttt{A} value, and
+\item \texttt{None}, which does not carry a value,
+\end{itemize}
+the \texttt{Either[A,B]} type has constructors
+\begin{itemize}
+\item \texttt{Left}, which carries an \texttt{A} value, and
+\item \texttt{Right}, which carries a \texttt{B} value.
+\end{itemize}
+
+So \texttt{Either} can be used to represent a possible failure,
+by deciding one of the two constructors represents failure
+and the other success.
+But compared to the \texttt{Option} type, failure values using
+an \texttt{Either} can carry some value, probably providing
+some information about the failure, such as
+a string that could be printed to the user,
+or some numerical or enum value representing an error type,
+such as a HTTP status code (e.g., a \texttt{404} standing for “file not found”. )
+
+By convention, when the \texttt{Either} type is used to represent
+possible failure, the \texttt{Left} case is used for failure,
+and the \texttt{Right} case is used for success (since it is “right”,
+as in correct.)
+
+\subsection{The \texttt{Try} type}
+\label{sec:org5181eeb}
+The \texttt{Try} type is somewhat “in between” an \texttt{Option} and an \texttt{Either} type.
+
+Like an \texttt{Either}, the \texttt{Try} type's two constructors, \texttt{Success} and \texttt{Failure},
+each carry a value.
+
+However, unlike the two constructors of an \texttt{Either},
+the \texttt{Failure} constructor of a \texttt{Try} can \emph{only} carry a \texttt{Throwable} value;
+that is, an exception value.
+
+The \texttt{Try} constructor then takes an expression that
+may result in an exception; if it does, that exception value
+is returned wrapped in a \texttt{Failure}. Otherwise, it returns
+the resulting value wrapped in a \texttt{Success}.
+\begin{minted}[breaklines=true]{scala}
+import scala.util.{Try, Success, Failure}
+
+def safediv(x: Int, y: Int): Try[Int] = Try(x/y)
+
+safediv(4,0)   // Returns Failure(java.lang.ArithmeticException: / by zero)
+safediv(4,2)   // Returns Success(2)
+\end{minted}
+
+\subsection{Which to use? \texttt{Option}, \texttt{Either} or \texttt{Try}?}
+\label{sec:org568ba4f}
+Compared to the use of the \texttt{Option} type,
+the \texttt{Try} type does take a bit less work;
+we don't have to specifically check for the cases that
+will cause an exception.
+
+However, the \texttt{Try} type does not allow us to represent failures
+that are not rooted in a possible exception.
+An \texttt{Option} can be used to represent the lack of a result,
+regardless of the reason for that lack of result.
+
+And of course, since it can carry any two types in its two constructors,
+the \texttt{Either} type offers the most flexibility of all.
+In fact, it could be used to represent both the \texttt{Option[A]} type
+(\texttt{Either[Unit,A]}) and the \texttt{Try[A]} type (\texttt{Either[Throwable,A]}.)
+\end{document}

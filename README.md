@@ -12,6 +12,13 @@ better viewed at
 
 ## November
 
+  - November 3rd
+    
+      - The notes on propagating errors using the `Option` type from
+        Monday's tutorial have been cleaned up, added to, and now posted
+        under the tutorial notes subsection of the literate program
+        section of the site.
+
   - November 2nd
     
       - The recordings section has been updated with new links (for the
@@ -636,7 +643,15 @@ Relevant raw code:
 
 Files from the Wednesday tutorial, led by Habib, are collected here. In
 most cases, the material is largely similar to the material from the
-lecture notes.
+lecture
+    notes.
+
+### Monday November 2nd – Propagating failure with the Option type
+
+  - [HTML](./notes/tutorial/11-02-Propagating-failure-with-the-Option-type.html)
+  - [PDF](./notes/tutorial/11-02-Propagating-failure-with-the-Option-type.pdf)
+  - [Org
+    plaintext](./notes/tutorial/11-02-Propagating-failure-with-the-Option-type.org)
 
 ### Monday October 26th & Wednesday October 28th – Trees in Ruby
 
@@ -721,10 +736,10 @@ programs](#Literate%20programs) section of the website. Usually this
 material lays the groundwork for the weeks homework. These lectures
 usually take place on Fridays.
 
-  - [October 26th (Monday) – Trees in
-    Ruby](https://web.microsoftstream.com/video/03995825-e0dd-42bc-81b4-cc3e41f9a741)
   - [October 9th (Friday) – Introduction to
     Ruby](https://web.microsoftstream.com/video/65c0ab12-344e-4bca-8b16-dc469b6e2339)
+  - [October 2nd (Friday) – Infinite data in
+    Scala](https://web.microsoftstream.com/video/0a516345-0f40-40f3-a309-6bf9a3046188)
   - [September 25th (Friday) – Trees in
     Prolog](https://web.microsoftstream.com/video/6201a5a8-3757-4dc4-bb98-ff49628f4639)
   - [September 18th (Friday) – Logical games in
