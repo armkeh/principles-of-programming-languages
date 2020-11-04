@@ -177,8 +177,9 @@ Most languages have at least these atomic types.
   - Sometimes an alternate name for the byte type (8-bit integers).
 - *Booleans*
   - Which, of course, can be stored in a bit,
-    but will usually be stored in at least a byte for
-    convenience of memory access.
+    but will usually be stored in at least a word (4 bits)
+    or perhaps even a byte (8 bits)
+    for convenience of memory access.
   
 ** Singleton and empty types
 
@@ -230,12 +231,6 @@ z = bottom :: EmptyAlt
 :t z   -- reports z :: EmptyAlt
 #+end_src
 @@html:Use the scroll bar to see the full example.@@
-
-#+RESULTS:
-: 
-: Prelude> Prelude> Prelude> Prelude> Prelude> Prelude> Prelude> Prelude> Prelude> Prelude> Prelude> Prelude> Prelude> Prelude> Prelude> Prelude> Prelude> Prelude> x :: Unit
-: y :: Empty
-: z :: EmptyAlt
 
 ** Implementation of atomic types
 
@@ -312,9 +307,8 @@ type
   DaysOfWorkWeek = Monday..Friday;
 #+end_src
 
-** Less common basic types
+** Less common numeric types
 
-Some languages include these less common basic types.
 - *Complex* numbers
   - Especially for scientific computation.
 - *Decimal* (representation of) numbers
@@ -325,18 +319,17 @@ Some languages include these less common basic types.
     they cannot be efficiently represented.
     - For instance, to store a decimal digit directly
       (without conversion to binary) takes at least 4 bits.
-      - There are 10 possibilities, too many for 3 bits, which can
-        encode 8 different states.
-      - But 4 bits could represent 16 states, instead of the 10
-        that are actually need.
-      - For memory access reasons, some such implementations
-        even use 8 bits per decimal digit.
+    - There are 10 possibilities, too many for 3 bits (which can
+      only have 8 different states.)
+    - But 4 bits could represent 16 states (6 more than needed.)
+    - For memory access reasons, some such implementations
+      even use 8 bits (one byte) per decimal digit.
 
 *** Complex numbers in C#
 
 (This example code taken from the
 [[https://docs.microsoft.com/en-us/dotnet/api/system.numerics.complex?view=netcore-3.1][.NET documentation]].)
-#+begin_src C#
+#+begin_src csh
 using System;
 using System.Numerics;
 
@@ -383,7 +376,7 @@ public class Example
 
 (This example code taken from the
 [[https://docs.microsoft.com/en-us/dotnet/api/system.decimal?view=netcore-3.1][.NET documentation]].)
-#+begin_src C#
+#+begin_src csh
 // Keeping my fortune in Decimals to avoid the round-off errors.
 class PiggyBank {
     protected decimal MyFortune;
@@ -472,7 +465,7 @@ adjacent memory cells.
     - To perform a lookup, just look ~element_space * index~ bits
       past the start of the array.
   - ~O(n)~ insert time (if inserting is possible.)
-    - To perform an insertion, the elements after the insertion point
+    - The (possibly ~n~-many) elements after the insertion point
       must be shifted.
   - It may be computationally costly or impossible to modify length.
 
@@ -548,7 +541,7 @@ such as sets and bags on computers.
 - Computers are extremely ordered machines; how do we store
   unordered collections in ordered memory?
 - When available, “set types” are usually implemented
-  using /trees/ or /associative arrays/.
+  using /trees/ or /associative arrays/ (discussed next.)
 
 ** Associative array (map, hash, table) types
 
@@ -558,7 +551,12 @@ are sets of key/value pairs.
   - (Though we could order the keys, and so impose
      an order on the collection.)
 - The programmer can imagine they are lists of key/value pairs.
-
+  - And they may even be implemented that way.
+    - But in practical languages, they are more often
+      implemented by sorting elements into “buckets”
+      by a hashing function on the keys.
+    - The implementations get quite complex.
+    
 ** Unions, variants
 
 Whereas an element of a product type contains
@@ -567,22 +565,28 @@ a /union/ or variant type contains
 - one element of a selection of types.
 
 Unions can be /tagged/ or /untagged/.
-- With an untagged union, we have no idea /which/ of the possible
-  types it is storing at any time.
-  - So it's type is dynamic! (Amongst the types it can store.)
-  - Accessing it as the wrong type simply treats the bits
-    as if they were of that type; it is not a cast!
-  - This is /very/ unsafe; it allows for type clashes.
-- Whereas a tagged union keeps a /tag/ identifying which type
-  of element it is currently storing.
+- With an untagged union, the runtime does not
+  keep track of the underlying type of the element.
+- Whereas a tagged union uses a /tag/ on the value to identify
+  the underlying type of the element.
 
-Tagged unions are also known as
-- /sum/ and /either/ types, or
-- as /variant/ types when the labels are chosen by the programmer.
+Note that union types are unnecessary
+in dynamically type checked language.
+- We can think of every variable/argument/procedure's type
+  as being a union of all possible types.
 
-Note that union types are unnecessary in a dynamically typed language.
+** Untagged unions
 
-** Untagged unions in C++
+As we've said, with an untagged union,
+the runtime does not keep track of the underlying type of elements.
+- So it's type is dynamic! (Amongst the types involved in the union.)
+- Languages that provide untagged unions (today, mainly C and C++)
+  do not even dynamically check the type.
+- Accessing it as the wrong type simply treats the bits
+  as if they were of that type; it is not a cast!
+- This is /very/ unsafe; it allows for type clashes.
+
+*** An example usage of untagged unions in C++
 
 We can see the danger of untagged unions in a short C++ example;
 we are legally allowed to interpret the bits of an integer
@@ -604,21 +608,143 @@ int main() {
   std::cout << x.b; // Treat x as a float, even though it's an int right now.
                     // The typechecker does not complain!
   
-  // Outputs 1.4013e-45; the result of interpreting the bits of x as a float.
+  // Outputs 1.4013e-45 during my testing;
+  // the result of interpreting the bits of x as a float.
 }
 #+end_src
 
-#+RESULTS:
-: 1.4013e-45
+For a more practical usage of untagged unions, see the example
+implementation of a language of integer expressions in C++,
+provided in homework 6.
 
-* The algebra of types
+** Tagged unions and pattern matching
 
-:TODO:
+Tagged unions are also known as
+- /sum/ and /either/ types, or
+- as /variant/ types when the labels are chosen by the programmer.
+
+The introduction of tags or labels makes /pattern matching/ a viable
+and useful control structure.
+
+Given a variant type such as
+#+begin_src haskell
+data Foo = A Int | B Float
+#+end_src
+
+We can /match/ on the tag, using placeholder variables
+for the values of the underlying types.
+#+begin_src haskell
+bar :: Foo -> Int
+bar (A i) = i   -- i is a placeholder for the integer value.
+bar (B _) = 0   -- An example of a nameless placeholder, _.
+#+end_src
+Many languages also allow the use of constants
+instead of placeholder variables, to create more specific cases.
+
+** Recursive unions
+
+If a union type is allowed to be /recursive/ (meaning that
+one of the underlying types of the union is allowed to be
+the type being defined as the union),
+then union and product types together allow for the definition
+of /algebraic datatypes/ (discussed later.)
+
+A well-known example is to define lists as a recursive union
+of products.
+#+begin_src haskell
+data List = Cons (Int, List) | Empty
+#+end_src
+
+(Using a type parameter and currying, we get this more flexible
+definition more in the style of most functional languages.)
+#+begin_src haskell
+data List A = Cons A (List A) | Empty
+#+end_src
+
+* COMMENT The algebra of types
+
+** Preamble                                    :ignore:
+
+At the end of the preceding section of these notes, we mentioned
+#+begin_quote
+“If a union type is allowed to be /recursive/,
+ then union and product types together allow for the definition
+ of /algebraic datatypes/.”
+#+end_quote
+
+Here, we briefly discuss why the types resulting from
+possibly recursive unions of products are called /algebraic/.
 
 * References
 
-:TODO:
+Pointer and reference types capture the notion of a
+memory address.
+- Not just alternate namings! They have very different properties.
+- Pointers are a numerical representation, and can be manipulated
+  as numbers to access /adjacent/ memory locations.
+  - Pointer arithmetic.
+  - Note: adding ~1~ to a pointer does not shift by ~1~ bit;
+    it shifts by the size of the type being pointed to.
+- A reference is a more abstract notion;
+  it cannot (or at least should not) be manipulated as a pointer can.
 
+** Referencing/dereferencing
+
+In a language with reference types, we typically have
+- a /dereference/ operator to access the value
+  stored at that reference
+  - (written ~*~ in C and many C-like languages, and
+  -  written ~!~ in ML and languages descended from it),
+and we often have
+- a /reference/ operator to obtain a reference to a stored value
+  - (written ~&~ in C and many C-like languages.)
+
+** Garbage collection and dangling references
+
+When discussing memory binding, we previously discussed
+the concept of /garbage collection/ and mentioned
+another related problem:
+- /dangling/ or /wild/ references.
+
+A dangling or wild reference is a reference value
+which refers to a memory location that has already been deallocated.
+- The contents of deallocated memory are usually not specified
+  by the language, so accessing it can result in undefined behaviour.
+- This /should/ only occur if the language allows explicit deallocation
+  of memory (instead of only using implicit deallocation
+  through garbage collection.)
+
+There are mechanisms to prevent against the use of dangling references.
+
+** Preventing the use of dangling references; tombstones
+
+With the /tombstone/ approach, every reference is in fact
+a reference to a cell of memory called a /tombstone/,
+which then refers to the value being stored in memory.
+- So there is an additional level of indirection.
+- When memory is deallocated, the tombstone is left,
+  but its reference is set to a null pointer.
+  - So it can no longer be used; accessing a “nulled” tombstone
+    will result in an error.
+- This is costly both in time (two dereferences are needed for each access)
+  and in space (the tombstone must remain indefinitely.)
+
+** Preventing the use of dangling references; locks and keys
+
+With the /lock-and-keys/ approach, a reference value is in fact
+a pair of a special /key/ value and the reference itself.
+- And referenced memory cells have allocated with them a
+  special /lock/ value which matches those keys.
+- When memory is freed, the lock value for that cell is wiped.
+- So the keys of any remaining references are no longer valid.
+- This is also costly in time
+  - (a comparison must be made between
+     the lock and the key at each access)
+- and in space
+  - (the lock and key values take space on every reference
+     and every memory cell)
+- but not so much as tombstones.
+      
 * Further advanced topics
 
 Depending upon time at the end of the course,

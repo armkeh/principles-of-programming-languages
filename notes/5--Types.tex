@@ -1,4 +1,4 @@
-% Created 2020-11-02 Mon 11:37
+% Created 2020-11-04 Wed 11:30
 % Intended LaTeX compiler: lualatex
 \documentclass[11pt]{article}
 \usepackage{graphicx}
@@ -45,10 +45,10 @@
 \maketitle
 
 \section{Preamble}
-\label{sec:org564beec}
+\label{sec:org4ea34bc}
 
 \subsection{Notable references}
-\label{sec:orgefdde63}
+\label{sec:orgd1e8925}
 
 \begin{itemize}
 \item Robert W. Sebesta, “Concepts of Programming Languages” (10th edition)
@@ -72,16 +72,16 @@
 \end{itemize}
 
 \subsection{{\bfseries\sffamily TODO} Table of contents}
-\label{sec:orgbc45b00}
+\label{sec:org7b6e1ad}
 
 \begin{scriptsize}
 \begin{itemize}
-\item \hyperref[sec:org564beec]{Preamble}
+\item \hyperref[sec:org4ea34bc]{Preamble}
 \end{itemize}
 \end{scriptsize}
 
 \section{Introduction}
-\label{sec:org1593f15}
+\label{sec:org50d4033}
 
 This section introduces the concepts of \emph{types},
 a particularly useful language safety feature.
@@ -94,7 +94,7 @@ the next section on the typed λ-calculus give some insight about
 how some of these types can be incorporated into a programming system.
 
 \section{Properties of type systems}
-\label{sec:org22411ce}
+\label{sec:org17a5557}
 
 In the previous notes, we have discussed
 \begin{itemize}
@@ -109,7 +109,7 @@ what is arguably the most important property:
 what types a language might have.
 
 \subsection{“Strong” and “weak” typing}
-\label{sec:org1805043}
+\label{sec:orgf7ae74c}
 
 These are comparative terms.
 \begin{itemize}
@@ -132,7 +132,7 @@ These are comparative terms.
 “Weakly typed” simply means not strongly typed.
 
 \subsubsection{So what does “strongly typed” mean?}
-\label{sec:orgee4dc06}
+\label{sec:orgae2d5b6}
 
 We will take it to mean “type clashes are restricted”.
 \begin{itemize}
@@ -156,7 +156,7 @@ but a different, incompatible type is provided.
 \end{itemize}
 
 \subsubsection{Exercise: Examples of implicit type casting}
-\label{sec:org9605ba6}
+\label{sec:org4cc82f1}
 
 What are the results of these two Javascript output statements?
 \begin{minted}[breaklines=true]{js}
@@ -175,7 +175,7 @@ int main() {
 \end{minted}
 
 \subsection{Explicit and implicit typing}
-\label{sec:org55685ed}
+\label{sec:org3546a06}
 
 Languages may require annotations on variables and functions
 (\emph{explicit typing}) or allow them to be omitted (\emph{implicit typing}).
@@ -197,7 +197,7 @@ functional languages and supports parametric polymorphism.
 \end{itemize}
 
 \subsubsection{Implicit typing by name}
-\label{sec:orga2edfc2}
+\label{sec:orgc00dfce}
 
 Some languages make type annotations a part of the name,
 or annotate names with sigils to indicate type details.
@@ -215,7 +215,7 @@ and all variables were of floating point.
 \end{itemize}
 
 \section{Atomic types}
-\label{sec:orgde4faed}
+\label{sec:org9098990}
 
 We begin our discussion of what types languages have
 with what are usually the “simplest” types: \emph{atomic} types.
@@ -225,7 +225,7 @@ with what are usually the “simplest” types: \emph{atomic} types.
 \end{itemize}
 
 \subsection{Ubiquitous basic types}
-\label{sec:orgfb47e85}
+\label{sec:orgfaa19f5}
 
 Most languages have at least these atomic types.
 \begin{itemize}
@@ -244,13 +244,14 @@ Most languages have at least these atomic types.
 \item \textbf{Booleans}
 \begin{itemize}
 \item Which, of course, can be stored in a bit,
-but will usually be stored in at least a byte for
-convenience of memory access.
+but will usually be stored in at least a word (4 bits)
+or perhaps even a byte (8 bits)
+for convenience of memory access.
 \end{itemize}
 \end{itemize}
 
 \subsection{Singleton and empty types}
-\label{sec:org73994e0}
+\label{sec:orga3d1a18}
 
 \begin{itemize}
 \item \textbf{Unit} (the \emph{singleton} type)
@@ -284,7 +285,7 @@ ever be able return.
 \end{itemize}
 
 \subsubsection{Singleton and empty types in Haskell}
-\label{sec:org49c008a}
+\label{sec:org3490bab}
 
 \begin{minted}[breaklines=true]{haskell}
 data Unit = Unit -- This type Unit has a single constructor, also called Unit.
@@ -313,16 +314,8 @@ z = bottom :: EmptyAlt
 :t z   -- reports z :: EmptyAlt
 \end{minted}
 
-
-\begin{verbatim}
-
-Prelude> Prelude> Prelude> Prelude> Prelude> Prelude> Prelude> Prelude> Prelude> Prelude> Prelude> Prelude> Prelude> Prelude> Prelude> Prelude> Prelude> Prelude> x :: Unit
-y :: Empty
-z :: EmptyAlt
-\end{verbatim}
-
 \subsection{Implementation of atomic types}
-\label{sec:orga1e673c}
+\label{sec:orgb18e59f}
 
 When we discussed the pure untyped λ-calculus,
 we discussed the process of \emph{encoding} the integers and booleans
@@ -348,7 +341,7 @@ outside the object-oriented abstraction.
 \end{itemize}
 
 \subsection{Atom or symbol types}
-\label{sec:org282a556}
+\label{sec:org1f22ea5}
 
 Many languages include a type of \emph{atoms} or \emph{symbols},
 which are essentially interned strings.
@@ -378,7 +371,7 @@ puts "hello".equal?("hello")
 \end{minted}
 
 \subsection{Ordinal types}
-\label{sec:org150e45b}
+\label{sec:org183d5b7}
 
 Many languages include a means of defining other \emph{finite} types.
 Instances include
@@ -403,10 +396,9 @@ type
   DaysOfWorkWeek = Monday..Friday;
 \end{minted}
 
-\subsection{Less common basic types}
-\label{sec:org7b3d780}
+\subsection{Less common numeric types}
+\label{sec:orgdc13bbe}
 
-Some languages include these less common basic types.
 \begin{itemize}
 \item \textbf{Complex} numbers
 \begin{itemize}
@@ -422,24 +414,21 @@ they cannot be efficiently represented.
 \begin{itemize}
 \item For instance, to store a decimal digit directly
 (without conversion to binary) takes at least 4 bits.
-\begin{itemize}
-\item There are 10 possibilities, too many for 3 bits, which can
-encode 8 different states.
-\item But 4 bits could represent 16 states, instead of the 10
-that are actually need.
+\item There are 10 possibilities, too many for 3 bits (which can
+only have 8 different states.)
+\item But 4 bits could represent 16 states (6 more than needed.)
 \item For memory access reasons, some such implementations
-even use 8 bits per decimal digit.
-\end{itemize}
+even use 8 bits (one byte) per decimal digit.
 \end{itemize}
 \end{itemize}
 \end{itemize}
 
 \subsubsection{Complex numbers in C\#}
-\label{sec:org06c4a1d}
+\label{sec:org7e7d963}
 
 (This example code taken from the
 \href{https://docs.microsoft.com/en-us/dotnet/api/system.numerics.complex?view=netcore-3.1}{.NET documentation}.)
-\begin{minted}[breaklines=true]{c#}
+\begin{minted}[breaklines=true]{csh}
 using System;
 using System.Numerics;
 
@@ -482,11 +471,11 @@ public class Example
 \end{minted}
 
 \subsubsection{Decimal numbers in C\#}
-\label{sec:orgdf17fc0}
+\label{sec:org7f8112f}
 
 (This example code taken from the
 \href{https://docs.microsoft.com/en-us/dotnet/api/system.decimal?view=netcore-3.1}{.NET documentation}.)
-\begin{minted}[breaklines=true]{c#}
+\begin{minted}[breaklines=true]{csh}
 // Keeping my fortune in Decimals to avoid the round-off errors.
 class PiggyBank {
     protected decimal MyFortune;
@@ -520,7 +509,7 @@ class PiggyBank {
 \end{minted}
 
 \section{Structured data}
-\label{sec:orgc4aaf9e}
+\label{sec:org5181265}
 
 Of course, we rarely want to deal only with “atomic” data.
 More commonly, we are interested in \emph{collections} of data,
@@ -542,7 +531,7 @@ Specifically, we consider
 \end{itemize}
 
 \subsection{Homogeneous or heterogeneous}
-\label{sec:org69bfe2b}
+\label{sec:org4870800}
 
 An important design decision for any structured type
 is whether it is \emph{homogeneous} or \emph{heterogeneous}.
@@ -552,7 +541,7 @@ is whether it is \emph{homogeneous} or \emph{heterogeneous}.
 \end{itemize}
 
 \subsection{Product types (tuples)}
-\label{sec:org5d65879}
+\label{sec:org07ee43d}
 
 A \emph{heterogeneous} collection of a \emph{fixed} number of elements.
 \begin{itemize}
@@ -582,7 +571,7 @@ from poorly ordering the fields of a \texttt{struct}.
 \end{itemize}
 
 \subsection{Array types}
-\label{sec:orgfc21c30}
+\label{sec:org4635eca}
 
 Arrays are an abstraction of finite sequences of
 adjacent memory cells.
@@ -603,7 +592,7 @@ past the start of the array.
 \end{itemize}
 \item \texttt{O(n)} insert time (if inserting is possible.)
 \begin{itemize}
-\item To perform an insertion, the elements after the insertion point
+\item The (possibly \texttt{n}-many) elements after the insertion point
 must be shifted.
 \end{itemize}
 \item It may be computationally costly or impossible to modify length.
@@ -613,7 +602,7 @@ must be shifted.
 We can classify arrays by where and how their memory is allocated.
 
 \subsection{Classification of arrays based on memory allocation: data segment and stack}
-\label{sec:orgcfd9a77}
+\label{sec:orgd2c2b01}
 
 \begin{itemize}
 \item Static arrays
@@ -637,7 +626,7 @@ done when the declaration of the array is reached.
 \end{itemize}
 
 \subsection{Classification of arrays based on memory allocation: heap}
-\label{sec:orgab9b4a1}
+\label{sec:org620fc2f}
 
 \begin{itemize}
 \item Fixed heap-dynamic arrays
@@ -656,7 +645,7 @@ After allocation, subscript range and storage remain fixed.
 \end{itemize}
 
 \subsection{List types}
-\label{sec:org86a2905}
+\label{sec:org39f3a2e}
 
 Lists are simply an abstract notion of sequences.
 \begin{itemize}
@@ -684,7 +673,7 @@ ones = 1 :: ones
 \end{minted}
 
 \subsection{Array lists}
-\label{sec:org1e6ac91}
+\label{sec:orgc14bfb5}
 
 An \emph{array list} type provides the flexibility of a list,
 but the performance of an array (except for the occasional reallocation.)
@@ -706,7 +695,7 @@ as time goes on.
 \end{itemize}
 
 \subsection{“Sets”}
-\label{sec:orgf8503c5}
+\label{sec:org6391735}
 
 It is notoriously difficult to represent unordered collections
 such as sets and bags on computers.
@@ -714,11 +703,11 @@ such as sets and bags on computers.
 \item Computers are extremely ordered machines; how do we store
 unordered collections in ordered memory?
 \item When available, “set types” are usually implemented
-using \emph{trees} or \emph{associative arrays}.
+using \emph{trees} or \emph{associative arrays} (discussed next.)
 \end{itemize}
 
 \subsection{Associative array (map, hash, table) types}
-\label{sec:orga2dd922}
+\label{sec:org3b2a863}
 
 Associative arrays, also called \emph{hashes}, \emph{maps} or sometimes \emph{tables},
 are sets of key/value pairs.
@@ -729,10 +718,19 @@ are sets of key/value pairs.
 an order on the collection.)
 \end{itemize}
 \item The programmer can imagine they are lists of key/value pairs.
+\begin{itemize}
+\item And they may even be implemented that way.
+\begin{itemize}
+\item But in practical languages, they are more often
+implemented by sorting elements into “buckets”
+by a hashing function on the keys.
+\item The implementations get quite complex.
+\end{itemize}
+\end{itemize}
 \end{itemize}
 
 \subsection{Unions, variants}
-\label{sec:org5056c45}
+\label{sec:orgc684de5}
 
 Whereas an element of a product type contains
 \begin{itemize}
@@ -745,28 +743,35 @@ a \emph{union} or variant type contains
 
 Unions can be \emph{tagged} or \emph{untagged}.
 \begin{itemize}
-\item With an untagged union, we have no idea \emph{which} of the possible
-types it is storing at any time.
+\item With an untagged union, the runtime does not
+keep track of the underlying type of the element.
+\item Whereas a tagged union uses a \emph{tag} on the value to identify
+the underlying type of the element.
+\end{itemize}
+
+Note that union types are unnecessary
+in dynamically type checked language.
 \begin{itemize}
-\item So it's type is dynamic! (Amongst the types it can store.)
+\item We can think of every variable/argument/procedure's type
+as being a union of all possible types.
+\end{itemize}
+
+\subsection{Untagged unions}
+\label{sec:org9b57c02}
+
+As we've said, with an untagged union,
+the runtime does not keep track of the underlying type of elements.
+\begin{itemize}
+\item So it's type is dynamic! (Amongst the types involved in the union.)
+\item Languages that provide untagged unions (today, mainly C and C++)
+do not even dynamically check the type.
 \item Accessing it as the wrong type simply treats the bits
 as if they were of that type; it is not a cast!
 \item This is \emph{very} unsafe; it allows for type clashes.
 \end{itemize}
-\item Whereas a tagged union keeps a \emph{tag} identifying which type
-of element it is currently storing.
-\end{itemize}
 
-Tagged unions are also known as
-\begin{itemize}
-\item \emph{sum} and \emph{either} types, or
-\item as \emph{variant} types when the labels are chosen by the programmer.
-\end{itemize}
-
-Note that union types are unnecessary in a dynamically typed language.
-
-\subsection{Untagged unions in C++}
-\label{sec:org778662b}
+\subsubsection{An example usage of untagged unions in C++}
+\label{sec:org213c0c3}
 
 We can see the danger of untagged unions in a short C++ example;
 we are legally allowed to interpret the bits of an integer
@@ -788,22 +793,166 @@ int main() {
   std::cout << x.b; // Treat x as a float, even though it's an int right now.
                     // The typechecker does not complain!
   
-  // Outputs 1.4013e-45; the result of interpreting the bits of x as a float.
+  // Outputs 1.4013e-45 during my testing;
+  // the result of interpreting the bits of x as a float.
 }
 \end{minted}
 
-\section{The algebra of types}
-\label{sec:org20929e9}
+For a more practical usage of untagged unions, see the example
+implementation of a language of integer expressions in C++,
+provided in homework 6.
 
-:TODO:
+\subsection{Tagged unions and pattern matching}
+\label{sec:orgd7ab20b}
+
+Tagged unions are also known as
+\begin{itemize}
+\item \emph{sum} and \emph{either} types, or
+\item as \emph{variant} types when the labels are chosen by the programmer.
+\end{itemize}
+
+The introduction of tags or labels makes \emph{pattern matching} a viable
+and useful control structure.
+
+Given a variant type such as
+\begin{minted}[breaklines=true]{haskell}
+data Foo = A Int | B Float
+\end{minted}
+
+We can \emph{match} on the tag, using placeholder variables
+for the values of the underlying types.
+\begin{minted}[breaklines=true]{haskell}
+bar :: Foo -> Int
+bar (A i) = i   -- i is a placeholder for the integer value.
+bar (B _) = 0   -- An example of a nameless placeholder, _.
+\end{minted}
+Many languages also allow the use of constants
+instead of placeholder variables, to create more specific cases.
+
+\subsection{Recursive unions}
+\label{sec:orga3a93b6}
+
+If a union type is allowed to be \emph{recursive} (meaning that
+one of the underlying types of the union is allowed to be
+the type being defined as the union),
+then union and product types together allow for the definition
+of \emph{algebraic datatypes} (discussed later.)
+
+A well-known example is to define lists as a recursive union
+of products.
+\begin{minted}[breaklines=true]{haskell}
+data List = Cons (Int, List) | Empty
+\end{minted}
+
+(Using a type parameter and currying, we get this more flexible
+definition more in the style of most functional languages.)
+\begin{minted}[breaklines=true]{haskell}
+data List A = Cons A (List A) | Empty
+\end{minted}
 
 \section{References}
-\label{sec:org84cb0c5}
+\label{sec:orgefb2c55}
 
-:TODO:
+Pointer and reference types capture the notion of a
+memory address.
+\begin{itemize}
+\item Not just alternate namings! They have very different properties.
+\item Pointers are a numerical representation, and can be manipulated
+as numbers to access \emph{adjacent} memory locations.
+\begin{itemize}
+\item Pointer arithmetic.
+\item Note: adding \texttt{1} to a pointer does not shift by \texttt{1} bit;
+it shifts by the size of the type being pointed to.
+\end{itemize}
+\item A reference is a more abstract notion;
+it cannot (or at least should not) be manipulated as a pointer can.
+\end{itemize}
+
+\subsection{Referencing/dereferencing}
+\label{sec:orgafb2a41}
+
+In a language with reference types, we typically have
+\begin{itemize}
+\item a \emph{dereference} operator to access the value
+stored at that reference
+\begin{itemize}
+\item (written \texttt{*} in C and many C-like languages, and
+\item written \texttt{!} in ML and languages descended from it),
+\end{itemize}
+\end{itemize}
+and we often have
+\begin{itemize}
+\item a \emph{reference} operator to obtain a reference to a stored value
+\begin{itemize}
+\item (written \texttt{\&} in C and many C-like languages.)
+\end{itemize}
+\end{itemize}
+
+\subsection{Garbage collection and dangling references}
+\label{sec:orgcb725e3}
+
+When discussing memory binding, we previously discussed
+the concept of \emph{garbage collection} and mentioned
+another related problem:
+\begin{itemize}
+\item \emph{dangling} or \emph{wild} references.
+\end{itemize}
+
+A dangling or wild reference is a reference value
+which refers to a memory location that has already been deallocated.
+\begin{itemize}
+\item The contents of deallocated memory are usually not specified
+by the language, so accessing it can result in undefined behaviour.
+\item This \emph{should} only occur if the language allows explicit deallocation
+of memory (instead of only using implicit deallocation
+through garbage collection.)
+\end{itemize}
+
+There are mechanisms to prevent against the use of dangling references.
+
+\subsection{Preventing the use of dangling references; tombstones}
+\label{sec:org13804b1}
+
+With the \emph{tombstone} approach, every reference is in fact
+a reference to a cell of memory called a \emph{tombstone},
+which then refers to the value being stored in memory.
+\begin{itemize}
+\item So there is an additional level of indirection.
+\item When memory is deallocated, the tombstone is left,
+but its reference is set to a null pointer.
+\begin{itemize}
+\item So it can no longer be used; accessing a “nulled” tombstone
+will result in an error.
+\end{itemize}
+\item This is costly both in time (two dereferences are needed for each access)
+and in space (the tombstone must remain indefinitely.)
+\end{itemize}
+
+\subsection{Preventing the use of dangling references; locks and keys}
+\label{sec:org604f9db}
+
+With the \emph{lock-and-keys} approach, a reference value is in fact
+a pair of a special \emph{key} value and the reference itself.
+\begin{itemize}
+\item And referenced memory cells have allocated with them a
+special \emph{lock} value which matches those keys.
+\item When memory is freed, the lock value for that cell is wiped.
+\item So the keys of any remaining references are no longer valid.
+\item This is also costly in time
+\begin{itemize}
+\item (a comparison must be made between
+the lock and the key at each access)
+\end{itemize}
+\item and in space
+\begin{itemize}
+\item (the lock and key values take space on every reference
+and every memory cell)
+\end{itemize}
+\item but not so much as tombstones.
+\end{itemize}
 
 \section{Further advanced topics}
-\label{sec:org5eef00a}
+\label{sec:orgc1a1fe9}
 
 Depending upon time at the end of the course,
 we may return to discuss more about types.
