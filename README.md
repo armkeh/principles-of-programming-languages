@@ -12,6 +12,13 @@ better viewed at
 
 ## November
 
+  - November 5th
+    
+      - Some minor updates the the current homework and assignment have
+        been posted; see the updates section for each.
+          - More updates (more significant updates, such as testing) are
+            to come later today.
+
   - November 3rd
     
       - The notes on propagating errors using the `Option` type from

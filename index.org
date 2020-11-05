@@ -18,13 +18,20 @@
 :CUSTOM_ID: November
 :END:
 
+- November 5th ::
+
+  - Some minor updates the the current homework and
+    assignment have been posted; see the updates section for each.
+    - More updates (more significant updates, such as testing)
+      are to come later today.
+
 - November 3rd ::
 
   - The notes on propagating errors using the ~Option~ type
     from Monday's tutorial have been cleaned up,
     added to, and now posted under the tutorial notes
     subsection of the literate program section of the site.
-
+    
 - November 2nd ::
 
   - The recordings section has been updated with new links
