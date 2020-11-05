@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-11-01 Sun 23:06 -->
+<!-- 2020-11-05 Thu 14:10 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Computer Science 3MI3 – 2020 assignment 2</title>
@@ -238,6 +238,7 @@
 <li><a href="#Introduction">Introduction</a></li>
 <li><a href="#Updates-and-file-history">Updates and file history</a>
 <ul>
+<li><a href="#November-5th">November 5th</a></li>
 <li><a href="#November-1st">November 1st</a></li>
 <li><a href="#October-30th">October 30th</a></li>
 </ul>
@@ -247,7 +248,7 @@
 <li><a href="#Submission-procedures">Documentation</a></li>
 <li><a href="#Submission-procedures">Submission procedures</a>
 <ul>
-<li><a href="#org2d9b4f7">Assignment naming requirements</a></li>
+<li><a href="#orgd39e465">Assignment naming requirements</a></li>
 </ul>
 </li>
 <li><a href="#Proper-conduct-for-coursework">Proper conduct for coursework</a></li>
@@ -259,6 +260,7 @@
 <li><a href="#Nameless-representation-of-terms">Nameless representation of terms</a></li>
 <li><a href="#Scala-implementation">Scala implementation</a></li>
 <li><a href="#Ruby-implementation">Ruby implementation</a></li>
+<li><a href="#Examples-of-interacting-with-these-representations">Examples of interacting with these representations</a></li>
 </ul>
 </li>
 <li><a href="#Part-1-–-The-representation----------------------------------[10 marks]">Part 1 – The representation                                  [10 marks]</a></li>
@@ -287,6 +289,20 @@ simple translator to simplify terms to untyped λ-calculus terms.
 <div id="outline-container-Updates-and-file-history" class="outline-2">
 <h2 id="Updates-and-file-history">Updates and file history</h2>
 <div class="outline-text-2" id="text-Updates-and-file-history">
+</div>
+
+<div id="outline-container-November-5th" class="outline-3">
+<h3 id="November-5th">November 5th</h3>
+<div class="outline-text-3" id="text-November-5th">
+<ul class="org-ul">
+<li>A typo in a variable name in the Ruby implementation
+of <code>ULTerm</code> was corrected.</li>
+<li>The provided Scala code for the <code>ULTerm</code> type was modified
+slightly to include better <code>toString</code> methods.</li>
+<li>Example code showing how to construct <code>ULTerm</code> terms
+and perform substitutions with them was added to part 0.2.</li>
+</ul>
+</div>
 </div>
 
 <div id="outline-container-November-1st" class="outline-3">
@@ -406,9 +422,9 @@ apply to assignments, except for the differences below.
 </p>
 </div>
 
-<div id="outline-container-org2d9b4f7" class="outline-4">
-<h4 id="org2d9b4f7">Assignment naming requirements</h4>
-<div class="outline-text-4" id="text-org2d9b4f7">
+<div id="outline-container-orgd39e465" class="outline-4">
+<h4 id="orgd39e465">Assignment naming requirements</h4>
+<div class="outline-text-4" id="text-orgd39e465">
 <p>
 Place all files for the assignment
 inside a folder titled <code>an</code>, where <code>n</code> is the number of the assignment.
@@ -528,12 +544,20 @@ we can correct for this by writing a <i>pretty printer</i> for λ-terms
 <div class="outline-text-3" id="text-Scala-implementation">
 <p>
 Pure untyped λ-terms can only be variables, abstractions or applications.
+(Updated November 5th) We include as parts of the case classes
+overrides of the <code>toString</code> method, which improve the appearance
+of these terms when they are converted to strings.
 </p>
 <div class="org-src-container">
-<pre class="src src-amm"><span style="color: #f78fe7;">sealed</span> <span style="color: #b6a0ff;">trait</span> <span style="color: #f78fe7;">ULTerm</span>
-<span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">ULVar</span><span style="color: #00cd68;">(</span>index<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Int</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">ULTerm</span>
-<span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">ULAbs</span><span style="color: #00cd68;">(</span>t<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">ULTerm</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">ULTerm</span>
-<span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">ULApp</span><span style="color: #00cd68;">(</span>t1<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">ULTerm</span>, t2<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">ULTerm</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">ULTerm</span>
+<pre class="src src-amm"><span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">ULVar</span><span style="color: #00cd68;">(</span>index<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Int</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">ULTerm</span> <span style="color: #00cd68;">{</span>
+  <span style="color: #f78fe7;">override</span> <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">toString</span><span style="color: #b6a0ff;">()</span> <span style="color: #b6a0ff;">=</span> index.toString<span style="color: #b6a0ff;">()</span>
+<span style="color: #00cd68;">}</span>
+<span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">ULAbs</span><span style="color: #00cd68;">(</span>t<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">ULTerm</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">ULTerm</span> <span style="color: #00cd68;">{</span>
+  <span style="color: #f78fe7;">override</span> <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">toString</span><span style="color: #b6a0ff;">()</span> <span style="color: #b6a0ff;">=</span> <span style="color: #79a8ff;">"lambda . "</span> + t.toString<span style="color: #b6a0ff;">()</span>
+<span style="color: #00cd68;">}</span>
+<span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">ULApp</span><span style="color: #00cd68;">(</span>t1<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">ULTerm</span>, t2<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">ULTerm</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">ULTerm</span> <span style="color: #00cd68;">{</span>
+  <span style="color: #f78fe7;">override</span> <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">toString</span><span style="color: #b6a0ff;">()</span> <span style="color: #b6a0ff;">=</span> <span style="color: #79a8ff;">"("</span> + t1.toString<span style="color: #b6a0ff;">()</span> + <span style="color: #79a8ff;">") ("</span> + t2.toString<span style="color: #b6a0ff;">()</span> + <span style="color: #79a8ff;">")"</span>
+<span style="color: #00cd68;">}</span>
 </pre>
 </div>
 
@@ -770,7 +794,7 @@ we might have an infinite reduction sequence.)
   <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">walk</span><span style="color: #00cd68;">(</span>currentBinders,&amp;block<span style="color: #00cd68;">)</span>
     <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">This is a variable. Run the code in &amp;block.</span>
     <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">(yield does this; it "yields" control to the block.)</span>
-    <span style="color: #b6a0ff;">yield</span><span style="color: #00cd68;">(</span><span style="color: #00d3d0;">@index</span>, c<span style="color: #00cd68;">)</span>
+    <span style="color: #b6a0ff;">yield</span><span style="color: #00cd68;">(</span><span style="color: #00d3d0;">@index</span>, currentBinders<span style="color: #00cd68;">)</span>
   <span style="color: #b6a0ff;">end</span>
 
   <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">to_s</span>
@@ -850,6 +874,72 @@ we might have an infinite reduction sequence.)
     <span style="color: #79a8ff;">"("</span> + <span style="color: #00d3d0;">@t1</span>.to_s + <span style="color: #79a8ff;">") ("</span> + <span style="color: #00d3d0;">@t2</span>.to_s + <span style="color: #79a8ff;">")"</span> 
   <span style="color: #b6a0ff;">end</span>
 <span style="color: #b6a0ff;">end</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-Examples-of-interacting-with-these-representations" class="outline-3">
+<h3 id="Examples-of-interacting-with-these-representations">Examples of interacting with these representations</h3>
+<div class="outline-text-3" id="text-Examples-of-interacting-with-these-representations">
+<p>
+The following code snippets show how you might use
+these implementations to perform some simple computations.
+</p>
+
+<p>
+In Scala:
+</p>
+<div class="org-src-container">
+<pre class="src src-amm"><span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">The term "lambda x . lambda y . lambda z . u (x (y z))"</span>
+<span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Note the first variable (The one initialised with ULVar(3)) is free,</span>
+<span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">because it's index is greater than the number of abstractions</span>
+<span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">surrounding it.</span>
+<span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">x</span> <span style="color: #b6a0ff;">=</span> <span style="color: #00bcff;">ULAbs</span><span style="color: #00cd68;">(</span>
+          <span style="color: #00bcff;">ULAbs</span><span style="color: #b6a0ff;">(</span>
+            <span style="color: #00bcff;">ULAbs</span><span style="color: #6ae4b9;">(</span><span style="color: #00bcff;">ULApp</span><span style="color: #f0ce43;">(</span><span style="color: #00bcff;">ULVar</span><span style="color: #00bcff;">(</span><span style="color: #00bcff;">3</span><span style="color: #00bcff;">)</span>,
+                        <span style="color: #00bcff;">ULApp</span><span style="color: #00bcff;">(</span><span style="color: #00bcff;">ULVar</span><span style="color: #80d200;">(</span><span style="color: #00bcff;">2</span><span style="color: #80d200;">)</span>,
+                              <span style="color: #00bcff;">ULApp</span><span style="color: #80d200;">(</span><span style="color: #00bcff;">ULVar</span><span style="color: #f78fe7;">(</span><span style="color: #00bcff;">1</span><span style="color: #f78fe7;">)</span>,
+                                    <span style="color: #00bcff;">ULVar</span><span style="color: #f78fe7;">(</span><span style="color: #00bcff;">0</span><span style="color: #f78fe7;">)</span><span style="color: #80d200;">)</span><span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+println<span style="color: #00cd68;">(</span><span style="color: #79a8ff;">"An unnamed representation of lambda x . lambda y . lambda z -&gt; u x y z:"</span><span style="color: #00cd68;">)</span>
+print<span style="color: #00cd68;">(</span><span style="color: #79a8ff;">"</span><span style="color: #00bcff;">\t</span><span style="color: #79a8ff;">"</span><span style="color: #00cd68;">)</span>
+println<span style="color: #00cd68;">(</span>x<span style="color: #00cd68;">)</span>
+
+<span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Now substitute that term itself in for the free variable.</span>
+println<span style="color: #00cd68;">(</span><span style="color: #79a8ff;">"The result of substituting that term into itself for the variable u:"</span><span style="color: #00cd68;">)</span>
+print<span style="color: #00cd68;">(</span><span style="color: #79a8ff;">"</span><span style="color: #00bcff;">\t</span><span style="color: #79a8ff;">"</span><span style="color: #00cd68;">)</span>
+println<span style="color: #00cd68;">(</span>substitute<span style="color: #b6a0ff;">(</span>x,<span style="color: #00bcff;">0</span>,x<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+</pre>
+</div>
+
+<p>
+And in Ruby:
+</p>
+<div class="org-src-container">
+<pre class="src src-ruby"><span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">The term "lambda x . lambda y . lambda z . u (x (y z))"</span>
+<span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Note the first variable (The one initialised with ULVar.new(3)) is free,</span>
+<span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">because it's index is greater than the number of abstractions</span>
+<span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">surrounding it.</span>
+x = <span style="color: #f78fe7;">ULAbs</span>.new<span style="color: #00cd68;">(</span>
+      <span style="color: #f78fe7;">ULAbs</span>.new<span style="color: #b6a0ff;">(</span>
+        <span style="color: #f78fe7;">ULAbs</span>.new<span style="color: #6ae4b9;">(</span><span style="color: #f78fe7;">ULApp</span>.new<span style="color: #f0ce43;">(</span><span style="color: #f78fe7;">ULVar</span>.new<span style="color: #00bcff;">(</span>3<span style="color: #00bcff;">)</span>,
+                            <span style="color: #f78fe7;">ULApp</span>.new<span style="color: #00bcff;">(</span><span style="color: #f78fe7;">ULVar</span>.new<span style="color: #80d200;">(</span>2<span style="color: #80d200;">)</span>,
+                                      <span style="color: #f78fe7;">ULApp</span>.new<span style="color: #80d200;">(</span><span style="color: #f78fe7;">ULVar</span>.new<span style="color: #f78fe7;">(</span>1<span style="color: #f78fe7;">)</span>,
+                                                <span style="color: #f78fe7;">ULVar</span>.new<span style="color: #f78fe7;">(</span>0<span style="color: #f78fe7;">)</span><span style="color: #80d200;">)</span><span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+<span style="color: #f78fe7;">puts</span> <span style="color: #79a8ff;">"An unnamed representation of lambda x . lambda y . lambda z -&gt; u x y z:"</span>
+<span style="color: #f78fe7;">print</span> <span style="color: #79a8ff;">"\t"</span>
+<span style="color: #f78fe7;">puts</span> x
+
+<span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Now substitute that term itself in for the free variable.</span>
+<span style="color: #f78fe7;">puts</span> <span style="color: #79a8ff;">"The result of substituting that term into itself for the variable u:"</span>
+<span style="color: #f78fe7;">print</span> <span style="color: #79a8ff;">"\t"</span>
+<span style="color: #f78fe7;">puts</span> x.substitute<span style="color: #00cd68;">(</span>0,x<span style="color: #00cd68;">)</span>
+
+<span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Note that the term itself remains unchanged;</span>
+<span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">we've made sure this type is immutable</span>
+<span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">by always creating new terms, or reusing them if that's not necessary,</span>
+<span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">in the class methods. The fields are only ever changed in the constructors.</span>
+<span style="color: #f78fe7;">puts</span> x
 </pre>
 </div>
 </div>
@@ -1012,8 +1102,8 @@ Use it if you wish.
 <p class="author">Author: Mark Armstrong</p>
      <p class="author">Contact: <a href="mailto:markparmstrong@gmail.com">markparmstrong@gmail.com</a></p>
      <p class="date">Original date: October 30th, 2020</p>
-     <p class="date">Last updated: 2020-11-01 Sun 23:06</p>
-     <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.90 (<a href="https://orgmode.org">Org</a> mode 9.4)</p>
+     <p class="date">Last updated: 2020-11-05 Thu 14:10</p>
+     <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4)</p>
      <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

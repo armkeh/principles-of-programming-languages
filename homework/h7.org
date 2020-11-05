@@ -43,6 +43,23 @@ that chooses variable names for a term and “prints” the term
 (in fact, it should convert terms to strings,
 not print them directly.)
 
+* Updates
+
+** November 5th
+
+- The suggested output has been adjusted slightly
+  to account for parentheses being added around
+  terms being applied to each other.
+- Sample code for how to interact with the ~ULTerm~ type
+  was added to the assignment;
+  you may want to try it out.
+- The ~ULTerm~ code provided for the assignment
+  has been updated,
+  - first to correct a typo with a variable name, and
+  - second to add ~toString~ methods which result in better
+    output of the Scala ~ULTerm~ type.
+  You may wish to apply those updates to your code as well.
+
 * Boilerplate
 :PROPERTIES:
 :CUSTOM_ID: Boilerplate
@@ -77,19 +94,18 @@ Your method should take a ~UTTerm~ are return a string.
 As an example, given the ~UTTerm~ representing the
 λ-term (with unnamed variables)
 #+begin_src text
-λ λ λ 2 1 0
+λ λ λ 2 (1 0)
 #+end_src
-which is internally represented as a 
 should produce a string such as
 #+begin_src text
-lambda x . lambda y . lambda z . x y z
+lambda x . lambda y . lambda z . (x) ((y) (z))
 #+end_src
 
 The exact choices of variable names do not matter;
 however, you must not change the meaning of the term.
 For instance, considering the above term, output
 #+begin_src text
-lambda x . lambda y . lambda x . x y x
+lambda x . lambda y . lambda x . (x) ((y) (x))
 #+end_src
 would be /incorrect/.
 

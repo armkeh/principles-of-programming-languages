@@ -21,6 +21,15 @@ simple translator to simplify terms to untyped λ-calculus terms.
 :CUSTOM_ID: Updates-and-file-history
 :END:
 
+** November 5th
+
+- A typo in a variable name in the Ruby implementation
+  of ~ULTerm~ was corrected.
+- The provided Scala code for the ~ULTerm~ type was modified
+  slightly to include better ~toString~ methods.
+- Example code showing how to construct ~ULTerm~ terms
+  and perform substitutions with them was added to part 0.2.
+
 ** November 1st
 :PROPERTIES:
 :CUSTOM_ID: November-1st
@@ -129,11 +138,19 @@ we can correct for this by writing a /pretty printer/ for λ-terms
 :END:
 
 Pure untyped λ-terms can only be variables, abstractions or applications.
+(Updated November 5th) We include as parts of the case classes
+overrides of the ~toString~ method, which improve the appearance
+of these terms when they are converted to strings.
 #+begin_src amm :tangle ./src/a2_ulterm.sc
-sealed trait ULTerm
-case class ULVar(index: Int) extends ULTerm
-case class ULAbs(t: ULTerm) extends ULTerm
-case class ULApp(t1: ULTerm, t2: ULTerm) extends ULTerm
+case class ULVar(index: Int) extends ULTerm {
+  override def toString() = index.toString()
+}
+case class ULAbs(t: ULTerm) extends ULTerm {
+  override def toString() = "lambda . " + t.toString()
+}
+case class ULApp(t1: ULTerm, t2: ULTerm) extends ULTerm {
+  override def toString() = "(" + t1.toString() + ") (" + t2.toString() + ")"
+}
 #+end_src
 
 The use of de Bruijn indices necessitates a method to
@@ -353,7 +370,7 @@ class ULVar < ULTerm
   def walk(currentBinders,&block)
     # This is a variable. Run the code in &block.
     # (yield does this; it "yields" control to the block.)
-    yield(@index, c)
+    yield(@index, currentBinders)
   end
 
   def to_s
@@ -433,6 +450,61 @@ class ULApp < ULTerm
     "(" + @t1.to_s + ") (" + @t2.to_s + ")" 
   end
 end
+#+end_src
+
+** Examples of interacting with these representations
+
+The following code snippets show how you might use
+these implementations to perform some simple computations.
+
+In Scala:
+#+begin_src amm
+// The term "lambda x . lambda y . lambda z . u (x (y z))"
+// Note the first variable (The one initialised with ULVar(3)) is free,
+// because it's index is greater than the number of abstractions
+// surrounding it.
+val x = ULAbs(
+          ULAbs(
+            ULAbs(ULApp(ULVar(3),
+                        ULApp(ULVar(2),
+                              ULApp(ULVar(1),
+                                    ULVar(0)))))))
+println("An unnamed representation of lambda x . lambda y . lambda z -> u x y z:")
+print("\t")
+println(x)
+
+// Now substitute that term itself in for the free variable.
+println("The result of substituting that term into itself for the variable u:")
+print("\t")
+println(substitute(x,0,x))
+#+end_src
+
+And in Ruby:
+#+begin_src ruby
+# The term "lambda x . lambda y . lambda z . u (x (y z))"
+# Note the first variable (The one initialised with ULVar.new(3)) is free,
+# because it's index is greater than the number of abstractions
+# surrounding it.
+x = ULAbs.new(
+      ULAbs.new(
+        ULAbs.new(ULApp.new(ULVar.new(3),
+                            ULApp.new(ULVar.new(2),
+                                      ULApp.new(ULVar.new(1),
+                                                ULVar.new(0)))))))
+puts "An unnamed representation of lambda x . lambda y . lambda z -> u x y z:"
+print "\t"
+puts x
+
+# Now substitute that term itself in for the free variable.
+puts "The result of substituting that term into itself for the variable u:"
+print "\t"
+puts x.substitute(0,x)
+
+# Note that the term itself remains unchanged;
+# we've made sure this type is immutable
+# by always creating new terms, or reusing them if that's not necessary,
+# in the class methods. The fields are only ever changed in the constructors.
+puts x
 #+end_src
 
 * Part 1 – The representation                                  [10 marks]

@@ -1,4 +1,4 @@
-% Created 2020-11-01 Sun 23:20
+% Created 2020-11-05 Thu 14:15
 % Intended LaTeX compiler: lualatex
 \documentclass[11pt]{article}
 \usepackage{graphicx}
@@ -28,7 +28,7 @@
    pdftitle={Computer Science 3MI3 – 2020 homework 7},
    pdfkeywords={},
    pdfsubject={Preparing for assignment 2 by writing pretty printers.},
-   pdfcreator={Emacs 27.0.90 (Org mode 9.4)},
+   pdfcreator={Emacs 27.0.91 (Org mode 9.4)},
    pdflang={English},
    colorlinks,
    linkcolor=blue,
@@ -42,7 +42,7 @@
 
 
 \section*{Introduction}
-\label{sec:org8f94955}
+\label{sec:orgce33d25}
 For this homework, you will extend the implementations
 of the \texttt{UL} untyped λ-calculus in Scala and Ruby,
 which are provided in assignment 2,
@@ -81,12 +81,35 @@ that chooses variable names for a term and “prints” the term
 (in fact, it should convert terms to strings,
 not print them directly.)
 
+\section*{Updates}
+\label{sec:org27534db}
+
+\subsection*{November 5th}
+\label{sec:orge665b74}
+
+\begin{itemize}
+\item The suggested output has been adjusted slightly
+to account for parentheses being added around
+terms being applied to each other.
+\item Sample code for how to interact with the \texttt{ULTerm} type
+was added to the assignment;
+you may want to try it out.
+\item The \texttt{ULTerm} code provided for the assignment
+has been updated,
+\begin{itemize}
+\item first to correct a typo with a variable name, and
+\item second to add \texttt{toString} methods which result in better
+output of the Scala \texttt{ULTerm} type.
+\end{itemize}
+You may wish to apply those updates to your code as well.
+\end{itemize}
+
 \section*{Boilerplate}
-\label{sec:orgc67caac}
+\label{sec:orgdcade64}
 \subsection*{Submission procedures}
-\label{sec:orgb0933ac}
+\label{sec:org7fd2e98}
 \subsubsection*{Submission method}
-\label{sec:org135d092}
+\label{sec:orgfbec90b}
 
 Homework should be submitted to your McMaster CAS Gitlab respository
 in the \texttt{cs3mi3-fall2020} project.
@@ -95,7 +118,7 @@ Ensure that you have \textbf{pushed} the commits to the remote repository
 in time for the deadline, and not just committed to your local copy.
 
 \subsubsection*{Naming requirements}
-\label{sec:org23af7fa}
+\label{sec:orgd0623c5}
 
 Place all files for the homework
 inside a folder titled \texttt{hn}, where \texttt{n} is the number of the homework.
@@ -126,7 +149,7 @@ submit a \texttt{hn.ext} file for each language.
 \end{center}
 
 \subsubsection*{Do not submit testing or diagnostic code}
-\label{sec:org865db25}
+\label{sec:orgc0edbd8}
 
 Unless you are instructed to do so in the homework questions,
 \textbf{you should not submit testing code with your homework submission}.
@@ -146,7 +169,7 @@ in your final submission.
 For instance, by using a wrapper on the print function or macros.
 
 \subsubsection*{Due date and allowance for technical difficulties}
-\label{sec:orgcaf9ce8}
+\label{sec:org3fbf742}
 
 Homework is due on the second Sunday following its release,
 by the end of the day (midnight).
@@ -161,9 +184,9 @@ This information will help ensure we are able
 to accept your submission once the technical difficulties are resolved.
 
 \subsection*{Proper conduct for coursework}
-\label{sec:org2a531f4}
+\label{sec:org9897350}
 \subsubsection*{Individual work}
-\label{sec:org9729a00}
+\label{sec:org3920954}
 
 Unless explicitely stated in the homework questions,
 all homework in this course is intended
@@ -212,7 +235,7 @@ probably add a catch-all \texttt{\_} case to your \texttt{match} expressions.”
 \end{enumerate}
 
 \subsubsection*{Language library resources}
-\label{sec:orge167ab0}
+\label{sec:orgf184c4f}
 
 Unless explicitely stated in the questions,
 it is not expected that you will use any language library resources
@@ -236,7 +259,7 @@ including \texttt{map}, \texttt{reduce}, \texttt{flatten}, and \texttt{filter} a
 unless the task is to implement such a higher-order operator.
 
 \section*{Part 1: The “pretty printer” \texttt{prettify} method  [30 marks]}
-\label{sec:org4b74ea6}
+\label{sec:org9231a69}
 Implement a method \texttt{prettify} on the \texttt{UTTerm} type
 provided in assignment.
 The implementation of the \texttt{UTTerm} type can be found
@@ -249,19 +272,18 @@ Your method should take a \texttt{UTTerm} are return a string.
 As an example, given the \texttt{UTTerm} representing the
 λ-term (with unnamed variables)
 \begin{minted}[breaklines=true]{text}
-λ λ λ 2 1 0
+λ λ λ 2 (1 0)
 \end{minted}
-which is internally represented as a 
 should produce a string such as
 \begin{minted}[breaklines=true]{text}
-lambda x . lambda y . lambda z . x y z
+lambda x . lambda y . lambda z . (x) ((y) (z))
 \end{minted}
 
 The exact choices of variable names do not matter;
 however, you must not change the meaning of the term.
 For instance, considering the above term, output
 \begin{minted}[breaklines=true]{text}
-lambda x . lambda y . lambda x . x y x
+lambda x . lambda y . lambda x . (x) ((y) (x))
 \end{minted}
 would be \emph{incorrect}.
 
@@ -270,6 +292,6 @@ keep track of the variable names already in use.
 But as usual, the implementation details are within your control.)
 
 \section*{Testing}
-\label{sec:orge1f7841}
+\label{sec:org842979b}
 :TODO:
 \end{document}

@@ -1,4 +1,4 @@
-% Created 2020-11-01 Sun 23:06
+% Created 2020-11-05 Thu 14:10
 % Intended LaTeX compiler: lualatex
 \documentclass[11pt]{article}
 \usepackage{graphicx}
@@ -28,7 +28,7 @@
    pdftitle={Computer Science 3MI3 – 2020 assignment 2},
    pdfkeywords={},
    pdfsubject={Type checking and erasing on a simply-typed λ-calculus.},
-   pdfcreator={Emacs 27.0.90 (Org mode 9.4)},
+   pdfcreator={Emacs 27.0.91 (Org mode 9.4)},
    pdflang={English},
    colorlinks,
    linkcolor=blue,
@@ -42,16 +42,27 @@
 
 
 \section*{Introduction}
-\label{sec:org7b8bf9e}
+\label{sec:orge6a228e}
 This assignment asks you to construct representation
 of a simply-typed λ-calculus, construct a typechecker for that
 λ-calculus, and finally to implement \emph{type-erasure} and a
 simple translator to simplify terms to untyped λ-calculus terms.
 
 \section*{Updates and file history}
-\label{sec:orge88a3e8}
+\label{sec:org2e09e63}
+\subsection*{November 5th}
+\label{sec:org543ea4a}
+\begin{itemize}
+\item A typo in a variable name in the Ruby implementation
+of \texttt{ULTerm} was corrected.
+\item The provided Scala code for the \texttt{ULTerm} type was modified
+slightly to include better \texttt{toString} methods.
+\item Example code showing how to construct \texttt{ULTerm} terms
+and perform substitutions with them was added to part 0.2.
+\end{itemize}
+
 \subsection*{November 1st}
-\label{sec:orge7bd119}
+\label{sec:org8f06cf7}
 \begin{itemize}
 \item Part 4 was made bonus
 \begin{itemize}
@@ -61,7 +72,7 @@ made part of the question.
 \end{itemize}
 
 \subsection*{October 30th}
-\label{sec:org3c3b91a}
+\label{sec:org3f84d47}
 \begin{itemize}
 \item Initial version posted.
 \begin{itemize}
@@ -70,9 +81,9 @@ made part of the question.
 \end{itemize}
 
 \section*{Boilerplate}
-\label{sec:orge6f8c03}
+\label{sec:org04031ab}
 \subsection*{Documentation}
-\label{sec:org140e83f}
+\label{sec:orgbfd94f0}
 In addition to the code for the assignments,
 you are required to submit (relatively light) documentation,
 along the lines of that found in
@@ -131,13 +142,13 @@ Feel free to omit some “repetitive” portions.
 which look almost identical, only one or two need to be shown.)
 
 \subsection*{Submission procedures}
-\label{sec:org89a8de0}
+\label{sec:org2b847fd}
 The same guidelines as for homework
 (which can be seen in any of the homework files)
 apply to assignments, except for the differences below.
 
 \subsubsection*{Assignment naming requirements}
-\label{sec:orgb23a2a9}
+\label{sec:org0d706c8}
 
 Place all files for the assignment
 inside a folder titled \texttt{an}, where \texttt{n} is the number of the assignment.
@@ -158,12 +169,12 @@ save your code for that part. Follow those instructions!
 This is slightly decreased from the 10\% for homeworks.
 
 \subsection*{Proper conduct for coursework}
-\label{sec:org75d2837}
+\label{sec:org04ab902}
 Refer to the homework code of conduct available in any of the homework files.
 The same guidelines apply to assignments.
 
 \section*{Part 0.1 – Description of the λ-calculus, \emph{ST}                 [0 marks]}
-\label{sec:org3af55d5}
+\label{sec:org9010687}
 The λ-calculus you are to work with during this assignment
 we call \emph{ST}, standing for \emph{simply typed}.
 It adds to the pure untyped λ-calculus \emph{UL}
@@ -189,9 +200,9 @@ The rules make use of a \emph{typing context} or \emph{type environment} Γ.
 :TODO:
 
 \section*{Part 0.2 – A representation of the untyped λ-calculus, \emph{UL}    [0 marks]}
-\label{sec:orgfac408e}
+\label{sec:org4ce1f95}
 \subsection*{Nameless representation of terms}
-\label{sec:org24d3017}
+\label{sec:org78fa067}
 We use \emph{de Bruijn indices} in place of named variables.
 The index “points” to a binder, or to a free variable.
 \begin{itemize}
@@ -215,13 +226,21 @@ we can correct for this by writing a \emph{pretty printer} for λ-terms
 (which will be the focus of a homework.)
 
 \subsection*{Scala implementation}
-\label{sec:org64cc022}
+\label{sec:org030cc96}
 Pure untyped λ-terms can only be variables, abstractions or applications.
+(Updated November 5th) We include as parts of the case classes
+overrides of the \texttt{toString} method, which improve the appearance
+of these terms when they are converted to strings.
 \begin{minted}[breaklines=true]{scala}
-sealed trait ULTerm
-case class ULVar(index: Int) extends ULTerm
-case class ULAbs(t: ULTerm) extends ULTerm
-case class ULApp(t1: ULTerm, t2: ULTerm) extends ULTerm
+case class ULVar(index: Int) extends ULTerm {
+  override def toString() = index.toString()
+}
+case class ULAbs(t: ULTerm) extends ULTerm {
+  override def toString() = "lambda . " + t.toString()
+}
+case class ULApp(t1: ULTerm, t2: ULTerm) extends ULTerm {
+  override def toString() = "(" + t1.toString() + ") (" + t2.toString() + ")"
+}
 \end{minted}
 
 The use of de Bruijn indices necessitates a method to
@@ -362,7 +381,7 @@ def evaluate(t: ULTerm): ULTerm = reduce(t) match {
 \end{minted}
 
 \subsection*{Ruby implementation}
-\label{sec:org3b4725a}
+\label{sec:orgb5efc17}
 :TODO: Document this literately, as with the Scala above.
 \begin{minted}[breaklines=true]{ruby}
 # Our top-level ULTerm class defines some default
@@ -438,7 +457,7 @@ class ULVar < ULTerm
   def walk(currentBinders,&block)
     # This is a variable. Run the code in &block.
     # (yield does this; it "yields" control to the block.)
-    yield(@index, c)
+    yield(@index, currentBinders)
   end
 
   def to_s
@@ -520,8 +539,63 @@ class ULApp < ULTerm
 end
 \end{minted}
 
+\subsection*{Examples of interacting with these representations}
+\label{sec:org2687a30}
+The following code snippets show how you might use
+these implementations to perform some simple computations.
+
+In Scala:
+\begin{minted}[breaklines=true]{scala}
+// The term "lambda x . lambda y . lambda z . u (x (y z))"
+// Note the first variable (The one initialised with ULVar(3)) is free,
+// because it's index is greater than the number of abstractions
+// surrounding it.
+val x = ULAbs(
+          ULAbs(
+            ULAbs(ULApp(ULVar(3),
+                        ULApp(ULVar(2),
+                              ULApp(ULVar(1),
+                                    ULVar(0)))))))
+println("An unnamed representation of lambda x . lambda y . lambda z -> u x y z:")
+print("\t")
+println(x)
+
+// Now substitute that term itself in for the free variable.
+println("The result of substituting that term into itself for the variable u:")
+print("\t")
+println(substitute(x,0,x))
+\end{minted}
+
+And in Ruby:
+\begin{minted}[breaklines=true]{ruby}
+# The term "lambda x . lambda y . lambda z . u (x (y z))"
+# Note the first variable (The one initialised with ULVar.new(3)) is free,
+# because it's index is greater than the number of abstractions
+# surrounding it.
+x = ULAbs.new(
+      ULAbs.new(
+        ULAbs.new(ULApp.new(ULVar.new(3),
+                            ULApp.new(ULVar.new(2),
+                                      ULApp.new(ULVar.new(1),
+                                                ULVar.new(0)))))))
+puts "An unnamed representation of lambda x . lambda y . lambda z -> u x y z:"
+print "\t"
+puts x
+
+# Now substitute that term itself in for the free variable.
+puts "The result of substituting that term into itself for the variable u:"
+print "\t"
+puts x.substitute(0,x)
+
+# Note that the term itself remains unchanged;
+# we've made sure this type is immutable
+# by always creating new terms, or reusing them if that's not necessary,
+# in the class methods. The fields are only ever changed in the constructors.
+puts x
+\end{minted}
+
 \section*{Part 1 – The representation                                  [10 marks]}
-\label{sec:orgdbcd8eb}
+\label{sec:org45d60ed}
 \begin{center}
 \textbf{Place your code for this part in the files \texttt{a2.sc} and \texttt{a2.rb}.}
 \end{center}
@@ -543,7 +617,7 @@ The constructors of the type should be named
 \end{itemize}
 
 \section*{Part 2 – Type checking                                       [40 marks]}
-\label{sec:org184e964}
+\label{sec:orgfb28834}
 \begin{center}
 \textbf{Place your code for this part in the files \texttt{a2.sc} and \texttt{a2.rb}.}
 \end{center}
@@ -556,7 +630,7 @@ the represented term obeys the type rules of \emph{ST};
 otherwise, it returns \texttt{false}.
 
 \section*{Part 3 – Translation to the untyped λ-calculus; type erasure [40 marks]}
-\label{sec:org30a85cd}
+\label{sec:org90b3312}
 \begin{center}
 \textbf{Place your code for this part in the files \texttt{a2.sc} and \texttt{a2.rb}.}
 \end{center}
@@ -572,7 +646,7 @@ into the pure λ-calculus encodings that represent them.
 or import it in a way compatible with the testing environments.)
 
 \section*{Part 4 – Bonus: Interpreting \emph{SL} programs                     [10 marks]}
-\label{sec:org63838f4}
+\label{sec:org3770f39}
 Implement an evaluation method for your \texttt{STTerm} type.
 
 Make use of the evaluation method for \texttt{ULTerm}'s in your definition.
@@ -580,7 +654,7 @@ You will also need a method to convert results back
 to the \texttt{STTerm} representation.
 
 \section*{Part 5 – Bonus: pairs                                        [10 bonus marks]}
-\label{sec:org5d33016}
+\label{sec:orgc55a862}
 \begin{center}
 \textbf{Place any code for this part in files \texttt{a2p4.sc} and \texttt{a2p4.rb}.}
 \end{center}
@@ -590,7 +664,7 @@ the type of \emph{pairs} as well as naturals and booleans,
 along with a type checker, type eraser and evaluation method.
 
 \section*{Submission checklist}
-\label{sec:orgcc60cdb}
+\label{sec:org0b97697}
 For your convenience, this checklist is provided
 to track the files you need to submit.
 Use it if you wish.
@@ -615,6 +689,6 @@ Use it if you wish.
 \end{minted}
 
 \section*{Testing}
-\label{sec:orge70b896}
+\label{sec:orgf6651c9}
 :TODO:
 \end{document}
