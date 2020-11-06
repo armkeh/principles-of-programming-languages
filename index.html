@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-11-06 Fri 13:33 -->
+<!-- 2020-11-06 Fri 14:52 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Computer Science 3MI3 - Principles of Programming Languages</title>
@@ -364,6 +364,40 @@
 <h3 id="November">November</h3>
 <div class="outline-text-3" id="text-November">
 <dl class="org-dl">
+<dt>November 6th</dt><dd><ul class="org-ul">
+<li>A significant error in the homework 7 tests sample output
+was reported by some of your classmates during lecture today
+(thank you Omar and Paul.) It has been corrected now.
+<ul class="org-ul">
+<li><p>
+The final test case, which corresponds to the nameless term
+</p>
+<div class="org-src-container">
+<pre class="src src-text">&#955; &#955; &#955; &#955; <span style="color: #00cd68;">(</span>0 1<span style="color: #00cd68;">)</span> <span style="color: #00cd68;">(</span>2 3<span style="color: #00cd68;">)</span>
+</pre>
+</div>
+<p>
+previously was given an example output of
+</p>
+<div class="org-src-container">
+<pre class="src src-text">lambda a . lambda b . lambda c . <span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">(</span>a<span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">(</span>b<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span> <span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">(</span>c<span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">(</span>d<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+</pre>
+</div>
+<p>
+But notice how the first variable in the body
+refers to the outermost abstraction here,
+whereas the example in the homework specification shows
+(and the definition of nameless terms in the assignment specifies)
+that it should refer to the <b>innermost</b> abstraction.
+A correct sample output would instead be
+</p>
+<div class="org-src-container">
+<pre class="src src-text">lambda a . lambda b . lambda c . <span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">(</span>c<span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">(</span>b<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span> <span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">(</span>a<span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">(</span>d<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+</pre>
+</div></li>
+</ul></li>
+</ul></dd>
+
 <dt>November 5th</dt><dd><ul class="org-ul">
 <li>Testing code has been added to homework 7.</li>
 <li>Some minor updates the the current homework and
@@ -1834,7 +1868,7 @@ for debugging purposes.)
 <p class="author">Author: Mark Armstrong</p>
      <p class="author">Contact: <a href="mailto:markparmstrong@gmail.com">markparmstrong@gmail.com</a></p>
      <p class="date">Original date: July 31st, 2020</p>
-     <p class="date">Last updated: 2020-11-06 Fri 13:33</p>
+     <p class="date">Last updated: 2020-11-06 Fri 14:52</p>
      <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.90 (<a href="https://orgmode.org">Org</a> mode 9.4)</p>
      <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

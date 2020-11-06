@@ -12,6 +12,34 @@ better viewed at
 
 ## November
 
+  - November 6th
+    
+      - A significant error in the homework 7 tests sample output was
+        reported by some of your classmates during lecture today (thank
+        you Omar and Paul.) It has been corrected now.
+          - The final test case, which corresponds to the nameless term
+            
+            ``` text
+            λ λ λ λ (0 1) (2 3)
+            ```
+            
+            previously was given an example output of
+            
+            ``` text
+            lambda a . lambda b . lambda c . ((a) (b)) ((c) (d))
+            ```
+            
+            But notice how the first variable in the body refers to the
+            outermost abstraction here, whereas the example in the
+            homework specification shows (and the definition of nameless
+            terms in the assignment specifies) that it should refer to
+            the **innermost** abstraction. A correct sample output would
+            instead be
+            
+            ``` text
+            lambda a . lambda b . lambda c . ((c) (b)) ((a) (d))
+            ```
+
   - November 5th
     
       - Testing code has been added to homework 7.
