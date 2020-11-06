@@ -44,9 +44,16 @@ that chooses variable names for a term and “prints” the term
 not print them directly.)
 
 * Updates
+:PROPERTIES:
+:CUSTOM_ID: Updates
+:END:
 
 ** November 5th
+:PROPERTIES:
+:CUSTOM_ID: November-5th
+:END:
 
+- Testing and Docker setup has been added.
 - The suggested output has been adjusted slightly
   to account for parentheses being added around
   terms being applied to each other.
@@ -115,13 +122,6 @@ But as usual, the implementation details are within your control.)
 
 * Testing
 :PROPERTIES:
-:CUSTOM_ID: Testing
-:END:
-
-:TODO:
-
-* COMMENT Testing language
-:PROPERTIES:
 :CUSTOM_ID: COMMENT-Testing-language
 :END:
 
@@ -172,32 +172,54 @@ to run the commands contained in those scripts manually.
 
 The contents of the testing script are repeated here.
 
+[[./testing/h7/h7t.sc][h7t.sc]]
+#+begin_src amm :tangle ./testing/h7/h7t.sc
+import $file.h7, h7._
+
+val x = ULVar(0)
+val y = ULVar(1)
+val z = ULVar(2)
+val u = ULVar(3)
+
+val appvars = ULApp(ULApp(x,y), ULApp(z,u))
+val lappvars = ULAbs(appvars)
+val lllappvars = ULAbs(ULAbs(lappvars))
+
+println("a                                                       Sample")
+println(prettify(x))
+println("b                                                       Sample")
+println(prettify(y))
+println("((a) (b)) ((c) (d))                                     Sample")
+println(prettify(appvars))
+println("lambda a . ((a) (b)) ((c) (d))                          Sample")
+println(prettify(lappvars))
+println("lambda a . lambda b . lambda c . ((a) (b)) ((c) (d))    Sample")
+println(prettify(lllappvars))
+#+end_src
+
 [[./testing/h7/h7t.rb][h7t.rb]]
-#+begin_src ruby :results output :tangle ./testing/h7/h7t.rb
+#+begin_src ruby :tangle ./testing/h7/h7t.rb
 require_relative "h7"
-require "test/unit"
 
-class SimpleTests < Test::Unit::TestCase
+x = ULVar.new(0)
+y = ULVar.new(1)
+z = ULVar.new(2)
+u = ULVar.new(3)
 
-#  def test_constant_expression_zero
-#    e = construct_const(0)
-#    assert_equal(0, e.interpret)
-#  end
-#
-#  def test_additive_expression
-#    e1 = construct_const(5)
-#    e2 = construct_const(4)
-#    e = construct_plus(e1,e2)
-#    assert_equal(9, e.interpret)
-#  end
-#
-#  def test_exponential_expression
-#    e1 = construct_const(5)
-#    e2 = construct_const(4)
-#    e = construct_exp(e1,e2)
-#    assert_equal(625, e.interpret)
-#  end
-end
+appvars = ULApp.new(ULApp.new(x,y), ULApp.new(z,u))
+lappvars = ULAbs.new(appvars)
+lllappvars = ULAbs.new(ULAbs.new(lappvars))
+
+puts "a                                                       Sample"
+puts x.prettify
+puts "b                                                       Sample"
+puts y.prettify
+puts "((a) (b)) ((c) (d))                                     Sample"
+puts appvars.prettify
+puts "lambda a . ((a) (b)) ((c) (d))                          Sample"
+puts lappvars.prettify
+puts "lambda a . lambda b . lambda c . ((a) (b)) ((c) (d))    Sample"
+puts lllappvars.prettify
 #+end_src
 
 ** The Docker setup
@@ -209,13 +231,25 @@ The contents of the Docker setup files and scripts are repeated here.
 
 [[./testing/h7/Dockerfile][Dockerfile]]
 #+begin_src docker :tangle ./testing/h7/Dockerfile
+# Define the argument for openjdk version
+ARG OPENJDK_TAG=8u232
+
 FROM ruby:2.7.2-buster
 
+# Setup to install Scala
+RUN apt-get update && \
+    apt-get install scala -y && \
+    apt-get install -y curl && \
+    sh -c '(echo "#!/usr/bin/env sh" && \
+    curl -L https://github.com/lihaoyi/Ammonite/releases/download/2.1.1/2.12-2.1.1) > /usr/local/bin/amm && \
+    chmod +x /usr/local/bin/amm'
+RUN (rm -rf /root/.cache)
+     
 # Set the name of the maintainers
 MAINTAINER Habib Ghaffari Hadigheh, Mark Armstrong <ghaffh1@mcmaster.ca, armstmp@mcmaster.ca>
 
 # Set the working directory
-WORKDIR /opt/h6
+WORKDIR /opt/h7
 #+end_src
 
 [[./testing/h7/docker-compose.yml][docker-compose.yml]]
@@ -228,7 +262,15 @@ services:
     volumes:
       - .:/opt/h7
     container_name: 3mi3_h7_container
-    command: ['ruby', 'h7t.rb']
+    command: bash -c
+      "echo 'Scala testing' &&
+       echo '----------------------------------------------------------------------' &&
+       amm h7t.sc &&
+       printf '\\n\\n\\n' &&
+       echo 'Ruby testing' &&
+       echo '----------------------------------------------------------------------' &&
+       ruby h7t.rb &&
+       echo '----------------------------------------------------------------------'"
 #+end_src
 
 [[./testing/h5/setup.sh][setup.sh]]

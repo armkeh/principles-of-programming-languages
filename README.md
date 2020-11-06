@@ -14,6 +14,7 @@ better viewed at
 
   - November 5th
     
+      - Testing code has been added to homework 7.
       - Some minor updates the the current homework and assignment have
         been posted; see the updates section for each.
           - More updates (more significant updates, such as testing) are
