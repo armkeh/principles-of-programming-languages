@@ -1,0 +1,131 @@
+% Created 2020-11-06 Fri 13:32
+% Intended LaTeX compiler: lualatex
+\documentclass[11pt]{article}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{etoolbox}
+\makeatletter
+\def\dontdofcolorbox{\renewcommand\fcolorbox[4][]{##4}}
+\AtBeginEnvironment{minted}{\dontdofcolorbox}
+\makeatother
+\usepackage[newfloat]{minted}
+\usepackage{unicode-math}
+\usepackage{unicode}
+\author{Mark Armstrong}
+\date{\today}
+\title{Introduction to Clojure}
+\hypersetup{
+   pdfauthor={Mark Armstrong},
+   pdftitle={Introduction to Clojure},
+   pdfkeywords={},
+   pdfsubject={An introduction to Clojure, a language in which programs themselves are written as data within the language.},
+   pdfcreator={Emacs 27.0.91 (Org mode 9.4)},
+   pdflang={English},
+   colorlinks,
+   linkcolor=blue,
+   citecolor=blue,
+   urlcolor=blue
+   }
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+
+\section{Introduction}
+\label{sec:org0fe2fbc}
+These notes were created for, and in some parts \textbf{during},
+the lecture on November 6th and the following tutorials.
+
+\section{Motivation}
+\label{sec:orgccdfea6}
+:TODO:
+
+\section{The syntax and (most of) the semantics of Clojure}
+\label{sec:org1f9aa5e}
+The syntax of Lisps such as Clojure tend to be extremely minimal.
+For today at least, we will work with a subset of the language
+described by the following grammar, which is sufficient
+for a fair amount of programming.
+\begin{minted}[breaklines=true]{text}
+⟨expr⟩ ::= number
+         | "nil"
+         | ⟨list⟩
+         | ⟨array⟩
+         | symbol
+
+⟨list⟩ ∷= "(" {⟨expr⟩} ")"
+
+⟨array⟩ ∷= "[" {⟨expr⟩} "]"
+\end{minted}
+
+For example, the following are all Clojure expressions.
+\begin{minted}[breaklines=true]{clojure}
+2
+-1
+
+()
+'(1 2 3)
+
+[1 2 3]
+[]
+
+\end{minted}
+
+Clojure programs are written as lists,
+with the head of the list being the \emph{operator} and
+the tail of the list being the \emph{operands}.
+The (regular) semantics of Clojure expressions
+can be described in just two lines;
+to evaluate a list,
+\begin{enumerate}
+\item evaluate each element of the list, and then
+\item apply the operands to the operator.
+\end{enumerate}
+
+For instance,
+\begin{minted}[breaklines=true]{clojure}
+(+ 1 2)
+\end{minted}
+
+\section{Special forms; the \texttt{def} and \texttt{defn} forms}
+\label{sec:org56cf162}
+When or if the evaluation rules of Clojure given above
+prove too limiting, Clojure allows for “special forms”
+(pieces of syntax handled differently by the compiler)
+to implement constructs.
+
+The first of these we will consider 
+
+For instance, here is code which defines two methods,
+called \texttt{square} and \texttt{sum\_of\_squares},
+and then calls \texttt{sum\_of\_squares} with arguments \texttt{2} and \texttt{3}.
+\begin{minted}[breaklines=true]{clojure}
+(defn square [x] (* x x))
+
+(defn sum-of-squares [x y]
+  (+ (square x)
+     (square y)))
+
+(sum-of-squares 2 3)
+\end{minted}
+
+\section{The \texttt{quote}, \texttt{'}}
+\label{sec:orge70f9b5}
+
+\section{Conditional forms}
+\label{sec:org1760a3e}
+
+\section{\texttt{do}, for sequential computation}
+\label{sec:orgac39450}
+\end{document}

@@ -1,0 +1,124 @@
+#+Title: Introduction to Clojure
+#+Author: Mark Armstrong
+#+Description: An introduction to Clojure, a language in which
+#+Description: programs themselves are written as data within the language.
+#+SETUPFILE: ../../org-html-themes/setup/theme-readtheorg-local.setup
+
+* LaTeX settings                                :noexport:
+
+#+LaTeX_header: \usepackage{unicode-math}
+#+LaTeX_header: \usepackage{unicode}
+
+* Introduction
+:PROPERTIES:
+:CUSTOM_ID: Introduction
+:END:
+
+These notes were created for, and in some parts *during*,
+the lecture on November 6th and the following tutorials.
+
+* Motivation
+:PROPERTIES:
+:CUSTOM_ID: Motivation
+:END:
+
+:TODO:
+
+* The syntax and (most of) the semantics of Clojure
+:PROPERTIES:
+:CUSTOM_ID: The-syntax-and-(most-of)-the-semantics-of-Clojure
+:END:
+
+The syntax of Lisps such as Clojure tend to be extremely minimal.
+For today at least, we will work with a subset of the language
+described by the following grammar, which is sufficient
+for a fair amount of programming.
+#+begin_src text
+⟨expr⟩ ::= number
+         | "nil"
+         | ⟨list⟩
+         | ⟨array⟩
+         | symbol
+
+⟨list⟩ ∷= "(" {⟨expr⟩} ")"
+
+⟨array⟩ ∷= "[" {⟨expr⟩} "]"
+#+end_src
+
+For example, the following are all Clojure expressions.
+#+begin_src clojure
+2
+-1
+
+()
+'(1 2 3)
+
+[1 2 3]
+[]
+
+#+end_src
+
+#+RESULTS:
+| 2       |
+| -1      |
+| ()      |
+| (1 2 3) |
+| [1 2 3] |
+| []      |
+
+Clojure programs are written as lists,
+with the head of the list being the /operator/ and
+the tail of the list being the /operands/.
+The (regular) semantics of Clojure expressions
+can be described in just two lines;
+to evaluate a list,
+1. evaluate each element of the list, and then
+2. apply the operands to the operator.
+
+For instance,
+#+begin_src clojure
+(+ 1 2)
+#+end_src
+
+#+RESULTS:
+: 3
+
+* Special forms; the ~def~ and ~defn~ forms
+:PROPERTIES:
+:CUSTOM_ID: Special-forms;-the-~def~-and-~defn~-forms
+:END:
+
+When or if the evaluation rules of Clojure given above
+prove too limiting, Clojure allows for “special forms”
+(pieces of syntax handled differently by the compiler)
+to implement constructs.
+
+The first of these we will consider 
+
+For instance, here is code which defines two methods,
+called ~square~ and ~sum_of_squares~,
+and then calls ~sum_of_squares~ with arguments ~2~ and ~3~.
+#+begin_src clojure :results value
+(defn square [x] (* x x))
+
+(defn sum-of-squares [x y]
+  (+ (square x)
+     (square y)))
+
+(sum-of-squares 2 3)
+#+end_src
+
+* The ~quote~, ~'~
+:PROPERTIES:
+:CUSTOM_ID: The-~quote~,-~'~
+:END:
+
+* Conditional forms
+:PROPERTIES:
+:CUSTOM_ID: Conditional-forms
+:END:
+
+* ~do~, for sequential computation
+:PROPERTIES:
+:CUSTOM_ID: ~do~,-for-sequential-computation
+:END:

@@ -624,6 +624,15 @@ Particularly relevant portions of raw code are also included.
 :CUSTOM_ID: Lectures
 :END:
 
+*** November 6th – Introduction to Clojure
+:PROPERTIES:
+:CUSTOM_ID: November-6th-–-Introduction-to-Clojure
+:END:
+
+- [[./notes/live-coding/11-06-Introduction-to-Clojure.html][HTML]]
+- [[./notes/live-coding/11-06-Introduction-to-Clojure.pdf][PDF]]
+- [[./notes/live-coding/11-06-Introduction-to-Clojure.org][Org plaintext]]
+
 *** October 9th – Introduction to Ruby
 :PROPERTIES:
 :CUSTOM_ID: October-9th-–-Introduction-to-Ruby

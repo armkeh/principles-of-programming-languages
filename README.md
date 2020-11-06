@@ -596,6 +596,13 @@ are also included.
 
 ## Lectures
 
+### November 6th – Introduction to Clojure
+
+  - [HTML](./notes/live-coding/11-06-Introduction-to-Clojure.html)
+  - [PDF](./notes/live-coding/11-06-Introduction-to-Clojure.pdf)
+  - [Org
+    plaintext](./notes/live-coding/11-06-Introduction-to-Clojure.org)
+
 ### October 9th – Introduction to Ruby
 
   - [HTML](./notes/live-coding/10-09-Introduction-to-Ruby.html)

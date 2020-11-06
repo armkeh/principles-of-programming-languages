@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2020-11-06 Fri 13:32 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Introduction to Clojure</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Mark Armstrong" />
+<meta name="description" content="An introduction to Clojure, a language in which
+programs themselves are written as data within the language."
+ />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="styles/readtheorg/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="styles/readtheorg/css/readtheorg.css"/>
+<script type="text/javascript" src="styles/lib/js/jquery.min.js"></script>
+<script type="text/javascript" src="styles/lib/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="styles/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" src="styles/readtheorg/js/readtheorg.js"></script>
+<style>pre.src{background:#000000;color:white;} </style>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:e95b018ef3580986a04669f1b5879592219e2a7a&dn=public-domain.txt Public Domain
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.add("code-highlighted");
+         target.classList.add("code-highlighted");
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.remove("code-highlighted");
+         target.classList.remove("code-highlighted");
+       }
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Introduction to Clojure</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#Introduction">1. Introduction</a></li>
+<li><a href="#Motivation">2. Motivation</a></li>
+<li><a href="#The-syntax-and-(most-of)-the-semantics-of-Clojure">3. The syntax and (most of) the semantics of Clojure</a></li>
+<li><a href="#Special-forms;-the-~def~-and-~defn~-forms">4. Special forms; the <code>def</code> and <code>defn</code> forms</a></li>
+<li><a href="#The-~quote~,-~'~">5. The <code>quote</code>, <code>'</code></a></li>
+<li><a href="#Conditional-forms">6. Conditional forms</a></li>
+<li><a href="#~do~,-for-sequential-computation">7. <code>do</code>, for sequential computation</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-Introduction" class="outline-2">
+<h2 id="Introduction"><span class="section-number-2">1</span> Introduction</h2>
+<div class="outline-text-2" id="text-Introduction">
+<p>
+These notes were created for, and in some parts <b>during</b>,
+the lecture on November 6th and the following tutorials.
+</p>
+</div>
+</div>
+
+<div id="outline-container-Motivation" class="outline-2">
+<h2 id="Motivation"><span class="section-number-2">2</span> Motivation</h2>
+<div class="outline-text-2" id="text-Motivation">
+<p>
+:TODO:
+</p>
+</div>
+</div>
+
+<div id="outline-container-The-syntax-and-(most-of)-the-semantics-of-Clojure" class="outline-2">
+<h2 id="The-syntax-and-(most-of)-the-semantics-of-Clojure"><span class="section-number-2">3</span> The syntax and (most of) the semantics of Clojure</h2>
+<div class="outline-text-2" id="text-The-syntax-and-(most-of)-the-semantics-of-Clojure">
+<p>
+The syntax of Lisps such as Clojure tend to be extremely minimal.
+For today at least, we will work with a subset of the language
+described by the following grammar, which is sufficient
+for a fair amount of programming.
+</p>
+<div class="org-src-container">
+<pre class="src src-text"><span style="color: #00cd68;">&#10216;</span>expr<span style="color: #00cd68;">&#10217;</span> ::= number
+         | "nil"
+         | <span style="color: #00cd68;">&#10216;</span>list<span style="color: #00cd68;">&#10217;</span>
+         | <span style="color: #00cd68;">&#10216;</span>array<span style="color: #00cd68;">&#10217;</span>
+         | symbol
+
+<span style="color: #00cd68;">&#10216;</span>list<span style="color: #00cd68;">&#10217;</span> &#8759;= "<span style="color: #00cd68;">(</span>" <span style="color: #b6a0ff;">{</span><span style="color: #6ae4b9;">&#10216;</span>expr<span style="color: #6ae4b9;">&#10217;</span><span style="color: #b6a0ff;">}</span> "<span style="color: #00cd68;">)</span>"
+
+<span style="color: #00cd68;">&#10216;</span>array<span style="color: #00cd68;">&#10217;</span> &#8759;= "<span style="color: #00cd68;">[</span>" <span style="color: #b6a0ff;">{</span><span style="color: #6ae4b9;">&#10216;</span>expr<span style="color: #6ae4b9;">&#10217;</span><span style="color: #b6a0ff;">}</span> "<span style="color: #00cd68;">]</span>"
+</pre>
+</div>
+
+<p>
+For example, the following are all Clojure expressions.
+</p>
+<div class="org-src-container">
+<pre class="src src-clojure">2
+-1
+
+<span style="color: #00cd68;">()</span>
+'<span style="color: #00cd68;">(</span>1 2 3<span style="color: #00cd68;">)</span>
+
+<span style="color: #00cd68;">[</span>1 2 3<span style="color: #00cd68;">]</span>
+<span style="color: #00cd68;">[]</span>
+
+</pre>
+</div>
+
+<p>
+Clojure programs are written as lists,
+with the head of the list being the <i>operator</i> and
+the tail of the list being the <i>operands</i>.
+The (regular) semantics of Clojure expressions
+can be described in just two lines;
+to evaluate a list,
+</p>
+<ol class="org-ol">
+<li>evaluate each element of the list, and then</li>
+<li>apply the operands to the operator.</li>
+</ol>
+
+<p>
+For instance,
+</p>
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #00cd68;">(</span>+ 1 2<span style="color: #00cd68;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-Special-forms;-the-~def~-and-~defn~-forms" class="outline-2">
+<h2 id="Special-forms;-the-~def~-and-~defn~-forms"><span class="section-number-2">4</span> Special forms; the <code>def</code> and <code>defn</code> forms</h2>
+<div class="outline-text-2" id="text-Special-forms;-the-~def~-and-~defn~-forms">
+<p>
+When or if the evaluation rules of Clojure given above
+prove too limiting, Clojure allows for “special forms”
+(pieces of syntax handled differently by the compiler)
+to implement constructs.
+</p>
+
+<p>
+The first of these we will consider 
+</p>
+
+<p>
+For instance, here is code which defines two methods,
+called <code>square</code> and <code>sum_of_squares</code>,
+and then calls <code>sum_of_squares</code> with arguments <code>2</code> and <code>3</code>.
+</p>
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">defn</span> <span style="color: #feacd0;">square</span> <span style="color: #b6a0ff;">[</span>x<span style="color: #b6a0ff;">]</span> <span style="color: #b6a0ff;">(</span>* x x<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+
+<span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">defn</span> <span style="color: #feacd0;">sum-of-squares</span> <span style="color: #b6a0ff;">[</span>x y<span style="color: #b6a0ff;">]</span>
+  <span style="color: #b6a0ff;">(</span>+ <span style="color: #6ae4b9;">(</span>square x<span style="color: #6ae4b9;">)</span>
+     <span style="color: #6ae4b9;">(</span>square y<span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+
+<span style="color: #00cd68;">(</span>sum-of-squares 2 3<span style="color: #00cd68;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-The-~quote~,-~'~" class="outline-2">
+<h2 id="The-~quote~,-~'~"><span class="section-number-2">5</span> The <code>quote</code>, <code>'</code></h2>
+<div class="outline-text-2" id="text-The-~quote~,-~'~">
+</div>
+</div>
+
+<div id="outline-container-Conditional-forms" class="outline-2">
+<h2 id="Conditional-forms"><span class="section-number-2">6</span> Conditional forms</h2>
+<div class="outline-text-2" id="text-Conditional-forms">
+</div>
+</div>
+
+<div id="outline-container-~do~,-for-sequential-computation" class="outline-2">
+<h2 id="~do~,-for-sequential-computation"><span class="section-number-2">7</span> <code>do</code>, for sequential computation</h2>
+<div class="outline-text-2" id="text-~do~,-for-sequential-computation">
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Mark Armstrong</p>
+     <p class="author">Contact: <a href="mailto:markparmstrong@gmail.com">markparmstrong@gmail.com</a></p>
+     <p class="date">Original date: </p>
+     <p class="date">Last updated: 2020-11-06 Fri 13:32</p>
+     <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4)</p>
+     <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
