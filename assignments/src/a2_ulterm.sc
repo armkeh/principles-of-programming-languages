@@ -1,7 +1,12 @@
-sealed trait ULTerm
-case class ULVar(index: Int) extends ULTerm
-case class ULAbs(t: ULTerm) extends ULTerm
-case class ULApp(t1: ULTerm, t2: ULTerm) extends ULTerm
+case class ULVar(index: Int) extends ULTerm {
+  override def toString() = index.toString()
+}
+case class ULAbs(t: ULTerm) extends ULTerm {
+  override def toString() = "lambda . " + t.toString()
+}
+case class ULApp(t1: ULTerm, t2: ULTerm) extends ULTerm {
+  override def toString() = "(" + t1.toString() + ") (" + t2.toString() + ")"
+}
 
 // Shift the numbering of unbound variables
 def shift(shiftAmount: Int, t: ULTerm): ULTerm = {

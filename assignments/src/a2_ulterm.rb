@@ -129,7 +129,6 @@ class ULApp < ULTerm
       body = @t1.absBody
       (body.substitute(0,@t2.shift(1))).shift(-1)
     elsif @t1.isValue?
-      print "Reducing an argument\n"
       r = @t2.reduce
       if r
         ULApp.new(@t1,r)
@@ -137,7 +136,6 @@ class ULApp < ULTerm
         nil
       end
     else
-      print "Reducing a function\n"
       r = @t1.reduce
       if r
         ULApp.new(r,@t2)

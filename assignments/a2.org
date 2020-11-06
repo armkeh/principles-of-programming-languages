@@ -362,7 +362,14 @@ def evaluate(t: ULTerm): ULTerm = reduce(t) match {
 :CUSTOM_ID: Ruby-implementation
 :END:
 
-:TODO: Document this literately, as with the Scala above.
+In Ruby, we use implement /UL/ terms using a (super) class ~ULTerm~ with
+subclasses for each kind of /UL/ term.
+
+The super class defines so default methods to keep track
+of what kind of term we have.
+These could be implemented as fields (instance variables),
+but the use of methods implies that these values are constant
+for all objects and across all time.
 #+begin_src ruby :tangle ./src/a2_ulterm.rb
 # Our top-level ULTerm class defines some default
 # methods to track what kind of term we have
@@ -382,7 +389,31 @@ class ULTerm
   def reduce; nil end
   def absBody; nil end
   def isValue?; false end
+#+end_src
 
+We would not usually have enough information in this super ~ULTerm~ class
+to be able to define the ~shift~ and ~substitution~ methods,
+without resorting to (what I feel is) an ugly approach of using ~is_a?~ to check
+whether the term is a variable, abstraction or application.
+
+Previously, we used a local ~walk~ method inside of each of
+the methods, which actually carried out the work on the terms.
+We could do the same here, repeating the definition of ~walk~ inside of
+the ~shift~ and ~substitute~ methods for each type of term
+(at least, I believe we can do so.)
+However, this repetition of code is very undesirable.
+
+Instead, we take advantage of the fact that the ~walk~ method
+was in fact /almost identical/ for both shifting and substitution,
+only acting differently on /variables/, to reimagine ~walk~ as
+an iterator. This iterator will take as a block argument (a lambda)
+the action to carry out on variables.
+
+So, assuming that the ~walk~ method will be defined for each of the subclasses,
+we can define ~shift~ and ~substitute~ here in the superclass
+by writing the action to take on variables as a block,
+and calling ~walk~ on the term with that action.
+#+begin_src ruby :tangle ./src/a2_ulterm.rb
   # Shifting is just walking, where in the base case,
   # we either increment the variable by shiftAmount or
   # leave it alone.
@@ -407,7 +438,14 @@ class ULTerm
         ULVar.new(y)
       end }
   end
+#+end_src
 
+Similarly to how we assume above that the ~walk~ method
+will be defined for all subclasses, we also assume
+that the ~reduce~ method will be defined for all subclasses,
+since we lack a nice means to define it here.
+However, we can easily define ~eval~ in terms of those ~reduce~ methods.
+#+begin_src ruby :tangle ./src/a2_ulterm.rb
   def eval
     r = nil
     r_next = self
@@ -422,7 +460,15 @@ class ULTerm
     return r
   end
 end
+#+end_src
 
+As mentioned above, in each of the subclasses of ~ULTerm~,
+we need to define the ~walk~ and ~reduce~ methods.
+But for variables, reduction is undefined, so we
+do not define that method here.
+(We do define here and below ~to_s~ methods, to allow
+these terms to be printed somewhat nicely.)
+#+begin_src ruby :tangle ./src/a2_ulterm.rb
 class ULVar < ULTerm
   attr_reader :index
 
@@ -444,7 +490,13 @@ class ULVar < ULTerm
     @index.to_s
   end
 end
+#+end_src
 
+Again, we cannot ~reduce~ an abstraction,
+so we do not define that method here.
+But we do set override the ~absBody~ and ~isValue?~ methods
+since this is an abstraction, and abstractions are values.
+#+begin_src ruby :tangle ./src/a2_ulterm.rb
 class ULAbs < ULTerm
   attr_reader :t
 
@@ -471,7 +523,16 @@ class ULAbs < ULTerm
     "lambda . " + @t.to_s
   end
 end
+#+end_src
 
+The application subclass is actually the only one
+where we define the ~reduce~ method.
+The logic of it is the same as in the Scala version,
+though unfortunately the lack of pattern matching
+makes it appear much worse.
+(The source code was edited November 6th to remove some
+diagnostic printing statements which were unfortunately included previously.)
+#+begin_src ruby :tangle ./src/a2_ulterm.rb
 class ULApp < ULTerm
   attr_reader :t1
   attr_reader :t2
@@ -495,7 +556,6 @@ class ULApp < ULTerm
       body = @t1.absBody
       (body.substitute(0,@t2.shift(1))).shift(-1)
     elsif @t1.isValue?
-      print "Reducing an argument\n"
       r = @t2.reduce
       if r
         ULApp.new(@t1,r)
@@ -503,7 +563,6 @@ class ULApp < ULTerm
         nil
       end
     else
-      print "Reducing a function\n"
       r = @t1.reduce
       if r
         ULApp.new(r,@t2)
@@ -518,6 +577,18 @@ class ULApp < ULTerm
   end
 end
 #+end_src
+
+One important fact bears mentioning about our implementation
+of ~ULTerm~ and its subclasses: note that all of the fields
+of each class are read-only, and that their values
+are only ever set in the constructors.
+These are /value classes/; a ~ULTerm~ object is intended to be
+(and will be, barring any misuse) /immutable/ (unchanging over time.)
+
+This design leads to better predictability of code;
+there should never be an instance where a ~ULTerm~ changes unexpectedly
+because of some method call, because ~ULTerm~'s never change
+after their creation.
 
 ** Examples of interacting with these representations
 :PROPERTIES:

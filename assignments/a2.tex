@@ -1,4 +1,4 @@
-% Created 2020-11-06 Fri 01:58
+% Created 2020-11-06 Fri 02:37
 % Intended LaTeX compiler: lualatex
 \documentclass[11pt]{article}
 \usepackage{graphicx}
@@ -47,23 +47,23 @@
 
 
 \section*{Introduction}
-\label{sec:org5b7dec2}
+\label{sec:org92fea1f}
 This assignment asks you to construct representation
 of a simply-typed λ-calculus, construct a typechecker for that
 λ-calculus, and finally to implement \emph{type-erasure} and a
 simple translator to simplify terms to untyped λ-calculus terms.
 
 \section*{Updates and file history}
-\label{sec:org9cc5cab}
+\label{sec:org98614e5}
 \subsection*{November 6th}
-\label{sec:org8cbd0b0}
+\label{sec:orgbd831c2}
 \begin{itemize}
 \item The typing rules for the \emph{ST} language were added
 in part 0.1.
 \end{itemize}
 
 \subsection*{November 5th}
-\label{sec:org537d1c3}
+\label{sec:org0a102cf}
 \begin{itemize}
 \item A typo in a variable name in the Ruby implementation
 of \texttt{ULTerm} was corrected.
@@ -74,7 +74,7 @@ and perform substitutions with them was added to part 0.2.
 \end{itemize}
 
 \subsection*{November 1st}
-\label{sec:org095896c}
+\label{sec:orgab69f73}
 \begin{itemize}
 \item Part 4 was made bonus
 \begin{itemize}
@@ -84,7 +84,7 @@ made part of the question.
 \end{itemize}
 
 \subsection*{October 30th}
-\label{sec:orgbedfa1e}
+\label{sec:org8a4da8a}
 \begin{itemize}
 \item Initial version posted.
 \begin{itemize}
@@ -93,9 +93,9 @@ made part of the question.
 \end{itemize}
 
 \section*{Boilerplate}
-\label{sec:org5f7f3c7}
+\label{sec:org5504cea}
 \subsection*{Documentation}
-\label{sec:org03ab68b}
+\label{sec:org2cfaffa}
 In addition to the code for the assignments,
 you are required to submit (relatively light) documentation,
 along the lines of that found in
@@ -154,13 +154,13 @@ Feel free to omit some “repetitive” portions.
 which look almost identical, only one or two need to be shown.)
 
 \subsection*{Submission procedures}
-\label{sec:orgd5c6e74}
+\label{sec:orgf567071}
 The same guidelines as for homework
 (which can be seen in any of the homework files)
 apply to assignments, except for the differences below.
 
 \subsubsection*{Assignment naming requirements}
-\label{sec:orgbce1a88}
+\label{sec:org113a724}
 
 Place all files for the assignment
 inside a folder titled \texttt{an}, where \texttt{n} is the number of the assignment.
@@ -181,12 +181,12 @@ save your code for that part. Follow those instructions!
 This is slightly decreased from the 10\% for homeworks.
 
 \subsection*{Proper conduct for coursework}
-\label{sec:orgfe0e014}
+\label{sec:orgc1cfe7a}
 Refer to the homework code of conduct available in any of the homework files.
 The same guidelines apply to assignments.
 
 \section*{Part 0.1 – Description of the λ-calculus, \emph{ST}                 [0 marks]}
-\label{sec:org301cb3a}
+\label{sec:orgabe92bd}
 The λ-calculus you are to work with during this assignment
 we call \emph{ST}, standing for \emph{simply typed}.
 It adds to the pure untyped λ-calculus \emph{UL}
@@ -260,9 +260,9 @@ function terms added to this language.
 \end{minted}
 
 \section*{Part 0.2 – A representation of the untyped λ-calculus, \emph{UL}    [0 marks]}
-\label{sec:org97b39fc}
+\label{sec:org672cd23}
 \subsection*{Nameless representation of terms}
-\label{sec:orgb0be63a}
+\label{sec:org149acc6}
 We use \emph{de Bruijn indices} in place of named variables.
 The index “points” to a binder, or to a free variable.
 \begin{itemize}
@@ -286,7 +286,7 @@ we can correct for this by writing a \emph{pretty printer} for λ-terms
 (which will be the focus of a homework.)
 
 \subsection*{Scala implementation}
-\label{sec:org8e5c330}
+\label{sec:orgb1d5597}
 Pure untyped λ-terms can only be variables, abstractions or applications.
 (Updated November 5th) We include as parts of the case classes
 overrides of the \texttt{toString} method, which improve the appearance
@@ -441,8 +441,15 @@ def evaluate(t: ULTerm): ULTerm = reduce(t) match {
 \end{minted}
 
 \subsection*{Ruby implementation}
-\label{sec:orgfd3b3d3}
-:TODO: Document this literately, as with the Scala above.
+\label{sec:org5abb3c7}
+In Ruby, we use implement \emph{UL} terms using a (super) class \texttt{ULTerm} with
+subclasses for each kind of \emph{UL} term.
+
+The super class defines so default methods to keep track
+of what kind of term we have.
+These could be implemented as fields (instance variables),
+but the use of methods implies that these values are constant
+for all objects and across all time.
 \begin{minted}[breaklines=true]{ruby}
 # Our top-level ULTerm class defines some default
 # methods to track what kind of term we have
@@ -462,7 +469,31 @@ class ULTerm
   def reduce; nil end
   def absBody; nil end
   def isValue?; false end
+\end{minted}
 
+We would not usually have enough information in this super \texttt{ULTerm} class
+to be able to define the \texttt{shift} and \texttt{substitution} methods,
+without resorting to (what I feel is) an ugly approach of using \texttt{is\_a?} to check
+whether the term is a variable, abstraction or application.
+
+Previously, we used a local \texttt{walk} method inside of each of
+the methods, which actually carried out the work on the terms.
+We could do the same here, repeating the definition of \texttt{walk} inside of
+the \texttt{shift} and \texttt{substitute} methods for each type of term
+(at least, I believe we can do so.)
+However, this repetition of code is very undesirable.
+
+Instead, we take advantage of the fact that the \texttt{walk} method
+was in fact \emph{almost identical} for both shifting and substitution,
+only acting differently on \emph{variables}, to reimagine \texttt{walk} as
+an iterator. This iterator will take as a block argument (a lambda)
+the action to carry out on variables.
+
+So, assuming that the \texttt{walk} method will be defined for each of the subclasses,
+we can define \texttt{shift} and \texttt{substitute} here in the superclass
+by writing the action to take on variables as a block,
+and calling \texttt{walk} on the term with that action.
+\begin{minted}[breaklines=true]{ruby}
   # Shifting is just walking, where in the base case,
   # we either increment the variable by shiftAmount or
   # leave it alone.
@@ -487,7 +518,14 @@ class ULTerm
         ULVar.new(y)
       end }
   end
+\end{minted}
 
+Similarly to how we assume above that the \texttt{walk} method
+will be defined for all subclasses, we also assume
+that the \texttt{reduce} method will be defined for all subclasses,
+since we lack a nice means to define it here.
+However, we can easily define \texttt{eval} in terms of those \texttt{reduce} methods.
+\begin{minted}[breaklines=true]{ruby}
   def eval
     r = nil
     r_next = self
@@ -502,7 +540,15 @@ class ULTerm
     return r
   end
 end
+\end{minted}
 
+As mentioned above, in each of the subclasses of \texttt{ULTerm},
+we need to define the \texttt{walk} and \texttt{reduce} methods.
+But for variables, reduction is undefined, so we
+do not define that method here.
+(We do define here and below \texttt{to\_s} methods, to allow
+these terms to be printed somewhat nicely.)
+\begin{minted}[breaklines=true]{ruby}
 class ULVar < ULTerm
   attr_reader :index
 
@@ -524,7 +570,13 @@ class ULVar < ULTerm
     @index.to_s
   end
 end
+\end{minted}
 
+Again, we cannot \texttt{reduce} an abstraction,
+so we do not define that method here.
+But we do set override the \texttt{absBody} and \texttt{isValue?} methods
+since this is an abstraction, and abstractions are values.
+\begin{minted}[breaklines=true]{ruby}
 class ULAbs < ULTerm
   attr_reader :t
 
@@ -551,7 +603,16 @@ class ULAbs < ULTerm
     "lambda . " + @t.to_s
   end
 end
+\end{minted}
 
+The application subclass is actually the only one
+where we define the \texttt{reduce} method.
+The logic of it is the same as in the Scala version,
+though unfortunately the lack of pattern matching
+makes it appear much worse.
+(The source code was edited November 6th to remove some
+diagnostic printing statements which were unfortunately included previously.)
+\begin{minted}[breaklines=true]{ruby}
 class ULApp < ULTerm
   attr_reader :t1
   attr_reader :t2
@@ -575,7 +636,6 @@ class ULApp < ULTerm
       body = @t1.absBody
       (body.substitute(0,@t2.shift(1))).shift(-1)
     elsif @t1.isValue?
-      print "Reducing an argument\n"
       r = @t2.reduce
       if r
         ULApp.new(@t1,r)
@@ -583,7 +643,6 @@ class ULApp < ULTerm
         nil
       end
     else
-      print "Reducing a function\n"
       r = @t1.reduce
       if r
         ULApp.new(r,@t2)
@@ -599,8 +658,20 @@ class ULApp < ULTerm
 end
 \end{minted}
 
+One important fact bears mentioning about our implementation
+of \texttt{ULTerm} and its subclasses: note that all of the fields
+of each class are read-only, and that their values
+are only ever set in the constructors.
+These are \emph{value classes}; a \texttt{ULTerm} object is intended to be
+(and will be, barring any misuse) \emph{immutable} (unchanging over time.)
+
+This design leads to better predictability of code;
+there should never be an instance where a \texttt{ULTerm} changes unexpectedly
+because of some method call, because \texttt{ULTerm}'s never change
+after their creation.
+
 \subsection*{Examples of interacting with these representations}
-\label{sec:orga78c3f2}
+\label{sec:org2a2498e}
 The following code snippets show how you might use
 these implementations to perform some simple computations.
 
@@ -655,7 +726,7 @@ puts x
 \end{minted}
 
 \section*{Part 1 – The representation                                  [10 marks]}
-\label{sec:orge3ac47c}
+\label{sec:orge2ff9bd}
 \begin{center}
 \textbf{Place your code for this part in the files \texttt{a2.sc} and \texttt{a2.rb}.}
 \end{center}
@@ -677,7 +748,7 @@ The constructors of the type should be named
 \end{itemize}
 
 \section*{Part 2 – Type checking                                       [40 marks]}
-\label{sec:org615dd62}
+\label{sec:org0b45f67}
 \begin{center}
 \textbf{Place your code for this part in the files \texttt{a2.sc} and \texttt{a2.rb}.}
 \end{center}
@@ -690,7 +761,7 @@ the represented term obeys the type rules of \emph{ST};
 otherwise, it returns \texttt{false}.
 
 \section*{Part 3 – Translation to the untyped λ-calculus; type erasure [40 marks]}
-\label{sec:org31d2e74}
+\label{sec:org8a95bea}
 \begin{center}
 \textbf{Place your code for this part in the files \texttt{a2.sc} and \texttt{a2.rb}.}
 \end{center}
@@ -706,7 +777,7 @@ into the pure λ-calculus encodings that represent them.
 or import it in a way compatible with the testing environments.)
 
 \section*{Part 4 – Bonus: Interpreting \emph{SL} programs                     [10 marks]}
-\label{sec:org1322fba}
+\label{sec:orgfdbb9e0}
 Implement an evaluation method for your \texttt{STTerm} type.
 
 Make use of the evaluation method for \texttt{ULTerm}'s in your definition.
@@ -714,7 +785,7 @@ You will also need a method to convert results back
 to the \texttt{STTerm} representation.
 
 \section*{Part 5 – Bonus: pairs                                        [10 bonus marks]}
-\label{sec:org879a07a}
+\label{sec:org22767ed}
 \begin{center}
 \textbf{Place any code for this part in files \texttt{a2p4.sc} and \texttt{a2p4.rb}.}
 \end{center}
@@ -724,7 +795,7 @@ the type of \emph{pairs} as well as naturals and booleans,
 along with a type checker, type eraser and evaluation method.
 
 \section*{Submission checklist}
-\label{sec:org91f6d7a}
+\label{sec:orgc758bcc}
 For your convenience, this checklist is provided
 to track the files you need to submit.
 Use it if you wish.
@@ -749,6 +820,6 @@ Use it if you wish.
 \end{minted}
 
 \section*{Testing}
-\label{sec:org0b6fb22}
+\label{sec:orgae755ff}
 :TODO:
 \end{document}

@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-11-06 Fri 01:58 -->
+<!-- 2020-11-06 Fri 02:37 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Computer Science 3MI3 – 2020 assignment 2</title>
@@ -249,7 +249,7 @@
 <li><a href="#Submission-procedures">Documentation</a></li>
 <li><a href="#Submission-procedures">Submission procedures</a>
 <ul>
-<li><a href="#org4e2f2f4">Assignment naming requirements</a></li>
+<li><a href="#orgc932928">Assignment naming requirements</a></li>
 </ul>
 </li>
 <li><a href="#Proper-conduct-for-coursework">Proper conduct for coursework</a></li>
@@ -433,9 +433,9 @@ apply to assignments, except for the differences below.
 </p>
 </div>
 
-<div id="outline-container-org4e2f2f4" class="outline-4">
-<h4 id="org4e2f2f4">Assignment naming requirements</h4>
-<div class="outline-text-4" id="text-org4e2f2f4">
+<div id="outline-container-orgc932928" class="outline-4">
+<h4 id="orgc932928">Assignment naming requirements</h4>
+<div class="outline-text-4" id="text-orgc932928">
 <p>
 Place all files for the assignment
 inside a folder titled <code>an</code>, where <code>n</code> is the number of the assignment.
@@ -789,7 +789,16 @@ we might have an infinite reduction sequence.)
 <h3 id="Ruby-implementation">Ruby implementation</h3>
 <div class="outline-text-3" id="text-Ruby-implementation">
 <p>
-:TODO: Document this literately, as with the Scala above.
+In Ruby, we use implement <i>UL</i> terms using a (super) class <code>ULTerm</code> with
+subclasses for each kind of <i>UL</i> term.
+</p>
+
+<p>
+The super class defines so default methods to keep track
+of what kind of term we have.
+These could be implemented as fields (instance variables),
+but the use of methods implies that these values are constant
+for all objects and across all time.
 </p>
 <div class="org-src-container">
 <pre class="src src-ruby"><span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Our top-level ULTerm class defines some default</span>
@@ -810,8 +819,41 @@ we might have an infinite reduction sequence.)
   <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">reduce;</span> <span style="color: #00bcff;">nil</span> <span style="color: #b6a0ff;">end</span>
   <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">absBody;</span> <span style="color: #00bcff;">nil</span> <span style="color: #b6a0ff;">end</span>
   <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">isValue?;</span> <span style="color: #00bcff;">false</span> <span style="color: #b6a0ff;">end</span>
+</pre>
+</div>
 
-  <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Shifting is just walking, where in the base case,</span>
+<p>
+We would not usually have enough information in this super <code>ULTerm</code> class
+to be able to define the <code>shift</code> and <code>substitution</code> methods,
+without resorting to (what I feel is) an ugly approach of using <code>is_a?</code> to check
+whether the term is a variable, abstraction or application.
+</p>
+
+<p>
+Previously, we used a local <code>walk</code> method inside of each of
+the methods, which actually carried out the work on the terms.
+We could do the same here, repeating the definition of <code>walk</code> inside of
+the <code>shift</code> and <code>substitute</code> methods for each type of term
+(at least, I believe we can do so.)
+However, this repetition of code is very undesirable.
+</p>
+
+<p>
+Instead, we take advantage of the fact that the <code>walk</code> method
+was in fact <i>almost identical</i> for both shifting and substitution,
+only acting differently on <i>variables</i>, to reimagine <code>walk</code> as
+an iterator. This iterator will take as a block argument (a lambda)
+the action to carry out on variables.
+</p>
+
+<p>
+So, assuming that the <code>walk</code> method will be defined for each of the subclasses,
+we can define <code>shift</code> and <code>substitute</code> here in the superclass
+by writing the action to take on variables as a block,
+and calling <code>walk</code> on the term with that action.
+</p>
+<div class="org-src-container">
+<pre class="src src-ruby">  <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Shifting is just walking, where in the base case,</span>
   <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">we either increment the variable by shiftAmount or</span>
   <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">leave it alone.</span>
   <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">shift</span><span style="color: #00cd68;">(</span>shiftAmount<span style="color: #00cd68;">)</span>
@@ -835,8 +877,18 @@ we might have an infinite reduction sequence.)
         <span style="color: #6ae4b9;">ULVar</span>.new<span style="color: #b6a0ff;">(</span>y<span style="color: #b6a0ff;">)</span>
       <span style="color: #b6a0ff;">end</span> <span style="color: #00cd68;">}</span>
   <span style="color: #b6a0ff;">end</span>
+</pre>
+</div>
 
-  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">eval</span>
+<p>
+Similarly to how we assume above that the <code>walk</code> method
+will be defined for all subclasses, we also assume
+that the <code>reduce</code> method will be defined for all subclasses,
+since we lack a nice means to define it here.
+However, we can easily define <code>eval</code> in terms of those <code>reduce</code> methods.
+</p>
+<div class="org-src-container">
+<pre class="src src-ruby">  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">eval</span>
     r = <span style="color: #00bcff;">nil</span>
     r_next = <span style="color: #b6a0ff;">self</span>
     <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Keep reducing until it fails (reduce returns nil.)</span>
@@ -850,8 +902,19 @@ we might have an infinite reduction sequence.)
     <span style="color: #b6a0ff;">return</span> r
   <span style="color: #b6a0ff;">end</span>
 <span style="color: #b6a0ff;">end</span>
+</pre>
+</div>
 
-<span style="color: #b6a0ff;">class</span> <span style="color: #6ae4b9;">ULVar</span> &lt; <span style="color: #6ae4b9;">ULTerm</span>
+<p>
+As mentioned above, in each of the subclasses of <code>ULTerm</code>,
+we need to define the <code>walk</code> and <code>reduce</code> methods.
+But for variables, reduction is undefined, so we
+do not define that method here.
+(We do define here and below <code>to_s</code> methods, to allow
+these terms to be printed somewhat nicely.)
+</p>
+<div class="org-src-container">
+<pre class="src src-ruby"><span style="color: #b6a0ff;">class</span> <span style="color: #6ae4b9;">ULVar</span> &lt; <span style="color: #6ae4b9;">ULTerm</span>
   <span style="color: #f78fe7;">attr_reader</span> <span style="color: #00bcff;">:index</span>
 
   <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">We require our variables are only indexed by integers.</span>
@@ -872,8 +935,17 @@ we might have an infinite reduction sequence.)
     <span style="color: #00d3d0;">@index</span>.to_s
   <span style="color: #b6a0ff;">end</span>
 <span style="color: #b6a0ff;">end</span>
+</pre>
+</div>
 
-<span style="color: #b6a0ff;">class</span> <span style="color: #6ae4b9;">ULAbs</span> &lt; <span style="color: #6ae4b9;">ULTerm</span>
+<p>
+Again, we cannot <code>reduce</code> an abstraction,
+so we do not define that method here.
+But we do set override the <code>absBody</code> and <code>isValue?</code> methods
+since this is an abstraction, and abstractions are values.
+</p>
+<div class="org-src-container">
+<pre class="src src-ruby"><span style="color: #b6a0ff;">class</span> <span style="color: #6ae4b9;">ULAbs</span> &lt; <span style="color: #6ae4b9;">ULTerm</span>
   <span style="color: #f78fe7;">attr_reader</span> <span style="color: #00bcff;">:t</span>
 
   <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">initialize</span><span style="color: #00cd68;">(</span>t<span style="color: #00cd68;">)</span>
@@ -899,8 +971,20 @@ we might have an infinite reduction sequence.)
     <span style="color: #79a8ff;">"lambda . "</span> + <span style="color: #00d3d0;">@t</span>.to_s
   <span style="color: #b6a0ff;">end</span>
 <span style="color: #b6a0ff;">end</span>
+</pre>
+</div>
 
-<span style="color: #b6a0ff;">class</span> <span style="color: #6ae4b9;">ULApp</span> &lt; <span style="color: #6ae4b9;">ULTerm</span>
+<p>
+The application subclass is actually the only one
+where we define the <code>reduce</code> method.
+The logic of it is the same as in the Scala version,
+though unfortunately the lack of pattern matching
+makes it appear much worse.
+(The source code was edited November 6th to remove some
+diagnostic printing statements which were unfortunately included previously.)
+</p>
+<div class="org-src-container">
+<pre class="src src-ruby"><span style="color: #b6a0ff;">class</span> <span style="color: #6ae4b9;">ULApp</span> &lt; <span style="color: #6ae4b9;">ULTerm</span>
   <span style="color: #f78fe7;">attr_reader</span> <span style="color: #00bcff;">:t1</span>
   <span style="color: #f78fe7;">attr_reader</span> <span style="color: #00bcff;">:t2</span>
 
@@ -923,7 +1007,6 @@ we might have an infinite reduction sequence.)
       body = <span style="color: #00d3d0;">@t1</span>.absBody
       <span style="color: #00cd68;">(</span>body.substitute<span style="color: #b6a0ff;">(</span>0,<span style="color: #00d3d0;">@t2</span>.shift<span style="color: #6ae4b9;">(</span>1<span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>.shift<span style="color: #00cd68;">(</span>-1<span style="color: #00cd68;">)</span>
     <span style="color: #b6a0ff;">elsif</span> <span style="color: #00d3d0;">@t1</span>.isValue?
-      <span style="color: #f78fe7;">print</span> <span style="color: #79a8ff;">"Reducing an argument\n"</span>
       r = <span style="color: #00d3d0;">@t2</span>.reduce
       <span style="color: #b6a0ff;">if</span> r
         <span style="color: #6ae4b9;">ULApp</span>.new<span style="color: #00cd68;">(</span><span style="color: #00d3d0;">@t1</span>,r<span style="color: #00cd68;">)</span>
@@ -931,7 +1014,6 @@ we might have an infinite reduction sequence.)
         <span style="color: #00bcff;">nil</span>
       <span style="color: #b6a0ff;">end</span>
     <span style="color: #b6a0ff;">else</span>
-      <span style="color: #f78fe7;">print</span> <span style="color: #79a8ff;">"Reducing a function\n"</span>
       r = <span style="color: #00d3d0;">@t1</span>.reduce
       <span style="color: #b6a0ff;">if</span> r
         <span style="color: #6ae4b9;">ULApp</span>.new<span style="color: #00cd68;">(</span>r,<span style="color: #00d3d0;">@t2</span><span style="color: #00cd68;">)</span>
@@ -947,6 +1029,22 @@ we might have an infinite reduction sequence.)
 <span style="color: #b6a0ff;">end</span>
 </pre>
 </div>
+
+<p>
+One important fact bears mentioning about our implementation
+of <code>ULTerm</code> and its subclasses: note that all of the fields
+of each class are read-only, and that their values
+are only ever set in the constructors.
+These are <i>value classes</i>; a <code>ULTerm</code> object is intended to be
+(and will be, barring any misuse) <i>immutable</i> (unchanging over time.)
+</p>
+
+<p>
+This design leads to better predictability of code;
+there should never be an instance where a <code>ULTerm</code> changes unexpectedly
+because of some method call, because <code>ULTerm</code>'s never change
+after their creation.
+</p>
 </div>
 </div>
 
@@ -1173,7 +1271,7 @@ Use it if you wish.
 <p class="author">Author: Mark Armstrong</p>
      <p class="author">Contact: <a href="mailto:markparmstrong@gmail.com">markparmstrong@gmail.com</a></p>
      <p class="date">Original date: October 30th, 2020</p>
-     <p class="date">Last updated: 2020-11-06 Fri 01:54</p>
+     <p class="date">Last updated: 2020-11-06 Fri 02:37</p>
      <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4)</p>
      <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
