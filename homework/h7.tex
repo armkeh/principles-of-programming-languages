@@ -1,4 +1,4 @@
-% Created 2020-11-05 Thu 21:54
+% Created 2020-11-06 Fri 14:44
 % Intended LaTeX compiler: lualatex
 \documentclass[11pt]{article}
 \usepackage{graphicx}
@@ -28,7 +28,7 @@
    pdftitle={Computer Science 3MI3 – 2020 homework 7},
    pdfkeywords={},
    pdfsubject={Preparing for assignment 2 by writing pretty printers.},
-   pdfcreator={Emacs 27.0.90 (Org mode 9.4)},
+   pdfcreator={Emacs 27.0.91 (Org mode 9.4)},
    pdflang={English},
    colorlinks,
    linkcolor=blue,
@@ -42,7 +42,7 @@
 
 
 \section*{Introduction}
-\label{sec:org0c8b782}
+\label{sec:org279ed62}
 For this homework, you will extend the implementations
 of the \texttt{UL} untyped λ-calculus in Scala and Ruby,
 which are provided in assignment 2,
@@ -82,9 +82,9 @@ that chooses variable names for a term and “prints” the term
 not print them directly.)
 
 \section*{Updates}
-\label{sec:org2bab8d9}
+\label{sec:org822f30d}
 \subsection*{November 5th}
-\label{sec:org3b1e9ea}
+\label{sec:org1b27f9c}
 \begin{itemize}
 \item Testing and Docker setup has been added.
 \item The suggested output has been adjusted slightly
@@ -104,11 +104,11 @@ You may wish to apply those updates to your code as well.
 \end{itemize}
 
 \section*{Boilerplate}
-\label{sec:org944e768}
+\label{sec:org9439fac}
 \subsection*{Submission procedures}
-\label{sec:org6cdf5f4}
+\label{sec:org2050495}
 \subsubsection*{Submission method}
-\label{sec:orga48ff0c}
+\label{sec:org8eaa800}
 
 Homework should be submitted to your McMaster CAS Gitlab respository
 in the \texttt{cs3mi3-fall2020} project.
@@ -117,7 +117,7 @@ Ensure that you have \textbf{pushed} the commits to the remote repository
 in time for the deadline, and not just committed to your local copy.
 
 \subsubsection*{Naming requirements}
-\label{sec:orgf1a2a38}
+\label{sec:orgf961231}
 
 Place all files for the homework
 inside a folder titled \texttt{hn}, where \texttt{n} is the number of the homework.
@@ -148,7 +148,7 @@ submit a \texttt{hn.ext} file for each language.
 \end{center}
 
 \subsubsection*{Do not submit testing or diagnostic code}
-\label{sec:org5c52965}
+\label{sec:org3efa1fc}
 
 Unless you are instructed to do so in the homework questions,
 \textbf{you should not submit testing code with your homework submission}.
@@ -168,7 +168,7 @@ in your final submission.
 For instance, by using a wrapper on the print function or macros.
 
 \subsubsection*{Due date and allowance for technical difficulties}
-\label{sec:org7857e53}
+\label{sec:org6e036a2}
 
 Homework is due on the second Sunday following its release,
 by the end of the day (midnight).
@@ -183,9 +183,9 @@ This information will help ensure we are able
 to accept your submission once the technical difficulties are resolved.
 
 \subsection*{Proper conduct for coursework}
-\label{sec:org961f1ca}
+\label{sec:org50ac568}
 \subsubsection*{Individual work}
-\label{sec:orge4478df}
+\label{sec:org020b3c1}
 
 Unless explicitely stated in the homework questions,
 all homework in this course is intended
@@ -234,7 +234,7 @@ probably add a catch-all \texttt{\_} case to your \texttt{match} expressions.”
 \end{enumerate}
 
 \subsubsection*{Language library resources}
-\label{sec:org055dc91}
+\label{sec:org083cb52}
 
 Unless explicitely stated in the questions,
 it is not expected that you will use any language library resources
@@ -258,7 +258,7 @@ including \texttt{map}, \texttt{reduce}, \texttt{flatten}, and \texttt{filter} a
 unless the task is to implement such a higher-order operator.
 
 \section*{Part 1: The “pretty printer” \texttt{prettify} method  [30 marks]}
-\label{sec:org46140c4}
+\label{sec:org4d9d8cf}
 Implement a method \texttt{prettify} on the \texttt{UTTerm} type
 provided in assignment.
 The implementation of the \texttt{UTTerm} type can be found
@@ -291,7 +291,7 @@ keep track of the variable names already in use.
 But as usual, the implementation details are within your control.)
 
 \section*{Testing}
-\label{sec:orga61342e}
+\label{sec:orgae7eb57}
 Unit tests for the requested methods/functions
 are available
 \begin{itemize}
@@ -311,7 +311,7 @@ must be equivalent except for naming of bound variables.
 \end{center}
 
 \subsection*{Automated testing via Docker}
-\label{sec:orged92da4}
+\label{sec:org7bd2be3}
 The Docker setup and usage scripts are available at the following links.
 Their contents are also repeated below.
 \begin{itemize}
@@ -334,7 +334,7 @@ and not using WSL or WSL2, you may have
 to run the commands contained in those scripts manually.
 
 \subsection*{The tests}
-\label{sec:org58cafb7}
+\label{sec:org027d2b0}
 The contents of the testing script are repeated here.
 
 \href{./testing/h7/h7t.sc}{h7t.sc}
@@ -358,7 +358,7 @@ println("((a) (b)) ((c) (d))                                     Sample")
 println(prettify(appvars))
 println("lambda a . ((a) (b)) ((c) (d))                          Sample")
 println(prettify(lappvars))
-println("lambda a . lambda b . lambda c . ((a) (b)) ((c) (d))    Sample")
+println("lambda a . lambda b . lambda c . ((c) (b)) ((a) (d))    Sample")
 println(prettify(lllappvars))
 \end{minted}
 
@@ -383,12 +383,12 @@ puts "((a) (b)) ((c) (d))                                     Sample"
 puts appvars.prettify
 puts "lambda a . ((a) (b)) ((c) (d))                          Sample"
 puts lappvars.prettify
-puts "lambda a . lambda b . lambda c . ((a) (b)) ((c) (d))    Sample"
+puts "lambda a . lambda b . lambda c . ((c) (b)) ((a) (d))    Sample"
 puts lllappvars.prettify
 \end{minted}
 
 \subsection*{The Docker setup}
-\label{sec:orgcc7f258}
+\label{sec:org4611436}
 The contents of the Docker setup files and scripts are repeated here.
 
 \href{./testing/h7/Dockerfile}{Dockerfile}

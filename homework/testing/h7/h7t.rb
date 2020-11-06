@@ -17,5 +17,5 @@ puts "((a) (b)) ((c) (d))                                     Sample"
 puts appvars.prettify
 puts "lambda a . ((a) (b)) ((c) (d))                          Sample"
 puts lappvars.prettify
-puts "lambda a . lambda b . lambda c . ((a) (b)) ((c) (d))    Sample"
+puts "lambda a . lambda b . lambda c . ((c) (b)) ((a) (d))    Sample"
 puts lllappvars.prettify

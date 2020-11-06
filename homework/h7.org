@@ -193,7 +193,7 @@ println("((a) (b)) ((c) (d))                                     Sample")
 println(prettify(appvars))
 println("lambda a . ((a) (b)) ((c) (d))                          Sample")
 println(prettify(lappvars))
-println("lambda a . lambda b . lambda c . ((a) (b)) ((c) (d))    Sample")
+println("lambda a . lambda b . lambda c . ((c) (b)) ((a) (d))    Sample")
 println(prettify(lllappvars))
 #+end_src
 
@@ -218,7 +218,7 @@ puts "((a) (b)) ((c) (d))                                     Sample"
 puts appvars.prettify
 puts "lambda a . ((a) (b)) ((c) (d))                          Sample"
 puts lappvars.prettify
-puts "lambda a . lambda b . lambda c . ((a) (b)) ((c) (d))    Sample"
+puts "lambda a . lambda b . lambda c . ((c) (b)) ((a) (d))    Sample"
 puts lllappvars.prettify
 #+end_src
 
