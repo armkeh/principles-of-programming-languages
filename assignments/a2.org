@@ -6,6 +6,14 @@
 #+Options: num:nil
 #+SETUPFILE: ../org-html-themes/setup/theme-readtheorg-local.setup
 
+* LaTeX settings                                :noexport:
+
+#+LaTeX_header: \usepackage{amsthm}
+#+LaTeX_header: \theoremstyle{definition}
+#+LaTeX_header: \newtheorem{definition}{Definition}[section]
+
+#+LaTeX_header: \usepackage{unicode-math}
+#+LaTeX_header: \usepackage{unicode}
 * Introduction
 :PROPERTIES:
 :CUSTOM_ID: Introduction
@@ -21,7 +29,18 @@ simple translator to simplify terms to untyped λ-calculus terms.
 :CUSTOM_ID: Updates-and-file-history
 :END:
 
+** November 6th
+:PROPERTIES:
+:CUSTOM_ID: November-6th
+:END:
+
+- The typing rules for the /ST/ language were added
+  in part 0.1.
+
 ** November 5th
+:PROPERTIES:
+:CUSTOM_ID: November-5th
+:END:
 
 - A typo in a variable name in the Ruby implementation
   of ~ULTerm~ was corrected.
@@ -100,7 +119,55 @@ terms ~zero~, ~suc~, ~iszero~, ~tt~, ~ff~, and ~test~, with the following syntax
 
 We also introduce the following /typing rules/ for these typed λ-terms.
 The rules make use of a /typing context/ or /type environment/ Γ.
-:TODO:
+
+The first rule says that variables have the type they are given
+by the environment Γ (assuming they are given a type at all.)
+#+begin_src text
+ x : A ∈ Γ
+–––––––––––– T-Var
+ Γ ⊢ x : A
+#+end_src
+
+The second rule says that if by adding “~x~ has type ~A~” to the environment,
+we can conclude that ~t₂~ has type ~B~, then
+the term ~λ x : A → t₂~ has type ~A → B~.
+(Notice that this rule is the only time we add to the environment.)
+#+begin_src text
+ Γ,(x : A) ⊢ t₂ : B
+––––––––––––––––––––––––––––– T-Abs
+ Γ ⊢ λ x : A → t₂ : A → B
+#+end_src
+
+The third rule says that if ~t₁~ has the function type ~A → B~,
+and ~t₂~ has the type ~A~, then ~t₂~ applied to ~t₁~ has type ~B~.
+#+begin_src text
+ Γ ⊢ t₁ : A → B    Γ ⊢ t₂ : A
+––––––––––––––––––––––––––––––––– T-App
+        Γ ⊢ t₁ t₂ : B
+#+end_src
+
+The remaining rules give the typings for the constants and
+function terms added to this language.
+#+begin_src text
+                                       Γ ⊢ t : natural
+––––––––––––––––––––––– T-zero      –––––––––––––––––––––––– T-suc
+ Γ ⊢ zero : natural                  Γ ⊢ suc t : natural
+                            
+                            
+                            
+–––––––––––––––––––––– T-true    ––––––––––––––––––––––– T-false
+ Γ ⊢ true : boolean               Γ ⊢ false : boolean
+
+
+    Γ ⊢ t : natural
+––––––––––––––––––––––––––– T-iszero
+ Γ ⊢ iszero t : boolean 
+
+
+ Γ ⊢ b : boolean    Γ ⊢ t₁ : A    Γ ⊢ t₂ : A
+–––––––––––––––––––––––––––––––––––––––––––––––– T-test
+            Γ ⊢ test b t₁ t₂ : A
+#+end_src
 
 * Part 0.2 – A representation of the untyped λ-calculus, /UL/    [0 marks]
 :PROPERTIES:
@@ -118,7 +185,7 @@ The index “points” to a binder, or to a free variable.
   or the first free variable if there are no enclosing binders.
 - ~1~ points to the second enclosing variable binder,
   or the ~2-n~'th free variable if there are only ~n~ enclosing binders, ~n ≤ 1~.
-- ~2~ points to the second enclosing variable binder,
+- ~2~ points to the third enclosing variable binder,
   or the ~3-n~'th free variable if there are only ~n~ enclosing binders, ~n ≤ 2~.
 - …
 - ~i~ points to the ~i~'th enclosing variable binder,
@@ -453,6 +520,9 @@ end
 #+end_src
 
 ** Examples of interacting with these representations
+:PROPERTIES:
+:CUSTOM_ID: Examples-of-interacting-with-these-representations
+:END:
 
 The following code snippets show how you might use
 these implementations to perform some simple computations.

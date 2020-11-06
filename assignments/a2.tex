@@ -1,4 +1,4 @@
-% Created 2020-11-05 Thu 14:10
+% Created 2020-11-06 Fri 01:58
 % Intended LaTeX compiler: lualatex
 \documentclass[11pt]{article}
 \usepackage{graphicx}
@@ -19,6 +19,11 @@
 \AtBeginEnvironment{minted}{\dontdofcolorbox}
 \makeatother
 \usepackage[newfloat]{minted}
+\usepackage{amsthm}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\usepackage{unicode-math}
+\usepackage{unicode}
 \author{Mark Armstrong}
 \date{October 30th, 2020}
 \title{Computer Science 3MI3 – 2020 assignment 2\\\medskip
@@ -42,16 +47,23 @@
 
 
 \section*{Introduction}
-\label{sec:orge6a228e}
+\label{sec:org5b7dec2}
 This assignment asks you to construct representation
 of a simply-typed λ-calculus, construct a typechecker for that
 λ-calculus, and finally to implement \emph{type-erasure} and a
 simple translator to simplify terms to untyped λ-calculus terms.
 
 \section*{Updates and file history}
-\label{sec:org2e09e63}
+\label{sec:org9cc5cab}
+\subsection*{November 6th}
+\label{sec:org8cbd0b0}
+\begin{itemize}
+\item The typing rules for the \emph{ST} language were added
+in part 0.1.
+\end{itemize}
+
 \subsection*{November 5th}
-\label{sec:org543ea4a}
+\label{sec:org537d1c3}
 \begin{itemize}
 \item A typo in a variable name in the Ruby implementation
 of \texttt{ULTerm} was corrected.
@@ -62,7 +74,7 @@ and perform substitutions with them was added to part 0.2.
 \end{itemize}
 
 \subsection*{November 1st}
-\label{sec:org8f06cf7}
+\label{sec:org095896c}
 \begin{itemize}
 \item Part 4 was made bonus
 \begin{itemize}
@@ -72,7 +84,7 @@ made part of the question.
 \end{itemize}
 
 \subsection*{October 30th}
-\label{sec:org3f84d47}
+\label{sec:orgbedfa1e}
 \begin{itemize}
 \item Initial version posted.
 \begin{itemize}
@@ -81,9 +93,9 @@ made part of the question.
 \end{itemize}
 
 \section*{Boilerplate}
-\label{sec:org04031ab}
+\label{sec:org5f7f3c7}
 \subsection*{Documentation}
-\label{sec:orgbfd94f0}
+\label{sec:org03ab68b}
 In addition to the code for the assignments,
 you are required to submit (relatively light) documentation,
 along the lines of that found in
@@ -142,13 +154,13 @@ Feel free to omit some “repetitive” portions.
 which look almost identical, only one or two need to be shown.)
 
 \subsection*{Submission procedures}
-\label{sec:org2b847fd}
+\label{sec:orgd5c6e74}
 The same guidelines as for homework
 (which can be seen in any of the homework files)
 apply to assignments, except for the differences below.
 
 \subsubsection*{Assignment naming requirements}
-\label{sec:org0d706c8}
+\label{sec:orgbce1a88}
 
 Place all files for the assignment
 inside a folder titled \texttt{an}, where \texttt{n} is the number of the assignment.
@@ -169,12 +181,12 @@ save your code for that part. Follow those instructions!
 This is slightly decreased from the 10\% for homeworks.
 
 \subsection*{Proper conduct for coursework}
-\label{sec:org04ab902}
+\label{sec:orgfe0e014}
 Refer to the homework code of conduct available in any of the homework files.
 The same guidelines apply to assignments.
 
 \section*{Part 0.1 – Description of the λ-calculus, \emph{ST}                 [0 marks]}
-\label{sec:org9010687}
+\label{sec:org301cb3a}
 The λ-calculus you are to work with during this assignment
 we call \emph{ST}, standing for \emph{simply typed}.
 It adds to the pure untyped λ-calculus \emph{UL}
@@ -197,12 +209,60 @@ terms \texttt{zero}, \texttt{suc}, \texttt{iszero}, \texttt{tt}, \texttt{ff}, an
 
 We also introduce the following \emph{typing rules} for these typed λ-terms.
 The rules make use of a \emph{typing context} or \emph{type environment} Γ.
-:TODO:
+
+The first rule says that variables have the type they are given
+by the environment Γ (assuming they are given a type at all.)
+\begin{minted}[breaklines=true]{text}
+ x : A ∈ Γ
+–––––––––––– T-Var
+ Γ ⊢ x : A
+\end{minted}
+
+The second rule says that if by adding “\texttt{x} has type \texttt{A}” to the environment,
+we can conclude that \texttt{t₂} has type \texttt{B}, then
+the term \texttt{λ x : A → t₂} has type \texttt{A → B}.
+(Notice that this rule is the only time we add to the environment.)
+\begin{minted}[breaklines=true]{text}
+ Γ,(x : A) ⊢ t₂ : B
+––––––––––––––––––––––––––––– T-Abs
+ Γ ⊢ λ x : A → t₂ : A → B
+\end{minted}
+
+The third rule says that if \texttt{t₁} has the function type \texttt{A → B},
+and \texttt{t₂} has the type \texttt{A}, then \texttt{t₂} applied to \texttt{t₁} has type \texttt{B}.
+\begin{minted}[breaklines=true]{text}
+ Γ ⊢ t₁ : A → B    Γ ⊢ t₂ : A
+––––––––––––––––––––––––––––––––– T-App
+        Γ ⊢ t₁ t₂ : B
+\end{minted}
+
+The remaining rules give the typings for the constants and
+function terms added to this language.
+\begin{minted}[breaklines=true]{text}
+                                       Γ ⊢ t : natural
+––––––––––––––––––––––– T-zero      –––––––––––––––––––––––– T-suc
+ Γ ⊢ zero : natural                  Γ ⊢ suc t : natural
+                            
+                            
+                            
+–––––––––––––––––––––– T-true    ––––––––––––––––––––––– T-false
+ Γ ⊢ true : boolean               Γ ⊢ false : boolean
+
+
+    Γ ⊢ t : natural
+––––––––––––––––––––––––––– T-iszero
+ Γ ⊢ iszero t : boolean 
+
+
+ Γ ⊢ b : boolean    Γ ⊢ t₁ : A    Γ ⊢ t₂ : A
+–––––––––––––––––––––––––––––––––––––––––––––––– T-test
+            Γ ⊢ test b t₁ t₂ : A
+\end{minted}
 
 \section*{Part 0.2 – A representation of the untyped λ-calculus, \emph{UL}    [0 marks]}
-\label{sec:org4ce1f95}
+\label{sec:org97b39fc}
 \subsection*{Nameless representation of terms}
-\label{sec:org78fa067}
+\label{sec:orgb0be63a}
 We use \emph{de Bruijn indices} in place of named variables.
 The index “points” to a binder, or to a free variable.
 \begin{itemize}
@@ -210,7 +270,7 @@ The index “points” to a binder, or to a free variable.
 or the first free variable if there are no enclosing binders.
 \item \texttt{1} points to the second enclosing variable binder,
 or the \texttt{2-n}'th free variable if there are only \texttt{n} enclosing binders, \texttt{n ≤ 1}.
-\item \texttt{2} points to the second enclosing variable binder,
+\item \texttt{2} points to the third enclosing variable binder,
 or the \texttt{3-n}'th free variable if there are only \texttt{n} enclosing binders, \texttt{n ≤ 2}.
 \item …
 \item \texttt{i} points to the \texttt{i}'th enclosing variable binder,
@@ -226,7 +286,7 @@ we can correct for this by writing a \emph{pretty printer} for λ-terms
 (which will be the focus of a homework.)
 
 \subsection*{Scala implementation}
-\label{sec:org030cc96}
+\label{sec:org8e5c330}
 Pure untyped λ-terms can only be variables, abstractions or applications.
 (Updated November 5th) We include as parts of the case classes
 overrides of the \texttt{toString} method, which improve the appearance
@@ -381,7 +441,7 @@ def evaluate(t: ULTerm): ULTerm = reduce(t) match {
 \end{minted}
 
 \subsection*{Ruby implementation}
-\label{sec:orgb5efc17}
+\label{sec:orgfd3b3d3}
 :TODO: Document this literately, as with the Scala above.
 \begin{minted}[breaklines=true]{ruby}
 # Our top-level ULTerm class defines some default
@@ -540,7 +600,7 @@ end
 \end{minted}
 
 \subsection*{Examples of interacting with these representations}
-\label{sec:org2687a30}
+\label{sec:orga78c3f2}
 The following code snippets show how you might use
 these implementations to perform some simple computations.
 
@@ -595,7 +655,7 @@ puts x
 \end{minted}
 
 \section*{Part 1 – The representation                                  [10 marks]}
-\label{sec:org45d60ed}
+\label{sec:orge3ac47c}
 \begin{center}
 \textbf{Place your code for this part in the files \texttt{a2.sc} and \texttt{a2.rb}.}
 \end{center}
@@ -617,7 +677,7 @@ The constructors of the type should be named
 \end{itemize}
 
 \section*{Part 2 – Type checking                                       [40 marks]}
-\label{sec:orgfb28834}
+\label{sec:org615dd62}
 \begin{center}
 \textbf{Place your code for this part in the files \texttt{a2.sc} and \texttt{a2.rb}.}
 \end{center}
@@ -630,7 +690,7 @@ the represented term obeys the type rules of \emph{ST};
 otherwise, it returns \texttt{false}.
 
 \section*{Part 3 – Translation to the untyped λ-calculus; type erasure [40 marks]}
-\label{sec:org90b3312}
+\label{sec:org31d2e74}
 \begin{center}
 \textbf{Place your code for this part in the files \texttt{a2.sc} and \texttt{a2.rb}.}
 \end{center}
@@ -646,7 +706,7 @@ into the pure λ-calculus encodings that represent them.
 or import it in a way compatible with the testing environments.)
 
 \section*{Part 4 – Bonus: Interpreting \emph{SL} programs                     [10 marks]}
-\label{sec:org3770f39}
+\label{sec:org1322fba}
 Implement an evaluation method for your \texttt{STTerm} type.
 
 Make use of the evaluation method for \texttt{ULTerm}'s in your definition.
@@ -654,7 +714,7 @@ You will also need a method to convert results back
 to the \texttt{STTerm} representation.
 
 \section*{Part 5 – Bonus: pairs                                        [10 bonus marks]}
-\label{sec:orgc55a862}
+\label{sec:org879a07a}
 \begin{center}
 \textbf{Place any code for this part in files \texttt{a2p4.sc} and \texttt{a2p4.rb}.}
 \end{center}
@@ -664,7 +724,7 @@ the type of \emph{pairs} as well as naturals and booleans,
 along with a type checker, type eraser and evaluation method.
 
 \section*{Submission checklist}
-\label{sec:org0b97697}
+\label{sec:org91f6d7a}
 For your convenience, this checklist is provided
 to track the files you need to submit.
 Use it if you wish.
@@ -689,6 +749,6 @@ Use it if you wish.
 \end{minted}
 
 \section*{Testing}
-\label{sec:orgf6651c9}
+\label{sec:org0b6fb22}
 :TODO:
 \end{document}
