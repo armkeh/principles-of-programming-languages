@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-11-06 Fri 02:37 -->
+<!-- 2020-11-07 Sat 13:08 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Computer Science 3MI3 – 2020 assignment 2</title>
@@ -249,7 +249,7 @@
 <li><a href="#Submission-procedures">Documentation</a></li>
 <li><a href="#Submission-procedures">Submission procedures</a>
 <ul>
-<li><a href="#orgc932928">Assignment naming requirements</a></li>
+<li><a href="#orgd2d4d02">Assignment naming requirements</a></li>
 </ul>
 </li>
 <li><a href="#Proper-conduct-for-coursework">Proper conduct for coursework</a></li>
@@ -433,9 +433,9 @@ apply to assignments, except for the differences below.
 </p>
 </div>
 
-<div id="outline-container-orgc932928" class="outline-4">
-<h4 id="orgc932928">Assignment naming requirements</h4>
-<div class="outline-text-4" id="text-orgc932928">
+<div id="outline-container-orgd2d4d02" class="outline-4">
+<h4 id="orgd2d4d02">Assignment naming requirements</h4>
+<div class="outline-text-4" id="text-orgd2d4d02">
 <p>
 Place all files for the assignment
 inside a folder titled <code>an</code>, where <code>n</code> is the number of the assignment.
@@ -620,13 +620,14 @@ overrides of the <code>toString</code> method, which improve the appearance
 of these terms when they are converted to strings.
 </p>
 <div class="org-src-container">
-<pre class="src src-amm"><span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #6ae4b9;">ULVar</span><span style="color: #00cd68;">(</span>index<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">Int</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #6ae4b9;">ULTerm</span> <span style="color: #00cd68;">{</span>
+<pre class="src src-amm"><span style="color: #f78fe7;">sealed</span> <span style="color: #b6a0ff;">trait</span> <span style="color: #f78fe7;">ULTerm</span>
+<span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">ULVar</span><span style="color: #00cd68;">(</span>index<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Int</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">ULTerm</span> <span style="color: #00cd68;">{</span>
   <span style="color: #f78fe7;">override</span> <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">toString</span><span style="color: #b6a0ff;">()</span> <span style="color: #b6a0ff;">=</span> index.toString<span style="color: #b6a0ff;">()</span>
 <span style="color: #00cd68;">}</span>
-<span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #6ae4b9;">ULAbs</span><span style="color: #00cd68;">(</span>t<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">ULTerm</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #6ae4b9;">ULTerm</span> <span style="color: #00cd68;">{</span>
+<span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">ULAbs</span><span style="color: #00cd68;">(</span>t<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">ULTerm</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">ULTerm</span> <span style="color: #00cd68;">{</span>
   <span style="color: #f78fe7;">override</span> <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">toString</span><span style="color: #b6a0ff;">()</span> <span style="color: #b6a0ff;">=</span> <span style="color: #79a8ff;">"lambda . "</span> + t.toString<span style="color: #b6a0ff;">()</span>
 <span style="color: #00cd68;">}</span>
-<span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #6ae4b9;">ULApp</span><span style="color: #00cd68;">(</span>t1<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">ULTerm</span>, t2<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">ULTerm</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #6ae4b9;">ULTerm</span> <span style="color: #00cd68;">{</span>
+<span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">ULApp</span><span style="color: #00cd68;">(</span>t1<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">ULTerm</span>, t2<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">ULTerm</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">ULTerm</span> <span style="color: #00cd68;">{</span>
   <span style="color: #f78fe7;">override</span> <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">toString</span><span style="color: #b6a0ff;">()</span> <span style="color: #b6a0ff;">=</span> <span style="color: #79a8ff;">"("</span> + t1.toString<span style="color: #b6a0ff;">()</span> + <span style="color: #79a8ff;">") ("</span> + t2.toString<span style="color: #b6a0ff;">()</span> + <span style="color: #79a8ff;">")"</span>
 <span style="color: #00cd68;">}</span>
 </pre>
@@ -647,23 +648,23 @@ if their index is greater than the number of enclosing binders.
 </p>
 <div class="org-src-container">
 <pre class="src src-amm"><span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Shift the numbering of unbound variables</span>
-<span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">shift</span><span style="color: #00cd68;">(</span>shiftAmount<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">Int</span>, t<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">ULTerm</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">ULTerm</span> <span style="color: #b6a0ff;">=</span> <span style="color: #00cd68;">{</span>
+<span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">shift</span><span style="color: #00cd68;">(</span>shiftAmount<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Int</span>, t<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">ULTerm</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">ULTerm</span> <span style="color: #b6a0ff;">=</span> <span style="color: #00cd68;">{</span>
   <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Walk through the term and shift all variables with index</span>
   <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">greater than or equal to c, which is maintained to be</span>
   <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">the number of variable binders (abstractions) outside the current subterm.</span>
-  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">walk</span><span style="color: #b6a0ff;">(</span>currentBinders<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">Int</span>, t<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">ULTerm</span><span style="color: #b6a0ff;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">ULTerm</span> <span style="color: #b6a0ff;">=</span> t <span style="color: #b6a0ff;">match</span> <span style="color: #b6a0ff;">{</span>
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">walk</span><span style="color: #b6a0ff;">(</span>currentBinders<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Int</span>, t<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">ULTerm</span><span style="color: #b6a0ff;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">ULTerm</span> <span style="color: #b6a0ff;">=</span> t <span style="color: #b6a0ff;">match</span> <span style="color: #b6a0ff;">{</span>
     <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Check if x is a free variable; that is,</span>
     <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">if the number x is greater than or equal to</span>
     <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">the number of variable binders encountered outside this subterm.</span>
-    <span style="color: #b6a0ff;">case</span> <span style="color: #6ae4b9;">ULVar</span><span style="color: #6ae4b9;">(</span><span style="color: #00d3d0;">x</span><span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">if</span> <span style="color: #6ae4b9;">(</span>x &gt;= currentBinders<span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">ULVar</span><span style="color: #6ae4b9;">(</span>x+shiftAmount<span style="color: #6ae4b9;">)</span>
-    <span style="color: #b6a0ff;">case</span> <span style="color: #6ae4b9;">ULVar</span><span style="color: #6ae4b9;">(</span><span style="color: #00d3d0;">x</span><span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">ULVar</span><span style="color: #6ae4b9;">(</span>x<span style="color: #6ae4b9;">)</span>
+    <span style="color: #b6a0ff;">case</span> <span style="color: #f78fe7;">ULVar</span><span style="color: #6ae4b9;">(</span><span style="color: #00d3d0;">x</span><span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">if</span> <span style="color: #6ae4b9;">(</span>x &gt;= currentBinders<span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">ULVar</span><span style="color: #6ae4b9;">(</span>x+shiftAmount<span style="color: #6ae4b9;">)</span>
+    <span style="color: #b6a0ff;">case</span> <span style="color: #f78fe7;">ULVar</span><span style="color: #6ae4b9;">(</span><span style="color: #00d3d0;">x</span><span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">ULVar</span><span style="color: #6ae4b9;">(</span>x<span style="color: #6ae4b9;">)</span>
 
-    <span style="color: #b6a0ff;">case</span> <span style="color: #6ae4b9;">ULAbs</span><span style="color: #6ae4b9;">(</span><span style="color: #00d3d0;">t</span><span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">=&gt;</span>
+    <span style="color: #b6a0ff;">case</span> <span style="color: #f78fe7;">ULAbs</span><span style="color: #6ae4b9;">(</span><span style="color: #00d3d0;">t</span><span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">=&gt;</span>
       <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">We now have one more variable binder outside the subterm.</span>
       <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Increment currentBinders and walk into the subterm.</span>
       <span style="color: #00bcff;">ULAbs</span><span style="color: #6ae4b9;">(</span>walk<span style="color: #f0ce43;">(</span>currentBinders+<span style="color: #00bcff;">1</span>, t<span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>
 
-    <span style="color: #b6a0ff;">case</span> <span style="color: #6ae4b9;">ULApp</span><span style="color: #6ae4b9;">(</span><span style="color: #00d3d0;">t1</span>,<span style="color: #00d3d0;">t2</span><span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">=&gt;</span>
+    <span style="color: #b6a0ff;">case</span> <span style="color: #f78fe7;">ULApp</span><span style="color: #6ae4b9;">(</span><span style="color: #00d3d0;">t1</span>,<span style="color: #00d3d0;">t2</span><span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">=&gt;</span>
       <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">No new variable binders. Just walk into the subterms.</span>
       <span style="color: #00bcff;">ULApp</span><span style="color: #6ae4b9;">(</span>walk<span style="color: #f0ce43;">(</span>currentBinders,t1<span style="color: #f0ce43;">)</span>,walk<span style="color: #f0ce43;">(</span>currentBinders,t2<span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>
   <span style="color: #b6a0ff;">}</span>
@@ -686,29 +687,29 @@ the number of variable binders we enter.
 <div class="org-src-container">
 <pre class="src src-amm"><span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">In our usual syntax, we would write substitution as `t[x := r]`.</span>
 <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Here we write `substitute(t,x,r)`.</span>
-<span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">substitute</span><span style="color: #00cd68;">(</span>t<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">ULTerm</span>, x<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">Int</span>, r<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">ULTerm</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">ULTerm</span> <span style="color: #b6a0ff;">=</span> <span style="color: #00cd68;">{</span>
+<span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">substitute</span><span style="color: #00cd68;">(</span>t<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">ULTerm</span>, x<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Int</span>, r<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">ULTerm</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">ULTerm</span> <span style="color: #b6a0ff;">=</span> <span style="color: #00cd68;">{</span>
   <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">We want to substitute for the free variable with number x.</span>
   <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Inside a variable binder (abstraction),</span>
   <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">the index of all free variables is shifted up by 1.</span>
   <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">So we must keep track of the number of binders outside the current subterm.</span>
-  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">walk</span><span style="color: #b6a0ff;">(</span>currentBinders<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">Int</span>, t<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">ULTerm</span><span style="color: #b6a0ff;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">ULTerm</span> <span style="color: #b6a0ff;">=</span> t <span style="color: #b6a0ff;">match</span> <span style="color: #b6a0ff;">{</span>
-    <span style="color: #b6a0ff;">case</span> <span style="color: #6ae4b9;">ULVar</span><span style="color: #6ae4b9;">(</span><span style="color: #00d3d0;">y</span><span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">if</span> y == x + currentBinders <span style="color: #b6a0ff;">=&gt;</span>
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">walk</span><span style="color: #b6a0ff;">(</span>currentBinders<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Int</span>, t<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">ULTerm</span><span style="color: #b6a0ff;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">ULTerm</span> <span style="color: #b6a0ff;">=</span> t <span style="color: #b6a0ff;">match</span> <span style="color: #b6a0ff;">{</span>
+    <span style="color: #b6a0ff;">case</span> <span style="color: #f78fe7;">ULVar</span><span style="color: #6ae4b9;">(</span><span style="color: #00d3d0;">y</span><span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">if</span> y == x + currentBinders <span style="color: #b6a0ff;">=&gt;</span>
       <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">y is the xth free variable. Substitute for it,</span>
       <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">making sure to shift the free variables in r</span>
       <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">to account for the number of variable binders outside this subterm.</span>
       shift<span style="color: #6ae4b9;">(</span>currentBinders,r<span style="color: #6ae4b9;">)</span>
     
-    <span style="color: #b6a0ff;">case</span> <span style="color: #6ae4b9;">ULVar</span><span style="color: #6ae4b9;">(</span><span style="color: #00d3d0;">y</span><span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">=&gt;</span>
+    <span style="color: #b6a0ff;">case</span> <span style="color: #f78fe7;">ULVar</span><span style="color: #6ae4b9;">(</span><span style="color: #00d3d0;">y</span><span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">=&gt;</span>
       <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Otherwise, y is not the xth free variable;</span>
       <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">leave it as is.</span>
       <span style="color: #00bcff;">ULVar</span><span style="color: #6ae4b9;">(</span>y<span style="color: #6ae4b9;">)</span>
     
-    <span style="color: #b6a0ff;">case</span> <span style="color: #6ae4b9;">ULAbs</span><span style="color: #6ae4b9;">(</span><span style="color: #00d3d0;">t</span><span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">=&gt;</span>
+    <span style="color: #b6a0ff;">case</span> <span style="color: #f78fe7;">ULAbs</span><span style="color: #6ae4b9;">(</span><span style="color: #00d3d0;">t</span><span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">=&gt;</span>
       <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">We now have one more variable binder outside the subterm.</span>
       <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Increment currentBinders and walk into the subterm.</span>
       <span style="color: #00bcff;">ULAbs</span><span style="color: #6ae4b9;">(</span>walk<span style="color: #f0ce43;">(</span>currentBinders+<span style="color: #00bcff;">1</span>,t<span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>
 
-    <span style="color: #b6a0ff;">case</span> <span style="color: #6ae4b9;">ULApp</span><span style="color: #6ae4b9;">(</span><span style="color: #00d3d0;">t1</span>,<span style="color: #00d3d0;">t2</span><span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">=&gt;</span>
+    <span style="color: #b6a0ff;">case</span> <span style="color: #f78fe7;">ULApp</span><span style="color: #6ae4b9;">(</span><span style="color: #00d3d0;">t1</span>,<span style="color: #00d3d0;">t2</span><span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">=&gt;</span>
       <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">No new variable binders. Just walk into the subterms.</span>
       <span style="color: #00bcff;">ULApp</span><span style="color: #6ae4b9;">(</span>walk<span style="color: #f0ce43;">(</span>currentBinders,t1<span style="color: #f0ce43;">)</span>,walk<span style="color: #f0ce43;">(</span>currentBinders,t2<span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>
   <span style="color: #b6a0ff;">}</span>
@@ -726,8 +727,8 @@ We need to check if terms are values for call-by-value semantics.
 <div class="org-src-container">
 <pre class="src src-amm"><span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">We need to know if a term is a value during reduction</span>
 <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">when using call-by-value semantics.</span>
-<span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">isValue</span><span style="color: #00cd68;">(</span>t<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">ULTerm</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">Boolean</span> <span style="color: #b6a0ff;">=</span> t <span style="color: #b6a0ff;">match</span> <span style="color: #00cd68;">{</span>
-  <span style="color: #b6a0ff;">case</span> <span style="color: #6ae4b9;">ULAbs</span><span style="color: #b6a0ff;">(</span><span style="color: #b6a0ff;">_</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">true</span>
+<span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">isValue</span><span style="color: #00cd68;">(</span>t<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">ULTerm</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Boolean</span> <span style="color: #b6a0ff;">=</span> t <span style="color: #b6a0ff;">match</span> <span style="color: #00cd68;">{</span>
+  <span style="color: #b6a0ff;">case</span> <span style="color: #f78fe7;">ULAbs</span><span style="color: #b6a0ff;">(</span><span style="color: #b6a0ff;">_</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">true</span>
   <span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">_</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">false</span>
 <span style="color: #00cd68;">}</span>
 </pre>
@@ -743,11 +744,11 @@ we might have an infinite reduction sequence.)
 <pre class="src src-amm"><span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Call-by-value reduction function.</span>
 <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Performs one step of evaluation, if possible according to the call-by-value rules.</span>
 <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">If no reduction is possible, returns None.</span>
-<span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">reduce</span><span style="color: #00cd68;">(</span>t<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">ULTerm</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">Option</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">ULTerm</span><span style="color: #00cd68;">]</span> <span style="color: #b6a0ff;">=</span> t <span style="color: #b6a0ff;">match</span> <span style="color: #00cd68;">{</span>
+<span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">reduce</span><span style="color: #00cd68;">(</span>t<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">ULTerm</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Option</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">ULTerm</span><span style="color: #00cd68;">]</span> <span style="color: #b6a0ff;">=</span> t <span style="color: #b6a0ff;">match</span> <span style="color: #00cd68;">{</span>
 
   <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Case: the left term is an abstraction, and the right is a value.</span>
   <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Then apply the value to the abstraction.</span>
-  <span style="color: #b6a0ff;">case</span> <span style="color: #6ae4b9;">ULApp</span><span style="color: #b6a0ff;">(</span><span style="color: #6ae4b9;">ULAbs</span><span style="color: #6ae4b9;">(</span><span style="color: #00d3d0;">t</span><span style="color: #6ae4b9;">)</span>,<span style="color: #00d3d0;">v</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">if</span> isValue<span style="color: #b6a0ff;">(</span>v<span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">=&gt;</span>
+  <span style="color: #b6a0ff;">case</span> <span style="color: #f78fe7;">ULApp</span><span style="color: #b6a0ff;">(</span><span style="color: #f78fe7;">ULAbs</span><span style="color: #6ae4b9;">(</span><span style="color: #00d3d0;">t</span><span style="color: #6ae4b9;">)</span>,<span style="color: #00d3d0;">v</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">if</span> isValue<span style="color: #b6a0ff;">(</span>v<span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">=&gt;</span>
     <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">When we apply the value to the abstraction,</span>
     <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">we must shift the value's free variables up by 1 to account</span>
     <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">for the abstraction's variable binder.</span>
@@ -757,17 +758,17 @@ we might have an infinite reduction sequence.)
     <span style="color: #00bcff;">Some</span><span style="color: #b6a0ff;">(</span>shift<span style="color: #6ae4b9;">(</span><span style="color: #00bcff;">-1</span>,r<span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span>
 
   <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Case: the left term is a value, then try to reduce the right term.</span>
-  <span style="color: #b6a0ff;">case</span> <span style="color: #6ae4b9;">ULApp</span><span style="color: #b6a0ff;">(</span><span style="color: #00d3d0;">v</span>,<span style="color: #00d3d0;">t</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">if</span> isValue<span style="color: #b6a0ff;">(</span>v<span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">=&gt;</span>
+  <span style="color: #b6a0ff;">case</span> <span style="color: #f78fe7;">ULApp</span><span style="color: #b6a0ff;">(</span><span style="color: #00d3d0;">v</span>,<span style="color: #00d3d0;">t</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">if</span> isValue<span style="color: #b6a0ff;">(</span>v<span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">=&gt;</span>
     reduce<span style="color: #b6a0ff;">(</span>t<span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">match</span> <span style="color: #b6a0ff;">{</span>
-      <span style="color: #b6a0ff;">case</span> <span style="color: #6ae4b9;">Some</span><span style="color: #6ae4b9;">(</span><span style="color: #00d3d0;">r</span><span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">Some</span><span style="color: #6ae4b9;">(</span><span style="color: #00bcff;">ULApp</span><span style="color: #f0ce43;">(</span>v,r<span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>
+      <span style="color: #b6a0ff;">case</span> <span style="color: #f78fe7;">Some</span><span style="color: #6ae4b9;">(</span><span style="color: #00d3d0;">r</span><span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">Some</span><span style="color: #6ae4b9;">(</span><span style="color: #00bcff;">ULApp</span><span style="color: #f0ce43;">(</span>v,r<span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>
       <span style="color: #b6a0ff;">case</span> <span style="color: #00bcff;">None</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">None</span>
     <span style="color: #b6a0ff;">}</span>
 
   <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Case: the left term is not a value (not an abstraction.)</span>
   <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Try to reduce it.</span>
-  <span style="color: #b6a0ff;">case</span> <span style="color: #6ae4b9;">ULApp</span><span style="color: #b6a0ff;">(</span><span style="color: #00d3d0;">t1</span>,<span style="color: #00d3d0;">t2</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">=&gt;</span>
+  <span style="color: #b6a0ff;">case</span> <span style="color: #f78fe7;">ULApp</span><span style="color: #b6a0ff;">(</span><span style="color: #00d3d0;">t1</span>,<span style="color: #00d3d0;">t2</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">=&gt;</span>
     reduce<span style="color: #b6a0ff;">(</span>t1<span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">match</span> <span style="color: #b6a0ff;">{</span>
-      <span style="color: #b6a0ff;">case</span> <span style="color: #6ae4b9;">Some</span><span style="color: #6ae4b9;">(</span><span style="color: #00d3d0;">r1</span><span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">Some</span><span style="color: #6ae4b9;">(</span><span style="color: #00bcff;">ULApp</span><span style="color: #f0ce43;">(</span>r1,t2<span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>
+      <span style="color: #b6a0ff;">case</span> <span style="color: #f78fe7;">Some</span><span style="color: #6ae4b9;">(</span><span style="color: #00d3d0;">r1</span><span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">Some</span><span style="color: #6ae4b9;">(</span><span style="color: #00bcff;">ULApp</span><span style="color: #f0ce43;">(</span>r1,t2<span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>
       <span style="color: #b6a0ff;">case</span> <span style="color: #00bcff;">None</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">None</span>
     <span style="color: #b6a0ff;">}</span>
     
@@ -776,9 +777,9 @@ we might have an infinite reduction sequence.)
 
 <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Evaluation just repeatedly applies reduce,</span>
 <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">until we reach None (signifying reduction failed.)</span>
-<span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">evaluate</span><span style="color: #00cd68;">(</span>t<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">ULTerm</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">ULTerm</span> <span style="color: #b6a0ff;">=</span> reduce<span style="color: #00cd68;">(</span>t<span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">match</span> <span style="color: #00cd68;">{</span>
+<span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">evaluate</span><span style="color: #00cd68;">(</span>t<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">ULTerm</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">ULTerm</span> <span style="color: #b6a0ff;">=</span> reduce<span style="color: #00cd68;">(</span>t<span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">match</span> <span style="color: #00cd68;">{</span>
   <span style="color: #b6a0ff;">case</span> <span style="color: #00bcff;">None</span> <span style="color: #b6a0ff;">=&gt;</span> t
-  <span style="color: #b6a0ff;">case</span> <span style="color: #6ae4b9;">Some</span><span style="color: #b6a0ff;">(</span><span style="color: #00d3d0;">r</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">=&gt;</span> evaluate<span style="color: #b6a0ff;">(</span>r<span style="color: #b6a0ff;">)</span>
+  <span style="color: #b6a0ff;">case</span> <span style="color: #f78fe7;">Some</span><span style="color: #b6a0ff;">(</span><span style="color: #00d3d0;">r</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">=&gt;</span> evaluate<span style="color: #b6a0ff;">(</span>r<span style="color: #b6a0ff;">)</span>
 <span style="color: #00cd68;">}</span>
 </pre>
 </div>
@@ -807,7 +808,7 @@ for all objects and across all time.
 <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">as well as the shift, substitute and eval methods</span>
 <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">which are defined in terms of other methods</span>
 <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">defined by the subclasses.</span>
-<span style="color: #b6a0ff;">class</span> <span style="color: #6ae4b9;">ULTerm</span>
+<span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">ULTerm</span>
 
   <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">By default, we assume terms are irreducible,</span>
   <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">not abstractions, and not values.</span>
@@ -861,9 +862,9 @@ and calling <code>walk</code> on the term with that action.
     <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">The block tells us what to do with variables.</span>
     walk<span style="color: #00cd68;">(</span>0<span style="color: #00cd68;">)</span> <span style="color: #00cd68;">{</span> |x,currentBinders|
       <span style="color: #b6a0ff;">if</span> x &gt;= currentBinders
-        <span style="color: #6ae4b9;">ULVar</span>.new<span style="color: #b6a0ff;">(</span>x+shiftAmount<span style="color: #b6a0ff;">)</span>
+        <span style="color: #f78fe7;">ULVar</span>.new<span style="color: #b6a0ff;">(</span>x+shiftAmount<span style="color: #b6a0ff;">)</span>
       <span style="color: #b6a0ff;">else</span>
-        <span style="color: #6ae4b9;">ULVar</span>.new<span style="color: #b6a0ff;">(</span>x<span style="color: #b6a0ff;">)</span>
+        <span style="color: #f78fe7;">ULVar</span>.new<span style="color: #b6a0ff;">(</span>x<span style="color: #b6a0ff;">)</span>
       <span style="color: #b6a0ff;">end</span> <span style="color: #00cd68;">}</span>
   <span style="color: #b6a0ff;">end</span>
 
@@ -874,7 +875,7 @@ and calling <code>walk</code> on the term with that action.
       <span style="color: #b6a0ff;">if</span> y == x + currentBinders
         r
       <span style="color: #b6a0ff;">else</span>
-        <span style="color: #6ae4b9;">ULVar</span>.new<span style="color: #b6a0ff;">(</span>y<span style="color: #b6a0ff;">)</span>
+        <span style="color: #f78fe7;">ULVar</span>.new<span style="color: #b6a0ff;">(</span>y<span style="color: #b6a0ff;">)</span>
       <span style="color: #b6a0ff;">end</span> <span style="color: #00cd68;">}</span>
   <span style="color: #b6a0ff;">end</span>
 </pre>
@@ -914,12 +915,12 @@ do not define that method here.
 these terms to be printed somewhat nicely.)
 </p>
 <div class="org-src-container">
-<pre class="src src-ruby"><span style="color: #b6a0ff;">class</span> <span style="color: #6ae4b9;">ULVar</span> &lt; <span style="color: #6ae4b9;">ULTerm</span>
+<pre class="src src-ruby"><span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">ULVar</span> &lt; <span style="color: #f78fe7;">ULTerm</span>
   <span style="color: #f78fe7;">attr_reader</span> <span style="color: #00bcff;">:index</span>
 
   <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">We require our variables are only indexed by integers.</span>
   <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">initialize</span><span style="color: #00cd68;">(</span>i<span style="color: #00cd68;">)</span>
-    <span style="color: #b6a0ff;">unless</span> i.is_a?<span style="color: #00cd68;">(</span><span style="color: #6ae4b9;">Integer</span><span style="color: #00cd68;">)</span>
+    <span style="color: #b6a0ff;">unless</span> i.is_a?<span style="color: #00cd68;">(</span><span style="color: #f78fe7;">Integer</span><span style="color: #00cd68;">)</span>
       <span style="color: #f78fe7;">throw</span> <span style="color: #79a8ff;">"Constructing a lambda term out of non-lambda terms"</span>
     <span style="color: #b6a0ff;">end</span>
     <span style="color: #00d3d0;">@index</span> = i
@@ -945,11 +946,11 @@ But we do set override the <code>absBody</code> and <code>isValue?</code> method
 since this is an abstraction, and abstractions are values.
 </p>
 <div class="org-src-container">
-<pre class="src src-ruby"><span style="color: #b6a0ff;">class</span> <span style="color: #6ae4b9;">ULAbs</span> &lt; <span style="color: #6ae4b9;">ULTerm</span>
+<pre class="src src-ruby"><span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">ULAbs</span> &lt; <span style="color: #f78fe7;">ULTerm</span>
   <span style="color: #f78fe7;">attr_reader</span> <span style="color: #00bcff;">:t</span>
 
   <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">initialize</span><span style="color: #00cd68;">(</span>t<span style="color: #00cd68;">)</span>
-    <span style="color: #b6a0ff;">unless</span> t.is_a?<span style="color: #00cd68;">(</span><span style="color: #6ae4b9;">ULTerm</span><span style="color: #00cd68;">)</span>
+    <span style="color: #b6a0ff;">unless</span> t.is_a?<span style="color: #00cd68;">(</span><span style="color: #f78fe7;">ULTerm</span><span style="color: #00cd68;">)</span>
       <span style="color: #f78fe7;">throw</span> <span style="color: #79a8ff;">"Constructing a lambda term out of a non-lambda term"</span>
     <span style="color: #b6a0ff;">end</span>
     <span style="color: #00d3d0;">@t</span> = t
@@ -958,7 +959,7 @@ since this is an abstraction, and abstractions are values.
   <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">walk</span><span style="color: #00cd68;">(</span>currentBinders,&amp;block<span style="color: #00cd68;">)</span>
     <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Increment the local variable counter within the variable binder.</span>
     t = <span style="color: #00d3d0;">@t</span>.walk<span style="color: #00cd68;">(</span>currentBinders+1,&amp;block<span style="color: #00cd68;">)</span>
-    <span style="color: #6ae4b9;">ULAbs</span>.new<span style="color: #00cd68;">(</span>t<span style="color: #00cd68;">)</span>
+    <span style="color: #f78fe7;">ULAbs</span>.new<span style="color: #00cd68;">(</span>t<span style="color: #00cd68;">)</span>
   <span style="color: #b6a0ff;">end</span>
 
   <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Abstractions are an abstraction (of course),</span>
@@ -984,12 +985,12 @@ makes it appear much worse.
 diagnostic printing statements which were unfortunately included previously.)
 </p>
 <div class="org-src-container">
-<pre class="src src-ruby"><span style="color: #b6a0ff;">class</span> <span style="color: #6ae4b9;">ULApp</span> &lt; <span style="color: #6ae4b9;">ULTerm</span>
+<pre class="src src-ruby"><span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">ULApp</span> &lt; <span style="color: #f78fe7;">ULTerm</span>
   <span style="color: #f78fe7;">attr_reader</span> <span style="color: #00bcff;">:t1</span>
   <span style="color: #f78fe7;">attr_reader</span> <span style="color: #00bcff;">:t2</span>
 
   <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">initialize</span><span style="color: #00cd68;">(</span>t1,t2<span style="color: #00cd68;">)</span>
-    <span style="color: #b6a0ff;">unless</span> t1.is_a?<span style="color: #00cd68;">(</span><span style="color: #6ae4b9;">ULTerm</span><span style="color: #00cd68;">)</span> &amp;&amp; t2.is_a?<span style="color: #00cd68;">(</span><span style="color: #6ae4b9;">ULTerm</span><span style="color: #00cd68;">)</span>
+    <span style="color: #b6a0ff;">unless</span> t1.is_a?<span style="color: #00cd68;">(</span><span style="color: #f78fe7;">ULTerm</span><span style="color: #00cd68;">)</span> &amp;&amp; t2.is_a?<span style="color: #00cd68;">(</span><span style="color: #f78fe7;">ULTerm</span><span style="color: #00cd68;">)</span>
       <span style="color: #f78fe7;">throw</span> <span style="color: #79a8ff;">"Constructing a lambda term out of non-lambda terms"</span>
     <span style="color: #b6a0ff;">end</span>
     <span style="color: #00d3d0;">@t1</span> = t1; <span style="color: #00d3d0;">@t2</span> = t2
@@ -998,7 +999,7 @@ diagnostic printing statements which were unfortunately included previously.)
   <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">walk</span><span style="color: #00cd68;">(</span>currentBinders,&amp;block<span style="color: #00cd68;">)</span>
     t1 = <span style="color: #00d3d0;">@t1</span>.walk<span style="color: #00cd68;">(</span>currentBinders,&amp;block<span style="color: #00cd68;">)</span>
     t2 = <span style="color: #00d3d0;">@t2</span>.walk<span style="color: #00cd68;">(</span>currentBinders,&amp;block<span style="color: #00cd68;">)</span>
-    <span style="color: #6ae4b9;">ULApp</span>.new<span style="color: #00cd68;">(</span>t1,t2<span style="color: #00cd68;">)</span>
+    <span style="color: #f78fe7;">ULApp</span>.new<span style="color: #00cd68;">(</span>t1,t2<span style="color: #00cd68;">)</span>
   <span style="color: #b6a0ff;">end</span>
 
   <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Applications can be reduced.</span>
@@ -1009,14 +1010,14 @@ diagnostic printing statements which were unfortunately included previously.)
     <span style="color: #b6a0ff;">elsif</span> <span style="color: #00d3d0;">@t1</span>.isValue?
       r = <span style="color: #00d3d0;">@t2</span>.reduce
       <span style="color: #b6a0ff;">if</span> r
-        <span style="color: #6ae4b9;">ULApp</span>.new<span style="color: #00cd68;">(</span><span style="color: #00d3d0;">@t1</span>,r<span style="color: #00cd68;">)</span>
+        <span style="color: #f78fe7;">ULApp</span>.new<span style="color: #00cd68;">(</span><span style="color: #00d3d0;">@t1</span>,r<span style="color: #00cd68;">)</span>
       <span style="color: #b6a0ff;">else</span>
         <span style="color: #00bcff;">nil</span>
       <span style="color: #b6a0ff;">end</span>
     <span style="color: #b6a0ff;">else</span>
       r = <span style="color: #00d3d0;">@t1</span>.reduce
       <span style="color: #b6a0ff;">if</span> r
-        <span style="color: #6ae4b9;">ULApp</span>.new<span style="color: #00cd68;">(</span>r,<span style="color: #00d3d0;">@t2</span><span style="color: #00cd68;">)</span>
+        <span style="color: #f78fe7;">ULApp</span>.new<span style="color: #00cd68;">(</span>r,<span style="color: #00d3d0;">@t2</span><span style="color: #00cd68;">)</span>
       <span style="color: #b6a0ff;">else</span>
         <span style="color: #00bcff;">nil</span>
       <span style="color: #b6a0ff;">end</span>
@@ -1089,12 +1090,12 @@ And in Ruby:
 <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Note the first variable (The one initialised with ULVar.new(3)) is free,</span>
 <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">because it's index is greater than the number of abstractions</span>
 <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">surrounding it.</span>
-x = <span style="color: #6ae4b9;">ULAbs</span>.new<span style="color: #00cd68;">(</span>
-      <span style="color: #6ae4b9;">ULAbs</span>.new<span style="color: #b6a0ff;">(</span>
-        <span style="color: #6ae4b9;">ULAbs</span>.new<span style="color: #6ae4b9;">(</span><span style="color: #6ae4b9;">ULApp</span>.new<span style="color: #f0ce43;">(</span><span style="color: #6ae4b9;">ULVar</span>.new<span style="color: #00bcff;">(</span>3<span style="color: #00bcff;">)</span>,
-                            <span style="color: #6ae4b9;">ULApp</span>.new<span style="color: #00bcff;">(</span><span style="color: #6ae4b9;">ULVar</span>.new<span style="color: #80d200;">(</span>2<span style="color: #80d200;">)</span>,
-                                      <span style="color: #6ae4b9;">ULApp</span>.new<span style="color: #80d200;">(</span><span style="color: #6ae4b9;">ULVar</span>.new<span style="color: #f78fe7;">(</span>1<span style="color: #f78fe7;">)</span>,
-                                                <span style="color: #6ae4b9;">ULVar</span>.new<span style="color: #f78fe7;">(</span>0<span style="color: #f78fe7;">)</span><span style="color: #80d200;">)</span><span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+x = <span style="color: #f78fe7;">ULAbs</span>.new<span style="color: #00cd68;">(</span>
+      <span style="color: #f78fe7;">ULAbs</span>.new<span style="color: #b6a0ff;">(</span>
+        <span style="color: #f78fe7;">ULAbs</span>.new<span style="color: #6ae4b9;">(</span><span style="color: #f78fe7;">ULApp</span>.new<span style="color: #f0ce43;">(</span><span style="color: #f78fe7;">ULVar</span>.new<span style="color: #00bcff;">(</span>3<span style="color: #00bcff;">)</span>,
+                            <span style="color: #f78fe7;">ULApp</span>.new<span style="color: #00bcff;">(</span><span style="color: #f78fe7;">ULVar</span>.new<span style="color: #80d200;">(</span>2<span style="color: #80d200;">)</span>,
+                                      <span style="color: #f78fe7;">ULApp</span>.new<span style="color: #80d200;">(</span><span style="color: #f78fe7;">ULVar</span>.new<span style="color: #f78fe7;">(</span>1<span style="color: #f78fe7;">)</span>,
+                                                <span style="color: #f78fe7;">ULVar</span>.new<span style="color: #f78fe7;">(</span>0<span style="color: #f78fe7;">)</span><span style="color: #80d200;">)</span><span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
 <span style="color: #f78fe7;">puts</span> <span style="color: #79a8ff;">"An unnamed representation of lambda x . lambda y . lambda z -&gt; u x y z:"</span>
 <span style="color: #f78fe7;">print</span> <span style="color: #79a8ff;">"\t"</span>
 <span style="color: #f78fe7;">puts</span> x
@@ -1271,8 +1272,8 @@ Use it if you wish.
 <p class="author">Author: Mark Armstrong</p>
      <p class="author">Contact: <a href="mailto:markparmstrong@gmail.com">markparmstrong@gmail.com</a></p>
      <p class="date">Original date: October 30th, 2020</p>
-     <p class="date">Last updated: 2020-11-06 Fri 02:37</p>
-     <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4)</p>
+     <p class="date">Last updated: 2020-11-07 Sat 13:05</p>
+     <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.90 (<a href="https://orgmode.org">Org</a> mode 9.4)</p>
      <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

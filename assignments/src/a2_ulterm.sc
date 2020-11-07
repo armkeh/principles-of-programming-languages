@@ -1,3 +1,4 @@
+sealed trait ULTerm
 case class ULVar(index: Int) extends ULTerm {
   override def toString() = index.toString()
 }

@@ -209,6 +209,7 @@ Pure untyped λ-terms can only be variables, abstractions or applications.
 overrides of the ~toString~ method, which improve the appearance
 of these terms when they are converted to strings.
 #+begin_src amm :tangle ./src/a2_ulterm.sc
+sealed trait ULTerm
 case class ULVar(index: Int) extends ULTerm {
   override def toString() = index.toString()
 }
