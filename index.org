@@ -25,8 +25,9 @@
     (thank you Omar and Paul.) It has been corrected now.
     - The final test case, which corresponds to the nameless term
       #+begin_src text
-λ λ λ λ (0 1) (2 3)
+λ λ λ (0 1) (2 3)
       #+end_src
+      (updated November 8th; previously there were incorrectly 4 “λ”'s above)
       previously was given an example output of
       #+begin_src text
 lambda a . lambda b . lambda c . ((a) (b)) ((c) (d))

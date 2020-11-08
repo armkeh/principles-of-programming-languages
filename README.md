@@ -20,10 +20,11 @@ better viewed at
           - The final test case, which corresponds to the nameless term
             
             ``` text
-            λ λ λ λ (0 1) (2 3)
+            λ λ λ (0 1) (2 3)
             ```
             
-            previously was given an example output of
+            (updated November 8th; previously there were incorrectly 4
+            “λ”'s above) previously was given an example output of
             
             ``` text
             lambda a . lambda b . lambda c . ((a) (b)) ((c) (d))
