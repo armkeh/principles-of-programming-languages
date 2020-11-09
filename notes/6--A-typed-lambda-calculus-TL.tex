@@ -1,4 +1,4 @@
-% Created 2020-09-02 Wed 17:00
+% Created 2020-11-09 Mon 11:22
 % Intended LaTeX compiler: lualatex
 \documentclass[11pt]{article}
 \usepackage{graphicx}
@@ -33,7 +33,7 @@
    pdftitle={A typed λ-calculus, \emph{TL}},
    pdfkeywords={},
    pdfsubject={Extending our lambda calculus with type checking (enforcement).},
-   pdfcreator={Emacs 27.0.90 (Org mode 9.3.7)},
+   pdfcreator={Emacs 27.0.91 (Org mode 9.4)},
    pdflang={English},
    colorlinks,
    linkcolor=blue,
@@ -45,41 +45,252 @@
 \maketitle
 
 \section{Preamble}
-\label{sec:org8877e6f}
+\label{sec:orgf04e6a5}
 
-\subsection{{\bfseries\sffamily TODO} Notable references}
-\label{sec:orge885cea}
+\subsection{Notable references}
+\label{sec:org0f80e78}
 
-:TODO:
+\begin{itemize}
+\item Benjamin Pierce,
+“\href{https://ebookcentral.proquest.com/lib/mcmu/detail.action?docID=3338823}{Types and Programming Languages}”
+\begin{itemize}
+\item Chapter 9, Simply Typed Lambda-Calculus
+\begin{itemize}
+\item Function types, the typing relation
+\end{itemize}
+\item Chapter 11, Simple Extensions
+\begin{itemize}
+\item Unit, Tuples, Sums, Variants, Lists.
+\end{itemize}
+\end{itemize}
+\end{itemize}
 
 \subsection{{\bfseries\sffamily TODO} Table of contents}
-\label{sec:org9df50d8}
+\label{sec:org12e2d77}
 
 \begin{scriptsize}
 \begin{itemize}
-\item \hyperref[sec:org8877e6f]{Preamble}
+\item \hyperref[sec:orgf04e6a5]{Preamble}
 \end{itemize}
 \end{scriptsize}
 
 \section{Introduction}
-\label{sec:org8937597}
+\label{sec:org33744d9}
 
 In this section we extend our previously considered
 untyped λ-calculus by defining a typing relation,
 essentially adding type checking (enforcement).
 
-:TODO: Is this appropriate at this stage?
 We then investigate adding some
 algebraic type formers to the language.
 This involves the introduction of a rudimentary form
 of pattern matching.
+
+\section{Recall: The untyped λ-calculus}
+\label{sec:org611891e}
+
+Recall from section 3 of the notes the syntax
+of our untyped λ-calculus, \emph{UL}.
+\begin{minted}[breaklines=true]{text}
+⟨term⟩ ∷= var | λ var → ⟨term⟩ | ⟨term⟩ ⟨term⟩
+\end{minted}
+
+Recall that in this pure untyped λ-calculus,
+everything is a function, and abstractions
+(terms of the form \texttt{λ x → t}) are \emph{values}.
+
+\subsection{The call-by-value semantics of the untyped λ-calculus}
+\label{sec:org8344f43}
+
+The call-by-value semantics we described in section 3 of the notes
+can be more succinctly described using inference rules.
+\begin{itemize}
+\item In fact, we only need three rules.
+
+\item Here the arrow \texttt{⟶} defines a \emph{reduction} relation,
+meaning that we may need to perform several \texttt{⟶} “steps” to fully
+evaluate a term.
+\item The (meta)variables \texttt{t₁}, \texttt{t₂}, etc., range over λ-terms, and
+\item the (meta)variables \texttt{v₁}, \texttt{v₂}, etc., range over λ-terms \emph{which are values}.
+\end{itemize}
+\begin{minted}[breaklines=true]{text}
+  t₁  ⟶  t₁′
+––––––––––––––––––– reduce-appˡ
+ t₁ t₂  ⟶  t₁′ t₂
+
+ 
+  t₂  ⟶  t₂′
+––––––––––––––––––– reduce-Appʳ
+ v₁ t₂  ⟶  v₁ t₂′
+
+
+–––––––––––––––––––––––––––––– apply
+(λ x → t) v  ⟶  t[x ≔ v]
+\end{minted}
+
+\subsection{Only applications reduce}
+\label{sec:org9da3ba7}
+
+\iffalse
+\begin{minted}[breaklines=true]{text}
+  t₁  ⟶  t₁′                             t₂  ⟶  t₂′                   
+––––––––––––––––––– reduce-appˡ        ––––––––––––––––––– reduce-Appʳ
+ t₁ t₂  ⟶  t₁′ t₂                       v₁ t₂  ⟶  v₁ t₂′              
+
+
+ 
+             –––––––––––––––––––––––––––––– apply
+             (λ x → t) v  ⟶  t[x ≔ v]
+\end{minted}
+\fi
+
+Notice, in the above semantics, that the only rules
+are for applications; remember that
+\begin{itemize}
+\item variables cannot be reduced, and
+\item under call-by-value semantics,
+\begin{itemize}
+\item no evaluations take place inside abstractions, and
+\item abstractions are only applied to values.
+\end{itemize}
+\end{itemize}
+
+\subsection{Explaining the rules}
+\label{sec:org3768f1d}
+
+\iffalse
+\begin{minted}[breaklines=true]{text}
+  t₁  ⟶  t₁′                             t₂  ⟶  t₂′                   
+––––––––––––––––––– reduce-appˡ        ––––––––––––––––––– reduce-Appʳ
+ t₁ t₂  ⟶  t₁′ t₂                       v₁ t₂  ⟶  v₁ t₂′              
+
+
+ 
+             –––––––––––––––––––––––––––––– apply
+             (λ x → t) v  ⟶  t[x ≔ v]
+\end{minted}
+\fi
+
+By using our naming conventions, we can see that
+\begin{itemize}
+\item the \texttt{reduce-appˡ} rule says that
+if \texttt{t₁} is the left side of an application
+and \texttt{t₁} reduces to \texttt{t₁′}, then the whole application reduces
+by replacing \texttt{t₁} with \texttt{t₁′},
+\item the \texttt{reduce-appʳ} rule says that
+if \texttt{t₁} is the right side of
+an application \emph{whose left side is a value},
+and \texttt{t₂} reduces to \texttt{t₂′}, then the whole application reduces
+by replacing \texttt{t₂} with \texttt{t₂′}, and
+\item the \texttt{apply} rule says that if the left side of an application
+is an abstraction, and the right side is a value,
+then the application reduces to the body of the abstraction
+with the value substituted for the abstraction's variable.
+\end{itemize}
+
+\subsection{Reduction as a function}
+\label{sec:org193b251}
+
+\iffalse
+\begin{minted}[breaklines=true]{text}
+  t₁  ⟶  t₁′                             t₂  ⟶  t₂′                   
+––––––––––––––––––– reduce-appˡ        ––––––––––––––––––– reduce-Appʳ
+ t₁ t₂  ⟶  t₁′ t₂                       v₁ t₂  ⟶  v₁ t₂′              
+
+
+ 
+             –––––––––––––––––––––––––––––– apply
+             (λ x → t) v  ⟶  t[x ≔ v]
+\end{minted}
+\fi
+
+It bears noting that the \emph{reduction relation} here is,
+by design, \emph{deterministic}; given a λ-term \texttt{t}, either
+\begin{itemize}
+\item \texttt{t} can be reduced by exactly \emph{one} of the rules above, or
+\item \texttt{t} cannot be reduced (is irreducible) (by these semantics.)
+\end{itemize}
+
+A deterministic relation can be expressed as a \emph{function},
+as the following Scala-like pseudocode shows.
+\begin{verbatim}
+def ⟶(t) = t match {
+  case t₁ t₂ if t₁ ⟶ t₁′                 => t₁′ t₂
+  case v₁ t₂ if isValue(v₁) &&  t₂ ⟶ t₂′ => v₁ t₂′
+  case (λ x → t) v if isValue(v)         => t[x ≔ v]
+} 
+\end{verbatim}
+
+\subsection{An example of a reduction sequence}
+\label{sec:org1aa31f0}
+
+\begin{minted}[breaklines=true]{text}
+  ((λ x → x) (λ y → y)) ((λ z → z) (λ u → u))
+⟶⟨ reduce-appˡ ⟩
+  (λ y → y) ((λ z → z) (λ u → u))
+⟶⟨ reduce-appʳ ⟩
+  (λ y → y) (λ u → u)
+⟶⟨ apply ⟩
+  λ u → u
+\end{minted}
+The final term does not reduce.
+
+Note that we can end with terms which do not reduce, but which
+are not values, such as
+\begin{minted}[breaklines=true]{text}
+(λ x → x) y
+\end{minted}
+Since free variables are not values (they are not λ-abstractions),
+this term does not fit any of the reduction rules.
+
+\subsection{Encodings of booleans, natural numbers and pairs}
+\label{sec:orgcfafcb2}
+
+Recall the λ-encodings discussed in notes section 3,
+which allow us to represent booleans, natural numbers
+and pairs in the pure untyped λ-calculus.
+\begin{minted}[breaklines=true]{text}
+tru  = λ t → λ f → t
+fls  = λ t → λ f → f
+test = λ l → λ m → λ n → l m n
+pair = λ f → λ s → λ b → b f s
+fst  = λ p → p tru
+snd  = λ p → p fls
+zero = λ s → λ z → z
+scc  = λ n → λ s → λ z → s (n s z)
+\end{minted}
+
+\subsection{Enriching the (syntax of the) calculus}
+\label{sec:orgb583b0b}
+
+While λ-encodings of data in the pure untyped λ-calculus,
+such as those for the booleans, natural numbers and pairs,
+do allow us to construct programs working on any type data
+we might like, it is usually more convenient
+(even in this untyped system)
+to instead \emph{enrich} the calculus with new primitive terms
+for the types we want to work with.
+
+We will show here how this can be done for booleans.
+The enriched calculus's syntax is then
+\begin{minted}[breaklines=true]{text}
+⟨term⟩ ∷= var | λ var → ⟨term⟩ | ⟨term⟩ ⟨term⟩
+        | true | false
+        | if ⟨term⟩ then ⟨term⟩ else ⟨term⟩
+\end{minted}
+
+\subsection{The semantics of the extended calculus}
+\label{sec:orgca45f25}
+
+:TODO:
+
 \section{The simply typed λ-calculus}
-\label{sec:orga655db1}
+\label{sec:org55bb4cc}
 
 :TODO:
 
 \section{“Simple extensions” to the simply typed λ-calculus}
-\label{sec:orgb1865b9}
+\label{sec:org1d8a0ab}
 
 :TODO:
 \end{document}

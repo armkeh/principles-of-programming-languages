@@ -684,8 +684,6 @@ iszro = λ m → m (λ x → fls) tru
 
 * Recursion: the fixed point combinator
 
-
-
 ** Preamble                                    :ignore:
 
 We have, in the previous section, encoded booleans, pairs

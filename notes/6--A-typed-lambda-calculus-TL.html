@@ -24,6 +24,7 @@
         document.getElementsByTagName( 'head' )[0].appendChild( link );
     }
 </script>
+<style>pre.src{background:#000000;color:white;} </style>
 </head>
 <body>
 <div class="reveal">
@@ -35,24 +36,39 @@
 </section>
 
 <section>
-<section id="slide-orgcd98ae6">
-<h2 id="orgcd98ae6"><span class="section-number-2">1</span> Preamble</h2>
+<section id="slide-org149d701">
+<h2 id="org149d701"><span class="section-number-2">1</span> Preamble</h2>
 <div class="outline-text-2" id="text-1">
 </div>
 </section>
-<section id="slide-orge8aee18">
-<h3 id="orge8aee18"><span class="section-number-3">1.1</span> <span class="todo TODO">TODO</span> Notable references</h3>
-<p>
-:TODO:
-</p>
+<section id="slide-org044f17d">
+<h3 id="org044f17d"><span class="section-number-3">1.1</span> Notable references</h3>
+<ul>
+<li>Benjamin Pierce,
+“<a href="https://ebookcentral.proquest.com/lib/mcmu/detail.action?docID=3338823">Types and Programming Languages</a>”
+<ul>
+<li>Chapter 9, Simply Typed Lambda-Calculus
+<ul>
+<li>Function types, the typing relation</li>
+
+</ul></li>
+<li>Chapter 11, Simple Extensions
+<ul>
+<li>Unit, Tuples, Sums, Variants, Lists.</li>
+
+</ul></li>
+
+</ul></li>
+
+</ul>
 
 </section>
-<section id="slide-orgd8c906b">
-<h3 id="orgd8c906b"><span class="section-number-3">1.2</span> <span class="todo TODO">TODO</span> Table of contents</h3>
+<section id="slide-org81f7a4e">
+<h3 id="org81f7a4e"><span class="section-number-3">1.2</span> <span class="todo TODO">TODO</span> Table of contents</h3>
 <font size="-1">
-<div class="scriptsize" id="org641d5bb">
+<div class="scriptsize" id="org0509e5e">
 <ul>
-<li><a href="#/slide-orgcd98ae6">Preamble</a></li>
+<li><a href="#/slide-org149d701">Preamble</a></li>
 
 </ul>
 
@@ -62,8 +78,8 @@
 </section>
 </section>
 <section>
-<section id="slide-org6dddfc6">
-<h2 id="org6dddfc6"><span class="section-number-2">2</span> Introduction</h2>
+<section id="slide-orgaf909dc">
+<h2 id="orgaf909dc"><span class="section-number-2">2</span> Introduction</h2>
 <p>
 In this section we extend our previously considered
 untyped λ-calculus by defining a typing relation,
@@ -71,17 +87,271 @@ essentially adding type checking (enforcement).
 </p>
 
 <p>
-:TODO: Is this appropriate at this stage?
 We then investigate adding some
 algebraic type formers to the language.
 This involves the introduction of a rudimentary form
 of pattern matching.
 </p>
+
 </section>
 </section>
 <section>
-<section id="slide-orgb45901b">
-<h2 id="orgb45901b"><span class="section-number-2">3</span> The simply typed λ-calculus</h2>
+<section id="slide-org752bb80">
+<h2 id="org752bb80"><span class="section-number-2">3</span> Recall: The untyped λ-calculus</h2>
+<p>
+Recall from section 3 of the notes the syntax
+of our untyped λ-calculus, <i>UL</i>.
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-text"><code trim><span style="color: #00cd68;">&#10216;</span>term<span style="color: #00cd68;">&#10217;</span> &#8759;= var | &#955; var &#8594; <span style="color: #00cd68;">&#10216;</span>term<span style="color: #00cd68;">&#10217;</span> | <span style="color: #00cd68;">&#10216;</span>term<span style="color: #00cd68;">&#10217;</span> <span style="color: #00cd68;">&#10216;</span>term<span style="color: #00cd68;">&#10217;</span>
+</code></pre>
+</div>
+
+<p>
+Recall that in this pure untyped λ-calculus,
+everything is a function, and abstractions
+(terms of the form <code>λ x → t</code>) are <i>values</i>.
+</p>
+
+</section>
+<section id="slide-orgc1a1000">
+<h3 id="orgc1a1000"><span class="section-number-3">3.1</span> The call-by-value semantics of the untyped λ-calculus</h3>
+<p>
+The call-by-value semantics we described in section 3 of the notes
+can be more succinctly described using inference rules.
+</p>
+<ul>
+<li>In fact, we only need three rules.</li>
+
+<li>Here the arrow <code>⟶</code> defines a <i>reduction</i> relation,
+meaning that we may need to perform several <code>⟶</code> “steps” to fully
+evaluate a term.</li>
+<li>The (meta)variables <code>t₁</code>, <code>t₂</code>, etc., range over λ-terms, and</li>
+<li>the (meta)variables <code>v₁</code>, <code>v₂</code>, etc., range over λ-terms <i>which are values</i>.</li>
+
+</ul>
+<div class="org-src-container">
+
+<pre  class="src src-text"><code trim>  t&#8321;  &#10230;  t&#8321;&#8242;
+&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; reduce-app&#737;
+ t&#8321; t&#8322;  &#10230;  t&#8321;&#8242; t&#8322;
+
+ 
+  t&#8322;  &#10230;  t&#8322;&#8242;
+&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; reduce-App&#691;
+ v&#8321; t&#8322;  &#10230;  v&#8321; t&#8322;&#8242;
+
+
+&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; apply
+<span style="color: #00cd68;">(</span>&#955; x &#8594; t<span style="color: #00cd68;">)</span> v  &#10230;  t<span style="color: #00cd68;">[</span>x &#8788; v<span style="color: #00cd68;">]</span>
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org90967b0">
+<h3 id="org90967b0"><span class="section-number-3">3.2</span> Only applications reduce</h3>
+<p>
+
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-text"><code trim>  t&#8321;  &#10230;  t&#8321;&#8242;                             t&#8322;  &#10230;  t&#8322;&#8242;                   
+&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; reduce-app&#737;        &#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; reduce-App&#691;
+ t&#8321; t&#8322;  &#10230;  t&#8321;&#8242; t&#8322;                       v&#8321; t&#8322;  &#10230;  v&#8321; t&#8322;&#8242;              
+
+
+ 
+             &#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; apply
+             <span style="color: #00cd68;">(</span>&#955; x &#8594; t<span style="color: #00cd68;">)</span> v  &#10230;  t<span style="color: #00cd68;">[</span>x &#8788; v<span style="color: #00cd68;">]</span>
+</code></pre>
+</div>
+<p>
+
+</p>
+
+<p>
+Notice, in the above semantics, that the only rules
+are for applications; remember that
+</p>
+<ul>
+<li>variables cannot be reduced, and</li>
+<li>under call-by-value semantics,
+<ul>
+<li>no evaluations take place inside abstractions, and</li>
+<li>abstractions are only applied to values.</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-orgea4ae28">
+<h3 id="orgea4ae28"><span class="section-number-3">3.3</span> Explaining the rules</h3>
+<p>
+
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-text"><code trim>  t&#8321;  &#10230;  t&#8321;&#8242;                             t&#8322;  &#10230;  t&#8322;&#8242;                   
+&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; reduce-app&#737;        &#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; reduce-App&#691;
+ t&#8321; t&#8322;  &#10230;  t&#8321;&#8242; t&#8322;                       v&#8321; t&#8322;  &#10230;  v&#8321; t&#8322;&#8242;              
+
+
+ 
+             &#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; apply
+             <span style="color: #00cd68;">(</span>&#955; x &#8594; t<span style="color: #00cd68;">)</span> v  &#10230;  t<span style="color: #00cd68;">[</span>x &#8788; v<span style="color: #00cd68;">]</span>
+</code></pre>
+</div>
+<p>
+
+</p>
+
+<p>
+By using our naming conventions, we can see that
+</p>
+<ul>
+<li>the <code>reduce-appˡ</code> rule says that
+if <code>t₁</code> is the left side of an application
+and <code>t₁</code> reduces to <code>t₁′</code>, then the whole application reduces
+by replacing <code>t₁</code> with <code>t₁′</code>,</li>
+<li>the <code>reduce-appʳ</code> rule says that
+if <code>t₁</code> is the right side of
+an application <i>whose left side is a value</i>,
+and <code>t₂</code> reduces to <code>t₂′</code>, then the whole application reduces
+by replacing <code>t₂</code> with <code>t₂′</code>, and</li>
+<li>the <code>apply</code> rule says that if the left side of an application
+is an abstraction, and the right side is a value,
+then the application reduces to the body of the abstraction
+with the value substituted for the abstraction's variable.</li>
+
+</ul>
+
+</section>
+<section id="slide-org87039c2">
+<h3 id="org87039c2"><span class="section-number-3">3.4</span> Reduction as a function</h3>
+<p>
+
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-text"><code trim>  t&#8321;  &#10230;  t&#8321;&#8242;                             t&#8322;  &#10230;  t&#8322;&#8242;                   
+&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; reduce-app&#737;        &#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; reduce-App&#691;
+ t&#8321; t&#8322;  &#10230;  t&#8321;&#8242; t&#8322;                       v&#8321; t&#8322;  &#10230;  v&#8321; t&#8322;&#8242;              
+
+
+ 
+             &#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; apply
+             <span style="color: #00cd68;">(</span>&#955; x &#8594; t<span style="color: #00cd68;">)</span> v  &#10230;  t<span style="color: #00cd68;">[</span>x &#8788; v<span style="color: #00cd68;">]</span>
+</code></pre>
+</div>
+<p>
+
+</p>
+
+<p>
+It bears noting that the <i>reduction relation</i> here is,
+by design, <i>deterministic</i>; given a λ-term <code>t</code>, either
+</p>
+<ul>
+<li><code>t</code> can be reduced by exactly <i>one</i> of the rules above, or</li>
+<li><code>t</code> cannot be reduced (is irreducible) (by these semantics.)</li>
+
+</ul>
+
+<p>
+A deterministic relation can be expressed as a <i>function</i>,
+as the following Scala-like pseudocode shows.
+</p>
+<pre class="example" id="orgd39854e">
+def ⟶(t) = t match {
+  case t₁ t₂ if t₁ ⟶ t₁′                 =&gt; t₁′ t₂
+  case v₁ t₂ if isValue(v₁) &amp;&amp;  t₂ ⟶ t₂′ =&gt; v₁ t₂′
+  case (λ x → t) v if isValue(v)         =&gt; t[x ≔ v]
+} 
+</pre>
+
+</section>
+<section id="slide-orgd97d436">
+<h3 id="orgd97d436"><span class="section-number-3">3.5</span> An example of a reduction sequence</h3>
+<div class="org-src-container">
+
+<pre  class="src src-text"><code trim>  <span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">(</span>&#955; x &#8594; x<span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">(</span>&#955; y &#8594; y<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span> <span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">(</span>&#955; z &#8594; z<span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">(</span>&#955; u &#8594; u<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+&#10230;<span style="color: #00cd68;">&#10216;</span> reduce-app&#737; <span style="color: #00cd68;">&#10217;</span>
+  <span style="color: #00cd68;">(</span>&#955; y &#8594; y<span style="color: #00cd68;">)</span> <span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">(</span>&#955; z &#8594; z<span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">(</span>&#955; u &#8594; u<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+&#10230;<span style="color: #00cd68;">&#10216;</span> reduce-app&#691; <span style="color: #00cd68;">&#10217;</span>
+  <span style="color: #00cd68;">(</span>&#955; y &#8594; y<span style="color: #00cd68;">)</span> <span style="color: #00cd68;">(</span>&#955; u &#8594; u<span style="color: #00cd68;">)</span>
+&#10230;<span style="color: #00cd68;">&#10216;</span> apply <span style="color: #00cd68;">&#10217;</span>
+  &#955; u &#8594; u
+</code></pre>
+</div>
+<p>
+The final term does not reduce.
+</p>
+
+<p>
+Note that we can end with terms which do not reduce, but which
+are not values, such as
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-text"><code trim><span style="color: #00cd68;">(</span>&#955; x &#8594; x<span style="color: #00cd68;">)</span> y
+</code></pre>
+</div>
+<p>
+Since free variables are not values (they are not λ-abstractions),
+this term does not fit any of the reduction rules.
+</p>
+
+</section>
+<section id="slide-orga334cef">
+<h3 id="orga334cef"><span class="section-number-3">3.6</span> Encodings of booleans, natural numbers and pairs</h3>
+<p>
+Recall the λ-encodings discussed in notes section 3,
+which allow us to represent booleans, natural numbers
+and pairs in the pure untyped λ-calculus.
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-text"><code trim>tru  = &#955; t &#8594; &#955; f &#8594; t
+fls  = &#955; t &#8594; &#955; f &#8594; f
+test = &#955; l &#8594; &#955; m &#8594; &#955; n &#8594; l m n
+pair = &#955; f &#8594; &#955; s &#8594; &#955; b &#8594; b f s
+fst  = &#955; p &#8594; p tru
+snd  = &#955; p &#8594; p fls
+zero = &#955; s &#8594; &#955; z &#8594; z
+scc  = &#955; n &#8594; &#955; s &#8594; &#955; z &#8594; s <span style="color: #00cd68;">(</span>n s z<span style="color: #00cd68;">)</span>
+</code></pre>
+</div>
+
+</section>
+<section id="slide-orgf49e899">
+<h3 id="orgf49e899"><span class="section-number-3">3.7</span> Enriching the (syntax of the) calculus</h3>
+<p>
+While λ-encodings of data in the pure untyped λ-calculus,
+such as those for the booleans, natural numbers and pairs,
+do allow us to construct programs working on any type data
+we might like, it is usually more convenient
+(even in this untyped system)
+to instead <i>enrich</i> the calculus with new primitive terms
+for the types we want to work with.
+</p>
+
+<p>
+We will show here how this can be done for booleans.
+The enriched calculus's syntax is then
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-text"><code trim><span style="color: #00cd68;">&#10216;</span>term<span style="color: #00cd68;">&#10217;</span> &#8759;= var | &#955; var &#8594; <span style="color: #00cd68;">&#10216;</span>term<span style="color: #00cd68;">&#10217;</span> | <span style="color: #00cd68;">&#10216;</span>term<span style="color: #00cd68;">&#10217;</span> <span style="color: #00cd68;">&#10216;</span>term<span style="color: #00cd68;">&#10217;</span>
+        | true | false
+        | if <span style="color: #00cd68;">&#10216;</span>term<span style="color: #00cd68;">&#10217;</span> then <span style="color: #00cd68;">&#10216;</span>term<span style="color: #00cd68;">&#10217;</span> else <span style="color: #00cd68;">&#10216;</span>term<span style="color: #00cd68;">&#10217;</span>
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org1d07c47">
+<h3 id="org1d07c47"><span class="section-number-3">3.8</span> The semantics of the extended calculus</h3>
 <p>
 :TODO:
 </p>
@@ -89,8 +359,17 @@ of pattern matching.
 </section>
 </section>
 <section>
-<section id="slide-org5231ef4">
-<h2 id="org5231ef4"><span class="section-number-2">4</span> “Simple extensions” to the simply typed λ-calculus</h2>
+<section id="slide-orgd33cf29">
+<h2 id="orgd33cf29"><span class="section-number-2">4</span> The simply typed λ-calculus</h2>
+<p>
+:TODO:
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-org93d0f74">
+<h2 id="org93d0f74"><span class="section-number-2">5</span> “Simple extensions” to the simply typed λ-calculus</h2>
 <p>
 :TODO:
 </p>

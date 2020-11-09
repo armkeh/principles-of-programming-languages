@@ -28,9 +28,14 @@
 
 * Preamble
 
-** TODO Notable references
+** Notable references
 
-:TODO:
+- Benjamin Pierce,
+  “[[https://ebookcentral.proquest.com/lib/mcmu/detail.action?docID=3338823][Types and Programming Languages]]”
+  - Chapter 9, Simply Typed Lambda-Calculus
+    - Function types, the typing relation
+  - Chapter 11, Simple Extensions
+    - Unit, Tuples, Sums, Variants, Lists.
 
 ** TODO Table of contents
 
@@ -50,11 +55,192 @@ In this section we extend our previously considered
 untyped λ-calculus by defining a typing relation,
 essentially adding type checking (enforcement).
 
-:TODO: Is this appropriate at this stage?
 We then investigate adding some
 algebraic type formers to the language.
 This involves the introduction of a rudimentary form
 of pattern matching.
+
+* Recall: The untyped λ-calculus
+
+** Preamble                                    :ignore:
+
+Recall from section 3 of the notes the syntax
+of our untyped λ-calculus, /UL/.
+#+begin_src text
+⟨term⟩ ∷= var | λ var → ⟨term⟩ | ⟨term⟩ ⟨term⟩
+#+end_src
+
+Recall that in this pure untyped λ-calculus,
+everything is a function, and abstractions
+(terms of the form ~λ x → t~) are /values/.
+
+** The call-by-value semantics of the untyped λ-calculus
+
+The call-by-value semantics we described in section 3 of the notes
+can be more succinctly described using inference rules.
+- In fact, we only need three rules.
+
+- Here the arrow ~⟶~ defines a /reduction/ relation,
+  meaning that we may need to perform several ~⟶~ “steps” to fully
+  evaluate a term.
+- The (meta)variables ~t₁~, ~t₂~, etc., range over λ-terms, and
+- the (meta)variables ~v₁~, ~v₂~, etc., range over λ-terms /which are values/.
+#+begin_src text
+  t₁  ⟶  t₁′
+––––––––––––––––––– reduce-appˡ
+ t₁ t₂  ⟶  t₁′ t₂
+
+ 
+  t₂  ⟶  t₂′
+––––––––––––––––––– reduce-Appʳ
+ v₁ t₂  ⟶  v₁ t₂′
+
+
+–––––––––––––––––––––––––––––– apply
+(λ x → t) v  ⟶  t[x ≔ v]
+#+end_src
+
+** Only applications reduce
+
+@@latex:\iffalse@@
+#+begin_src text
+  t₁  ⟶  t₁′                             t₂  ⟶  t₂′                   
+––––––––––––––––––– reduce-appˡ        ––––––––––––––––––– reduce-Appʳ
+ t₁ t₂  ⟶  t₁′ t₂                       v₁ t₂  ⟶  v₁ t₂′              
+
+
+ 
+             –––––––––––––––––––––––––––––– apply
+             (λ x → t) v  ⟶  t[x ≔ v]
+#+end_src
+@@latex:\fi@@
+
+Notice, in the above semantics, that the only rules
+are for applications; remember that
+- variables cannot be reduced, and
+- under call-by-value semantics,
+  - no evaluations take place inside abstractions, and
+  - abstractions are only applied to values.
+
+** Explaining the rules
+
+@@latex:\iffalse@@
+#+begin_src text
+  t₁  ⟶  t₁′                             t₂  ⟶  t₂′                   
+––––––––––––––––––– reduce-appˡ        ––––––––––––––––––– reduce-Appʳ
+ t₁ t₂  ⟶  t₁′ t₂                       v₁ t₂  ⟶  v₁ t₂′              
+
+
+ 
+             –––––––––––––––––––––––––––––– apply
+             (λ x → t) v  ⟶  t[x ≔ v]
+#+end_src
+@@latex:\fi@@
+
+By using our naming conventions, we can see that
+- the ~reduce-appˡ~ rule says that
+  if ~t₁~ is the left side of an application
+  and ~t₁~ reduces to ~t₁′~, then the whole application reduces
+  by replacing ~t₁~ with ~t₁′~,
+- the ~reduce-appʳ~ rule says that
+  if ~t₁~ is the right side of
+  an application /whose left side is a value/,
+  and ~t₂~ reduces to ~t₂′~, then the whole application reduces
+  by replacing ~t₂~ with ~t₂′~, and
+- the ~apply~ rule says that if the left side of an application
+  is an abstraction, and the right side is a value,
+  then the application reduces to the body of the abstraction
+  with the value substituted for the abstraction's variable.
+  
+** Reduction as a function
+
+@@latex:\iffalse@@
+#+begin_src text
+  t₁  ⟶  t₁′                             t₂  ⟶  t₂′                   
+––––––––––––––––––– reduce-appˡ        ––––––––––––––––––– reduce-Appʳ
+ t₁ t₂  ⟶  t₁′ t₂                       v₁ t₂  ⟶  v₁ t₂′              
+
+
+ 
+             –––––––––––––––––––––––––––––– apply
+             (λ x → t) v  ⟶  t[x ≔ v]
+#+end_src
+@@latex:\fi@@
+
+It bears noting that the /reduction relation/ here is,
+by design, /deterministic/; given a λ-term ~t~, either
+- ~t~ can be reduced by exactly /one/ of the rules above, or
+- ~t~ cannot be reduced (is irreducible) (by these semantics.)
+
+A deterministic relation can be expressed as a /function/,
+as the following Scala-like pseudocode shows.
+#+begin_example amm
+def ⟶(t) = t match {
+  case t₁ t₂ if t₁ ⟶ t₁′                 => t₁′ t₂
+  case v₁ t₂ if isValue(v₁) &&  t₂ ⟶ t₂′ => v₁ t₂′
+  case (λ x → t) v if isValue(v)         => t[x ≔ v]
+} 
+#+end_example
+
+** An example of a reduction sequence
+
+#+begin_src text
+  ((λ x → x) (λ y → y)) ((λ z → z) (λ u → u))
+⟶⟨ reduce-appˡ ⟩
+  (λ y → y) ((λ z → z) (λ u → u))
+⟶⟨ reduce-appʳ ⟩
+  (λ y → y) (λ u → u)
+⟶⟨ apply ⟩
+  λ u → u
+#+end_src
+The final term does not reduce.
+
+Note that we can end with terms which do not reduce, but which
+are not values, such as
+#+begin_src text
+(λ x → x) y
+#+end_src
+Since free variables are not values (they are not λ-abstractions),
+this term does not fit any of the reduction rules.
+
+** Encodings of booleans, natural numbers and pairs
+
+Recall the λ-encodings discussed in notes section 3,
+which allow us to represent booleans, natural numbers
+and pairs in the pure untyped λ-calculus.
+#+begin_src text
+tru  = λ t → λ f → t
+fls  = λ t → λ f → f
+test = λ l → λ m → λ n → l m n
+pair = λ f → λ s → λ b → b f s
+fst  = λ p → p tru
+snd  = λ p → p fls
+zero = λ s → λ z → z
+scc  = λ n → λ s → λ z → s (n s z)
+#+end_src
+
+** Enriching the (syntax of the) calculus
+
+While λ-encodings of data in the pure untyped λ-calculus,
+such as those for the booleans, natural numbers and pairs,
+do allow us to construct programs working on any type data
+we might like, it is usually more convenient
+(even in this untyped system)
+to instead /enrich/ the calculus with new primitive terms
+for the types we want to work with.
+
+We will show here how this can be done for booleans.
+The enriched calculus's syntax is then
+#+begin_src text
+⟨term⟩ ∷= var | λ var → ⟨term⟩ | ⟨term⟩ ⟨term⟩
+        | true | false
+        | if ⟨term⟩ then ⟨term⟩ else ⟨term⟩
+#+end_src
+
+** The semantics of the extended calculus
+
+:TODO:
+
 * The simply typed λ-calculus
 
 :TODO:
@@ -62,5 +248,3 @@ of pattern matching.
 * “Simple extensions” to the simply typed λ-calculus
 
 :TODO:
-
-# From the Pierce chapter “Simple Extensions”
