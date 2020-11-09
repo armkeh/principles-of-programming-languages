@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-11-06 Fri 13:32 -->
+<!-- 2020-11-09 Mon 12:34 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Introduction to Clojure</title>
@@ -235,11 +235,17 @@ programs themselves are written as data within the language."
 <ul>
 <li><a href="#Introduction">1. Introduction</a></li>
 <li><a href="#Motivation">2. Motivation</a></li>
-<li><a href="#The-syntax-and-(most-of)-the-semantics-of-Clojure">3. The syntax and (most of) the semantics of Clojure</a></li>
-<li><a href="#Special-forms;-the-~def~-and-~defn~-forms">4. Special forms; the <code>def</code> and <code>defn</code> forms</a></li>
-<li><a href="#The-~quote~,-~'~">5. The <code>quote</code>, <code>'</code></a></li>
-<li><a href="#Conditional-forms">6. Conditional forms</a></li>
-<li><a href="#~do~,-for-sequential-computation">7. <code>do</code>, for sequential computation</a></li>
+<li><a href="#Getting-Clojure">3. Getting Clojure</a></li>
+<li><a href="#The-syntax-and-(most-of)-the-semantics-of-Clojure">4. The syntax and (most of) the semantics of Clojure</a></li>
+<li><a href="#Special-forms;-the-~def~-and-~defn~-forms">5. Special forms; the <code>defn</code>, <code>def</code> and <code>fn</code> forms</a></li>
+<li><a href="#The-~quote~,-~'~">6. The <code>quote</code>, <code>'</code></a></li>
+<li><a href="#Conditional-forms">7. Conditional forms</a></li>
+<li><a href="#~do~,-for-sequential-computation">8. <code>do</code>, for sequential computation</a></li>
+<li><a href="#Side-notes">9. Side notes</a>
+<ul>
+<li><a href="#Partial-application">9.1. Partial application</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -263,8 +269,28 @@ the lecture on November 6th and the following tutorials.
 </div>
 </div>
 
+<div id="outline-container-Getting-Clojure" class="outline-2">
+<h2 id="Getting-Clojure"><span class="section-number-2">3</span> Getting Clojure</h2>
+<div class="outline-text-2" id="text-Getting-Clojure">
+<p>
+For a quick start with Clojure, you can use
+<a href="https://repl.it/languages/clojure">repl.it</a>.
+</p>
+
+<p>
+For instructions on installing Clojure,
+see the Clojure <a href="https://clojure.org/guides/getting_started">getting started guide</a>.
+</p>
+
+<p>
+Specific instructions on versions may come later,
+once a Docker image is decided upon for Clojure.
+</p>
+</div>
+</div>
+
 <div id="outline-container-The-syntax-and-(most-of)-the-semantics-of-Clojure" class="outline-2">
-<h2 id="The-syntax-and-(most-of)-the-semantics-of-Clojure"><span class="section-number-2">3</span> The syntax and (most of) the semantics of Clojure</h2>
+<h2 id="The-syntax-and-(most-of)-the-semantics-of-Clojure"><span class="section-number-2">4</span> The syntax and (most of) the semantics of Clojure</h2>
 <div class="outline-text-2" id="text-The-syntax-and-(most-of)-the-semantics-of-Clojure">
 <p>
 The syntax of Lisps such as Clojure tend to be extremely minimal.
@@ -292,12 +318,21 @@ For example, the following are all Clojure expressions.
 <pre class="src src-clojure">2
 -1
 
+<span style="color: #00bcff;">:symbols</span>
+
 <span style="color: #00cd68;">()</span>
 '<span style="color: #00cd68;">(</span>1 2 3<span style="color: #00cd68;">)</span>
+<span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">quote</span> <span style="color: #b6a0ff;">(</span>1 2 3<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+'<span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">(</span>1 2<span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">(</span>3 4<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
 
 <span style="color: #00cd68;">[</span>1 2 3<span style="color: #00cd68;">]</span>
 <span style="color: #00cd68;">[]</span>
 
+<span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">There are sets as well (unordered collections)</span>
+#<span style="color: #00cd68;">{</span>1 2 3<span style="color: #00cd68;">}</span>
+
+<span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">Maps as well</span>
+<span style="color: #00cd68;">{</span><span style="color: #00bcff;">:key</span> 1, <span style="color: #79a8ff;">"my key"</span> <span style="color: #00bcff;">:a_value</span><span style="color: #00cd68;">}</span>
 </pre>
 </div>
 
@@ -313,19 +348,29 @@ to evaluate a list,
 <li>evaluate each element of the list, and then</li>
 <li>apply the operands to the operator.</li>
 </ol>
+<p>
+By default, Clojure does use call-by-value semantics.
+</p>
 
 <p>
 For instance,
 </p>
 <div class="org-src-container">
-<pre class="src src-clojure"><span style="color: #00cd68;">(</span>+ 1 2<span style="color: #00cd68;">)</span>
+<pre class="src src-clojure"><span style="color: #a8a8a8;">; </span><span style="color: #a8a8a8;">(1 + 2) * max(3,4)</span>
+<span style="color: #00cd68;">(</span>* <span style="color: #b6a0ff;">(</span>+ 1 2<span style="color: #b6a0ff;">)</span>    <span style="color: #a8a8a8;">; (+ 1 2) evaluates to 3</span>
+   <span style="color: #b6a0ff;">(</span>max 4 3<span style="color: #b6a0ff;">)</span>  <span style="color: #a8a8a8;">; (max 4 3) evaluates to 4</span>
+   <span style="color: #00cd68;">)</span>          <span style="color: #a8a8a8;">; (* 3 4) evaluates to 12</span>
+
+<span style="color: #00cd68;">(</span>+ 1 2 3 4
+   5 6 7 8<span style="color: #00cd68;">)</span>
+<span style="color: #00cd68;">(</span>+ 1<span style="color: #00cd68;">)</span>
 </pre>
 </div>
 </div>
 </div>
 
 <div id="outline-container-Special-forms;-the-~def~-and-~defn~-forms" class="outline-2">
-<h2 id="Special-forms;-the-~def~-and-~defn~-forms"><span class="section-number-2">4</span> Special forms; the <code>def</code> and <code>defn</code> forms</h2>
+<h2 id="Special-forms;-the-~def~-and-~defn~-forms"><span class="section-number-2">5</span> Special forms; the <code>defn</code>, <code>def</code> and <code>fn</code> forms</h2>
 <div class="outline-text-2" id="text-Special-forms;-the-~def~-and-~defn~-forms">
 <p>
 When or if the evaluation rules of Clojure given above
@@ -335,7 +380,8 @@ to implement constructs.
 </p>
 
 <p>
-The first of these we will consider 
+The first of these we will consider is the <code>defn</code> form,
+which can be read “define function”.
 </p>
 
 <p>
@@ -353,24 +399,101 @@ and then calls <code>sum_of_squares</code> with arguments <code>2</code> and <co
 <span style="color: #00cd68;">(</span>sum-of-squares 2 3<span style="color: #00cd68;">)</span>
 </pre>
 </div>
+
+<p>
+Functions can be defined as having different arities.
+</p>
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #a8a8a8;">; </span><span style="color: #a8a8a8;">Define them by "brute force" </span>
+<span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">defn</span> <span style="color: #feacd0;">sum-of-squares</span>
+  <span style="color: #b6a0ff;">(</span><span style="color: #6ae4b9;">[</span>x y<span style="color: #6ae4b9;">]</span>   <span style="color: #6ae4b9;">(</span>* <span style="color: #f0ce43;">(</span>square x<span style="color: #f0ce43;">)</span> <span style="color: #f0ce43;">(</span>square y<span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span>
+  <span style="color: #b6a0ff;">(</span><span style="color: #6ae4b9;">[</span>x y z<span style="color: #6ae4b9;">]</span> <span style="color: #6ae4b9;">(</span>* <span style="color: #f0ce43;">(</span>square x<span style="color: #f0ce43;">)</span> <span style="color: #f0ce43;">(</span>square y<span style="color: #f0ce43;">)</span> <span style="color: #f0ce43;">(</span>square z<span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+
+<span style="color: #00cd68;">(</span>sum-of-squares 2 3<span style="color: #00cd68;">)</span>
+<span style="color: #00cd68;">(</span>sum-of-squares 2 3 4<span style="color: #00cd68;">)</span>
+
+<span style="color: #a8a8a8;">; </span><span style="color: #a8a8a8;">Or define a "variadic" function which takes a list of arguments</span>
+<span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">defn</span> <span style="color: #feacd0;">sum-of-squares</span> <span style="color: #b6a0ff;">[</span>x &amp; rest<span style="color: #b6a0ff;">]</span>
+  <span style="color: #b6a0ff;">(</span>* <span style="color: #6ae4b9;">(</span>square x<span style="color: #6ae4b9;">)</span> <span style="color: #a8a8a8;">;; </span><span style="color: #721045;">TODO</span>
+     <span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+
+<span style="color: #00cd68;">(</span>sum-of-squares 2 3 4 5<span style="color: #00cd68;">)</span>
+</pre>
+</div>
+
+<p>
+The <code>defn</code> form can be thought of
+as the combination of the <code>def</code> and <code>fn</code> forms.
+The <code>def</code> form defines named values.
+</p>
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">def</span> <span style="color: #00d3d0;">my-favourite-number</span> 16<span style="color: #00cd68;">)</span>
+</pre>
+</div>
+
+<p>
+The <code>fn</code> form defines <i>anonymous</i> functions.
+</p>
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">(</span><span style="color: #b6a0ff;">fn</span> <span style="color: #6ae4b9;">[</span>x<span style="color: #6ae4b9;">]</span> <span style="color: #6ae4b9;">(</span>+ x 1<span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span> my-favourite-number<span style="color: #00cd68;">)</span>
+</pre>
+</div>
 </div>
 </div>
 
 <div id="outline-container-The-~quote~,-~'~" class="outline-2">
-<h2 id="The-~quote~,-~'~"><span class="section-number-2">5</span> The <code>quote</code>, <code>'</code></h2>
+<h2 id="The-~quote~,-~'~"><span class="section-number-2">6</span> The <code>quote</code>, <code>'</code></h2>
 <div class="outline-text-2" id="text-The-~quote~,-~'~">
+<p>
+Another special form is <code>quote</code>, which is used
+when you want to interpret a list as <i>data</i> instead
+of as a function invokation.
+</p>
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #a8a8a8;">; </span><span style="color: #a8a8a8;">call function +</span>
+<span style="color: #00cd68;">(</span>+ 1 2 3<span style="color: #00cd68;">)</span>
+
+<span style="color: #a8a8a8;">; </span><span style="color: #a8a8a8;">create a list</span>
+<span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">quote</span> <span style="color: #b6a0ff;">(</span>+ 1 2 3<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+
+<span style="color: #a8a8a8;">; </span><span style="color: #a8a8a8;">syntactic sugar</span>
+'<span style="color: #00cd68;">(</span>+ 1 2 3<span style="color: #00cd68;">)</span>
+</pre>
+</div>
 </div>
 </div>
 
 <div id="outline-container-Conditional-forms" class="outline-2">
-<h2 id="Conditional-forms"><span class="section-number-2">6</span> Conditional forms</h2>
+<h2 id="Conditional-forms"><span class="section-number-2">7</span> Conditional forms</h2>
 <div class="outline-text-2" id="text-Conditional-forms">
 </div>
 </div>
 
 <div id="outline-container-~do~,-for-sequential-computation" class="outline-2">
-<h2 id="~do~,-for-sequential-computation"><span class="section-number-2">7</span> <code>do</code>, for sequential computation</h2>
+<h2 id="~do~,-for-sequential-computation"><span class="section-number-2">8</span> <code>do</code>, for sequential computation</h2>
 <div class="outline-text-2" id="text-~do~,-for-sequential-computation">
+</div>
+</div>
+
+
+<div id="outline-container-Side-notes" class="outline-2">
+<h2 id="Side-notes"><span class="section-number-2">9</span> Side notes</h2>
+<div class="outline-text-2" id="text-Side-notes">
+</div>
+
+<div id="outline-container-Partial-application" class="outline-3">
+<h3 id="Partial-application"><span class="section-number-3">9.1</span> Partial application</h3>
+<div class="outline-text-3" id="text-Partial-application">
+<p>
+Partial application would be implemented as
+a function returning a function,
+and invokation of such a function would look like
+</p>
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">(</span>f 3<span style="color: #b6a0ff;">)</span> 2<span style="color: #00cd68;">)</span>
+</pre>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -378,7 +501,7 @@ and then calls <code>sum_of_squares</code> with arguments <code>2</code> and <co
 <p class="author">Author: Mark Armstrong</p>
      <p class="author">Contact: <a href="mailto:markparmstrong@gmail.com">markparmstrong@gmail.com</a></p>
      <p class="date">Original date: </p>
-     <p class="date">Last updated: 2020-11-06 Fri 13:32</p>
+     <p class="date">Last updated: 2020-11-09 Mon 12:32</p>
      <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4)</p>
      <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

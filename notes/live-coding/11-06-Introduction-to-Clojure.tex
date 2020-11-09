@@ -1,4 +1,4 @@
-% Created 2020-11-06 Fri 13:32
+% Created 2020-11-09 Mon 12:34
 % Intended LaTeX compiler: lualatex
 \documentclass[11pt]{article}
 \usepackage{graphicx}
@@ -43,16 +43,27 @@
 
 
 \section{Introduction}
-\label{sec:org0fe2fbc}
+\label{sec:org47d5093}
 These notes were created for, and in some parts \textbf{during},
 the lecture on November 6th and the following tutorials.
 
 \section{Motivation}
-\label{sec:orgccdfea6}
+\label{sec:orgd8a8b66}
 :TODO:
 
+\section{Getting Clojure}
+\label{sec:orgbfbff03}
+For a quick start with Clojure, you can use
+\href{https://repl.it/languages/clojure}{repl.it}.
+
+For instructions on installing Clojure,
+see the Clojure \href{https://clojure.org/guides/getting\_started}{getting started guide}.
+
+Specific instructions on versions may come later,
+once a Docker image is decided upon for Clojure.
+
 \section{The syntax and (most of) the semantics of Clojure}
-\label{sec:org1f9aa5e}
+\label{sec:org60cbe95}
 The syntax of Lisps such as Clojure tend to be extremely minimal.
 For today at least, we will work with a subset of the language
 described by the following grammar, which is sufficient
@@ -74,12 +85,21 @@ For example, the following are all Clojure expressions.
 2
 -1
 
+:symbols
+
 ()
 '(1 2 3)
+(quote (1 2 3))
+'((1 2) (3 4))
 
 [1 2 3]
 []
 
+;; There are sets as well (unordered collections)
+#{1 2 3}
+
+;; Maps as well
+{:key 1, "my key" :a_value}
 \end{minted}
 
 Clojure programs are written as lists,
@@ -92,20 +112,29 @@ to evaluate a list,
 \item evaluate each element of the list, and then
 \item apply the operands to the operator.
 \end{enumerate}
+By default, Clojure does use call-by-value semantics.
 
 For instance,
 \begin{minted}[breaklines=true]{clojure}
-(+ 1 2)
+; (1 + 2) * max(3,4)
+(* (+ 1 2)    ; (+ 1 2) evaluates to 3
+   (max 4 3)  ; (max 4 3) evaluates to 4
+   )          ; (* 3 4) evaluates to 12
+
+(+ 1 2 3 4
+   5 6 7 8)
+(+ 1)
 \end{minted}
 
-\section{Special forms; the \texttt{def} and \texttt{defn} forms}
-\label{sec:org56cf162}
+\section{Special forms; the \texttt{defn}, \texttt{def} and \texttt{fn} forms}
+\label{sec:orgfca6343}
 When or if the evaluation rules of Clojure given above
 prove too limiting, Clojure allows for “special forms”
 (pieces of syntax handled differently by the compiler)
 to implement constructs.
 
-The first of these we will consider 
+The first of these we will consider is the \texttt{defn} form,
+which can be read “define function”.
 
 For instance, here is code which defines two methods,
 called \texttt{square} and \texttt{sum\_of\_squares},
@@ -120,12 +149,67 @@ and then calls \texttt{sum\_of\_squares} with arguments \texttt{2} and \texttt{3
 (sum-of-squares 2 3)
 \end{minted}
 
+Functions can be defined as having different arities.
+\begin{minted}[breaklines=true]{clojure}
+; Define them by "brute force" 
+(defn sum-of-squares
+  ([x y]   (* (square x) (square y)))
+  ([x y z] (* (square x) (square y) (square z))))
+
+(sum-of-squares 2 3)
+(sum-of-squares 2 3 4)
+
+; Or define a "variadic" function which takes a list of arguments
+(defn sum-of-squares [x & rest]
+  (* (square x) ;; TODO
+     ))
+
+(sum-of-squares 2 3 4 5)
+\end{minted}
+
+The \texttt{defn} form can be thought of
+as the combination of the \texttt{def} and \texttt{fn} forms.
+The \texttt{def} form defines named values.
+\begin{minted}[breaklines=true]{clojure}
+(def my-favourite-number 16)
+\end{minted}
+
+The \texttt{fn} form defines \emph{anonymous} functions.
+\begin{minted}[breaklines=true]{clojure}
+((fn [x] (+ x 1)) my-favourite-number)
+\end{minted}
+
 \section{The \texttt{quote}, \texttt{'}}
-\label{sec:orge70f9b5}
+\label{sec:orgee23a52}
+Another special form is \texttt{quote}, which is used
+when you want to interpret a list as \emph{data} instead
+of as a function invokation.
+\begin{minted}[breaklines=true]{clojure}
+; call function +
+(+ 1 2 3)
+
+; create a list
+(quote (+ 1 2 3))
+
+; syntactic sugar
+'(+ 1 2 3)
+\end{minted}
 
 \section{Conditional forms}
-\label{sec:org1760a3e}
+\label{sec:org6809333}
 
 \section{\texttt{do}, for sequential computation}
-\label{sec:orgac39450}
+\label{sec:orgd290249}
+
+
+\section{Side notes}
+\label{sec:orgebcde90}
+\subsection{Partial application}
+\label{sec:org50981b3}
+Partial application would be implemented as
+a function returning a function,
+and invokation of such a function would look like
+\begin{minted}[breaklines=true]{clojure}
+((f 3) 2)
+\end{minted}
 \end{document}
