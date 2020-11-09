@@ -12,6 +12,21 @@ better viewed at
 
 ## November
 
+  - November 9th
+    
+      - Assignment 2's due date has now been shifted to November 25th.
+        Testing and more detailed instructions should be released by the
+        end of day today.
+    
+      - There will not be a homework released for this week (i.e., the
+        homework that was to be released Friday, November 6th has been
+        cancelled.)
+        
+        The remaining homeworks will all be shifted down by 1, so
+        homework 8 is released this Friday, homework 9 the following,
+        and homework 10 the week after that. This does mean there are
+        now 10 homeworks instead of 11.
+
   - November 6th
     
       - A significant error in the homework 7 tests sample output was
@@ -912,14 +927,14 @@ plaintext](./homework/h4.org)
 
 # Assignments
 
-## Assignment 2 – Typing a λ-calculus – Oct 30th to ???.
+## Assignment 2 – Typing a λ-calculus – Oct 30th to Nov 26
 
   - [HTML](./assignments/a2.html)
   - [PDF](./assignments/a2.pdf)
   - [Org
 plaintext](./assignments/a2.org)
 
-## Assignment 1 – Interpreting simple integer expressions – Sept 26th to Oct 21st.
+## Assignment 1 – Interpreting simple integer expressions – Sept 26th to Oct 21st
 
   - [HTML](./assignments/a1.html)
   - [PDF](./assignments/a1.pdf)

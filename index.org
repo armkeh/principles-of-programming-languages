@@ -18,6 +18,20 @@
 :CUSTOM_ID: November
 :END:
 
+- November 9th ::
+
+  - Assignment 2's due date has now been shifted to November 25th.
+    Testing and more detailed instructions should be released by
+    the end of day today.
+  - There will not be a homework released for this week
+    (i.e., the homework that was to be released Friday, November 6th
+    has been cancelled.)
+    
+    The remaining homeworks will all be shifted down by 1,
+    so homework 8 is released this Friday, homework 9 the following,
+    and homework 10 the week after that.
+    This does mean there are now 10 homeworks instead of 11.
+
 - November 6th ::
 
   - A significant error in the homework 7 tests sample output
@@ -963,7 +977,7 @@ Note the due date: the Sunday following reading week.
 :CUSTOM_ID: Assignments
 :END:
 
-** Assignment 2 – Typing a λ-calculus – Oct 30th to ???.
+** Assignment 2 – Typing a λ-calculus – Oct 30th to Nov 26
 :PROPERTIES:
 :CUSTOM_ID: Assignment-1-–-Interpreting-simple-integer-expressions-–-Sept-26th-to-Oct-21st.
 :END:
@@ -972,9 +986,9 @@ Note the due date: the Sunday following reading week.
 - [[./assignments/a2.pdf][PDF]]
 - [[./assignments/a2.org][Org plaintext]]
 
-** Assignment 1 – Interpreting simple integer expressions – Sept 26th to Oct 21st.
+** Assignment 1 – Interpreting simple integer expressions – Sept 26th to Oct 21st
 :PROPERTIES:
-:CUSTOM_ID: Assignment-1-–-Interpreting-simple-integer-expressions-–-Sept-26th-to-Oct-21st.
+:CUSTOM_ID: Assignment-1-–-Interpreting-simple-integer-expressions-–-Sept-26th-to-Oct-21st
 :END:
 
 - [[./assignments/a1.html][HTML]]
