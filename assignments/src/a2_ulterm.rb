@@ -77,6 +77,8 @@ class ULVar < ULTerm
   def to_s
     @index.to_s
   end
+
+  def ==(r); r.is_a?(ULVar) && r.index == @index end
 end
 
 class ULAbs < ULTerm
@@ -104,6 +106,8 @@ class ULAbs < ULTerm
   def to_s
     "lambda . " + @t.to_s
   end
+
+  def ==(r); r.is_a?(ULAbs) && r.t == @t end
 end
 
 class ULApp < ULTerm
@@ -148,4 +152,6 @@ class ULApp < ULTerm
   def to_s
     "(" + @t1.to_s + ") (" + @t2.to_s + ")" 
   end
+
+  def ==(r); r.is_a?(ULApp) && r.t1 == @t1 && r.t2 == @t2 end
 end

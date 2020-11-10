@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-11-07 Sat 13:08 -->
+<!-- 2020-11-10 Tue 15:54 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Computer Science 3MI3 – 2020 assignment 2</title>
@@ -238,6 +238,7 @@
 <li><a href="#Introduction">Introduction</a></li>
 <li><a href="#Updates-and-file-history">Updates and file history</a>
 <ul>
+<li><a href="#November-10th">November 10th</a></li>
 <li><a href="#November-6th">November 6th</a></li>
 <li><a href="#November-5th">November 5th</a></li>
 <li><a href="#November-1st">November 1st</a></li>
@@ -249,7 +250,7 @@
 <li><a href="#Submission-procedures">Documentation</a></li>
 <li><a href="#Submission-procedures">Submission procedures</a>
 <ul>
-<li><a href="#orgd2d4d02">Assignment naming requirements</a></li>
+<li><a href="#org5f75fe6">Assignment naming requirements</a></li>
 </ul>
 </li>
 <li><a href="#Proper-conduct-for-coursework">Proper conduct for coursework</a></li>
@@ -270,7 +271,18 @@
 <li><a href="#Part-4-–-Bonus:-Interpreting-/SL/-programs---------------------[10 marks]">Part 4 – Bonus: Interpreting <i>SL</i> programs                     [10 marks]</a></li>
 <li><a href="#Part-5-–-Bonus:-pairs----------------------------------------[10 bonus marks]">Part 5 – Bonus: pairs                                        [10 bonus marks]</a></li>
 <li><a href="#Submission-checklist">Submission checklist</a></li>
-<li><a href="#Testing">Testing</a></li>
+<li><a href="#Testing">Testing</a>
+<ul>
+<li><a href="#Automated-testing-via-Docker">Automated testing via Docker</a></li>
+<li><a href="#The-tests">The tests</a>
+<ul>
+<li><a href="#Scala">Scala</a></li>
+<li><a href="#Ruby">Ruby</a></li>
+</ul>
+</li>
+<li><a href="#The-Docker-setup">The Docker setup</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -290,6 +302,27 @@ simple translator to simplify terms to untyped λ-calculus terms.
 <div id="outline-container-Updates-and-file-history" class="outline-2">
 <h2 id="Updates-and-file-history">Updates and file history</h2>
 <div class="outline-text-2" id="text-Updates-and-file-history">
+</div>
+
+<div id="outline-container-November-10th" class="outline-3">
+<h3 id="November-10th">November 10th</h3>
+<div class="outline-text-3" id="text-November-10th">
+<ul class="org-ul">
+<li>The testing section has been completed.</li>
+<li>The subclasses of the <code>ULTerm</code> class in Ruby have had
+a <code>==</code> method added to them. This method
+is necessary for the testing of Part 3,
+and you will need to copy its definitions or
+re-download the <a href="./src/a2_ulterm.rb"><code>a2_ulterm.rb</code></a> file.</li>
+<li>Notes about the means of implementing type checking have been added.</li>
+<li>The names of the types for natural numbers and booleans
+in the <i>ST</i> language have been shortened, to <code>nat</code> and <code>bool</code>.
+<ul class="org-ul">
+<li>Classes to represent these types in both Scala and Ruby
+have also been provided.</li>
+</ul></li>
+</ul>
+</div>
 </div>
 
 <div id="outline-container-November-6th" class="outline-3">
@@ -433,9 +466,9 @@ apply to assignments, except for the differences below.
 </p>
 </div>
 
-<div id="outline-container-orgd2d4d02" class="outline-4">
-<h4 id="orgd2d4d02">Assignment naming requirements</h4>
-<div class="outline-text-4" id="text-orgd2d4d02">
+<div id="outline-container-org5f75fe6" class="outline-4">
+<h4 id="org5f75fe6">Assignment naming requirements</h4>
+<div class="outline-text-4" id="text-org5f75fe6">
 <p>
 Place all files for the assignment
 inside a folder titled <code>an</code>, where <code>n</code> is the number of the assignment.
@@ -499,8 +532,8 @@ terms <code>zero</code>, <code>suc</code>, <code>iszero</code>, <code>tt</code>,
              | test <span style="color: #00cd68;">&#10216;</span>typedterm<span style="color: #00cd68;">&#10217;</span> <span style="color: #00cd68;">&#10216;</span>typedterm<span style="color: #00cd68;">&#10217;</span> <span style="color: #00cd68;">&#10216;</span>typedterm<span style="color: #00cd68;">&#10217;</span>
 
 <span style="color: #00cd68;">&#10216;</span>type<span style="color: #00cd68;">&#10217;</span> &#8759;= <span style="color: #00cd68;">&#10216;</span>type<span style="color: #00cd68;">&#10217;</span> &#8594; <span style="color: #00cd68;">&#10216;</span>type<span style="color: #00cd68;">&#10217;</span>
-        | natural
-        | boolean
+        | nat
+        | bool
 </pre>
 </div>
 
@@ -549,23 +582,23 @@ The remaining rules give the typings for the constants and
 function terms added to this language.
 </p>
 <div class="org-src-container">
-<pre class="src src-text">                                       &#915; &#8866; t : natural
-&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; T-zero      &#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; T-suc
- &#915; &#8866; zero : natural                  &#915; &#8866; suc t : natural
+<pre class="src src-text">                                   &#915; &#8866; t : nat
+&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; T-zero      &#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; T-suc
+ &#915; &#8866; zero : nat                  &#915; &#8866; suc t : nat
                             
                             
-                            
-&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; T-true    &#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; T-false
- &#915; &#8866; true : boolean               &#915; &#8866; false : boolean
+                         
+&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; T-true    &#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; T-false
+ &#915; &#8866; true : bool               &#915; &#8866; false : bool
 
 
-    &#915; &#8866; t : natural
-&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; T-iszero
- &#915; &#8866; iszero t : boolean 
+    &#915; &#8866; t : nat
+&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; T-iszero
+ &#915; &#8866; iszero t : bool 
 
 
- &#915; &#8866; b : boolean    &#915; &#8866; t&#8321; : A    &#915; &#8866; t&#8322; : A
-&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; T-test
+ &#915; &#8866; b : bool    &#915; &#8866; t&#8321; : A    &#915; &#8866; t&#8322; : A
+&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; T-test
             &#915; &#8866; test b t&#8321; t&#8322; : A
 </pre>
 </div>
@@ -620,14 +653,14 @@ overrides of the <code>toString</code> method, which improve the appearance
 of these terms when they are converted to strings.
 </p>
 <div class="org-src-container">
-<pre class="src src-amm"><span style="color: #f78fe7;">sealed</span> <span style="color: #b6a0ff;">trait</span> <span style="color: #f78fe7;">ULTerm</span>
-<span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">ULVar</span><span style="color: #00cd68;">(</span>index<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Int</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">ULTerm</span> <span style="color: #00cd68;">{</span>
+<pre class="src src-amm"><span style="color: #f78fe7;">sealed</span> <span style="color: #b6a0ff;">trait</span> <span style="color: #6ae4b9;">ULTerm</span>
+<span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #6ae4b9;">ULVar</span><span style="color: #00cd68;">(</span>index<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">Int</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #6ae4b9;">ULTerm</span> <span style="color: #00cd68;">{</span>
   <span style="color: #f78fe7;">override</span> <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">toString</span><span style="color: #b6a0ff;">()</span> <span style="color: #b6a0ff;">=</span> index.toString<span style="color: #b6a0ff;">()</span>
 <span style="color: #00cd68;">}</span>
-<span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">ULAbs</span><span style="color: #00cd68;">(</span>t<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">ULTerm</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">ULTerm</span> <span style="color: #00cd68;">{</span>
+<span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #6ae4b9;">ULAbs</span><span style="color: #00cd68;">(</span>t<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">ULTerm</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #6ae4b9;">ULTerm</span> <span style="color: #00cd68;">{</span>
   <span style="color: #f78fe7;">override</span> <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">toString</span><span style="color: #b6a0ff;">()</span> <span style="color: #b6a0ff;">=</span> <span style="color: #79a8ff;">"lambda . "</span> + t.toString<span style="color: #b6a0ff;">()</span>
 <span style="color: #00cd68;">}</span>
-<span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">ULApp</span><span style="color: #00cd68;">(</span>t1<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">ULTerm</span>, t2<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">ULTerm</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #f78fe7;">ULTerm</span> <span style="color: #00cd68;">{</span>
+<span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #6ae4b9;">ULApp</span><span style="color: #00cd68;">(</span>t1<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">ULTerm</span>, t2<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">ULTerm</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #6ae4b9;">ULTerm</span> <span style="color: #00cd68;">{</span>
   <span style="color: #f78fe7;">override</span> <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">toString</span><span style="color: #b6a0ff;">()</span> <span style="color: #b6a0ff;">=</span> <span style="color: #79a8ff;">"("</span> + t1.toString<span style="color: #b6a0ff;">()</span> + <span style="color: #79a8ff;">") ("</span> + t2.toString<span style="color: #b6a0ff;">()</span> + <span style="color: #79a8ff;">")"</span>
 <span style="color: #00cd68;">}</span>
 </pre>
@@ -648,23 +681,23 @@ if their index is greater than the number of enclosing binders.
 </p>
 <div class="org-src-container">
 <pre class="src src-amm"><span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Shift the numbering of unbound variables</span>
-<span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">shift</span><span style="color: #00cd68;">(</span>shiftAmount<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Int</span>, t<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">ULTerm</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">ULTerm</span> <span style="color: #b6a0ff;">=</span> <span style="color: #00cd68;">{</span>
+<span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">shift</span><span style="color: #00cd68;">(</span>shiftAmount<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">Int</span>, t<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">ULTerm</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">ULTerm</span> <span style="color: #b6a0ff;">=</span> <span style="color: #00cd68;">{</span>
   <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Walk through the term and shift all variables with index</span>
   <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">greater than or equal to c, which is maintained to be</span>
   <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">the number of variable binders (abstractions) outside the current subterm.</span>
-  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">walk</span><span style="color: #b6a0ff;">(</span>currentBinders<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Int</span>, t<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">ULTerm</span><span style="color: #b6a0ff;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">ULTerm</span> <span style="color: #b6a0ff;">=</span> t <span style="color: #b6a0ff;">match</span> <span style="color: #b6a0ff;">{</span>
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">walk</span><span style="color: #b6a0ff;">(</span>currentBinders<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">Int</span>, t<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">ULTerm</span><span style="color: #b6a0ff;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">ULTerm</span> <span style="color: #b6a0ff;">=</span> t <span style="color: #b6a0ff;">match</span> <span style="color: #b6a0ff;">{</span>
     <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Check if x is a free variable; that is,</span>
     <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">if the number x is greater than or equal to</span>
     <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">the number of variable binders encountered outside this subterm.</span>
-    <span style="color: #b6a0ff;">case</span> <span style="color: #f78fe7;">ULVar</span><span style="color: #6ae4b9;">(</span><span style="color: #00d3d0;">x</span><span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">if</span> <span style="color: #6ae4b9;">(</span>x &gt;= currentBinders<span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">ULVar</span><span style="color: #6ae4b9;">(</span>x+shiftAmount<span style="color: #6ae4b9;">)</span>
-    <span style="color: #b6a0ff;">case</span> <span style="color: #f78fe7;">ULVar</span><span style="color: #6ae4b9;">(</span><span style="color: #00d3d0;">x</span><span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">ULVar</span><span style="color: #6ae4b9;">(</span>x<span style="color: #6ae4b9;">)</span>
+    <span style="color: #b6a0ff;">case</span> <span style="color: #6ae4b9;">ULVar</span><span style="color: #6ae4b9;">(</span><span style="color: #00d3d0;">x</span><span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">if</span> <span style="color: #6ae4b9;">(</span>x &gt;= currentBinders<span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">ULVar</span><span style="color: #6ae4b9;">(</span>x+shiftAmount<span style="color: #6ae4b9;">)</span>
+    <span style="color: #b6a0ff;">case</span> <span style="color: #6ae4b9;">ULVar</span><span style="color: #6ae4b9;">(</span><span style="color: #00d3d0;">x</span><span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">ULVar</span><span style="color: #6ae4b9;">(</span>x<span style="color: #6ae4b9;">)</span>
 
-    <span style="color: #b6a0ff;">case</span> <span style="color: #f78fe7;">ULAbs</span><span style="color: #6ae4b9;">(</span><span style="color: #00d3d0;">t</span><span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">=&gt;</span>
+    <span style="color: #b6a0ff;">case</span> <span style="color: #6ae4b9;">ULAbs</span><span style="color: #6ae4b9;">(</span><span style="color: #00d3d0;">t</span><span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">=&gt;</span>
       <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">We now have one more variable binder outside the subterm.</span>
       <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Increment currentBinders and walk into the subterm.</span>
       <span style="color: #00bcff;">ULAbs</span><span style="color: #6ae4b9;">(</span>walk<span style="color: #f0ce43;">(</span>currentBinders+<span style="color: #00bcff;">1</span>, t<span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>
 
-    <span style="color: #b6a0ff;">case</span> <span style="color: #f78fe7;">ULApp</span><span style="color: #6ae4b9;">(</span><span style="color: #00d3d0;">t1</span>,<span style="color: #00d3d0;">t2</span><span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">=&gt;</span>
+    <span style="color: #b6a0ff;">case</span> <span style="color: #6ae4b9;">ULApp</span><span style="color: #6ae4b9;">(</span><span style="color: #00d3d0;">t1</span>,<span style="color: #00d3d0;">t2</span><span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">=&gt;</span>
       <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">No new variable binders. Just walk into the subterms.</span>
       <span style="color: #00bcff;">ULApp</span><span style="color: #6ae4b9;">(</span>walk<span style="color: #f0ce43;">(</span>currentBinders,t1<span style="color: #f0ce43;">)</span>,walk<span style="color: #f0ce43;">(</span>currentBinders,t2<span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>
   <span style="color: #b6a0ff;">}</span>
@@ -687,29 +720,29 @@ the number of variable binders we enter.
 <div class="org-src-container">
 <pre class="src src-amm"><span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">In our usual syntax, we would write substitution as `t[x := r]`.</span>
 <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Here we write `substitute(t,x,r)`.</span>
-<span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">substitute</span><span style="color: #00cd68;">(</span>t<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">ULTerm</span>, x<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Int</span>, r<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">ULTerm</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">ULTerm</span> <span style="color: #b6a0ff;">=</span> <span style="color: #00cd68;">{</span>
+<span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">substitute</span><span style="color: #00cd68;">(</span>t<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">ULTerm</span>, x<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">Int</span>, r<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">ULTerm</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">ULTerm</span> <span style="color: #b6a0ff;">=</span> <span style="color: #00cd68;">{</span>
   <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">We want to substitute for the free variable with number x.</span>
   <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Inside a variable binder (abstraction),</span>
   <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">the index of all free variables is shifted up by 1.</span>
   <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">So we must keep track of the number of binders outside the current subterm.</span>
-  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">walk</span><span style="color: #b6a0ff;">(</span>currentBinders<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Int</span>, t<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">ULTerm</span><span style="color: #b6a0ff;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">ULTerm</span> <span style="color: #b6a0ff;">=</span> t <span style="color: #b6a0ff;">match</span> <span style="color: #b6a0ff;">{</span>
-    <span style="color: #b6a0ff;">case</span> <span style="color: #f78fe7;">ULVar</span><span style="color: #6ae4b9;">(</span><span style="color: #00d3d0;">y</span><span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">if</span> y == x + currentBinders <span style="color: #b6a0ff;">=&gt;</span>
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">walk</span><span style="color: #b6a0ff;">(</span>currentBinders<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">Int</span>, t<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">ULTerm</span><span style="color: #b6a0ff;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">ULTerm</span> <span style="color: #b6a0ff;">=</span> t <span style="color: #b6a0ff;">match</span> <span style="color: #b6a0ff;">{</span>
+    <span style="color: #b6a0ff;">case</span> <span style="color: #6ae4b9;">ULVar</span><span style="color: #6ae4b9;">(</span><span style="color: #00d3d0;">y</span><span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">if</span> y == x + currentBinders <span style="color: #b6a0ff;">=&gt;</span>
       <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">y is the xth free variable. Substitute for it,</span>
       <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">making sure to shift the free variables in r</span>
       <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">to account for the number of variable binders outside this subterm.</span>
       shift<span style="color: #6ae4b9;">(</span>currentBinders,r<span style="color: #6ae4b9;">)</span>
     
-    <span style="color: #b6a0ff;">case</span> <span style="color: #f78fe7;">ULVar</span><span style="color: #6ae4b9;">(</span><span style="color: #00d3d0;">y</span><span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">=&gt;</span>
+    <span style="color: #b6a0ff;">case</span> <span style="color: #6ae4b9;">ULVar</span><span style="color: #6ae4b9;">(</span><span style="color: #00d3d0;">y</span><span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">=&gt;</span>
       <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Otherwise, y is not the xth free variable;</span>
       <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">leave it as is.</span>
       <span style="color: #00bcff;">ULVar</span><span style="color: #6ae4b9;">(</span>y<span style="color: #6ae4b9;">)</span>
     
-    <span style="color: #b6a0ff;">case</span> <span style="color: #f78fe7;">ULAbs</span><span style="color: #6ae4b9;">(</span><span style="color: #00d3d0;">t</span><span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">=&gt;</span>
+    <span style="color: #b6a0ff;">case</span> <span style="color: #6ae4b9;">ULAbs</span><span style="color: #6ae4b9;">(</span><span style="color: #00d3d0;">t</span><span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">=&gt;</span>
       <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">We now have one more variable binder outside the subterm.</span>
       <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Increment currentBinders and walk into the subterm.</span>
       <span style="color: #00bcff;">ULAbs</span><span style="color: #6ae4b9;">(</span>walk<span style="color: #f0ce43;">(</span>currentBinders+<span style="color: #00bcff;">1</span>,t<span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>
 
-    <span style="color: #b6a0ff;">case</span> <span style="color: #f78fe7;">ULApp</span><span style="color: #6ae4b9;">(</span><span style="color: #00d3d0;">t1</span>,<span style="color: #00d3d0;">t2</span><span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">=&gt;</span>
+    <span style="color: #b6a0ff;">case</span> <span style="color: #6ae4b9;">ULApp</span><span style="color: #6ae4b9;">(</span><span style="color: #00d3d0;">t1</span>,<span style="color: #00d3d0;">t2</span><span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">=&gt;</span>
       <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">No new variable binders. Just walk into the subterms.</span>
       <span style="color: #00bcff;">ULApp</span><span style="color: #6ae4b9;">(</span>walk<span style="color: #f0ce43;">(</span>currentBinders,t1<span style="color: #f0ce43;">)</span>,walk<span style="color: #f0ce43;">(</span>currentBinders,t2<span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>
   <span style="color: #b6a0ff;">}</span>
@@ -727,8 +760,8 @@ We need to check if terms are values for call-by-value semantics.
 <div class="org-src-container">
 <pre class="src src-amm"><span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">We need to know if a term is a value during reduction</span>
 <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">when using call-by-value semantics.</span>
-<span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">isValue</span><span style="color: #00cd68;">(</span>t<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">ULTerm</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Boolean</span> <span style="color: #b6a0ff;">=</span> t <span style="color: #b6a0ff;">match</span> <span style="color: #00cd68;">{</span>
-  <span style="color: #b6a0ff;">case</span> <span style="color: #f78fe7;">ULAbs</span><span style="color: #b6a0ff;">(</span><span style="color: #b6a0ff;">_</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">true</span>
+<span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">isValue</span><span style="color: #00cd68;">(</span>t<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">ULTerm</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">Boolean</span> <span style="color: #b6a0ff;">=</span> t <span style="color: #b6a0ff;">match</span> <span style="color: #00cd68;">{</span>
+  <span style="color: #b6a0ff;">case</span> <span style="color: #6ae4b9;">ULAbs</span><span style="color: #b6a0ff;">(</span><span style="color: #b6a0ff;">_</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">true</span>
   <span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">_</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">false</span>
 <span style="color: #00cd68;">}</span>
 </pre>
@@ -744,11 +777,11 @@ we might have an infinite reduction sequence.)
 <pre class="src src-amm"><span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Call-by-value reduction function.</span>
 <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Performs one step of evaluation, if possible according to the call-by-value rules.</span>
 <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">If no reduction is possible, returns None.</span>
-<span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">reduce</span><span style="color: #00cd68;">(</span>t<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">ULTerm</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">Option</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">ULTerm</span><span style="color: #00cd68;">]</span> <span style="color: #b6a0ff;">=</span> t <span style="color: #b6a0ff;">match</span> <span style="color: #00cd68;">{</span>
+<span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">reduce</span><span style="color: #00cd68;">(</span>t<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">ULTerm</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">Option</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">ULTerm</span><span style="color: #00cd68;">]</span> <span style="color: #b6a0ff;">=</span> t <span style="color: #b6a0ff;">match</span> <span style="color: #00cd68;">{</span>
 
   <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Case: the left term is an abstraction, and the right is a value.</span>
   <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Then apply the value to the abstraction.</span>
-  <span style="color: #b6a0ff;">case</span> <span style="color: #f78fe7;">ULApp</span><span style="color: #b6a0ff;">(</span><span style="color: #f78fe7;">ULAbs</span><span style="color: #6ae4b9;">(</span><span style="color: #00d3d0;">t</span><span style="color: #6ae4b9;">)</span>,<span style="color: #00d3d0;">v</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">if</span> isValue<span style="color: #b6a0ff;">(</span>v<span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">=&gt;</span>
+  <span style="color: #b6a0ff;">case</span> <span style="color: #6ae4b9;">ULApp</span><span style="color: #b6a0ff;">(</span><span style="color: #6ae4b9;">ULAbs</span><span style="color: #6ae4b9;">(</span><span style="color: #00d3d0;">t</span><span style="color: #6ae4b9;">)</span>,<span style="color: #00d3d0;">v</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">if</span> isValue<span style="color: #b6a0ff;">(</span>v<span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">=&gt;</span>
     <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">When we apply the value to the abstraction,</span>
     <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">we must shift the value's free variables up by 1 to account</span>
     <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">for the abstraction's variable binder.</span>
@@ -758,17 +791,17 @@ we might have an infinite reduction sequence.)
     <span style="color: #00bcff;">Some</span><span style="color: #b6a0ff;">(</span>shift<span style="color: #6ae4b9;">(</span><span style="color: #00bcff;">-1</span>,r<span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span>
 
   <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Case: the left term is a value, then try to reduce the right term.</span>
-  <span style="color: #b6a0ff;">case</span> <span style="color: #f78fe7;">ULApp</span><span style="color: #b6a0ff;">(</span><span style="color: #00d3d0;">v</span>,<span style="color: #00d3d0;">t</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">if</span> isValue<span style="color: #b6a0ff;">(</span>v<span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">=&gt;</span>
+  <span style="color: #b6a0ff;">case</span> <span style="color: #6ae4b9;">ULApp</span><span style="color: #b6a0ff;">(</span><span style="color: #00d3d0;">v</span>,<span style="color: #00d3d0;">t</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">if</span> isValue<span style="color: #b6a0ff;">(</span>v<span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">=&gt;</span>
     reduce<span style="color: #b6a0ff;">(</span>t<span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">match</span> <span style="color: #b6a0ff;">{</span>
-      <span style="color: #b6a0ff;">case</span> <span style="color: #f78fe7;">Some</span><span style="color: #6ae4b9;">(</span><span style="color: #00d3d0;">r</span><span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">Some</span><span style="color: #6ae4b9;">(</span><span style="color: #00bcff;">ULApp</span><span style="color: #f0ce43;">(</span>v,r<span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>
+      <span style="color: #b6a0ff;">case</span> <span style="color: #6ae4b9;">Some</span><span style="color: #6ae4b9;">(</span><span style="color: #00d3d0;">r</span><span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">Some</span><span style="color: #6ae4b9;">(</span><span style="color: #00bcff;">ULApp</span><span style="color: #f0ce43;">(</span>v,r<span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>
       <span style="color: #b6a0ff;">case</span> <span style="color: #00bcff;">None</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">None</span>
     <span style="color: #b6a0ff;">}</span>
 
   <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Case: the left term is not a value (not an abstraction.)</span>
   <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Try to reduce it.</span>
-  <span style="color: #b6a0ff;">case</span> <span style="color: #f78fe7;">ULApp</span><span style="color: #b6a0ff;">(</span><span style="color: #00d3d0;">t1</span>,<span style="color: #00d3d0;">t2</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">=&gt;</span>
+  <span style="color: #b6a0ff;">case</span> <span style="color: #6ae4b9;">ULApp</span><span style="color: #b6a0ff;">(</span><span style="color: #00d3d0;">t1</span>,<span style="color: #00d3d0;">t2</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">=&gt;</span>
     reduce<span style="color: #b6a0ff;">(</span>t1<span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">match</span> <span style="color: #b6a0ff;">{</span>
-      <span style="color: #b6a0ff;">case</span> <span style="color: #f78fe7;">Some</span><span style="color: #6ae4b9;">(</span><span style="color: #00d3d0;">r1</span><span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">Some</span><span style="color: #6ae4b9;">(</span><span style="color: #00bcff;">ULApp</span><span style="color: #f0ce43;">(</span>r1,t2<span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>
+      <span style="color: #b6a0ff;">case</span> <span style="color: #6ae4b9;">Some</span><span style="color: #6ae4b9;">(</span><span style="color: #00d3d0;">r1</span><span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">Some</span><span style="color: #6ae4b9;">(</span><span style="color: #00bcff;">ULApp</span><span style="color: #f0ce43;">(</span>r1,t2<span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>
       <span style="color: #b6a0ff;">case</span> <span style="color: #00bcff;">None</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">None</span>
     <span style="color: #b6a0ff;">}</span>
     
@@ -777,9 +810,9 @@ we might have an infinite reduction sequence.)
 
 <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Evaluation just repeatedly applies reduce,</span>
 <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">until we reach None (signifying reduction failed.)</span>
-<span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">evaluate</span><span style="color: #00cd68;">(</span>t<span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">ULTerm</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #f78fe7;">ULTerm</span> <span style="color: #b6a0ff;">=</span> reduce<span style="color: #00cd68;">(</span>t<span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">match</span> <span style="color: #00cd68;">{</span>
+<span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">evaluate</span><span style="color: #00cd68;">(</span>t<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">ULTerm</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">ULTerm</span> <span style="color: #b6a0ff;">=</span> reduce<span style="color: #00cd68;">(</span>t<span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">match</span> <span style="color: #00cd68;">{</span>
   <span style="color: #b6a0ff;">case</span> <span style="color: #00bcff;">None</span> <span style="color: #b6a0ff;">=&gt;</span> t
-  <span style="color: #b6a0ff;">case</span> <span style="color: #f78fe7;">Some</span><span style="color: #b6a0ff;">(</span><span style="color: #00d3d0;">r</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">=&gt;</span> evaluate<span style="color: #b6a0ff;">(</span>r<span style="color: #b6a0ff;">)</span>
+  <span style="color: #b6a0ff;">case</span> <span style="color: #6ae4b9;">Some</span><span style="color: #b6a0ff;">(</span><span style="color: #00d3d0;">r</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">=&gt;</span> evaluate<span style="color: #b6a0ff;">(</span>r<span style="color: #b6a0ff;">)</span>
 <span style="color: #00cd68;">}</span>
 </pre>
 </div>
@@ -808,7 +841,7 @@ for all objects and across all time.
 <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">as well as the shift, substitute and eval methods</span>
 <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">which are defined in terms of other methods</span>
 <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">defined by the subclasses.</span>
-<span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">ULTerm</span>
+<span style="color: #b6a0ff;">class</span> <span style="color: #6ae4b9;">ULTerm</span>
 
   <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">By default, we assume terms are irreducible,</span>
   <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">not abstractions, and not values.</span>
@@ -862,9 +895,9 @@ and calling <code>walk</code> on the term with that action.
     <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">The block tells us what to do with variables.</span>
     walk<span style="color: #00cd68;">(</span>0<span style="color: #00cd68;">)</span> <span style="color: #00cd68;">{</span> |x,currentBinders|
       <span style="color: #b6a0ff;">if</span> x &gt;= currentBinders
-        <span style="color: #f78fe7;">ULVar</span>.new<span style="color: #b6a0ff;">(</span>x+shiftAmount<span style="color: #b6a0ff;">)</span>
+        <span style="color: #6ae4b9;">ULVar</span>.new<span style="color: #b6a0ff;">(</span>x+shiftAmount<span style="color: #b6a0ff;">)</span>
       <span style="color: #b6a0ff;">else</span>
-        <span style="color: #f78fe7;">ULVar</span>.new<span style="color: #b6a0ff;">(</span>x<span style="color: #b6a0ff;">)</span>
+        <span style="color: #6ae4b9;">ULVar</span>.new<span style="color: #b6a0ff;">(</span>x<span style="color: #b6a0ff;">)</span>
       <span style="color: #b6a0ff;">end</span> <span style="color: #00cd68;">}</span>
   <span style="color: #b6a0ff;">end</span>
 
@@ -875,7 +908,7 @@ and calling <code>walk</code> on the term with that action.
       <span style="color: #b6a0ff;">if</span> y == x + currentBinders
         r
       <span style="color: #b6a0ff;">else</span>
-        <span style="color: #f78fe7;">ULVar</span>.new<span style="color: #b6a0ff;">(</span>y<span style="color: #b6a0ff;">)</span>
+        <span style="color: #6ae4b9;">ULVar</span>.new<span style="color: #b6a0ff;">(</span>y<span style="color: #b6a0ff;">)</span>
       <span style="color: #b6a0ff;">end</span> <span style="color: #00cd68;">}</span>
   <span style="color: #b6a0ff;">end</span>
 </pre>
@@ -915,12 +948,12 @@ do not define that method here.
 these terms to be printed somewhat nicely.)
 </p>
 <div class="org-src-container">
-<pre class="src src-ruby"><span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">ULVar</span> &lt; <span style="color: #f78fe7;">ULTerm</span>
+<pre class="src src-ruby"><span style="color: #b6a0ff;">class</span> <span style="color: #6ae4b9;">ULVar</span> &lt; <span style="color: #6ae4b9;">ULTerm</span>
   <span style="color: #f78fe7;">attr_reader</span> <span style="color: #00bcff;">:index</span>
 
   <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">We require our variables are only indexed by integers.</span>
   <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">initialize</span><span style="color: #00cd68;">(</span>i<span style="color: #00cd68;">)</span>
-    <span style="color: #b6a0ff;">unless</span> i.is_a?<span style="color: #00cd68;">(</span><span style="color: #f78fe7;">Integer</span><span style="color: #00cd68;">)</span>
+    <span style="color: #b6a0ff;">unless</span> i.is_a?<span style="color: #00cd68;">(</span><span style="color: #6ae4b9;">Integer</span><span style="color: #00cd68;">)</span>
       <span style="color: #f78fe7;">throw</span> <span style="color: #79a8ff;">"Constructing a lambda term out of non-lambda terms"</span>
     <span style="color: #b6a0ff;">end</span>
     <span style="color: #00d3d0;">@index</span> = i
@@ -935,6 +968,8 @@ these terms to be printed somewhat nicely.)
   <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">to_s</span>
     <span style="color: #00d3d0;">@index</span>.to_s
   <span style="color: #b6a0ff;">end</span>
+
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">==</span><span style="color: #00cd68;">(</span>r<span style="color: #00cd68;">)</span>; r.is_a?<span style="color: #00cd68;">(</span><span style="color: #6ae4b9;">ULVar</span><span style="color: #00cd68;">)</span> &amp;&amp; r.index == <span style="color: #00d3d0;">@index</span> <span style="color: #b6a0ff;">end</span>
 <span style="color: #b6a0ff;">end</span>
 </pre>
 </div>
@@ -946,11 +981,11 @@ But we do set override the <code>absBody</code> and <code>isValue?</code> method
 since this is an abstraction, and abstractions are values.
 </p>
 <div class="org-src-container">
-<pre class="src src-ruby"><span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">ULAbs</span> &lt; <span style="color: #f78fe7;">ULTerm</span>
+<pre class="src src-ruby"><span style="color: #b6a0ff;">class</span> <span style="color: #6ae4b9;">ULAbs</span> &lt; <span style="color: #6ae4b9;">ULTerm</span>
   <span style="color: #f78fe7;">attr_reader</span> <span style="color: #00bcff;">:t</span>
 
   <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">initialize</span><span style="color: #00cd68;">(</span>t<span style="color: #00cd68;">)</span>
-    <span style="color: #b6a0ff;">unless</span> t.is_a?<span style="color: #00cd68;">(</span><span style="color: #f78fe7;">ULTerm</span><span style="color: #00cd68;">)</span>
+    <span style="color: #b6a0ff;">unless</span> t.is_a?<span style="color: #00cd68;">(</span><span style="color: #6ae4b9;">ULTerm</span><span style="color: #00cd68;">)</span>
       <span style="color: #f78fe7;">throw</span> <span style="color: #79a8ff;">"Constructing a lambda term out of a non-lambda term"</span>
     <span style="color: #b6a0ff;">end</span>
     <span style="color: #00d3d0;">@t</span> = t
@@ -959,7 +994,7 @@ since this is an abstraction, and abstractions are values.
   <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">walk</span><span style="color: #00cd68;">(</span>currentBinders,&amp;block<span style="color: #00cd68;">)</span>
     <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Increment the local variable counter within the variable binder.</span>
     t = <span style="color: #00d3d0;">@t</span>.walk<span style="color: #00cd68;">(</span>currentBinders+1,&amp;block<span style="color: #00cd68;">)</span>
-    <span style="color: #f78fe7;">ULAbs</span>.new<span style="color: #00cd68;">(</span>t<span style="color: #00cd68;">)</span>
+    <span style="color: #6ae4b9;">ULAbs</span>.new<span style="color: #00cd68;">(</span>t<span style="color: #00cd68;">)</span>
   <span style="color: #b6a0ff;">end</span>
 
   <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Abstractions are an abstraction (of course),</span>
@@ -971,6 +1006,8 @@ since this is an abstraction, and abstractions are values.
   <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">to_s</span>
     <span style="color: #79a8ff;">"lambda . "</span> + <span style="color: #00d3d0;">@t</span>.to_s
   <span style="color: #b6a0ff;">end</span>
+
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">==</span><span style="color: #00cd68;">(</span>r<span style="color: #00cd68;">)</span>; r.is_a?<span style="color: #00cd68;">(</span><span style="color: #6ae4b9;">ULAbs</span><span style="color: #00cd68;">)</span> &amp;&amp; r.t == <span style="color: #00d3d0;">@t</span> <span style="color: #b6a0ff;">end</span>
 <span style="color: #b6a0ff;">end</span>
 </pre>
 </div>
@@ -985,12 +1022,12 @@ makes it appear much worse.
 diagnostic printing statements which were unfortunately included previously.)
 </p>
 <div class="org-src-container">
-<pre class="src src-ruby"><span style="color: #b6a0ff;">class</span> <span style="color: #f78fe7;">ULApp</span> &lt; <span style="color: #f78fe7;">ULTerm</span>
+<pre class="src src-ruby"><span style="color: #b6a0ff;">class</span> <span style="color: #6ae4b9;">ULApp</span> &lt; <span style="color: #6ae4b9;">ULTerm</span>
   <span style="color: #f78fe7;">attr_reader</span> <span style="color: #00bcff;">:t1</span>
   <span style="color: #f78fe7;">attr_reader</span> <span style="color: #00bcff;">:t2</span>
 
   <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">initialize</span><span style="color: #00cd68;">(</span>t1,t2<span style="color: #00cd68;">)</span>
-    <span style="color: #b6a0ff;">unless</span> t1.is_a?<span style="color: #00cd68;">(</span><span style="color: #f78fe7;">ULTerm</span><span style="color: #00cd68;">)</span> &amp;&amp; t2.is_a?<span style="color: #00cd68;">(</span><span style="color: #f78fe7;">ULTerm</span><span style="color: #00cd68;">)</span>
+    <span style="color: #b6a0ff;">unless</span> t1.is_a?<span style="color: #00cd68;">(</span><span style="color: #6ae4b9;">ULTerm</span><span style="color: #00cd68;">)</span> &amp;&amp; t2.is_a?<span style="color: #00cd68;">(</span><span style="color: #6ae4b9;">ULTerm</span><span style="color: #00cd68;">)</span>
       <span style="color: #f78fe7;">throw</span> <span style="color: #79a8ff;">"Constructing a lambda term out of non-lambda terms"</span>
     <span style="color: #b6a0ff;">end</span>
     <span style="color: #00d3d0;">@t1</span> = t1; <span style="color: #00d3d0;">@t2</span> = t2
@@ -999,7 +1036,7 @@ diagnostic printing statements which were unfortunately included previously.)
   <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">walk</span><span style="color: #00cd68;">(</span>currentBinders,&amp;block<span style="color: #00cd68;">)</span>
     t1 = <span style="color: #00d3d0;">@t1</span>.walk<span style="color: #00cd68;">(</span>currentBinders,&amp;block<span style="color: #00cd68;">)</span>
     t2 = <span style="color: #00d3d0;">@t2</span>.walk<span style="color: #00cd68;">(</span>currentBinders,&amp;block<span style="color: #00cd68;">)</span>
-    <span style="color: #f78fe7;">ULApp</span>.new<span style="color: #00cd68;">(</span>t1,t2<span style="color: #00cd68;">)</span>
+    <span style="color: #6ae4b9;">ULApp</span>.new<span style="color: #00cd68;">(</span>t1,t2<span style="color: #00cd68;">)</span>
   <span style="color: #b6a0ff;">end</span>
 
   <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Applications can be reduced.</span>
@@ -1010,14 +1047,14 @@ diagnostic printing statements which were unfortunately included previously.)
     <span style="color: #b6a0ff;">elsif</span> <span style="color: #00d3d0;">@t1</span>.isValue?
       r = <span style="color: #00d3d0;">@t2</span>.reduce
       <span style="color: #b6a0ff;">if</span> r
-        <span style="color: #f78fe7;">ULApp</span>.new<span style="color: #00cd68;">(</span><span style="color: #00d3d0;">@t1</span>,r<span style="color: #00cd68;">)</span>
+        <span style="color: #6ae4b9;">ULApp</span>.new<span style="color: #00cd68;">(</span><span style="color: #00d3d0;">@t1</span>,r<span style="color: #00cd68;">)</span>
       <span style="color: #b6a0ff;">else</span>
         <span style="color: #00bcff;">nil</span>
       <span style="color: #b6a0ff;">end</span>
     <span style="color: #b6a0ff;">else</span>
       r = <span style="color: #00d3d0;">@t1</span>.reduce
       <span style="color: #b6a0ff;">if</span> r
-        <span style="color: #f78fe7;">ULApp</span>.new<span style="color: #00cd68;">(</span>r,<span style="color: #00d3d0;">@t2</span><span style="color: #00cd68;">)</span>
+        <span style="color: #6ae4b9;">ULApp</span>.new<span style="color: #00cd68;">(</span>r,<span style="color: #00d3d0;">@t2</span><span style="color: #00cd68;">)</span>
       <span style="color: #b6a0ff;">else</span>
         <span style="color: #00bcff;">nil</span>
       <span style="color: #b6a0ff;">end</span>
@@ -1027,6 +1064,8 @@ diagnostic printing statements which were unfortunately included previously.)
   <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">to_s</span>
     <span style="color: #79a8ff;">"("</span> + <span style="color: #00d3d0;">@t1</span>.to_s + <span style="color: #79a8ff;">") ("</span> + <span style="color: #00d3d0;">@t2</span>.to_s + <span style="color: #79a8ff;">")"</span> 
   <span style="color: #b6a0ff;">end</span>
+
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">==</span><span style="color: #00cd68;">(</span>r<span style="color: #00cd68;">)</span>; r.is_a?<span style="color: #00cd68;">(</span><span style="color: #6ae4b9;">ULApp</span><span style="color: #00cd68;">)</span> &amp;&amp; r.t1 == <span style="color: #00d3d0;">@t1</span> &amp;&amp; r.t2 == <span style="color: #00d3d0;">@t2</span> <span style="color: #b6a0ff;">end</span>
 <span style="color: #b6a0ff;">end</span>
 </pre>
 </div>
@@ -1090,12 +1129,12 @@ And in Ruby:
 <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Note the first variable (The one initialised with ULVar.new(3)) is free,</span>
 <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">because it's index is greater than the number of abstractions</span>
 <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">surrounding it.</span>
-x = <span style="color: #f78fe7;">ULAbs</span>.new<span style="color: #00cd68;">(</span>
-      <span style="color: #f78fe7;">ULAbs</span>.new<span style="color: #b6a0ff;">(</span>
-        <span style="color: #f78fe7;">ULAbs</span>.new<span style="color: #6ae4b9;">(</span><span style="color: #f78fe7;">ULApp</span>.new<span style="color: #f0ce43;">(</span><span style="color: #f78fe7;">ULVar</span>.new<span style="color: #00bcff;">(</span>3<span style="color: #00bcff;">)</span>,
-                            <span style="color: #f78fe7;">ULApp</span>.new<span style="color: #00bcff;">(</span><span style="color: #f78fe7;">ULVar</span>.new<span style="color: #80d200;">(</span>2<span style="color: #80d200;">)</span>,
-                                      <span style="color: #f78fe7;">ULApp</span>.new<span style="color: #80d200;">(</span><span style="color: #f78fe7;">ULVar</span>.new<span style="color: #f78fe7;">(</span>1<span style="color: #f78fe7;">)</span>,
-                                                <span style="color: #f78fe7;">ULVar</span>.new<span style="color: #f78fe7;">(</span>0<span style="color: #f78fe7;">)</span><span style="color: #80d200;">)</span><span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+x = <span style="color: #6ae4b9;">ULAbs</span>.new<span style="color: #00cd68;">(</span>
+      <span style="color: #6ae4b9;">ULAbs</span>.new<span style="color: #b6a0ff;">(</span>
+        <span style="color: #6ae4b9;">ULAbs</span>.new<span style="color: #6ae4b9;">(</span><span style="color: #6ae4b9;">ULApp</span>.new<span style="color: #f0ce43;">(</span><span style="color: #6ae4b9;">ULVar</span>.new<span style="color: #00bcff;">(</span>3<span style="color: #00bcff;">)</span>,
+                            <span style="color: #6ae4b9;">ULApp</span>.new<span style="color: #00bcff;">(</span><span style="color: #6ae4b9;">ULVar</span>.new<span style="color: #80d200;">(</span>2<span style="color: #80d200;">)</span>,
+                                      <span style="color: #6ae4b9;">ULApp</span>.new<span style="color: #80d200;">(</span><span style="color: #6ae4b9;">ULVar</span>.new<span style="color: #f78fe7;">(</span>1<span style="color: #f78fe7;">)</span>,
+                                                <span style="color: #6ae4b9;">ULVar</span>.new<span style="color: #f78fe7;">(</span>0<span style="color: #f78fe7;">)</span><span style="color: #80d200;">)</span><span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
 <span style="color: #f78fe7;">puts</span> <span style="color: #79a8ff;">"An unnamed representation of lambda x . lambda y . lambda z -&gt; u x y z:"</span>
 <span style="color: #f78fe7;">print</span> <span style="color: #79a8ff;">"\t"</span>
 <span style="color: #f78fe7;">puts</span> x
@@ -1144,6 +1183,77 @@ The constructors of the type should be named
 <li><code>STFalse</code>, and</li>
 <li><code>STTest</code>.</li>
 </ul>
+
+<p>
+(The remaining text of this section was added November 10th.)
+</p>
+
+<p>
+The <code>STZero</code>, <code>STTrue</code> and <code>STFalse</code> types should be declared as
+singleton classes in Scala (i.e., as <code>case object</code>'s instead of <code>case class</code>'s.)
+</p>
+
+<p>
+Note that the <code>STAbs</code> constructor must take an argument specifying
+the <i>type</i> of the variable being abstracted. This argument
+should be of the following types.
+(This code should be included in your <code>a2</code> file.)
+In <a href="./src/a2_types.sc">Scala</a>:
+</p>
+<div class="org-src-container">
+<pre class="src src-amm"><span style="color: #f78fe7;">sealed</span> <span style="color: #b6a0ff;">trait</span> <span style="color: #6ae4b9;">STType</span>
+<span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">object</span> <span style="color: #00bcff;">STNat</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #6ae4b9;">STType</span> <span style="color: #00cd68;">{</span>
+  <span style="color: #f78fe7;">override</span> <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">toString</span><span style="color: #b6a0ff;">()</span> <span style="color: #b6a0ff;">=</span> <span style="color: #79a8ff;">"nat"</span>
+<span style="color: #00cd68;">}</span>
+<span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">object</span> <span style="color: #00bcff;">STBool</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #6ae4b9;">STType</span> <span style="color: #00cd68;">{</span>
+  <span style="color: #f78fe7;">override</span> <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">toString</span><span style="color: #b6a0ff;">()</span> <span style="color: #b6a0ff;">=</span> <span style="color: #79a8ff;">"bool"</span>
+<span style="color: #00cd68;">}</span>
+<span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Functions have a domain type and a codomain type.</span>
+<span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #6ae4b9;">STFun</span><span style="color: #00cd68;">(</span>dom<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">STType</span>, codom<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">STType</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #6ae4b9;">STType</span> <span style="color: #00cd68;">{</span>
+  <span style="color: #f78fe7;">override</span> <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">toString</span><span style="color: #b6a0ff;">()</span> <span style="color: #b6a0ff;">=</span> <span style="color: #79a8ff;">"("</span> + dom.toString + <span style="color: #79a8ff;">") -&gt; ("</span> + codom.toString + <span style="color: #79a8ff;">")"</span>
+<span style="color: #00cd68;">}</span>
+
+<span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Example use: the type "nat -&gt; bool" is written STFun(STNat,STBool)</span>
+</pre>
+</div>
+<p>
+And in <a href="./src/a2_types.rb">Ruby</a>:
+</p>
+<div class="org-src-container">
+<pre class="src src-ruby"><span style="color: #b6a0ff;">class</span> <span style="color: #6ae4b9;">STType</span> <span style="color: #b6a0ff;">end</span>
+
+<span style="color: #b6a0ff;">class</span> <span style="color: #6ae4b9;">STNat</span> &lt; <span style="color: #6ae4b9;">STType</span>
+  <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Comparison and printing methods</span>
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">==</span><span style="color: #00cd68;">(</span>type<span style="color: #00cd68;">)</span>; type.is_a?<span style="color: #00cd68;">(</span><span style="color: #6ae4b9;">STNat</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">end</span>
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">to_s;</span> <span style="color: #79a8ff;">"nat"</span> <span style="color: #b6a0ff;">end</span>
+<span style="color: #b6a0ff;">end</span>
+
+<span style="color: #b6a0ff;">class</span> <span style="color: #6ae4b9;">STBool</span> &lt; <span style="color: #6ae4b9;">STType</span>
+  <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Comparison and printing methods</span>
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">==</span><span style="color: #00cd68;">(</span>type<span style="color: #00cd68;">)</span>; type.is_a?<span style="color: #00cd68;">(</span><span style="color: #6ae4b9;">STBool</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">end</span>
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">to_s;</span> <span style="color: #79a8ff;">"bool"</span> <span style="color: #b6a0ff;">end</span>
+<span style="color: #b6a0ff;">end</span>
+
+<span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Functions have a domain type and a codomain type.</span>
+<span style="color: #b6a0ff;">class</span> <span style="color: #6ae4b9;">STFun</span> &lt; <span style="color: #6ae4b9;">STType</span>
+  <span style="color: #f78fe7;">attr_reader</span> <span style="color: #00bcff;">:dom</span>
+  <span style="color: #f78fe7;">attr_reader</span> <span style="color: #00bcff;">:codom</span>
+  
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">initialize</span><span style="color: #00cd68;">(</span>dom, codom<span style="color: #00cd68;">)</span>
+    <span style="color: #b6a0ff;">unless</span> dom.is_a?<span style="color: #00cd68;">(</span><span style="color: #6ae4b9;">STType</span><span style="color: #00cd68;">)</span> &amp;&amp; dom.is_a?<span style="color: #00cd68;">(</span><span style="color: #6ae4b9;">STType</span><span style="color: #00cd68;">)</span>
+      <span style="color: #f78fe7;">throw</span> <span style="color: #79a8ff;">"Constructing a type out of non-types"</span>
+    <span style="color: #b6a0ff;">end</span>
+    <span style="color: #00d3d0;">@dom</span> = dom; <span style="color: #00d3d0;">@codom</span> = codom
+  <span style="color: #b6a0ff;">end</span>
+
+  <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Comparison and printing methods</span>
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">==</span><span style="color: #00cd68;">(</span>type<span style="color: #00cd68;">)</span>; type.is_a?<span style="color: #00cd68;">(</span><span style="color: #6ae4b9;">STFun</span><span style="color: #00cd68;">)</span> &amp;&amp; type.dom == <span style="color: #00d3d0;">@dom</span> &amp;&amp; type.codom == <span style="color: #00d3d0;">@codom</span> <span style="color: #b6a0ff;">end</span> 
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">to_s;</span> <span style="color: #79a8ff;">"("</span> + dom.to_s + <span style="color: #79a8ff;">") -&gt; ("</span> + codom.to_s + <span style="color: #79a8ff;">")"</span> <span style="color: #b6a0ff;">end</span>
+<span style="color: #b6a0ff;">end</span>
+
+<span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Example use: the type "nat -&gt; bool" is written STFun.new(STNat.new,STBool.new)</span>
+</pre>
+</div>
 </div>
 </div>
 
@@ -1158,13 +1268,43 @@ The constructors of the type should be named
 
 <p>
 Implement, in both Scala and Ruby,
-a <i>type checker</i> method for elements of <code>STTerm</code>.
+a <i>type checker</i> method named <code>typecheck</code> for elements of <code>STTerm</code>.
 </p>
 
 <p>
-This type checker takes an <code>STTerm</code>, and returns <code>true</code> if
+This <code>typecheck</code> method takes an <code>STTerm</code>, and returns <code>true</code> if
 the represented term obeys the type rules of <i>ST</i>;
 otherwise, it returns <code>false</code>.
+</p>
+
+<p>
+(The remaining text of this section was added November 10th.)
+</p>
+
+<p>
+The definition of <code>typecheck</code> will require a method to determine
+the type of a given expression.
+The name <code>typeOf</code> is recommended for this method.
+This method should have as an argument the <i>environment</i>;
+i.e., a map, list or similar type which relates variables to types. 
+(Since variables are represented as integers,
+this means relating integers to <code>STType</code> values.)
+</p>
+
+<p>
+I (Mark) <i>suggest</i> that <code>typeOf</code> method return a <code>Option[STType]</code> in the Scala implementation,
+but this is not a requirement.
+You will not be penalised for using any reasonable implementation,
+including
+</p>
+<ul class="org-ul">
+<li>use of exceptions when a term has no type,</li>
+<li>use of the <code>Try</code>, <code>Success</code> and <code>Failure</code> types, or</li>
+<li>use of the <code>Either</code> type.</li>
+</ul>
+<p>
+If you have another implementation in mind, you are welcome to check
+with Mark.
 </p>
 </div>
 </div>
@@ -1180,18 +1320,34 @@ otherwise, it returns <code>false</code>.
 
 <p>
 Implement, in both Scala and Ruby,
-a <i>type eraser</i> method for elements of <code>STTerm</code>,
+a method <code>eraseTypes</code> for elements of <code>STTerm</code>,
 which <i>translates</i> them into elements of <code>ULTerm</code> (definition given above.)
 </p>
 
 <p>
 This translation also needs to translate the natural and boolean constants
 into the pure λ-calculus encodings that represent them.
+Recall these translations from the notes (the translation for <code>iszero</code> has been added.)
+</p>
+<div class="org-src-container">
+<pre class="src src-text">true   = &#955; t &#8594; &#955; f &#8594; t
+false  = &#955; t &#8594; &#955; f &#8594; f
+test   = &#955; l &#8594; &#955; m &#8594; &#955; n &#8594; l m n
+zero   = &#955; s &#8594; &#955; z &#8594; z
+suc    = &#955; n &#8594; &#955; s &#8594; &#955; z &#8594; s <span style="color: #00cd68;">(</span>n s z<span style="color: #00cd68;">)</span>
+iszero = &#955; m &#8594; m <span style="color: #00cd68;">(</span>&#955; x &#8594; false<span style="color: #00cd68;">)</span> true     
+</pre>
+</div>
+<p>
+Bear in mind that application is left-associative, so, e.g., <code>l m n</code> is
+equivalent to <code>(l m) n</code>.
 </p>
 
 <p>
-(You should the definition of <code>ULTerm</code> and its methods into your file,
-or import it in a way compatible with the testing environments.)
+(You should import the <code>a2_ulterm</code> files into your file
+in a manner compatible with the Docker testing environments,
+or copy the definitions into your file and create
+blank <code>a2_ulterm</code> files to satisfy the import statements in the testing.)
 </p>
 </div>
 </div>
@@ -1199,6 +1355,12 @@ or import it in a way compatible with the testing environments.)
 <div id="outline-container-Part-4-–-Bonus:-Interpreting-/SL/-programs---------------------[10 marks]" class="outline-2">
 <h2 id="Part-4-–-Bonus:-Interpreting-/SL/-programs---------------------[10 marks]">Part 4 – Bonus: Interpreting <i>SL</i> programs                     [10 marks]</h2>
 <div class="outline-text-2" id="text-Part-4-–-Bonus:-Interpreting-/SL/-programs---------------------[10 marks]">
+<div class="org-center">
+<p>
+<b>Place any code for this part in files <code>a2p4.sc</code> and <code>a2p4.rb</code>.</b>
+</p>
+</div>
+
 <p>
 Implement an evaluation method for your <code>STTerm</code> type.
 </p>
@@ -1206,7 +1368,7 @@ Implement an evaluation method for your <code>STTerm</code> type.
 <p>
 Make use of the evaluation method for <code>ULTerm</code>'s in your definition.
 You will also need a method to convert results back
-to the <code>STTerm</code> representation.
+to an <code>STTerm</code> representation.
 </p>
 </div>
 </div>
@@ -1216,7 +1378,7 @@ to the <code>STTerm</code> representation.
 <div class="outline-text-2" id="text-Part-5-–-Bonus:-pairs----------------------------------------[10 bonus marks]">
 <div class="org-center">
 <p>
-<b>Place any code for this part in files <code>a2p4.sc</code> and <code>a2p4.rb</code>.</b>
+<b>Place any code for this part in files <code>a2p5.sc</code> and <code>a2p5.rb</code>.</b>
 </p>
 </div>
 
@@ -1263,8 +1425,343 @@ Use it if you wish.
 <h2 id="Testing">Testing</h2>
 <div class="outline-text-2" id="text-Testing">
 <p>
-:TODO:
+Unit tests for the requested types, methods and predicates
+are available here.
 </p>
+<ul class="org-ul">
+<li><a href="./testing/a1/a1p1_test.sc">a2_test.sc</a></li>
+<li><a href="./testing/a1/a1p2.plt">a2_test.rb</a></li>
+</ul>
+<p>
+The contents of the unit test files are also repeated below.
+</p>
+
+<p>
+The tests can be run by placing the test files
+in the same directory as your code files.
+</p>
+
+<p>
+To run the tests for the Scala portions, use the command
+</p>
+<div class="org-src-container">
+<pre class="src src-shell">amm a2_test.sc
+</pre>
+</div>
+
+<p>
+To run the tests for the Ruby portions,us the commands
+</p>
+<div class="org-src-container">
+<pre class="src src-shell">ruby a2_test.rb
+</pre>
+</div>
+
+<div class="org-center">
+<p>
+<b>You are strongly encouraged to add your own additional test cases</b>
+<b>to those provided for you.</b>
+</p>
+
+<p>
+The provided test cases check a very minimal amount!
+</p>
+</div>
+</div>
+
+<div id="outline-container-Automated-testing-via-Docker" class="outline-3">
+<h3 id="Automated-testing-via-Docker">Automated testing via Docker</h3>
+<div class="outline-text-3" id="text-Automated-testing-via-Docker">
+<p>
+The Docker setup and usage scripts are available at the following links.
+Their contents are also repeated below.
+</p>
+<ul class="org-ul">
+<li><a href="./testing/a2/Dockerfile">Dockerfile</a></li>
+<li><a href="./testing/a2/docker-compose.yml">docker-compose.yml</a></li>
+<li><a href="./testing/a2/setup.sh">setup.sh</a></li>
+<li><a href="./testing/a2/run.sh">run.sh</a></li>
+</ul>
+<p>
+Place them into your <code>a2</code> directory where your code files
+and the test files (linked to above) exist,
+then run <code>setup.sh</code> and <code>run.sh</code>.
+</p>
+
+<p>
+Note that the use of the <code>setup.sh</code> and <code>run.sh</code> scripts assumes
+that you are in a <code>bash</code> like shell; if you are on Windows,
+and not using WSL or WSL2, you may have
+to run the commands contained in those scripts manually.
+</p>
+</div>
+</div>
+
+<div id="outline-container-The-tests" class="outline-3">
+<h3 id="The-tests">The tests</h3>
+<div class="outline-text-3" id="text-The-tests">
+</div>
+
+<div id="outline-container-Scala" class="outline-4">
+<h4 id="Scala">Scala</h4>
+<div class="outline-text-4" id="text-Scala">
+<p>
+<a href="./testing/a2/a2_testframework.sc">a2_test.sc</a>
+</p>
+<div class="org-src-container">
+<pre class="src src-amm"><span style="color: #b6a0ff;">import</span> $file.a2, a2.<span style="color: #b6a0ff;">_</span>
+<span style="color: #b6a0ff;">import</span> $file.a2_ulterm, a2_ulterm.<span style="color: #b6a0ff;">_</span>
+
+<span style="color: #a8a8a8;">/* </span><span style="color: #a8a8a8;">Given an expected result and a computed result,</span>
+<span style="color: #a8a8a8;">   check if they are equal in value.</span>
+<span style="color: #a8a8a8;">   If so, return 0. Otherwise, inform the user, and return 1,</span>
+<span style="color: #a8a8a8;">   so the number of failures can be counted. */</span>
+<span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">test</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">](</span>given<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">A</span>, expected<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">A</span>, the_test<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">String</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">=</span>
+  <span style="color: #b6a0ff;">if</span> <span style="color: #00cd68;">(</span>!<span style="color: #b6a0ff;">(</span>given equals expected<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span> <span style="color: #00cd68;">{</span>
+    println<span style="color: #b6a0ff;">(</span><span style="color: #79a8ff;">"+---------------------------------------------------"</span><span style="color: #b6a0ff;">)</span>
+    println<span style="color: #b6a0ff;">(</span><span style="color: #79a8ff;">"| "</span> + the_test + <span style="color: #79a8ff;">" failed."</span><span style="color: #b6a0ff;">)</span>
+    println<span style="color: #b6a0ff;">(</span><span style="color: #79a8ff;">"| Expected "</span> + expected + <span style="color: #79a8ff;">", got "</span> + given + <span style="color: #79a8ff;">"."</span><span style="color: #b6a0ff;">)</span>
+    println<span style="color: #b6a0ff;">(</span><span style="color: #79a8ff;">"+---------------------------------------------------"</span><span style="color: #b6a0ff;">)</span>
+    <span style="color: #00bcff;">1</span>
+  <span style="color: #00cd68;">}</span> <span style="color: #b6a0ff;">else</span> <span style="color: #00cd68;">{</span>
+    <span style="color: #00bcff;">0</span>
+  <span style="color: #00cd68;">}</span>
+
+<span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">providedTests</span> <span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">List</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">Tuple3</span><span style="color: #b6a0ff;">[</span><span style="color: #00bcff;">Unit</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">Any</span>, <span style="color: #00bcff;">Any</span>, <span style="color: #00bcff;">String</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">]</span> <span style="color: #b6a0ff;">=</span> <span style="color: #00bcff;">List</span><span style="color: #00cd68;">(</span>
+
+  <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Positive typechecking test cases</span>
+  <span style="color: #b6a0ff;">(</span><span style="color: #b6a0ff;">_</span> <span style="color: #b6a0ff;">=&gt;</span> typecheck<span style="color: #6ae4b9;">(</span><span style="color: #00bcff;">STZero</span><span style="color: #6ae4b9;">)</span>,                       <span style="color: #00bcff;">true</span>, <span style="color: #79a8ff;">"Typecheck zero"</span><span style="color: #b6a0ff;">)</span>,
+  <span style="color: #b6a0ff;">(</span><span style="color: #b6a0ff;">_</span> <span style="color: #b6a0ff;">=&gt;</span> typecheck<span style="color: #6ae4b9;">(</span><span style="color: #00bcff;">STSuc</span><span style="color: #f0ce43;">(</span><span style="color: #00bcff;">STZero</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>,                <span style="color: #00bcff;">true</span>, <span style="color: #79a8ff;">"Typecheck one"</span><span style="color: #b6a0ff;">)</span>,
+  <span style="color: #b6a0ff;">(</span><span style="color: #b6a0ff;">_</span> <span style="color: #b6a0ff;">=&gt;</span> typecheck<span style="color: #6ae4b9;">(</span><span style="color: #00bcff;">STIsZero</span><span style="color: #f0ce43;">(</span><span style="color: #00bcff;">STZero</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>,             <span style="color: #00bcff;">true</span>, <span style="color: #79a8ff;">"Typecheck iszero zero"</span><span style="color: #b6a0ff;">)</span>,
+  <span style="color: #b6a0ff;">(</span><span style="color: #b6a0ff;">_</span> <span style="color: #b6a0ff;">=&gt;</span> typecheck<span style="color: #6ae4b9;">(</span><span style="color: #00bcff;">STTrue</span><span style="color: #6ae4b9;">)</span>,                       <span style="color: #00bcff;">true</span>, <span style="color: #79a8ff;">"Typecheck true"</span><span style="color: #b6a0ff;">)</span>,
+  <span style="color: #b6a0ff;">(</span><span style="color: #b6a0ff;">_</span> <span style="color: #b6a0ff;">=&gt;</span> typecheck<span style="color: #6ae4b9;">(</span><span style="color: #00bcff;">STFalse</span><span style="color: #6ae4b9;">)</span>,                      <span style="color: #00bcff;">true</span>, <span style="color: #79a8ff;">"Typecheck false"</span><span style="color: #b6a0ff;">)</span>,
+  <span style="color: #b6a0ff;">(</span><span style="color: #b6a0ff;">_</span> <span style="color: #b6a0ff;">=&gt;</span> typecheck<span style="color: #6ae4b9;">(</span><span style="color: #00bcff;">STTest</span><span style="color: #f0ce43;">(</span><span style="color: #00bcff;">STTrue</span>,<span style="color: #00bcff;">STZero</span>,<span style="color: #00bcff;">STZero</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>, <span style="color: #00bcff;">true</span>, <span style="color: #79a8ff;">"Typecheck test true zero zero"</span><span style="color: #b6a0ff;">)</span>,
+  <span style="color: #b6a0ff;">(</span><span style="color: #b6a0ff;">_</span> <span style="color: #b6a0ff;">=&gt;</span> typecheck<span style="color: #6ae4b9;">(</span><span style="color: #00bcff;">STAbs</span><span style="color: #f0ce43;">(</span><span style="color: #00bcff;">STNat</span>,<span style="color: #00bcff;">STVar</span><span style="color: #00bcff;">(</span><span style="color: #00bcff;">0</span><span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>,        <span style="color: #00bcff;">true</span>, <span style="color: #79a8ff;">"Typecheck lambda x : nat . x"</span><span style="color: #b6a0ff;">)</span>,
+  <span style="color: #b6a0ff;">(</span><span style="color: #b6a0ff;">_</span> <span style="color: #b6a0ff;">=&gt;</span> typecheck<span style="color: #6ae4b9;">(</span><span style="color: #00bcff;">STApp</span><span style="color: #f0ce43;">(</span><span style="color: #00bcff;">STAbs</span><span style="color: #00bcff;">(</span><span style="color: #00bcff;">STNat</span>,<span style="color: #00bcff;">STVar</span><span style="color: #80d200;">(</span><span style="color: #00bcff;">0</span><span style="color: #80d200;">)</span><span style="color: #00bcff;">)</span>,<span style="color: #00bcff;">STZero</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>, <span style="color: #00bcff;">true</span>, <span style="color: #79a8ff;">"Typecheck (lambda x : nat . x) (zero)"</span><span style="color: #b6a0ff;">)</span>,
+
+  
+  <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Negative typechecking test cases</span>
+  <span style="color: #b6a0ff;">(</span><span style="color: #b6a0ff;">_</span> <span style="color: #b6a0ff;">=&gt;</span> typecheck<span style="color: #6ae4b9;">(</span><span style="color: #00bcff;">STSuc</span><span style="color: #f0ce43;">(</span><span style="color: #00bcff;">STFalse</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>, <span style="color: #00bcff;">false</span>,
+    <span style="color: #79a8ff;">"Successor of false should not typecheck."</span><span style="color: #b6a0ff;">)</span>,
+  <span style="color: #b6a0ff;">(</span><span style="color: #b6a0ff;">_</span> <span style="color: #b6a0ff;">=&gt;</span> typecheck<span style="color: #6ae4b9;">(</span><span style="color: #00bcff;">STVar</span><span style="color: #f0ce43;">(</span><span style="color: #00bcff;">0</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>, <span style="color: #00bcff;">false</span>,
+    <span style="color: #79a8ff;">"Free variables should not typecheck"</span><span style="color: #b6a0ff;">)</span>,
+  <span style="color: #b6a0ff;">(</span><span style="color: #b6a0ff;">_</span> <span style="color: #b6a0ff;">=&gt;</span> typecheck<span style="color: #6ae4b9;">(</span><span style="color: #00bcff;">STApp</span><span style="color: #f0ce43;">(</span><span style="color: #00bcff;">STAbs</span><span style="color: #00bcff;">(</span><span style="color: #00bcff;">STNat</span>,<span style="color: #00bcff;">STVar</span><span style="color: #80d200;">(</span><span style="color: #00bcff;">0</span><span style="color: #80d200;">)</span><span style="color: #00bcff;">)</span>,<span style="color: #00bcff;">STFalse</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>, <span style="color: #00bcff;">false</span>,
+    <span style="color: #79a8ff;">"Applying a boolean to a natural function should not typecheck"</span><span style="color: #b6a0ff;">)</span>,
+
+  <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Type erasure tests</span>
+  <span style="color: #b6a0ff;">(</span><span style="color: #b6a0ff;">_</span> <span style="color: #b6a0ff;">=&gt;</span> eraseTypes<span style="color: #6ae4b9;">(</span><span style="color: #00bcff;">STTrue</span><span style="color: #6ae4b9;">)</span>, <span style="color: #00bcff;">ULAbs</span><span style="color: #6ae4b9;">(</span><span style="color: #00bcff;">ULAbs</span><span style="color: #f0ce43;">(</span><span style="color: #00bcff;">ULVar</span><span style="color: #00bcff;">(</span><span style="color: #00bcff;">1</span><span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>, <span style="color: #79a8ff;">"Erase types of true"</span><span style="color: #b6a0ff;">)</span>,
+  <span style="color: #b6a0ff;">(</span><span style="color: #b6a0ff;">_</span> <span style="color: #b6a0ff;">=&gt;</span> eraseTypes<span style="color: #6ae4b9;">(</span><span style="color: #00bcff;">STSuc</span><span style="color: #f0ce43;">(</span><span style="color: #00bcff;">STZero</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>,
+    <span style="color: #00bcff;">ULApp</span><span style="color: #6ae4b9;">(</span>
+      <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Encoding of suc</span>
+      <span style="color: #00bcff;">ULAbs</span><span style="color: #f0ce43;">(</span> <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">lambda n .</span>
+        <span style="color: #00bcff;">ULAbs</span><span style="color: #00bcff;">(</span> <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">lambda s.</span>
+          <span style="color: #00bcff;">ULAbs</span><span style="color: #80d200;">(</span> <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">lambda z.</span>
+            <span style="color: #00bcff;">ULApp</span><span style="color: #f78fe7;">(</span><span style="color: #00bcff;">ULVar</span><span style="color: #4ae8fc;">(</span><span style="color: #00bcff;">1</span><span style="color: #4ae8fc;">)</span>,<span style="color: #00bcff;">ULApp</span><span style="color: #4ae8fc;">(</span><span style="color: #00bcff;">ULApp</span><span style="color: #cfdf30;">(</span><span style="color: #00bcff;">ULVar</span><span style="color: #00cd68;">(</span><span style="color: #00bcff;">2</span><span style="color: #00cd68;">)</span>,<span style="color: #00bcff;">ULVar</span><span style="color: #00cd68;">(</span><span style="color: #00bcff;">1</span><span style="color: #00cd68;">)</span><span style="color: #cfdf30;">)</span>,<span style="color: #00bcff;">ULVar</span><span style="color: #cfdf30;">(</span><span style="color: #00bcff;">0</span><span style="color: #cfdf30;">)</span><span style="color: #4ae8fc;">)</span><span style="color: #f78fe7;">)</span><span style="color: #80d200;">)</span><span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span>, <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">s (n s z)</span>
+      <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Encoding of zero</span>
+      <span style="color: #00bcff;">ULAbs</span><span style="color: #f0ce43;">(</span> <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">lambda s .</span>
+        <span style="color: #00bcff;">ULAbs</span><span style="color: #00bcff;">(</span> <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">lambda z .</span>
+          <span style="color: #00bcff;">ULVar</span><span style="color: #80d200;">(</span><span style="color: #00bcff;">0</span><span style="color: #80d200;">)</span><span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>, <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">z</span>
+    <span style="color: #79a8ff;">"Erase types of one"</span><span style="color: #b6a0ff;">)</span>,
+  <span style="color: #b6a0ff;">(</span><span style="color: #b6a0ff;">_</span> <span style="color: #b6a0ff;">=&gt;</span> eraseTypes<span style="color: #6ae4b9;">(</span><span style="color: #00bcff;">STApp</span><span style="color: #f0ce43;">(</span><span style="color: #00bcff;">STAbs</span><span style="color: #00bcff;">(</span><span style="color: #00bcff;">STNat</span>,<span style="color: #00bcff;">STVar</span><span style="color: #80d200;">(</span><span style="color: #00bcff;">0</span><span style="color: #80d200;">)</span><span style="color: #00bcff;">)</span>,<span style="color: #00bcff;">STZero</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>,
+    <span style="color: #00bcff;">ULApp</span><span style="color: #6ae4b9;">(</span><span style="color: #00bcff;">ULAbs</span><span style="color: #f0ce43;">(</span><span style="color: #00bcff;">ULVar</span><span style="color: #00bcff;">(</span><span style="color: #00bcff;">0</span><span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span>, <span style="color: #00bcff;">ULAbs</span><span style="color: #f0ce43;">(</span><span style="color: #00bcff;">ULAbs</span><span style="color: #00bcff;">(</span><span style="color: #00bcff;">ULVar</span><span style="color: #80d200;">(</span><span style="color: #00bcff;">0</span><span style="color: #80d200;">)</span><span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>,
+    <span style="color: #79a8ff;">"Erase types of (lambda x : nat . x) (zero)"</span><span style="color: #b6a0ff;">)</span>,
+<span style="color: #00cd68;">)</span>
+
+<span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">runTests</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">](</span>tests<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">List</span><span style="color: #b6a0ff;">[</span><span style="color: #00bcff;">Tuple3</span><span style="color: #6ae4b9;">[</span><span style="color: #00bcff;">Unit</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">A</span>,<span style="color: #00bcff;">A</span>,<span style="color: #00bcff;">String</span><span style="color: #6ae4b9;">]</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">Unit</span> <span style="color: #b6a0ff;">=</span> <span style="color: #00cd68;">{</span>
+  <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Apply test to each element of tests, and sum the return values.</span>
+  <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">This is essentially a for loop.</span>
+  <span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">failed</span> <span style="color: #b6a0ff;">=</span> tests.foldLeft<span style="color: #b6a0ff;">(</span><span style="color: #00bcff;">0</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">{</span>
+    <span style="color: #6ae4b9;">(</span>failures, next<span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">=&gt;</span> next <span style="color: #b6a0ff;">match</span> <span style="color: #6ae4b9;">{</span>
+      <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Deconstruct the tuple to get its parts</span>
+      <span style="color: #b6a0ff;">case</span> <span style="color: #f0ce43;">(</span><span style="color: #00d3d0;">given</span>, <span style="color: #00d3d0;">expected</span>, <span style="color: #00d3d0;">the_test</span><span style="color: #f0ce43;">)</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #f0ce43;">{</span>
+        <span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">failure</span> <span style="color: #b6a0ff;">=</span> <span style="color: #b6a0ff;">try</span> <span style="color: #00bcff;">{</span>
+          test<span style="color: #80d200;">(</span>given<span style="color: #f78fe7;">()</span>, expected, the_test<span style="color: #80d200;">)</span>
+        <span style="color: #00bcff;">}</span> <span style="color: #b6a0ff;">catch</span> <span style="color: #00bcff;">{</span>
+          <span style="color: #b6a0ff;">case</span> <span style="color: #00d3d0;">e</span><span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">Exception</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #80d200;">{</span>
+            print<span style="color: #f78fe7;">(</span><span style="color: #79a8ff;">"Test "</span> + the_test + <span style="color: #79a8ff;">"encountered exception: "</span><span style="color: #f78fe7;">)</span>
+            println<span style="color: #f78fe7;">(</span>e<span style="color: #f78fe7;">)</span>
+            <span style="color: #00bcff;">1</span>
+          <span style="color: #80d200;">}</span>
+        <span style="color: #00bcff;">}</span>
+        failures + failure
+      <span style="color: #f0ce43;">}</span>
+    <span style="color: #6ae4b9;">}</span>
+  <span style="color: #b6a0ff;">}</span>
+  
+  println<span style="color: #b6a0ff;">(</span><span style="color: #79a8ff;">"+---------------------------------------------------"</span><span style="color: #b6a0ff;">)</span>
+  println<span style="color: #b6a0ff;">(</span><span style="color: #79a8ff;">"| "</span> + failed + <span style="color: #79a8ff;">" tests failed"</span><span style="color: #b6a0ff;">)</span>
+  println<span style="color: #b6a0ff;">(</span><span style="color: #79a8ff;">"+---------------------------------------------------"</span><span style="color: #b6a0ff;">)</span>
+<span style="color: #00cd68;">}</span>
+
+runTests<span style="color: #00cd68;">(</span>providedTests<span style="color: #00cd68;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-Ruby" class="outline-4">
+<h4 id="Ruby">Ruby</h4>
+<div class="outline-text-4" id="text-Ruby">
+<p>
+<a href="./testing/a2_test.rb">a2_test.rb</a>
+</p>
+<div class="org-src-container">
+<pre class="src src-ruby"><span style="color: #f78fe7;">require_relative</span> <span style="color: #79a8ff;">"a2"</span>
+<span style="color: #f78fe7;">require_relative</span> <span style="color: #79a8ff;">"a2_ulterm"</span>
+<span style="color: #f78fe7;">require</span> <span style="color: #79a8ff;">"test/unit"</span>
+
+<span style="color: #b6a0ff;">class</span> <span style="color: #6ae4b9;">ProvidedTests</span> &lt; <span style="color: #6ae4b9;">Test</span>::<span style="color: #6ae4b9;">Unit</span>::<span style="color: #6ae4b9;">TestCase</span>
+
+  <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Positive type checking tests</span>
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">test_simple0</span>
+    assert_equal<span style="color: #00cd68;">(</span><span style="color: #00bcff;">true</span>, <span style="color: #6ae4b9;">STZero</span>.new.typecheck, <span style="color: #79a8ff;">"Typecheck zero"</span><span style="color: #00cd68;">)</span>
+  <span style="color: #b6a0ff;">end</span>
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">test_simple1</span>
+    assert_equal<span style="color: #00cd68;">(</span><span style="color: #00bcff;">true</span>, <span style="color: #6ae4b9;">STSuc</span>.new<span style="color: #b6a0ff;">(</span><span style="color: #6ae4b9;">STZero</span>.new<span style="color: #b6a0ff;">)</span>.typecheck, <span style="color: #79a8ff;">"Typecheck one"</span><span style="color: #00cd68;">)</span>
+  <span style="color: #b6a0ff;">end</span>
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">test_simple2</span>
+    assert_equal<span style="color: #00cd68;">(</span><span style="color: #00bcff;">true</span>, <span style="color: #6ae4b9;">STIsZero</span>.new<span style="color: #b6a0ff;">(</span><span style="color: #6ae4b9;">STZero</span>.new<span style="color: #b6a0ff;">)</span>.typecheck, <span style="color: #79a8ff;">"Typecheck iszero zero"</span><span style="color: #00cd68;">)</span>
+  <span style="color: #b6a0ff;">end</span>
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">test_simple3</span>
+    assert_equal<span style="color: #00cd68;">(</span><span style="color: #00bcff;">true</span>, <span style="color: #6ae4b9;">STTrue</span>.new.typecheck, <span style="color: #79a8ff;">"Typecheck true"</span><span style="color: #00cd68;">)</span>
+  <span style="color: #b6a0ff;">end</span>
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">test_simple4</span>
+    assert_equal<span style="color: #00cd68;">(</span><span style="color: #00bcff;">true</span>, <span style="color: #6ae4b9;">STFalse</span>.new.typecheck, <span style="color: #79a8ff;">"Typecheck false"</span><span style="color: #00cd68;">)</span>
+  <span style="color: #b6a0ff;">end</span>
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">test_simple5</span>
+    assert_equal<span style="color: #00cd68;">(</span><span style="color: #00bcff;">true</span>,
+                 <span style="color: #6ae4b9;">STTest</span>.new<span style="color: #b6a0ff;">(</span><span style="color: #6ae4b9;">STTrue</span>.new,<span style="color: #6ae4b9;">STZero</span>.new,<span style="color: #6ae4b9;">STZero</span>.new<span style="color: #b6a0ff;">)</span>.typecheck,
+                 <span style="color: #79a8ff;">"Typecheck test true zero zero"</span><span style="color: #00cd68;">)</span>
+  <span style="color: #b6a0ff;">end</span>
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">test_simple6</span>
+    assert_equal<span style="color: #00cd68;">(</span><span style="color: #00bcff;">true</span>,
+                 <span style="color: #6ae4b9;">STAbs</span>.new<span style="color: #b6a0ff;">(</span><span style="color: #6ae4b9;">STNat</span>.new,<span style="color: #6ae4b9;">STVar</span>.new<span style="color: #6ae4b9;">(</span>0<span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span>.typecheck,
+                 <span style="color: #79a8ff;">"Typecheck lambda x : nat . x"</span><span style="color: #00cd68;">)</span>
+  <span style="color: #b6a0ff;">end</span>
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">test_simple7</span>
+    assert_equal<span style="color: #00cd68;">(</span><span style="color: #00bcff;">true</span>,
+                 <span style="color: #6ae4b9;">STApp</span>.new<span style="color: #b6a0ff;">(</span><span style="color: #6ae4b9;">STAbs</span>.new<span style="color: #6ae4b9;">(</span><span style="color: #6ae4b9;">STNat</span>.new,<span style="color: #6ae4b9;">STVar</span>.new<span style="color: #f0ce43;">(</span>0<span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>,<span style="color: #6ae4b9;">STZero</span>.new<span style="color: #b6a0ff;">)</span>.typecheck,
+                 <span style="color: #79a8ff;">"Typecheck (lambda x : nat . x) (zero)"</span><span style="color: #00cd68;">)</span>
+  <span style="color: #b6a0ff;">end</span>
+
+  <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Negative typechecking tests  </span>
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">test_simple8</span>
+    assert_equal<span style="color: #00cd68;">(</span><span style="color: #00bcff;">false</span>,
+                 <span style="color: #6ae4b9;">STSuc</span>.new<span style="color: #b6a0ff;">(</span><span style="color: #6ae4b9;">STFalse</span>.new<span style="color: #b6a0ff;">)</span>.typecheck,
+                 <span style="color: #79a8ff;">"Successor of false should not typecheck."</span><span style="color: #00cd68;">)</span>
+  <span style="color: #b6a0ff;">end</span>
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">test_simple9</span>
+    assert_equal<span style="color: #00cd68;">(</span><span style="color: #00bcff;">false</span>,
+                 <span style="color: #6ae4b9;">STVar</span>.new<span style="color: #b6a0ff;">(</span>0<span style="color: #b6a0ff;">)</span>.typecheck,
+                 <span style="color: #79a8ff;">"Free variables should not typecheck"</span><span style="color: #00cd68;">)</span>
+  <span style="color: #b6a0ff;">end</span>
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">test_simple10</span>
+    assert_equal<span style="color: #00cd68;">(</span><span style="color: #00bcff;">false</span>,
+                 <span style="color: #6ae4b9;">STApp</span>.new<span style="color: #b6a0ff;">(</span><span style="color: #6ae4b9;">STAbs</span>.new<span style="color: #6ae4b9;">(</span><span style="color: #6ae4b9;">STNat</span>.new,<span style="color: #6ae4b9;">STVar</span>.new<span style="color: #f0ce43;">(</span>0<span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>,<span style="color: #6ae4b9;">STFalse</span>.new<span style="color: #b6a0ff;">)</span>.typecheck,
+                 <span style="color: #79a8ff;">"Applying a boolean to a natural function should not typecheck"</span><span style="color: #00cd68;">)</span>
+  <span style="color: #b6a0ff;">end</span>
+
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">test_simple11</span>
+    assert_equal<span style="color: #00cd68;">(</span><span style="color: #6ae4b9;">ULAbs</span>.new<span style="color: #b6a0ff;">(</span><span style="color: #6ae4b9;">ULAbs</span>.new<span style="color: #6ae4b9;">(</span><span style="color: #6ae4b9;">ULVar</span>.new<span style="color: #f0ce43;">(</span>1<span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span>, <span style="color: #6ae4b9;">STTrue</span>.new.eraseTypes, <span style="color: #79a8ff;">"Erase types of true"</span><span style="color: #00cd68;">)</span>
+  <span style="color: #b6a0ff;">end</span>
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">test_simple12</span>
+    assert_equal<span style="color: #00cd68;">(</span><span style="color: #6ae4b9;">ULApp</span>.new<span style="color: #b6a0ff;">(</span>
+                   <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Encoding of suc</span>
+                   <span style="color: #6ae4b9;">ULAbs</span>.new<span style="color: #6ae4b9;">(</span> <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">lambda n .</span>
+                     <span style="color: #6ae4b9;">ULAbs</span>.new<span style="color: #f0ce43;">(</span> <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">lambda s.</span>
+                       <span style="color: #6ae4b9;">ULAbs</span>.new<span style="color: #00bcff;">(</span> <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">lambda z.</span>
+                         <span style="color: #6ae4b9;">ULApp</span>.new<span style="color: #80d200;">(</span><span style="color: #6ae4b9;">ULVar</span>.new<span style="color: #f78fe7;">(</span>1<span style="color: #f78fe7;">)</span>,<span style="color: #6ae4b9;">ULApp</span>.new<span style="color: #f78fe7;">(</span><span style="color: #6ae4b9;">ULApp</span>.new<span style="color: #4ae8fc;">(</span><span style="color: #6ae4b9;">ULVar</span>.new<span style="color: #cfdf30;">(</span>2<span style="color: #cfdf30;">)</span>,<span style="color: #6ae4b9;">ULVar</span>.new<span style="color: #cfdf30;">(</span>1<span style="color: #cfdf30;">)</span><span style="color: #4ae8fc;">)</span>,<span style="color: #6ae4b9;">ULVar</span>.new<span style="color: #4ae8fc;">(</span>0<span style="color: #4ae8fc;">)</span><span style="color: #f78fe7;">)</span><span style="color: #80d200;">)</span><span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>, <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">s (n s z)</span>
+                   <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Encoding of zero</span>
+                   <span style="color: #6ae4b9;">ULAbs</span>.new<span style="color: #6ae4b9;">(</span> <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">lambda s .</span>
+                     <span style="color: #6ae4b9;">ULAbs</span>.new<span style="color: #f0ce43;">(</span> <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">lambda z .</span>
+                       <span style="color: #6ae4b9;">ULVar</span>.new<span style="color: #00bcff;">(</span>0<span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span>, <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">z</span>
+                 <span style="color: #6ae4b9;">STSuc</span>.new<span style="color: #b6a0ff;">(</span><span style="color: #6ae4b9;">STZero</span>.new<span style="color: #b6a0ff;">)</span>.eraseTypes,
+                 <span style="color: #79a8ff;">"Erase types of one"</span><span style="color: #00cd68;">)</span>
+  <span style="color: #b6a0ff;">end</span>
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">test_simple13</span>
+    assert_equal<span style="color: #00cd68;">(</span><span style="color: #6ae4b9;">ULApp</span>.new<span style="color: #b6a0ff;">(</span><span style="color: #6ae4b9;">ULAbs</span>.new<span style="color: #6ae4b9;">(</span>          <span style="color: #6ae4b9;">ULVar</span>.new<span style="color: #f0ce43;">(</span>0<span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>,<span style="color: #6ae4b9;">ULAbs</span>.new<span style="color: #6ae4b9;">(</span><span style="color: #6ae4b9;">ULAbs</span>.new<span style="color: #f0ce43;">(</span><span style="color: #6ae4b9;">ULVar</span>.new<span style="color: #00bcff;">(</span>0<span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span>,
+                 <span style="color: #6ae4b9;">STApp</span>.new<span style="color: #b6a0ff;">(</span><span style="color: #6ae4b9;">STAbs</span>.new<span style="color: #6ae4b9;">(</span><span style="color: #6ae4b9;">STNat</span>.new,<span style="color: #6ae4b9;">STVar</span>.new<span style="color: #f0ce43;">(</span>0<span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>,<span style="color: #6ae4b9;">STZero</span>.new<span style="color: #b6a0ff;">)</span>.eraseTypes,
+                 <span style="color: #79a8ff;">"Erase types of (lambda x : nat . x) (zero)"</span><span style="color: #00cd68;">)</span>
+  <span style="color: #b6a0ff;">end</span>
+<span style="color: #b6a0ff;">end</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-The-Docker-setup" class="outline-3">
+<h3 id="The-Docker-setup">The Docker setup</h3>
+<div class="outline-text-3" id="text-The-Docker-setup">
+<p>
+<a href="./testing/a2/Dockerfile">Dockerfile</a>
+</p>
+<div class="org-src-container">
+<pre class="src src-docker"># Define the argument for openjdk version
+ARG OPENJDK_TAG=8u232
+
+FROM ruby:2.7.2-buster
+
+# Setup to install Scala
+RUN apt-get update &amp;&amp; \
+    apt-get install scala -y &amp;&amp; \
+    apt-get install -y curl &amp;&amp; \
+    sh -c '(echo "#!/usr/bin/env sh" &amp;&amp; \
+    curl -L https://github.com/lihaoyi/Ammonite/releases/download/2.1.1/2.12-2.1.1) &gt; /usr/local/bin/amm &amp;&amp; \
+    chmod +x /usr/local/bin/amm'
+RUN (rm -rf /root/.cache)
+     
+# Set the name of the maintainers
+MAINTAINER Habib Ghaffari Hadigheh, Mark Armstrong &lt;ghaffh1@mcmaster.ca, armstmp@mcmaster.ca&gt;
+
+# Set the working directory
+WORKDIR /opt/a2
+</pre>
+</div>
+
+<p>
+<a href="./testing/a2/docker-compose.yml">docker-compose.yml</a>
+</p>
+<div class="org-src-container">
+<pre class="src src-yaml">version: '2'
+services:
+  service:
+    build: .
+    image: 3mi3_a2_docker_image
+    volumes:
+      - .:/opt/a2
+    container_name: 3mi3_a2_container
+    command: bash -c
+      "echo 'Scala testing' &amp;&amp;
+       echo '----------------------------------------------------------------------' &amp;&amp;
+       amm a2_test.sc &amp;&amp;
+       printf '\\n\\n\\n' &amp;&amp;
+       echo 'Ruby testing' &amp;&amp;
+       echo '----------------------------------------------------------------------' &amp;&amp;
+       ruby a2_test.rb &amp;&amp;
+       echo '----------------------------------------------------------------------'"
+</pre>
+</div>
+
+<p>
+<a href="./testing/a2/setup.sh">setup.sh</a>
+</p>
+<div class="org-src-container">
+<pre class="src src-shell">docker-compose build --force-rm
+</pre>
+</div>
+
+<p>
+<a href="./testing/a2/run.sh">run.sh</a>
+</p>
+<div class="org-src-container">
+<pre class="src src-shell"><span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Run the container</span>
+docker-compose up --force-recreate
+<span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Stop the container after finishing the test run</span>
+docker-compose stop -t 1
+</pre>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -1272,8 +1769,8 @@ Use it if you wish.
 <p class="author">Author: Mark Armstrong</p>
      <p class="author">Contact: <a href="mailto:markparmstrong@gmail.com">markparmstrong@gmail.com</a></p>
      <p class="date">Original date: October 30th, 2020</p>
-     <p class="date">Last updated: 2020-11-07 Sat 13:05</p>
-     <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.90 (<a href="https://orgmode.org">Org</a> mode 9.4)</p>
+     <p class="date">Last updated: 2020-11-10 Tue 15:53</p>
+     <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4)</p>
      <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

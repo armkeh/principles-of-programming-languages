@@ -12,6 +12,18 @@ better viewed at
 
 ## November
 
+  - November 10th
+    
+      - The testing and more detailed specifications for assignment 2
+        are now posted. Sorry for the numerous delays.
+          - Note that a somewhat small change was required to the Ruby
+            code for the untyped calculus
+            ([`a2_ulterm.rb`](./assignments/src/a2_ulterm.rb).) The
+            tests need to compare *UL* terms, and so the `==` method had
+            to be defined for that type.
+          - The assignment itself contains an update section with any
+            other important information you will need about changes.
+
   - November 9th
     
       - Assignment 2's due date has now been shifted to November 25th.

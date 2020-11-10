@@ -1,0 +1,17 @@
+version: '2'
+services:
+  service:
+    build: .
+    image: 3mi3_a2_docker_image
+    volumes:
+      - .:/opt/a2
+    container_name: 3mi3_a2_container
+    command: bash -c
+      "echo 'Scala testing' &&
+       echo '----------------------------------------------------------------------' &&
+       amm a2_test.sc &&
+       printf '\\n\\n\\n' &&
+       echo 'Ruby testing' &&
+       echo '----------------------------------------------------------------------' &&
+       ruby a2_test.rb &&
+       echo '----------------------------------------------------------------------'"

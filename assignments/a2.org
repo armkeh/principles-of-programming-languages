@@ -29,6 +29,20 @@ simple translator to simplify terms to untyped λ-calculus terms.
 :CUSTOM_ID: Updates-and-file-history
 :END:
 
+** November 10th
+
+- The testing section has been completed.
+- The subclasses of the ~ULTerm~ class in Ruby have had
+  a ~==~ method added to them. This method
+  is necessary for the testing of Part 3,
+  and you will need to copy its definitions or
+  re-download the [[./src/a2_ulterm.rb][~a2_ulterm.rb~]] file.
+- Notes about the means of implementing type checking have been added.
+- The names of the types for natural numbers and booleans
+  in the /ST/ language have been shortened, to ~nat~ and ~bool~.
+  - Classes to represent these types in both Scala and Ruby
+    have also been provided.
+
 ** November 6th
 :PROPERTIES:
 :CUSTOM_ID: November-6th
@@ -113,8 +127,8 @@ terms ~zero~, ~suc~, ~iszero~, ~tt~, ~ff~, and ~test~, with the following syntax
              | test ⟨typedterm⟩ ⟨typedterm⟩ ⟨typedterm⟩
 
 ⟨type⟩ ∷= ⟨type⟩ → ⟨type⟩
-        | natural
-        | boolean
+        | nat
+        | bool
 #+end_src
 
 We also introduce the following /typing rules/ for these typed λ-terms.
@@ -149,23 +163,23 @@ and ~t₂~ has the type ~A~, then ~t₂~ applied to ~t₁~ has type ~B~.
 The remaining rules give the typings for the constants and
 function terms added to this language.
 #+begin_src text
-                                       Γ ⊢ t : natural
-––––––––––––––––––––––– T-zero      –––––––––––––––––––––––– T-suc
- Γ ⊢ zero : natural                  Γ ⊢ suc t : natural
+                                   Γ ⊢ t : nat
+––––––––––––––––––– T-zero      –––––––––––––––––––– T-suc
+ Γ ⊢ zero : nat                  Γ ⊢ suc t : nat
                             
                             
-                            
-–––––––––––––––––––––– T-true    ––––––––––––––––––––––– T-false
- Γ ⊢ true : boolean               Γ ⊢ false : boolean
+                         
+––––––––––––––––––– T-true    –––––––––––––––––––– T-false
+ Γ ⊢ true : bool               Γ ⊢ false : bool
 
 
-    Γ ⊢ t : natural
-––––––––––––––––––––––––––– T-iszero
- Γ ⊢ iszero t : boolean 
+    Γ ⊢ t : nat
+–––––––––––––––––––––––– T-iszero
+ Γ ⊢ iszero t : bool 
 
 
- Γ ⊢ b : boolean    Γ ⊢ t₁ : A    Γ ⊢ t₂ : A
-–––––––––––––––––––––––––––––––––––––––––––––––– T-test
+ Γ ⊢ b : bool    Γ ⊢ t₁ : A    Γ ⊢ t₂ : A
+––––––––––––––––––––––––––––––––––––––––––––– T-test
             Γ ⊢ test b t₁ t₂ : A
 #+end_src
 
@@ -490,6 +504,8 @@ class ULVar < ULTerm
   def to_s
     @index.to_s
   end
+
+  def ==(r); r.is_a?(ULVar) && r.index == @index end
 end
 #+end_src
 
@@ -523,6 +539,8 @@ class ULAbs < ULTerm
   def to_s
     "lambda . " + @t.to_s
   end
+
+  def ==(r); r.is_a?(ULAbs) && r.t == @t end
 end
 #+end_src
 
@@ -576,6 +594,8 @@ class ULApp < ULTerm
   def to_s
     "(" + @t1.to_s + ") (" + @t2.to_s + ")" 
   end
+
+  def ==(r); r.is_a?(ULApp) && r.t1 == @t1 && r.t2 == @t2 end
 end
 #+end_src
 
@@ -672,6 +692,67 @@ The constructors of the type should be named
 - ~STFalse~, and
 - ~STTest~.
 
+(The remaining text of this section was added November 10th.)
+
+The ~STZero~, ~STTrue~ and ~STFalse~ types should be declared as
+singleton classes in Scala (i.e., as ~case object~'s instead of ~case class~'s.)
+
+Note that the ~STAbs~ constructor must take an argument specifying
+the /type/ of the variable being abstracted. This argument
+should be of the following types.
+(This code should be included in your ~a2~ file.)
+In [[./src/a2_types.sc][Scala]]:
+#+begin_src amm :tangle ./src/a2_types.sc
+sealed trait STType
+case object STNat extends STType {
+  override def toString() = "nat"
+}
+case object STBool extends STType {
+  override def toString() = "bool"
+}
+// Functions have a domain type and a codomain type.
+case class STFun(dom: STType, codom: STType) extends STType {
+  override def toString() = "(" + dom.toString + ") -> (" + codom.toString + ")"
+}
+
+// Example use: the type "nat -> bool" is written STFun(STNat,STBool)
+#+end_src
+And in [[./src/a2_types.rb][Ruby]]:
+#+begin_src ruby :results output :tangle ./src/a2_types.rb
+class STType end
+
+class STNat < STType
+  # Comparison and printing methods
+  def ==(type); type.is_a?(STNat) end
+  def to_s; "nat" end
+end
+
+class STBool < STType
+  # Comparison and printing methods
+  def ==(type); type.is_a?(STBool) end
+  def to_s; "bool" end
+end
+
+# Functions have a domain type and a codomain type.
+class STFun < STType
+  attr_reader :dom
+  attr_reader :codom
+  
+  def initialize(dom, codom)
+    unless dom.is_a?(STType) && dom.is_a?(STType)
+      throw "Constructing a type out of non-types"
+    end
+    @dom = dom; @codom = codom
+  end
+
+  # Comparison and printing methods
+  def ==(type); type.is_a?(STFun) && type.dom == @dom && type.codom == @codom end 
+  def to_s; "(" + dom.to_s + ") -> (" + codom.to_s + ")" end
+end
+
+# Example use: the type "nat -> bool" is written STFun.new(STNat.new,STBool.new)
+#+end_src
+
 * Part 2 – Type checking                                       [40 marks]
 :PROPERTIES:
 :CUSTOM_ID: Part-1-–-Interpreter-written-in-Scala--[20 marks]
@@ -682,11 +763,31 @@ The constructors of the type should be named
 #+end_center
 
 Implement, in both Scala and Ruby,
-a /type checker/ method for elements of ~STTerm~.
+a /type checker/ method named ~typecheck~ for elements of ~STTerm~.
 
-This type checker takes an ~STTerm~, and returns ~true~ if
+This ~typecheck~ method takes an ~STTerm~, and returns ~true~ if
 the represented term obeys the type rules of /ST/;
 otherwise, it returns ~false~.
+
+(The remaining text of this section was added November 10th.)
+
+The definition of ~typecheck~ will require a method to determine
+the type of a given expression.
+The name ~typeOf~ is recommended for this method.
+This method should have as an argument the /environment/;
+i.e., a map, list or similar type which relates variables to types. 
+(Since variables are represented as integers,
+this means relating integers to ~STType~ values.)
+
+I (Mark) /suggest/ that ~typeOf~ method return a ~Option[STType]~ in the Scala implementation,
+but this is not a requirement.
+You will not be penalised for using any reasonable implementation,
+including
+- use of exceptions when a term has no type,
+- use of the ~Try~, ~Success~ and ~Failure~ types, or
+- use of the ~Either~ type.
+If you have another implementation in mind, you are welcome to check
+with Mark.
 
 * Part 3 – Translation to the untyped λ-calculus; type erasure [40 marks]
 :PROPERTIES:
@@ -698,25 +799,42 @@ otherwise, it returns ~false~.
 #+end_center
 
 Implement, in both Scala and Ruby,
-a /type eraser/ method for elements of ~STTerm~,
+a method ~eraseTypes~ for elements of ~STTerm~,
 which /translates/ them into elements of ~ULTerm~ (definition given above.)
 
 This translation also needs to translate the natural and boolean constants
 into the pure λ-calculus encodings that represent them.
+Recall these translations from the notes (the translation for ~iszero~ has been added.)
+#+begin_src text
+true   = λ t → λ f → t
+false  = λ t → λ f → f
+test   = λ l → λ m → λ n → l m n
+zero   = λ s → λ z → z
+suc    = λ n → λ s → λ z → s (n s z)
+iszero = λ m → m (λ x → false) true     
+#+end_src
+Bear in mind that application is left-associative, so, e.g., ~l m n~ is
+equivalent to ~(l m) n~.
 
-(You should the definition of ~ULTerm~ and its methods into your file,
-or import it in a way compatible with the testing environments.)
+(You should import the ~a2_ulterm~ files into your file
+in a manner compatible with the Docker testing environments,
+or copy the definitions into your file and create
+blank ~a2_ulterm~ files to satisfy the import statements in the testing.)
 
 * Part 4 – Bonus: Interpreting /SL/ programs                     [10 marks]
 :PROPERTIES:
 :CUSTOM_ID: Part-4-–-Bonus:-Interpreting-/SL/-programs---------------------[10 marks]
 :END:
 
+#+begin_center
+*Place any code for this part in files ~a2p4.sc~ and ~a2p4.rb~.*
+#+end_center
+
 Implement an evaluation method for your ~STTerm~ type.
 
 Make use of the evaluation method for ~ULTerm~'s in your definition.
 You will also need a method to convert results back
-to the ~STTerm~ representation.
+to an ~STTerm~ representation.
 
 * Part 5 – Bonus: pairs                                        [10 bonus marks]
 :PROPERTIES:
@@ -724,7 +842,7 @@ to the ~STTerm~ representation.
 :END:
 
 #+begin_center
-*Place any code for this part in files ~a2p4.sc~ and ~a2p4.rb~.*
+*Place any code for this part in files ~a2p5.sc~ and ~a2p5.rb~.*
 #+end_center
 
 Implement another λ-calculus, called /ST2/, which includes
@@ -764,37 +882,24 @@ Use it if you wish.
 :CUSTOM_ID: Testing
 :END:
 
-:TODO:
-
-* COMMENT Testing description from last assignment
-:PROPERTIES:
-:CUSTOM_ID: COMMENT-Testing-description-from-last-assignment
-:END:
-
 Unit tests for the requested types, methods and predicates
 are available here.
-- [[./testing/a1/a1p1_test.sc][a1p1_test.sc]]
-- [[./testing/a1/a1p3_test.sc][a1p3_test.sc]]
-- [[./testing/a1/a1p4_test.sc][a1p4_test.sc]]
-- [[./testing/a1/a1p2.plt][a1p2.plt]]
-- [[./testing/a1/a1p3.plt][a1p3.plt]]
-- [[./testing/a1/a1p4.plt][a1p4.plt]]
+- [[./testing/a1/a1p1_test.sc][a2_test.sc]]
+- [[./testing/a1/a1p2.plt][a2_test.rb]]
 The contents of the unit test files are also repeated below.
 
 The tests can be run by placing the test files
 in the same directory as your code files.
 
-To run the tests for the Scala portions, use the commands
+To run the tests for the Scala portions, use the command
 #+begin_src shell
-amm a1pn_test.sc
+amm a2_test.sc
 #+end_src
-where the ~n~ in ~a1pn_test.sc~ is the appropriate part number.
 
-To run the tests for the Prolog portions,us the commands
+To run the tests for the Ruby portions,us the commands
 #+begin_src shell
-swipl -t "load_test_files([]), run_tests." -s a1pn.pl
+ruby a2_test.rb
 #+end_src
-where the ~n~ in ~a1pn.pl~ is the appropriate part number.
 
 #+begin_center
 *You are strongly encouraged to add your own additional test cases*
@@ -810,11 +915,11 @@ The provided test cases check a very minimal amount!
 
 The Docker setup and usage scripts are available at the following links.
 Their contents are also repeated below.
-- [[./testing/a1/Dockerfile][Dockerfile]]
-- [[./testing/a1/docker-compose.yml][docker-compose.yml]]
-- [[./testing/a1/setup.sh][setup.sh]]
-- [[./testing/a1/run.sh][run.sh]]
-Place them into your ~a1~ directory where your code files
+- [[./testing/a2/Dockerfile][Dockerfile]]
+- [[./testing/a2/docker-compose.yml][docker-compose.yml]]
+- [[./testing/a2/setup.sh][setup.sh]]
+- [[./testing/a2/run.sh][run.sh]]
+Place them into your ~a2~ directory where your code files
 and the test files (linked to above) exist,
 then run ~setup.sh~ and ~run.sh~.
 
@@ -833,13 +938,11 @@ to run the commands contained in those scripts manually.
 :CUSTOM_ID: Scala
 :END:
 
-**** Framework
-:PROPERTIES:
-:CUSTOM_ID: Framework
-:END:
+[[./testing/a2/a2_testframework.sc][a2_test.sc]]
+#+begin_src amm :tangle ./testing/a2/a2_test.sc
+import $file.a2, a2._
+import $file.a2_ulterm, a2_ulterm._
 
-[[./testing/a1/a1_testframework.sc][a1_testframework.sc]]
-#+begin_src amm :tangle ./testing/a1/a1_testframework.sc
 /* Given an expected result and a computed result,
    check if they are equal in value.
    If so, return 0. Otherwise, inform the user, and return 1,
@@ -855,13 +958,64 @@ def test[A](given: A, expected: A, the_test: String) =
     0
   }
 
-def runTests[A](tests: List[Tuple3[A,A,String]]): Unit = {
+val providedTests : List[Tuple3[Unit => Any, Any, String]] = List(
+
+  // Positive typechecking test cases
+  (_ => typecheck(STZero),                       true, "Typecheck zero"),
+  (_ => typecheck(STSuc(STZero)),                true, "Typecheck one"),
+  (_ => typecheck(STIsZero(STZero)),             true, "Typecheck iszero zero"),
+  (_ => typecheck(STTrue),                       true, "Typecheck true"),
+  (_ => typecheck(STFalse),                      true, "Typecheck false"),
+  (_ => typecheck(STTest(STTrue,STZero,STZero)), true, "Typecheck test true zero zero"),
+  (_ => typecheck(STAbs(STNat,STVar(0))),        true, "Typecheck lambda x : nat . x"),
+  (_ => typecheck(STApp(STAbs(STNat,STVar(0)),STZero)), true, "Typecheck (lambda x : nat . x) (zero)"),
+
+  
+  // Negative typechecking test cases
+  (_ => typecheck(STSuc(STFalse)), false,
+    "Successor of false should not typecheck."),
+  (_ => typecheck(STVar(0)), false,
+    "Free variables should not typecheck"),
+  (_ => typecheck(STApp(STAbs(STNat,STVar(0)),STFalse)), false,
+    "Applying a boolean to a natural function should not typecheck"),
+
+  // Type erasure tests
+  (_ => eraseTypes(STTrue), ULAbs(ULAbs(ULVar(1))), "Erase types of true"),
+  (_ => eraseTypes(STSuc(STZero)),
+    ULApp(
+      // Encoding of suc
+      ULAbs( // lambda n .
+        ULAbs( // lambda s.
+          ULAbs( // lambda z.
+            ULApp(ULVar(1),ULApp(ULApp(ULVar(2),ULVar(1)),ULVar(0)))))), // s (n s z)
+      // Encoding of zero
+      ULAbs( // lambda s .
+        ULAbs( // lambda z .
+          ULVar(0)))), // z
+    "Erase types of one"),
+  (_ => eraseTypes(STApp(STAbs(STNat,STVar(0)),STZero)),
+    ULApp(ULAbs(ULVar(0)), ULAbs(ULAbs(ULVar(0)))),
+    "Erase types of (lambda x : nat . x) (zero)"),
+)
+
+def runTests[A](tests: List[Tuple3[Unit => A,A,String]]): Unit = {
   // Apply test to each element of tests, and sum the return values.
   // This is essentially a for loop.
   val failed = tests.foldLeft(0) {
     (failures, next) => next match {
       // Deconstruct the tuple to get its parts
-      case (given, expected, the_test) => failures + test(given, expected, the_test)
+      case (given, expected, the_test) => {
+        val failure = try {
+          test(given(), expected, the_test)
+        } catch {
+          case e: Exception => {
+            print("Test " + the_test + "encountered exception: ")
+            println(e)
+            1
+          }
+        }
+        failures + failure
+      }
     }
   }
   
@@ -869,198 +1023,92 @@ def runTests[A](tests: List[Tuple3[A,A,String]]): Unit = {
   println("| " + failed + " tests failed")
   println("+---------------------------------------------------")
 }
+
+runTests(providedTests)
 #+end_src
 
-**** Scala testing code for Part 1
-:PROPERTIES:
-:CUSTOM_ID: Scala-testing-code-for-Part-1
-:END:
+*** Ruby
 
-[[./testing/a1/a1p1_test.sc][a1p1_test.sc]]
-#+begin_src amm :tangle ./testing/a1/a1p1_test.sc
-import $file.a1_testframework, a1_testframework._
-import $file.a1p1, a1p1._
+[[./testing/a2_test.rb][a2_test.rb]]
+#+begin_src ruby :tangle ./testing/a2/a2_test.rb
+require_relative "a2"
+require_relative "a2_ulterm"
+require "test/unit"
 
-val tests = List(
-  (interpretExpr(Const(0)), 0, "Constant expression 0"),
-  (interpretExpr(Plus(Const(5),Const(4))), 9, "Additive expression 5 + 4"),
-  (interpretExpr(Exp(Const(5),Const(4))), 625, "Exponential expression 5 ^ 4"),
-  )
+class ProvidedTests < Test::Unit::TestCase
 
-runTests(tests)
-#+end_src
+  # Positive type checking tests
+  def test_simple0
+    assert_equal(true, STZero.new.typecheck, "Typecheck zero")
+  end
+  def test_simple1
+    assert_equal(true, STSuc.new(STZero.new).typecheck, "Typecheck one")
+  end
+  def test_simple2
+    assert_equal(true, STIsZero.new(STZero.new).typecheck, "Typecheck iszero zero")
+  end
+  def test_simple3
+    assert_equal(true, STTrue.new.typecheck, "Typecheck true")
+  end
+  def test_simple4
+    assert_equal(true, STFalse.new.typecheck, "Typecheck false")
+  end
+  def test_simple5
+    assert_equal(true,
+                 STTest.new(STTrue.new,STZero.new,STZero.new).typecheck,
+                 "Typecheck test true zero zero")
+  end
+  def test_simple6
+    assert_equal(true,
+                 STAbs.new(STNat.new,STVar.new(0)).typecheck,
+                 "Typecheck lambda x : nat . x")
+  end
+  def test_simple7
+    assert_equal(true,
+                 STApp.new(STAbs.new(STNat.new,STVar.new(0)),STZero.new).typecheck,
+                 "Typecheck (lambda x : nat . x) (zero)")
+  end
 
-**** Scala testing code for Part 2
-:PROPERTIES:
-:CUSTOM_ID: Scala-testing-code-for-Part-2
-:END:
+  # Negative typechecking tests  
+  def test_simple8
+    assert_equal(false,
+                 STSuc.new(STFalse.new).typecheck,
+                 "Successor of false should not typecheck.")
+  end
+  def test_simple9
+    assert_equal(false,
+                 STVar.new(0).typecheck,
+                 "Free variables should not typecheck")
+  end
+  def test_simple10
+    assert_equal(false,
+                 STApp.new(STAbs.new(STNat.new,STVar.new(0)),STFalse.new).typecheck,
+                 "Applying a boolean to a natural function should not typecheck")
+  end
 
-There is no Scala code for part 2.
-
-**** Scala testing code for Part 3
-:PROPERTIES:
-:CUSTOM_ID: Scala-testing-code-for-Part-3
-:END:
-
-[[./testing/a1/a1p3_test.sc][a1p3_test.sc]]
-#+begin_src amm :tangle ./testing/a1/a1p3_test.sc
-import $file.a1_testframework, a1_testframework._
-import $file.a1p3, a1p3._
-
-val tests = List(
-  (interpretVarExpr(Const(0)), 0, "Constant expression 0"),
-  (interpretVarExpr(Plus(Const(5),Const(4))), 9, "Additive expression 5 + 4"),
-  (interpretVarExpr(Exp(Const(5),Const(4))), 625, "Exponential expression 5 ^ 4"),
-  // New tests for this part specifically.
-  (interpretVarExpr(Subst(Var('x), 'x, Const(0))), 0,
-                    "Simple substitution x[x := 0] expression"),
-  (interpretVarExpr(Subst(Subst(Plus(Var('x),Var('y)),
-                                'x,
-                                Const(5)),
-                          'y,
-                          Const(4))),
-                    9, "Nested substitution ((x + y)[x := 5])[y := 4]"),
-  )
-
-runTests(tests)
-#+end_src
-
-**** Scala testing code for Part 4
-:PROPERTIES:
-:CUSTOM_ID: Scala-testing-code-for-Part-4
-:END:
-
-[[./testing/a1/a1p4_test.sc][a1p4_test.sc]]
-#+begin_src amm :tangle ./testing/a1/a1p4_test.sc
-import $file.a1_testframework, a1_testframework._
-import $file.a1p4, a1p4._
-
-val tests = List(
-  (interpretMixedExpr(Const(0)), Some(Left(0)), "Constant expression 0"),
-  (interpretMixedExpr(Plus(Const(5),Const(4))), Some(Left(9)), "Additive expression 5 + 4"),
-  (interpretMixedExpr(Exp(Const(5),Const(4))), Some(Left(625)), "Exponential expression 5 ^ 4"),
-  // New tests for this part specifically.
-  (interpretMixedExpr(TT),Some(Right(true)),"Constant expression true"),
-  (interpretMixedExpr(Band(TT,FF)),Some(Right(false)),"And expression true && false"),
-  )
-
-runTests(tests)
-#+end_src
-
-*** Prolog
-:PROPERTIES:
-:CUSTOM_ID: Prolog
-:END:
-
-**** Prolog testing code for Part 1
-:PROPERTIES:
-:CUSTOM_ID: Prolog-testing-code-for-Part-1
-:END:
-
-There is no Prolog code for part 1.
-
-**** Prolog testing code for Part 2
-:PROPERTIES:
-:CUSTOM_ID: Prolog-testing-code-for-Part-2
-:END:
-
-[[./testing/a1/a1p2.plt][a1p2.plt]]
-#+begin_src prolog :tangle ./testing/a1/a1p2.plt
-:- begin_tests(a1p2).
-:- include(a1p2).
-
-test('Constant expression 0 is expression', nondet) :-
-        isExpr(constE(0)).
-test('Additive expression 5 + 4 is expression', nondet) :-
-        isExpr(plusE(constE(5),constE(4))).
-test('Exponential expression 5 ^ 4 is expression', nondet) :-
-        isExpr(expE(constE(5),constE(4))).
-
-test('Constant expression 0', nondet) :-
-        interpretExpr(constE(0),0).
-test('Additive expression 5 + 4', nondet) :-
-        interpretExpr(plusE(constE(5),constE(4)),9).
-test('Exponential expression 5 ^ 4', nondet) :-
-        interpretExpr(expE(constE(5),constE(4)),625).
-#+end_src
-
-**** Prolog testing code for Part 3
-:PROPERTIES:
-:CUSTOM_ID: Prolog-testing-code-for-Part-3
-:END:
-
-[[./testing/a1/a1p3.plt][a1p3.plt]]
-#+begin_src prolog :tangle ./testing/a1/a1p3.plt
-:- begin_tests(a1p3).
-:- include(a1p3).
-
-test('Constant expression 0 is expression', nondet) :-
-        isVarExpr(constE(0)).
-test('Additive expression 5 + 4 is expression', nondet) :-
-        isVarExpr(plusE(constE(5),constE(4))).
-test('Exponential expression 5 ^ 4 is expression', nondet) :-
-        isVarExpr(expE(constE(5),constE(4))).
-
-test('Constant expression 0', nondet) :-
-        interpretVarExpr(constE(0),0).
-test('Additive expression 5 + 4', nondet) :-
-        interpretVarExpr(plusE(constE(5),constE(4)),9).
-test('Exponential expression 5 ^ 4', nondet) :-
-        interpretVarExpr(expE(constE(5),constE(4)),625).
-
-% New tests for this part specifically.
-test('Simple substitution x[x := 0] is expression', nondet) :-
-        isVarExpr(subst(var(x),x,constE(0))).
-test('Nested substitution ((x + y)[x := 5])[y := 4] is expression', nondet) :-
-        isVarExpr(subst(subst(plusE(var(x),var(y)),
-                              x,
-                              constE(5)),
-                        y,
-                        constE(4))).
-test('Simple substitution x[x := 0]', nondet) :-
-        interpretVarExpr(subst(var(x),x,constE(0)),0).
-test('Nested substitution ((x + y)[x := 5])[y := 4]', nondet) :-
-        interpretVarExpr(subst(subst(plusE(var(x),var(y)),
-                                     x,
-                                     constE(5)),
-                               y,
-                               constE(4)),
-                         9).
-#+end_src
-
-**** Prolog testing code for Part 4
-:PROPERTIES:
-:CUSTOM_ID: Prolog-testing-code-for-Part-4
-:END:
-
-[[./testing/a1/a1p4.plt][a1p4.plt]]
-#+begin_src prolog :tangle ./testing/a1/a1p4.plt
-:- begin_tests(a1p4).
-:- include(a1p4).
-
-test('Constant expression 0 is expression', nondet) :-
-        isMixedExpr(constE(0)).
-test('Additive expression 5 + 4 is expression', nondet) :-
-        isMixedExpr(plusE(constE(5),constE(4))).
-test('Exponential expression 5 ^ 4 is expression', nondet) :-
-        isMixedExpr(expE(constE(5),constE(4))).
-
-test('Constant expression 0', nondet) :-
-        interpretMixedExpr(constE(0),0).
-test('Additive expression 5 + 4', nondet) :-
-        interpretMixedExpr(plusE(constE(5),constE(4)),9).
-test('Exponential expression 5 ^ 4', nondet) :-
-        interpretMixedExpr(expE(constE(5),constE(4)),625).
-
-% New tests for this part specifically.
-test('Constant expression true is expression', nondet) :-
-        isMixedExpr(tt).
-test('And expression true && false is expression', nondet) :-
-        isMixedExpr(band(tt,ff)).
-test('Constant expression true', nondet) :-
-        interpretMixedExpr(tt,true).
-test('And expression true && false', nondet) :-
-        interpretMixedExpr(band(tt,ff),false).
+  def test_simple11
+    assert_equal(ULAbs.new(ULAbs.new(ULVar.new(1))), STTrue.new.eraseTypes, "Erase types of true")
+  end
+  def test_simple12
+    assert_equal(ULApp.new(
+                   # Encoding of suc
+                   ULAbs.new( # lambda n .
+                     ULAbs.new( # lambda s.
+                       ULAbs.new( # lambda z.
+                         ULApp.new(ULVar.new(1),ULApp.new(ULApp.new(ULVar.new(2),ULVar.new(1)),ULVar.new(0)))))), # s (n s z)
+                   # Encoding of zero
+                   ULAbs.new( # lambda s .
+                     ULAbs.new( # lambda z .
+                       ULVar.new(0)))), # z
+                 STSuc.new(STZero.new).eraseTypes,
+                 "Erase types of one")
+  end
+  def test_simple13
+    assert_equal(ULApp.new(ULAbs.new(          ULVar.new(0)),ULAbs.new(ULAbs.new(ULVar.new(0)))),
+                 STApp.new(STAbs.new(STNat.new,STVar.new(0)),STZero.new).eraseTypes,
+                 "Erase types of (lambda x : nat . x) (zero)")
+  end
+end
 #+end_src
 
 ** The Docker setup
@@ -1068,16 +1116,14 @@ test('And expression true && false', nondet) :-
 :CUSTOM_ID: The-Docker-setup
 :END:
 
-[[./testing/a1/Dockerfile][Dockerfile]]
-#+begin_src docker :tangle ./testing/a1/Dockerfile
+[[./testing/a2/Dockerfile][Dockerfile]]
+#+begin_src docker :tangle ./testing/a2/Dockerfile
 # Define the argument for openjdk version
 ARG OPENJDK_TAG=8u232
-# Use the SWI Prolog image as a base, then add Scala after.
-FROM swipl
 
-# Set the name of the maintainers
-MAINTAINER Habib Ghaffari Hadigheh, Mark Armstrong <ghaffh1@mcmaster.ca, armstmp@mcmaster.ca>
+FROM ruby:2.7.2-buster
 
+# Setup to install Scala
 RUN apt-get update && \
     apt-get install scala -y && \
     apt-get install -y curl && \
@@ -1085,59 +1131,42 @@ RUN apt-get update && \
     curl -L https://github.com/lihaoyi/Ammonite/releases/download/2.1.1/2.12-2.1.1) > /usr/local/bin/amm && \
     chmod +x /usr/local/bin/amm'
 RUN (rm -rf /root/.cache)
+     
+# Set the name of the maintainers
+MAINTAINER Habib Ghaffari Hadigheh, Mark Armstrong <ghaffh1@mcmaster.ca, armstmp@mcmaster.ca>
 
 # Set the working directory
-WORKDIR /opt/a1/
-
-CMD ['bash']
+WORKDIR /opt/a2
 #+end_src
 
-[[./testing/a1/docker-compose.yml][docker-compose.yml]]
-#+begin_src yaml :tangle ./testing/a1/docker-compose.yml
+[[./testing/a2/docker-compose.yml][docker-compose.yml]]
+#+begin_src yaml :tangle ./testing/a2/docker-compose.yml
 version: '2'
 services:
   service:
     build: .
-    image: 3mi3_a1_docker_image
+    image: 3mi3_a2_docker_image
     volumes:
-      - .:/opt/a1
-    container_name: 3mi3_a1_container
+      - .:/opt/a2
+    container_name: 3mi3_a2_container
     command: bash -c
-      "echo 'Part 1 tests' &&
+      "echo 'Scala testing' &&
        echo '----------------------------------------------------------------------' &&
-       amm a1p1_test.sc &&
-       echo '\n\n\n' &&
-       echo 'Part 2 tests' &&
+       amm a2_test.sc &&
+       printf '\\n\\n\\n' &&
+       echo 'Ruby testing' &&
        echo '----------------------------------------------------------------------' &&
-       swipl -t \"load_test_files([]), run_tests.\" -s a1p2.plt &&
-       echo '----------------------------------------------------------------------' &&
-       echo '\n\n\n' &&
-       echo 'Part 3 Scala tests' &&
-       echo '----------------------------------------------------------------------' &&
-       amm a1p3_test.sc &&
-       echo '\n\n\n' &&
-       echo 'Part 3 Prolog tests' &&
-       echo '----------------------------------------------------------------------' &&
-       swipl -t \"load_test_files([]), run_tests.\" -s a1p3.plt &&
-       echo '----------------------------------------------------------------------' &&
-       echo '\n\n\n' &&
-       echo 'Part 4 Scala tests' &&
-       echo '----------------------------------------------------------------------' &&
-       amm a1p4_test.sc &&
-       echo '\n\n\n' &&
-       echo 'Part 4 Prolog tests' &&
-       echo '----------------------------------------------------------------------' &&
-       swipl -t \"load_test_files([]), run_tests.\" -s a1p4.plt &&
+       ruby a2_test.rb &&
        echo '----------------------------------------------------------------------'"
 #+end_src
 
-[[./testing/a1/setup.sh][setup.sh]]
-#+begin_src shell :tangle ./testing/a1/setup.sh :tangle-mode (identity #o755)
+[[./testing/a2/setup.sh][setup.sh]]
+#+begin_src shell :tangle ./testing/a2/setup.sh :tangle-mode (identity #o755)
 docker-compose build --force-rm
 #+end_src
 
-[[./testing/a1/run.sh][run.sh]]
-#+begin_src shell :tangle ./testing/a1/run.sh :tangle-mode (identity #o755)
+[[./testing/a2/run.sh][run.sh]]
+#+begin_src shell :tangle ./testing/a2/run.sh :tangle-mode (identity #o755)
 # Run the container
 docker-compose up --force-recreate
 # Stop the container after finishing the test run
