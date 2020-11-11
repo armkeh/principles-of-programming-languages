@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-11-09 Mon 12:34 -->
+<!-- 2020-11-11 Wed 09:50 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Introduction to Clojure</title>
@@ -237,7 +237,13 @@ programs themselves are written as data within the language."
 <li><a href="#Motivation">2. Motivation</a></li>
 <li><a href="#Getting-Clojure">3. Getting Clojure</a></li>
 <li><a href="#The-syntax-and-(most-of)-the-semantics-of-Clojure">4. The syntax and (most of) the semantics of Clojure</a></li>
-<li><a href="#Special-forms;-the-~def~-and-~defn~-forms">5. Special forms; the <code>defn</code>, <code>def</code> and <code>fn</code> forms</a></li>
+<li><a href="#Special-forms;-the-~defn~,-~def~-and-~fn~-forms">5. Special forms; the <code>defn</code>, <code>def</code> and <code>fn</code> forms</a>
+<ul>
+<li><a href="#~defn~">5.1. <code>defn</code></a></li>
+<li><a href="#~defn~-is-~def~-plus-~fn~">5.2. <code>defn</code> is <code>def</code> plus <code>fn</code></a></li>
+<li><a href="#Scope-and-the-~let~-form">5.3. Scope and the <code>let</code> form</a></li>
+</ul>
+</li>
 <li><a href="#The-~quote~,-~'~">6. The <code>quote</code>, <code>'</code></a></li>
 <li><a href="#Conditional-forms">7. Conditional forms</a></li>
 <li><a href="#~do~,-for-sequential-computation">8. <code>do</code>, for sequential computation</a></li>
@@ -314,27 +320,77 @@ for a fair amount of programming.
 <p>
 For example, the following are all Clojure expressions.
 </p>
+<ul class="org-ul">
+<li><p>
+Integers.
+</p>
 <div class="org-src-container">
 <pre class="src src-clojure">2
 -1
+</pre>
+</div></li>
+<li><p>
+Symbols
+</p>
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #00bcff;">:symbols</span>
+<span style="color: #00bcff;">:a</span>
+<span style="color: #00bcff;">:b</span>
+</pre>
+</div></li>
 
-<span style="color: #00bcff;">:symbols</span>
-
+<li><p>
+Lists (note the <code>'</code> or <code>quote</code> usage; we will explain it below in <a href="#The-~quote~,-~'~">6</a>.)
+</p>
+<ul class="org-ul">
+<li>Which are heterogeneous.</li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">Lists</span>
 <span style="color: #00cd68;">()</span>
 '<span style="color: #00cd68;">(</span>1 2 3<span style="color: #00cd68;">)</span>
+'<span style="color: #00cd68;">(</span><span style="color: #00bcff;">:a</span> 2 3<span style="color: #00cd68;">)</span>
 <span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">quote</span> <span style="color: #b6a0ff;">(</span>1 2 3<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
 '<span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">(</span>1 2<span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">(</span>3 4<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
 
+<span style="color: #00cd68;">(</span>first '<span style="color: #b6a0ff;">(</span>1 2 3<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span> <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">=&gt; 1</span>
+                 <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">first is often called car in other Lisps.</span>
+                 <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">Standing for "Contents of Address part of Register",</span>
+                 <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">referring to the memory layout used in the original implementation of Lisp.</span>
+<span style="color: #00cd68;">(</span>rest '<span style="color: #b6a0ff;">(</span>1 2 3<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span> <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">=&gt; (2 3)</span>
+                <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">rest is often called cdr in other Lisps.</span>
+                <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">(Pronounced "could-er".)</span>
+                <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">Standing for "Contents of Decrement part of Register".</span>
+</pre>
+</div></li>
+
+<li><p>
+Arrays
+</p>
+<ul class="org-ul">
+<li>Also heterogeneous.</li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">Arrays</span>
 <span style="color: #00cd68;">[</span>1 2 3<span style="color: #00cd68;">]</span>
+<span style="color: #00cd68;">[</span><span style="color: #00bcff;">:a</span> 1 2<span style="color: #00cd68;">]</span>
 <span style="color: #00cd68;">[]</span>
+</pre>
+</div></li>
 
-<span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">There are sets as well (unordered collections)</span>
-#<span style="color: #00cd68;">{</span>1 2 3<span style="color: #00cd68;">}</span>
+<li><p>
+Sets and maps.
+</p>
+<ul class="org-ul">
+<li>Which are also heterogeneous.</li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-clojure">#<span style="color: #00cd68;">{</span>1 2 3<span style="color: #00cd68;">}</span>
 
-<span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">Maps as well</span>
 <span style="color: #00cd68;">{</span><span style="color: #00bcff;">:key</span> 1, <span style="color: #79a8ff;">"my key"</span> <span style="color: #00bcff;">:a_value</span><span style="color: #00cd68;">}</span>
 </pre>
-</div>
+</div></li>
+</ul>
 
 <p>
 Clojure programs are written as lists,
@@ -369,16 +425,20 @@ For instance,
 </div>
 </div>
 
-<div id="outline-container-Special-forms;-the-~def~-and-~defn~-forms" class="outline-2">
-<h2 id="Special-forms;-the-~def~-and-~defn~-forms"><span class="section-number-2">5</span> Special forms; the <code>defn</code>, <code>def</code> and <code>fn</code> forms</h2>
-<div class="outline-text-2" id="text-Special-forms;-the-~def~-and-~defn~-forms">
+<div id="outline-container-Special-forms;-the-~defn~,-~def~-and-~fn~-forms" class="outline-2">
+<h2 id="Special-forms;-the-~defn~,-~def~-and-~fn~-forms"><span class="section-number-2">5</span> Special forms; the <code>defn</code>, <code>def</code> and <code>fn</code> forms</h2>
+<div class="outline-text-2" id="text-Special-forms;-the-~defn~,-~def~-and-~fn~-forms">
 <p>
 When or if the evaluation rules of Clojure given above
 prove too limiting, Clojure allows for “special forms”
 (pieces of syntax handled differently by the compiler)
 to implement constructs.
 </p>
+</div>
 
+<div id="outline-container-~defn~" class="outline-3">
+<h3 id="~defn~"><span class="section-number-3">5.1</span> <code>defn</code></h3>
+<div class="outline-text-3" id="text-~defn~">
 <p>
 The first of these we will consider is the <code>defn</code> form,
 which can be read “define function”.
@@ -402,25 +462,55 @@ and then calls <code>sum_of_squares</code> with arguments <code>2</code> and <co
 
 <p>
 Functions can be defined as having different arities.
+All the definitions do have to be packaged together as below.
 </p>
 <div class="org-src-container">
 <pre class="src src-clojure"><span style="color: #a8a8a8;">; </span><span style="color: #a8a8a8;">Define them by "brute force" </span>
 <span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">defn</span> <span style="color: #feacd0;">sum-of-squares</span>
-  <span style="color: #b6a0ff;">(</span><span style="color: #6ae4b9;">[</span>x y<span style="color: #6ae4b9;">]</span>   <span style="color: #6ae4b9;">(</span>* <span style="color: #f0ce43;">(</span>square x<span style="color: #f0ce43;">)</span> <span style="color: #f0ce43;">(</span>square y<span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span>
-  <span style="color: #b6a0ff;">(</span><span style="color: #6ae4b9;">[</span>x y z<span style="color: #6ae4b9;">]</span> <span style="color: #6ae4b9;">(</span>* <span style="color: #f0ce43;">(</span>square x<span style="color: #f0ce43;">)</span> <span style="color: #f0ce43;">(</span>square y<span style="color: #f0ce43;">)</span> <span style="color: #f0ce43;">(</span>square z<span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+  <span style="color: #b6a0ff;">(</span><span style="color: #6ae4b9;">[</span>x y<span style="color: #6ae4b9;">]</span>   <span style="color: #6ae4b9;">(</span>+ <span style="color: #f0ce43;">(</span>square x<span style="color: #f0ce43;">)</span> <span style="color: #f0ce43;">(</span>square y<span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span>
+  <span style="color: #b6a0ff;">(</span><span style="color: #6ae4b9;">[</span>x y z<span style="color: #6ae4b9;">]</span> <span style="color: #6ae4b9;">(</span>+ <span style="color: #f0ce43;">(</span>square x<span style="color: #f0ce43;">)</span> <span style="color: #f0ce43;">(</span>square y<span style="color: #f0ce43;">)</span> <span style="color: #f0ce43;">(</span>square z<span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
 
 <span style="color: #00cd68;">(</span>sum-of-squares 2 3<span style="color: #00cd68;">)</span>
 <span style="color: #00cd68;">(</span>sum-of-squares 2 3 4<span style="color: #00cd68;">)</span>
-
-<span style="color: #a8a8a8;">; </span><span style="color: #a8a8a8;">Or define a "variadic" function which takes a list of arguments</span>
-<span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">defn</span> <span style="color: #feacd0;">sum-of-squares</span> <span style="color: #b6a0ff;">[</span>x &amp; rest<span style="color: #b6a0ff;">]</span>
-  <span style="color: #b6a0ff;">(</span>* <span style="color: #6ae4b9;">(</span>square x<span style="color: #6ae4b9;">)</span> <span style="color: #a8a8a8;">;; </span><span style="color: #721045;">TODO</span>
-     <span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
-
-<span style="color: #00cd68;">(</span>sum-of-squares 2 3 4 5<span style="color: #00cd68;">)</span>
 </pre>
 </div>
 
+<p>
+They can even accept any number of arguments
+by the use of an ampersand <code>&amp;</code>; an <code>&amp;</code> followed by a name
+indicates the function takes any number of additional arguments,
+which are gathered into a list given that name.
+</p>
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">sum-of-squares-variadic takes any number of arguments,</span>
+<span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">collected into the list xs.</span>
+<span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">(If we wanted to force there to be some arguments,</span>
+<span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">we could put those arguments before the &amp;.)</span>
+<span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">defn</span> <span style="color: #feacd0;">sum-of-squares-variadic</span> <span style="color: #b6a0ff;">[</span>&amp; xs<span style="color: #b6a0ff;">]</span>
+ <span style="color: #b6a0ff;">(</span><span style="color: #b6a0ff;">if</span> <span style="color: #6ae4b9;">(</span>empty? xs<span style="color: #6ae4b9;">)</span>
+   <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">If xs is empty, the sum is 0.</span>
+   0
+   <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">Otherwise, square the first element of xs, and add it</span>
+   <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">to the result of applying sum-of-squares-variadic</span>
+   <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">to the rest of the list.</span>
+   <span style="color: #6ae4b9;">(</span>+ <span style="color: #f0ce43;">(</span>square <span style="color: #00bcff;">(</span>first xs<span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span>
+      <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">Note that we need to use apply here as (rest xs) is a list,</span>
+      <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">not separate arguments.</span>
+      <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">(apply f (x1 x2 &#8230; xn)) is equivalent to (f x1 x2 &#8230; xn)</span>
+      <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">(It also works for arrays of arguments, not just lists.)</span>
+      <span style="color: #f0ce43;">(</span>apply sum-of-squares-variadic <span style="color: #00bcff;">(</span>rest xs<span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+
+<span style="color: #00cd68;">(</span>sum-of-squares-variadic 1 2<span style="color: #00cd68;">)</span>
+<span style="color: #00cd68;">(</span>sum-of-squares-variadic 1 2 3 4 5<span style="color: #00cd68;">)</span>
+<span style="color: #00cd68;">(</span>sum-of-squares-variadic<span style="color: #00cd68;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-~defn~-is-~def~-plus-~fn~" class="outline-3">
+<h3 id="~defn~-is-~def~-plus-~fn~"><span class="section-number-3">5.2</span> <code>defn</code> is <code>def</code> plus <code>fn</code></h3>
+<div class="outline-text-3" id="text-~defn~-is-~def~-plus-~fn~">
 <p>
 The <code>defn</code> form can be thought of
 as the combination of the <code>def</code> and <code>fn</code> forms.
@@ -433,10 +523,95 @@ The <code>def</code> form defines named values.
 
 <p>
 The <code>fn</code> form defines <i>anonymous</i> functions.
+We apply this one right away to see its result.
 </p>
 <div class="org-src-container">
 <pre class="src src-clojure"><span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">(</span><span style="color: #b6a0ff;">fn</span> <span style="color: #6ae4b9;">[</span>x<span style="color: #6ae4b9;">]</span> <span style="color: #6ae4b9;">(</span>+ x 1<span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span> my-favourite-number<span style="color: #00cd68;">)</span>
 </pre>
+</div>
+
+<p>
+There is a shorthand for the <code>fn</code> syntax; <code>(fn [args] body)</code> can be
+replaced by <code>#(body)</code>, with a small change to <code>body</code>.
+There is no specification of argument names with the <code>#()</code> form,
+so they need to be replaced in <code>body</code> with <i>positional argument names</i>.
+A <code>%</code> is used if the function has a single parameter, <code>%1</code>, <code>%2</code>, etc.
+if the function has multiple parameters, and <code>%&amp;</code> if it is variadic.
+So the above can be written
+</p>
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #00cd68;">(</span>#<span style="color: #b6a0ff;">(</span>+ <span style="color: #00d3d0;">%1</span> 1<span style="color: #b6a0ff;">)</span> my-favourite-number<span style="color: #00cd68;">)</span>
+</pre>
+</div>
+<p>
+(Note; nesting of the <code>#()</code> form is not allowed, because the
+positional parameter names would become ambiguous.)
+</p>
+
+<p>
+Of course, we then don't need <code>defn</code>; we could just write.
+</p>
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">def</span> <span style="color: #00d3d0;">add-one</span> <span style="color: #b6a0ff;">(</span><span style="color: #b6a0ff;">fn</span> <span style="color: #6ae4b9;">[</span>x<span style="color: #6ae4b9;">]</span> <span style="color: #6ae4b9;">(</span>+ x 1<span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+</pre>
+</div>
+
+<p>
+We've then given the anonymous function a name we can use later.
+</p>
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #00cd68;">(</span>add-one my-favourite-number<span style="color: #00cd68;">)</span>
+</pre>
+</div>
+
+<p>
+But <code>defn</code> is more convenient.
+</p>
+</div>
+</div>
+
+<div id="outline-container-Scope-and-the-~let~-form" class="outline-3">
+<h3 id="Scope-and-the-~let~-form"><span class="section-number-3">5.3</span> Scope and the <code>let</code> form</h3>
+<div class="outline-text-3" id="text-Scope-and-the-~let~-form">
+<p>
+The <code>def</code> form creates a new <i>global</i> binding.
+This means even if not used at the “top-level”,
+the binding can be seen anywhere.
+</p>
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">defn</span> <span style="color: #feacd0;">get-the-number</span> <span style="color: #b6a0ff;">[]</span>
+  <span style="color: #b6a0ff;">(</span><span style="color: #b6a0ff;">def</span> <span style="color: #00d3d0;">the-number</span> 3<span style="color: #b6a0ff;">)</span>
+  the-number<span style="color: #00cd68;">)</span>
+
+<span style="color: #00cd68;">(</span>get-the-number<span style="color: #00cd68;">)</span>
+
+the-number <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">Still in scope</span>
+</pre>
+</div>
+
+<p>
+The same applies for <code>defn</code>.
+</p>
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">defn</span> <span style="color: #feacd0;">do-the-thing</span> <span style="color: #b6a0ff;">[]</span>
+  <span style="color: #b6a0ff;">(</span><span style="color: #b6a0ff;">defn</span> <span style="color: #feacd0;">the-thing</span> <span style="color: #6ae4b9;">[]</span> <span style="color: #6ae4b9;">(</span>+ 1 1<span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span>
+  <span style="color: #b6a0ff;">(</span>the-thing<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+
+<span style="color: #a8a8a8;">; </span><span style="color: #a8a8a8;">(the-thing) ;; After definition, the-thing is not yet defined.</span>
+
+<span style="color: #00cd68;">(</span>do-the-thing<span style="color: #00cd68;">)</span>
+
+<span style="color: #00cd68;">(</span>the-thing<span style="color: #00cd68;">)</span> <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">But after execution, it's been bound.</span>
+</pre>
+</div>
+
+<p>
+In contrast, the <code>let</code> form creates a new <i>local</i> binding.
+</p>
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">defn</span> <span style="color: #feacd0;">get-the-number</span> <span style="color: #b6a0ff;">[]</span>
+</pre>
+</div>
 </div>
 </div>
 </div>
@@ -456,7 +631,7 @@ of as a function invokation.
 <span style="color: #a8a8a8;">; </span><span style="color: #a8a8a8;">create a list</span>
 <span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">quote</span> <span style="color: #b6a0ff;">(</span>+ 1 2 3<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
 
-<span style="color: #a8a8a8;">; </span><span style="color: #a8a8a8;">syntactic sugar</span>
+<span style="color: #a8a8a8;">; </span><span style="color: #a8a8a8;">syntactic sugar; just prepend a ' to the front of the list</span>
 '<span style="color: #00cd68;">(</span>+ 1 2 3<span style="color: #00cd68;">)</span>
 </pre>
 </div>
@@ -466,15 +641,120 @@ of as a function invokation.
 <div id="outline-container-Conditional-forms" class="outline-2">
 <h2 id="Conditional-forms"><span class="section-number-2">7</span> Conditional forms</h2>
 <div class="outline-text-2" id="text-Conditional-forms">
+<p>
+The form <code>if</code> acts as you would expect; it takes 3 arguments,
+the first of which is checked for truth,
+and if it is true, the second argument is evaluated.
+Otherwise the third argument (if present) is evaluated.
+</p>
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">if</span> <span style="color: #b6a0ff;">(</span>&gt; 7 6<span style="color: #b6a0ff;">)</span> <span style="color: #79a8ff;">"Yes!"</span> <span style="color: #79a8ff;">"No!"</span><span style="color: #00cd68;">)</span>
+<span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">if</span> <span style="color: #b6a0ff;">(</span>&lt; 7 6<span style="color: #b6a0ff;">)</span> <span style="color: #79a8ff;">"Yes!"</span> <span style="color: #79a8ff;">"No!"</span><span style="color: #00cd68;">)</span>
+
+<span style="color: #a8a8a8;">; </span><span style="color: #a8a8a8;">The else is optional.</span>
+<span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">if</span> <span style="color: #b6a0ff;">(</span>= 7 6<span style="color: #b6a0ff;">)</span> <span style="color: #79a8ff;">"Not okay!"</span><span style="color: #00cd68;">)</span>
+<span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">if</span> <span style="color: #b6a0ff;">(</span>not= 7 6<span style="color: #b6a0ff;">)</span> <span style="color: #79a8ff;">"Okay!"</span><span style="color: #00cd68;">)</span>
+</pre>
+</div>
+
+<p>
+All values in Clojure are “true” except for <code>nil</code> and <code>false</code>.
+</p>
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">if</span> 5 <span style="color: #79a8ff;">"1"</span><span style="color: #00cd68;">)</span>
+<span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">if</span> <span style="color: #b6a0ff;">()</span> <span style="color: #79a8ff;">"2"</span><span style="color: #00cd68;">)</span>
+<span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">if</span> <span style="color: #00bcff;">nil</span> <span style="color: #79a8ff;">"3"</span><span style="color: #00cd68;">)</span>
+<span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">if</span> <span style="color: #00bcff;">false</span> <span style="color: #79a8ff;">"4"</span><span style="color: #00cd68;">)</span>
+<span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">if</span> <span style="color: #00bcff;">true</span> <span style="color: #79a8ff;">"5"</span><span style="color: #00cd68;">)</span>
+</pre>
+</div>
+
+<p>
+If you only want a “then” branch for your “if”,
+then it's best to use the <code>when</code> form.
+</p>
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">when</span> <span style="color: #00bcff;">true</span> <span style="color: #79a8ff;">"hello"</span><span style="color: #00cd68;">)</span>
+</pre>
+</div>
+
+<p>
+For a more switch-statement like form, use <code>cond</code>.
+Since any value (that is not <code>false</code> or <code>nil</code>) is truthy,
+we can include an “else” branch by putting a value
+as the condition. By convention, the symbol <code>:else</code> is used.
+</p>
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">cond</span> <span style="color: #b6a0ff;">(</span>&gt; 2 5<span style="color: #b6a0ff;">)</span> <span style="color: #79a8ff;">"2 is greater"</span>
+      <span style="color: #b6a0ff;">(</span>&lt; 2 5<span style="color: #b6a0ff;">)</span> <span style="color: #79a8ff;">"5 is greater"</span>
+      <span style="color: #00bcff;">:else</span> <span style="color: #79a8ff;">"They're the same."</span><span style="color: #00cd68;">)</span>
+</pre>
+</div>
 </div>
 </div>
 
 <div id="outline-container-~do~,-for-sequential-computation" class="outline-2">
 <h2 id="~do~,-for-sequential-computation"><span class="section-number-2">8</span> <code>do</code>, for sequential computation</h2>
 <div class="outline-text-2" id="text-~do~,-for-sequential-computation">
-</div>
+<p>
+If we put multiple expressions in sequence,
+the “result” will usually be the value of the last expression.
+For instance, in a function definition:
+</p>
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">defn</span> <span style="color: #feacd0;">add</span> <span style="color: #b6a0ff;">[</span>x<span style="color: #b6a0ff;">]</span>
+  <span style="color: #b6a0ff;">(</span>println <span style="color: #79a8ff;">"hello"</span><span style="color: #b6a0ff;">)</span>
+  <span style="color: #b6a0ff;">(</span>+ x x<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+
+<span style="color: #00cd68;">(</span>add 5<span style="color: #00cd68;">)</span>
+</pre>
 </div>
 
+<p>
+In some cases, we cannot put a sequence of expressions
+where we might want one. For instance, when using an <code>if</code>,
+the <code>then</code> branch has to be a single expression.
+To get around this, there is a <code>do</code> form for sequencing.
+</p>
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">if</span> <span style="color: #00bcff;">true</span> <span style="color: #b6a0ff;">(</span><span style="color: #b6a0ff;">do</span> <span style="color: #6ae4b9;">(</span>println <span style="color: #79a8ff;">"First"</span><span style="color: #6ae4b9;">)</span> <span style="color: #6ae4b9;">(</span>println <span style="color: #79a8ff;">"Second"</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+</pre>
+</div>
+
+<p>
+There are more complex forms for repeating the same expressions
+several times;
+</p>
+<ul class="org-ul">
+<li><p>
+<code>dotimes</code> for evaluating a certain number of times,
+</p>
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">dotimes</span> <span style="color: #b6a0ff;">[</span>i 3<span style="color: #b6a0ff;">]</span> <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">The name is an iterator</span>
+  <span style="color: #b6a0ff;">(</span>println i<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+</pre>
+</div>
+<p>
+and
+</p></li>
+
+<li><p>
+<code>doseq</code> for evaluating once for each element in a sequence.
+</p>
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">doseq</span> <span style="color: #b6a0ff;">[</span>i '<span style="color: #6ae4b9;">(</span>1 2 3<span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">]</span> <span style="color: #b6a0ff;">(</span>println i<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+</pre>
+</div>
+<p>
+or iterating over multiple sequences
+</p>
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">doseq</span> <span style="color: #b6a0ff;">[</span>i '<span style="color: #6ae4b9;">(</span>1 2 3<span style="color: #6ae4b9;">)</span> j '<span style="color: #6ae4b9;">(</span><span style="color: #00bcff;">:a</span> <span style="color: #00bcff;">:b</span> <span style="color: #00bcff;">:c</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">]</span> <span style="color: #b6a0ff;">(</span>println i j<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+</pre>
+</div></li>
+</ul>
+</div>
+</div>
 
 <div id="outline-container-Side-notes" class="outline-2">
 <h2 id="Side-notes"><span class="section-number-2">9</span> Side notes</h2>
@@ -501,7 +781,7 @@ and invokation of such a function would look like
 <p class="author">Author: Mark Armstrong</p>
      <p class="author">Contact: <a href="mailto:markparmstrong@gmail.com">markparmstrong@gmail.com</a></p>
      <p class="date">Original date: </p>
-     <p class="date">Last updated: 2020-11-09 Mon 12:32</p>
+     <p class="date">Last updated: 2020-11-11 Wed 09:46</p>
      <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4)</p>
      <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

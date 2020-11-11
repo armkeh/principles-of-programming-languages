@@ -1,4 +1,4 @@
-% Created 2020-11-09 Mon 12:34
+% Created 2020-11-11 Wed 09:50
 % Intended LaTeX compiler: lualatex
 \documentclass[11pt]{article}
 \usepackage{graphicx}
@@ -43,16 +43,16 @@
 
 
 \section{Introduction}
-\label{sec:org47d5093}
+\label{sec:org4f84151}
 These notes were created for, and in some parts \textbf{during},
 the lecture on November 6th and the following tutorials.
 
 \section{Motivation}
-\label{sec:orgd8a8b66}
+\label{sec:orgfb8e3f0}
 :TODO:
 
 \section{Getting Clojure}
-\label{sec:orgbfbff03}
+\label{sec:org967b255}
 For a quick start with Clojure, you can use
 \href{https://repl.it/languages/clojure}{repl.it}.
 
@@ -63,7 +63,7 @@ Specific instructions on versions may come later,
 once a Docker image is decided upon for Clojure.
 
 \section{The syntax and (most of) the semantics of Clojure}
-\label{sec:org60cbe95}
+\label{sec:org7b456e6}
 The syntax of Lisps such as Clojure tend to be extremely minimal.
 For today at least, we will work with a subset of the language
 described by the following grammar, which is sufficient
@@ -81,26 +81,62 @@ for a fair amount of programming.
 \end{minted}
 
 For example, the following are all Clojure expressions.
+\begin{itemize}
+\item Integers.
 \begin{minted}[breaklines=true]{clojure}
 2
 -1
-
+\end{minted}
+\item Symbols
+\begin{minted}[breaklines=true]{clojure}
 :symbols
+:a
+:b
+\end{minted}
 
+\item Lists (note the \texttt{'} or \texttt{quote} usage; we will explain it below in \ref{sec:orga6e046e}.)
+\begin{itemize}
+\item Which are heterogeneous.
+\end{itemize}
+\begin{minted}[breaklines=true]{clojure}
+;; Lists
 ()
 '(1 2 3)
+'(:a 2 3)
 (quote (1 2 3))
 '((1 2) (3 4))
 
-[1 2 3]
-[]
+(first '(1 2 3)) ;; => 1
+                 ;; first is often called car in other Lisps.
+                 ;; Standing for "Contents of Address part of Register",
+                 ;; referring to the memory layout used in the original implementation of Lisp.
+(rest '(1 2 3)) ;; => (2 3)
+                ;; rest is often called cdr in other Lisps.
+                ;; (Pronounced "could-er".)
+                ;; Standing for "Contents of Decrement part of Register".
+\end{minted}
 
-;; There are sets as well (unordered collections)
+\item Arrays
+\begin{itemize}
+\item Also heterogeneous.
+\end{itemize}
+\begin{minted}[breaklines=true]{clojure}
+;; Arrays
+[1 2 3]
+[:a 1 2]
+[]
+\end{minted}
+
+\item Sets and maps.
+\begin{itemize}
+\item Which are also heterogeneous.
+\end{itemize}
+\begin{minted}[breaklines=true]{clojure}
 #{1 2 3}
 
-;; Maps as well
 {:key 1, "my key" :a_value}
 \end{minted}
+\end{itemize}
 
 Clojure programs are written as lists,
 with the head of the list being the \emph{operator} and
@@ -127,12 +163,14 @@ For instance,
 \end{minted}
 
 \section{Special forms; the \texttt{defn}, \texttt{def} and \texttt{fn} forms}
-\label{sec:orgfca6343}
+\label{sec:orgf17a192}
 When or if the evaluation rules of Clojure given above
 prove too limiting, Clojure allows for “special forms”
 (pieces of syntax handled differently by the compiler)
 to implement constructs.
 
+\subsection{\texttt{defn}}
+\label{sec:org647e2cc}
 The first of these we will consider is the \texttt{defn} form,
 which can be read “define function”.
 
@@ -150,23 +188,47 @@ and then calls \texttt{sum\_of\_squares} with arguments \texttt{2} and \texttt{3
 \end{minted}
 
 Functions can be defined as having different arities.
+All the definitions do have to be packaged together as below.
 \begin{minted}[breaklines=true]{clojure}
 ; Define them by "brute force" 
 (defn sum-of-squares
-  ([x y]   (* (square x) (square y)))
-  ([x y z] (* (square x) (square y) (square z))))
+  ([x y]   (+ (square x) (square y)))
+  ([x y z] (+ (square x) (square y) (square z))))
 
 (sum-of-squares 2 3)
 (sum-of-squares 2 3 4)
-
-; Or define a "variadic" function which takes a list of arguments
-(defn sum-of-squares [x & rest]
-  (* (square x) ;; TODO
-     ))
-
-(sum-of-squares 2 3 4 5)
 \end{minted}
 
+They can even accept any number of arguments
+by the use of an ampersand \texttt{\&}; an \texttt{\&} followed by a name
+indicates the function takes any number of additional arguments,
+which are gathered into a list given that name.
+\begin{minted}[breaklines=true]{clojure}
+;; sum-of-squares-variadic takes any number of arguments,
+;; collected into the list xs.
+;; (If we wanted to force there to be some arguments,
+;; we could put those arguments before the &.)
+(defn sum-of-squares-variadic [& xs]
+ (if (empty? xs)
+   ;; If xs is empty, the sum is 0.
+   0
+   ;; Otherwise, square the first element of xs, and add it
+   ;; to the result of applying sum-of-squares-variadic
+   ;; to the rest of the list.
+   (+ (square (first xs))
+      ;; Note that we need to use apply here as (rest xs) is a list,
+      ;; not separate arguments.
+      ;; (apply f (x1 x2 … xn)) is equivalent to (f x1 x2 … xn)
+      ;; (It also works for arrays of arguments, not just lists.)
+      (apply sum-of-squares-variadic (rest xs)))))
+
+(sum-of-squares-variadic 1 2)
+(sum-of-squares-variadic 1 2 3 4 5)
+(sum-of-squares-variadic)
+\end{minted}
+
+\subsection{\texttt{defn} is \texttt{def} plus \texttt{fn}}
+\label{sec:org3c0e22f}
 The \texttt{defn} form can be thought of
 as the combination of the \texttt{def} and \texttt{fn} forms.
 The \texttt{def} form defines named values.
@@ -175,12 +237,71 @@ The \texttt{def} form defines named values.
 \end{minted}
 
 The \texttt{fn} form defines \emph{anonymous} functions.
+We apply this one right away to see its result.
 \begin{minted}[breaklines=true]{clojure}
 ((fn [x] (+ x 1)) my-favourite-number)
 \end{minted}
 
+There is a shorthand for the \texttt{fn} syntax; \texttt{(fn [args] body)} can be
+replaced by \texttt{\#(body)}, with a small change to \texttt{body}.
+There is no specification of argument names with the \texttt{\#()} form,
+so they need to be replaced in \texttt{body} with \emph{positional argument names}.
+A \texttt{\%} is used if the function has a single parameter, \texttt{\%1}, \texttt{\%2}, etc.
+if the function has multiple parameters, and \texttt{\%\&} if it is variadic.
+So the above can be written
+\begin{minted}[breaklines=true]{clojure}
+(#(+ %1 1) my-favourite-number)
+\end{minted}
+(Note; nesting of the \texttt{\#()} form is not allowed, because the
+positional parameter names would become ambiguous.)
+
+Of course, we then don't need \texttt{defn}; we could just write.
+\begin{minted}[breaklines=true]{clojure}
+(def add-one (fn [x] (+ x 1)))
+\end{minted}
+
+We've then given the anonymous function a name we can use later.
+\begin{minted}[breaklines=true]{clojure}
+(add-one my-favourite-number)
+\end{minted}
+
+But \texttt{defn} is more convenient.
+
+\subsection{Scope and the \texttt{let} form}
+\label{sec:org8220819}
+The \texttt{def} form creates a new \emph{global} binding.
+This means even if not used at the “top-level”,
+the binding can be seen anywhere.
+\begin{minted}[breaklines=true]{clojure}
+(defn get-the-number []
+  (def the-number 3)
+  the-number)
+
+(get-the-number)
+
+the-number ;; Still in scope
+\end{minted}
+
+The same applies for \texttt{defn}.
+\begin{minted}[breaklines=true]{clojure}
+(defn do-the-thing []
+  (defn the-thing [] (+ 1 1))
+  (the-thing))
+
+; (the-thing) ;; After definition, the-thing is not yet defined.
+
+(do-the-thing)
+
+(the-thing) ;; But after execution, it's been bound.
+\end{minted}
+
+In contrast, the \texttt{let} form creates a new \emph{local} binding.
+\begin{minted}[breaklines=true]{clojure}
+(defn get-the-number []
+\end{minted}
+
 \section{The \texttt{quote}, \texttt{'}}
-\label{sec:orgee23a52}
+\label{sec:orga6e046e}
 Another special form is \texttt{quote}, which is used
 when you want to interpret a list as \emph{data} instead
 of as a function invokation.
@@ -191,21 +312,95 @@ of as a function invokation.
 ; create a list
 (quote (+ 1 2 3))
 
-; syntactic sugar
+; syntactic sugar; just prepend a ' to the front of the list
 '(+ 1 2 3)
 \end{minted}
 
 \section{Conditional forms}
-\label{sec:org6809333}
+\label{sec:org539be4d}
+The form \texttt{if} acts as you would expect; it takes 3 arguments,
+the first of which is checked for truth,
+and if it is true, the second argument is evaluated.
+Otherwise the third argument (if present) is evaluated.
+\begin{minted}[breaklines=true]{clojure}
+(if (> 7 6) "Yes!" "No!")
+(if (< 7 6) "Yes!" "No!")
+
+; The else is optional.
+(if (= 7 6) "Not okay!")
+(if (not= 7 6) "Okay!")
+\end{minted}
+
+All values in Clojure are “true” except for \texttt{nil} and \texttt{false}.
+\begin{minted}[breaklines=true]{clojure}
+(if 5 "1")
+(if () "2")
+(if nil "3")
+(if false "4")
+(if true "5")
+\end{minted}
+
+If you only want a “then” branch for your “if”,
+then it's best to use the \texttt{when} form.
+\begin{minted}[breaklines=true]{clojure}
+(when true "hello")
+\end{minted}
+
+For a more switch-statement like form, use \texttt{cond}.
+Since any value (that is not \texttt{false} or \texttt{nil}) is truthy,
+we can include an “else” branch by putting a value
+as the condition. By convention, the symbol \texttt{:else} is used.
+\begin{minted}[breaklines=true]{clojure}
+(cond (> 2 5) "2 is greater"
+      (< 2 5) "5 is greater"
+      :else "They're the same.")
+\end{minted}
 
 \section{\texttt{do}, for sequential computation}
-\label{sec:orgd290249}
+\label{sec:org7684b00}
+If we put multiple expressions in sequence,
+the “result” will usually be the value of the last expression.
+For instance, in a function definition:
+\begin{minted}[breaklines=true]{clojure}
+(defn add [x]
+  (println "hello")
+  (+ x x))
 
+(add 5)
+\end{minted}
+
+In some cases, we cannot put a sequence of expressions
+where we might want one. For instance, when using an \texttt{if},
+the \texttt{then} branch has to be a single expression.
+To get around this, there is a \texttt{do} form for sequencing.
+\begin{minted}[breaklines=true]{clojure}
+(if true (do (println "First") (println "Second")))
+\end{minted}
+
+There are more complex forms for repeating the same expressions
+several times;
+\begin{itemize}
+\item \texttt{dotimes} for evaluating a certain number of times,
+\begin{minted}[breaklines=true]{clojure}
+(dotimes [i 3] ;; The name is an iterator
+  (println i))
+\end{minted}
+and
+
+\item \texttt{doseq} for evaluating once for each element in a sequence.
+\begin{minted}[breaklines=true]{clojure}
+(doseq [i '(1 2 3)] (println i))
+\end{minted}
+or iterating over multiple sequences
+\begin{minted}[breaklines=true]{clojure}
+(doseq [i '(1 2 3) j '(:a :b :c)] (println i j))
+\end{minted}
+\end{itemize}
 
 \section{Side notes}
-\label{sec:orgebcde90}
+\label{sec:org8d6d39c}
 \subsection{Partial application}
-\label{sec:org50981b3}
+\label{sec:org51dccd4}
 Partial application would be implemented as
 a function returning a function,
 and invokation of such a function would look like

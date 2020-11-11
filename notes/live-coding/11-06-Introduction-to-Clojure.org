@@ -25,6 +25,9 @@ the lecture on November 6th and the following tutorials.
 :TODO:
 
 * Getting Clojure
+:PROPERTIES:
+:CUSTOM_ID: Getting-Clojure
+:END:
 
 For a quick start with Clojure, you can use
 [[https://repl.it/languages/clojure][repl.it]].
@@ -57,39 +60,67 @@ for a fair amount of programming.
 #+end_src
 
 For example, the following are all Clojure expressions.
-#+begin_src clojure
+- Integers.
+  #+begin_src clojure
 2
 -1
-
+  #+end_src
+- Symbols
+  #+begin_src clojure
 :symbols
+:a
+:b
+  #+end_src
 
+- Lists (note the ~'~ or ~quote~ usage; we will explain it below in [[The ~quote~, ~'~]].)
+  - Which are heterogeneous.
+  #+begin_src clojure
+;; Lists
 ()
 '(1 2 3)
+'(:a 2 3)
 (quote (1 2 3))
 '((1 2) (3 4))
 
-[1 2 3]
-[]
+(first '(1 2 3)) ;; => 1
+                 ;; first is often called car in other Lisps.
+                 ;; Standing for "Contents of Address part of Register",
+                 ;; referring to the memory layout used in the original implementation of Lisp.
+(rest '(1 2 3)) ;; => (2 3)
+                ;; rest is often called cdr in other Lisps.
+                ;; (Pronounced "could-er".)
+                ;; Standing for "Contents of Decrement part of Register".
+  #+end_src
 
-;; There are sets as well (unordered collections)
+  #+RESULTS:
+  | ()            |
+  | (1 2 3)       |
+  | (:a 2 3)      |
+  | (1 2 3)       |
+  | ((1 2) (3 4)) |
+  | 1             |
+  | (2 3)         |
+
+- Arrays
+  - Also heterogeneous.
+  #+begin_src clojure
+;; Arrays
+[1 2 3]
+[:a 1 2]
+[]
+  #+end_src
+
+- Sets and maps.
+  - Which are also heterogeneous.
+  #+begin_src clojure
 #{1 2 3}
 
-;; Maps as well
 {:key 1, "my key" :a_value}
-#+end_src
+  #+end_src
 
-#+RESULTS:
-| 2                           |
-| -1                          |
-| :symbols                    |
-| ()                          |
-| (1 2 3)                     |
-| (1 2 3)                     |
-| ((1 2) (3 4))               |
-| [1 2 3]                     |
-| []                          |
-| #{1 3 2}                    |
-| {:key 1, "my key" :a_value} |
+  #+RESULTS:
+  | #{1 3 2}                    |
+  | {:key 1, "my key" :a_value} |
 
 Clojure programs are written as lists,
 with the head of the list being the /operator/ and
@@ -119,14 +150,13 @@ For instance,
 |  1 |
 
 * Special forms; the ~defn~, ~def~ and ~fn~ forms
-:PROPERTIES:
-:CUSTOM_ID: Special-forms;-the-~def~-and-~defn~-forms
-:END:
 
 When or if the evaluation rules of Clojure given above
 prove too limiting, Clojure allows for “special forms”
 (pieces of syntax handled differently by the compiler)
 to implement constructs.
+
+** ~defn~
 
 The first of these we will consider is the ~defn~ form,
 which can be read “define function”.
@@ -145,35 +175,62 @@ and then calls ~sum_of_squares~ with arguments ~2~ and ~3~.
 #+end_src
 
 #+RESULTS:
-| #'user/square                     |
-| #'user/sum-of-squares             |
-| 13                                |
-| class clojure.lang.ArityException |
+| #'user/square         |
+| #'user/sum-of-squares |
+| 13                    |
 
 Functions can be defined as having different arities.
+All the definitions do have to be packaged together as below.
 #+begin_src clojure
 ; Define them by "brute force" 
 (defn sum-of-squares
-  ([x y]   (* (square x) (square y)))
-  ([x y z] (* (square x) (square y) (square z))))
+  ([x y]   (+ (square x) (square y)))
+  ([x y z] (+ (square x) (square y) (square z))))
 
 (sum-of-squares 2 3)
 (sum-of-squares 2 3 4)
-
-; Or define a "variadic" function which takes a list of arguments
-(defn sum-of-squares [x & rest]
-  (* (square x) ;; TODO
-     ))
-
-(sum-of-squares 2 3 4 5)
 #+end_src
 
 #+RESULTS:
-| #'user/sum-of-squares              |
-| 6                                  |
-| 24                                 |
-| #'user/sum-of-squares              |
-| class java.lang.ClassCastException |
+| #'user/sum-of-squares |
+|                    13 |
+|                    29 |
+
+They can even accept any number of arguments
+by the use of an ampersand ~&~; an ~&~ followed by a name
+indicates the function takes any number of additional arguments,
+which are gathered into a list given that name.
+#+begin_src clojure
+;; sum-of-squares-variadic takes any number of arguments,
+;; collected into the list xs.
+;; (If we wanted to force there to be some arguments,
+;; we could put those arguments before the &.)
+(defn sum-of-squares-variadic [& xs]
+ (if (empty? xs)
+   ;; If xs is empty, the sum is 0.
+   0
+   ;; Otherwise, square the first element of xs, and add it
+   ;; to the result of applying sum-of-squares-variadic
+   ;; to the rest of the list.
+   (+ (square (first xs))
+      ;; Note that we need to use apply here as (rest xs) is a list,
+      ;; not separate arguments.
+      ;; (apply f (x1 x2 … xn)) is equivalent to (f x1 x2 … xn)
+      ;; (It also works for arrays of arguments, not just lists.)
+      (apply sum-of-squares-variadic (rest xs)))))
+
+(sum-of-squares-variadic 1 2)
+(sum-of-squares-variadic 1 2 3 4 5)
+(sum-of-squares-variadic)
+#+end_src
+
+#+RESULTS:
+| #'user/sum-of-squares-variadic |
+|                              5 |
+|                             55 |
+|                              0 |
+
+** ~defn~ is ~def~ plus ~fn~
 
 The ~defn~ form can be thought of
 as the combination of the ~def~ and ~fn~ forms.
@@ -186,12 +243,80 @@ The ~def~ form defines named values.
 : #'user/my-favourite-number
 
 The ~fn~ form defines /anonymous/ functions.
+We apply this one right away to see its result.
 #+begin_src clojure
 ((fn [x] (+ x 1)) my-favourite-number)
 #+end_src
 
 #+RESULTS:
 : 17
+
+There is a shorthand for the ~fn~ syntax; ~(fn [args] body)~ can be
+replaced by ~#(body)~, with a small change to ~body~.
+There is no specification of argument names with the ~#()~ form,
+so they need to be replaced in ~body~ with /positional argument names/.
+A ~%~ is used if the function has a single parameter, ~%1~, ~%2~, etc.
+if the function has multiple parameters, and ~%&~ if it is variadic.
+So the above can be written
+#+begin_src clojure
+(#(+ %1 1) my-favourite-number)
+#+end_src
+(Note; nesting of the ~#()~ form is not allowed, because the
+positional parameter names would become ambiguous.)
+
+Of course, we then don't need ~defn~; we could just write.
+#+begin_src clojure
+(def add-one (fn [x] (+ x 1)))
+#+end_src
+
+#+RESULTS:
+: #'user/add-one
+
+We've then given the anonymous function a name we can use later.
+#+begin_src clojure
+(add-one my-favourite-number)
+#+end_src
+
+#+RESULTS:
+: 17
+
+But ~defn~ is more convenient.
+
+** Scope and the ~let~ form
+
+The ~def~ form creates a new /global/ binding.
+This means even if not used at the “top-level”,
+the binding can be seen anywhere.
+#+begin_src clojure
+(defn get-the-number []
+  (def the-number 3)
+  the-number)
+
+(get-the-number)
+
+the-number ;; Still in scope
+#+end_src
+
+The same applies for ~defn~.
+#+begin_src clojure
+(defn do-the-thing []
+  (defn the-thing [] (+ 1 1))
+  (the-thing))
+
+; (the-thing) ;; After definition, the-thing is not yet defined.
+
+(do-the-thing)
+
+(the-thing) ;; But after execution, it's been bound.
+#+end_src
+
+#+RESULTS:
+: #'user/do-the-thing
+
+In contrast, the ~let~ form creates a new /local/ binding.
+#+begin_src clojure
+(defn get-the-number []
+#+end_src
 
 * The ~quote~, ~'~
 :PROPERTIES:
@@ -208,7 +333,7 @@ of as a function invokation.
 ; create a list
 (quote (+ 1 2 3))
 
-; syntactic sugar
+; syntactic sugar; just prepend a ' to the front of the list
 '(+ 1 2 3)
 #+end_src
 
@@ -222,15 +347,118 @@ of as a function invokation.
 :CUSTOM_ID: Conditional-forms
 :END:
 
+The form ~if~ acts as you would expect; it takes 3 arguments,
+the first of which is checked for truth,
+and if it is true, the second argument is evaluated.
+Otherwise the third argument (if present) is evaluated.
+#+begin_src clojure
+(if (> 7 6) "Yes!" "No!")
+(if (< 7 6) "Yes!" "No!")
+
+; The else is optional.
+(if (= 7 6) "Not okay!")
+(if (not= 7 6) "Okay!")
+#+end_src
+
+#+RESULTS:
+| "Yes!"  |
+| "No!"   |
+| "Okay!" |
+
+All values in Clojure are “true” except for ~nil~ and ~false~.
+#+begin_src clojure
+(if 5 "1")
+(if () "2")
+(if nil "3")
+(if false "4")
+(if true "5")
+#+end_src
+
+#+RESULTS:
+| "1" |
+| "2" |
+| "5" |
+
+If you only want a “then” branch for your “if”,
+then it's best to use the ~when~ form.
+#+begin_src clojure
+(when true "hello")
+#+end_src
+
+#+RESULTS:
+: hello
+
+For a more switch-statement like form, use ~cond~.
+Since any value (that is not ~false~ or ~nil~) is truthy,
+we can include an “else” branch by putting a value
+as the condition. By convention, the symbol ~:else~ is used.
+#+begin_src clojure
+(cond (> 2 5) "2 is greater"
+      (< 2 5) "5 is greater"
+      :else "They're the same.")
+#+end_src
+
+#+RESULTS:
+: 5 is greater
+
 * ~do~, for sequential computation
 :PROPERTIES:
 :CUSTOM_ID: ~do~,-for-sequential-computation
 :END:
 
 
+If we put multiple expressions in sequence,
+the “result” will usually be the value of the last expression.
+For instance, in a function definition:
+#+begin_src clojure
+(defn add [x]
+  (println "hello")
+  (+ x x))
+
+(add 5)
+#+end_src
+
+#+RESULTS:
+| #'user/add |
+|         10 |
+
+In some cases, we cannot put a sequence of expressions
+where we might want one. For instance, when using an ~if~,
+the ~then~ branch has to be a single expression.
+To get around this, there is a ~do~ form for sequencing.
+#+begin_src clojure
+(if true (do (println "First") (println "Second")))
+#+end_src
+
+#+RESULTS:
+
+There are more complex forms for repeating the same expressions
+several times;
+- ~dotimes~ for evaluating a certain number of times,
+  #+begin_src clojure
+(dotimes [i 3] ;; The name is an iterator
+  (println i))
+  #+end_src
+  and
+  
+- ~doseq~ for evaluating once for each element in a sequence.
+  #+begin_src clojure
+(doseq [i '(1 2 3)] (println i))
+  #+end_src
+  or iterating over multiple sequences
+  #+begin_src clojure
+(doseq [i '(1 2 3) j '(:a :b :c)] (println i j))
+  #+end_src
+  
 * Side notes
+:PROPERTIES:
+:CUSTOM_ID: Side-notes
+:END:
 
 ** Partial application
+:PROPERTIES:
+:CUSTOM_ID: Partial-application
+:END:
 
 Partial application would be implemented as
 a function returning a function,
