@@ -1,4 +1,4 @@
-% Created 2020-11-10 Tue 15:54
+% Created 2020-11-11 Wed 11:27
 % Intended LaTeX compiler: lualatex
 \documentclass[11pt]{article}
 \usepackage{graphicx}
@@ -47,16 +47,16 @@
 
 
 \section*{Introduction}
-\label{sec:org73f5e72}
+\label{sec:org007cd00}
 This assignment asks you to construct representation
 of a simply-typed λ-calculus, construct a typechecker for that
 λ-calculus, and finally to implement \emph{type-erasure} and a
 simple translator to simplify terms to untyped λ-calculus terms.
 
 \section*{Updates and file history}
-\label{sec:org5682bad}
+\label{sec:orgbfc0b2d}
 \subsection*{November 10th}
-\label{sec:org05e0eaa}
+\label{sec:org99bc94b}
 \begin{itemize}
 \item The testing section has been completed.
 \item The subclasses of the \texttt{ULTerm} class in Ruby have had
@@ -74,14 +74,14 @@ have also been provided.
 \end{itemize}
 
 \subsection*{November 6th}
-\label{sec:orgb533a0a}
+\label{sec:orgb6d13f8}
 \begin{itemize}
 \item The typing rules for the \emph{ST} language were added
 in part 0.1.
 \end{itemize}
 
 \subsection*{November 5th}
-\label{sec:org2fbbbfa}
+\label{sec:org32368c0}
 \begin{itemize}
 \item A typo in a variable name in the Ruby implementation
 of \texttt{ULTerm} was corrected.
@@ -92,7 +92,7 @@ and perform substitutions with them was added to part 0.2.
 \end{itemize}
 
 \subsection*{November 1st}
-\label{sec:org0e762f0}
+\label{sec:org855b7ac}
 \begin{itemize}
 \item Part 4 was made bonus
 \begin{itemize}
@@ -102,7 +102,7 @@ made part of the question.
 \end{itemize}
 
 \subsection*{October 30th}
-\label{sec:orgbbb0796}
+\label{sec:orgb664686}
 \begin{itemize}
 \item Initial version posted.
 \begin{itemize}
@@ -111,9 +111,9 @@ made part of the question.
 \end{itemize}
 
 \section*{Boilerplate}
-\label{sec:orgede5113}
+\label{sec:org366abd3}
 \subsection*{Documentation}
-\label{sec:org0fc2e11}
+\label{sec:orgc77bf21}
 In addition to the code for the assignments,
 you are required to submit (relatively light) documentation,
 along the lines of that found in
@@ -172,13 +172,13 @@ Feel free to omit some “repetitive” portions.
 which look almost identical, only one or two need to be shown.)
 
 \subsection*{Submission procedures}
-\label{sec:orgdbb70ad}
+\label{sec:org0b2f068}
 The same guidelines as for homework
 (which can be seen in any of the homework files)
 apply to assignments, except for the differences below.
 
 \subsubsection*{Assignment naming requirements}
-\label{sec:org925f989}
+\label{sec:org94051f7}
 
 Place all files for the assignment
 inside a folder titled \texttt{an}, where \texttt{n} is the number of the assignment.
@@ -199,12 +199,12 @@ save your code for that part. Follow those instructions!
 This is slightly decreased from the 10\% for homeworks.
 
 \subsection*{Proper conduct for coursework}
-\label{sec:org7b71594}
+\label{sec:orgc48360b}
 Refer to the homework code of conduct available in any of the homework files.
 The same guidelines apply to assignments.
 
 \section*{Part 0.1 – Description of the λ-calculus, \emph{ST}                 [0 marks]}
-\label{sec:org0abf3e5}
+\label{sec:org77576c1}
 The λ-calculus you are to work with during this assignment
 we call \emph{ST}, standing for \emph{simply typed}.
 It adds to the pure untyped λ-calculus \emph{UL}
@@ -241,9 +241,9 @@ we can conclude that \texttt{t₂} has type \texttt{B}, then
 the term \texttt{λ x : A → t₂} has type \texttt{A → B}.
 (Notice that this rule is the only time we add to the environment.)
 \begin{minted}[breaklines=true]{text}
- Γ,(x : A) ⊢ t₂ : B
-––––––––––––––––––––––––––––– T-Abs
- Γ ⊢ λ x : A → t₂ : A → B
+ Γ,(x : A) ⊢ t : B
+––––––––––––––––––––––––––––––– T-Abs
+ Γ ⊢ (λ x : A → t) : A → B
 \end{minted}
 
 The third rule says that if \texttt{t₁} has the function type \texttt{A → B},
@@ -278,9 +278,9 @@ function terms added to this language.
 \end{minted}
 
 \section*{Part 0.2 – A representation of the untyped λ-calculus, \emph{UL}    [0 marks]}
-\label{sec:org21e5a71}
+\label{sec:orgdf18a1f}
 \subsection*{Nameless representation of terms}
-\label{sec:orgbee97e8}
+\label{sec:org93a03e3}
 We use \emph{de Bruijn indices} in place of named variables.
 The index “points” to a binder, or to a free variable.
 \begin{itemize}
@@ -304,7 +304,7 @@ we can correct for this by writing a \emph{pretty printer} for λ-terms
 (which will be the focus of a homework.)
 
 \subsection*{Scala implementation}
-\label{sec:orga5c674c}
+\label{sec:org61c0bb5}
 Pure untyped λ-terms can only be variables, abstractions or applications.
 (Updated November 5th) We include as parts of the case classes
 overrides of the \texttt{toString} method, which improve the appearance
@@ -460,7 +460,7 @@ def evaluate(t: ULTerm): ULTerm = reduce(t) match {
 \end{minted}
 
 \subsection*{Ruby implementation}
-\label{sec:org075fe47}
+\label{sec:org0c3e2e3}
 In Ruby, we use implement \emph{UL} terms using a (super) class \texttt{ULTerm} with
 subclasses for each kind of \emph{UL} term.
 
@@ -696,7 +696,7 @@ because of some method call, because \texttt{ULTerm}'s never change
 after their creation.
 
 \subsection*{Examples of interacting with these representations}
-\label{sec:org1c960df}
+\label{sec:org952093c}
 The following code snippets show how you might use
 these implementations to perform some simple computations.
 
@@ -751,7 +751,7 @@ puts x
 \end{minted}
 
 \section*{Part 1 – The representation                                  [10 marks]}
-\label{sec:org1b2d551}
+\label{sec:orgc5213af}
 \begin{center}
 \textbf{Place your code for this part in the files \texttt{a2.sc} and \texttt{a2.rb}.}
 \end{center}
@@ -834,7 +834,7 @@ end
 \end{minted}
 
 \section*{Part 2 – Type checking                                       [40 marks]}
-\label{sec:orgbda316a}
+\label{sec:orge4c50f0}
 \begin{center}
 \textbf{Place your code for this part in the files \texttt{a2.sc} and \texttt{a2.rb}.}
 \end{center}
@@ -869,7 +869,7 @@ If you have another implementation in mind, you are welcome to check
 with Mark.
 
 \section*{Part 3 – Translation to the untyped λ-calculus; type erasure [40 marks]}
-\label{sec:orgd044a3b}
+\label{sec:orgbea0016}
 \begin{center}
 \textbf{Place your code for this part in the files \texttt{a2.sc} and \texttt{a2.rb}.}
 \end{center}
@@ -898,7 +898,7 @@ or copy the definitions into your file and create
 blank \texttt{a2\_ulterm} files to satisfy the import statements in the testing.)
 
 \section*{Part 4 – Bonus: Interpreting \emph{SL} programs                     [10 marks]}
-\label{sec:orgf4fc4d0}
+\label{sec:orga262982}
 \begin{center}
 \textbf{Place any code for this part in files \texttt{a2p4.sc} and \texttt{a2p4.rb}.}
 \end{center}
@@ -910,7 +910,7 @@ You will also need a method to convert results back
 to an \texttt{STTerm} representation.
 
 \section*{Part 5 – Bonus: pairs                                        [10 bonus marks]}
-\label{sec:orgfebb5da}
+\label{sec:org20b6ae1}
 \begin{center}
 \textbf{Place any code for this part in files \texttt{a2p5.sc} and \texttt{a2p5.rb}.}
 \end{center}
@@ -920,7 +920,7 @@ the type of \emph{pairs} as well as naturals and booleans,
 along with a type checker, type eraser and evaluation method.
 
 \section*{Submission checklist}
-\label{sec:orgb7a512e}
+\label{sec:org3da321c}
 For your convenience, this checklist is provided
 to track the files you need to submit.
 Use it if you wish.
@@ -945,7 +945,7 @@ Use it if you wish.
 \end{minted}
 
 \section*{Testing}
-\label{sec:org02319db}
+\label{sec:org89fee43}
 Unit tests for the requested types, methods and predicates
 are available here.
 \begin{itemize}
@@ -975,7 +975,7 @@ The provided test cases check a very minimal amount!
 \end{center}
 
 \subsection*{Automated testing via Docker}
-\label{sec:org02a16be}
+\label{sec:org2c12019}
 The Docker setup and usage scripts are available at the following links.
 Their contents are also repeated below.
 \begin{itemize}
@@ -994,9 +994,9 @@ and not using WSL or WSL2, you may have
 to run the commands contained in those scripts manually.
 
 \subsection*{The tests}
-\label{sec:org84023af}
+\label{sec:org148a033}
 \subsubsection*{Scala}
-\label{sec:org36575d8}
+\label{sec:org980b42b}
 \href{./testing/a2/a2\_testframework.sc}{a2\_test.sc}
 \begin{minted}[breaklines=true]{scala}
 import $file.a2, a2._
@@ -1087,7 +1087,7 @@ runTests(providedTests)
 \end{minted}
 
 \subsubsection*{Ruby}
-\label{sec:org585756d}
+\label{sec:orgb0f4d9f}
 \href{./testing/a2\_test.rb}{a2\_test.rb}
 \begin{minted}[breaklines=true]{ruby}
 require_relative "a2"
@@ -1171,7 +1171,7 @@ end
 \end{minted}
 
 \subsection*{The Docker setup}
-\label{sec:orgb6efcfd}
+\label{sec:org8b9a6b7}
 \href{./testing/a2/Dockerfile}{Dockerfile}
 \begin{minted}[breaklines=true]{docker}
 # Define the argument for openjdk version

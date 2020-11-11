@@ -36,13 +36,13 @@
 </section>
 
 <section>
-<section id="slide-org149d701">
-<h2 id="org149d701"><span class="section-number-2">1</span> Preamble</h2>
+<section id="slide-orgf009e7e">
+<h2 id="orgf009e7e"><span class="section-number-2">1</span> Preamble</h2>
 <div class="outline-text-2" id="text-1">
 </div>
 </section>
-<section id="slide-org044f17d">
-<h3 id="org044f17d"><span class="section-number-3">1.1</span> Notable references</h3>
+<section id="slide-org71fccda">
+<h3 id="org71fccda"><span class="section-number-3">1.1</span> Notable references</h3>
 <ul>
 <li>Benjamin Pierce,
 “<a href="https://ebookcentral.proquest.com/lib/mcmu/detail.action?docID=3338823">Types and Programming Languages</a>”
@@ -63,12 +63,12 @@
 </ul>
 
 </section>
-<section id="slide-org81f7a4e">
-<h3 id="org81f7a4e"><span class="section-number-3">1.2</span> <span class="todo TODO">TODO</span> Table of contents</h3>
+<section id="slide-orgac9ffc0">
+<h3 id="orgac9ffc0"><span class="section-number-3">1.2</span> <span class="todo TODO">TODO</span> Table of contents</h3>
 <font size="-1">
-<div class="scriptsize" id="org0509e5e">
+<div class="scriptsize" id="orgda54ef5">
 <ul>
-<li><a href="#/slide-org149d701">Preamble</a></li>
+<li><a href="#/slide-orgf009e7e">Preamble</a></li>
 
 </ul>
 
@@ -78,8 +78,8 @@
 </section>
 </section>
 <section>
-<section id="slide-orgaf909dc">
-<h2 id="orgaf909dc"><span class="section-number-2">2</span> Introduction</h2>
+<section id="slide-org94e9ab8">
+<h2 id="org94e9ab8"><span class="section-number-2">2</span> Introduction</h2>
 <p>
 In this section we extend our previously considered
 untyped λ-calculus by defining a typing relation,
@@ -96,8 +96,8 @@ of pattern matching.
 </section>
 </section>
 <section>
-<section id="slide-org752bb80">
-<h2 id="org752bb80"><span class="section-number-2">3</span> Recall: The untyped λ-calculus</h2>
+<section id="slide-org62dc380">
+<h2 id="org62dc380"><span class="section-number-2">3</span> Recall: The untyped λ-calculus</h2>
 <p>
 Recall from section 3 of the notes the syntax
 of our untyped λ-calculus, <i>UL</i>.
@@ -115,8 +115,8 @@ everything is a function, and abstractions
 </p>
 
 </section>
-<section id="slide-orgc1a1000">
-<h3 id="orgc1a1000"><span class="section-number-3">3.1</span> The call-by-value semantics of the untyped λ-calculus</h3>
+<section id="slide-org3b759d6">
+<h3 id="org3b759d6"><span class="section-number-3">3.1</span> The call-by-value semantics of the untyped λ-calculus</h3>
 <p>
 The call-by-value semantics we described in section 3 of the notes
 can be more succinctly described using inference rules.
@@ -139,7 +139,7 @@ evaluate a term.</li>
 
  
   t&#8322;  &#10230;  t&#8322;&#8242;
-&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; reduce-App&#691;
+&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; reduce-app&#691;
  v&#8321; t&#8322;  &#10230;  v&#8321; t&#8322;&#8242;
 
 
@@ -149,15 +149,15 @@ evaluate a term.</li>
 </div>
 
 </section>
-<section id="slide-org90967b0">
-<h3 id="org90967b0"><span class="section-number-3">3.2</span> Only applications reduce</h3>
+<section id="slide-org48cc5cd">
+<h3 id="org48cc5cd"><span class="section-number-3">3.2</span> Only applications reduce</h3>
 <p>
 
 </p>
 <div class="org-src-container">
 
 <pre  class="src src-text"><code trim>  t&#8321;  &#10230;  t&#8321;&#8242;                             t&#8322;  &#10230;  t&#8322;&#8242;                   
-&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; reduce-app&#737;        &#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; reduce-App&#691;
+&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; reduce-app&#737;        &#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; reduce-app&#691;
  t&#8321; t&#8322;  &#10230;  t&#8321;&#8242; t&#8322;                       v&#8321; t&#8322;  &#10230;  v&#8321; t&#8322;&#8242;              
 
 
@@ -186,15 +186,15 @@ are for applications; remember that
 </ul>
 
 </section>
-<section id="slide-orgea4ae28">
-<h3 id="orgea4ae28"><span class="section-number-3">3.3</span> Explaining the rules</h3>
+<section id="slide-org1e14074">
+<h3 id="org1e14074"><span class="section-number-3">3.3</span> Explaining the rules</h3>
 <p>
 
 </p>
 <div class="org-src-container">
 
 <pre  class="src src-text"><code trim>  t&#8321;  &#10230;  t&#8321;&#8242;                             t&#8322;  &#10230;  t&#8322;&#8242;                   
-&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; reduce-app&#737;        &#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; reduce-App&#691;
+&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; reduce-app&#737;        &#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; reduce-app&#691;
  t&#8321; t&#8322;  &#10230;  t&#8321;&#8242; t&#8322;                       v&#8321; t&#8322;  &#10230;  v&#8321; t&#8322;&#8242;              
 
 
@@ -228,15 +228,15 @@ with the value substituted for the abstraction's variable.</li>
 </ul>
 
 </section>
-<section id="slide-org87039c2">
-<h3 id="org87039c2"><span class="section-number-3">3.4</span> Reduction as a function</h3>
+<section id="slide-org351a52a">
+<h3 id="org351a52a"><span class="section-number-3">3.4</span> Reduction as a function</h3>
 <p>
 
 </p>
 <div class="org-src-container">
 
 <pre  class="src src-text"><code trim>  t&#8321;  &#10230;  t&#8321;&#8242;                             t&#8322;  &#10230;  t&#8322;&#8242;                   
-&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; reduce-app&#737;        &#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; reduce-App&#691;
+&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; reduce-app&#737;        &#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; reduce-app&#691;
  t&#8321; t&#8322;  &#10230;  t&#8321;&#8242; t&#8322;                       v&#8321; t&#8322;  &#10230;  v&#8321; t&#8322;&#8242;              
 
 
@@ -263,7 +263,7 @@ by design, <i>deterministic</i>; given a λ-term <code>t</code>, either
 A deterministic relation can be expressed as a <i>function</i>,
 as the following Scala-like pseudocode shows.
 </p>
-<pre class="example" id="orgd39854e">
+<pre class="example" id="org5eca0c6">
 def ⟶(t) = t match {
   case t₁ t₂ if t₁ ⟶ t₁′                 =&gt; t₁′ t₂
   case v₁ t₂ if isValue(v₁) &amp;&amp;  t₂ ⟶ t₂′ =&gt; v₁ t₂′
@@ -272,8 +272,8 @@ def ⟶(t) = t match {
 </pre>
 
 </section>
-<section id="slide-orgd97d436">
-<h3 id="orgd97d436"><span class="section-number-3">3.5</span> An example of a reduction sequence</h3>
+<section id="slide-org23dd8b1">
+<h3 id="org23dd8b1"><span class="section-number-3">3.5</span> An example of a reduction sequence</h3>
 <div class="org-src-container">
 
 <pre  class="src src-text"><code trim>  <span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">(</span>&#955; x &#8594; x<span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">(</span>&#955; y &#8594; y<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span> <span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">(</span>&#955; z &#8594; z<span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">(</span>&#955; u &#8594; u<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
@@ -304,8 +304,8 @@ this term does not fit any of the reduction rules.
 </p>
 
 </section>
-<section id="slide-orga334cef">
-<h3 id="orga334cef"><span class="section-number-3">3.6</span> Encodings of booleans, natural numbers and pairs</h3>
+<section id="slide-org9e74c59">
+<h3 id="org9e74c59"><span class="section-number-3">3.6</span> Encodings of booleans, natural numbers and pairs</h3>
 <p>
 Recall the λ-encodings discussed in notes section 3,
 which allow us to represent booleans, natural numbers
@@ -325,8 +325,8 @@ scc  = &#955; n &#8594; &#955; s &#8594; &#955; z &#8594; s <span style="color: 
 </div>
 
 </section>
-<section id="slide-orgf49e899">
-<h3 id="orgf49e899"><span class="section-number-3">3.7</span> Enriching the (syntax of the) calculus</h3>
+<section id="slide-org68028de">
+<h3 id="org68028de"><span class="section-number-3">3.7</span> Enriching the (syntax of the) calculus</h3>
 <p>
 While λ-encodings of data in the pure untyped λ-calculus,
 such as those for the booleans, natural numbers and pairs,
@@ -350,29 +350,238 @@ The enriched calculus's syntax is then
 </div>
 
 </section>
-<section id="slide-org1d07c47">
-<h3 id="org1d07c47"><span class="section-number-3">3.8</span> The semantics of the extended calculus</h3>
+<section id="slide-org548868d">
+<h3 id="org548868d"><span class="section-number-3">3.8</span> The semantics of the untyped λ-calculus with booleans</h3>
 <p>
-:TODO:
+The untyped λ-calculus extended with booleans semantics has,
+in addition to the rules <code>reduce-appˡ</code>, <code>reduce-appʳ</code> and <code>apply</code>,
+these rules for the new basic primitive functions.
 </p>
+<div class="org-src-container">
+
+<pre  class="src src-text"><code trim>          t&#7495;  &#10230;  t&#7495;&#8242;
+&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; reduce-if
+ if t&#7495; t&#8321; t&#8322;  &#10230;  if t&#7495;&#8242; t&#8321; t&#8322;
+
+ 
+
+&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; if-then
+ if true t&#8321; t&#8322;  &#10230;  t&#8321;
+
+
+
+&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; if-else
+ if false t&#8321; t&#8322;  &#10230;  t&#8322;
+</code></pre>
+</div>
 
 </section>
 </section>
 <section>
-<section id="slide-orgd33cf29">
-<h2 id="orgd33cf29"><span class="section-number-2">4</span> The simply typed λ-calculus</h2>
+<section id="slide-orga4d5bf0">
+<h2 id="orga4d5bf0"><span class="section-number-2">4</span> The typed λ-calculus</h2>
 <p>
-:TODO:
+We define here the syntax and semantics for several stages
+of a typed λ-calculus.
+</p>
+<ul>
+<li>We begin with a “simply-typed” λ-calculus that has only
+unit and function types, and</li>
+<li>at each stage, we add new primitive terms, new types
+and typing rules, and new semantic rules.</li>
+
+</ul>
+
+<p>
+These stages roughly correspond to those given in
+Pierce's “Types and Programming Languages” throughout
+chapters
+</p>
+<ul>
+<li>9, “Simply Typed Lambda-Calculus”, and</li>
+<li>11, “Simple Extensions”.</li>
+
+</ul>
+
+<p>
+For the sake of page space, each stage will only show
+the grammar productions and semantic rule which are added,
+not the whole grammar or semantics.
+</p>
+<ul>
+<li>Those will be given at the end.</li>
+
+</ul>
+
+<p>
+All semantics in this section are call-by-value semantics.
 </p>
 
 </section>
-</section>
-<section>
-<section id="slide-org93d0f74">
-<h2 id="org93d0f74"><span class="section-number-2">5</span> “Simple extensions” to the simply typed λ-calculus</h2>
+<section id="slide-org44ae9f1">
+<h3 id="org44ae9f1"><span class="section-number-3">4.1</span> Typing rules</h3>
 <p>
-:TODO:
+Like semantics, the typing rules of a language
+are presented here using inference rules.
 </p>
+
+<p>
+These inference rules define a typing relation,
+written <code>_⊢_:_</code> and read as “entails”.
+</p>
+
+<p>
+While the reduction relation, <code>_⟶_</code>, is a binary relation between terms
+</p>
+<ul>
+<li>i.e., <code>_⟶_ : term × term</code>
+<ul>
+<li>(in fact, since it is a single-valued relation, <code>_⟶_ : term → term</code>),</li>
+
+</ul></li>
+
+</ul>
+<p>
+the typing relation is a <i>ternary</i> relation between a <i>typing context</i>,
+a term and a type.
+</p>
+<ul>
+<li>i.e., <code>_⊢_:_ : context × term × type</code>
+<ul>
+<li>(in fact, since it is also a single-valued relation,
+<code>_⟶_ : context × term → type</code>.)</li>
+
+</ul></li>
+
+</ul>
+
+<p>
+The <i>typing context</i> referred to above is a set
+of variable, type pairs, used to <i>bind</i> certain variables to types.
+</p>
+<ul>
+<li>It can in fact be a sequence or similar datatype;
+so long as we can add and check bindings.</li>
+
+</ul>
+
+</section>
+<section id="slide-orgd27bdf0">
+<h3 id="orgd27bdf0"><span class="section-number-3">4.2</span> The simply-typed λ-calculus syntax</h3>
+<p>
+Our starting point is the simply-typed λ-calculus,
+which has only unit and function types.
+</p>
+<ul>
+<li>For the sake of noting which new terms are values,
+we add a non-terminal called <code>⟨value⟩</code> to the grammar.</li>
+
+</ul>
+<div class="org-src-container">
+
+<pre  class="src src-text"><code trim><span style="color: #00cd68;">&#10216;</span>term<span style="color: #00cd68;">&#10217;</span> &#8759;= var
+        | <span style="color: #00cd68;">&#10216;</span>term<span style="color: #00cd68;">&#10217;</span> <span style="color: #00cd68;">&#10216;</span>term<span style="color: #00cd68;">&#10217;</span>
+        | <span style="color: #00cd68;">&#10216;</span>value<span style="color: #00cd68;">&#10217;</span>
+        
+<span style="color: #00cd68;">&#10216;</span>value<span style="color: #00cd68;">&#10217;</span> &#8759;= &#955; var : <span style="color: #00cd68;">&#10216;</span>type<span style="color: #00cd68;">&#10217;</span> &#8594; <span style="color: #00cd68;">&#10216;</span>term<span style="color: #00cd68;">&#10217;</span>
+         | unit
+         
+<span style="color: #00cd68;">&#10216;</span>type<span style="color: #00cd68;">&#10217;</span> &#8759;= Unit | <span style="color: #00cd68;">&#10216;</span>type<span style="color: #00cd68;">&#10217;</span> &#8594; <span style="color: #00cd68;">&#10216;</span>type<span style="color: #00cd68;">&#10217;</span>
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org56df90d">
+<h3 id="org56df90d"><span class="section-number-3">4.3</span> The simply-typed λ-calculus typing</h3>
+<p>
+“If a variable <code>x</code> is assigned type <code>A</code> by the context,
+then it has that type.”
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-text"><code trim> x : A &#8712; &#915;
+&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; T-Var
+ &#915; &#8866; x : A
+</code></pre>
+</div>
+<p>
+Notice that otherwise, variables do not typecheck!
+</p>
+
+<p>
+“The abstraction of a variable <code>x</code> of type <code>A</code> over a term <code>t</code> has
+type <code>A → B</code> if <code>t</code> has type <code>B</code> when assuming <code>x</code> has type <code>A</code>.” 
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-text"><code trim> &#915;,<span style="color: #00cd68;">(</span>x : A<span style="color: #00cd68;">)</span> &#8866; t : B
+&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; T-Abs
+ &#915; &#8866; <span style="color: #00cd68;">(</span>&#955; x : A &#8594; t<span style="color: #00cd68;">)</span> : A &#8594; B
+</code></pre>
+</div>
+
+<p>
+“If <code>t₁</code> has type <code>A → B</code> and <code>t₂</code> type <code>A</code>, then applying <code>t₁</code> to <code>t₂</code> has type <code>B</code>.”
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-text"><code trim> &#915; &#8866; t&#8321; : A &#8594; B    &#915; &#8866; t&#8322; : A
+&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; T-App
+        &#915; &#8866; t&#8321; t&#8322; : B
+</code></pre>
+</div>
+
+<p>
+“<code>unit</code> has type <code>Unit</code>.” 
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-text"><code trim>&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; T-Unit
+        &#915; &#8866; unit : Unit
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org66e3fd2">
+<h3 id="org66e3fd2"><span class="section-number-3">4.4</span> The simply-typed λ-calculus semantics</h3>
+<p>
+The semantics of the language have not changed,
+except that the syntax of the λ-abstraction now
+has the type annotation.
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-text"><code trim>  t&#8321;  &#10230;  t&#8321;&#8242;
+&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; reduce-app&#737;
+ t&#8321; t&#8322;  &#10230;  t&#8321;&#8242; t&#8322;
+
+ 
+  t&#8322;  &#10230;  t&#8322;&#8242;
+&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; reduce-app&#691;
+ v&#8321; t&#8322;  &#10230;  v&#8321; t&#8322;&#8242;
+
+
+&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; apply
+<span style="color: #00cd68;">(</span>&#955; x : A &#8594; t<span style="color: #00cd68;">)</span> v  &#10230;  t<span style="color: #00cd68;">[</span>x &#8788; v<span style="color: #00cd68;">]</span>
+</code></pre>
+</div>
+
+</section>
+<section id="slide-orgeaa8a50">
+<h3 id="orgeaa8a50"><span class="section-number-3">4.5</span> Exercise: Why do we need a <code>Unit</code> type in the simply-typed λ-calculus?</h3>
+<p>
+Recall that in the untyped λ-calculus,
+the only values were abstractions; all data was functions.
+</p>
+
+<p>
+Why do we add a <code>Unit</code> type in the simply-typed λ-calculus?
+Is it required for some reason?
+</p>
+
+</section>
+<section id="slide-org89ab428">
+<h3 id="org89ab428"><span class="section-number-3">4.6</span> <span class="todo TODO">TODO</span> More types&#x2026;</h3>
 </section>
 </section>
 </div>

@@ -1,4 +1,4 @@
-% Created 2020-11-09 Mon 11:22
+% Created 2020-11-11 Wed 11:31
 % Intended LaTeX compiler: lualatex
 \documentclass[11pt]{article}
 \usepackage{graphicx}
@@ -45,10 +45,10 @@
 \maketitle
 
 \section{Preamble}
-\label{sec:orgf04e6a5}
+\label{sec:org3ad635a}
 
 \subsection{Notable references}
-\label{sec:org0f80e78}
+\label{sec:org9f5402b}
 
 \begin{itemize}
 \item Benjamin Pierce,
@@ -66,16 +66,16 @@
 \end{itemize}
 
 \subsection{{\bfseries\sffamily TODO} Table of contents}
-\label{sec:org12e2d77}
+\label{sec:org6385c89}
 
 \begin{scriptsize}
 \begin{itemize}
-\item \hyperref[sec:orgf04e6a5]{Preamble}
+\item \hyperref[sec:org3ad635a]{Preamble}
 \end{itemize}
 \end{scriptsize}
 
 \section{Introduction}
-\label{sec:org33744d9}
+\label{sec:orgdea42dc}
 
 In this section we extend our previously considered
 untyped λ-calculus by defining a typing relation,
@@ -87,7 +87,7 @@ This involves the introduction of a rudimentary form
 of pattern matching.
 
 \section{Recall: The untyped λ-calculus}
-\label{sec:org611891e}
+\label{sec:org1814a41}
 
 Recall from section 3 of the notes the syntax
 of our untyped λ-calculus, \emph{UL}.
@@ -100,7 +100,7 @@ everything is a function, and abstractions
 (terms of the form \texttt{λ x → t}) are \emph{values}.
 
 \subsection{The call-by-value semantics of the untyped λ-calculus}
-\label{sec:org8344f43}
+\label{sec:orge6142fc}
 
 The call-by-value semantics we described in section 3 of the notes
 can be more succinctly described using inference rules.
@@ -120,7 +120,7 @@ evaluate a term.
 
  
   t₂  ⟶  t₂′
-––––––––––––––––––– reduce-Appʳ
+––––––––––––––––––– reduce-appʳ
  v₁ t₂  ⟶  v₁ t₂′
 
 
@@ -129,12 +129,12 @@ evaluate a term.
 \end{minted}
 
 \subsection{Only applications reduce}
-\label{sec:org9da3ba7}
+\label{sec:org2f88a23}
 
 \iffalse
 \begin{minted}[breaklines=true]{text}
   t₁  ⟶  t₁′                             t₂  ⟶  t₂′                   
-––––––––––––––––––– reduce-appˡ        ––––––––––––––––––– reduce-Appʳ
+––––––––––––––––––– reduce-appˡ        ––––––––––––––––––– reduce-appʳ
  t₁ t₂  ⟶  t₁′ t₂                       v₁ t₂  ⟶  v₁ t₂′              
 
 
@@ -156,12 +156,12 @@ are for applications; remember that
 \end{itemize}
 
 \subsection{Explaining the rules}
-\label{sec:org3768f1d}
+\label{sec:orgf8d08f9}
 
 \iffalse
 \begin{minted}[breaklines=true]{text}
   t₁  ⟶  t₁′                             t₂  ⟶  t₂′                   
-––––––––––––––––––– reduce-appˡ        ––––––––––––––––––– reduce-Appʳ
+––––––––––––––––––– reduce-appˡ        ––––––––––––––––––– reduce-appʳ
  t₁ t₂  ⟶  t₁′ t₂                       v₁ t₂  ⟶  v₁ t₂′              
 
 
@@ -189,12 +189,12 @@ with the value substituted for the abstraction's variable.
 \end{itemize}
 
 \subsection{Reduction as a function}
-\label{sec:org193b251}
+\label{sec:org0282dc4}
 
 \iffalse
 \begin{minted}[breaklines=true]{text}
   t₁  ⟶  t₁′                             t₂  ⟶  t₂′                   
-––––––––––––––––––– reduce-appˡ        ––––––––––––––––––– reduce-Appʳ
+––––––––––––––––––– reduce-appˡ        ––––––––––––––––––– reduce-appʳ
  t₁ t₂  ⟶  t₁′ t₂                       v₁ t₂  ⟶  v₁ t₂′              
 
 
@@ -222,7 +222,7 @@ def ⟶(t) = t match {
 \end{verbatim}
 
 \subsection{An example of a reduction sequence}
-\label{sec:org1aa31f0}
+\label{sec:org5c36120}
 
 \begin{minted}[breaklines=true]{text}
   ((λ x → x) (λ y → y)) ((λ z → z) (λ u → u))
@@ -244,7 +244,7 @@ Since free variables are not values (they are not λ-abstractions),
 this term does not fit any of the reduction rules.
 
 \subsection{Encodings of booleans, natural numbers and pairs}
-\label{sec:orgcfafcb2}
+\label{sec:org7c78d17}
 
 Recall the λ-encodings discussed in notes section 3,
 which allow us to represent booleans, natural numbers
@@ -261,7 +261,7 @@ scc  = λ n → λ s → λ z → s (n s z)
 \end{minted}
 
 \subsection{Enriching the (syntax of the) calculus}
-\label{sec:orgb583b0b}
+\label{sec:orgd4decc8}
 
 While λ-encodings of data in the pure untyped λ-calculus,
 such as those for the booleans, natural numbers and pairs,
@@ -279,18 +279,173 @@ The enriched calculus's syntax is then
         | if ⟨term⟩ then ⟨term⟩ else ⟨term⟩
 \end{minted}
 
-\subsection{The semantics of the extended calculus}
-\label{sec:orgca45f25}
+\subsection{The semantics of the untyped λ-calculus with booleans}
+\label{sec:org1110b6c}
 
-:TODO:
+The untyped λ-calculus extended with booleans semantics has,
+in addition to the rules \texttt{reduce-appˡ}, \texttt{reduce-appʳ} and \texttt{apply},
+these rules for the new basic primitive functions.
+\begin{minted}[breaklines=true]{text}
+          tᵇ  ⟶  tᵇ′
+–––––––––––––––––––––––––––––––––– reduce-if
+ if tᵇ t₁ t₂  ⟶  if tᵇ′ t₁ t₂
 
-\section{The simply typed λ-calculus}
-\label{sec:org55bb4cc}
+ 
 
-:TODO:
+––––––––––––––––––––––––– if-then
+ if true t₁ t₂  ⟶  t₁
 
-\section{“Simple extensions” to the simply typed λ-calculus}
-\label{sec:org1d8a0ab}
 
-:TODO:
+
+––––––––––––––––––––––––– if-else
+ if false t₁ t₂  ⟶  t₂
+\end{minted}
+
+\section{The typed λ-calculus}
+\label{sec:org488dc17}
+
+We define here the syntax and semantics for several stages
+of a typed λ-calculus.
+\begin{itemize}
+\item We begin with a “simply-typed” λ-calculus that has only
+unit and function types, and
+\item at each stage, we add new primitive terms, new types
+and typing rules, and new semantic rules.
+\end{itemize}
+
+These stages roughly correspond to those given in
+Pierce's “Types and Programming Languages” throughout
+chapters
+\begin{itemize}
+\item 9, “Simply Typed Lambda-Calculus”, and
+\item 11, “Simple Extensions”.
+\end{itemize}
+
+For the sake of page space, each stage will only show
+the grammar productions and semantic rule which are added,
+not the whole grammar or semantics.
+\begin{itemize}
+\item Those will be given at the end.
+\end{itemize}
+
+All semantics in this section are call-by-value semantics.
+
+\subsection{Typing rules}
+\label{sec:orgdede44f}
+
+Like semantics, the typing rules of a language
+are presented here using inference rules.
+
+These inference rules define a typing relation,
+written \texttt{\_⊢\_:\_} and read as “entails”.
+
+While the reduction relation, \texttt{\_⟶\_}, is a binary relation between terms
+\begin{itemize}
+\item i.e., \texttt{\_⟶\_ : term × term}
+\begin{itemize}
+\item (in fact, since it is a single-valued relation, \texttt{\_⟶\_ : term → term}),
+\end{itemize}
+\end{itemize}
+the typing relation is a \emph{ternary} relation between a \emph{typing context},
+a term and a type.
+\begin{itemize}
+\item i.e., \texttt{\_⊢\_:\_ : context × term × type}
+\begin{itemize}
+\item (in fact, since it is also a single-valued relation,
+\texttt{\_⟶\_ : context × term → type}.)
+\end{itemize}
+\end{itemize}
+
+The \emph{typing context} referred to above is a set
+of variable, type pairs, used to \emph{bind} certain variables to types.
+\begin{itemize}
+\item It can in fact be a sequence or similar datatype;
+so long as we can add and check bindings.
+\end{itemize}
+
+\subsection{The simply-typed λ-calculus syntax}
+\label{sec:org65135e2}
+
+Our starting point is the simply-typed λ-calculus,
+which has only unit and function types.
+\begin{itemize}
+\item For the sake of noting which new terms are values,
+we add a non-terminal called \texttt{⟨value⟩} to the grammar.
+\end{itemize}
+\begin{minted}[breaklines=true]{text}
+⟨term⟩ ∷= var
+        | ⟨term⟩ ⟨term⟩
+        | ⟨value⟩
+        
+⟨value⟩ ∷= λ var : ⟨type⟩ → ⟨term⟩
+         | unit
+         
+⟨type⟩ ∷= Unit | ⟨type⟩ → ⟨type⟩
+\end{minted}
+
+\subsection{The simply-typed λ-calculus typing}
+\label{sec:org56403f3}
+
+“If a variable \texttt{x} is assigned type \texttt{A} by the context,
+then it has that type.”
+\begin{minted}[breaklines=true]{text}
+ x : A ∈ Γ
+–––––––––––– T-Var
+ Γ ⊢ x : A
+\end{minted}
+Notice that otherwise, variables do not typecheck!
+
+“The abstraction of a variable \texttt{x} of type \texttt{A} over a term \texttt{t} has
+type \texttt{A → B} if \texttt{t} has type \texttt{B} when assuming \texttt{x} has type \texttt{A}.” 
+\begin{minted}[breaklines=true]{text}
+ Γ,(x : A) ⊢ t : B
+––––––––––––––––––––––––––––––– T-Abs
+ Γ ⊢ (λ x : A → t) : A → B
+\end{minted}
+
+“If \texttt{t₁} has type \texttt{A → B} and \texttt{t₂} type \texttt{A}, then applying \texttt{t₁} to \texttt{t₂} has type \texttt{B}.”
+\begin{minted}[breaklines=true]{text}
+ Γ ⊢ t₁ : A → B    Γ ⊢ t₂ : A
+––––––––––––––––––––––––––––––––– T-App
+        Γ ⊢ t₁ t₂ : B
+\end{minted}
+
+“\texttt{unit} has type \texttt{Unit}.” 
+\begin{minted}[breaklines=true]{text}
+––––––––––––––––––––––––––––––––– T-Unit
+        Γ ⊢ unit : Unit
+\end{minted}
+
+\subsection{The simply-typed λ-calculus semantics}
+\label{sec:org4e84e72}
+
+The semantics of the language have not changed,
+except that the syntax of the λ-abstraction now
+has the type annotation.
+\begin{minted}[breaklines=true]{text}
+  t₁  ⟶  t₁′
+––––––––––––––––––– reduce-appˡ
+ t₁ t₂  ⟶  t₁′ t₂
+
+ 
+  t₂  ⟶  t₂′
+––––––––––––––––––– reduce-appʳ
+ v₁ t₂  ⟶  v₁ t₂′
+
+
+–––––––––––––––––––––––––––––– apply
+(λ x : A → t) v  ⟶  t[x ≔ v]
+\end{minted}
+
+\subsection{Exercise: Why do we need a \texttt{Unit} type in the simply-typed λ-calculus?}
+\label{sec:org5d1adb3}
+
+Recall that in the untyped λ-calculus,
+the only values were abstractions; all data was functions.
+
+Why do we add a \texttt{Unit} type in the simply-typed λ-calculus?
+Is it required for some reason?
+
+\subsection{{\bfseries\sffamily TODO} More types\ldots{}}
+\label{sec:orge1114cb}
 \end{document}

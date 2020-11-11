@@ -30,6 +30,9 @@ simple translator to simplify terms to untyped λ-calculus terms.
 :END:
 
 ** November 10th
+:PROPERTIES:
+:CUSTOM_ID: November-10th
+:END:
 
 - The testing section has been completed.
 - The subclasses of the ~ULTerm~ class in Ruby have had
@@ -147,9 +150,9 @@ we can conclude that ~t₂~ has type ~B~, then
 the term ~λ x : A → t₂~ has type ~A → B~.
 (Notice that this rule is the only time we add to the environment.)
 #+begin_src text
- Γ,(x : A) ⊢ t₂ : B
-––––––––––––––––––––––––––––– T-Abs
- Γ ⊢ λ x : A → t₂ : A → B
+ Γ,(x : A) ⊢ t : B
+––––––––––––––––––––––––––––––– T-Abs
+ Γ ⊢ (λ x : A → t) : A → B
 #+end_src
 
 The third rule says that if ~t₁~ has the function type ~A → B~,
@@ -1028,6 +1031,9 @@ runTests(providedTests)
 #+end_src
 
 *** Ruby
+:PROPERTIES:
+:CUSTOM_ID: Ruby
+:END:
 
 [[./testing/a2_test.rb][a2_test.rb]]
 #+begin_src ruby :tangle ./testing/a2/a2_test.rb
