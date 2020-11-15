@@ -1,4 +1,4 @@
-% Created 2020-11-11 Wed 11:27
+% Created 2020-11-15 Sun 16:58
 % Intended LaTeX compiler: lualatex
 \documentclass[11pt]{article}
 \usepackage{graphicx}
@@ -33,7 +33,7 @@
    pdftitle={Computer Science 3MI3 – 2020 assignment 2},
    pdfkeywords={},
    pdfsubject={Type checking and erasing on a simply-typed λ-calculus.},
-   pdfcreator={Emacs 27.0.91 (Org mode 9.4)},
+   pdfcreator={Emacs 27.0.90 (Org mode 9.4)},
    pdflang={English},
    colorlinks,
    linkcolor=blue,
@@ -47,16 +47,24 @@
 
 
 \section*{Introduction}
-\label{sec:org007cd00}
+\label{sec:orgd21c646}
 This assignment asks you to construct representation
 of a simply-typed λ-calculus, construct a typechecker for that
 λ-calculus, and finally to implement \emph{type-erasure} and a
 simple translator to simplify terms to untyped λ-calculus terms.
 
 \section*{Updates and file history}
-\label{sec:orgbfc0b2d}
+\label{sec:orga5676cf}
+\subsection*{November 15th}
+\label{sec:orgc402286}
+\begin{itemize}
+\item Some clarifying comments or examples have been added
+based on questions I have received. They are noted with
+a comment “(added November 15th)”.
+\end{itemize}
+
 \subsection*{November 10th}
-\label{sec:org99bc94b}
+\label{sec:orgac2d577}
 \begin{itemize}
 \item The testing section has been completed.
 \item The subclasses of the \texttt{ULTerm} class in Ruby have had
@@ -74,14 +82,14 @@ have also been provided.
 \end{itemize}
 
 \subsection*{November 6th}
-\label{sec:orgb6d13f8}
+\label{sec:org944440e}
 \begin{itemize}
 \item The typing rules for the \emph{ST} language were added
 in part 0.1.
 \end{itemize}
 
 \subsection*{November 5th}
-\label{sec:org32368c0}
+\label{sec:orgdcd7c82}
 \begin{itemize}
 \item A typo in a variable name in the Ruby implementation
 of \texttt{ULTerm} was corrected.
@@ -92,7 +100,7 @@ and perform substitutions with them was added to part 0.2.
 \end{itemize}
 
 \subsection*{November 1st}
-\label{sec:org855b7ac}
+\label{sec:orgdaea694}
 \begin{itemize}
 \item Part 4 was made bonus
 \begin{itemize}
@@ -102,7 +110,7 @@ made part of the question.
 \end{itemize}
 
 \subsection*{October 30th}
-\label{sec:orgb664686}
+\label{sec:org108873a}
 \begin{itemize}
 \item Initial version posted.
 \begin{itemize}
@@ -111,9 +119,9 @@ made part of the question.
 \end{itemize}
 
 \section*{Boilerplate}
-\label{sec:org366abd3}
+\label{sec:org1d70a3e}
 \subsection*{Documentation}
-\label{sec:orgc77bf21}
+\label{sec:org165737c}
 In addition to the code for the assignments,
 you are required to submit (relatively light) documentation,
 along the lines of that found in
@@ -172,13 +180,13 @@ Feel free to omit some “repetitive” portions.
 which look almost identical, only one or two need to be shown.)
 
 \subsection*{Submission procedures}
-\label{sec:org0b2f068}
+\label{sec:orgbaa5453}
 The same guidelines as for homework
 (which can be seen in any of the homework files)
 apply to assignments, except for the differences below.
 
 \subsubsection*{Assignment naming requirements}
-\label{sec:org94051f7}
+\label{sec:org15ce006}
 
 Place all files for the assignment
 inside a folder titled \texttt{an}, where \texttt{n} is the number of the assignment.
@@ -199,12 +207,12 @@ save your code for that part. Follow those instructions!
 This is slightly decreased from the 10\% for homeworks.
 
 \subsection*{Proper conduct for coursework}
-\label{sec:orgc48360b}
+\label{sec:org4555bd6}
 Refer to the homework code of conduct available in any of the homework files.
 The same guidelines apply to assignments.
 
 \section*{Part 0.1 – Description of the λ-calculus, \emph{ST}                 [0 marks]}
-\label{sec:org77576c1}
+\label{sec:org75f1831}
 The λ-calculus you are to work with during this assignment
 we call \emph{ST}, standing for \emph{simply typed}.
 It adds to the pure untyped λ-calculus \emph{UL}
@@ -235,6 +243,8 @@ by the environment Γ (assuming they are given a type at all.)
 –––––––––––– T-Var
  Γ ⊢ x : A
 \end{minted}
+(Added November 15th) Note that free variables do not have any typing rule,
+and so terms involving free variables \textbf{do not typecheck}.
 
 The second rule says that if by adding “\texttt{x} has type \texttt{A}” to the environment,
 we can conclude that \texttt{t₂} has type \texttt{B}, then
@@ -278,9 +288,9 @@ function terms added to this language.
 \end{minted}
 
 \section*{Part 0.2 – A representation of the untyped λ-calculus, \emph{UL}    [0 marks]}
-\label{sec:orgdf18a1f}
+\label{sec:org7eb7be8}
 \subsection*{Nameless representation of terms}
-\label{sec:org93a03e3}
+\label{sec:org127dad7}
 We use \emph{de Bruijn indices} in place of named variables.
 The index “points” to a binder, or to a free variable.
 \begin{itemize}
@@ -304,7 +314,7 @@ we can correct for this by writing a \emph{pretty printer} for λ-terms
 (which will be the focus of a homework.)
 
 \subsection*{Scala implementation}
-\label{sec:org61c0bb5}
+\label{sec:orgcd63ee5}
 Pure untyped λ-terms can only be variables, abstractions or applications.
 (Updated November 5th) We include as parts of the case classes
 overrides of the \texttt{toString} method, which improve the appearance
@@ -460,7 +470,7 @@ def evaluate(t: ULTerm): ULTerm = reduce(t) match {
 \end{minted}
 
 \subsection*{Ruby implementation}
-\label{sec:org0c3e2e3}
+\label{sec:orgb6425f2}
 In Ruby, we use implement \emph{UL} terms using a (super) class \texttt{ULTerm} with
 subclasses for each kind of \emph{UL} term.
 
@@ -696,7 +706,7 @@ because of some method call, because \texttt{ULTerm}'s never change
 after their creation.
 
 \subsection*{Examples of interacting with these representations}
-\label{sec:org952093c}
+\label{sec:orgcbd0fbb}
 The following code snippets show how you might use
 these implementations to perform some simple computations.
 
@@ -751,7 +761,7 @@ puts x
 \end{minted}
 
 \section*{Part 1 – The representation                                  [10 marks]}
-\label{sec:orgc5213af}
+\label{sec:org1db2f2c}
 \begin{center}
 \textbf{Place your code for this part in the files \texttt{a2.sc} and \texttt{a2.rb}.}
 \end{center}
@@ -763,7 +773,7 @@ The constructors of the type should be named
 \begin{itemize}
 \item \texttt{STVar},
 \item \texttt{STApp},
-\item \texttt{STAbs},
+\item \texttt{STAbs} (see the note below regarding the new argument to this constructor),
 \item \texttt{STZero},
 \item \texttt{STSuc},
 \item \texttt{STIsZero},
@@ -781,6 +791,12 @@ Note that the \texttt{STAbs} constructor must take an argument specifying
 the \emph{type} of the variable being abstracted. This argument
 should be of the following types.
 (This code should be included in your \texttt{a2} file.)
+
+(Added November 15th) You are not expected to, and should not,
+extend this type at all; you are to implement
+the type \texttt{STTerm} (\emph{Term}, not \emph{Type}) which \emph{uses} \texttt{STType} as a parameter
+to the \texttt{STAbs} subtype.
+
 In \href{./src/a2\_types.sc}{Scala}:
 \begin{minted}[breaklines=true]{scala}
 sealed trait STType
@@ -833,14 +849,14 @@ end
 # Example use: the type "nat -> bool" is written STFun.new(STNat.new,STBool.new)
 \end{minted}
 
-\section*{Part 2 – Type checking                                       [40 marks]}
-\label{sec:orge4c50f0}
+\section*{Part 2 – Typechecking                                        [40 marks]}
+\label{sec:org29b17fd}
 \begin{center}
 \textbf{Place your code for this part in the files \texttt{a2.sc} and \texttt{a2.rb}.}
 \end{center}
 
 Implement, in both Scala and Ruby,
-a \emph{type checker} method named \texttt{typecheck} for elements of \texttt{STTerm}.
+a \emph{typechecker} method named \texttt{typecheck} for elements of \texttt{STTerm}.
 
 This \texttt{typecheck} method takes an \texttt{STTerm}, and returns \texttt{true} if
 the represented term obeys the type rules of \emph{ST};
@@ -851,10 +867,13 @@ otherwise, it returns \texttt{false}.
 The definition of \texttt{typecheck} will require a method to determine
 the type of a given expression.
 The name \texttt{typeOf} is recommended for this method.
-This method should have as an argument the \emph{environment};
+This method should have as an argument the \emph{environment} or \emph{typing context};
 i.e., a map, list or similar type which relates variables to types. 
 (Since variables are represented as integers,
 this means relating integers to \texttt{STType} values.)
+
+(Added November 15th) Note that the \texttt{typeOf} method is simply an implementation
+of the typing rules described in part 0.1.
 
 I (Mark) \emph{suggest} that \texttt{typeOf} method return a \texttt{Option[STType]} in the Scala implementation,
 but this is not a requirement.
@@ -868,8 +887,40 @@ including
 If you have another implementation in mind, you are welcome to check
 with Mark.
 
+(Added November 15th) For example (using the syntax for terms from part 0.1),
+and assuming that \texttt{typeOf} takes a list parameter as the environment,
+\begin{itemize}
+\item \texttt{typecheck(true)} should return \texttt{true}, because \texttt{typeOf(true,[])} returns \texttt{bool}.
+\begin{itemize}
+\item (Note: \texttt{[]} is passed as the environment in all these cases,
+because when you start typechecking,
+there are no variables added to the environment.
+You will need a similar “empty environment” for
+whatever representation you choose for the environment.)
+\end{itemize}
+\item \texttt{typecheck(suc(zero))} should return \texttt{true},
+because \texttt{typeOf(suc(zero))} returns \texttt{nat}.
+\item \texttt{typecheck(λ x : nat → x)} should return \texttt{true},
+because the variable in the abstraction has been
+stated to have the type \texttt{nat},
+so \texttt{typeOf(λ x : nat → x)} should return \texttt{nat → nat}.
+\begin{itemize}
+\item That is, \texttt{STFun(STNat,STNat)} in Scala
+or \texttt{STFun.new(STNat.new,STNat.new)} in Ruby.
+\end{itemize}
+\item \texttt{typecheck(λ x : nat → y)} should return \texttt{false},
+because the variable \texttt{y} in the abstraction is free and so
+does not have any type information,
+so \texttt{typeOf(λ x : nat → y)} should fail.
+\item \texttt{typecheck((λ x : nat → x)(zero))} should return \texttt{true},
+because \texttt{typecheck((λ x : nat → x)(zero))} should return \texttt{nat}.
+\item \texttt{typecheck((λ x : nat → x)(false))} should return \texttt{false},
+because there is a typeclash, so \texttt{typeOf((λ x : nat → x)(false))} should fail.
+\end{itemize}
+All of these are in line with the typing rules described in part 0.1.
+
 \section*{Part 3 – Translation to the untyped λ-calculus; type erasure [40 marks]}
-\label{sec:orgbea0016}
+\label{sec:org36f4a9f}
 \begin{center}
 \textbf{Place your code for this part in the files \texttt{a2.sc} and \texttt{a2.rb}.}
 \end{center}
@@ -898,7 +949,7 @@ or copy the definitions into your file and create
 blank \texttt{a2\_ulterm} files to satisfy the import statements in the testing.)
 
 \section*{Part 4 – Bonus: Interpreting \emph{SL} programs                     [10 marks]}
-\label{sec:orga262982}
+\label{sec:org254a0ad}
 \begin{center}
 \textbf{Place any code for this part in files \texttt{a2p4.sc} and \texttt{a2p4.rb}.}
 \end{center}
@@ -910,7 +961,7 @@ You will also need a method to convert results back
 to an \texttt{STTerm} representation.
 
 \section*{Part 5 – Bonus: pairs                                        [10 bonus marks]}
-\label{sec:org20b6ae1}
+\label{sec:org606d1b8}
 \begin{center}
 \textbf{Place any code for this part in files \texttt{a2p5.sc} and \texttt{a2p5.rb}.}
 \end{center}
@@ -920,7 +971,7 @@ the type of \emph{pairs} as well as naturals and booleans,
 along with a type checker, type eraser and evaluation method.
 
 \section*{Submission checklist}
-\label{sec:org3da321c}
+\label{sec:org76ddbc3}
 For your convenience, this checklist is provided
 to track the files you need to submit.
 Use it if you wish.
@@ -945,7 +996,7 @@ Use it if you wish.
 \end{minted}
 
 \section*{Testing}
-\label{sec:org89fee43}
+\label{sec:orgf2a1939}
 Unit tests for the requested types, methods and predicates
 are available here.
 \begin{itemize}
@@ -975,7 +1026,7 @@ The provided test cases check a very minimal amount!
 \end{center}
 
 \subsection*{Automated testing via Docker}
-\label{sec:org2c12019}
+\label{sec:org2ccc035}
 The Docker setup and usage scripts are available at the following links.
 Their contents are also repeated below.
 \begin{itemize}
@@ -994,9 +1045,9 @@ and not using WSL or WSL2, you may have
 to run the commands contained in those scripts manually.
 
 \subsection*{The tests}
-\label{sec:org148a033}
+\label{sec:org3d9d3cc}
 \subsubsection*{Scala}
-\label{sec:org980b42b}
+\label{sec:orgcf8b986}
 \href{./testing/a2/a2\_testframework.sc}{a2\_test.sc}
 \begin{minted}[breaklines=true]{scala}
 import $file.a2, a2._
@@ -1087,7 +1138,7 @@ runTests(providedTests)
 \end{minted}
 
 \subsubsection*{Ruby}
-\label{sec:orgb0f4d9f}
+\label{sec:org005754d}
 \href{./testing/a2\_test.rb}{a2\_test.rb}
 \begin{minted}[breaklines=true]{ruby}
 require_relative "a2"
@@ -1171,7 +1222,7 @@ end
 \end{minted}
 
 \subsection*{The Docker setup}
-\label{sec:org8b9a6b7}
+\label{sec:org32e39b4}
 \href{./testing/a2/Dockerfile}{Dockerfile}
 \begin{minted}[breaklines=true]{docker}
 # Define the argument for openjdk version

@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-11-11 Wed 11:27 -->
+<!-- 2020-11-15 Sun 16:58 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Computer Science 3MI3 – 2020 assignment 2</title>
@@ -238,6 +238,7 @@
 <li><a href="#Introduction">Introduction</a></li>
 <li><a href="#Updates-and-file-history">Updates and file history</a>
 <ul>
+<li><a href="#November-15th">November 15th</a></li>
 <li><a href="#November-10th">November 10th</a></li>
 <li><a href="#November-6th">November 6th</a></li>
 <li><a href="#November-5th">November 5th</a></li>
@@ -250,7 +251,7 @@
 <li><a href="#Submission-procedures">Documentation</a></li>
 <li><a href="#Submission-procedures">Submission procedures</a>
 <ul>
-<li><a href="#org27afdf7">Assignment naming requirements</a></li>
+<li><a href="#org6d62348">Assignment naming requirements</a></li>
 </ul>
 </li>
 <li><a href="#Proper-conduct-for-coursework">Proper conduct for coursework</a></li>
@@ -266,7 +267,7 @@
 </ul>
 </li>
 <li><a href="#Part-1-–-The-representation----------------------------------[10 marks]">Part 1 – The representation                                  [10 marks]</a></li>
-<li><a href="#Part-1-–-Interpreter-written-in-Scala--[20 marks]">Part 2 – Type checking                                       [40 marks]</a></li>
+<li><a href="#Part-1-–-Interpreter-written-in-Scala--[20 marks]">Part 2 – Typechecking                                        [40 marks]</a></li>
 <li><a href="#Part-2-–-Interpreter-written-in-Prolog-[20 marks]">Part 3 – Translation to the untyped λ-calculus; type erasure [40 marks]</a></li>
 <li><a href="#Part-4-–-Bonus:-Interpreting-/SL/-programs---------------------[10 marks]">Part 4 – Bonus: Interpreting <i>SL</i> programs                     [10 marks]</a></li>
 <li><a href="#Part-5-–-Bonus:-pairs----------------------------------------[10 bonus marks]">Part 5 – Bonus: pairs                                        [10 bonus marks]</a></li>
@@ -302,6 +303,17 @@ simple translator to simplify terms to untyped λ-calculus terms.
 <div id="outline-container-Updates-and-file-history" class="outline-2">
 <h2 id="Updates-and-file-history">Updates and file history</h2>
 <div class="outline-text-2" id="text-Updates-and-file-history">
+</div>
+
+<div id="outline-container-November-15th" class="outline-3">
+<h3 id="November-15th">November 15th</h3>
+<div class="outline-text-3" id="text-November-15th">
+<ul class="org-ul">
+<li>Some clarifying comments or examples have been added
+based on questions I have received. They are noted with
+a comment “(added November 15th)”.</li>
+</ul>
+</div>
 </div>
 
 <div id="outline-container-November-10th" class="outline-3">
@@ -466,9 +478,9 @@ apply to assignments, except for the differences below.
 </p>
 </div>
 
-<div id="outline-container-org27afdf7" class="outline-4">
-<h4 id="org27afdf7">Assignment naming requirements</h4>
-<div class="outline-text-4" id="text-org27afdf7">
+<div id="outline-container-org6d62348" class="outline-4">
+<h4 id="org6d62348">Assignment naming requirements</h4>
+<div class="outline-text-4" id="text-org6d62348">
 <p>
 Place all files for the assignment
 inside a folder titled <code>an</code>, where <code>n</code> is the number of the assignment.
@@ -552,6 +564,10 @@ by the environment Γ (assuming they are given a type at all.)
  &#915; &#8866; x : A
 </pre>
 </div>
+<p>
+(Added November 15th) Note that free variables do not have any typing rule,
+and so terms involving free variables <b>do not typecheck</b>.
+</p>
 
 <p>
 The second rule says that if by adding “<code>x</code> has type <code>A</code>” to the environment,
@@ -1175,7 +1191,7 @@ The constructors of the type should be named
 <ul class="org-ul">
 <li><code>STVar</code>,</li>
 <li><code>STApp</code>,</li>
-<li><code>STAbs</code>,</li>
+<li><code>STAbs</code> (see the note below regarding the new argument to this constructor),</li>
 <li><code>STZero</code>,</li>
 <li><code>STSuc</code>,</li>
 <li><code>STIsZero</code>,</li>
@@ -1198,6 +1214,16 @@ Note that the <code>STAbs</code> constructor must take an argument specifying
 the <i>type</i> of the variable being abstracted. This argument
 should be of the following types.
 (This code should be included in your <code>a2</code> file.)
+</p>
+
+<p>
+(Added November 15th) You are not expected to, and should not,
+extend this type at all; you are to implement
+the type <code>STTerm</code> (<i>Term</i>, not <i>Type</i>) which <i>uses</i> <code>STType</code> as a parameter
+to the <code>STAbs</code> subtype.
+</p>
+
+<p>
 In <a href="./src/a2_types.sc">Scala</a>:
 </p>
 <div class="org-src-container">
@@ -1258,7 +1284,7 @@ And in <a href="./src/a2_types.rb">Ruby</a>:
 </div>
 
 <div id="outline-container-Part-1-–-Interpreter-written-in-Scala--[20 marks]" class="outline-2">
-<h2 id="Part-1-–-Interpreter-written-in-Scala--[20 marks]">Part 2 – Type checking                                       [40 marks]</h2>
+<h2 id="Part-1-–-Interpreter-written-in-Scala--[20 marks]">Part 2 – Typechecking                                        [40 marks]</h2>
 <div class="outline-text-2" id="text-Part-1-–-Interpreter-written-in-Scala--[20 marks]">
 <div class="org-center">
 <p>
@@ -1268,7 +1294,7 @@ And in <a href="./src/a2_types.rb">Ruby</a>:
 
 <p>
 Implement, in both Scala and Ruby,
-a <i>type checker</i> method named <code>typecheck</code> for elements of <code>STTerm</code>.
+a <i>typechecker</i> method named <code>typecheck</code> for elements of <code>STTerm</code>.
 </p>
 
 <p>
@@ -1285,10 +1311,15 @@ otherwise, it returns <code>false</code>.
 The definition of <code>typecheck</code> will require a method to determine
 the type of a given expression.
 The name <code>typeOf</code> is recommended for this method.
-This method should have as an argument the <i>environment</i>;
+This method should have as an argument the <i>environment</i> or <i>typing context</i>;
 i.e., a map, list or similar type which relates variables to types. 
 (Since variables are represented as integers,
 this means relating integers to <code>STType</code> values.)
+</p>
+
+<p>
+(Added November 15th) Note that the <code>typeOf</code> method is simply an implementation
+of the typing rules described in part 0.1.
 </p>
 
 <p>
@@ -1305,6 +1336,42 @@ including
 <p>
 If you have another implementation in mind, you are welcome to check
 with Mark.
+</p>
+
+<p>
+(Added November 15th) For example (using the syntax for terms from part 0.1),
+and assuming that <code>typeOf</code> takes a list parameter as the environment,
+</p>
+<ul class="org-ul">
+<li><code>typecheck(true)</code> should return <code>true</code>, because <code>typeOf(true,[])</code> returns <code>bool</code>.
+<ul class="org-ul">
+<li>(Note: <code>[]</code> is passed as the environment in all these cases,
+because when you start typechecking,
+there are no variables added to the environment.
+You will need a similar “empty environment” for
+whatever representation you choose for the environment.)</li>
+</ul></li>
+<li><code>typecheck(suc(zero))</code> should return <code>true</code>,
+because <code>typeOf(suc(zero))</code> returns <code>nat</code>.</li>
+<li><code>typecheck(λ x : nat → x)</code> should return <code>true</code>,
+because the variable in the abstraction has been
+stated to have the type <code>nat</code>,
+so <code>typeOf(λ x : nat → x)</code> should return <code>nat → nat</code>.
+<ul class="org-ul">
+<li>That is, <code>STFun(STNat,STNat)</code> in Scala
+or <code>STFun.new(STNat.new,STNat.new)</code> in Ruby.</li>
+</ul></li>
+<li><code>typecheck(λ x : nat → y)</code> should return <code>false</code>,
+because the variable <code>y</code> in the abstraction is free and so
+does not have any type information,
+so <code>typeOf(λ x : nat → y)</code> should fail.</li>
+<li><code>typecheck((λ x : nat → x)(zero))</code> should return <code>true</code>,
+because <code>typecheck((λ x : nat → x)(zero))</code> should return <code>nat</code>.</li>
+<li><code>typecheck((λ x : nat → x)(false))</code> should return <code>false</code>,
+because there is a typeclash, so <code>typeOf((λ x : nat → x)(false))</code> should fail.</li>
+</ul>
+<p>
+All of these are in line with the typing rules described in part 0.1.
 </p>
 </div>
 </div>
@@ -1516,11 +1583,11 @@ to run the commands contained in those scripts manually.
 <span style="color: #a8a8a8;">   check if they are equal in value.</span>
 <span style="color: #a8a8a8;">   If so, return 0. Otherwise, inform the user, and return 1,</span>
 <span style="color: #a8a8a8;">   so the number of failures can be counted. */</span>
-<span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">test</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">](</span>given<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">A</span>, expected<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">A</span>, the_test<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">String</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">=</span>
-  <span style="color: #b6a0ff;">if</span> <span style="color: #00cd68;">(</span>!<span style="color: #b6a0ff;">(</span>given equals expected<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span> <span style="color: #00cd68;">{</span>
+<span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">test</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">](</span><span style="color: #b6a0ff;">given:</span> <span style="color: #6ae4b9;">A</span>, expected<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">A</span>, the_test<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">String</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">=</span>
+  <span style="color: #b6a0ff;">if</span> <span style="color: #00cd68;">(</span>!<span style="color: #b6a0ff;">(</span><span style="color: #b6a0ff;">given</span> equals expected<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span> <span style="color: #00cd68;">{</span>
     println<span style="color: #b6a0ff;">(</span><span style="color: #79a8ff;">"+---------------------------------------------------"</span><span style="color: #b6a0ff;">)</span>
     println<span style="color: #b6a0ff;">(</span><span style="color: #79a8ff;">"| "</span> + the_test + <span style="color: #79a8ff;">" failed."</span><span style="color: #b6a0ff;">)</span>
-    println<span style="color: #b6a0ff;">(</span><span style="color: #79a8ff;">"| Expected "</span> + expected + <span style="color: #79a8ff;">", got "</span> + given + <span style="color: #79a8ff;">"."</span><span style="color: #b6a0ff;">)</span>
+    println<span style="color: #b6a0ff;">(</span><span style="color: #79a8ff;">"| Expected "</span> + expected + <span style="color: #79a8ff;">", got "</span> + <span style="color: #b6a0ff;">given</span> + <span style="color: #79a8ff;">"."</span><span style="color: #b6a0ff;">)</span>
     println<span style="color: #b6a0ff;">(</span><span style="color: #79a8ff;">"+---------------------------------------------------"</span><span style="color: #b6a0ff;">)</span>
     <span style="color: #00bcff;">1</span>
   <span style="color: #00cd68;">}</span> <span style="color: #b6a0ff;">else</span> <span style="color: #00cd68;">{</span>
@@ -1573,9 +1640,9 @@ to run the commands contained in those scripts manually.
   <span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">failed</span> <span style="color: #b6a0ff;">=</span> tests.foldLeft<span style="color: #b6a0ff;">(</span><span style="color: #00bcff;">0</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">{</span>
     <span style="color: #6ae4b9;">(</span>failures, next<span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">=&gt;</span> next <span style="color: #b6a0ff;">match</span> <span style="color: #6ae4b9;">{</span>
       <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Deconstruct the tuple to get its parts</span>
-      <span style="color: #b6a0ff;">case</span> <span style="color: #f0ce43;">(</span><span style="color: #00d3d0;">given</span>, <span style="color: #00d3d0;">expected</span>, <span style="color: #00d3d0;">the_test</span><span style="color: #f0ce43;">)</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #f0ce43;">{</span>
+      <span style="color: #b6a0ff;">case</span> <span style="color: #f0ce43;">(</span><span style="color: #b6a0ff;">given</span>, expected, the_test<span style="color: #f0ce43;">)</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #f0ce43;">{</span>
         <span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">failure</span> <span style="color: #b6a0ff;">=</span> <span style="color: #b6a0ff;">try</span> <span style="color: #00bcff;">{</span>
-          test<span style="color: #80d200;">(</span>given<span style="color: #f78fe7;">()</span>, expected, the_test<span style="color: #80d200;">)</span>
+          test<span style="color: #80d200;">(</span><span style="color: #b6a0ff;">given</span><span style="color: #f78fe7;">()</span>, expected, the_test<span style="color: #80d200;">)</span>
         <span style="color: #00bcff;">}</span> <span style="color: #b6a0ff;">catch</span> <span style="color: #00bcff;">{</span>
           <span style="color: #b6a0ff;">case</span> <span style="color: #00d3d0;">e</span><span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">Exception</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #80d200;">{</span>
             print<span style="color: #f78fe7;">(</span><span style="color: #79a8ff;">"Test "</span> + the_test + <span style="color: #79a8ff;">"encountered exception: "</span><span style="color: #f78fe7;">)</span>
@@ -1769,8 +1836,8 @@ docker-compose stop -t 1
 <p class="author">Author: Mark Armstrong</p>
      <p class="author">Contact: <a href="mailto:markparmstrong@gmail.com">markparmstrong@gmail.com</a></p>
      <p class="date">Original date: October 30th, 2020</p>
-     <p class="date">Last updated: 2020-11-11 Wed 11:27</p>
-     <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4)</p>
+     <p class="date">Last updated: 2020-11-15 Sun 16:38</p>
+     <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.90 (<a href="https://orgmode.org">Org</a> mode 9.4)</p>
      <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

@@ -29,6 +29,15 @@ simple translator to simplify terms to untyped λ-calculus terms.
 :CUSTOM_ID: Updates-and-file-history
 :END:
 
+** November 15th
+:PROPERTIES:
+:CUSTOM_ID: November-15th
+:END:
+
+- Some clarifying comments or examples have been added
+  based on questions I have received. They are noted with
+  a comment “(added November 15th)”.
+
 ** November 10th
 :PROPERTIES:
 :CUSTOM_ID: November-10th
@@ -144,6 +153,8 @@ by the environment Γ (assuming they are given a type at all.)
 –––––––––––– T-Var
  Γ ⊢ x : A
 #+end_src
+(Added November 15th) Note that free variables do not have any typing rule,
+and so terms involving free variables *do not typecheck*.
 
 The second rule says that if by adding “~x~ has type ~A~” to the environment,
 we can conclude that ~t₂~ has type ~B~, then
@@ -687,7 +698,7 @@ a type ~STTerm~ to represent terms of the λ-calculus /ST/ defined above.
 The constructors of the type should be named
 - ~STVar~,
 - ~STApp~,
-- ~STAbs~,
+- ~STAbs~ (see the note below regarding the new argument to this constructor),
 - ~STZero~,
 - ~STSuc~,
 - ~STIsZero~,
@@ -704,6 +715,12 @@ Note that the ~STAbs~ constructor must take an argument specifying
 the /type/ of the variable being abstracted. This argument
 should be of the following types.
 (This code should be included in your ~a2~ file.)
+
+(Added November 15th) You are not expected to, and should not,
+extend this type at all; you are to implement
+the type ~STTerm~ (/Term/, not /Type/) which /uses/ ~STType~ as a parameter
+to the ~STAbs~ subtype.
+
 In [[./src/a2_types.sc][Scala]]:
 #+begin_src amm :tangle ./src/a2_types.sc
 sealed trait STType
@@ -756,7 +773,7 @@ end
 # Example use: the type "nat -> bool" is written STFun.new(STNat.new,STBool.new)
 #+end_src
 
-* Part 2 – Type checking                                       [40 marks]
+* Part 2 – Typechecking                                        [40 marks]
 :PROPERTIES:
 :CUSTOM_ID: Part-1-–-Interpreter-written-in-Scala--[20 marks]
 :END:
@@ -766,7 +783,7 @@ end
 #+end_center
 
 Implement, in both Scala and Ruby,
-a /type checker/ method named ~typecheck~ for elements of ~STTerm~.
+a /typechecker/ method named ~typecheck~ for elements of ~STTerm~.
 
 This ~typecheck~ method takes an ~STTerm~, and returns ~true~ if
 the represented term obeys the type rules of /ST/;
@@ -777,10 +794,13 @@ otherwise, it returns ~false~.
 The definition of ~typecheck~ will require a method to determine
 the type of a given expression.
 The name ~typeOf~ is recommended for this method.
-This method should have as an argument the /environment/;
+This method should have as an argument the /environment/ or /typing context/;
 i.e., a map, list or similar type which relates variables to types. 
 (Since variables are represented as integers,
 this means relating integers to ~STType~ values.)
+
+(Added November 15th) Note that the ~typeOf~ method is simply an implementation
+of the typing rules described in part 0.1.
 
 I (Mark) /suggest/ that ~typeOf~ method return a ~Option[STType]~ in the Scala implementation,
 but this is not a requirement.
@@ -791,6 +811,32 @@ including
 - use of the ~Either~ type.
 If you have another implementation in mind, you are welcome to check
 with Mark.
+
+(Added November 15th) For example (using the syntax for terms from part 0.1),
+and assuming that ~typeOf~ takes a list parameter as the environment,
+- ~typecheck(true)~ should return ~true~, because ~typeOf(true,[])~ returns ~bool~.
+  - (Note: ~[]~ is passed as the environment in all these cases,
+    because when you start typechecking,
+    there are no variables added to the environment.
+    You will need a similar “empty environment” for
+    whatever representation you choose for the environment.)
+- ~typecheck(suc(zero))~ should return ~true~,
+  because ~typeOf(suc(zero))~ returns ~nat~.
+- ~typecheck(λ x : nat → x)~ should return ~true~,
+  because the variable in the abstraction has been
+  stated to have the type ~nat~,
+  so ~typeOf(λ x : nat → x)~ should return ~nat → nat~.
+  - That is, ~STFun(STNat,STNat)~ in Scala
+    or ~STFun.new(STNat.new,STNat.new)~ in Ruby.
+- ~typecheck(λ x : nat → y)~ should return ~false~,
+  because the variable ~y~ in the abstraction is free and so
+  does not have any type information,
+  so ~typeOf(λ x : nat → y)~ should fail.
+- ~typecheck((λ x : nat → x)(zero))~ should return ~true~,
+  because ~typecheck((λ x : nat → x)(zero))~ should return ~nat~.
+- ~typecheck((λ x : nat → x)(false))~ should return ~false~,
+  because there is a typeclash, so ~typeOf((λ x : nat → x)(false))~ should fail.
+All of these are in line with the typing rules described in part 0.1.
 
 * Part 3 – Translation to the untyped λ-calculus; type erasure [40 marks]
 :PROPERTIES:

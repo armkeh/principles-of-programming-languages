@@ -12,6 +12,11 @@ better viewed at
 
 ## November
 
+  - November 15th
+    
+      - Some extra text and examples have been added to assignment 2
+        based on some questions I've received.
+
   - November 10th
     
       - The testing and more detailed specifications for assignment 2
@@ -26,7 +31,7 @@ better viewed at
 
   - November 9th
     
-      - Assignment 2's due date has now been shifted to November 25th.
+      - Assignment 2's due date has now been shifted to November 26th.
         Testing and more detailed instructions should be released by the
         end of day today.
     
