@@ -1,4 +1,4 @@
-% Created 2020-11-11 Wed 11:31
+% Created 2020-11-16 Mon 11:33
 % Intended LaTeX compiler: lualatex
 \documentclass[11pt]{article}
 \usepackage{graphicx}
@@ -45,10 +45,10 @@
 \maketitle
 
 \section{Preamble}
-\label{sec:org3ad635a}
+\label{sec:org89631f5}
 
 \subsection{Notable references}
-\label{sec:org9f5402b}
+\label{sec:org8279d70}
 
 \begin{itemize}
 \item Benjamin Pierce,
@@ -66,16 +66,16 @@
 \end{itemize}
 
 \subsection{{\bfseries\sffamily TODO} Table of contents}
-\label{sec:org6385c89}
+\label{sec:orgca77fdf}
 
 \begin{scriptsize}
 \begin{itemize}
-\item \hyperref[sec:org3ad635a]{Preamble}
+\item \hyperref[sec:org89631f5]{Preamble}
 \end{itemize}
 \end{scriptsize}
 
 \section{Introduction}
-\label{sec:orgdea42dc}
+\label{sec:org658b9c8}
 
 In this section we extend our previously considered
 untyped λ-calculus by defining a typing relation,
@@ -87,7 +87,7 @@ This involves the introduction of a rudimentary form
 of pattern matching.
 
 \section{Recall: The untyped λ-calculus}
-\label{sec:org1814a41}
+\label{sec:orgb6da187}
 
 Recall from section 3 of the notes the syntax
 of our untyped λ-calculus, \emph{UL}.
@@ -100,7 +100,7 @@ everything is a function, and abstractions
 (terms of the form \texttt{λ x → t}) are \emph{values}.
 
 \subsection{The call-by-value semantics of the untyped λ-calculus}
-\label{sec:orge6142fc}
+\label{sec:org653b774}
 
 The call-by-value semantics we described in section 3 of the notes
 can be more succinctly described using inference rules.
@@ -129,7 +129,7 @@ evaluate a term.
 \end{minted}
 
 \subsection{Only applications reduce}
-\label{sec:org2f88a23}
+\label{sec:org9d6e666}
 
 \iffalse
 \begin{minted}[breaklines=true]{text}
@@ -156,7 +156,7 @@ are for applications; remember that
 \end{itemize}
 
 \subsection{Explaining the rules}
-\label{sec:orgf8d08f9}
+\label{sec:orgd9adc94}
 
 \iffalse
 \begin{minted}[breaklines=true]{text}
@@ -189,7 +189,7 @@ with the value substituted for the abstraction's variable.
 \end{itemize}
 
 \subsection{Reduction as a function}
-\label{sec:org0282dc4}
+\label{sec:org8a6dd63}
 
 \iffalse
 \begin{minted}[breaklines=true]{text}
@@ -222,7 +222,7 @@ def ⟶(t) = t match {
 \end{verbatim}
 
 \subsection{An example of a reduction sequence}
-\label{sec:org5c36120}
+\label{sec:orgf04411f}
 
 \begin{minted}[breaklines=true]{text}
   ((λ x → x) (λ y → y)) ((λ z → z) (λ u → u))
@@ -244,7 +244,7 @@ Since free variables are not values (they are not λ-abstractions),
 this term does not fit any of the reduction rules.
 
 \subsection{Encodings of booleans, natural numbers and pairs}
-\label{sec:org7c78d17}
+\label{sec:orga48a8e8}
 
 Recall the λ-encodings discussed in notes section 3,
 which allow us to represent booleans, natural numbers
@@ -261,7 +261,7 @@ scc  = λ n → λ s → λ z → s (n s z)
 \end{minted}
 
 \subsection{Enriching the (syntax of the) calculus}
-\label{sec:orgd4decc8}
+\label{sec:org7cb689f}
 
 While λ-encodings of data in the pure untyped λ-calculus,
 such as those for the booleans, natural numbers and pairs,
@@ -280,7 +280,7 @@ The enriched calculus's syntax is then
 \end{minted}
 
 \subsection{The semantics of the untyped λ-calculus with booleans}
-\label{sec:org1110b6c}
+\label{sec:org0bf7dfd}
 
 The untyped λ-calculus extended with booleans semantics has,
 in addition to the rules \texttt{reduce-appˡ}, \texttt{reduce-appʳ} and \texttt{apply},
@@ -301,15 +301,16 @@ these rules for the new basic primitive functions.
  if false t₁ t₂  ⟶  t₂
 \end{minted}
 
-\section{The typed λ-calculus}
-\label{sec:org488dc17}
+\section{A first typed λ-calculus – the simply typed λ-calculus}
+\label{sec:org03a87bf}
 
-We define here the syntax and semantics for several stages
+Starting now, we define the syntax and semantics for several stages
 of a typed λ-calculus.
 \begin{itemize}
 \item We begin with a “simply-typed” λ-calculus that has only
 unit and function types, and
-\item at each stage, we add new primitive terms, new types
+\item at each stage (in the following sections of these notes),
+we add new primitive terms, new types
 and typing rules, and new semantic rules.
 \end{itemize}
 
@@ -331,30 +332,33 @@ not the whole grammar or semantics.
 All semantics in this section are call-by-value semantics.
 
 \subsection{Typing rules}
-\label{sec:orgdede44f}
+\label{sec:org8d5ad05}
 
 Like semantics, the typing rules of a language
 are presented here using inference rules.
 
 These inference rules define a typing relation,
-written \texttt{\_⊢\_:\_} and read as “entails”.
+written \(\_⊢\_:\_\) and read as “entails”.
 
-While the reduction relation, \texttt{\_⟶\_}, is a binary relation between terms
+While the reduction relation, \(\_⟶\_\), is a binary relation between terms
 \begin{itemize}
-\item i.e., \texttt{\_⟶\_ : term × term}
+\item i.e., \(\_⟶\_ : \texttt{term} × \texttt{term}\)
 \begin{itemize}
-\item (in fact, since it is a single-valued relation, \texttt{\_⟶\_ : term → term}),
+\item (in fact, since it is a single-valued relation, \(\_⟶\_ : \texttt{term} → \texttt{term}\)),
 \end{itemize}
 \end{itemize}
 the typing relation is a \emph{ternary} relation between a \emph{typing context},
 a term and a type.
 \begin{itemize}
-\item i.e., \texttt{\_⊢\_:\_ : context × term × type}
+\item i.e., \(\_⊢\_:\_ \ \ : \ \ \texttt{context} × \texttt{term} × \texttt{type}\)
 \begin{itemize}
 \item (in fact, since it is also a single-valued relation,
-\texttt{\_⟶\_ : context × term → type}.)
+\(\_⊢\_:\_ \ \ : \ \ \texttt{context} × \texttt{term} → \texttt{type}\).)
 \end{itemize}
 \end{itemize}
+
+\subsection{The typing context}
+\label{sec:org1dbeaac}
 
 The \emph{typing context} referred to above is a set
 of variable, type pairs, used to \emph{bind} certain variables to types.
@@ -363,8 +367,42 @@ of variable, type pairs, used to \emph{bind} certain variables to types.
 so long as we can add and check bindings.
 \end{itemize}
 
+We will write
+\begin{itemize}
+\item \texttt{∅} for the \emph{empty} typing context,
+\item \texttt{Γ,(x : A)} to \emph{extend} the typing context \texttt{Γ} with the additional
+type binding of \texttt{x} to \texttt{A}, and
+\item \texttt{(x : A) ∈ Γ} to check if \texttt{x} is bound to type \texttt{A} by the typing context \texttt{Γ}.
+\end{itemize}
+
+\subsection{Example typing contexts}
+\label{sec:orgc9eb34f}
+
+For example,
+\begin{itemize}
+\item \texttt{(x : A) ∈ (∅,(z : C),(y : C),(x : A)}) and
+\item \texttt{(y : C) ∈ (∅,(z : C),(y : C),(x : A)}) and
+\end{itemize}
+but
+\begin{itemize}
+\item NOT \texttt{(x : B) ∈ (∅,(z : C),(y : C),(x : A)}) and
+\item NOT \texttt{(y : B) ∈ (∅,(z : C),(y : C),(x : A)}) and
+\end{itemize}
+
+We generally try avoid having two entries for a variable in the typing context
+(such as \texttt{∅,(x : A),(x : B)} or even \texttt{∅,(x : A),(x : A)}.)
+\begin{itemize}
+\item This will occur in practice if variable names are reused.
+\end{itemize}
+In the case that there are two such entries, the later one
+“shadows” the earlier one.
+\begin{itemize}
+\item So for instance, \texttt{(x : B) ∈ (∅,(x : A),(x : B))} and
+\item NOT \texttt{(x : A) ∈ (∅,(x : A),(x : B))}.
+\end{itemize}
+
 \subsection{The simply-typed λ-calculus syntax}
-\label{sec:org65135e2}
+\label{sec:orgc61c562}
 
 Our starting point is the simply-typed λ-calculus,
 which has only unit and function types.
@@ -384,13 +422,13 @@ we add a non-terminal called \texttt{⟨value⟩} to the grammar.
 \end{minted}
 
 \subsection{The simply-typed λ-calculus typing}
-\label{sec:org56403f3}
+\label{sec:org3f46aab}
 
 “If a variable \texttt{x} is assigned type \texttt{A} by the context,
 then it has that type.”
 \begin{minted}[breaklines=true]{text}
- x : A ∈ Γ
-–––––––––––– T-Var
+ (x : A) ∈ Γ
+––––––––––––––– T-Var
  Γ ⊢ x : A
 \end{minted}
 Notice that otherwise, variables do not typecheck!
@@ -417,7 +455,7 @@ type \texttt{A → B} if \texttt{t} has type \texttt{B} when assuming \texttt{x}
 \end{minted}
 
 \subsection{The simply-typed λ-calculus semantics}
-\label{sec:org4e84e72}
+\label{sec:org30b2459}
 
 The semantics of the language have not changed,
 except that the syntax of the λ-abstraction now
@@ -438,7 +476,7 @@ has the type annotation.
 \end{minted}
 
 \subsection{Exercise: Why do we need a \texttt{Unit} type in the simply-typed λ-calculus?}
-\label{sec:org5d1adb3}
+\label{sec:orgd186d24}
 
 Recall that in the untyped λ-calculus,
 the only values were abstractions; all data was functions.
@@ -446,6 +484,170 @@ the only values were abstractions; all data was functions.
 Why do we add a \texttt{Unit} type in the simply-typed λ-calculus?
 Is it required for some reason?
 
-\subsection{{\bfseries\sffamily TODO} More types\ldots{}}
-\label{sec:orge1114cb}
+\subsection{Exercise: Type some terms}
+\label{sec:org2681edc}
+
+Using the typing rules above, determine the types of the following
+simply-typed λ-calculus terms.
+(You should try to give a derivation of the type using the rules.)
+
+\begin{enumerate}
+\item \texttt{(λ x : Unit → x)}.
+\item \texttt{(λ x : Unit → x) (unit)}.
+\item \texttt{(λ x : (Unit → Unit) → λ y : Unit → x y) (λ z : Unit → unit)}.
+\item \texttt{(λ x : (Unit → Unit) → λ y : Unit → x y) (λ z : Unit → unit) (unit)}.
+\end{enumerate}
+
+For these terms, try to justify which portion(s) of the term
+causes it not to typecheck.
+\begin{enumerate}
+\item \texttt{x}.
+\item \texttt{(λ x : Unit → x) (λ x : Unit → x)}.
+\end{enumerate}
+
+\section{Adding natural numbers and booleans}
+\label{sec:org1a7da2a}
+
+We begin our extensions to the simply-typed λ-calculus
+with the natural numbers and booleans,
+convenient types to have for many simply computing problems.
+
+\subsection{Syntax for natural numbers and booleans}
+\label{sec:orgaba9367}
+
+Recall that these productions are only those being added;
+the productions from \ref{sec:orgc61c562} are
+assumed to still be in place.
+
+Note that natural numbers are considered values only if
+they are a chain of \texttt{suc}'s applied to a (natural number) value.
+\begin{itemize}
+\item The “(natural number)” portion of that statement will be
+enforced by the typing rules.
+\item For instance, \texttt{suc zero} is a value
+(as is \texttt{succ true} according to the syntax,
+but the typing rules will forbid that.)
+\item \texttt{succ} also appears in a production for \texttt{⟨term⟩} to allow for its use in non-values
+(such as \texttt{succ pred zero}, which should simplify to \texttt{zero} under our semantics.)
+\end{itemize}
+
+\begin{minted}[breaklines=true]{text}
+⟨term⟩ ∷= suc ⟨term⟩
+        | pred ⟨term⟩
+        | iszero ⟨term⟩
+        | if ⟨term⟩ then ⟨term⟩ else ⟨term⟩
+
+⟨value⟩ ∷= suc ⟨value⟩
+         | zero
+         | true
+         | false
+\end{minted}
+
+\subsection{Typing for natural numbers and booleans}
+\label{sec:org1e48df6}
+
+\begin{minted}[breaklines=true]{text}
+                               
+––––––––––––––––––– T-zero     
+ Γ ⊢ zero : nat
+ 
+\end{minted}
+
+\begin{minted}[breaklines=true]{text}
+
+   Γ ⊢ t : nat                   Γ ⊢ t : nat                 
+–––––––––––––––––––– T-suc    –––––––––––––––––––– T-pred                                 
+ Γ ⊢ suc t : nat               Γ ⊢ pred t : nat                                           
+
+\end{minted}
+
+\begin{minted}[breaklines=true]{text}
+
+––––––––––––––––––– T-true    –––––––––––––––––––– T-false
+ Γ ⊢ true : bool               Γ ⊢ false : bool
+
+\end{minted}
+
+\begin{minted}[breaklines=true]{text}
+
+    Γ ⊢ t : nat
+–––––––––––––––––––––––– T-iszero
+ Γ ⊢ iszero t : bool 
+
+\end{minted}
+
+\begin{minted}[breaklines=true]{text}
+
+ Γ ⊢ b : bool    Γ ⊢ t₁ : A    Γ ⊢ t₂ : A
+––––––––––––––––––––––––––––––––––––––––––––– T-if
+         Γ ⊢ if b then t₁ else t₂ : A
+
+\end{minted}
+
+\subsection{Semantics of natural numbers and booleans}
+\label{sec:org9f7f993}
+
+\begin{minted}[breaklines=true]{text}
+
+      t ⟶ t′                              t ⟶ t′                 
+–––––––––––––––––––– reduce-suc    –––––––––––––––––––– reduce-pred                                 
+  suc t ⟶ suc t′                     pred t ⟶ pred t′                                           
+
+\end{minted}
+
+\begin{minted}[breaklines=true]{text}
+
+      t ⟶ t′                                              
+––––––––––––––––––––––––– reduce-iszero    ––––––––––––––––––––––– iszero-zero
+  iszero t ⟶ iszero t′                       iszero zero ⟶ true                                           
+
+\end{minted}
+
+The natural number predecessor of zero is zero.
+And because of this, if we have the successor \emph{of a value},
+then it's known to not be zero.
+\begin{minted}[breaklines=true]{text}
+
+                                              
+–––––––––––––––––––––– pred-zero    ––––––––––––––––––––––––––––– iszero-suc
+  pred zero ⟶ zero                    iszero (suc v) ⟶ false                                           
+
+\end{minted}
+
+\begin{minted}[breaklines=true]{text}
+
+ iszero t ⟶ false
+–––––––––––––––––––– suc-pred    –––––––––––––––––––– pred-suc
+ suc (pred t) ⟶ t                  pred (suc t) ⟶ t                                           
+
+\end{minted}
+
+
+\iffalse
+
+\subsection{Semantics of natural numbers and booleans continued}
+\label{sec:orgeedd2fd}
+
+\fi
+
+\begin{minted}[breaklines=true]{text}
+
+          tᵇ  ⟶  tᵇ′
+–––––––––––––––––––––––––––––––––– reduce-if
+ if tᵇ t₁ t₂  ⟶  if tᵇ′ t₁ t₂
+
+\end{minted}
+
+\begin{minted}[breaklines=true]{text}
+
+––––––––––––––––––––––––– if-then
+ if true t₁ t₂  ⟶  t₁
+
+\end{minted}
+
+\begin{minted}[breaklines=true]{text}
+
+––––––––––––––––––––––––– if-else
+ if false t₁ t₂  ⟶  t₂
+\end{minted}
 \end{document}

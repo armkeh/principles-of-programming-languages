@@ -258,15 +258,16 @@ these rules for the new basic primitive functions.
  if false t₁ t₂  ⟶  t₂
 #+end_src
 
-* The typed λ-calculus
+* A first typed λ-calculus – the simply typed λ-calculus
 
 ** Preamble                                    :ignore:
 
-We define here the syntax and semantics for several stages
+Starting now, we define the syntax and semantics for several stages
 of a typed λ-calculus.
 - We begin with a “simply-typed” λ-calculus that has only
   unit and function types, and
-- at each stage, we add new primitive terms, new types
+- at each stage (in the following sections of these notes),
+  we add new primitive terms, new types
   and typing rules, and new semantic rules.
 
 These stages roughly correspond to those given in
@@ -288,22 +289,47 @@ Like semantics, the typing rules of a language
 are presented here using inference rules.
 
 These inference rules define a typing relation,
-written ~_⊢_:_~ and read as “entails”.
+written $\_⊢\_:\_$ and read as “entails”.
 
-While the reduction relation, ~_⟶_~, is a binary relation between terms
-- i.e., ~_⟶_ : term × term~
-  - (in fact, since it is a single-valued relation, ~_⟶_ : term → term~),
+While the reduction relation, $\_⟶\_$, is a binary relation between terms
+- i.e., $\_⟶\_ : \texttt{term} × \texttt{term}$
+  - (in fact, since it is a single-valued relation, $\_⟶\_ : \texttt{term} → \texttt{term}$),
 the typing relation is a /ternary/ relation between a /typing context/,
 a term and a type.
-- i.e., ~_⊢_:_ : context × term × type~
+- i.e., $\_⊢\_:\_ \ \ : \ \ \texttt{context} × \texttt{term} × \texttt{type}$
   - (in fact, since it is also a single-valued relation,
-    ~_⟶_ : context × term → type~.)
+    $\_⊢\_:\_ \ \ : \ \ \texttt{context} × \texttt{term} → \texttt{type}$.)
+
+** The typing context
 
 The /typing context/ referred to above is a set
 of variable, type pairs, used to /bind/ certain variables to types.
 - It can in fact be a sequence or similar datatype;
   so long as we can add and check bindings.
 
+We will write
+- ~∅~ for the /empty/ typing context,
+- ~Γ,(x : A)~ to /extend/ the typing context ~Γ~ with the additional
+  type binding of ~x~ to ~A~, and
+- ~(x : A) ∈ Γ~ to check if ~x~ is bound to type ~A~ by the typing context ~Γ~.
+
+** Example typing contexts
+
+For example,
+- ~(x : A) ∈ (∅,(z : C),(y : C),(x : A)~) and
+- ~(y : C) ∈ (∅,(z : C),(y : C),(x : A)~) and
+but
+- NOT ~(x : B) ∈ (∅,(z : C),(y : C),(x : A)~) and
+- NOT ~(y : B) ∈ (∅,(z : C),(y : C),(x : A)~) and
+
+We generally try avoid having two entries for a variable in the typing context
+(such as ~∅,(x : A),(x : B)~ or even ~∅,(x : A),(x : A)~.)
+- This will occur in practice if variable names are reused.
+In the case that there are two such entries, the later one
+“shadows” the earlier one.
+- So for instance, ~(x : B) ∈ (∅,(x : A),(x : B))~ and
+- NOT ~(x : A) ∈ (∅,(x : A),(x : B))~.
+  
 ** The simply-typed λ-calculus syntax
 
 Our starting point is the simply-typed λ-calculus,
@@ -326,8 +352,8 @@ which has only unit and function types.
 “If a variable ~x~ is assigned type ~A~ by the context,
 then it has that type.”
 #+begin_src text
- x : A ∈ Γ
-–––––––––––– T-Var
+ (x : A) ∈ Γ
+––––––––––––––– T-Var
  Γ ⊢ x : A
 #+end_src
 Notice that otherwise, variables do not typecheck!
@@ -381,4 +407,159 @@ the only values were abstractions; all data was functions.
 Why do we add a ~Unit~ type in the simply-typed λ-calculus?
 Is it required for some reason?
 
-** TODO More types...
+** Exercise: Type some terms
+
+Using the typing rules above, determine the types of the following
+simply-typed λ-calculus terms.
+(You should try to give a derivation of the type using the rules.)
+
+1. ~(λ x : Unit → x)~.
+2. ~(λ x : Unit → x) (unit)~.
+3. ~(λ x : (Unit → Unit) → λ y : Unit → x y) (λ z : Unit → unit)~.
+4. ~(λ x : (Unit → Unit) → λ y : Unit → x y) (λ z : Unit → unit) (unit)~.
+   
+For these terms, try to justify which portion(s) of the term
+causes it not to typecheck.
+1. ~x~.
+2. ~(λ x : Unit → x) (λ x : Unit → x)~.
+
+* Adding natural numbers and booleans
+
+** Preamble                                    :ignore:
+
+We begin our extensions to the simply-typed λ-calculus
+with the natural numbers and booleans,
+convenient types to have for many simply computing problems.
+
+** Syntax for natural numbers and booleans
+
+Recall that these productions are only those being added;
+the productions from [[The simply-typed λ-calculus syntax]] are
+assumed to still be in place.
+
+Note that natural numbers are considered values only if
+they are a chain of ~suc~'s applied to a (natural number) value.
+- The “(natural number)” portion of that statement will be
+  enforced by the typing rules.
+- For instance, ~suc zero~ is a value
+  (as is ~succ true~ according to the syntax,
+  but the typing rules will forbid that.)
+- ~succ~ also appears in a production for ~⟨term⟩~ to allow for its use in non-values
+  (such as ~succ pred zero~, which should simplify to ~zero~ under our semantics.)
+
+#+begin_src text
+⟨term⟩ ∷= suc ⟨term⟩
+        | pred ⟨term⟩
+        | iszero ⟨term⟩
+        | if ⟨term⟩ then ⟨term⟩ else ⟨term⟩
+
+⟨value⟩ ∷= suc ⟨value⟩
+         | zero
+         | true
+         | false
+#+end_src
+
+** Typing for natural numbers and booleans
+
+#+begin_src text
+                               
+––––––––––––––––––– T-zero     
+ Γ ⊢ zero : nat
+ 
+#+end_src
+
+#+begin_src text
+
+   Γ ⊢ t : nat                   Γ ⊢ t : nat                 
+–––––––––––––––––––– T-suc    –––––––––––––––––––– T-pred                                 
+ Γ ⊢ suc t : nat               Γ ⊢ pred t : nat                                           
+
+#+end_src
+                         
+#+begin_src text
+
+––––––––––––––––––– T-true    –––––––––––––––––––– T-false
+ Γ ⊢ true : bool               Γ ⊢ false : bool
+
+#+end_src
+
+#+begin_src text
+
+    Γ ⊢ t : nat
+–––––––––––––––––––––––– T-iszero
+ Γ ⊢ iszero t : bool 
+
+#+end_src
+
+#+begin_src text
+
+ Γ ⊢ b : bool    Γ ⊢ t₁ : A    Γ ⊢ t₂ : A
+––––––––––––––––––––––––––––––––––––––––––––– T-if
+         Γ ⊢ if b then t₁ else t₂ : A
+
+#+end_src
+
+** Semantics of natural numbers and booleans
+
+#+begin_src text
+
+      t ⟶ t′                              t ⟶ t′                 
+–––––––––––––––––––– reduce-suc    –––––––––––––––––––– reduce-pred                                 
+  suc t ⟶ suc t′                     pred t ⟶ pred t′                                           
+
+#+end_src
+
+#+begin_src text
+
+      t ⟶ t′                                              
+––––––––––––––––––––––––– reduce-iszero    ––––––––––––––––––––––– iszero-zero
+  iszero t ⟶ iszero t′                       iszero zero ⟶ true                                           
+
+#+end_src
+
+The natural number predecessor of zero is zero.
+And because of this, if we have the successor /of a value/,
+then it's known to not be zero.
+#+begin_src text
+
+                                              
+–––––––––––––––––––––– pred-zero    ––––––––––––––––––––––––––––– iszero-suc
+  pred zero ⟶ zero                    iszero (suc v) ⟶ false                                           
+
+#+end_src
+
+#+begin_src text
+
+ iszero t ⟶ false
+–––––––––––––––––––– suc-pred    –––––––––––––––––––– pred-suc
+ suc (pred t) ⟶ t                  pred (suc t) ⟶ t                                           
+
+#+end_src
+
+
+@@latex:\iffalse@@
+
+** Semantics of natural numbers and booleans continued
+
+@@latex:\fi@@
+
+#+begin_src text
+
+          tᵇ  ⟶  tᵇ′
+–––––––––––––––––––––––––––––––––– reduce-if
+ if tᵇ t₁ t₂  ⟶  if tᵇ′ t₁ t₂
+
+#+end_src
+
+#+begin_src text
+
+––––––––––––––––––––––––– if-then
+ if true t₁ t₂  ⟶  t₁
+
+#+end_src
+
+#+begin_src text
+
+––––––––––––––––––––––––– if-else
+ if false t₁ t₂  ⟶  t₂
+#+end_src
