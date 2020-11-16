@@ -1,0 +1,72 @@
+#+Title: Tail recursion in Clojure
+#+Author: Mark Armstrong
+#+Description: Visualising stack frames in recursive definitions in Clojure
+#+Description: in order to understand how tail recursion saves memory.
+#+SETUPFILE: ../../org-html-themes/setup/theme-readtheorg-local.setup
+
+* LaTeX settings                                :noexport:
+
+#+LaTeX_header: \usepackage{unicode-math}
+#+LaTeX_header: \usepackage{unicode}
+
+* Introduction
+:PROPERTIES:
+:CUSTOM_ID: Introduction
+:END:
+
+These notes were created during the tutorials on November 16th and 18th.
+
+* Motivation
+:PROPERTIES:
+:CUSTOM_ID: Motivation
+:END:
+
+In general, recursion as a control structure is /less efficient/ than
+iterating (or looping) constructs, because each recursive call
+requires an additional /stack frame/, used to store the parameters
+and any local memory for the call.
+
+This is why “uncontrolled recursion” usually results in a /stack overflow/,
+that is, running out of memory on the stack,
+whereas an “infinite loop” may continue to run indefinitely,
+never causing memory issues.
+
+However, while these additional stack frames
+are necessary /in general/ for recursion,
+there is a special case in which the stack frame can be /reused/,
+avoiding this issue. This kind of recursion is known
+as /tail recursion/, and our goal today is to visualise how it works,
+as well as come to understand how to write tail recursive functions.
+
+We will use Clojure for this exercise,
+both because it is a functional language and hence recursion
+is a very natural control structure to use in it,
+and because its powerful /macro/ system will allow us
+to provide you with a new way to define functions
+which “automatically” output a visualisation of
+their use of the stack.
+
+* Recursion and the stack
+:PROPERTIES:
+:CUSTOM_ID: Recursion-and-the-stack
+:END:
+* Tail recursion
+:PROPERTIES:
+:CUSTOM_ID: Tail-recursion
+:END:
+* Visualising the stack
+:PROPERTIES:
+:CUSTOM_ID: Visualising-the-stack
+:END:
+* A factorial function that shows its stack usage
+:PROPERTIES:
+:CUSTOM_ID: A-factorial-function-that-shows-its-stack-usage
+:END:
+* A tail-recursive factorial function that shows its stack usage
+:PROPERTIES:
+:CUSTOM_ID: A-tail-recursive-factorial-function-that-shows-its-stack-usage
+:END:
+* A macro to automate showing stack usage
+:PROPERTIES:
+:CUSTOM_ID: A-macro-to-automate-showing-stack-usage
+:END:

@@ -1,0 +1,88 @@
+% Created 2020-11-16 Mon 12:26
+% Intended LaTeX compiler: lualatex
+\documentclass[11pt]{article}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{etoolbox}
+\makeatletter
+\def\dontdofcolorbox{\renewcommand\fcolorbox[4][]{##4}}
+\AtBeginEnvironment{minted}{\dontdofcolorbox}
+\makeatother
+\usepackage[newfloat]{minted}
+\usepackage{unicode-math}
+\usepackage{unicode}
+\author{Mark Armstrong}
+\date{\today}
+\title{Tail recursion in Clojure}
+\hypersetup{
+   pdfauthor={Mark Armstrong},
+   pdftitle={Tail recursion in Clojure},
+   pdfkeywords={},
+   pdfsubject={Visualising stack frames in recursive definitions in Clojure in order to understand how tail recursion saves memory.},
+   pdfcreator={Emacs 27.0.91 (Org mode 9.4)},
+   pdflang={English},
+   colorlinks,
+   linkcolor=blue,
+   citecolor=blue,
+   urlcolor=blue
+   }
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+
+\section{Introduction}
+\label{sec:orgf0f77dc}
+These notes were created during the tutorials on November 16th and 18th.
+
+\section{Motivation}
+\label{sec:org5a5b318}
+In general, recursion as a control structure is \emph{less efficient} than
+iterating (or looping) constructs, because each recursive call
+requires an additional \emph{stack frame}, used to store the parameters
+and any local memory for the call.
+
+This is why “uncontrolled recursion” usually results in a \emph{stack overflow},
+that is, running out of memory on the stack,
+whereas an “infinite loop” may continue to run indefinitely,
+never causing memory issues.
+
+However, while these additional stack frames
+are necessary \emph{in general} for recursion,
+there is a special case in which the stack frame can be \emph{reused},
+avoiding this issue. This kind of recursion is known
+as \emph{tail recursion}, and our goal today is to visualise how it works,
+as well as come to understand how to write tail recursive functions.
+
+We will use Clojure for this exercise,
+both because it is a functional language and hence recursion
+is a very natural control structure to use in it,
+and because its powerful \emph{macro} system will allow us
+to provide you with a new way to define functions
+which “automatically” output a visualisation of
+their use of the stack.
+
+\section{Recursion and the stack}
+\label{sec:org0e2e930}
+\section{Tail recursion}
+\label{sec:org6f45153}
+\section{Visualising the stack}
+\label{sec:org5da1a41}
+\section{A factorial function that shows its stack usage}
+\label{sec:org0561024}
+\section{A tail-recursive factorial function that shows its stack usage}
+\label{sec:orga73311c}
+\section{A macro to automate showing stack usage}
+\label{sec:org211c522}
+\end{document}

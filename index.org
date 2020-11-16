@@ -755,6 +755,15 @@ Files from the Wednesday tutorial, led by Habib, are collected here.
 In most cases, the material is largely similar to the
 material from the lecture notes.
 
+*** Monday November 16th – Tail recursion in Clojure
+:PROPERTIES:
+:CUSTOM_ID: Monday-November-16th-–-Tail-recursion-in-Clojure
+:END:
+
+- [[./notes/tutorial/11-16-Tail-recursion-in-Clojure.html][HTML]]
+- [[./notes/tutorial/11-16-Tail-recursion-in-Clojure.pdf][PDF]]
+- [[./notes/tutorial/11-16-Tail-recursion-in-Clojure.org][Org plaintext]]
+
 *** Monday November 2nd – Propagating failure with the Option type
 :PROPERTIES:
 :CUSTOM_ID: Monday-November-2nd-–-Propagating-failure-with-the-Option-type
