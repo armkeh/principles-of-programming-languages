@@ -50,23 +50,166 @@ their use of the stack.
 :PROPERTIES:
 :CUSTOM_ID: Recursion-and-the-stack
 :END:
+
+To begin, consider one of the simplest recursive functions;
+factorials. (The factorial of ~n~ is usually written ~n!~.)
+#+begin_src clojure
+(defn factorial [n]
+  (cond
+    (= n 0) 1
+    (> n 0) (* n (factorial (- n 1)))
+    :else (throw (Exception. "Factorial of a negative number is not defined."))))
+#+end_src
+
+#+RESULTS:
+: #'user/factorial
+
+To visualise how this uses the stack, we will “unwind”
+the recursive calls, and the “wind back up” the results.
+#+begin_src text
+(factorial 5)
+(* 5 (factorial 4))
+(* 5 (* 4 (factorial 3)))
+(* 5 (* 4 (* 3 (factorial 2))))
+(* 5 (* 4 (* 3 (* 2 (factorial 1)))))
+(* 5 (* 4 (* 3 (* 2 (* 1 (factorial 0))))))
+(* 5 (* 4 (* 3 (* 2 (* 1 1)))))
+(* 5 (* 4 (* 3 (* 2 1))))
+(* 5 (* 4 (* 3 2)))
+(* 5 (* 4 6))
+(* 5 24)
+120
+#+end_src
+
+Notice how around each recursive call we have more and more
+work waiting to be done (the multiplications that we need to carry out.)
+This work to be done needs to be “remembered” somehow;
+this requires the stack frames be maintained when we make a recursive call
+so that when we start returning, the work at each step
+can be carried out.
+
 * Tail recursion
 :PROPERTIES:
 :CUSTOM_ID: Tail-recursion
 :END:
-* Visualising the stack
-:PROPERTIES:
-:CUSTOM_ID: Visualising-the-stack
-:END:
+
+Tail recursion avoids the need to keep the stack frame
+for each recursive call, by ensuring
+that there is no work to be done on returning.
+So the last recursive call can return directly to the initial caller.
+
+#+begin_src clojure
+(defn factorial-tr [n]
+  (letfn [(factorial-iter [n collect]
+            (cond
+              (= n 0) collect
+              (> n 0) (factorial-iter (- n 1) (* n collect))
+              :else   (throw (Exception. "Factorial of a negative number is undefined."))))]
+    (factorial-iter n 1)))
+#+end_src
+
+#+RESULTS:
+: #'user/factorial-tr
+
+#+begin_src text
+(factorial-tr 5)
+(factorial-iter 5 1)
+(factorial-iter 4 5)
+(factorial-iter 3 20)
+(factorial-iter 2 60)
+(factorial-iter 1 120)
+(factorial-iter 0 120)
+120
+#+end_src
+
+:TODO:
+
 * A factorial function that shows its stack usage
 :PROPERTIES:
 :CUSTOM_ID: A-factorial-function-that-shows-its-stack-usage
 :END:
+
+This version of factorial prints out the unwinding and winding back up
+of the result, by using a new variable called ~context~ that is a string
+of the current calling context.
+There's a placeholder ~rec~ in the ~context~ string that gets replaced
+at each step with the recursive call, and then with the result
+after the recursive call returns.
+#+begin_src clojure
+(defn factorial [n]
+  (letfn [(factorial-verbose [n context]
+    (cond
+      (= n 0) (do
+                (println (clojure.string/replace context #"rec" (str 1)))
+                1) ;; a do form evaluates to the last value in its list, so this returns 1.
+      (> n 0) (let [this-context (clojure.string/replace context #"rec" (str "(* " n " rec)"))]
+                (println (clojure.string/replace this-context #"rec" (str "(factorial " (- n 1) ")")))
+                (def result (* n (factorial-verbose (- n 1) this-context)))
+                (println (clojure.string/replace context #"rec" (str result)))
+                result)
+      :else (throw (Exception. "Trying to calculate factorial of a negative number."))))]
+    (println (str "(factorial " n ")"))
+    (factorial-verbose n "rec")))
+#+end_src
+
+#+RESULTS:
+: #'user/factorial
+
 * A tail-recursive factorial function that shows its stack usage
 :PROPERTIES:
 :CUSTOM_ID: A-tail-recursive-factorial-function-that-shows-its-stack-usage
 :END:
-* A macro to automate showing stack usage
+
+#+begin_src clojure
+(defn factorial-tr [n]
+  (letfn [(factorial-verbose [n collect context]
+    (cond
+      (= n 0) (do
+                (println (clojure.string/replace context #"rec" (str collect)))
+                collect)
+      (> n 0) (let [this-context (clojure.string/replace context #"rec" (str "rec"))]
+                (println (clojure.string/replace this-context #"rec" (str "(factorial-iter " (- n 1) " " (* n collect) ")")))
+                (def result (factorial-verbose (- n 1) (* n collect) this-context))
+                (when (not= context "rec") (println (clojure.string/replace context #"rec" (str result))))
+                result)
+      :else (throw (Exception. "Trying to calculate factorial of a negative number."))))]
+    (println (str "(factorial-iter " n " " 1 ")"))
+    (factorial-verbose n 1 "rec")))
+#+end_src
+
+#+RESULTS:
+: #'user/factorial-tr
+
+* COMMENT A macro to automate showing stack usage
 :PROPERTIES:
 :CUSTOM_ID: A-macro-to-automate-showing-stack-usage
 :END:
+
+#+begin_src clojure
+(defmacro visualrec [name args basecond basebody reccond recbody elsebody]
+  `(defn ~name ~args
+     (letfn [(~'f [~'context ~@args]
+              (cond
+                  ~basecond (do (println (clojure.string/replace ~'context #"rec" (str ~basebody)))
+                              ~basebody)
+                  ~reccond  (let [~'this-context (clojure.string/replace ~'context #"rec" (str '~recbody))]
+                              ;; TODO: also replace instances of n with the value of n, but this has to be a bit smart
+                              ;; TODO: adjust this-context after printing to replace matches for "(f ...)" with rec
+                              ;;       This will be the value used in the recursive call
+                                 (println ~'this-context)
+                                 (let [~'result ~(clojure.walk/prewalk-replace {name '(partial f this-context)} recbody)]
+                                   (println ~'context)
+                                   ~'result))
+                  :else ~elsebody
+                  ))]
+       (~'f "rec" ~@args))))
+
+(visualrec factorial [n]
+            (= n 0) 1
+            (> n 0) (* n (factorial (- n 1)))
+                    (throw (Exception. "Trying to calculate factorial of a negative number.")))
+#+end_src
+
+#+RESULTS:
+| #'user/visualrec |
+| #'user/factorial |

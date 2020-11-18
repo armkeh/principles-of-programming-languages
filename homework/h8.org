@@ -1,0 +1,444 @@
+#+Title: Computer Science 3MI3 – 2020 homework 8
+#+Subtitle: Visualising the call stack
+#+Author: Mark Armstrong
+#+Date: November 7th, 2020
+#+Description: Understanding tail recursion by defining recursive functions
+#+Description: in Clojure which print a representation of the call stack.
+#+Options: num:nil
+#+SETUPFILE: ../org-html-themes/setup/theme-readtheorg-local.setup
+
+* Introduction
+:PROPERTIES:
+:CUSTOM_ID: Introduction
+:END:
+
+:TODO:
+
+* Boilerplate
+:PROPERTIES:
+:CUSTOM_ID: Boilerplate
+:END:
+
+** Submission procedures
+:PROPERTIES:
+:CUSTOM_ID: Submission-procedures
+:END:
+
+#+INCLUDE: "./../boilerplate.org::*Homework submission" :only-contents t
+
+** Proper conduct for coursework
+:PROPERTIES:
+:CUSTOM_ID: Proper-conduct-for-coursework
+:END:
+
+#+INCLUDE: "./../boilerplate.org::*Homework conduct" :only-contents t
+
+* Part 0: :TODO:
+
+#+begin_src clojure :session
+(defn factorial [n]
+  (cond
+    (= n 0) 1
+    (> n 0) (* n (factorial (- n 1)))
+    :else (throw (Exception. "Trying to calculate factorial of a negative number."))))
+#+end_src
+
+#+RESULTS:
+: #'user/factorial
+
+#+begin_src clojure :session
+(defn factorial' [n]
+  (defn fact-iter [n collect]
+    (cond
+      (= n 0) collect
+      (> n 0) (fact-iter (- n 1) (* collect n))
+      :else (throw (Exception. "Trying to calculate factorial of a negative number."))))
+  (fact-iter n 1))
+#+end_src
+
+#+RESULTS:
+: #'user/factorial'
+
+#+begin_src clojure
+(defn factorial [n]
+  (letfn [(factorial-verbose [n context]
+    (cond
+      (= n 0) (do
+                (println (clojure.string/replace context #"rec" (str 1)))
+                1) ;; a do form evaluates to the last value in its list, so this returns 1.
+      (> n 0) (let [this-context (clojure.string/replace context #"rec" (str "(* " n " rec)"))]
+                (println (clojure.string/replace this-context #"rec" (str "(factorial " (- n 1) ")")))
+                (def result (* n (factorial-verbose (- n 1) this-context)))
+                (println (clojure.string/replace context #"rec" (str result)))
+                result)
+      :else (throw (Exception. "Trying to calculate factorial of a negative number."))))]
+    (println (str "(factorial " n ")"))
+    (factorial-verbose n "rec")))
+#+end_src
+
+#+RESULTS:
+: #'user/factorial
+
+#+begin_src clojure
+(defn factorial' [n]
+  (letfn [(factorial-verbose [n collect context]
+    (cond
+      (= n 0) (do
+                (println (clojure.string/replace context #"rec" (str collect)))
+                collect)
+      (> n 0) (let [this-context (clojure.string/replace context #"rec" (str "rec"))]
+                (println (clojure.string/replace this-context #"rec" (str "(factorial' " (- n 1) " " (* n collect) ")")))
+                (def result (factorial-verbose (- n 1) (* n collect) this-context))
+                (when (not= context "rec") (println (clojure.string/replace context #"rec" (str result))))
+                result)
+      :else (throw (Exception. "Trying to calculate factorial of a negative number."))))]
+    (println (str "(factorial' " n " " 1 ")"))
+    (factorial-verbose n 1 "rec")))
+#+end_src
+
+#+RESULTS:
+: #'user/factorial'
+
+We need a way to replace a value in a string representation
+of a Clojure term with a different value.
+Specifically, this will be used to replace variable names with their values,
+and to replace the placeholder ~rec~ with recursive calls
+or the results of recursive calls.
+#+begin_src clojure
+(defn replace-value-in-termstring
+  "Replace all occurrences of `value` with `replacement`
+within a `string` which is assumed to Clojure term.
+Since the `string` is assumed to be a Clojure term,
+this replaces the `value` only if it surrounded by spaces, parentheses,
+braces or brackets (i.e., not if it is a substring of some subterm.)
+One use of this is to replace a variable's name with its value,
+as in `(replace-value-in-termstring 'var var string)`."
+  [value replacement string]
+  (clojure.string/replace
+   string
+   (re-pattern (str "(\\A|\\s|\\[|\\{|\\()(" value ")(\\)|\\}|\\]|\\s|\\z)"))
+   (str "$1" replacement "$3")))
+#+end_src
+
+#+RESULTS:
+: #'user/replace-value-in-termstring
+
+We actually need a version of the above which replaces multiple values.
+#+begin_src clojure
+(defn replace-values-in-termstring
+  ""
+  [values replacements string]
+  (if (and (> (count values) 0) (> (count replacements) 0))
+    (let [[v & vs] values
+          [r & rs] replacements]
+      (replace-values-in-termstring vs rs
+                                    (replace-value-in-termstring v r string)))
+    ;; If `values` or `replacements` is empty, just return the string.
+    string))
+#+end_src
+
+#+RESULTS:
+: #'user/replace-values-in-termstring
+
+We'll need to do this across the ~args~ list,
+replacing each element with its current value,
+and also replacing instances of the function name
+(with ~f~ and the ~context~ argument.)
+
+#+begin_src clojure
+(defn closing-paren-in-string
+  "Given a string `s`, return an two element list consisting of
+the portion of `s` up to (and including) the first closing parenthese
+that does not have a maching opening parenthese, and the remainder of `s`."
+  [s]
+  (letfn [(nth-closing-paren-in-string [s openings]
+            (cond
+              (> 2 (count s)) `(~(apply str s) "")
+              :else
+              (let [[c & cs] s]
+                (cond
+                  (= c \() (let [[before after] (nth-closing-paren-in-string cs (+ openings 1))]
+                              `(~(str c before) ~(apply str after)))
+                  (= c \)) (if (= openings 0)
+                             `(~(str c) ~(apply str cs))
+                             (let [[before after] (nth-closing-paren-in-string cs (- openings 1))]
+                                `(~(str c before) ~after)))
+                  :else     (let [[before after] (nth-closing-paren-in-string cs openings)]
+                              `(~(str c before) ~after))))))]
+    (nth-closing-paren-in-string s 0)))
+#+end_src
+
+#+RESULTS:
+: #'user/closing-paren-in-string
+
+#+begin_src clojure
+(defn replace-call-in-termstring
+  "Replace all calls to a function whose name is given by `f`
+in a string representing "
+  [f replacement string]
+   ;; Find the first occurrence of `f` preceded by an opening parenthese.
+   (let [m (re-find (re-pattern (str "(.*)\\((" f "\\s.*)")) string)]
+     ;; The match m will be nil if no match was found. Otherwise,
+     ;; because the pattern has two groups, it will be a vector
+     ;; of the whole match, the portion before the `f` call,
+     ;; and the `f` call and remainder of the string.
+     ;; Note the opening parenthese is not in either group.
+     (if m
+       ;; Get the parts of m.
+       (let [[whole before aftercall] m
+             ;; Separate `aftercall` at the first unmatched closing parenthese.
+             [callbody after] (closing-paren-in-string aftercall)]
+         (str before replacement after))
+       ;; If m is null, just return the string as is.
+       string)))
+#+end_src
+
+#+RESULTS:
+: #'user/replace-call-in-termstring
+
+#+begin_src clojure
+(defmacro visualrec [name args basecond basebody reccond recbody & elsebody]
+  `(defn ~name ~args
+     (letfn
+         [(~'f [~'context ~@args]
+           (cond
+             ~basecond (do (println (replace-value-in-termstring
+                                     '~'rec
+                                     ~basebody
+                                     ~'context))
+                           ~basebody)
+             ~reccond  (let [~'this-context-with-call (replace-values-in-termstring
+                                                       '~args
+                                                       (apply str ~args)
+                                                       (replace-value-in-termstring
+                                                        '~'rec
+                                                        (str '~recbody)
+                                                        ~'context))
+                             ~'this-context-with-rec (replace-call-in-termstring
+                                                      '~name
+                                                      "rec"
+                                                      ~'this-context-with-call)]
+                         (println ~'this-context-with-call)
+                         ;; diagnostic print (println ~'this-context-with-rec)
+                         (let [~'result ~(clojure.walk/prewalk-replace {name '(partial f this-context-with-rec)} recbody)]
+                           
+                           (println (replace-value-in-termstring '~'rec (str ~'result) ~'context))
+                           ~'result))
+             :else ~elsebody))]
+       (println (replace-values-in-termstring
+                 '~args
+                 (apply str ~args)
+                 (str "(" (clojure.string/join " " '(~name ~@args)) ")")))
+       (~'f "rec" ~@args))))
+#+end_src
+
+#+RESULTS:
+: #'user/visualrec
+
+#+begin_src clojure
+(visualrec factorial [n]
+            (= n 0) 1
+            (> n 0) (* n (factorial (- n 1)))
+            (throw (Exception. "Trying to calculate factorial of a negative number.")))
+#+end_src
+
+#+RESULTS:
+: Please reevaluate when nREPL is connected
+
+* COMMENT Testing
+:PROPERTIES:
+:CUSTOM_ID: COMMENT-Testing-language
+:END:
+
+Unit tests for the requested methods/functions
+are available
+- here [[./testing/h7/h7t.sc][h7t.sc]] and
+- here [[./testing/h7/h7t.rb][h7t.rb]].
+The contents of the unit test file are also repeated below.
+
+#+begin_center
+*Unlike previous homeworks, passing these tests does not guarantee*
+*your solution behaves as expected.*
+
+The tests will print an example string and the string your method returns.
+They do not have to match exactly; instead, the terms they show
+must be equivalent except for naming of bound variables.
+(This is to allow for variations in how variable names are chosen.)
+#+end_center
+
+** Automated testing via Docker
+:PROPERTIES:
+:CUSTOM_ID: Automated-testing-via-Docker
+:END:
+
+The Docker setup and usage scripts are available at the following links.
+Their contents are also repeated below.
+- [[./testing/h7/Dockerfile][Dockerfile]]
+- [[./testing/h7/docker-compose.yml][docker-compose.yml]]
+- [[./testing/h7/setup.sh][setup.sh]]
+- [[./testing/h7/run.sh][run.sh]]
+Place them into your ~h7~ directory where your ~h7.sc~ and ~h7.rb~ files
+and the ~h7t.sc~ and ~h7t.rb~ (linked to above) files exist,
+then run ~setup.sh~ and ~run.sh~.
+
+You may also refer to the README
+for this testing setup and those files
+[[https://github.com/armkeh/principles-of-programming-languages/tree/master/homework/testing/h5][on the course GitHub repo]].
+
+Note that the use of the ~setup.sh~ and ~run.sh~ scripts assumes
+that you are in a ~bash~ like shell; if you are on Windows,
+and not using WSL or WSL2, you may have
+to run the commands contained in those scripts manually.
+
+** The tests
+:PROPERTIES:
+:CUSTOM_ID: The-tests
+:END:
+
+The contents of the testing script are repeated here.
+
+[[./testing/h7/h7t.sc][h7t.sc]]
+#+begin_src amm :tangle ./testing/h7/h7t.sc
+import $file.h7, h7._
+
+val x = ULVar(0)
+val y = ULVar(1)
+val z = ULVar(2)
+val u = ULVar(3)
+
+val appvars = ULApp(ULApp(x,y), ULApp(z,u))
+val lappvars = ULAbs(appvars)
+val lllappvars = ULAbs(ULAbs(lappvars))
+
+println("a                                                       Sample")
+println(prettify(x))
+println("b                                                       Sample")
+println(prettify(y))
+println("((a) (b)) ((c) (d))                                     Sample")
+println(prettify(appvars))
+println("lambda a . ((a) (b)) ((c) (d))                          Sample")
+println(prettify(lappvars))
+println("lambda a . lambda b . lambda c . ((c) (b)) ((a) (d))    Sample")
+println(prettify(lllappvars))
+#+end_src
+
+[[./testing/h7/h7t.rb][h7t.rb]]
+#+begin_src ruby :tangle ./testing/h7/h7t.rb
+require_relative "h7"
+
+x = ULVar.new(0)
+y = ULVar.new(1)
+z = ULVar.new(2)
+u = ULVar.new(3)
+
+appvars = ULApp.new(ULApp.new(x,y), ULApp.new(z,u))
+lappvars = ULAbs.new(appvars)
+lllappvars = ULAbs.new(ULAbs.new(lappvars))
+
+puts "a                                                       Sample"
+puts x.prettify
+puts "b                                                       Sample"
+puts y.prettify
+puts "((a) (b)) ((c) (d))                                     Sample"
+puts appvars.prettify
+puts "lambda a . ((a) (b)) ((c) (d))                          Sample"
+puts lappvars.prettify
+puts "lambda a . lambda b . lambda c . ((c) (b)) ((a) (d))    Sample"
+puts lllappvars.prettify
+#+end_src
+
+** The Docker setup
+:PROPERTIES:
+:CUSTOM_ID: The-Docker-setup
+:END:
+
+The contents of the Docker setup files and scripts are repeated here.
+
+[[./testing/h7/Dockerfile][Dockerfile]]
+#+begin_src docker :tangle ./testing/h7/Dockerfile
+# Define the argument for openjdk version
+ARG OPENJDK_TAG=8u232
+
+FROM ruby:2.7.2-buster
+
+# Setup to install Scala
+RUN apt-get update && \
+    apt-get install scala -y && \
+    apt-get install -y curl && \
+    sh -c '(echo "#!/usr/bin/env sh" && \
+    curl -L https://github.com/lihaoyi/Ammonite/releases/download/2.1.1/2.12-2.1.1) > /usr/local/bin/amm && \
+    chmod +x /usr/local/bin/amm'
+RUN (rm -rf /root/.cache)
+     
+# Set the name of the maintainers
+MAINTAINER Habib Ghaffari Hadigheh, Mark Armstrong <ghaffh1@mcmaster.ca, armstmp@mcmaster.ca>
+
+# Set the working directory
+WORKDIR /opt/h7
+#+end_src
+
+[[./testing/h7/docker-compose.yml][docker-compose.yml]]
+#+begin_src yaml :tangle ./testing/h7/docker-compose.yml
+version: '2'
+services:
+  service:
+    build: .
+    image: 3mi3_h7_docker_image
+    volumes:
+      - .:/opt/h7
+    container_name: 3mi3_h7_container
+    command: bash -c
+      "echo 'Scala testing' &&
+       echo '----------------------------------------------------------------------' &&
+       amm h7t.sc &&
+       printf '\\n\\n\\n' &&
+       echo 'Ruby testing' &&
+       echo '----------------------------------------------------------------------' &&
+       ruby h7t.rb &&
+       echo '----------------------------------------------------------------------'"
+#+end_src
+
+[[./testing/h5/setup.sh][setup.sh]]
+#+begin_src shell :tangle ./testing/h7/setup.sh :shebang t
+docker-compose build --force-rm
+#+end_src
+
+[[./testing/h5/run.sh][run.sh]]
+#+begin_src shell :tangle ./testing/h7/run.sh :shebang t
+# Run the container
+docker-compose up --force-recreate
+# Stop the container after finishing the test run
+docker-compose stop -t 1
+#+end_src
+
+[[./testing/h5/README.md][README.md]]
+#+begin_src text :tangle ./testing/h7/README.md
+# Instructions for automated testing using Docker
+
+We have already created a `Dockerfile` here which specifies
+all the necessary packages, etc., for compiling and running your code.
+You only need to follow the instructions below to see 
+the results of unit tests designed to check your implementation.
+
+## Setup
+We use `docker-compose` and its configuration file to build the image.
+Assuming you have `docker` and `docker-compose` installed,
+simply execute
+```shell script
+./setup.sh
+```
+to generate the image.
+
+## Prepare your code for the running the tests
+You only need to place the `h7t.sc` and `h7t.rb` unit test files and
+the `run.sh` file in the same directory as your `h7.sc` and `h7.rb` source files.
+
+## Running the tests
+As with the build process, we have already put
+the configuration needed for running the test inside `docker-compose.yml`.
+Simply execute
+```shell script
+./run.sh
+```
+to run and see the results of the tests.
+#+end_src
