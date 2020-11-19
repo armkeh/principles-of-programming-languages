@@ -1,0 +1,1048 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2020-11-19 Thu 16:27 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Computer Science 3MI3 – 2020 homework 8</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Mark Armstrong" />
+<meta name="description" content="Understanding tail recursion by defining recursive functions
+in Clojure which print a representation of the call stack."
+ />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="styles/readtheorg/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="styles/readtheorg/css/readtheorg.css"/>
+<script type="text/javascript" src="styles/lib/js/jquery.min.js"></script>
+<script type="text/javascript" src="styles/lib/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="styles/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" src="styles/readtheorg/js/readtheorg.js"></script>
+<style>pre.src{background:#000000;color:white;} </style>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:e95b018ef3580986a04669f1b5879592219e2a7a&dn=public-domain.txt Public Domain
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.add("code-highlighted");
+         target.classList.add("code-highlighted");
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.remove("code-highlighted");
+         target.classList.remove("code-highlighted");
+       }
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Computer Science 3MI3 – 2020 homework 8
+<br />
+<span class="subtitle">Visualising the call stack in Clojure</span>
+</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#Introduction">Introduction</a></li>
+<li><a href="#Boilerplate">Boilerplate</a>
+<ul>
+<li><a href="#Submission-procedures">Submission procedures</a>
+<ul>
+<li><a href="#orgff62676">Submission method</a></li>
+<li><a href="#orgcaf41bc">Naming requirements</a></li>
+<li><a href="#org0a4834f">Do not submit testing or diagnostic code</a></li>
+<li><a href="#org97b2d90">Due date and allowance for technical difficulties</a></li>
+</ul>
+</li>
+<li><a href="#Proper-conduct-for-coursework">Proper conduct for coursework</a>
+<ul>
+<li><a href="#org55687d6">Individual work</a></li>
+<li><a href="#org131a9c0">Language library resources</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#Part-0.1:-“Naive”-recursion-vs. tail-recursion">Part 0.1: “Naive” recursion vs. tail recursion</a></li>
+<li><a href="#Part-0.2:-A-new-special-form-to-automate-visualisation-of-the-stack">Part 0.2: A new special form to automate visualisation of the stack</a></li>
+<li><a href="#Part-0.3:-Using-the-new-special-form">Part 0.3: Using the new special form</a></li>
+<li><a href="#Part-1:-Exponent--------------[10 marks]">Part 1: Exponent              [10 marks]</a></li>
+<li><a href="#Part-2:-Sum-of-a-list---------[10 marks]">Part 2: Sum of a list         [10 marks]</a></li>
+<li><a href="#Part-3:-Flatten-a-list--------[20 marks]">Part 3: Flatten a list        [20 marks]</a></li>
+<li><a href="#Part-4:-Prefixes-of-a-list----[20 marks]">Part 4: Prefixes of a list    [20 marks]</a></li>
+<li><a href="#Testing">Testing</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-Introduction" class="outline-2">
+<h2 id="Introduction">Introduction</h2>
+<div class="outline-text-2" id="text-Introduction">
+<p>
+In this homework, we provide you with a new Clojure special form
+which can be used to create functions
+which automatically output a visualisation of their calling context,
+and hence their stack usage, as they run.
+You are tasked with using this new special form to implement
+several simple recursive functions both in a “naive” way
+and a tail recursive way.
+</p>
+
+<p>
+See <a href="#Part-0.1:-“Naive”-recursion-vs. tail-recursion">Part 0.1</a> for an overview of “naive” and tail recursion.
+</p>
+</div>
+</div>
+
+<div id="outline-container-Boilerplate" class="outline-2">
+<h2 id="Boilerplate">Boilerplate</h2>
+<div class="outline-text-2" id="text-Boilerplate">
+</div>
+
+<div id="outline-container-Submission-procedures" class="outline-3">
+<h3 id="Submission-procedures">Submission procedures</h3>
+<div class="outline-text-3" id="text-Submission-procedures">
+</div>
+
+<div id="outline-container-orgff62676" class="outline-4">
+<h4 id="orgff62676">Submission method</h4>
+<div class="outline-text-4" id="text-orgff62676">
+<p>
+Homework should be submitted to your McMaster CAS Gitlab respository
+in the <code>cs3mi3-fall2020</code> project.
+</p>
+
+<p>
+Ensure that you have <b>pushed</b> the commits to the remote repository
+in time for the deadline, and not just committed to your local copy.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgcaf41bc" class="outline-4">
+<h4 id="orgcaf41bc">Naming requirements</h4>
+<div class="outline-text-4" id="text-orgcaf41bc">
+<p>
+Place all files for the homework
+inside a folder titled <code>hn</code>, where <code>n</code> is the number of the homework.
+So, for homework 1, use the folder <code>h1</code>, for homework 2 the folder <code>h2</code>, etc.
+Ensure you do not capitalise the <code>h</code>.
+</p>
+
+<p>
+Unless otherwise instructed in the homework questions,
+place all of your code for the homework
+in a single file in the <code>hn</code> folder named <code>hn.ext</code>,
+where <code>ext</code> is the appropriate extension for the language used
+according to this list:
+</p>
+<ul class="org-ul">
+<li>For Scala, <code>ext</code> is <code>sc</code>.</li>
+<li>For Prolog, <code>ext</code> is <code>pl</code>.</li>
+<li>For Ruby, <code>ext</code> is <code>rb</code>.</li>
+<li>For Clojure, <code>ext</code> is <code>clg</code>.</li>
+</ul>
+<p>
+If multiple languages are used in the homework,
+submit a <code>hn.ext</code> file for each language.
+</p>
+
+<div class="org-center">
+<p>
+<b>If the language supports multiple different file extensions,</b>
+<b>you must still follow the extension conventions above.</b>
+</p>
+</div>
+
+<div class="org-center">
+<p>
+<b>Incorrect naming of files may result in up to a 10% deduction in your grade.</b>
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org0a4834f" class="outline-4">
+<h4 id="org0a4834f">Do not submit testing or diagnostic code</h4>
+<div class="outline-text-4" id="text-org0a4834f">
+<p>
+Unless you are instructed to do so in the homework questions,
+<b>you should not submit testing code with your homework submission</b>.
+</p>
+
+<p>
+This includes
+</p>
+<ul class="org-ul">
+<li>any <code>main</code> function,</li>
+<li>any <code>print</code> statements which output information
+<b>that is not directly requested as console output</b>
+<b>in the homework questions</b>.</li>
+</ul>
+
+<p>
+If you do not wish to remove diagnostic print statements manually,
+you will have to find a way to ensure that they disabled
+in your final submission.
+</p>
+
+<p>
+For instance, by using a wrapper on the print function or macros.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org97b2d90" class="outline-4">
+<h4 id="org97b2d90">Due date and allowance for technical difficulties</h4>
+<div class="outline-text-4" id="text-org97b2d90">
+<p>
+Homework is due on the second Sunday following its release,
+by the end of the day (midnight).
+Submissions past 00:00 may not be considered.
+</p>
+
+<p>
+If you experience technical difficulties
+leading up to the submission time,
+please contact Mark <b>ASAP</b> with the details of the problem
+and, if possible, attach the current state of your homework
+to the communication.
+This information will help ensure we are able
+to accept your submission once the technical difficulties are resolved.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-Proper-conduct-for-coursework" class="outline-3">
+<h3 id="Proper-conduct-for-coursework">Proper conduct for coursework</h3>
+<div class="outline-text-3" id="text-Proper-conduct-for-coursework">
+</div>
+
+<div id="outline-container-org55687d6" class="outline-4">
+<h4 id="org55687d6">Individual work</h4>
+<div class="outline-text-4" id="text-org55687d6">
+<p>
+Unless explicitely stated in the homework questions,
+all homework in this course is intended
+to be <i>individually completed</i>.
+</p>
+
+<p>
+You are welcome to discuss the content of the homework in
+the public forum of the class Microsoft Teams team homework channel,
+though obviously solutions or partial solutions should not
+be posted or described.
+</p>
+
+<p>
+Private discussions about the homework cannot reasonably be
+forbidden, but such discussions should follow the same guidelines
+as public discussions.
+</p>
+
+<div class="org-center">
+<p>
+<b>Inappopriate collaboration via private discussions</b>
+<b>which is later discovered by course staff</b>
+<b>may be considered academic dishonesty.</b>
+</p>
+
+<p>
+When in doubt, make the discussion private, or report its contents
+to the course staff by making a note of it
+in your homework.
+</p>
+</div>
+
+<p>
+To clarify what is considered appropriate discussions
+of homework content, here are some examples:
+</p>
+<ol class="org-ol">
+<li>Discussing the language features introduced or needed for the homework.
+<ul class="org-ul">
+<li>Such as relevant builtin datatypes
+and datatype definition methods and their general use.</li>
+<li>Code snippets that are not partial solutions to the homework
+are welcome and encouraged.</li>
+</ul></li>
+<li>Questions of the form “What is meant by <code>x</code>?”,
+“Does <code>x</code> really mean <code>y</code>?” or “Is there a mistake with <code>x</code>?”
+<ul class="org-ul">
+<li>Of course, questions of those form which would be answered
+by partial solutions are not considered appropriate.</li>
+</ul></li>
+<li>Questions or advice about errors that may be encountered.
+<ul class="org-ul">
+<li>Such as “If you see a <code>scala.MatchError</code> you should
+probably add a catch-all <code>_</code> case to your <code>match</code> expressions.”</li>
+</ul></li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org131a9c0" class="outline-4">
+<h4 id="org131a9c0">Language library resources</h4>
+<div class="outline-text-4" id="text-org131a9c0">
+<p>
+Unless explicitely stated in the questions,
+it is not expected that you will use any language library resources
+in the homeworks.
+</p>
+
+<p>
+Possible exceptions to this rule include implementations
+of datatypes we discuss in this course, such as lists
+or options/maybes, if they are included in a standard library
+instead of being builtin.
+</p>
+
+<p>
+<i>Basic</i> operations on such types would also be allowed.
+</p>
+<ul class="org-ul">
+<li>For instance, <code>head</code>, <code>tail</code>, <code>append</code>, etc. on lists
+would not require explicit permission to be used.</li>
+<li>More complex operations such as sorting procedures
+would require permission before you used them.</li>
+</ul>
+
+<p>
+Additionally, the standard <i>higher-order</i> operations
+including <code>map</code>, <code>reduce</code>, <code>flatten</code>, and <code>filter</code> are permitted generally,
+unless the task is to implement such a higher-order operator.
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-Part-0.1:-“Naive”-recursion-vs. tail-recursion" class="outline-2">
+<h2 id="Part-0.1:-“Naive”-recursion-vs. tail-recursion">Part 0.1: “Naive” recursion vs. tail recursion</h2>
+<div class="outline-text-2" id="text-Part-0.1:-“Naive”-recursion-vs. tail-recursion">
+<p>
+As discussed during the week 9 tutorials,
+in general, we know that recursion is less efficient than
+iteration (looping) as a control structure
+due to the requirement of a <i>stack frame</i> for each recursive call.
+</p>
+
+<p>
+For instance, consider this “naively” defined factorial function.
+</p>
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">defn</span> <span style="color: #feacd0;">factorial</span> <span style="color: #b6a0ff;">[</span>n<span style="color: #b6a0ff;">]</span>
+  <span style="color: #b6a0ff;">(</span><span style="color: #b6a0ff;">cond</span>
+    <span style="color: #6ae4b9;">(</span>= n 0<span style="color: #6ae4b9;">)</span> 1
+    <span style="color: #6ae4b9;">(</span>&gt; n 0<span style="color: #6ae4b9;">)</span> <span style="color: #6ae4b9;">(</span>* n <span style="color: #f0ce43;">(</span>factorial <span style="color: #00bcff;">(</span>- n 1<span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>
+    <span style="color: #00bcff;">:else</span> <span style="color: #6ae4b9;">(</span><span style="color: #b6a0ff;">throw</span> <span style="color: #f0ce43;">(</span>Exception. <span style="color: #79a8ff;">"Trying to calculate factorial of a negative number."</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+</pre>
+</div>
+
+<p>
+If we “unwind the recursion” for a call to the above function,
+we see that at each recursive step, there is more and more
+“work to be done” added outside the recursive call.
+When we do reach a base case, we then have to return back to each call,
+doing the remaining work along the way.
+</p>
+<div class="org-src-container">
+<pre class="src src-text"><span style="color: #00cd68;">(</span>factorial 3<span style="color: #00cd68;">)</span>
+<span style="color: #00cd68;">(</span>* 3 <span style="color: #b6a0ff;">(</span>factorial 2<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+<span style="color: #00cd68;">(</span>* 3 <span style="color: #b6a0ff;">(</span>* 2 <span style="color: #6ae4b9;">(</span>factorial 1<span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+<span style="color: #00cd68;">(</span>* 3 <span style="color: #b6a0ff;">(</span>* 2 <span style="color: #6ae4b9;">(</span>* 1 <span style="color: #f0ce43;">(</span>factorial 0<span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+<span style="color: #00cd68;">(</span>* 3 <span style="color: #b6a0ff;">(</span>* 2 <span style="color: #6ae4b9;">(</span>* 1 1<span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+<span style="color: #00cd68;">(</span>* 3 <span style="color: #b6a0ff;">(</span>* 2 1<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+<span style="color: #00cd68;">(</span>* 3 2<span style="color: #00cd68;">)</span>
+6
+</pre>
+</div>
+<p>
+This work to be done has to be remembered somehow,
+and in principle this means that the stack frame for each call must
+be maintained until that call returns.
+</p>
+
+<p>
+In contrast to the “naive” approach above, a <i>tail recursive</i> definition
+can be constructed so that <i>no work</i> remains to be done
+upon returning from the recursive call.
+Because of this fact, if the language implementation chooses to do so,
+the stack frames can be reused, and we can return to the initial caller
+when we reach the base case, instead of returning back through each
+recursive caller.
+</p>
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">defn</span> <span style="color: #feacd0;">factorial-tr</span> <span style="color: #b6a0ff;">[</span>n<span style="color: #b6a0ff;">]</span>
+  <span style="color: #b6a0ff;">(</span><span style="color: #b6a0ff;">defn</span> <span style="color: #feacd0;">fact-iter</span> <span style="color: #6ae4b9;">[</span>n collect<span style="color: #6ae4b9;">]</span>
+    <span style="color: #6ae4b9;">(</span><span style="color: #b6a0ff;">cond</span>
+      <span style="color: #f0ce43;">(</span>= n 0<span style="color: #f0ce43;">)</span> collect
+      <span style="color: #f0ce43;">(</span>&gt; n 0<span style="color: #f0ce43;">)</span> <span style="color: #f0ce43;">(</span>fact-iter <span style="color: #00bcff;">(</span>- n 1<span style="color: #00bcff;">)</span> <span style="color: #00bcff;">(</span>* collect n<span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span>
+      <span style="color: #00bcff;">:else</span> <span style="color: #f0ce43;">(</span><span style="color: #b6a0ff;">throw</span> <span style="color: #00bcff;">(</span>Exception. <span style="color: #79a8ff;">"Trying to calculate factorial of a negative number."</span><span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span>
+  <span style="color: #b6a0ff;">(</span>fact-iter n 1<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+</pre>
+</div>
+
+<p>
+If we visualise a call to this function, we can observe
+that the calling context is constant (rather than growing in size),
+implying that the memory requirements on the stack are also constant.
+</p>
+<div class="org-src-container">
+<pre class="src src-text"><span style="color: #00cd68;">(</span>factorial-tr 3<span style="color: #00cd68;">)</span>
+<span style="color: #00cd68;">(</span>fact-iter 3 1<span style="color: #00cd68;">)</span>
+<span style="color: #00cd68;">(</span>fact-iter 2 3<span style="color: #00cd68;">)</span>
+<span style="color: #00cd68;">(</span>fact-iter 1 6<span style="color: #00cd68;">)</span>
+<span style="color: #00cd68;">(</span>fact-iter 0 6<span style="color: #00cd68;">)</span>
+6
+</pre>
+</div>
+
+<p>
+Tail recursion is then more efficient than general recursion,
+and is in fact equivalent to looping or iterating constructs.
+The ideas behind an iterative implementation  and
+a tail recursive implementation are also usually quite similar.
+</p>
+
+<p>
+In this homework, we provide you with a new Clojure special form
+which can be used to create functions
+which automatically output a visualisation of their calling context,
+and hence their stack usage, as they run.
+You are tasked with using this new special form to implement
+several simple recursive functions both in a “naive” way
+and a tail recursive way.
+</p>
+</div>
+</div>
+
+<div id="outline-container-Part-0.2:-A-new-special-form-to-automate-visualisation-of-the-stack" class="outline-2">
+<h2 id="Part-0.2:-A-new-special-form-to-automate-visualisation-of-the-stack">Part 0.2: A new special form to automate visualisation of the stack</h2>
+<div class="outline-text-2" id="text-Part-0.2:-A-new-special-form-to-automate-visualisation-of-the-stack">
+<p>
+In this section, we define the new special form
+used in this assignment, called “<code>unwindrec</code>”.
+</p>
+
+<div class="org-center">
+<p>
+<b>You may read about its definition if you are interested.</b>
+<b>If you prefer though, skip to the next section,</b>
+<b><a href="#Part-0.3:-Using-the-new-special-form">Part 0.3: Using the new special form</a>
+*which shows you how to use <code>unwindrec</code>.</b>
+</p>
+
+<p>
+It's not required that you understand all the code in this section.
+</p>
+</div>
+
+<p>
+We need a way to replace a value in a string representation
+of a Clojure term with a different value.
+Specifically, this will be used to replace variable names with their values,
+and to replace the placeholder <code>rec</code> with recursive calls
+or the results of recursive calls.
+</p>
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">defn</span> <span style="color: #feacd0;">replace-value-in-termstring</span>
+  <span style="color: #b0d6f5;">"Replace all occurrences of `</span><span style="color: #00bcff;">value</span><span style="color: #b0d6f5;">` with `</span><span style="color: #00bcff;">replacement</span><span style="color: #b0d6f5;">`</span>
+<span style="color: #b0d6f5;">within a `</span><span style="color: #00bcff;">string</span><span style="color: #b0d6f5;">` which is assumed to Clojure term.</span>
+
+<span style="color: #b0d6f5;">Since the `</span><span style="color: #00bcff;">string</span><span style="color: #b0d6f5;">` is assumed to be a Clojure term,</span>
+<span style="color: #b0d6f5;">this replaces the `</span><span style="color: #00bcff;">value</span><span style="color: #b0d6f5;">` only if it surrounded by spaces, parentheses,</span>
+<span style="color: #b0d6f5;">braces or brackets (i.e., not if it is a substring of some subterm.)</span>
+<span style="color: #b0d6f5;">One use of this is to replace a variable's name with its value,</span>
+<span style="color: #b0d6f5;">as in `(replace-value-in-termstring 'var var string)`."</span>
+  <span style="color: #b6a0ff;">[</span>value replacement string<span style="color: #b6a0ff;">]</span>
+  <span style="color: #b6a0ff;">(</span><span style="color: #6ae4b9;">clojure.string</span>/replace
+   string
+   <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">The first group of this pattern matches the beginning of the string,</span>
+   <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">whitespace, or an opening parenthese/brace/bracket.</span>
+   <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">The last group matches the end of the string, whitespace, or</span>
+   <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">a closing parenthese/brace/bracket.</span>
+   <span style="color: #6ae4b9;">(</span>re-pattern <span style="color: #f0ce43;">(</span>str <span style="color: #79a8ff;">"(</span><span style="color: #79a8ff; font-weight: bold;">\\</span><span style="color: #79a8ff;">A|</span><span style="color: #79a8ff; font-weight: bold;">\\</span><span style="color: #79a8ff;">s|</span><span style="color: #79a8ff; font-weight: bold;">\\</span><span style="color: #79a8ff;">[|</span><span style="color: #79a8ff; font-weight: bold;">\\</span><span style="color: #79a8ff;">{|</span><span style="color: #79a8ff; font-weight: bold;">\\</span><span style="color: #79a8ff;">()("</span> value <span style="color: #79a8ff;">")(</span><span style="color: #79a8ff; font-weight: bold;">\\</span><span style="color: #79a8ff;">)|</span><span style="color: #79a8ff; font-weight: bold;">\\</span><span style="color: #79a8ff;">}|</span><span style="color: #79a8ff; font-weight: bold;">\\</span><span style="color: #79a8ff;">]|</span><span style="color: #79a8ff; font-weight: bold;">\\</span><span style="color: #79a8ff;">s|</span><span style="color: #79a8ff; font-weight: bold;">\\</span><span style="color: #79a8ff;">z)"</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>
+   <span style="color: #6ae4b9;">(</span>str <span style="color: #79a8ff;">"$1"</span> replacement <span style="color: #79a8ff;">"$3"</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+</pre>
+</div>
+
+<p>
+We actually need a version of the above which replaces multiple values.
+</p>
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">defn</span> <span style="color: #feacd0;">replace-values-in-termstring</span>
+  <span style="color: #b0d6f5;">"Replace all occurrences of the eleents of `</span><span style="color: #00bcff;">values</span><span style="color: #b0d6f5;">`</span>
+<span style="color: #b0d6f5;">with the corresponding elements of `</span><span style="color: #00bcff;">replacements</span><span style="color: #b0d6f5;">`</span>
+<span style="color: #b0d6f5;">within a `</span><span style="color: #00bcff;">string</span><span style="color: #b0d6f5;">` which is assumed to Clojure term.</span>
+
+<span style="color: #b0d6f5;">This is the multiple replacement version of `</span><span style="color: #00bcff;">replace-value-in-termstring</span><span style="color: #b0d6f5;">`.</span>
+<span style="color: #b0d6f5;">Note that values are replaced from in order,</span>
+<span style="color: #b0d6f5;">and if an earlier replacement adds to the termstring</span>
+<span style="color: #b0d6f5;">a value later in the list that value will also be replaced</span>
+<span style="color: #b0d6f5;">(but not vice versa.)</span>
+
+<span style="color: #b0d6f5;">Since the `</span><span style="color: #00bcff;">string</span><span style="color: #b0d6f5;">` is assumed to be a Clojure term,</span>
+<span style="color: #b0d6f5;">this replaces the `</span><span style="color: #00bcff;">value</span><span style="color: #b0d6f5;">` only if it surrounded by spaces, parentheses,</span>
+<span style="color: #b0d6f5;">braces or brackets (i.e., not if it is a substring of some subterm.)</span>
+<span style="color: #b0d6f5;">One use of this is to replace a variable's name with its value,</span>
+<span style="color: #b0d6f5;">as in `(replace-value-in-termstring 'var var string)`."</span>
+  <span style="color: #b6a0ff;">[</span>values replacements string<span style="color: #b6a0ff;">]</span>
+  <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">`</span><span style="color: #00bcff;">values</span><span style="color: #a8a8a8;">` and `</span><span style="color: #00bcff;">replacements</span><span style="color: #a8a8a8;">` are assumed to be the same length,</span>
+  <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">but we check both are non-empty.</span>
+  <span style="color: #b6a0ff;">(</span><span style="color: #b6a0ff;">if</span> <span style="color: #6ae4b9;">(</span><span style="color: #b6a0ff;">and</span> <span style="color: #f0ce43;">(</span>seq values<span style="color: #f0ce43;">)</span> <span style="color: #f0ce43;">(</span>seq replacements<span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>
+    <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">Deconstruct the lists.</span>
+    <span style="color: #6ae4b9;">(</span><span style="color: #b6a0ff;">let</span> <span style="color: #f0ce43;">[</span><span style="color: #00bcff;">[</span>v &amp; vs<span style="color: #00bcff;">]</span> values
+          <span style="color: #00bcff;">[</span>r &amp; rs<span style="color: #00bcff;">]</span> replacements<span style="color: #f0ce43;">]</span>
+      <span style="color: #f0ce43;">(</span>replace-values-in-termstring vs rs
+                                    <span style="color: #00bcff;">(</span>replace-value-in-termstring v r string<span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>
+    <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">If `</span><span style="color: #00bcff;">values</span><span style="color: #a8a8a8;">` or `</span><span style="color: #00bcff;">replacements</span><span style="color: #a8a8a8;">` is empty, just return the string.</span>
+    string<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+</pre>
+</div>
+
+<p>
+We'll need to use the above for each element of the <code>args</code> list,
+replacing each element with its current value,
+and also replacing instances of the function name
+(with <code>f</code> and the <code>context</code> argument.)
+</p>
+
+<p>
+We'll also need to replace the recursive call(s) with
+a placeholder before we pass it along to the recursive call,
+so that the recursive call can tell where it was called from
+in the string.
+</p>
+
+<p>
+This method to find the first closing parenthese that is not matched
+in a string will be necessary to tell where to replace up to.
+I don't see a way that regular expressions could be used for this,
+as there's no good way to specify “match up to
+a closing parenthese <i>that does not have an opening parenthese match</i>”.
+This function instead uses a helper which keeps track of the number
+of unmatched opening parentheses as we walk through the string.
+</p>
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">defn</span> <span style="color: #feacd0;">closing-paren-in-string</span>
+  <span style="color: #b0d6f5;">"Given a string `</span><span style="color: #00bcff;">s</span><span style="color: #b0d6f5;">`, return an two element list consisting of</span>
+<span style="color: #b0d6f5;">the portion of `</span><span style="color: #00bcff;">s</span><span style="color: #b0d6f5;">` up to (and including) the first closing parenthese</span>
+<span style="color: #b0d6f5;">that does not have a matching opening parenthese, and the remainder of `</span><span style="color: #00bcff;">s</span><span style="color: #b0d6f5;">`."</span>
+  <span style="color: #b6a0ff;">[</span>s<span style="color: #b6a0ff;">]</span>
+  <span style="color: #b6a0ff;">(</span><span style="color: #b6a0ff;">letfn</span> <span style="color: #6ae4b9;">[</span><span style="color: #f0ce43;">(</span>nth-closing-paren-in-string <span style="color: #00bcff;">[</span>s openings<span style="color: #00bcff;">]</span>
+            <span style="color: #00bcff;">(</span><span style="color: #b6a0ff;">cond</span>
+              <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">If `</span><span style="color: #00bcff;">s</span><span style="color: #a8a8a8;">` has less than 2 characters, then even if it is a closing paren,</span>
+              <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">it's the first one and belongs in the first list.</span>
+              <span style="color: #80d200;">(</span>&gt; 2 <span style="color: #f78fe7;">(</span>count s<span style="color: #f78fe7;">)</span><span style="color: #80d200;">)</span> `<span style="color: #80d200;">(</span>~<span style="color: #f78fe7;">(</span>apply str s<span style="color: #f78fe7;">)</span> <span style="color: #79a8ff;">""</span><span style="color: #80d200;">)</span>
+              <span style="color: #00bcff;">:else</span>
+              <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">Otherwise, decompose `</span><span style="color: #00bcff;">s</span><span style="color: #a8a8a8;">` to check its first character.</span>
+              <span style="color: #80d200;">(</span><span style="color: #b6a0ff;">let</span> <span style="color: #f78fe7;">[</span><span style="color: #4ae8fc;">[</span>c &amp; cs<span style="color: #4ae8fc;">]</span> s<span style="color: #f78fe7;">]</span>
+                <span style="color: #f78fe7;">(</span><span style="color: #b6a0ff;">cond</span>
+                  <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">If it's an opening paren, increment `</span><span style="color: #00bcff;">openings</span><span style="color: #a8a8a8;">` in the recursive call</span>
+                  <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">and prepend `</span><span style="color: #00bcff;">c</span><span style="color: #a8a8a8;">` to the returned first string.</span>
+                  <span style="color: #4ae8fc;">(</span>= c \(<span style="color: #4ae8fc;">)</span> <span style="color: #4ae8fc;">(</span><span style="color: #b6a0ff;">let</span> <span style="color: #cfdf30;">[</span><span style="color: #00cd68;">[</span>before after<span style="color: #00cd68;">]</span> <span style="color: #00cd68;">(</span>nth-closing-paren-in-string cs <span style="color: #b6a0ff;">(</span>+ openings 1<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span><span style="color: #cfdf30;">]</span>
+                              `<span style="color: #cfdf30;">(</span>~<span style="color: #00cd68;">(</span>str c before<span style="color: #00cd68;">)</span> ~<span style="color: #00cd68;">(</span>apply str after<span style="color: #00cd68;">)</span><span style="color: #cfdf30;">)</span><span style="color: #4ae8fc;">)</span>
+                  <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">If it's a closing paren, either split the string here if `</span><span style="color: #00bcff;">openngs</span><span style="color: #a8a8a8;">` is 0,</span>
+                  <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">or decrement `</span><span style="color: #00bcff;">openings</span><span style="color: #a8a8a8;">` in the recursive call. And prepend `</span><span style="color: #00bcff;">c</span><span style="color: #a8a8a8;">` to the first string.</span>
+                  <span style="color: #4ae8fc;">(</span>= c \)<span style="color: #4ae8fc;">)</span> <span style="color: #4ae8fc;">(</span><span style="color: #b6a0ff;">if</span> <span style="color: #cfdf30;">(</span>= openings 0<span style="color: #cfdf30;">)</span>
+                             `<span style="color: #cfdf30;">(</span>~<span style="color: #00cd68;">(</span>str c<span style="color: #00cd68;">)</span> ~<span style="color: #00cd68;">(</span>apply str cs<span style="color: #00cd68;">)</span><span style="color: #cfdf30;">)</span>
+                             <span style="color: #cfdf30;">(</span><span style="color: #b6a0ff;">let</span> <span style="color: #00cd68;">[</span><span style="color: #b6a0ff;">[</span>before after<span style="color: #b6a0ff;">]</span> <span style="color: #b6a0ff;">(</span>nth-closing-paren-in-string cs <span style="color: #6ae4b9;">(</span>- openings 1<span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">]</span>
+                                `<span style="color: #00cd68;">(</span>~<span style="color: #b6a0ff;">(</span>str c before<span style="color: #b6a0ff;">)</span> ~after<span style="color: #00cd68;">)</span><span style="color: #cfdf30;">)</span><span style="color: #4ae8fc;">)</span>
+                  <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">Otherwise, just make the recursive call and prepend `</span><span style="color: #00bcff;">c</span><span style="color: #a8a8a8;">` to the returned first string.</span>
+                  <span style="color: #00bcff;">:else</span>     <span style="color: #4ae8fc;">(</span><span style="color: #b6a0ff;">let</span> <span style="color: #cfdf30;">[</span><span style="color: #00cd68;">[</span>before after<span style="color: #00cd68;">]</span> <span style="color: #00cd68;">(</span>nth-closing-paren-in-string cs openings<span style="color: #00cd68;">)</span><span style="color: #cfdf30;">]</span>
+                              `<span style="color: #cfdf30;">(</span>~<span style="color: #00cd68;">(</span>str c before<span style="color: #00cd68;">)</span> ~after<span style="color: #cfdf30;">)</span><span style="color: #4ae8fc;">)</span><span style="color: #f78fe7;">)</span><span style="color: #80d200;">)</span><span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">]</span>
+    <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">Start out with 0 opening parentheses seen.</span>
+    <span style="color: #6ae4b9;">(</span>nth-closing-paren-in-string s 0<span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+</pre>
+</div>
+
+<p>
+Now, we can replace all instances of a call to a function
+by splitting the string at that function name,
+then further splitting the second part at
+the first unmatched closing parenthese,
+and replacing the chunk for the function call with a placeholder.
+</p>
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">defn</span> <span style="color: #feacd0;">replace-call-in-termstring</span>
+  <span style="color: #b0d6f5;">"Replace all calls to a function whose name is given by `</span><span style="color: #00bcff;">f</span><span style="color: #b0d6f5;">`</span>
+<span style="color: #b0d6f5;">in a string representing "</span>
+  <span style="color: #b6a0ff;">[</span>f replacement string<span style="color: #b6a0ff;">]</span>
+   <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">Find the first occurrence of `</span><span style="color: #00bcff;">f</span><span style="color: #a8a8a8;">` preceded by an opening parenthese.</span>
+   <span style="color: #b6a0ff;">(</span><span style="color: #b6a0ff;">let</span> <span style="color: #6ae4b9;">[</span>m <span style="color: #f0ce43;">(</span>re-find <span style="color: #00bcff;">(</span>re-pattern <span style="color: #80d200;">(</span>str <span style="color: #79a8ff;">"(.*)</span><span style="color: #79a8ff; font-weight: bold;">\\</span><span style="color: #79a8ff;">(("</span> f <span style="color: #79a8ff;">"</span><span style="color: #79a8ff; font-weight: bold;">\\</span><span style="color: #79a8ff;">s.*)"</span><span style="color: #80d200;">)</span><span style="color: #00bcff;">)</span> string<span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">]</span>
+     <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">The match m will be nil if no match was found. Otherwise,</span>
+     <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">because the pattern has two groups, it will be a vector</span>
+     <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">of the whole match, the portion before the `</span><span style="color: #00bcff;">f</span><span style="color: #a8a8a8;">` call,</span>
+     <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">and the `</span><span style="color: #00bcff;">f</span><span style="color: #a8a8a8;">` call and remainder of the string.</span>
+     <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">Note the opening parenthese is not in either group.</span>
+     <span style="color: #6ae4b9;">(</span><span style="color: #b6a0ff;">if</span> m
+       <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">Get the parts of m.</span>
+       <span style="color: #f0ce43;">(</span><span style="color: #b6a0ff;">let</span> <span style="color: #00bcff;">[</span><span style="color: #80d200;">[</span>whole before call-and-after<span style="color: #80d200;">]</span> m
+             <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">Separate `</span><span style="color: #00bcff;">call-and-after</span><span style="color: #a8a8a8;">` at the first unmatched closing parenthese.</span>
+             <span style="color: #80d200;">[</span>callbody after<span style="color: #80d200;">]</span> <span style="color: #80d200;">(</span>closing-paren-in-string call-and-after<span style="color: #80d200;">)</span><span style="color: #00bcff;">]</span>
+         <span style="color: #00bcff;">(</span>str before replacement after<span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span>
+       <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">If m is null, just return the string as is.</span>
+       string<span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+</pre>
+</div>
+
+<p>
+Now we are finally ready to define our new special form.
+It constructs a recursive function of the same form
+we used for <code>factorial</code> and <code>factorial-tr</code>,
+carrying out the work of manipulating the “context string”
+automatically.
+</p>
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">defmacro</span> <span style="color: #feacd0;">unwindrec</span>
+  <span style="color: #b0d6f5;">"Define a simple recursive function which prints out the</span>
+<span style="color: #b0d6f5;">unwinding of the recursion as it runs.</span>
+
+<span style="color: #b0d6f5;">The name of the function is given by `</span><span style="color: #00bcff;">name</span><span style="color: #b0d6f5;">`, and its arguments by `</span><span style="color: #00bcff;">args</span><span style="color: #b0d6f5;">`.</span>
+
+<span style="color: #b0d6f5;">It is assumed that the function has a single base case,</span>
+<span style="color: #b0d6f5;">guarded by condition `</span><span style="color: #00bcff;">basecond</span><span style="color: #b0d6f5;">` and with body `</span><span style="color: #00bcff;">basebody</span><span style="color: #b0d6f5;">`.</span>
+<span style="color: #b0d6f5;">`</span><span style="color: #00bcff;">basebody</span><span style="color: #b0d6f5;">` should not contain any recursive calls;</span>
+<span style="color: #b0d6f5;">the printing will not work properly otherwise.</span>
+
+<span style="color: #b0d6f5;">It is further assumed that the function has a single recursive case,</span>
+<span style="color: #b0d6f5;">guarded by condition `</span><span style="color: #00bcff;">reccond</span><span style="color: #b0d6f5;">` and with body `</span><span style="color: #00bcff;">recbody</span><span style="color: #b0d6f5;">`.</span>
+<span style="color: #b0d6f5;">`</span><span style="color: #00bcff;">recbody</span><span style="color: #b0d6f5;">` should contain exactly one recursive call to `</span><span style="color: #00bcff;">name</span><span style="color: #b0d6f5;">`</span>
+<span style="color: #b0d6f5;">somewhere in its body. The printing may not work properly otherwise.</span>
+
+<span style="color: #b0d6f5;">The final, optional, argument `</span><span style="color: #00bcff;">elsebody</span><span style="color: #b0d6f5;">` is used as the body</span>
+<span style="color: #b0d6f5;">if neither the `</span><span style="color: #00bcff;">basecond</span><span style="color: #b0d6f5;">` or `</span><span style="color: #00bcff;">reccond</span><span style="color: #b0d6f5;">` is satisfied.</span>
+<span style="color: #b0d6f5;">"</span>
+  <span style="color: #b6a0ff;">(</span><span style="color: #6ae4b9;">[</span>name args basecond basebody reccond recbody<span style="color: #6ae4b9;">]</span>
+   <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">If `</span><span style="color: #00bcff;">elsebody</span><span style="color: #a8a8a8;">` is not provided, substitute `</span><span style="color: #00bcff;">nil</span><span style="color: #a8a8a8;">` instead.</span>
+   `<span style="color: #6ae4b9;">(</span>unwindrec ~name ~args ~basecond ~basebody ~reccond ~recbody <span style="color: #00bcff;">nil</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span>
+  <span style="color: #b6a0ff;">(</span><span style="color: #6ae4b9;">[</span>name args basecond basebody reccond recbody elsebody<span style="color: #6ae4b9;">]</span>
+   <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">Define the function `</span><span style="color: #00bcff;">name</span><span style="color: #a8a8a8;">` taking arguments `</span><span style="color: #00bcff;">args</span><span style="color: #a8a8a8;">`.</span>
+   `<span style="color: #6ae4b9;">(</span><span style="color: #b6a0ff;">defn</span> ~name ~args
+      <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">This local function `</span><span style="color: #00bcff;">f</span><span style="color: #a8a8a8;">` actually implements `</span><span style="color: #00bcff;">name</span><span style="color: #a8a8a8;">`.</span>
+      <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">It has an additional argument, a string giving the context of</span>
+      <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">the call. This string should contain a substring "rec"</span>
+      <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">which is the point in the context at which the call was made.</span>
+      <span style="color: #f0ce43;">(</span><span style="color: #b6a0ff;">letfn</span>
+          <span style="color: #00bcff;">[</span><span style="color: #80d200;">(</span>~'f <span style="color: #f78fe7;">[</span>~'context ~@args<span style="color: #f78fe7;">]</span>
+            <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">Use the provided base case and recursive case conditions.</span>
+            <span style="color: #f78fe7;">(</span><span style="color: #b6a0ff;">cond</span>
+              <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">In the base case, evaluate `</span><span style="color: #00bcff;">basebody</span><span style="color: #a8a8a8;">`. Substitute that value</span>
+              <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">for "rec" in the `</span><span style="color: #00bcff;">context</span><span style="color: #a8a8a8;">` and print the context,</span>
+              <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">then return the value.</span>
+              ~basecond <span style="color: #4ae8fc;">(</span><span style="color: #b6a0ff;">let</span> <span style="color: #cfdf30;">[</span>~'value ~basebody<span style="color: #cfdf30;">]</span>
+                          <span style="color: #cfdf30;">(</span>println <span style="color: #00cd68;">(</span>replace-value-in-termstring
+                                    '~'rec
+                                    ~'value
+                                    ~'context<span style="color: #00cd68;">)</span><span style="color: #cfdf30;">)</span>
+                          ~'value<span style="color: #4ae8fc;">)</span>
+              <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">In the recursive case, replace "rec" in the `</span><span style="color: #00bcff;">context</span><span style="color: #a8a8a8;">`</span>
+              <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">with the recursive case body, and replace all argument names</span>
+              <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">with their current values.</span>
+              ~reccond  <span style="color: #4ae8fc;">(</span><span style="color: #b6a0ff;">let</span> <span style="color: #cfdf30;">[</span>~'this-context-with-call <span style="color: #00cd68;">(</span>replace-values-in-termstring
+                                                        '~args
+                                                        <span style="color: #b6a0ff;">(</span>map str ~args<span style="color: #b6a0ff;">)</span>
+                                                        <span style="color: #b6a0ff;">(</span>replace-value-in-termstring
+                                                         '~'rec
+                                                         <span style="color: #6ae4b9;">(</span>str '~recbody<span style="color: #6ae4b9;">)</span>
+                                                         ~'context<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+                              <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">Also construct a new context `</span><span style="color: #00bcff;">this-context-with-rec</span><span style="color: #a8a8a8;">` to be</span>
+                              <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">passed in the recursive call by replacing</span>
+                              <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">the recursive call in `</span><span style="color: #00bcff;">this-context-with-call</span><span style="color: #a8a8a8;">` with "rec".</span>
+                              ~'this-context-with-rec <span style="color: #00cd68;">(</span>replace-call-in-termstring
+                                                       '~name
+                                                       <span style="color: #79a8ff;">"rec"</span>
+                                                       ~'this-context-with-call<span style="color: #00cd68;">)</span><span style="color: #cfdf30;">]</span>
+                          <span style="color: #cfdf30;">(</span>println ~'this-context-with-call<span style="color: #cfdf30;">)</span>
+                          <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">Now, actually make the recursive call, but first</span>
+                          <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">walk the `</span><span style="color: #00bcff;">recbody</span><span style="color: #a8a8a8;">` to replace `</span><span style="color: #00bcff;">name</span><span style="color: #a8a8a8;">` with `</span><span style="color: #00bcff;">f</span><span style="color: #a8a8a8;">` and</span>
+                          <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">the additional argument `</span><span style="color: #00bcff;">this-context-with-rec</span><span style="color: #a8a8a8;">`</span>
+                          <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">(remember that `</span><span style="color: #00bcff;">f</span><span style="color: #a8a8a8;">` is implementing `</span><span style="color: #00bcff;">name</span><span style="color: #a8a8a8;">`.)</span>
+                          <span style="color: #cfdf30;">(</span><span style="color: #b6a0ff;">let</span> <span style="color: #00cd68;">[</span>~'result ~<span style="color: #b6a0ff;">(</span><span style="color: #6ae4b9;">clojure.walk</span>/prewalk-replace <span style="color: #6ae4b9;">{</span>name '<span style="color: #f0ce43;">(</span>partial f this-context-with-rec<span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">}</span> recbody<span style="color: #b6a0ff;">)</span>
+                                ~'this-context-with-result <span style="color: #b6a0ff;">(</span>replace-value-in-termstring '~'rec <span style="color: #6ae4b9;">(</span>str ~'result<span style="color: #6ae4b9;">)</span> ~'context<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">]</span>
+                            <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">Print out the context again with the result in place, unless</span>
+                            <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">the whole context is just the result (this is so</span>
+                            <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">just the result does not get printed over and over.)</span>
+                            <span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">when</span> <span style="color: #b6a0ff;">(</span>not= ~'this-context-with-result <span style="color: #6ae4b9;">(</span>str ~'result<span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span>
+                              <span style="color: #b6a0ff;">(</span>println ~'this-context-with-result<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+                            ~'result<span style="color: #cfdf30;">)</span><span style="color: #4ae8fc;">)</span>
+              <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">If neither `</span><span style="color: #00bcff;">basecond</span><span style="color: #a8a8a8;">` nor `</span><span style="color: #00bcff;">reccond</span><span style="color: #a8a8a8;">` was satisfied,</span>
+              <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">evaluate `</span><span style="color: #00bcff;">elsebody</span><span style="color: #a8a8a8;">`. This does no printing.</span>
+              <span style="color: #00bcff;">:else</span> ~elsebody<span style="color: #f78fe7;">)</span><span style="color: #80d200;">)</span><span style="color: #00bcff;">]</span>
+
+        <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">Before calling `</span><span style="color: #00bcff;">f</span><span style="color: #a8a8a8;">`, print out the originating call.</span>
+        <span style="color: #00bcff;">(</span>println <span style="color: #80d200;">(</span>replace-values-in-termstring
+                  '~args
+                  <span style="color: #f78fe7;">(</span>map str ~args<span style="color: #f78fe7;">)</span>
+                  <span style="color: #f78fe7;">(</span>str <span style="color: #79a8ff;">"("</span> <span style="color: #4ae8fc;">(</span><span style="color: #6ae4b9;">clojure.string</span>/join <span style="color: #79a8ff;">" "</span> '<span style="color: #cfdf30;">(</span>~name ~@args<span style="color: #cfdf30;">)</span><span style="color: #4ae8fc;">)</span> <span style="color: #79a8ff;">")"</span><span style="color: #f78fe7;">)</span><span style="color: #80d200;">)</span><span style="color: #00bcff;">)</span>
+        <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">Then call `</span><span style="color: #00bcff;">f</span><span style="color: #a8a8a8;">`.</span>
+        <span style="color: #00bcff;">(</span>~'f <span style="color: #79a8ff;">"rec"</span> ~@args<span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-Part-0.3:-Using-the-new-special-form" class="outline-2">
+<h2 id="Part-0.3:-Using-the-new-special-form">Part 0.3: Using the new special form</h2>
+<div class="outline-text-2" id="text-Part-0.3:-Using-the-new-special-form">
+<p>
+Here, we show how to use this new special form
+to define simple recursive functions such as factorial.
+</p>
+
+<p>
+First, the “naive” recursive factorial.
+</p>
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #00cd68;">(</span>unwindrec factorial <span style="color: #b6a0ff;">[</span>n<span style="color: #b6a0ff;">]</span>
+            <span style="color: #b6a0ff;">(</span>= n 0<span style="color: #b6a0ff;">)</span> 1
+            <span style="color: #b6a0ff;">(</span>&gt; n 0<span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">(</span>* n <span style="color: #6ae4b9;">(</span>factorial <span style="color: #f0ce43;">(</span>- n 1<span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span>
+            <span style="color: #b6a0ff;">(</span><span style="color: #b6a0ff;">throw</span> <span style="color: #6ae4b9;">(</span>Exception. <span style="color: #79a8ff;">"Trying to calculate factorial of a negative number."</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+</pre>
+</div>
+
+<p>
+And then the tail recursive variant. Note that we must again
+wrap the helper function which takes two arguments in another <code>defn</code> that
+defines the function taking one argument.
+(In this case, the <code>factorial-tr-helper</code> function will be defined globally,
+because <code>unwindrec</code> expands to a <code>defn</code> instead of a <code>letfn</code>, but that's okay.)
+</p>
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">defn</span> <span style="color: #feacd0;">factorial-tr</span> <span style="color: #b6a0ff;">[</span>n<span style="color: #b6a0ff;">]</span>
+  <span style="color: #b6a0ff;">(</span>unwindrec factorial-tr-helper <span style="color: #6ae4b9;">[</span>n collect<span style="color: #6ae4b9;">]</span>
+             <span style="color: #6ae4b9;">(</span>= n 0<span style="color: #6ae4b9;">)</span> collect
+             <span style="color: #6ae4b9;">(</span>&gt; n 0<span style="color: #6ae4b9;">)</span> <span style="color: #6ae4b9;">(</span>factorial-tr-helper <span style="color: #f0ce43;">(</span>- n 1<span style="color: #f0ce43;">)</span> <span style="color: #f0ce43;">(</span>* collect n<span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>
+             <span style="color: #6ae4b9;">(</span><span style="color: #b6a0ff;">throw</span> <span style="color: #f0ce43;">(</span>Exception. <span style="color: #79a8ff;">"Trying to calculate factorial of a negative number."</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span>
+  <span style="color: #b6a0ff;">(</span>factorial-tr-helper n 1<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-Part-1:-Exponent--------------[10 marks]" class="outline-2">
+<h2 id="Part-1:-Exponent--------------[10 marks]">Part 1: Exponent              [10 marks]</h2>
+<div class="outline-text-2" id="text-Part-1:-Exponent--------------[10 marks]">
+<p>
+Similar to the <code>factorial</code> and <code>factorial-tr</code> functions defined
+using the <code>unwindrec</code> form in <a href="#Part-0.3:-Using-the-new-special-form">Part 0.3</a>,
+define two functions <code>exponent</code> and <code>exponent-tr</code> which
+implement the exponent/power function on natural numbers
+(meaning that negative exponents are not supported.)
+</p>
+
+<p>
+The full definitions of <code>unwindrec</code> and the helper functions it uses
+can be found <a href="./src/h8/unwindrec.clj">here</a>. You may either copy the contents of this file into yours,
+or import it, for instance by placing it in the same directory
+as your <code>h8.clj</code> and writing <code>(load-file "./unwindrec.clj")</code> at the top of your file.
+</p>
+
+<p>
+The <code>exponent</code> function should use “naive” recursion on the second argument,
+whereas <code>exponent-tr</code> should use tail recursion (still on the second argument.)
+</p>
+
+<p>
+For instance, <code>(exponent 2 3)</code> should return <code>8</code>, since \(2^{3} = 8\).
+</p>
+</div>
+</div>
+
+<div id="outline-container-Part-2:-Sum-of-a-list---------[10 marks]" class="outline-2">
+<h2 id="Part-2:-Sum-of-a-list---------[10 marks]">Part 2: Sum of a list         [10 marks]</h2>
+<div class="outline-text-2" id="text-Part-2:-Sum-of-a-list---------[10 marks]">
+<p>
+Now, use the <code>unwindrec</code> form to define functions <code>sumlist</code> and <code>sumlist-tr</code> which
+sum up the elements of a list.
+</p>
+
+<p>
+For instance, <code>(sumlist '(0 1 2 3))</code> should return <code>6</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-Part-3:-Flatten-a-list--------[20 marks]" class="outline-2">
+<h2 id="Part-3:-Flatten-a-list--------[20 marks]">Part 3: Flatten a list        [20 marks]</h2>
+<div class="outline-text-2" id="text-Part-3:-Flatten-a-list--------[20 marks]">
+<p>
+Use <code>unwindrec</code> again more to define functions <code>flattenlist</code> and <code>flattenlist-tr</code> which
+flatten a list of lists to a list, by concatenating the lists.
+</p>
+
+<p>
+For instance, <code>(flattenlist '((1 2) (3 4) (5 6 7 8)))</code> should return <code>(1 2 3 4 5 6 7 8)</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-Part-4:-Prefixes-of-a-list----[20 marks]" class="outline-2">
+<h2 id="Part-4:-Prefixes-of-a-list----[20 marks]">Part 4: Prefixes of a list    [20 marks]</h2>
+<div class="outline-text-2" id="text-Part-4:-Prefixes-of-a-list----[20 marks]">
+<p>
+Use <code>unwindrec</code> once more to define functions <code>postfixes</code> and <code>postfixes-tr</code> which,
+given a list <code>l</code>, return all the sublists which are postfixes of <code>l</code>,
+including <code>l</code> itself and the empty list, in decreasing order of length.
+</p>
+
+<p>
+For instance, <code>(postfixes '(1 2 3 4 5 6))</code> should
+return <code>((1 2 3 4 5 6) (2 3 4 5 6) (3 4 5 6) (4 5 6) (5 6) (6) ())</code>.
+</p>
+
+<p>
+<b>Make sure that the empty list is considered a postfix</b>.
+</p>
+
+<p>
+Note that you may need to write the list containing the empty list
+as part of your code; this can be written <code>'(())</code>.
+</p>
+
+<p>
+You may also need to write the list containing the value of a variable,
+say for instance a variable <code>x</code>. You will find that
+if you write <code>'(x)</code>, <code>x</code> is not evaluated and so is not replaced by its value.
+Instead, you must write something like <code>`(~x)</code>. The backtick <code>`</code> is a special
+kind of quote that allows for parts of the quoted expression,
+marked with tildes <code>~</code>, to be evaluated.
+</p>
+</div>
+</div>
+
+<div id="outline-container-Testing" class="outline-2">
+<h2 id="Testing">Testing</h2>
+<div class="outline-text-2" id="text-Testing">
+<p>
+:TODO:
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Mark Armstrong</p>
+     <p class="author">Contact: <a href="mailto:markparmstrong@gmail.com">markparmstrong@gmail.com</a></p>
+     <p class="date">Original date: November 19th, 2020</p>
+     <p class="date">Last updated: 2020-11-19 Thu 16:27</p>
+     <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.90 (<a href="https://orgmode.org">Org</a> mode 9.4)</p>
+     <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

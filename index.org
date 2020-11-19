@@ -18,6 +18,14 @@
 :CUSTOM_ID: November
 :END:
 
+- November 19th ::
+
+  - Homework 8 is now posted. Its due date has been shifted to be
+    Wednesday of next week.
+
+    The remaining homework deadlines are also going to be shifted
+    to be on Wednesdays for the remainder of the course.
+
 - November 15th ::
 
   - Some extra text and examples have been added to assignment 2
@@ -905,14 +913,14 @@ difference between Monday and Wednesday.
 :CUSTOM_ID: Current-homeworks
 :END:
 
-*** Homework 7 – Pretty printing a representation of the untyped λ-calculus – Nov 1st to Nov 8th
+*** Homework 8 – Visualing the call stack in Clojure – Nov 19th to Nov 25th
 :PROPERTIES:
-:CUSTOM_ID: Homework-7-–-Pretty-printing-a-representation-of-the-untyped-λ-calculus-–-Nov-1st-to-Nov-8th
+:CUSTOM_ID: Homework-8-–-Visualing-the-call-stack-in-Clojure-–-Nov-19th-to-Nov-25th
 :END:
 
-- [[./homework/h7.html][HTML]]
-- [[./homework/h7.pdf][PDF]]
-- [[./homework/h7.org][Org plaintext]]
+- [[./homework/h8.html][HTML]]
+- [[./homework/h8.pdf][PDF]]
+- [[./homework/h8.org][Org plaintext]]
 
 ** Homework testing policy
 :PROPERTIES:
@@ -942,6 +950,15 @@ will be used for every student's submission.
 :PROPERTIES:
 :CUSTOM_ID: Previous-homeworks
 :END:
+
+*** Homework 7 – Pretty printing a representation of the untyped λ-calculus – Nov 1st to Nov 8th
+:PROPERTIES:
+:CUSTOM_ID: Homework-7-–-Pretty-printing-a-representation-of-the-untyped-λ-calculus-–-Nov-1st-to-Nov-8th
+:END:
+
+- [[./homework/h7.html][HTML]]
+- [[./homework/h7.pdf][PDF]]
+- [[./homework/h7.org][Org plaintext]]
 
 *** Homework 6 – Representing and interpreting ~Expr~ in Ruby – Oct 23rd to Nov 1st
 :PROPERTIES:
@@ -1004,7 +1021,7 @@ Note the due date: the Sunday following reading week.
 :CUSTOM_ID: Assignments
 :END:
 
-** Assignment 2 – Typing a λ-calculus – Oct 30th to Nov 26
+** Assignment 2 – Typing a λ-calculus – Oct 30th to Nov 26th
 :PROPERTIES:
 :CUSTOM_ID: Assignment-1-–-Interpreting-simple-integer-expressions-–-Sept-26th-to-Oct-21st.
 :END:

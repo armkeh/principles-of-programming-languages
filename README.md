@@ -12,6 +12,14 @@ better viewed at
 
 ## November
 
+  - November 19th
+    
+      - Homework 8 is now posted. Its due date has been shifted to be
+        Wednesday of next week.
+        
+        The remaining homework deadlines are also going to be shifted to
+        be on Wednesdays for the remainder of the course.
+
   - November 15th
     
       - Some extra text and examples have been added to assignment 2
@@ -880,11 +888,11 @@ significant difference between Monday and Wednesday.
 
 ## Current homeworks
 
-### Homework 7 – Pretty printing a representation of the untyped λ-calculus – Nov 1st to Nov 8th
+### Homework 8 – Visualing the call stack in Clojure – Nov 19th to Nov 25th
 
-  - [HTML](./homework/h7.html)
-  - [PDF](./homework/h7.pdf)
-  - [Org plaintext](./homework/h7.org)
+  - [HTML](./homework/h8.html)
+  - [PDF](./homework/h8.pdf)
+  - [Org plaintext](./homework/h8.org)
 
 ## Homework testing policy
 
@@ -907,6 +915,13 @@ used for every student's
 submission.
 
 ## Previous homeworks
+
+### Homework 7 – Pretty printing a representation of the untyped λ-calculus – Nov 1st to Nov 8th
+
+  - [HTML](./homework/h7.html)
+  - [PDF](./homework/h7.pdf)
+  - [Org
+plaintext](./homework/h7.org)
 
 ### Homework 6 – Representing and interpreting `Expr` in Ruby – Oct 23rd to Nov 1st
 
@@ -950,7 +965,7 @@ plaintext](./homework/h4.org)
 
 # Assignments
 
-## Assignment 2 – Typing a λ-calculus – Oct 30th to Nov 26
+## Assignment 2 – Typing a λ-calculus – Oct 30th to Nov 26th
 
   - [HTML](./assignments/a2.html)
   - [PDF](./assignments/a2.pdf)

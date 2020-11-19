@@ -58,7 +58,7 @@ factorials. (The factorial of ~n~ is usually written ~n!~.)
   (cond
     (= n 0) 1
     (> n 0) (* n (factorial (- n 1)))
-    :else (throw (Exception. "Factorial of a negative number is not defined."))))
+    :else   (throw (Exception. "Cannot calculate factorial of a negative."))))
 #+end_src
 
 #+RESULTS:
@@ -67,18 +67,14 @@ factorials. (The factorial of ~n~ is usually written ~n!~.)
 To visualise how this uses the stack, we will “unwind”
 the recursive calls, and the “wind back up” the results.
 #+begin_src text
-(factorial 5)
-(* 5 (factorial 4))
-(* 5 (* 4 (factorial 3)))
-(* 5 (* 4 (* 3 (factorial 2))))
-(* 5 (* 4 (* 3 (* 2 (factorial 1)))))
-(* 5 (* 4 (* 3 (* 2 (* 1 (factorial 0))))))
-(* 5 (* 4 (* 3 (* 2 (* 1 1)))))
-(* 5 (* 4 (* 3 (* 2 1))))
-(* 5 (* 4 (* 3 2)))
-(* 5 (* 4 6))
-(* 5 24)
-120
+(factorial 3)
+(* 3 (factorial 2))
+(* 3 (* 2 (factorial 1)))
+(* 3 (* 2 (* 1 (factorial 0))))
+(* 3 (* 2 (* 1 1)))
+(* 3 (* 2 1))
+(* 3 2)
+6
 #+end_src
 
 Notice how around each recursive call we have more and more
@@ -103,8 +99,8 @@ So the last recursive call can return directly to the initial caller.
   (letfn [(factorial-iter [n collect]
             (cond
               (= n 0) collect
-              (> n 0) (factorial-iter (- n 1) (* n collect))
-              :else   (throw (Exception. "Factorial of a negative number is undefined."))))]
+              (> n 0) (factorial-iter (- n 1) (* collect n))
+              :else   (throw (Exception. "Cannot calculate factorial of a negative."))))]
     (factorial-iter n 1)))
 #+end_src
 
@@ -112,14 +108,12 @@ So the last recursive call can return directly to the initial caller.
 : #'user/factorial-tr
 
 #+begin_src text
-(factorial-tr 5)
-(factorial-iter 5 1)
-(factorial-iter 4 5)
-(factorial-iter 3 20)
-(factorial-iter 2 60)
-(factorial-iter 1 120)
-(factorial-iter 0 120)
-120
+(factorial-tr 3)
+(factorial-iter 3 1)
+(factorial-iter 2 3)
+(factorial-iter 1 6)
+(factorial-iter 0 6)
+6
 #+end_src
 
 :TODO:
@@ -188,28 +182,68 @@ after the recursive call returns.
 #+begin_src clojure
 (defmacro visualrec [name args basecond basebody reccond recbody elsebody]
   `(defn ~name ~args
-     (letfn [(~'f [~'context ~@args]
-              (cond
-                  ~basecond (do (println (clojure.string/replace ~'context #"rec" (str ~basebody)))
-                              ~basebody)
-                  ~reccond  (let [~'this-context (clojure.string/replace ~'context #"rec" (str '~recbody))]
-                              ;; TODO: also replace instances of n with the value of n, but this has to be a bit smart
-                              ;; TODO: adjust this-context after printing to replace matches for "(f ...)" with rec
-                              ;;       This will be the value used in the recursive call
-                                 (println ~'this-context)
-                                 (let [~'result ~(clojure.walk/prewalk-replace {name '(partial f this-context)} recbody)]
-                                   (println ~'context)
-                                   ~'result))
-                  :else ~elsebody
-                  ))]
+     (letfn
+         [(~'f [~'context ~@args]
+           (cond
+             ~basecond (do (println (replace-value-in-termstring
+                                     '~'rec
+                                     ~basebody
+                                     ~'context))
+                           ~basebody)
+             ~reccond  (let [~'this-context-with-call (replace-values-in-termstring
+                                                       '~args
+                                                       (apply str ~args)
+                                                       (replace-value-in-termstring
+                                                        '~'rec
+                                                        (str '~recbody)
+                                                        ~'context))
+                             ~'this-context-with-rec (replace-call-in-termstring
+                                                      '~name
+                                                      "rec"
+                                                      ~'this-context-with-call)]
+                         (println ~'this-context-with-call)
+                         ;; diagnostic print (println ~'this-context-with-rec)
+                         (let [~'result ~(clojure.walk/prewalk-replace {name '(partial f this-context-with-rec)} recbody)]
+                           
+                           (println (replace-value-in-termstring '~'rec (str ~'result) ~'context))
+                           ~'result))
+             :else ~elsebody))]
+       (println (replace-values-in-termstring
+                 '~args
+                 (apply str ~args)
+                 (str "(" (clojure.string/join " " '(~name ~@args)) ")")))
        (~'f "rec" ~@args))))
-
-(visualrec factorial [n]
-            (= n 0) 1
-            (> n 0) (* n (factorial (- n 1)))
-                    (throw (Exception. "Trying to calculate factorial of a negative number.")))
 #+end_src
 
 #+RESULTS:
-| #'user/visualrec |
-| #'user/factorial |
+: #'user/visualrec
+
+#+begin_src clojure
+(visualrec factorial-new [n]
+            (= n 0) 1
+            (> n 0) (* n (factorial-new (- n 1)))
+            (throw (Exception. "Trying to calculate factorial of a negative number.")))
+
+(visualrec factorial-tr-new [n collect]
+            (= n 0) collect
+            (> n 0) (factorial-tr-new (- n 1) (* collect n))
+            (throw (Exception. "Trying to calculate factorial of a negative number.")))
+#+end_src
+
+#+RESULTS:
+| #'user/factorial-new    |
+| #'user/factorial-tr-new |
+
+* Tail recursion in other languages
+
+#+begin_src amm
+def factorial_tr(n: Integer): Integer = {
+  def factorial_iter(n: Integer, collect: Integer): Integer =
+    if (n == 0) collect else factorial_iter(n - 1, n * collect)
+
+  factorial_iter(n,1)
+}
+#+end_src
+
+#+RESULTS:
+: defined function factorial_tr

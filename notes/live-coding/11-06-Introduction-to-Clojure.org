@@ -150,6 +150,9 @@ For instance,
 |  1 |
 
 * Special forms; the ~defn~, ~def~ and ~fn~ forms
+:PROPERTIES:
+:CUSTOM_ID: Special-forms;-the-~defn~,-~def~-and-~fn~-forms
+:END:
 
 When or if the evaluation rules of Clojure given above
 prove too limiting, Clojure allows for “special forms”
@@ -157,6 +160,9 @@ prove too limiting, Clojure allows for “special forms”
 to implement constructs.
 
 ** ~defn~
+:PROPERTIES:
+:CUSTOM_ID: ~defn~
+:END:
 
 The first of these we will consider is the ~defn~ form,
 which can be read “define function”.
@@ -231,6 +237,9 @@ which are gathered into a list given that name.
 |                              0 |
 
 ** ~defn~ is ~def~ plus ~fn~
+:PROPERTIES:
+:CUSTOM_ID: ~defn~-is-~def~-plus-~fn~
+:END:
 
 The ~defn~ form can be thought of
 as the combination of the ~def~ and ~fn~ forms.
@@ -259,12 +268,13 @@ A ~%~ is used if the function has a single parameter, ~%1~, ~%2~, etc.
 if the function has multiple parameters, and ~%&~ if it is variadic.
 So the above can be written
 #+begin_src clojure
-(#(+ %1 1) my-favourite-number)
+(#(+ % 1) my-favourite-number)
 #+end_src
 (Note; nesting of the ~#()~ form is not allowed, because the
 positional parameter names would become ambiguous.)
 
-Of course, we then don't need ~defn~; we could just write.
+Of course, given ~def~ and ~fn~, we don't need ~defn~;
+we could just write
 #+begin_src clojure
 (def add-one (fn [x] (+ x 1)))
 #+end_src
@@ -283,6 +293,9 @@ We've then given the anonymous function a name we can use later.
 But ~defn~ is more convenient.
 
 ** Scope and the ~let~ form
+:PROPERTIES:
+:CUSTOM_ID: Scope-and-the-~let~-form
+:END:
 
 The ~def~ form creates a new /global/ binding.
 This means even if not used at the “top-level”,
@@ -310,13 +323,15 @@ The same applies for ~defn~.
 (the-thing) ;; But after execution, it's been bound.
 #+end_src
 
-#+RESULTS:
-: #'user/do-the-thing
-
 In contrast, the ~let~ form creates a new /local/ binding.
 #+begin_src clojure
-(defn get-the-number []
+(defn get-secret-symbol []
+  (let [get-symbol (fn [] :secret)]
+    (get-symbol)))
 #+end_src
+
+#+RESULTS:
+: #'user/get-secret-symbol
 
 * The ~quote~, ~'~
 :PROPERTIES:
@@ -367,7 +382,7 @@ Otherwise the third argument (if present) is evaluated.
 
 All values in Clojure are “true” except for ~nil~ and ~false~.
 #+begin_src clojure
-(if 5 "1")
+(if 0 "1")
 (if () "2")
 (if nil "3")
 (if false "4")
@@ -388,6 +403,13 @@ then it's best to use the ~when~ form.
 #+RESULTS:
 : hello
 
+:TODO: explain
+#+begin_src clojure
+(when true (println "Hello!") (println "Goodbye!"))
+#+end_src
+
+#+RESULTS:
+
 For a more switch-statement like form, use ~cond~.
 Since any value (that is not ~false~ or ~nil~) is truthy,
 we can include an “else” branch by putting a value
@@ -405,7 +427,6 @@ as the condition. By convention, the symbol ~:else~ is used.
 :PROPERTIES:
 :CUSTOM_ID: ~do~,-for-sequential-computation
 :END:
-
 
 If we put multiple expressions in sequence,
 the “result” will usually be the value of the last expression.
@@ -427,7 +448,9 @@ where we might want one. For instance, when using an ~if~,
 the ~then~ branch has to be a single expression.
 To get around this, there is a ~do~ form for sequencing.
 #+begin_src clojure
-(if true (do (println "First") (println "Second")))
+(if true
+  (do (println "First")
+      (println "Second")))
 #+end_src
 
 #+RESULTS:
