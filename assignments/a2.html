@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-11-15 Sun 16:58 -->
+<!-- 2020-11-20 Fri 00:13 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Computer Science 3MI3 – 2020 assignment 2</title>
@@ -238,6 +238,7 @@
 <li><a href="#Introduction">Introduction</a></li>
 <li><a href="#Updates-and-file-history">Updates and file history</a>
 <ul>
+<li><a href="#November-20th">November 20th</a></li>
 <li><a href="#November-15th">November 15th</a></li>
 <li><a href="#November-10th">November 10th</a></li>
 <li><a href="#November-6th">November 6th</a></li>
@@ -251,7 +252,7 @@
 <li><a href="#Submission-procedures">Documentation</a></li>
 <li><a href="#Submission-procedures">Submission procedures</a>
 <ul>
-<li><a href="#org6d62348">Assignment naming requirements</a></li>
+<li><a href="#org07c9c23">Assignment naming requirements</a></li>
 </ul>
 </li>
 <li><a href="#Proper-conduct-for-coursework">Proper conduct for coursework</a></li>
@@ -303,6 +304,19 @@ simple translator to simplify terms to untyped λ-calculus terms.
 <div id="outline-container-Updates-and-file-history" class="outline-2">
 <h2 id="Updates-and-file-history">Updates and file history</h2>
 <div class="outline-text-2" id="text-Updates-and-file-history">
+</div>
+
+<div id="outline-container-November-20th" class="outline-3">
+<h3 id="November-20th">November 20th</h3>
+<div class="outline-text-3" id="text-November-20th">
+<ul class="org-ul">
+<li>Some typos in the examples for the <code>typecheck</code> and <code>typeOf</code> methods
+have been corrected. The main typo was that the environment argument
+was not written in all the pseudocode examples showing calls to <code>typeOf</code>.</li>
+<li>The (bonus) Part 4 has been adjusted to allow you
+to directly implement the evaluation method on <code>STTerm</code>'s if you wish.</li>
+</ul>
+</div>
 </div>
 
 <div id="outline-container-November-15th" class="outline-3">
@@ -478,9 +492,9 @@ apply to assignments, except for the differences below.
 </p>
 </div>
 
-<div id="outline-container-org6d62348" class="outline-4">
-<h4 id="org6d62348">Assignment naming requirements</h4>
-<div class="outline-text-4" id="text-org6d62348">
+<div id="outline-container-org07c9c23" class="outline-4">
+<h4 id="org07c9c23">Assignment naming requirements</h4>
+<div class="outline-text-4" id="text-org07c9c23">
 <p>
 Place all files for the assignment
 inside a folder titled <code>an</code>, where <code>n</code> is the number of the assignment.
@@ -1352,11 +1366,11 @@ You will need a similar “empty environment” for
 whatever representation you choose for the environment.)</li>
 </ul></li>
 <li><code>typecheck(suc(zero))</code> should return <code>true</code>,
-because <code>typeOf(suc(zero))</code> returns <code>nat</code>.</li>
+because <code>typeOf(suc(zero),[])</code> returns <code>nat</code>.</li>
 <li><code>typecheck(λ x : nat → x)</code> should return <code>true</code>,
 because the variable in the abstraction has been
 stated to have the type <code>nat</code>,
-so <code>typeOf(λ x : nat → x)</code> should return <code>nat → nat</code>.
+so <code>typeOf(λ x : nat → x,[])</code> should return <code>nat → nat</code>.
 <ul class="org-ul">
 <li>That is, <code>STFun(STNat,STNat)</code> in Scala
 or <code>STFun.new(STNat.new,STNat.new)</code> in Ruby.</li>
@@ -1364,11 +1378,11 @@ or <code>STFun.new(STNat.new,STNat.new)</code> in Ruby.</li>
 <li><code>typecheck(λ x : nat → y)</code> should return <code>false</code>,
 because the variable <code>y</code> in the abstraction is free and so
 does not have any type information,
-so <code>typeOf(λ x : nat → y)</code> should fail.</li>
+so <code>typeOf(λ x : nat → y,[])</code> should fail.</li>
 <li><code>typecheck((λ x : nat → x)(zero))</code> should return <code>true</code>,
-because <code>typecheck((λ x : nat → x)(zero))</code> should return <code>nat</code>.</li>
+because <code>typeOf((λ x : nat → x)(zero),[])</code> should return <code>nat</code>.</li>
 <li><code>typecheck((λ x : nat → x)(false))</code> should return <code>false</code>,
-because there is a typeclash, so <code>typeOf((λ x : nat → x)(false))</code> should fail.</li>
+because there is a typeclash, so <code>typeOf((λ x : nat → x)(false),[])</code> should fail.</li>
 </ul>
 <p>
 All of these are in line with the typing rules described in part 0.1.
@@ -1436,6 +1450,14 @@ Implement an evaluation method for your <code>STTerm</code> type.
 Make use of the evaluation method for <code>ULTerm</code>'s in your definition.
 You will also need a method to convert results back
 to an <code>STTerm</code> representation.
+</p>
+
+<p>
+(Added November 20th) If you prefer, you may instead
+implement evaluation directly for <code>STTerm</code>'s; that is,
+without making use of the <code>ULTerm</code> evaluation method.
+(This option is being added as it is still
+and interesting extra piece of work.)
 </p>
 </div>
 </div>
@@ -1836,7 +1858,7 @@ docker-compose stop -t 1
 <p class="author">Author: Mark Armstrong</p>
      <p class="author">Contact: <a href="mailto:markparmstrong@gmail.com">markparmstrong@gmail.com</a></p>
      <p class="date">Original date: October 30th, 2020</p>
-     <p class="date">Last updated: 2020-11-15 Sun 16:38</p>
+     <p class="date">Last updated: 2020-11-20 Fri 00:13</p>
      <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.90 (<a href="https://orgmode.org">Org</a> mode 9.4)</p>
      <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

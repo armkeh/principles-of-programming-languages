@@ -29,6 +29,17 @@ simple translator to simplify terms to untyped λ-calculus terms.
 :CUSTOM_ID: Updates-and-file-history
 :END:
 
+** November 20th
+:PROPERTIES:
+:CUSTOM_ID: November-20th
+:END:
+
+- Some typos in the examples for the ~typecheck~ and ~typeOf~ methods
+  have been corrected. The main typo was that the environment argument
+  was not written in all the pseudocode examples showing calls to ~typeOf~.
+- The (bonus) Part 4 has been adjusted to allow you
+  to directly implement the evaluation method on ~STTerm~'s if you wish.
+  
 ** November 15th
 :PROPERTIES:
 :CUSTOM_ID: November-15th
@@ -821,21 +832,21 @@ and assuming that ~typeOf~ takes a list parameter as the environment,
     You will need a similar “empty environment” for
     whatever representation you choose for the environment.)
 - ~typecheck(suc(zero))~ should return ~true~,
-  because ~typeOf(suc(zero))~ returns ~nat~.
+  because ~typeOf(suc(zero),[])~ returns ~nat~.
 - ~typecheck(λ x : nat → x)~ should return ~true~,
   because the variable in the abstraction has been
   stated to have the type ~nat~,
-  so ~typeOf(λ x : nat → x)~ should return ~nat → nat~.
+  so ~typeOf(λ x : nat → x,[])~ should return ~nat → nat~.
   - That is, ~STFun(STNat,STNat)~ in Scala
     or ~STFun.new(STNat.new,STNat.new)~ in Ruby.
 - ~typecheck(λ x : nat → y)~ should return ~false~,
   because the variable ~y~ in the abstraction is free and so
   does not have any type information,
-  so ~typeOf(λ x : nat → y)~ should fail.
+  so ~typeOf(λ x : nat → y,[])~ should fail.
 - ~typecheck((λ x : nat → x)(zero))~ should return ~true~,
-  because ~typecheck((λ x : nat → x)(zero))~ should return ~nat~.
+  because ~typeOf((λ x : nat → x)(zero),[])~ should return ~nat~.
 - ~typecheck((λ x : nat → x)(false))~ should return ~false~,
-  because there is a typeclash, so ~typeOf((λ x : nat → x)(false))~ should fail.
+  because there is a typeclash, so ~typeOf((λ x : nat → x)(false),[])~ should fail.
 All of these are in line with the typing rules described in part 0.1.
 
 * Part 3 – Translation to the untyped λ-calculus; type erasure [40 marks]
@@ -884,6 +895,12 @@ Implement an evaluation method for your ~STTerm~ type.
 Make use of the evaluation method for ~ULTerm~'s in your definition.
 You will also need a method to convert results back
 to an ~STTerm~ representation.
+
+(Added November 20th) If you prefer, you may instead
+implement evaluation directly for ~STTerm~'s; that is,
+without making use of the ~ULTerm~ evaluation method.
+(This option is being added as it is still
+and interesting extra piece of work.)
 
 * Part 5 – Bonus: pairs                                        [10 bonus marks]
 :PROPERTIES:
