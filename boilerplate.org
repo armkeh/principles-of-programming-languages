@@ -27,7 +27,7 @@ according to this list:
 - For Scala, ~ext~ is ~sc~.
 - For Prolog, ~ext~ is ~pl~.
 - For Ruby, ~ext~ is ~rb~.
-- For Clojure, ~ext~ is ~clg~.
+- For Clojure, ~ext~ is ~clj~.
 If multiple languages are used in the homework,
 submit a ~hn.ext~ file for each language.
 
