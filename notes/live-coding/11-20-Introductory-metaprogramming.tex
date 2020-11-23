@@ -1,0 +1,170 @@
+% Created 2020-11-23 Mon 12:31
+% Intended LaTeX compiler: lualatex
+\documentclass[11pt]{article}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{etoolbox}
+\makeatletter
+\def\dontdofcolorbox{\renewcommand\fcolorbox[4][]{##4}}
+\AtBeginEnvironment{minted}{\dontdofcolorbox}
+\makeatother
+\usepackage[newfloat]{minted}
+\usepackage{unicode-math}
+\usepackage{unicode}
+\author{Mark Armstrong}
+\date{\today}
+\title{Introductory metaprogramming}
+\hypersetup{
+   pdfauthor={Mark Armstrong},
+   pdftitle={Introductory metaprogramming},
+   pdfkeywords={},
+   pdfsubject={A very introductory look at metaprogramming.},
+   pdfcreator={Emacs 27.0.90 (Org mode 9.4)},
+   pdflang={English},
+   colorlinks,
+   linkcolor=blue,
+   citecolor=blue,
+   urlcolor=blue
+   }
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+
+\section{Metaprogramming}
+\label{sec:org2220db9}
+Metaprogramming, as the name implies,
+regards programs \emph{that are constructed dynamically},
+that is, programs whose construction is (at least partially)
+carried out at runtime.
+
+\section{Disclosure}
+\label{sec:org1283a49}
+I am not an expert on metaprogramming; far from it.
+
+This material is intended as a \emph{very introductory} taste of what
+metaprogramming offers.
+
+It is \emph{not} intended to show particularly \emph{good} uses of metaprogramming.
+In particular, the Ruby examples might be somewhat dangerous and
+ill-advised (the Clojure examples should be a little higher in quality.)
+
+\section{Ruby}
+\label{sec:org559f97b}
+Suppose we want to have a way to run a piece of code on an object
+twice. We can do this for a particular class fairly easily.
+
+As a first attempt:
+\begin{minted}[breaklines=true]{ruby}
+class MyClass
+  def to_s
+    "I am an object"
+  end
+
+  def twice(&block)
+    yield
+    yield
+  end
+end
+
+x = MyClass.new
+puts x.twice { puts self }
+\end{minted}
+
+In this first attempt, the \texttt{self} in the block refers to \texttt{self} at the
+point the block is written.
+
+We can make use of the \texttt{instance\_eval} method instead of \texttt{yield} to
+run the block \emph{within the method we are defining}.
+\begin{minted}[breaklines=true]{ruby}
+class MyClass
+  def to_s
+    "I am an object"
+  end
+
+  def twice(&block)
+    instance_eval &block
+    instance_eval &block
+  end
+end
+
+x = MyClass.new
+puts x.twice { puts self }
+\end{minted}
+
+This is fine for this kind of object. But I can't use it more generally;
+for instance, I can't do
+\begin{minted}[breaklines=true]{ruby}
+5.twice { puts self }
+\end{minted}
+
+What I need to do is add this method to the \texttt{Object} class
+that all other classes inherit from.
+\begin{minted}[breaklines=true]{ruby}
+class Object
+
+  def twice(&block)
+    instance_eval &block
+    instance_eval &block
+  end
+end
+
+5.twice { puts self }
+\end{minted}
+
+We can go further. For instance, we can modify how Ruby responds
+if we call a method that does not exist for a given object.
+\begin{minted}[breaklines=true]{ruby}
+class Object
+
+  def method_missing(method_name, *args, &block)
+    print "Uh-oh; I couldn't find the "
+    print method_name
+    puts " method!"
+    return nil
+  end
+end
+
+5.do_something
+puts "Look ma, I didn't crash!"
+\end{minted}
+
+\section{Clojure}
+\label{sec:orgf7f3395}
+In Clojure, we can use \emph{macros} to perform metaprogramming.
+
+For instance, we might miss the \texttt{unless} construct which is
+present in many languages, but not in Clojure.
+We could try to define it as a function:
+\begin{minted}[breaklines=true]{clojure}
+(defn unless [test then else]
+  (if test
+    else
+    then))
+\end{minted}
+
+\begin{minted}[breaklines=true]{clojure}
+(unless (= 0 0)
+        (println "Equality is broken!")
+        (println "Nevermind, it's okay."))
+\end{minted}
+
+We can specify the behaviour of \texttt{unless} more precisely with a macro.
+\begin{minted}[breaklines=true]{clojure}
+(defmacro unless [test then else]
+  `(if ~test
+     ~else
+     ~then))
+\end{minted}
+\end{document}
