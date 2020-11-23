@@ -19,6 +19,8 @@
 
 * LaTeX settings                                :noexport:
 
+#+LaTeX_header: \usepackage[a4paper,total={7in,10in}]{geometry}
+
 #+LaTeX_header: \usepackage{amsthm}
 #+LaTeX_header: \theoremstyle{definition}
 #+LaTeX_header: \newtheorem{definition}{Definition}[section]
@@ -437,16 +439,6 @@ Recall that these productions are only those being added;
 the productions from [[The simply-typed λ-calculus syntax]] are
 assumed to still be in place.
 
-Note that natural numbers are considered values only if
-they are a chain of ~suc~'s applied to a (natural number) value.
-- The “(natural number)” portion of that statement will be
-  enforced by the typing rules.
-- For instance, ~suc zero~ is a value
-  (as is ~succ true~ according to the syntax,
-  but the typing rules will forbid that.)
-- ~succ~ also appears in a production for ~⟨term⟩~ to allow for its use in non-values
-  (such as ~succ pred zero~, which should simplify to ~zero~ under our semantics.)
-
 #+begin_src text
 ⟨term⟩ ∷= suc ⟨term⟩
         | pred ⟨term⟩
@@ -457,7 +449,37 @@ they are a chain of ~suc~'s applied to a (natural number) value.
          | zero
          | true
          | false
+
+⟨type⟩ ∷= Nat | Bool
 #+end_src
+
+** Notes about the syntax
+
+@@latex:\iffalse@@
+#+begin_src text
+⟨term⟩ ∷= suc ⟨term⟩
+        | pred ⟨term⟩
+        | iszero ⟨term⟩
+        | if ⟨term⟩ then ⟨term⟩ else ⟨term⟩
+
+⟨value⟩ ∷= suc ⟨value⟩
+         | zero
+         | true
+         | false
+
+⟨type⟩ ∷= Nat | Bool
+#+end_src
+@@latex:\fi@@
+
+Note that natural numbers are considered values only if
+they are a chain of ~suc~'s applied to a (natural number) value.
+- The “(natural number)” portion of that statement will be
+  enforced by the typing rules.
+- For instance, ~suc zero~ is a value
+  (as is ~succ true~ according to the syntax,
+  but the typing rules will forbid that.)
+- ~succ~ also appears in a production for ~⟨term⟩~ to allow for its use in non-values
+  (such as ~succ pred zero~, which should simplify to ~zero~ under our semantics.)
 
 ** Typing for natural numbers and booleans
 
@@ -518,13 +540,12 @@ they are a chain of ~suc~'s applied to a (natural number) value.
 #+end_src
 
 The natural number predecessor of zero is zero.
-And because of this, if we have the successor /of a value/,
-then it's known to not be zero.
+And because of this, a successor can never be zero.
 #+begin_src text
 
                                               
 –––––––––––––––––––––– pred-zero    ––––––––––––––––––––––––––––– iszero-suc
-  pred zero ⟶ zero                    iszero (suc v) ⟶ false                                           
+  pred zero ⟶ zero                    iszero (suc t) ⟶ false                                           
 
 #+end_src
 
@@ -535,7 +556,6 @@ then it's known to not be zero.
  suc (pred t) ⟶ t                  pred (suc t) ⟶ t                                           
 
 #+end_src
-
 
 @@latex:\iffalse@@
 
@@ -562,4 +582,167 @@ then it's known to not be zero.
 
 ––––––––––––––––––––––––– if-else
  if false t₁ t₂  ⟶  t₂
+#+end_src
+
+* Products, records, sums and variants
+
+** Preamble                                    :ignore:
+
+We now add product and sum types to our language.
+- And then later follow up with the slightly more sophisticated /record/
+  and /variant/ types, which allow for named fields.
+
+** Informal description of products and sums
+
+A product
+- is written using braces as ~{t,t}~, and
+- we include /projection functions/ for accessing either element of a product,
+  - written ~t.1~ and ~t.2~ respectively.
+
+A sum
+- is written as either
+  - ~inl t as A~ (read “in the left type of ~A~”), or
+  - ~inr t as A~ (read “in the right type of ~A~”), and
+    - The reason for the ascription “~as A~” in the above will be discussed when
+      we reach the typing rules.
+- we include /case splitting/ to check whether the sum has the left or right type,
+  - written ~case t of inl x₁ as A ⇒ t₁ | inr x₂ as A ⇒ t₂~.
+
+** Syntax for products and sums
+
+The syntax for products and sums are as described.
+#+begin_src text
+⟨term⟩ ∷= '{' ⟨term⟩ , ⟨term⟩ '}'
+        | ⟨term⟩.1 | ⟨term⟩.2
+        | inl ⟨term⟩ as ⟨type⟩ | inr ⟨term⟩ as ⟨type⟩
+        | case ⟨term⟩ of inl var ⇒ ⟨term⟩ | inr var ⇒ ⟨term⟩
+        
+       
+⟨value⟩ ∷= '{' ⟨value⟩ , ⟨value⟩ '}'
+         | inl ⟨value⟩ as ⟨type⟩ | inr ⟨value⟩ as ⟨type⟩
+
+⟨type⟩ ∷= ⟨type⟩ × ⟨type⟩
+        | ⟨type⟩ + ⟨type⟩
+#+end_src
+
+Note that, as with ~suc~ for natural numbers, a product or sum
+is only a value if its parts are themselves values.
+
+** Typing for products
+
+There's not much to note about the type rules for products.
+
+#+begin_src text
+
+ Γ ⊢ t₁ : A    Γ ⊢ t₂ : B                               
+–––––––––––––––––––––––––––– T-pair
+     Γ ⊢ {t₁ , t₂} : nat
+ 
+#+end_src
+
+#+begin_src text
+
+ Γ ⊢ t : A × B               Γ ⊢ t : A × B          
+–––––––––––––––– T-proj1    –––––––––––––––– T-proj2
+  Γ ⊢ t.1 : A                 Γ ⊢ t.2 : B           
+ 
+#+end_src
+
+** Typing for sums
+
+For sums, though, we can observe why it is that
+we have put a type ascription on uses of ~inl~ and ~inr~.
+- In our first typing rule, for ~inl~ we have no way to determine
+  what the type ~B~ should be without the ascription.
+- Similarly, in the rule for ~inr~, we have no way to determine the type ~A~.
+- Given a term such as ~inl zero~, there are in fact infinite possible
+  types; just fill in anything for ~B~ in ~Nat × B~.
+  - But ~B~ might need to be a specific type because of the context
+    that the term appears in.
+- We /could/ construct a type system that uses the surrounding context
+  of the term to determine the missing type automatically.
+  - This is known as /type reconstruction/.
+  - But we do not discuss this at the moment.
+- An alternative approach is the use of /subtyping/.
+  
+#+begin_src text
+
+           Γ ⊢ t : A
+––––––––––––––––––––––––––––––––– T-inl
+  Γ ⊢ (inl t as A + B) : A + B
+
+#+end_src
+
+#+begin_src text
+
+           Γ ⊢ t : B
+––––––––––––––––––––––––––––––––– T-inr
+  Γ ⊢ (inr t as A + B) : A + B
+
+#+end_src
+
+#+begin_src text
+
+ Γ ⊢ t₀ : A + B    Γ,(x₁ : A) ⊢ t₁ : C    Γ,(x₂ : B) ⊢ t₂ : C
+––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––– T-case
+  Γ ⊢ (case t of inl x₁ as A + B ⇒ t₁ | inr x₂ as A + B ⇒ t₁) : C
+
+#+end_src
+
+** Semantics of products
+
+#+begin_src text
+
+–––––––––––––––––––– value-proj1    –––––––––––––––––––– value-proj2
+ {v₁ , v₂}.1 ⟶ v₁                    {v₁ , v₂}.1 ⟶ v₁
+
+#+end_src
+
+#+begin_src text
+
+   t ⟶ t′                         t ⟶ t′
+–––––––––––––– reduce-proj1    –––––––––––––– reduce-proj2
+ t.1 ⟶ t′.1                     t.2 ⟶ t′.2
+
+#+end_src
+
+#+begin_src text
+
+        t₁ ⟶ t₂′                                  t₂ ⟶ t₂′
+––––––––––––––––––––––––– reduce-pair1    –––––––––––––––––––––––––– reduce-pair2
+ {t₁ , t₂} ⟶ {t₁′ , t₂}                    {v₁ , t₂} ⟶ {v₁ , t₂′}
+
+#+end_src
+
+** Semantics of sums
+
+#+begin_src text
+
+–––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––– case-inl-value
+ case (inl v) of inl x₁ as A ⇒ t₁ | inr x₂ as A ⇒ t₂   ⟶   t₁[x₁ ≔ v]
+
+#+end_src
+
+#+begin_src text
+
+––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––– case-inl-value
+ case (inr v) of inl x₁ as A ⇒ t₁ | inr x₂ as A ⇒ t₂   ⟶   t₂[x₂ ≔ v]
+
+#+end_src
+
+#+begin_src text
+
+                          t ⟶ t′
+–––––––––––––––––––––––––––––––––––––––––––––––––––––– case-reduce
+     case t  of inl x₁ as A ⇒ t₁ | inr x₂ as A ⇒ t₂
+ ⟶   case t′ of inl x₁ as A ⇒ t₁ | inr x₂ as A ⇒ t₂
+
+#+end_src
+
+#+begin_src text
+
+          t ⟶ t′                                     t ⟶ t′
+–––––––––––––––––––––––––––– reduce-inl    –––––––––––––––––––––––––––– reduce-inr
+ inl t as A ⟶ inl t′ as A                   inr t as A ⟶ inr t′ as A
+
 #+end_src

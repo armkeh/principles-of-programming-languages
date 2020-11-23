@@ -36,13 +36,13 @@
 </section>
 
 <section>
-<section id="slide-orgbe76205">
-<h2 id="orgbe76205"><span class="section-number-2">1</span> Preamble</h2>
+<section id="slide-org90aa69a">
+<h2 id="org90aa69a"><span class="section-number-2">1</span> Preamble</h2>
 <div class="outline-text-2" id="text-1">
 </div>
 </section>
-<section id="slide-orgd31a577">
-<h3 id="orgd31a577"><span class="section-number-3">1.1</span> Notable references</h3>
+<section id="slide-orgda9efb9">
+<h3 id="orgda9efb9"><span class="section-number-3">1.1</span> Notable references</h3>
 <ul>
 <li>Benjamin Pierce,
 “<a href="https://ebookcentral.proquest.com/lib/mcmu/detail.action?docID=3338823">Types and Programming Languages</a>”
@@ -63,12 +63,12 @@
 </ul>
 
 </section>
-<section id="slide-org50cf54e">
-<h3 id="org50cf54e"><span class="section-number-3">1.2</span> <span class="todo TODO">TODO</span> Table of contents</h3>
+<section id="slide-orgc7f15dc">
+<h3 id="orgc7f15dc"><span class="section-number-3">1.2</span> <span class="todo TODO">TODO</span> Table of contents</h3>
 <font size="-1">
-<div class="scriptsize" id="org39e5fe9">
+<div class="scriptsize" id="orgffd5e15">
 <ul>
-<li><a href="#/slide-orgbe76205">Preamble</a></li>
+<li><a href="#/slide-org90aa69a">Preamble</a></li>
 
 </ul>
 
@@ -78,8 +78,8 @@
 </section>
 </section>
 <section>
-<section id="slide-org3ac6620">
-<h2 id="org3ac6620"><span class="section-number-2">2</span> Introduction</h2>
+<section id="slide-org08fb714">
+<h2 id="org08fb714"><span class="section-number-2">2</span> Introduction</h2>
 <p>
 In this section we extend our previously considered
 untyped λ-calculus by defining a typing relation,
@@ -96,8 +96,8 @@ of pattern matching.
 </section>
 </section>
 <section>
-<section id="slide-org16a1b5f">
-<h2 id="org16a1b5f"><span class="section-number-2">3</span> Recall: The untyped λ-calculus</h2>
+<section id="slide-org31ba771">
+<h2 id="org31ba771"><span class="section-number-2">3</span> Recall: The untyped λ-calculus</h2>
 <p>
 Recall from section 3 of the notes the syntax
 of our untyped λ-calculus, <i>UL</i>.
@@ -115,8 +115,8 @@ everything is a function, and abstractions
 </p>
 
 </section>
-<section id="slide-org19d7bc1">
-<h3 id="org19d7bc1"><span class="section-number-3">3.1</span> The call-by-value semantics of the untyped λ-calculus</h3>
+<section id="slide-org4238984">
+<h3 id="org4238984"><span class="section-number-3">3.1</span> The call-by-value semantics of the untyped λ-calculus</h3>
 <p>
 The call-by-value semantics we described in section 3 of the notes
 can be more succinctly described using inference rules.
@@ -149,8 +149,8 @@ evaluate a term.</li>
 </div>
 
 </section>
-<section id="slide-org792955f">
-<h3 id="org792955f"><span class="section-number-3">3.2</span> Only applications reduce</h3>
+<section id="slide-org2e72220">
+<h3 id="org2e72220"><span class="section-number-3">3.2</span> Only applications reduce</h3>
 <p>
 
 </p>
@@ -186,8 +186,8 @@ are for applications; remember that
 </ul>
 
 </section>
-<section id="slide-org50a990f">
-<h3 id="org50a990f"><span class="section-number-3">3.3</span> Explaining the rules</h3>
+<section id="slide-org2886e4c">
+<h3 id="org2886e4c"><span class="section-number-3">3.3</span> Explaining the rules</h3>
 <p>
 
 </p>
@@ -228,8 +228,8 @@ with the value substituted for the abstraction's variable.</li>
 </ul>
 
 </section>
-<section id="slide-orgabb1c48">
-<h3 id="orgabb1c48"><span class="section-number-3">3.4</span> Reduction as a function</h3>
+<section id="slide-org604c324">
+<h3 id="org604c324"><span class="section-number-3">3.4</span> Reduction as a function</h3>
 <p>
 
 </p>
@@ -263,7 +263,7 @@ by design, <i>deterministic</i>; given a λ-term <code>t</code>, either
 A deterministic relation can be expressed as a <i>function</i>,
 as the following Scala-like pseudocode shows.
 </p>
-<pre class="example" id="org193f400">
+<pre class="example" id="org982b53b">
 def ⟶(t) = t match {
   case t₁ t₂ if t₁ ⟶ t₁′                 =&gt; t₁′ t₂
   case v₁ t₂ if isValue(v₁) &amp;&amp;  t₂ ⟶ t₂′ =&gt; v₁ t₂′
@@ -272,8 +272,8 @@ def ⟶(t) = t match {
 </pre>
 
 </section>
-<section id="slide-org2835cf5">
-<h3 id="org2835cf5"><span class="section-number-3">3.5</span> An example of a reduction sequence</h3>
+<section id="slide-org04060a8">
+<h3 id="org04060a8"><span class="section-number-3">3.5</span> An example of a reduction sequence</h3>
 <div class="org-src-container">
 
 <pre  class="src src-text"><code trim>  <span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">(</span>&#955; x &#8594; x<span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">(</span>&#955; y &#8594; y<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span> <span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">(</span>&#955; z &#8594; z<span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">(</span>&#955; u &#8594; u<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
@@ -304,8 +304,8 @@ this term does not fit any of the reduction rules.
 </p>
 
 </section>
-<section id="slide-orgfb35895">
-<h3 id="orgfb35895"><span class="section-number-3">3.6</span> Encodings of booleans, natural numbers and pairs</h3>
+<section id="slide-org41d2704">
+<h3 id="org41d2704"><span class="section-number-3">3.6</span> Encodings of booleans, natural numbers and pairs</h3>
 <p>
 Recall the λ-encodings discussed in notes section 3,
 which allow us to represent booleans, natural numbers
@@ -325,8 +325,8 @@ scc  = &#955; n &#8594; &#955; s &#8594; &#955; z &#8594; s <span style="color: 
 </div>
 
 </section>
-<section id="slide-orga958e95">
-<h3 id="orga958e95"><span class="section-number-3">3.7</span> Enriching the (syntax of the) calculus</h3>
+<section id="slide-org3be54b9">
+<h3 id="org3be54b9"><span class="section-number-3">3.7</span> Enriching the (syntax of the) calculus</h3>
 <p>
 While λ-encodings of data in the pure untyped λ-calculus,
 such as those for the booleans, natural numbers and pairs,
@@ -350,8 +350,8 @@ The enriched calculus's syntax is then
 </div>
 
 </section>
-<section id="slide-org3a9da4f">
-<h3 id="org3a9da4f"><span class="section-number-3">3.8</span> The semantics of the untyped λ-calculus with booleans</h3>
+<section id="slide-org72e9ee9">
+<h3 id="org72e9ee9"><span class="section-number-3">3.8</span> The semantics of the untyped λ-calculus with booleans</h3>
 <p>
 The untyped λ-calculus extended with booleans semantics has,
 in addition to the rules <code>reduce-appˡ</code>, <code>reduce-appʳ</code> and <code>apply</code>,
@@ -378,8 +378,8 @@ these rules for the new basic primitive functions.
 </section>
 </section>
 <section>
-<section id="slide-orga5559a7">
-<h2 id="orga5559a7"><span class="section-number-2">4</span> A first typed λ-calculus – the simply typed λ-calculus</h2>
+<section id="slide-orge18152a">
+<h2 id="orge18152a"><span class="section-number-2">4</span> A first typed λ-calculus – the simply typed λ-calculus</h2>
 <p>
 Starting now, we define the syntax and semantics for several stages
 of a typed λ-calculus.
@@ -419,8 +419,8 @@ All semantics in this section are call-by-value semantics.
 </p>
 
 </section>
-<section id="slide-orgfa8949b">
-<h3 id="orgfa8949b"><span class="section-number-3">4.1</span> Typing rules</h3>
+<section id="slide-org585711c">
+<h3 id="org585711c"><span class="section-number-3">4.1</span> Typing rules</h3>
 <p>
 Like semantics, the typing rules of a language
 are presented here using inference rules.
@@ -457,8 +457,8 @@ a term and a type.
 </ul>
 
 </section>
-<section id="slide-org9d082f7">
-<h3 id="org9d082f7"><span class="section-number-3">4.2</span> The typing context</h3>
+<section id="slide-orgd1216a9">
+<h3 id="orgd1216a9"><span class="section-number-3">4.2</span> The typing context</h3>
 <p>
 The <i>typing context</i> referred to above is a set
 of variable, type pairs, used to <i>bind</i> certain variables to types.
@@ -481,8 +481,8 @@ type binding of <code>x</code> to <code>A</code>, and</li>
 </ul>
 
 </section>
-<section id="slide-org216fcf2">
-<h3 id="org216fcf2"><span class="section-number-3">4.3</span> Example typing contexts</h3>
+<section id="slide-org27408eb">
+<h3 id="org27408eb"><span class="section-number-3">4.3</span> Example typing contexts</h3>
 <p>
 For example,
 </p>
@@ -519,8 +519,8 @@ In the case that there are two such entries, the later one
 </ul>
 
 </section>
-<section id="slide-org0266c58">
-<h3 id="org0266c58"><span class="section-number-3">4.4</span> The simply-typed λ-calculus syntax</h3>
+<section id="slide-orgae73d9e">
+<h3 id="orgae73d9e"><span class="section-number-3">4.4</span> The simply-typed λ-calculus syntax</h3>
 <p>
 Our starting point is the simply-typed λ-calculus,
 which has only unit and function types.
@@ -544,8 +544,8 @@ we add a non-terminal called <code>⟨value⟩</code> to the grammar.</li>
 </div>
 
 </section>
-<section id="slide-org16dcddf">
-<h3 id="org16dcddf"><span class="section-number-3">4.5</span> The simply-typed λ-calculus typing</h3>
+<section id="slide-orga350986">
+<h3 id="orga350986"><span class="section-number-3">4.5</span> The simply-typed λ-calculus typing</h3>
 <p>
 “If a variable <code>x</code> is assigned type <code>A</code> by the context,
 then it has that type.”
@@ -595,8 +595,8 @@ type <code>A → B</code> if <code>t</code> has type <code>B</code> when assumin
 </div>
 
 </section>
-<section id="slide-org4483223">
-<h3 id="org4483223"><span class="section-number-3">4.6</span> The simply-typed λ-calculus semantics</h3>
+<section id="slide-org29a02cd">
+<h3 id="org29a02cd"><span class="section-number-3">4.6</span> The simply-typed λ-calculus semantics</h3>
 <p>
 The semantics of the language have not changed,
 except that the syntax of the λ-abstraction now
@@ -620,8 +620,8 @@ has the type annotation.
 </div>
 
 </section>
-<section id="slide-orgff85793">
-<h3 id="orgff85793"><span class="section-number-3">4.7</span> Exercise: Why do we need a <code>Unit</code> type in the simply-typed λ-calculus?</h3>
+<section id="slide-org5c02cbf">
+<h3 id="org5c02cbf"><span class="section-number-3">4.7</span> Exercise: Why do we need a <code>Unit</code> type in the simply-typed λ-calculus?</h3>
 <p>
 Recall that in the untyped λ-calculus,
 the only values were abstractions; all data was functions.
@@ -633,8 +633,8 @@ Is it required for some reason?
 </p>
 
 </section>
-<section id="slide-org4c5bd1b">
-<h3 id="org4c5bd1b"><span class="section-number-3">4.8</span> Exercise: Type some terms</h3>
+<section id="slide-org3c7d649">
+<h3 id="org3c7d649"><span class="section-number-3">4.8</span> Exercise: Type some terms</h3>
 <p>
 Using the typing rules above, determine the types of the following
 simply-typed λ-calculus terms.
@@ -662,8 +662,8 @@ causes it not to typecheck.
 </section>
 </section>
 <section>
-<section id="slide-orgd55c92c">
-<h2 id="orgd55c92c"><span class="section-number-2">5</span> Adding natural numbers and booleans</h2>
+<section id="slide-org912208b">
+<h2 id="org912208b"><span class="section-number-2">5</span> Adding natural numbers and booleans</h2>
 <p>
 We begin our extensions to the simply-typed λ-calculus
 with the natural numbers and booleans,
@@ -671,12 +671,53 @@ convenient types to have for many simply computing problems.
 </p>
 
 </section>
-<section id="slide-org612e572">
-<h3 id="org612e572"><span class="section-number-3">5.1</span> Syntax for natural numbers and booleans</h3>
+<section id="slide-org08b0d86">
+<h3 id="org08b0d86"><span class="section-number-3">5.1</span> Syntax for natural numbers and booleans</h3>
 <p>
 Recall that these productions are only those being added;
-the productions from <a href="#/slide-org0266c58">4.4</a> are
+the productions from <a href="#/slide-orgae73d9e">4.4</a> are
 assumed to still be in place.
+</p>
+
+<div class="org-src-container">
+
+<pre  class="src src-text"><code trim><span style="color: #00cd68;">&#10216;</span>term<span style="color: #00cd68;">&#10217;</span> &#8759;= suc <span style="color: #00cd68;">&#10216;</span>term<span style="color: #00cd68;">&#10217;</span>
+        | pred <span style="color: #00cd68;">&#10216;</span>term<span style="color: #00cd68;">&#10217;</span>
+        | iszero <span style="color: #00cd68;">&#10216;</span>term<span style="color: #00cd68;">&#10217;</span>
+        | if <span style="color: #00cd68;">&#10216;</span>term<span style="color: #00cd68;">&#10217;</span> then <span style="color: #00cd68;">&#10216;</span>term<span style="color: #00cd68;">&#10217;</span> else <span style="color: #00cd68;">&#10216;</span>term<span style="color: #00cd68;">&#10217;</span>
+
+<span style="color: #00cd68;">&#10216;</span>value<span style="color: #00cd68;">&#10217;</span> &#8759;= suc <span style="color: #00cd68;">&#10216;</span>value<span style="color: #00cd68;">&#10217;</span>
+         | zero
+         | true
+         | false
+
+<span style="color: #00cd68;">&#10216;</span>type<span style="color: #00cd68;">&#10217;</span> &#8759;= Nat | Bool
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org01a3b75">
+<h3 id="org01a3b75"><span class="section-number-3">5.2</span> Notes about the syntax</h3>
+<p>
+
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-text"><code trim><span style="color: #00cd68;">&#10216;</span>term<span style="color: #00cd68;">&#10217;</span> &#8759;= suc <span style="color: #00cd68;">&#10216;</span>term<span style="color: #00cd68;">&#10217;</span>
+        | pred <span style="color: #00cd68;">&#10216;</span>term<span style="color: #00cd68;">&#10217;</span>
+        | iszero <span style="color: #00cd68;">&#10216;</span>term<span style="color: #00cd68;">&#10217;</span>
+        | if <span style="color: #00cd68;">&#10216;</span>term<span style="color: #00cd68;">&#10217;</span> then <span style="color: #00cd68;">&#10216;</span>term<span style="color: #00cd68;">&#10217;</span> else <span style="color: #00cd68;">&#10216;</span>term<span style="color: #00cd68;">&#10217;</span>
+
+<span style="color: #00cd68;">&#10216;</span>value<span style="color: #00cd68;">&#10217;</span> &#8759;= suc <span style="color: #00cd68;">&#10216;</span>value<span style="color: #00cd68;">&#10217;</span>
+         | zero
+         | true
+         | false
+
+<span style="color: #00cd68;">&#10216;</span>type<span style="color: #00cd68;">&#10217;</span> &#8759;= Nat | Bool
+</code></pre>
+</div>
+<p>
+
 </p>
 
 <p>
@@ -694,23 +735,9 @@ but the typing rules will forbid that.)</li>
 
 </ul>
 
-<div class="org-src-container">
-
-<pre  class="src src-text"><code trim><span style="color: #00cd68;">&#10216;</span>term<span style="color: #00cd68;">&#10217;</span> &#8759;= suc <span style="color: #00cd68;">&#10216;</span>term<span style="color: #00cd68;">&#10217;</span>
-        | pred <span style="color: #00cd68;">&#10216;</span>term<span style="color: #00cd68;">&#10217;</span>
-        | iszero <span style="color: #00cd68;">&#10216;</span>term<span style="color: #00cd68;">&#10217;</span>
-        | if <span style="color: #00cd68;">&#10216;</span>term<span style="color: #00cd68;">&#10217;</span> then <span style="color: #00cd68;">&#10216;</span>term<span style="color: #00cd68;">&#10217;</span> else <span style="color: #00cd68;">&#10216;</span>term<span style="color: #00cd68;">&#10217;</span>
-
-<span style="color: #00cd68;">&#10216;</span>value<span style="color: #00cd68;">&#10217;</span> &#8759;= suc <span style="color: #00cd68;">&#10216;</span>value<span style="color: #00cd68;">&#10217;</span>
-         | zero
-         | true
-         | false
-</code></pre>
-</div>
-
 </section>
-<section id="slide-org0269d4c">
-<h3 id="org0269d4c"><span class="section-number-3">5.2</span> Typing for natural numbers and booleans</h3>
+<section id="slide-org1304913">
+<h3 id="org1304913"><span class="section-number-3">5.3</span> Typing for natural numbers and booleans</h3>
 <div class="org-src-container">
 
 <pre  class="src src-text"><code trim>                               
@@ -760,8 +787,8 @@ but the typing rules will forbid that.)</li>
 </div>
 
 </section>
-<section id="slide-orgcdc4058">
-<h3 id="orgcdc4058"><span class="section-number-3">5.3</span> Semantics of natural numbers and booleans</h3>
+<section id="slide-org09aba17">
+<h3 id="org09aba17"><span class="section-number-3">5.4</span> Semantics of natural numbers and booleans</h3>
 <div class="org-src-container">
 
 <pre  class="src src-text"><code trim>
@@ -784,15 +811,14 @@ but the typing rules will forbid that.)</li>
 
 <p>
 The natural number predecessor of zero is zero.
-And because of this, if we have the successor <i>of a value</i>,
-then it's known to not be zero.
+And because of this, a successor can never be zero.
 </p>
 <div class="org-src-container">
 
 <pre  class="src src-text"><code trim>
                                               
 &#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; pred-zero    &#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; iszero-suc
-  pred zero &#10230; zero                    iszero <span style="color: #00cd68;">(</span>suc v<span style="color: #00cd68;">)</span> &#10230; false                                           
+  pred zero &#10230; zero                    iszero <span style="color: #00cd68;">(</span>suc t<span style="color: #00cd68;">)</span> &#10230; false                                           
 
 </code></pre>
 </div>
@@ -807,14 +833,13 @@ then it's known to not be zero.
 </code></pre>
 </div>
 
-
 <p>
 
 </p>
 
 </section>
-<section id="slide-org85a8007">
-<h3 id="org85a8007"><span class="section-number-3">5.4</span> Semantics of natural numbers and booleans continued</h3>
+<section id="slide-orgc838ddd">
+<h3 id="orgc838ddd"><span class="section-number-3">5.5</span> Semantics of natural numbers and booleans continued</h3>
 <p>
 
 </p>
@@ -843,6 +868,246 @@ then it's known to not be zero.
 <pre  class="src src-text"><code trim>
 &#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; if-else
  if false t&#8321; t&#8322;  &#10230;  t&#8322;
+</code></pre>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-org727de92">
+<h2 id="org727de92"><span class="section-number-2">6</span> Products, records, sums and variants</h2>
+<p>
+We now add product and sum types to our language.
+</p>
+<ul>
+<li>And then later follow up with the slightly more sophisticated <i>record</i>
+and <i>variant</i> types, which allow for named fields.</li>
+
+</ul>
+
+</section>
+<section id="slide-org960bf93">
+<h3 id="org960bf93"><span class="section-number-3">6.1</span> Informal description of products and sums</h3>
+<p>
+A product
+</p>
+<ul>
+<li>is written using braces as <code>{t,t}</code>, and</li>
+<li>we include <i>projection functions</i> for accessing either element of a product,
+<ul>
+<li>written <code>t.1</code> and <code>t.2</code> respectively.</li>
+
+</ul></li>
+
+</ul>
+
+<p>
+A sum
+</p>
+<ul>
+<li>is written as either
+<ul>
+<li><code>inl t as A</code> (read “in the left type of <code>A</code>”), or</li>
+<li><code>inr t as A</code> (read “in the right type of <code>A</code>”), and
+<ul>
+<li>The reason for the ascription “<code>as A</code>” in the above will be discussed when
+we reach the typing rules.</li>
+
+</ul></li>
+
+</ul></li>
+<li>we include <i>case splitting</i> to check whether the sum has the left or right type,
+<ul>
+<li>written <code>case t of inl x₁ as A ⇒ t₁ | inr x₂ as A ⇒ t₂</code>.</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-org2cf1dc1">
+<h3 id="org2cf1dc1"><span class="section-number-3">6.2</span> Syntax for products and sums</h3>
+<p>
+The syntax for products and sums are as described.
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-text"><code trim><span style="color: #00cd68;">&#10216;</span>term<span style="color: #00cd68;">&#10217;</span> &#8759;= '<span style="color: #00cd68;">{</span>' <span style="color: #b6a0ff;">&#10216;</span>term<span style="color: #b6a0ff;">&#10217;</span> , <span style="color: #b6a0ff;">&#10216;</span>term<span style="color: #b6a0ff;">&#10217;</span> '<span style="color: #00cd68;">}</span>'
+        | <span style="color: #00cd68;">&#10216;</span>term<span style="color: #00cd68;">&#10217;</span>.1 | <span style="color: #00cd68;">&#10216;</span>term<span style="color: #00cd68;">&#10217;</span>.2
+        | inl <span style="color: #00cd68;">&#10216;</span>term<span style="color: #00cd68;">&#10217;</span> as <span style="color: #00cd68;">&#10216;</span>type<span style="color: #00cd68;">&#10217;</span> | inr <span style="color: #00cd68;">&#10216;</span>term<span style="color: #00cd68;">&#10217;</span> as <span style="color: #00cd68;">&#10216;</span>type<span style="color: #00cd68;">&#10217;</span>
+        | case <span style="color: #00cd68;">&#10216;</span>term<span style="color: #00cd68;">&#10217;</span> of inl var &#8658; <span style="color: #00cd68;">&#10216;</span>term<span style="color: #00cd68;">&#10217;</span> | inr var &#8658; <span style="color: #00cd68;">&#10216;</span>term<span style="color: #00cd68;">&#10217;</span>
+        
+       
+<span style="color: #00cd68;">&#10216;</span>value<span style="color: #00cd68;">&#10217;</span> &#8759;= '<span style="color: #00cd68;">{</span>' <span style="color: #b6a0ff;">&#10216;</span>value<span style="color: #b6a0ff;">&#10217;</span> , <span style="color: #b6a0ff;">&#10216;</span>value<span style="color: #b6a0ff;">&#10217;</span> '<span style="color: #00cd68;">}</span>'
+         | inl <span style="color: #00cd68;">&#10216;</span>value<span style="color: #00cd68;">&#10217;</span> as <span style="color: #00cd68;">&#10216;</span>type<span style="color: #00cd68;">&#10217;</span> | inr <span style="color: #00cd68;">&#10216;</span>value<span style="color: #00cd68;">&#10217;</span> as <span style="color: #00cd68;">&#10216;</span>type<span style="color: #00cd68;">&#10217;</span>
+
+<span style="color: #00cd68;">&#10216;</span>type<span style="color: #00cd68;">&#10217;</span> &#8759;= <span style="color: #00cd68;">&#10216;</span>type<span style="color: #00cd68;">&#10217;</span> &#215; <span style="color: #00cd68;">&#10216;</span>type<span style="color: #00cd68;">&#10217;</span>
+        | <span style="color: #00cd68;">&#10216;</span>type<span style="color: #00cd68;">&#10217;</span> + <span style="color: #00cd68;">&#10216;</span>type<span style="color: #00cd68;">&#10217;</span>
+</code></pre>
+</div>
+
+<p>
+Note that, as with <code>suc</code> for natural numbers, a product or sum
+is only a value if its parts are themselves values.
+</p>
+
+</section>
+<section id="slide-org5b66141">
+<h3 id="org5b66141"><span class="section-number-3">6.3</span> Typing for products</h3>
+<p>
+There's not much to note about the type rules for products.
+</p>
+
+<div class="org-src-container">
+
+<pre  class="src src-text"><code trim>
+ &#915; &#8866; t&#8321; : A    &#915; &#8866; t&#8322; : B                               
+&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; T-pair
+     &#915; &#8866; <span style="color: #00cd68;">{</span>t&#8321; , t&#8322;<span style="color: #00cd68;">}</span> : nat
+ 
+</code></pre>
+</div>
+
+<div class="org-src-container">
+
+<pre  class="src src-text"><code trim>
+ &#915; &#8866; t : A &#215; B               &#915; &#8866; t : A &#215; B          
+&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; T-proj1    &#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; T-proj2
+  &#915; &#8866; t.1 : A                 &#915; &#8866; t.2 : B           
+ 
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org43c1e9c">
+<h3 id="org43c1e9c"><span class="section-number-3">6.4</span> Typing for sums</h3>
+<p>
+For sums, though, we can observe why it is that
+we have put a type ascription on uses of <code>inl</code> and <code>inr</code>.
+</p>
+<ul>
+<li>In our first typing rule, for <code>inl</code> we have no way to determine
+what the type <code>B</code> should be without the ascription.</li>
+<li>Similarly, in the rule for <code>inr</code>, we have no way to determine the type <code>A</code>.</li>
+<li>Given a term such as <code>inl zero</code>, there are in fact infinite possible
+types; just fill in anything for <code>B</code> in <code>Nat × B</code>.
+<ul>
+<li>But <code>B</code> might need to be a specific type because of the context
+that the term appears in.</li>
+
+</ul></li>
+<li>We <i>could</i> construct a type system that uses the surrounding context
+of the term to determine the missing type automatically.
+<ul>
+<li>This is known as <i>type reconstruction</i>.</li>
+<li>But we do not discuss this at the moment.</li>
+
+</ul></li>
+<li>An alternative approach is the use of <i>subtyping</i>.</li>
+
+</ul>
+
+<div class="org-src-container">
+
+<pre  class="src src-text"><code trim>
+           &#915; &#8866; t : A
+&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; T-inl
+  &#915; &#8866; <span style="color: #00cd68;">(</span>inl t as A + B<span style="color: #00cd68;">)</span> : A + B
+
+</code></pre>
+</div>
+
+<div class="org-src-container">
+
+<pre  class="src src-text"><code trim>
+           &#915; &#8866; t : B
+&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; T-inr
+  &#915; &#8866; <span style="color: #00cd68;">(</span>inr t as A + B<span style="color: #00cd68;">)</span> : A + B
+
+</code></pre>
+</div>
+
+<div class="org-src-container">
+
+<pre  class="src src-text"><code trim>
+ &#915; &#8866; t&#8320; : A + B    &#915;,<span style="color: #00cd68;">(</span>x&#8321; : A<span style="color: #00cd68;">)</span> &#8866; t&#8321; : C    &#915;,<span style="color: #00cd68;">(</span>x&#8322; : B<span style="color: #00cd68;">)</span> &#8866; t&#8322; : C
+&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; T-case
+  &#915; &#8866; <span style="color: #00cd68;">(</span>case t of inl x&#8321; as A + B &#8658; t&#8321; | inr x&#8322; as A + B &#8658; t&#8321;<span style="color: #00cd68;">)</span> : C
+
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org636c8d8">
+<h3 id="org636c8d8"><span class="section-number-3">6.5</span> Semantics of products</h3>
+<div class="org-src-container">
+
+<pre  class="src src-text"><code trim>
+&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; value-proj1    &#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; value-proj2
+ <span style="color: #00cd68;">{</span>v&#8321; , v&#8322;<span style="color: #00cd68;">}</span>.1 &#10230; v&#8321;                    <span style="color: #00cd68;">{</span>v&#8321; , v&#8322;<span style="color: #00cd68;">}</span>.1 &#10230; v&#8321;
+
+</code></pre>
+</div>
+
+<div class="org-src-container">
+
+<pre  class="src src-text"><code trim>
+   t &#10230; t&#8242;                         t &#10230; t&#8242;
+&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; reduce-proj1    &#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; reduce-proj2
+ t.1 &#10230; t&#8242;.1                     t.2 &#10230; t&#8242;.2
+
+</code></pre>
+</div>
+
+<div class="org-src-container">
+
+<pre  class="src src-text"><code trim>
+        t&#8321; &#10230; t&#8322;&#8242;                                  t&#8322; &#10230; t&#8322;&#8242;
+&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; reduce-pair1    &#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; reduce-pair2
+ <span style="color: #00cd68;">{</span>t&#8321; , t&#8322;<span style="color: #00cd68;">}</span> &#10230; <span style="color: #00cd68;">{</span>t&#8321;&#8242; , t&#8322;<span style="color: #00cd68;">}</span>                    <span style="color: #00cd68;">{</span>v&#8321; , t&#8322;<span style="color: #00cd68;">}</span> &#10230; <span style="color: #00cd68;">{</span>v&#8321; , t&#8322;&#8242;<span style="color: #00cd68;">}</span>
+
+</code></pre>
+</div>
+
+</section>
+<section id="slide-orgf0a4188">
+<h3 id="orgf0a4188"><span class="section-number-3">6.6</span> Semantics of sums</h3>
+<div class="org-src-container">
+
+<pre  class="src src-text"><code trim>
+&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; case-inl-value
+ case <span style="color: #00cd68;">(</span>inl v<span style="color: #00cd68;">)</span> of inl x&#8321; as A &#8658; t&#8321; | inr x&#8322; as A &#8658; t&#8322;   &#10230;   t&#8321;<span style="color: #00cd68;">[</span>x&#8321; &#8788; v<span style="color: #00cd68;">]</span>
+
+</code></pre>
+</div>
+
+<div class="org-src-container">
+
+<pre  class="src src-text"><code trim>
+&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; case-inl-value
+ case <span style="color: #00cd68;">(</span>inr v<span style="color: #00cd68;">)</span> of inl x&#8321; as A &#8658; t&#8321; | inr x&#8322; as A &#8658; t&#8322;   &#10230;   t&#8322;<span style="color: #00cd68;">[</span>x&#8322; &#8788; v<span style="color: #00cd68;">]</span>
+
+</code></pre>
+</div>
+
+<div class="org-src-container">
+
+<pre  class="src src-text"><code trim>
+                          t &#10230; t&#8242;
+&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; case-reduce
+     case t  of inl x&#8321; as A &#8658; t&#8321; | inr x&#8322; as A &#8658; t&#8322;
+ &#10230;   case t&#8242; of inl x&#8321; as A &#8658; t&#8321; | inr x&#8322; as A &#8658; t&#8322;
+
+</code></pre>
+</div>
+
+<div class="org-src-container">
+
+<pre  class="src src-text"><code trim>
+          t &#10230; t&#8242;                                     t &#10230; t&#8242;
+&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; reduce-inl    &#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211;&#8211; reduce-inr
+ inl t as A &#10230; inl t&#8242; as A                   inr t as A &#10230; inr t&#8242; as A
+
 </code></pre>
 </div>
 </section>
