@@ -1,4 +1,4 @@
-% Created 2020-11-25 Wed 09:29
+% Created 2020-11-25 Wed 11:19
 % Intended LaTeX compiler: lualatex
 \documentclass[11pt]{article}
 \usepackage{graphicx}
@@ -42,7 +42,7 @@
 
 
 \section*{Introduction}
-\label{sec:org7e3c442}
+\label{sec:orgbff23ec}
 In this homework, we provide you with a new Clojure special form
 which can be used to create functions
 which automatically output a visualisation of their calling context,
@@ -51,14 +51,14 @@ You are tasked with using this new special form to implement
 several simple recursive functions both in a “naive” way
 and a tail recursive way.
 
-See \hyperref[sec:org092dfa3]{Part 0.1} for an overview of “naive” and tail recursion.
+See \hyperref[sec:orgce45ffb]{Part 0.1} for an overview of “naive” and tail recursion.
 
 \section*{Boilerplate}
-\label{sec:orga32db45}
+\label{sec:org08fd026}
 \subsection*{Submission procedures}
-\label{sec:orgde8e5b7}
+\label{sec:org8209664}
 \subsubsection*{Submission method}
-\label{sec:org5287268}
+\label{sec:orgce13840}
 
 Homework should be submitted to your McMaster CAS Gitlab respository
 in the \texttt{cs3mi3-fall2020} project.
@@ -67,7 +67,7 @@ Ensure that you have \textbf{pushed} the commits to the remote repository
 in time for the deadline, and not just committed to your local copy.
 
 \subsubsection*{Naming requirements}
-\label{sec:org5ca06b9}
+\label{sec:org9a949eb}
 
 Place all files for the homework
 inside a folder titled \texttt{hn}, where \texttt{n} is the number of the homework.
@@ -98,7 +98,7 @@ submit a \texttt{hn.ext} file for each language.
 \end{center}
 
 \subsubsection*{Do not submit testing or diagnostic code}
-\label{sec:org94a8a6f}
+\label{sec:orgebb8991}
 
 Unless you are instructed to do so in the homework questions,
 \textbf{you should not submit testing code with your homework submission}.
@@ -118,7 +118,7 @@ in your final submission.
 For instance, by using a wrapper on the print function or macros.
 
 \subsubsection*{Due date and allowance for technical difficulties}
-\label{sec:org7672fa3}
+\label{sec:org7c0639b}
 
 Homework is due on the second Sunday following its release,
 by the end of the day (midnight).
@@ -133,9 +133,9 @@ This information will help ensure we are able
 to accept your submission once the technical difficulties are resolved.
 
 \subsection*{Proper conduct for coursework}
-\label{sec:org8f0e704}
+\label{sec:org9790044}
 \subsubsection*{Individual work}
-\label{sec:org43eaf46}
+\label{sec:orgc1b5e32}
 
 Unless explicitely stated in the homework questions,
 all homework in this course is intended
@@ -184,7 +184,7 @@ probably add a catch-all \texttt{\_} case to your \texttt{match} expressions.”
 \end{enumerate}
 
 \subsubsection*{Language library resources}
-\label{sec:orgd315dac}
+\label{sec:org1853d00}
 
 Unless explicitely stated in the questions,
 it is not expected that you will use any language library resources
@@ -208,7 +208,7 @@ including \texttt{map}, \texttt{reduce}, \texttt{flatten}, and \texttt{filter} a
 unless the task is to implement such a higher-order operator.
 
 \section*{Part 0.1: “Naive” recursion vs. tail recursion}
-\label{sec:org092dfa3}
+\label{sec:orgce45ffb}
 As discussed during the week 9 tutorials,
 in general, we know that recursion is less efficient than
 iteration (looping) as a control structure
@@ -285,14 +285,14 @@ several simple recursive functions both in a “naive” way
 and a tail recursive way.
 
 \section*{Part 0.2: A new special form to automate visualisation of the stack}
-\label{sec:orga63f42b}
+\label{sec:orgb246cb9}
 In this section, we define the new special form
 used in this assignment, called “\texttt{unwindrec}”.
 
 \begin{center}
 \textbf{You may read about its definition if you are interested.}
 \textbf{If you prefer though, skip to the next section,}
-\textbf{\hyperref[sec:org0c97417]{Part 0.3: Using the new special form}
+\textbf{\hyperref[sec:orgc0119f6]{Part 0.3: Using the new special form}
 *which shows you how to use \texttt{unwindrec}.}
 
 It's not required that you understand all the code in this section.
@@ -523,7 +523,7 @@ if neither the `basecond` or `reccond` is satisfied.
 \end{minted}
 
 \section*{Part 0.3: Using the new special form}
-\label{sec:org0c97417}
+\label{sec:orgc0119f6}
 Here, we show how to use this new special form
 to define simple recursive functions such as factorial.
 
@@ -550,9 +550,9 @@ because \texttt{unwindrec} expands to a \texttt{defn} instead of a \texttt{letfn
 \end{minted}
 
 \section*{Part 1: Exponent              [10 marks]}
-\label{sec:orge84495a}
+\label{sec:orgb915a74}
 Similar to the \texttt{factorial} and \texttt{factorial-tr} functions defined
-using the \texttt{unwindrec} form in \hyperref[sec:org0c97417]{Part 0.3},
+using the \texttt{unwindrec} form in \hyperref[sec:orgc0119f6]{Part 0.3},
 define two functions \texttt{exponent} and \texttt{exponent-tr} which
 implement the exponent/power function on natural numbers
 (meaning that negative exponents are not supported.)
@@ -568,21 +568,21 @@ whereas \texttt{exponent-tr} should use tail recursion (still on the second argu
 For instance, \texttt{(exponent 2 3)} should return \texttt{8}, since \(2^{3} = 8\).
 
 \section*{Part 2: Sum of a list         [10 marks]}
-\label{sec:org5876f6e}
+\label{sec:org46f7b54}
 Now, use the \texttt{unwindrec} form to define functions \texttt{sumlist} and \texttt{sumlist-tr} which
 sum up the elements of a list.
 
 For instance, \texttt{(sumlist '(0 1 2 3))} should return \texttt{6}.
 
 \section*{Part 3: Flatten a list        [20 marks]}
-\label{sec:orge8c9d0a}
+\label{sec:org2e9762f}
 Use \texttt{unwindrec} again more to define functions \texttt{flattenlist} and \texttt{flattenlist-tr} which
 flatten a list of lists to a list, by concatenating the lists.
 
 For instance, \texttt{(flattenlist '((1 2) (3 4) (5 6 7 8)))} should return \texttt{(1 2 3 4 5 6 7 8)}.
 
 \section*{Part 4: Postfixes of a list   [20 marks]}
-\label{sec:org80d9917}
+\label{sec:org36488f0}
 Use \texttt{unwindrec} once more to define functions \texttt{postfixes} and \texttt{postfixes-tr} which,
 given a list \texttt{l}, return all the sublists which are postfixes of \texttt{l},
 including \texttt{l} itself and the empty list, in decreasing order of length.
@@ -603,7 +603,7 @@ kind of quote that allows for parts of the quoted expression,
 marked with tildes \texttt{\textasciitilde{}}, to be evaluated.
 
 \section*{Testing}
-\label{sec:org9eb1ece}
+\label{sec:org5e0fae8}
 Unit tests for the requested methods/functions
 are available here \href{./testing/h8/h8t.clj}{h8t.clj}.
 The contents of the unit test file are also repeated below.
@@ -616,7 +616,7 @@ naive and tail recursive respectively.
 \end{center}
 
 \subsection*{Automated testing via Docker}
-\label{sec:orgf267c06}
+\label{sec:org7ec87b6}
 The Docker setup and usage scripts are available at the following links.
 Their contents are also repeated below.
 \begin{itemize}
@@ -639,10 +639,10 @@ and not using WSL or WSL2, you may have
 to run the commands contained in those scripts manually.
 
 \subsection*{The tests}
-\label{sec:org21ad9ab}
+\label{sec:org37e50f0}
 The contents of the testing script are repeated here.
 
-\href{./testing/h8/h8t.sc}{h8t.sc}
+\href{./testing/h8/h8t.clj}{h8t.clj}
 \begin{minted}[breaklines=true]{clojure}
 (ns testing)
 (use 'clojure.test)
@@ -705,7 +705,7 @@ The contents of the testing script are repeated here.
 \end{minted}
 
 \subsection*{The Docker setup}
-\label{sec:org3eee9da}
+\label{sec:org7c81111}
 The contents of the Docker setup files and scripts are repeated here.
 
 \href{./testing/h7/Dockerfile}{Dockerfile}

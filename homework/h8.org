@@ -528,7 +528,7 @@ to run the commands contained in those scripts manually.
 
 The contents of the testing script are repeated here.
 
-[[./testing/h8/h8t.sc][h8t.sc]]
+[[./testing/h8/h8t.clj][h8t.clj]]
 #+begin_src clojure :tangle ./testing/h8/h8t.clj
 (ns testing)
 (use 'clojure.test)
