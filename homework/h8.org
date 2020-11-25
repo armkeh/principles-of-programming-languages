@@ -457,7 +457,7 @@ flatten a list of lists to a list, by concatenating the lists.
 
 For instance, ~(flattenlist '((1 2) (3 4) (5 6 7 8)))~ should return ~(1 2 3 4 5 6 7 8)~.
 
-* Part 4: Prefixes of a list    [20 marks]
+* Part 4: Postfixes of a list   [20 marks]
 :PROPERTIES:
 :CUSTOM_ID: Part-4:-Prefixes-of-a-list----[20 marks]
 :END:
@@ -486,27 +486,15 @@ marked with tildes ~~~, to be evaluated.
 :CUSTOM_ID: Testing
 :END:
 
-:TODO:
-
-* COMMENT Old Testing
-:PROPERTIES:
-:CUSTOM_ID: COMMENT-Old-Testing
-:END:
-
 Unit tests for the requested methods/functions
-are available
-- here [[./testing/h7/h7t.sc][h7t.sc]] and
-- here [[./testing/h7/h7t.rb][h7t.rb]].
+are available here [[./testing/h8/h8t.clj][h8t.clj]].
 The contents of the unit test file are also repeated below.
 
 #+begin_center
-*Unlike previous homeworks, passing these tests does not guarantee*
-*your solution behaves as expected.*
-
-The tests will print an example string and the string your method returns.
-They do not have to match exactly; instead, the terms they show
-must be equivalent except for naming of bound variables.
-(This is to allow for variations in how variable names are chosen.)
+These tests confirm that your functions return the correct values.
+However, they do not confirm that you have used the ~unwindrec~ form,
+or that your naive and tail recursive definitions are indeed
+naive and tail recursive respectively.
 #+end_center
 
 ** Automated testing via Docker
@@ -516,12 +504,12 @@ must be equivalent except for naming of bound variables.
 
 The Docker setup and usage scripts are available at the following links.
 Their contents are also repeated below.
-- [[./testing/h7/Dockerfile][Dockerfile]]
-- [[./testing/h7/docker-compose.yml][docker-compose.yml]]
-- [[./testing/h7/setup.sh][setup.sh]]
-- [[./testing/h7/run.sh][run.sh]]
-Place them into your ~h7~ directory where your ~h7.sc~ and ~h7.rb~ files
-and the ~h7t.sc~ and ~h7t.rb~ (linked to above) files exist,
+- [[./testing/h8/Dockerfile][Dockerfile]]
+- [[./testing/h8/docker-compose.yml][docker-compose.yml]]
+- [[./testing/h8/setup.sh][setup.sh]]
+- [[./testing/h8/run.sh][run.sh]]
+Place them into your ~h8~ directory where your ~h8.clj~ file
+and the ~h8t.clj~ (linked to above) files exist,
 then run ~setup.sh~ and ~run.sh~.
 
 You may also refer to the README
@@ -540,54 +528,66 @@ to run the commands contained in those scripts manually.
 
 The contents of the testing script are repeated here.
 
-[[./testing/h7/h7t.sc][h7t.sc]]
-#+begin_src amm :tangle ./testing/h7/h7t.sc
-import $file.h7, h7._
+[[./testing/h8/h8t.sc][h8t.sc]]
+#+begin_src clojure :tangle ./testing/h8/h8t.clj
+(ns testing)
+(use 'clojure.test)
+(load-file "h8.clj")
 
-val x = ULVar(0)
-val y = ULVar(1)
-val z = ULVar(2)
-val u = ULVar(3)
+(deftest naive-exponent
+  (is (= (exponent 1 10)  1))
+  (is (= (exponent 2  5) 32))
+  (is (= (exponent 5  2) 25)))
 
-val appvars = ULApp(ULApp(x,y), ULApp(z,u))
-val lappvars = ULAbs(appvars)
-val lllappvars = ULAbs(ULAbs(lappvars))
+(deftest tailrec-exponent
+  (is (= (exponent-tr 1 10)  1))
+  (is (= (exponent-tr 2  5) 32))
+  (is (= (exponent-tr 5  2) 25)))
 
-println("a                                                       Sample")
-println(prettify(x))
-println("b                                                       Sample")
-println(prettify(y))
-println("((a) (b)) ((c) (d))                                     Sample")
-println(prettify(appvars))
-println("lambda a . ((a) (b)) ((c) (d))                          Sample")
-println(prettify(lappvars))
-println("lambda a . lambda b . lambda c . ((c) (b)) ((a) (d))    Sample")
-println(prettify(lllappvars))
-#+end_src
+(deftest naive-sumlist
+  (is (= (sumlist '(0 1 2 3)) 6))
+  (is (= (sumlist '(0 0 0 0)) 0))
+  (is (= (sumlist '(10 -1 -1 -1 -1 -1)) 5)))
 
-[[./testing/h7/h7t.rb][h7t.rb]]
-#+begin_src ruby :tangle ./testing/h7/h7t.rb
-require_relative "h7"
+(deftest tailrec-sumlist
+  (is (= (sumlist-tr '(0 1 2 3)) 6))
+  (is (= (sumlist-tr '(0 0 0 0)) 0))
+  (is (= (sumlist-tr '(10 -1 -1 -1 -1 -1)) 5)))
 
-x = ULVar.new(0)
-y = ULVar.new(1)
-z = ULVar.new(2)
-u = ULVar.new(3)
+(deftest naive-flattenlist
+  (is (= (flattenlist '((1 2) (3 4) (5 6) (7 8))) '(1 2 3 4 5 6 7 8)))
+  (is (= (flattenlist '((0))) '(0)))
+  (is (= (flattenlist '((1) ((2) (3)))) '(1 (2) (3)))))
 
-appvars = ULApp.new(ULApp.new(x,y), ULApp.new(z,u))
-lappvars = ULAbs.new(appvars)
-lllappvars = ULAbs.new(ULAbs.new(lappvars))
+(deftest tailrec-flattenlist
+  (is (= (flattenlist-tr '((1 2) (3 4) (5 6) (7 8))) '(1 2 3 4 5 6 7 8)))
+  (is (= (flattenlist-tr '((0))) '(0)))
+  (is (= (flattenlist-tr '((1) ((2) (3)))) '(1 (2) (3)))))
 
-puts "a                                                       Sample"
-puts x.prettify
-puts "b                                                       Sample"
-puts y.prettify
-puts "((a) (b)) ((c) (d))                                     Sample"
-puts appvars.prettify
-puts "lambda a . ((a) (b)) ((c) (d))                          Sample"
-puts lappvars.prettify
-puts "lambda a . lambda b . lambda c . ((c) (b)) ((a) (d))    Sample"
-puts lllappvars.prettify
+(deftest naive-postfixes
+  (is (= (postfixes '(1 2 3 4 5 6)) '((1 2 3 4 5 6) (2 3 4 5 6) (3 4 5 6) (4 5 6) (5 6) (6) ())))
+  (is (= (postfixes '(0)) '((0) ())))
+  (is (= (postfixes '(6 5 4 3 2 1)) '((6 5 4 3 2 1) (5 4 3 2 1) (4 3 2 1) (3 2 1) (2 1) (1) ()))))
+
+(deftest tailrec-postfixes
+  (is (= (postfixes-tr '(1 2 3 4 5 6)) '((1 2 3 4 5 6) (2 3 4 5 6) (3 4 5 6) (4 5 6) (5 6) (6) ())))
+  (is (= (postfixes-tr '(0)) '((0) ())))
+  (is (= (postfixes-tr '(6 5 4 3 2 1)) '((6 5 4 3 2 1) (5 4 3 2 1) (4 3 2 1) (3 2 1) (2 1) (1) ()))))
+
+;; If we define `test-ns-hook`, it is called when running `run-tests`,
+;; instead of just calling all tests in the namespace.
+;; This lets us control the order of the tests.
+(deftest test-ns-hook
+  (naive-exponent)
+  (naive-sumlist)
+  (naive-flattenlist)
+  (naive-postfixes)
+  (tailrec-exponent)
+  (tailrec-sumlist)
+  (tailrec-flattenlist)
+  (tailrec-postfixes))
+
+(run-tests 'testing)
 #+end_src
 
 ** The Docker setup
@@ -598,56 +598,40 @@ puts lllappvars.prettify
 The contents of the Docker setup files and scripts are repeated here.
 
 [[./testing/h7/Dockerfile][Dockerfile]]
-#+begin_src docker :tangle ./testing/h7/Dockerfile
+#+begin_src docker :tangle ./testing/h8/Dockerfile
 # Define the argument for openjdk version
 ARG OPENJDK_TAG=8u232
 
-FROM ruby:2.7.2-buster
-
-# Setup to install Scala
-RUN apt-get update && \
-    apt-get install scala -y && \
-    apt-get install -y curl && \
-    sh -c '(echo "#!/usr/bin/env sh" && \
-    curl -L https://github.com/lihaoyi/Ammonite/releases/download/2.1.1/2.12-2.1.1) > /usr/local/bin/amm && \
-    chmod +x /usr/local/bin/amm'
-RUN (rm -rf /root/.cache)
-     
+FROM clojure:openjdk-8
+    
 # Set the name of the maintainers
 MAINTAINER Habib Ghaffari Hadigheh, Mark Armstrong <ghaffh1@mcmaster.ca, armstmp@mcmaster.ca>
 
 # Set the working directory
-WORKDIR /opt/h7
+WORKDIR /opt/h8
 #+end_src
 
 [[./testing/h7/docker-compose.yml][docker-compose.yml]]
-#+begin_src yaml :tangle ./testing/h7/docker-compose.yml
+#+begin_src yaml :tangle ./testing/h8/docker-compose.yml
 version: '2'
 services:
   service:
     build: .
-    image: 3mi3_h7_docker_image
+    image: 3mi3_h8_docker_image
     volumes:
-      - .:/opt/h7
-    container_name: 3mi3_h7_container
+      - .:/opt/h8
+    container_name: 3mi3_h8_container
     command: bash -c
-      "echo 'Scala testing' &&
-       echo '----------------------------------------------------------------------' &&
-       amm h7t.sc &&
-       printf '\\n\\n\\n' &&
-       echo 'Ruby testing' &&
-       echo '----------------------------------------------------------------------' &&
-       ruby h7t.rb &&
-       echo '----------------------------------------------------------------------'"
+      "cat h8t.clj | lein repl"
 #+end_src
 
 [[./testing/h5/setup.sh][setup.sh]]
-#+begin_src shell :tangle ./testing/h7/setup.sh :shebang t
+#+begin_src shell :tangle ./testing/h8/setup.sh :shebang t
 docker-compose build --force-rm
 #+end_src
 
 [[./testing/h5/run.sh][run.sh]]
-#+begin_src shell :tangle ./testing/h7/run.sh :shebang t
+#+begin_src shell :tangle ./testing/h8/run.sh :shebang t
 # Run the container
 docker-compose up --force-recreate
 # Stop the container after finishing the test run
@@ -655,7 +639,7 @@ docker-compose stop -t 1
 #+end_src
 
 [[./testing/h5/README.md][README.md]]
-#+begin_src text :tangle ./testing/h7/README.md
+#+begin_src text :tangle ./testing/h8/README.md
 # Instructions for automated testing using Docker
 
 We have already created a `Dockerfile` here which specifies
@@ -673,8 +657,8 @@ simply execute
 to generate the image.
 
 ## Prepare your code for the running the tests
-You only need to place the `h7t.sc` and `h7t.rb` unit test files and
-the `run.sh` file in the same directory as your `h7.sc` and `h7.rb` source files.
+You only need to place the `h8t.clj` unit test file and
+the `run.sh` file in the same directory as your `h8.clj` source file.
 
 ## Running the tests
 As with the build process, we have already put

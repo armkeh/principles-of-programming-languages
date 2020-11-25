@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-11-20 Fri 14:25 -->
+<!-- 2020-11-25 Wed 09:31 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Computer Science 3MI3 – 2020 homework 8</title>
@@ -263,16 +263,16 @@ in Clojure which print a representation of the call stack."
 <ul>
 <li><a href="#Submission-procedures">Submission procedures</a>
 <ul>
-<li><a href="#org044d213">Submission method</a></li>
-<li><a href="#orgc3055a2">Naming requirements</a></li>
-<li><a href="#org0ee63e7">Do not submit testing or diagnostic code</a></li>
-<li><a href="#orgbefb5c7">Due date and allowance for technical difficulties</a></li>
+<li><a href="#org98e5231">Submission method</a></li>
+<li><a href="#orgf5c523b">Naming requirements</a></li>
+<li><a href="#org7601bee">Do not submit testing or diagnostic code</a></li>
+<li><a href="#org621d1f4">Due date and allowance for technical difficulties</a></li>
 </ul>
 </li>
 <li><a href="#Proper-conduct-for-coursework">Proper conduct for coursework</a>
 <ul>
-<li><a href="#org0fa4cac">Individual work</a></li>
-<li><a href="#org2209f7e">Language library resources</a></li>
+<li><a href="#org2d1dfc8">Individual work</a></li>
+<li><a href="#orgd8ab745">Language library resources</a></li>
 </ul>
 </li>
 </ul>
@@ -283,8 +283,14 @@ in Clojure which print a representation of the call stack."
 <li><a href="#Part-1:-Exponent--------------[10 marks]">Part 1: Exponent              [10 marks]</a></li>
 <li><a href="#Part-2:-Sum-of-a-list---------[10 marks]">Part 2: Sum of a list         [10 marks]</a></li>
 <li><a href="#Part-3:-Flatten-a-list--------[20 marks]">Part 3: Flatten a list        [20 marks]</a></li>
-<li><a href="#Part-4:-Prefixes-of-a-list----[20 marks]">Part 4: Prefixes of a list    [20 marks]</a></li>
-<li><a href="#Testing">Testing</a></li>
+<li><a href="#Part-4:-Prefixes-of-a-list----[20 marks]">Part 4: Postfixes of a list   [20 marks]</a></li>
+<li><a href="#Testing">Testing</a>
+<ul>
+<li><a href="#Automated-testing-via-Docker">Automated testing via Docker</a></li>
+<li><a href="#The-tests">The tests</a></li>
+<li><a href="#The-Docker-setup">The Docker setup</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -318,9 +324,9 @@ See <a href="#Part-0.1:-“Naive”-recursion-vs. tail-recursion">Part 0.1</a> 
 <div class="outline-text-3" id="text-Submission-procedures">
 </div>
 
-<div id="outline-container-org044d213" class="outline-4">
-<h4 id="org044d213">Submission method</h4>
-<div class="outline-text-4" id="text-org044d213">
+<div id="outline-container-org98e5231" class="outline-4">
+<h4 id="org98e5231">Submission method</h4>
+<div class="outline-text-4" id="text-org98e5231">
 <p>
 Homework should be submitted to your McMaster CAS Gitlab respository
 in the <code>cs3mi3-fall2020</code> project.
@@ -333,9 +339,9 @@ in time for the deadline, and not just committed to your local copy.
 </div>
 </div>
 
-<div id="outline-container-orgc3055a2" class="outline-4">
-<h4 id="orgc3055a2">Naming requirements</h4>
-<div class="outline-text-4" id="text-orgc3055a2">
+<div id="outline-container-orgf5c523b" class="outline-4">
+<h4 id="orgf5c523b">Naming requirements</h4>
+<div class="outline-text-4" id="text-orgf5c523b">
 <p>
 Place all files for the homework
 inside a folder titled <code>hn</code>, where <code>n</code> is the number of the homework.
@@ -376,9 +382,9 @@ submit a <code>hn.ext</code> file for each language.
 </div>
 </div>
 
-<div id="outline-container-org0ee63e7" class="outline-4">
-<h4 id="org0ee63e7">Do not submit testing or diagnostic code</h4>
-<div class="outline-text-4" id="text-org0ee63e7">
+<div id="outline-container-org7601bee" class="outline-4">
+<h4 id="org7601bee">Do not submit testing or diagnostic code</h4>
+<div class="outline-text-4" id="text-org7601bee">
 <p>
 Unless you are instructed to do so in the homework questions,
 <b>you should not submit testing code with your homework submission</b>.
@@ -406,9 +412,9 @@ For instance, by using a wrapper on the print function or macros.
 </div>
 </div>
 
-<div id="outline-container-orgbefb5c7" class="outline-4">
-<h4 id="orgbefb5c7">Due date and allowance for technical difficulties</h4>
-<div class="outline-text-4" id="text-orgbefb5c7">
+<div id="outline-container-org621d1f4" class="outline-4">
+<h4 id="org621d1f4">Due date and allowance for technical difficulties</h4>
+<div class="outline-text-4" id="text-org621d1f4">
 <p>
 Homework is due on the second Sunday following its release,
 by the end of the day (midnight).
@@ -433,9 +439,9 @@ to accept your submission once the technical difficulties are resolved.
 <div class="outline-text-3" id="text-Proper-conduct-for-coursework">
 </div>
 
-<div id="outline-container-org0fa4cac" class="outline-4">
-<h4 id="org0fa4cac">Individual work</h4>
-<div class="outline-text-4" id="text-org0fa4cac">
+<div id="outline-container-org2d1dfc8" class="outline-4">
+<h4 id="org2d1dfc8">Individual work</h4>
+<div class="outline-text-4" id="text-org2d1dfc8">
 <p>
 Unless explicitely stated in the homework questions,
 all homework in this course is intended
@@ -496,9 +502,9 @@ probably add a catch-all <code>_</code> case to your <code>match</code> expressi
 </div>
 </div>
 
-<div id="outline-container-org2209f7e" class="outline-4">
-<h4 id="org2209f7e">Language library resources</h4>
-<div class="outline-text-4" id="text-org2209f7e">
+<div id="outline-container-orgd8ab745" class="outline-4">
+<h4 id="orgd8ab745">Language library resources</h4>
+<div class="outline-text-4" id="text-orgd8ab745">
 <p>
 Unless explicitely stated in the questions,
 it is not expected that you will use any language library resources
@@ -994,7 +1000,7 @@ For instance, <code>(flattenlist '((1 2) (3 4) (5 6 7 8)))</code> should return 
 </div>
 
 <div id="outline-container-Part-4:-Prefixes-of-a-list----[20 marks]" class="outline-2">
-<h2 id="Part-4:-Prefixes-of-a-list----[20 marks]">Part 4: Prefixes of a list    [20 marks]</h2>
+<h2 id="Part-4:-Prefixes-of-a-list----[20 marks]">Part 4: Postfixes of a list   [20 marks]</h2>
 <div class="outline-text-2" id="text-Part-4:-Prefixes-of-a-list----[20 marks]">
 <p>
 Use <code>unwindrec</code> once more to define functions <code>postfixes</code> and <code>postfixes-tr</code> which,
@@ -1031,8 +1037,224 @@ marked with tildes <code>~</code>, to be evaluated.
 <h2 id="Testing">Testing</h2>
 <div class="outline-text-2" id="text-Testing">
 <p>
-:TODO:
+Unit tests for the requested methods/functions
+are available here <a href="./testing/h8/h8t.clj">h8t.clj</a>.
+The contents of the unit test file are also repeated below.
 </p>
+
+<div class="org-center">
+<p>
+These tests confirm that your functions return the correct values.
+However, they do not confirm that you have used the <code>unwindrec</code> form,
+or that your naive and tail recursive definitions are indeed
+naive and tail recursive respectively.
+</p>
+</div>
+</div>
+
+<div id="outline-container-Automated-testing-via-Docker" class="outline-3">
+<h3 id="Automated-testing-via-Docker">Automated testing via Docker</h3>
+<div class="outline-text-3" id="text-Automated-testing-via-Docker">
+<p>
+The Docker setup and usage scripts are available at the following links.
+Their contents are also repeated below.
+</p>
+<ul class="org-ul">
+<li><a href="./testing/h8/Dockerfile">Dockerfile</a></li>
+<li><a href="./testing/h8/docker-compose.yml">docker-compose.yml</a></li>
+<li><a href="./testing/h8/setup.sh">setup.sh</a></li>
+<li><a href="./testing/h8/run.sh">run.sh</a></li>
+</ul>
+<p>
+Place them into your <code>h8</code> directory where your <code>h8.clj</code> file
+and the <code>h8t.clj</code> (linked to above) files exist,
+then run <code>setup.sh</code> and <code>run.sh</code>.
+</p>
+
+<p>
+You may also refer to the README
+for this testing setup and those files
+<a href="https://github.com/armkeh/principles-of-programming-languages/tree/master/homework/testing/h5">on the course GitHub repo</a>.
+</p>
+
+<p>
+Note that the use of the <code>setup.sh</code> and <code>run.sh</code> scripts assumes
+that you are in a <code>bash</code> like shell; if you are on Windows,
+and not using WSL or WSL2, you may have
+to run the commands contained in those scripts manually.
+</p>
+</div>
+</div>
+
+<div id="outline-container-The-tests" class="outline-3">
+<h3 id="The-tests">The tests</h3>
+<div class="outline-text-3" id="text-The-tests">
+<p>
+The contents of the testing script are repeated here.
+</p>
+
+<p>
+<a href="./testing/h8/h8t.sc">h8t.sc</a>
+</p>
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">ns</span> <span style="color: #6ae4b9;">testing</span><span style="color: #00cd68;">)</span>
+<span style="color: #00cd68;">(</span>use 'clojure.test<span style="color: #00cd68;">)</span>
+<span style="color: #00cd68;">(</span>load-file <span style="color: #79a8ff;">"h8.clj"</span><span style="color: #00cd68;">)</span>
+
+<span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">deftest</span> <span style="color: #feacd0;">naive-exponent</span>
+  <span style="color: #b6a0ff;">(</span>is <span style="color: #6ae4b9;">(</span>= <span style="color: #f0ce43;">(</span>exponent 1 10<span style="color: #f0ce43;">)</span>  1<span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span>
+  <span style="color: #b6a0ff;">(</span>is <span style="color: #6ae4b9;">(</span>= <span style="color: #f0ce43;">(</span>exponent 2  5<span style="color: #f0ce43;">)</span> 32<span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span>
+  <span style="color: #b6a0ff;">(</span>is <span style="color: #6ae4b9;">(</span>= <span style="color: #f0ce43;">(</span>exponent 5  2<span style="color: #f0ce43;">)</span> 25<span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+
+<span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">deftest</span> <span style="color: #feacd0;">tailrec-exponent</span>
+  <span style="color: #b6a0ff;">(</span>is <span style="color: #6ae4b9;">(</span>= <span style="color: #f0ce43;">(</span>exponent-tr 1 10<span style="color: #f0ce43;">)</span>  1<span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span>
+  <span style="color: #b6a0ff;">(</span>is <span style="color: #6ae4b9;">(</span>= <span style="color: #f0ce43;">(</span>exponent-tr 2  5<span style="color: #f0ce43;">)</span> 32<span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span>
+  <span style="color: #b6a0ff;">(</span>is <span style="color: #6ae4b9;">(</span>= <span style="color: #f0ce43;">(</span>exponent-tr 5  2<span style="color: #f0ce43;">)</span> 25<span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+
+<span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">deftest</span> <span style="color: #feacd0;">naive-sumlist</span>
+  <span style="color: #b6a0ff;">(</span>is <span style="color: #6ae4b9;">(</span>= <span style="color: #f0ce43;">(</span>sumlist '<span style="color: #00bcff;">(</span>0 1 2 3<span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span> 6<span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span>
+  <span style="color: #b6a0ff;">(</span>is <span style="color: #6ae4b9;">(</span>= <span style="color: #f0ce43;">(</span>sumlist '<span style="color: #00bcff;">(</span>0 0 0 0<span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span> 0<span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span>
+  <span style="color: #b6a0ff;">(</span>is <span style="color: #6ae4b9;">(</span>= <span style="color: #f0ce43;">(</span>sumlist '<span style="color: #00bcff;">(</span>10 -1 -1 -1 -1 -1<span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span> 5<span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+
+<span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">deftest</span> <span style="color: #feacd0;">tailrec-sumlist</span>
+  <span style="color: #b6a0ff;">(</span>is <span style="color: #6ae4b9;">(</span>= <span style="color: #f0ce43;">(</span>sumlist-tr '<span style="color: #00bcff;">(</span>0 1 2 3<span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span> 6<span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span>
+  <span style="color: #b6a0ff;">(</span>is <span style="color: #6ae4b9;">(</span>= <span style="color: #f0ce43;">(</span>sumlist-tr '<span style="color: #00bcff;">(</span>0 0 0 0<span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span> 0<span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span>
+  <span style="color: #b6a0ff;">(</span>is <span style="color: #6ae4b9;">(</span>= <span style="color: #f0ce43;">(</span>sumlist-tr '<span style="color: #00bcff;">(</span>10 -1 -1 -1 -1 -1<span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span> 5<span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+
+<span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">deftest</span> <span style="color: #feacd0;">naive-flattenlist</span>
+  <span style="color: #b6a0ff;">(</span>is <span style="color: #6ae4b9;">(</span>= <span style="color: #f0ce43;">(</span>flattenlist '<span style="color: #00bcff;">(</span><span style="color: #80d200;">(</span>1 2<span style="color: #80d200;">)</span> <span style="color: #80d200;">(</span>3 4<span style="color: #80d200;">)</span> <span style="color: #80d200;">(</span>5 6<span style="color: #80d200;">)</span> <span style="color: #80d200;">(</span>7 8<span style="color: #80d200;">)</span><span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span> '<span style="color: #f0ce43;">(</span>1 2 3 4 5 6 7 8<span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span>
+  <span style="color: #b6a0ff;">(</span>is <span style="color: #6ae4b9;">(</span>= <span style="color: #f0ce43;">(</span>flattenlist '<span style="color: #00bcff;">(</span><span style="color: #80d200;">(</span>0<span style="color: #80d200;">)</span><span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span> '<span style="color: #f0ce43;">(</span>0<span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span>
+  <span style="color: #b6a0ff;">(</span>is <span style="color: #6ae4b9;">(</span>= <span style="color: #f0ce43;">(</span>flattenlist '<span style="color: #00bcff;">(</span><span style="color: #80d200;">(</span>1<span style="color: #80d200;">)</span> <span style="color: #80d200;">(</span><span style="color: #f78fe7;">(</span>2<span style="color: #f78fe7;">)</span> <span style="color: #f78fe7;">(</span>3<span style="color: #f78fe7;">)</span><span style="color: #80d200;">)</span><span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span> '<span style="color: #f0ce43;">(</span>1 <span style="color: #00bcff;">(</span>2<span style="color: #00bcff;">)</span> <span style="color: #00bcff;">(</span>3<span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+
+<span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">deftest</span> <span style="color: #feacd0;">tailrec-flattenlist</span>
+  <span style="color: #b6a0ff;">(</span>is <span style="color: #6ae4b9;">(</span>= <span style="color: #f0ce43;">(</span>flattenlist-tr '<span style="color: #00bcff;">(</span><span style="color: #80d200;">(</span>1 2<span style="color: #80d200;">)</span> <span style="color: #80d200;">(</span>3 4<span style="color: #80d200;">)</span> <span style="color: #80d200;">(</span>5 6<span style="color: #80d200;">)</span> <span style="color: #80d200;">(</span>7 8<span style="color: #80d200;">)</span><span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span> '<span style="color: #f0ce43;">(</span>1 2 3 4 5 6 7 8<span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span>
+  <span style="color: #b6a0ff;">(</span>is <span style="color: #6ae4b9;">(</span>= <span style="color: #f0ce43;">(</span>flattenlist-tr '<span style="color: #00bcff;">(</span><span style="color: #80d200;">(</span>0<span style="color: #80d200;">)</span><span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span> '<span style="color: #f0ce43;">(</span>0<span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span>
+  <span style="color: #b6a0ff;">(</span>is <span style="color: #6ae4b9;">(</span>= <span style="color: #f0ce43;">(</span>flattenlist-tr '<span style="color: #00bcff;">(</span><span style="color: #80d200;">(</span>1<span style="color: #80d200;">)</span> <span style="color: #80d200;">(</span><span style="color: #f78fe7;">(</span>2<span style="color: #f78fe7;">)</span> <span style="color: #f78fe7;">(</span>3<span style="color: #f78fe7;">)</span><span style="color: #80d200;">)</span><span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span> '<span style="color: #f0ce43;">(</span>1 <span style="color: #00bcff;">(</span>2<span style="color: #00bcff;">)</span> <span style="color: #00bcff;">(</span>3<span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+
+<span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">deftest</span> <span style="color: #feacd0;">naive-postfixes</span>
+  <span style="color: #b6a0ff;">(</span>is <span style="color: #6ae4b9;">(</span>= <span style="color: #f0ce43;">(</span>postfixes '<span style="color: #00bcff;">(</span>1 2 3 4 5 6<span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span> '<span style="color: #f0ce43;">(</span><span style="color: #00bcff;">(</span>1 2 3 4 5 6<span style="color: #00bcff;">)</span> <span style="color: #00bcff;">(</span>2 3 4 5 6<span style="color: #00bcff;">)</span> <span style="color: #00bcff;">(</span>3 4 5 6<span style="color: #00bcff;">)</span> <span style="color: #00bcff;">(</span>4 5 6<span style="color: #00bcff;">)</span> <span style="color: #00bcff;">(</span>5 6<span style="color: #00bcff;">)</span> <span style="color: #00bcff;">(</span>6<span style="color: #00bcff;">)</span> <span style="color: #00bcff;">()</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span>
+  <span style="color: #b6a0ff;">(</span>is <span style="color: #6ae4b9;">(</span>= <span style="color: #f0ce43;">(</span>postfixes '<span style="color: #00bcff;">(</span>0<span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span> '<span style="color: #f0ce43;">(</span><span style="color: #00bcff;">(</span>0<span style="color: #00bcff;">)</span> <span style="color: #00bcff;">()</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span>
+  <span style="color: #b6a0ff;">(</span>is <span style="color: #6ae4b9;">(</span>= <span style="color: #f0ce43;">(</span>postfixes '<span style="color: #00bcff;">(</span>6 5 4 3 2 1<span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span> '<span style="color: #f0ce43;">(</span><span style="color: #00bcff;">(</span>6 5 4 3 2 1<span style="color: #00bcff;">)</span> <span style="color: #00bcff;">(</span>5 4 3 2 1<span style="color: #00bcff;">)</span> <span style="color: #00bcff;">(</span>4 3 2 1<span style="color: #00bcff;">)</span> <span style="color: #00bcff;">(</span>3 2 1<span style="color: #00bcff;">)</span> <span style="color: #00bcff;">(</span>2 1<span style="color: #00bcff;">)</span> <span style="color: #00bcff;">(</span>1<span style="color: #00bcff;">)</span> <span style="color: #00bcff;">()</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+
+<span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">deftest</span> <span style="color: #feacd0;">tailrec-postfixes</span>
+  <span style="color: #b6a0ff;">(</span>is <span style="color: #6ae4b9;">(</span>= <span style="color: #f0ce43;">(</span>postfixes-tr '<span style="color: #00bcff;">(</span>1 2 3 4 5 6<span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span> '<span style="color: #f0ce43;">(</span><span style="color: #00bcff;">(</span>1 2 3 4 5 6<span style="color: #00bcff;">)</span> <span style="color: #00bcff;">(</span>2 3 4 5 6<span style="color: #00bcff;">)</span> <span style="color: #00bcff;">(</span>3 4 5 6<span style="color: #00bcff;">)</span> <span style="color: #00bcff;">(</span>4 5 6<span style="color: #00bcff;">)</span> <span style="color: #00bcff;">(</span>5 6<span style="color: #00bcff;">)</span> <span style="color: #00bcff;">(</span>6<span style="color: #00bcff;">)</span> <span style="color: #00bcff;">()</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span>
+  <span style="color: #b6a0ff;">(</span>is <span style="color: #6ae4b9;">(</span>= <span style="color: #f0ce43;">(</span>postfixes-tr '<span style="color: #00bcff;">(</span>0<span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span> '<span style="color: #f0ce43;">(</span><span style="color: #00bcff;">(</span>0<span style="color: #00bcff;">)</span> <span style="color: #00bcff;">()</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span>
+  <span style="color: #b6a0ff;">(</span>is <span style="color: #6ae4b9;">(</span>= <span style="color: #f0ce43;">(</span>postfixes-tr '<span style="color: #00bcff;">(</span>6 5 4 3 2 1<span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span> '<span style="color: #f0ce43;">(</span><span style="color: #00bcff;">(</span>6 5 4 3 2 1<span style="color: #00bcff;">)</span> <span style="color: #00bcff;">(</span>5 4 3 2 1<span style="color: #00bcff;">)</span> <span style="color: #00bcff;">(</span>4 3 2 1<span style="color: #00bcff;">)</span> <span style="color: #00bcff;">(</span>3 2 1<span style="color: #00bcff;">)</span> <span style="color: #00bcff;">(</span>2 1<span style="color: #00bcff;">)</span> <span style="color: #00bcff;">(</span>1<span style="color: #00bcff;">)</span> <span style="color: #00bcff;">()</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+
+<span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">If we define `</span><span style="color: #00bcff;">test-ns-hook</span><span style="color: #a8a8a8;">`, it is called when running `</span><span style="color: #00bcff;">run-tests</span><span style="color: #a8a8a8;">`,</span>
+<span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">instead of just calling all tests in the namespace.</span>
+<span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">This lets us control the order of the tests.</span>
+<span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">deftest</span> <span style="color: #feacd0;">test-ns-hook</span>
+  <span style="color: #b6a0ff;">(</span>naive-exponent<span style="color: #b6a0ff;">)</span>
+  <span style="color: #b6a0ff;">(</span>naive-sumlist<span style="color: #b6a0ff;">)</span>
+  <span style="color: #b6a0ff;">(</span>naive-flattenlist<span style="color: #b6a0ff;">)</span>
+  <span style="color: #b6a0ff;">(</span>naive-postfixes<span style="color: #b6a0ff;">)</span>
+  <span style="color: #b6a0ff;">(</span>tailrec-exponent<span style="color: #b6a0ff;">)</span>
+  <span style="color: #b6a0ff;">(</span>tailrec-sumlist<span style="color: #b6a0ff;">)</span>
+  <span style="color: #b6a0ff;">(</span>tailrec-flattenlist<span style="color: #b6a0ff;">)</span>
+  <span style="color: #b6a0ff;">(</span>tailrec-postfixes<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+
+<span style="color: #00cd68;">(</span>run-tests 'testing<span style="color: #00cd68;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-The-Docker-setup" class="outline-3">
+<h3 id="The-Docker-setup">The Docker setup</h3>
+<div class="outline-text-3" id="text-The-Docker-setup">
+<p>
+The contents of the Docker setup files and scripts are repeated here.
+</p>
+
+<p>
+<a href="./testing/h7/Dockerfile">Dockerfile</a>
+</p>
+<div class="org-src-container">
+<pre class="src src-docker"># Define the argument for openjdk version
+ARG OPENJDK_TAG=8u232
+
+FROM clojure:openjdk-8
+    
+# Set the name of the maintainers
+MAINTAINER Habib Ghaffari Hadigheh, Mark Armstrong &lt;ghaffh1@mcmaster.ca, armstmp@mcmaster.ca&gt;
+
+# Set the working directory
+WORKDIR /opt/h8
+</pre>
+</div>
+
+<p>
+<a href="./testing/h7/docker-compose.yml">docker-compose.yml</a>
+</p>
+<div class="org-src-container">
+<pre class="src src-yaml">version: '2'
+services:
+  service:
+    build: .
+    image: 3mi3_h8_docker_image
+    volumes:
+      - .:/opt/h8
+    container_name: 3mi3_h8_container
+    command: bash -c
+      "cat h8t.clj | lein repl"
+</pre>
+</div>
+
+<p>
+<a href="./testing/h5/setup.sh">setup.sh</a>
+</p>
+<div class="org-src-container">
+<pre class="src src-shell">docker-compose build --force-rm
+</pre>
+</div>
+
+<p>
+<a href="./testing/h5/run.sh">run.sh</a>
+</p>
+<div class="org-src-container">
+<pre class="src src-shell"><span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Run the container</span>
+docker-compose up --force-recreate
+<span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Stop the container after finishing the test run</span>
+docker-compose stop -t 1
+</pre>
+</div>
+
+<p>
+<a href="./testing/h5/README.md">README.md</a>
+</p>
+<div class="org-src-container">
+<pre class="src src-text"># Instructions for automated testing using Docker
+
+We have already created a `Dockerfile` here which specifies
+all the necessary packages, etc., for compiling and running your code.
+You only need to follow the instructions below to see 
+the results of unit tests designed to check your implementation.
+
+## Setup
+We use `docker-compose` and its configuration file to build the image.
+Assuming you have `docker` and `docker-compose` installed,
+simply execute
+```shell script
+./setup.sh
+```
+to generate the image.
+
+## Prepare your code for the running the tests
+You only need to place the `h8t.clj` unit test file and
+the `run.sh` file in the same directory as your `h8.clj` source file.
+
+## Running the tests
+As with the build process, we have already put
+the configuration needed for running the test inside `docker-compose.yml`.
+Simply execute
+```shell script
+./run.sh
+```
+to run and see the results of the tests.
+</pre>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -1040,7 +1262,7 @@ marked with tildes <code>~</code>, to be evaluated.
 <p class="author">Author: Mark Armstrong</p>
      <p class="author">Contact: <a href="mailto:markparmstrong@gmail.com">markparmstrong@gmail.com</a></p>
      <p class="date">Original date: November 19th, 2020</p>
-     <p class="date">Last updated: 2020-11-20 Fri 00:15</p>
+     <p class="date">Last updated: 2020-11-25 Wed 09:27</p>
      <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4)</p>
      <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

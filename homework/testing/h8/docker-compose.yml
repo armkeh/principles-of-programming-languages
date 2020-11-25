@@ -1,0 +1,10 @@
+version: '2'
+services:
+  service:
+    build: .
+    image: 3mi3_h8_docker_image
+    volumes:
+      - .:/opt/h8
+    container_name: 3mi3_h8_container
+    command: bash -c
+      "cat h8t.clj | lein repl"
