@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-11-25 Wed 09:34 -->
+<!-- 2020-11-25 Wed 10:29 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Computer Science 3MI3 - Principles of Programming Languages</title>
@@ -352,7 +352,11 @@
 <li><a href="#Installation-instructions">Installation instructions</a></li>
 </ul>
 </li>
-<li><a href="#Clojure">Clojure</a></li>
+<li><a href="#Clojure">Clojure</a>
+<ul>
+<li><a href="#Installation-instructions">Installation instructions</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -1940,9 +1944,45 @@ for debugging purposes.)
 <div id="outline-container-Clojure" class="outline-2">
 <h2 id="Clojure">Clojure</h2>
 <div class="outline-text-2" id="text-Clojure">
+</div>
+
+<div id="outline-container-Installation-instructions" class="outline-3">
+<h3 id="Installation-instructions">Installation instructions</h3>
+<div class="outline-text-3" id="text-Installation-instructions">
 <p>
-:TODO:
+For a quick start with Clojure, you can use
+<a href="https://repl.it/languages/clojure">repl.it</a>.
 </p>
+
+<p>
+For instructions on installing Clojure,
+see the Clojure <a href="https://clojure.org/guides/getting_started">getting started guide</a>.
+</p>
+
+<p>
+For the purposes of testing in Docker,
+we will use the build tool <a href="https://leiningen.org/">Leiningen</a>.
+</p>
+
+<p>
+That said, we do not assume that a “project” is created
+for the homeworks and assignments. As with Scala,
+we will assume that your Clojure code is a <i>script</i>,
+to be run in the REPL.
+</p>
+
+<p>
+Specifically, we will run your code by starting a REPL with <code>lein repl</code>,
+and then “dumping” your code into that REPL.
+</p>
+
+<p>
+If you want to check how your code runs
+with <code>lein repl</code> on your own system,
+you can run <code>cat my-code-file.clj | lein repl</code>.
+This is the command the Docker image will use.
+</p>
+</div>
 </div>
 </div>
 </div>
@@ -1950,8 +1990,8 @@ for debugging purposes.)
 <p class="author">Author: Mark Armstrong</p>
      <p class="author">Contact: <a href="mailto:markparmstrong@gmail.com">markparmstrong@gmail.com</a></p>
      <p class="date">Original date: July 31st, 2020</p>
-     <p class="date">Last updated: 2020-11-25 Wed 09:34</p>
-     <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.90 (<a href="https://orgmode.org">Org</a> mode 9.4)</p>
+     <p class="date">Last updated: 2020-11-25 Wed 10:29</p>
+     <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4)</p>
      <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

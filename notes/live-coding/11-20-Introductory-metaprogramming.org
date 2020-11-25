@@ -14,9 +14,15 @@
 :END:
 
 Metaprogramming, as the name implies,
-regards programs /that are constructed dynamically/,
-that is, programs whose construction is (at least partially)
+regards programs that modify the behaviour of other programs.
+
+The most common example of this is
+programs whose construction is (at least partially)
 carried out at runtime.
+
+Metaprogramming could also be considered to include
+programs which modify the behaviour of the language,
+either at compile time or at runtime.
 
 * Disclosure
 :PROPERTIES:
@@ -135,6 +141,122 @@ puts "Look ma, I didn't crash!"
 : Uh-oh; I couldn't find the do_something method!
 : Look ma, I didn't crash!
 
+** Using metaprogramming to take “Don't Repeat Yourself” to the extreme
+
+Consider a class which has a number of attributes,
+each of which needs to be initialised in the constructor.
+#+begin_src ruby :results output
+class Person
+  # Even using attr_accessor/reader/writer, we repeat ourselves a fair bit here.
+  attr_accessor :name
+  attr_accessor :height
+  attr_accessor :age
+  attr_accessor :weight
+
+  def initialize(features)
+    # We repeat ourselves again here.
+    @name   = features[:name]
+    @height = features[:height]
+    @age    = features[:age]
+    @weight = features[:weight]
+  end
+end
+
+bob = Person.new({ :name => "Bob",
+                   :height => 72,
+                   :age => 22,
+                   :weight => 180,
+                 })
+puts bob.name
+#+end_src
+
+#+RESULTS:
+: Bob
+
+We can cut down on that repetition using metaprogramming techniques.
+#+begin_src ruby :results output
+class Person
+  ATTRIBUTES = [:name, :height, :weight, :age,]
+
+  def initialize(features)
+    ATTRIBUTES.each do |attr|
+      instance_variable_set("@#{attr}", features[attr])
+    end
+  end
+
+  ATTRIBUTES.each do |attr|
+    define_method("#{attr}=") do |info|
+      instance_variable_set("@#{attr}", info)
+    end
+
+    define_method("#{attr}") do
+      instance_variable_get("@#{attr}")
+    end
+  end
+end
+
+bob = Person.new({ :name => "Bob",
+                   :height => 72,
+                   :age => 22,
+                   :weight => 180,
+                 })
+puts bob.height
+bob.height = 71
+puts bob.name
+puts bob.height
+#+end_src
+
+#+RESULTS:
+: 72
+: Bob
+: 71
+
+** COMMENT Using metaprogramming to take “Don't Repeat Yourself” to the extreme
+
+This example based on example 6 in the blogpost
+http://rubylearning.com/blog/2010/11/23/dont-know-metaprogramming-in-ruby/
+
+#+begin_src ruby :results output
+class CarModel
+  FEATURES = [:engine,
+              :wheel,
+              :airbag,
+              :alarm,
+              :stereo]
+
+  # Initialise each feature from a hash.
+  def initialize(feature_info)
+    FEATURES.each do |feature|
+      instance_variable_set("@#{feature}_info",
+                            feature_info[feature])
+    end
+  end
+
+  # Also define getters and setters for each feature.
+  FEATURES.each do |feature|
+    define_method("#{feature}_info=") do |info|
+      instance_variable_set("@#{feature}_info", info)
+    end
+  
+    define_method("#{feature}_info") do
+      instance_variable_get("@#{feature}_info")
+    end
+  end
+end
+
+myCar = CarModel.new({ :engine => "4 cylinder",
+                       :wheel =>  "offroad",
+                       :airbag => "none",
+                       :alarm =>  "none",
+                       :stereo => "none",
+                     })
+#myCar.engine_info = "4 cylinder"
+puts myCar.engine_info
+#+end_src
+
+#+RESULTS:
+: 4 cylinder
+
 * Clojure
 :PROPERTIES:
 :CUSTOM_ID: Clojure
@@ -173,3 +295,11 @@ We can specify the behaviour of ~unless~ more precisely with a macro.
 
 #+RESULTS:
 : #'user/unless
+
+#+begin_src clojure
+(defmacro infix [arg1 op arg2]
+  `(~op ~arg1 ~arg2))
+#+end_src
+
+#+RESULTS:
+: #'user/infix

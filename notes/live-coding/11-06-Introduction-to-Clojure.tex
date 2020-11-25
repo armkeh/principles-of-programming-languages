@@ -1,4 +1,4 @@
-% Created 2020-11-11 Wed 09:50
+% Created 2020-11-25 Wed 10:28
 % Intended LaTeX compiler: lualatex
 \documentclass[11pt]{article}
 \usepackage{graphicx}
@@ -43,27 +43,40 @@
 
 
 \section{Introduction}
-\label{sec:org4f84151}
+\label{sec:org0447adb}
 These notes were created for, and in some parts \textbf{during},
 the lecture on November 6th and the following tutorials.
 
 \section{Motivation}
-\label{sec:orgfb8e3f0}
+\label{sec:orge443038}
 :TODO:
 
 \section{Getting Clojure}
-\label{sec:org967b255}
+\label{sec:orga0bc1c3}
 For a quick start with Clojure, you can use
 \href{https://repl.it/languages/clojure}{repl.it}.
 
 For instructions on installing Clojure,
 see the Clojure \href{https://clojure.org/guides/getting\_started}{getting started guide}.
 
-Specific instructions on versions may come later,
-once a Docker image is decided upon for Clojure.
+For the purposes of testing in Docker,
+we will use the build tool \href{https://leiningen.org/}{Leiningen}.
+
+That said, we do not assume that a “project” is created
+for the homeworks and assignments. As with Scala,
+we will assume that your Clojure code is a \emph{script},
+to be run in the REPL.
+
+Specifically, we will run your code by starting a REPL with \texttt{lein repl},
+and then “dumping” your code into that REPL.
+
+If you want to check how your code runs
+with \texttt{lein repl} on your own system,
+you can run \texttt{cat my-code-file.clj | lein repl}.
+This is the command the Docker image will use.
 
 \section{The syntax and (most of) the semantics of Clojure}
-\label{sec:org7b456e6}
+\label{sec:org03d183c}
 The syntax of Lisps such as Clojure tend to be extremely minimal.
 For today at least, we will work with a subset of the language
 described by the following grammar, which is sufficient
@@ -94,7 +107,7 @@ For example, the following are all Clojure expressions.
 :b
 \end{minted}
 
-\item Lists (note the \texttt{'} or \texttt{quote} usage; we will explain it below in \ref{sec:orga6e046e}.)
+\item Lists (note the \texttt{'} or \texttt{quote} usage; we will explain it below in \ref{sec:org7a3684e}.)
 \begin{itemize}
 \item Which are heterogeneous.
 \end{itemize}
@@ -163,14 +176,14 @@ For instance,
 \end{minted}
 
 \section{Special forms; the \texttt{defn}, \texttt{def} and \texttt{fn} forms}
-\label{sec:orgf17a192}
+\label{sec:org9f5b001}
 When or if the evaluation rules of Clojure given above
 prove too limiting, Clojure allows for “special forms”
 (pieces of syntax handled differently by the compiler)
 to implement constructs.
 
 \subsection{\texttt{defn}}
-\label{sec:org647e2cc}
+\label{sec:orgaf65590}
 The first of these we will consider is the \texttt{defn} form,
 which can be read “define function”.
 
@@ -228,7 +241,7 @@ which are gathered into a list given that name.
 \end{minted}
 
 \subsection{\texttt{defn} is \texttt{def} plus \texttt{fn}}
-\label{sec:org3c0e22f}
+\label{sec:org378f244}
 The \texttt{defn} form can be thought of
 as the combination of the \texttt{def} and \texttt{fn} forms.
 The \texttt{def} form defines named values.
@@ -250,12 +263,13 @@ A \texttt{\%} is used if the function has a single parameter, \texttt{\%1}, \tex
 if the function has multiple parameters, and \texttt{\%\&} if it is variadic.
 So the above can be written
 \begin{minted}[breaklines=true]{clojure}
-(#(+ %1 1) my-favourite-number)
+(#(+ % 1) my-favourite-number)
 \end{minted}
 (Note; nesting of the \texttt{\#()} form is not allowed, because the
 positional parameter names would become ambiguous.)
 
-Of course, we then don't need \texttt{defn}; we could just write.
+Of course, given \texttt{def} and \texttt{fn}, we don't need \texttt{defn};
+we could just write
 \begin{minted}[breaklines=true]{clojure}
 (def add-one (fn [x] (+ x 1)))
 \end{minted}
@@ -268,7 +282,7 @@ We've then given the anonymous function a name we can use later.
 But \texttt{defn} is more convenient.
 
 \subsection{Scope and the \texttt{let} form}
-\label{sec:org8220819}
+\label{sec:org4335b42}
 The \texttt{def} form creates a new \emph{global} binding.
 This means even if not used at the “top-level”,
 the binding can be seen anywhere.
@@ -297,11 +311,13 @@ The same applies for \texttt{defn}.
 
 In contrast, the \texttt{let} form creates a new \emph{local} binding.
 \begin{minted}[breaklines=true]{clojure}
-(defn get-the-number []
+(defn get-secret-symbol []
+  (let [get-symbol (fn [] :secret)]
+    (get-symbol)))
 \end{minted}
 
 \section{The \texttt{quote}, \texttt{'}}
-\label{sec:orga6e046e}
+\label{sec:org7a3684e}
 Another special form is \texttt{quote}, which is used
 when you want to interpret a list as \emph{data} instead
 of as a function invokation.
@@ -317,7 +333,7 @@ of as a function invokation.
 \end{minted}
 
 \section{Conditional forms}
-\label{sec:org539be4d}
+\label{sec:org4152811}
 The form \texttt{if} acts as you would expect; it takes 3 arguments,
 the first of which is checked for truth,
 and if it is true, the second argument is evaluated.
@@ -333,7 +349,7 @@ Otherwise the third argument (if present) is evaluated.
 
 All values in Clojure are “true” except for \texttt{nil} and \texttt{false}.
 \begin{minted}[breaklines=true]{clojure}
-(if 5 "1")
+(if 0 "1")
 (if () "2")
 (if nil "3")
 (if false "4")
@@ -344,6 +360,11 @@ If you only want a “then” branch for your “if”,
 then it's best to use the \texttt{when} form.
 \begin{minted}[breaklines=true]{clojure}
 (when true "hello")
+\end{minted}
+
+:TODO: explain
+\begin{minted}[breaklines=true]{clojure}
+(when true (println "Hello!") (println "Goodbye!"))
 \end{minted}
 
 For a more switch-statement like form, use \texttt{cond}.
@@ -357,7 +378,7 @@ as the condition. By convention, the symbol \texttt{:else} is used.
 \end{minted}
 
 \section{\texttt{do}, for sequential computation}
-\label{sec:org7684b00}
+\label{sec:org9c29280}
 If we put multiple expressions in sequence,
 the “result” will usually be the value of the last expression.
 For instance, in a function definition:
@@ -374,7 +395,9 @@ where we might want one. For instance, when using an \texttt{if},
 the \texttt{then} branch has to be a single expression.
 To get around this, there is a \texttt{do} form for sequencing.
 \begin{minted}[breaklines=true]{clojure}
-(if true (do (println "First") (println "Second")))
+(if true
+  (do (println "First")
+      (println "Second")))
 \end{minted}
 
 There are more complex forms for repeating the same expressions
@@ -398,9 +421,9 @@ or iterating over multiple sequences
 \end{itemize}
 
 \section{Side notes}
-\label{sec:org8d6d39c}
+\label{sec:org615f985}
 \subsection{Partial application}
-\label{sec:org51dccd4}
+\label{sec:org1b1fc37}
 Partial application would be implemented as
 a function returning a function,
 and invokation of such a function would look like

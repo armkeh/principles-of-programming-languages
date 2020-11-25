@@ -1139,4 +1139,10 @@ can be found in the Prolog tidbits file, available as
 :CUSTOM_ID: Clojure
 :END:
 
-:TODO:
+** Installation instructions
+:PROPERTIES:
+:CUSTOM_ID: Installation-instructions
+:END:
+
+#+INCLUDE: "./notes/live-coding/11-06-Introduction-to-Clojure.org::* Getting Clojure" :only-contents t
+

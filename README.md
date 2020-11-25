@@ -1115,4 +1115,24 @@ you may find helpful for debugging purposes.)
 
 # Clojure
 
-:TODO:
+## Installation instructions
+
+For a quick start with Clojure, you can use
+[repl.it](https://repl.it/languages/clojure).
+
+For instructions on installing Clojure, see the Clojure [getting started
+guide](https://clojure.org/guides/getting_started).
+
+For the purposes of testing in Docker, we will use the build tool
+[Leiningen](https://leiningen.org/).
+
+That said, we do not assume that a “project” is created for the
+homeworks and assignments. As with Scala, we will assume that your
+Clojure code is a *script*, to be run in the REPL.
+
+Specifically, we will run your code by starting a REPL with `lein repl`,
+and then “dumping” your code into that REPL.
+
+If you want to check how your code runs with `lein repl` on your own
+system, you can run `cat my-code-file.clj | lein repl`. This is the
+command the Docker image will use.

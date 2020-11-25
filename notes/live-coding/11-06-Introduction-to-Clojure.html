@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-11-11 Wed 09:50 -->
+<!-- 2020-11-25 Wed 10:28 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Introduction to Clojure</title>
@@ -289,8 +289,27 @@ see the Clojure <a href="https://clojure.org/guides/getting_started">getting sta
 </p>
 
 <p>
-Specific instructions on versions may come later,
-once a Docker image is decided upon for Clojure.
+For the purposes of testing in Docker,
+we will use the build tool <a href="https://leiningen.org/">Leiningen</a>.
+</p>
+
+<p>
+That said, we do not assume that a “project” is created
+for the homeworks and assignments. As with Scala,
+we will assume that your Clojure code is a <i>script</i>,
+to be run in the REPL.
+</p>
+
+<p>
+Specifically, we will run your code by starting a REPL with <code>lein repl</code>,
+and then “dumping” your code into that REPL.
+</p>
+
+<p>
+If you want to check how your code runs
+with <code>lein repl</code> on your own system,
+you can run <code>cat my-code-file.clj | lein repl</code>.
+This is the command the Docker image will use.
 </p>
 </div>
 </div>
@@ -540,7 +559,7 @@ if the function has multiple parameters, and <code>%&amp;</code> if it is variad
 So the above can be written
 </p>
 <div class="org-src-container">
-<pre class="src src-clojure"><span style="color: #00cd68;">(</span>#<span style="color: #b6a0ff;">(</span>+ <span style="color: #00d3d0;">%1</span> 1<span style="color: #b6a0ff;">)</span> my-favourite-number<span style="color: #00cd68;">)</span>
+<pre class="src src-clojure"><span style="color: #00cd68;">(</span>#<span style="color: #b6a0ff;">(</span>+ <span style="color: #00d3d0;">%</span> 1<span style="color: #b6a0ff;">)</span> my-favourite-number<span style="color: #00cd68;">)</span>
 </pre>
 </div>
 <p>
@@ -549,7 +568,8 @@ positional parameter names would become ambiguous.)
 </p>
 
 <p>
-Of course, we then don't need <code>defn</code>; we could just write.
+Of course, given <code>def</code> and <code>fn</code>, we don't need <code>defn</code>;
+we could just write
 </p>
 <div class="org-src-container">
 <pre class="src src-clojure"><span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">def</span> <span style="color: #00d3d0;">add-one</span> <span style="color: #b6a0ff;">(</span><span style="color: #b6a0ff;">fn</span> <span style="color: #6ae4b9;">[</span>x<span style="color: #6ae4b9;">]</span> <span style="color: #6ae4b9;">(</span>+ x 1<span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
@@ -609,7 +629,9 @@ The same applies for <code>defn</code>.
 In contrast, the <code>let</code> form creates a new <i>local</i> binding.
 </p>
 <div class="org-src-container">
-<pre class="src src-clojure"><span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">defn</span> <span style="color: #feacd0;">get-the-number</span> <span style="color: #b6a0ff;">[]</span>
+<pre class="src src-clojure"><span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">defn</span> <span style="color: #feacd0;">get-secret-symbol</span> <span style="color: #b6a0ff;">[]</span>
+  <span style="color: #b6a0ff;">(</span><span style="color: #b6a0ff;">let</span> <span style="color: #6ae4b9;">[</span>get-symbol <span style="color: #f0ce43;">(</span><span style="color: #b6a0ff;">fn</span> <span style="color: #00bcff;">[]</span> <span style="color: #00bcff;">:secret</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">]</span>
+    <span style="color: #6ae4b9;">(</span>get-symbol<span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
 </pre>
 </div>
 </div>
@@ -661,7 +683,7 @@ Otherwise the third argument (if present) is evaluated.
 All values in Clojure are “true” except for <code>nil</code> and <code>false</code>.
 </p>
 <div class="org-src-container">
-<pre class="src src-clojure"><span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">if</span> 5 <span style="color: #79a8ff;">"1"</span><span style="color: #00cd68;">)</span>
+<pre class="src src-clojure"><span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">if</span> 0 <span style="color: #79a8ff;">"1"</span><span style="color: #00cd68;">)</span>
 <span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">if</span> <span style="color: #b6a0ff;">()</span> <span style="color: #79a8ff;">"2"</span><span style="color: #00cd68;">)</span>
 <span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">if</span> <span style="color: #00bcff;">nil</span> <span style="color: #79a8ff;">"3"</span><span style="color: #00cd68;">)</span>
 <span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">if</span> <span style="color: #00bcff;">false</span> <span style="color: #79a8ff;">"4"</span><span style="color: #00cd68;">)</span>
@@ -675,6 +697,14 @@ then it's best to use the <code>when</code> form.
 </p>
 <div class="org-src-container">
 <pre class="src src-clojure"><span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">when</span> <span style="color: #00bcff;">true</span> <span style="color: #79a8ff;">"hello"</span><span style="color: #00cd68;">)</span>
+</pre>
+</div>
+
+<p>
+:TODO: explain
+</p>
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">when</span> <span style="color: #00bcff;">true</span> <span style="color: #b6a0ff;">(</span>println <span style="color: #79a8ff;">"Hello!"</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">(</span>println <span style="color: #79a8ff;">"Goodbye!"</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
 </pre>
 </div>
 
@@ -717,7 +747,9 @@ the <code>then</code> branch has to be a single expression.
 To get around this, there is a <code>do</code> form for sequencing.
 </p>
 <div class="org-src-container">
-<pre class="src src-clojure"><span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">if</span> <span style="color: #00bcff;">true</span> <span style="color: #b6a0ff;">(</span><span style="color: #b6a0ff;">do</span> <span style="color: #6ae4b9;">(</span>println <span style="color: #79a8ff;">"First"</span><span style="color: #6ae4b9;">)</span> <span style="color: #6ae4b9;">(</span>println <span style="color: #79a8ff;">"Second"</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+<pre class="src src-clojure"><span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">if</span> <span style="color: #00bcff;">true</span>
+  <span style="color: #b6a0ff;">(</span><span style="color: #b6a0ff;">do</span> <span style="color: #6ae4b9;">(</span>println <span style="color: #79a8ff;">"First"</span><span style="color: #6ae4b9;">)</span>
+      <span style="color: #6ae4b9;">(</span>println <span style="color: #79a8ff;">"Second"</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
 </pre>
 </div>
 
@@ -781,7 +813,7 @@ and invokation of such a function would look like
 <p class="author">Author: Mark Armstrong</p>
      <p class="author">Contact: <a href="mailto:markparmstrong@gmail.com">markparmstrong@gmail.com</a></p>
      <p class="date">Original date: </p>
-     <p class="date">Last updated: 2020-11-11 Wed 09:46</p>
+     <p class="date">Last updated: 2020-11-25 Wed 10:28</p>
      <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4)</p>
      <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
