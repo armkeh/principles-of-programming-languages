@@ -20,6 +20,21 @@
 
 - November 25th ::
 
+  - You should now be able to fill out course evaluations
+    at [[https://evals.mcmaster.ca]].
+    Please do leave feedback; I always read and take it into account.
+    Specific and constructive comments are especially appreciated.
+
+    - Note that unfortunately, as I am a sessional instructor,
+      the “response rates” page will not show this course.
+      (I am not certain exactly why this is the case.)
+
+  - The Clojure section of this page now includes
+    some basic installation instructions,
+    taken from the “Introduction to Clojure” lecture
+    (which has also been slightly expanded
+    based on the Docker image setup.)
+
   - Testing is now included for homework 8.
     Because this is so late (on the scheduled due date),
     there will be at least a one day extension,
