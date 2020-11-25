@@ -12,6 +12,12 @@ better viewed at
 
 ## November
 
+  - November 25th
+    
+      - Testing is now included for homework 8. Because this is so late
+        (on the scheduled due date), there will be at least a one day
+        extension, to be finalised later today.
+
   - November 19th
     
       - Homework 8 is now posted. Its due date has been shifted to be
