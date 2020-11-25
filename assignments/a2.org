@@ -1004,7 +1004,7 @@ to run the commands contained in those scripts manually.
 :CUSTOM_ID: Scala
 :END:
 
-[[./testing/a2/a2_testframework.sc][a2_test.sc]]
+[[./testing/a2/a2_test.sc][a2_test.sc]]
 #+begin_src amm :tangle ./testing/a2/a2_test.sc
 import $file.a2, a2._
 import $file.a2_ulterm, a2_ulterm._
