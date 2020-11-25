@@ -20,6 +20,16 @@
 
 - November 25th ::
 
+  - The due dates for assignment 2 and homework 8 have now been shifted.
+    - Assignment 2 is shifted to November 29th (Sunday) from the 26th.
+    - Homework 8 is shifted to November 26th from the 25th.
+    - As mentioned in lecture, if you have completed, committed and pushed
+      all or a majority of assignment 2 by tomorrow (the original due date),
+      please e-mail or message Mark.
+      Because you will not have benefitted from this extension,
+      we will be considering a small (unspecified amount of) bonus
+      at the end of the term for those in this situation.
+
   - You should now be able to fill out course evaluations
     at [[https://evals.mcmaster.ca]].
     Please do leave feedback; I always read and take it into account.
@@ -935,10 +945,13 @@ difference between Monday and Wednesday.
 :CUSTOM_ID: Current-homeworks
 :END:
 
-*** Homework 8 – Visualing the call stack in Clojure – Nov 19th to Nov 25th
+*** Homework 8 – Visualing the call stack in Clojure – Nov 19th to Nov 26th
 :PROPERTIES:
 :CUSTOM_ID: Homework-8-–-Visualing-the-call-stack-in-Clojure-–-Nov-19th-to-Nov-25th
 :END:
+
+*As of November 25th, the due date for this homework was shifted to November 26th*
+from November 25th. The testing setup is also released.
 
 - [[./homework/h8.html][HTML]]
 - [[./homework/h8.pdf][PDF]]
@@ -1043,10 +1056,15 @@ Note the due date: the Sunday following reading week.
 :CUSTOM_ID: Assignments
 :END:
 
-** Assignment 2 – Typing a λ-calculus – Oct 30th to Nov 26th
+** Assignment 2 – Typing a λ-calculus – Oct 30th to Nov 29th
 :PROPERTIES:
 :CUSTOM_ID: Assignment-1-–-Interpreting-simple-integer-expressions-–-Sept-26th-to-Oct-21st.
 :END:
+
+*As of November 25th, the due date has been shifted to November 29th*,
+from November 26th. If you have completed the assignment by November 26th,
+please e-mail or message Mark to inform him, and commit/push your work,
+for a possible (unspecified) bonus consideration in your final mark.
 
 - [[./assignments/a2.html][HTML]]
 - [[./assignments/a2.pdf][PDF]]

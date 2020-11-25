@@ -14,6 +14,19 @@ better viewed at
 
   - November 25th
     
+      - The due dates for assignment 2 and homework 8 have now been
+        shifted.
+        
+          - Assignment 2 is shifted to November 29th (Sunday) from the
+            26th.
+          - Homework 8 is shifted to November 26th from the 25th.
+          - As mentioned in lecture, if you have completed, committed
+            and pushed all or a majority of assignment 2 by tomorrow
+            (the original due date), please e-mail or message Mark.
+            Because you will not have benefitted from this extension, we
+            will be considering a small (unspecified amount of) bonus at
+            the end of the term for those in this situation.
+    
       - You should now be able to fill out course evaluations at
         <https://evals.mcmaster.ca>. Please do leave feedback; I always
         read and take it into account. Specific and constructive
@@ -908,7 +921,10 @@ significant difference between Monday and Wednesday.
 
 ## Current homeworks
 
-### Homework 8 – Visualing the call stack in Clojure – Nov 19th to Nov 25th
+### Homework 8 – Visualing the call stack in Clojure – Nov 19th to Nov 26th
+
+**As of November 25th, the due date for this homework was shifted to
+November 26th** from November 25th. The testing setup is also released.
 
   - [HTML](./homework/h8.html)
   - [PDF](./homework/h8.pdf)
@@ -985,7 +1001,13 @@ plaintext](./homework/h4.org)
 
 # Assignments
 
-## Assignment 2 – Typing a λ-calculus – Oct 30th to Nov 26th
+## Assignment 2 – Typing a λ-calculus – Oct 30th to Nov 29th
+
+**As of November 25th, the due date has been shifted to November 29th**,
+from November 26th. If you have completed the assignment by November
+26th, please e-mail or message Mark to inform him, and commit/push your
+work, for a possible (unspecified) bonus consideration in your final
+mark.
 
   - [HTML](./assignments/a2.html)
   - [PDF](./assignments/a2.pdf)
