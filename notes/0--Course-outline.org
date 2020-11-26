@@ -103,10 +103,12 @@ the assignments are planned to be due on
 - +October 7th+,
   - ammended September 27th; the new due date is October 21st
 - +November 11th+,
-  - ammended November 9th; the new due date is November 25th
+  - ammended November 9th; the new due date is +November 25th+
+  - ammended once more on November 25th; the final due date is November 29th
   and
-- December 16th.
-
+- +December 16th+.
+  - ammended November 19th; the new due date is December 18th.
+  
 Any changes to these dates will be announced on the course homepage.
 Also see [[Accomodations for SAS and conflicts with other courses][Accomodations for SAS and conflicts with other courses]];
 in particular, we will reevaluate the final assignment due date
