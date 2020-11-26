@@ -950,8 +950,8 @@ Use it if you wish.
 
 Unit tests for the requested types, methods and predicates
 are available here.
-- [[./testing/a1/a1p1_test.sc][a2_test.sc]]
-- [[./testing/a1/a1p2.plt][a2_test.rb]]
+- [[./testing/a2/a2_test.sc][a2_test.sc]]
+- [[./testing/a2/a2_test.rb][a2_test.rb]]
 The contents of the unit test files are also repeated below.
 
 The tests can be run by placing the test files
