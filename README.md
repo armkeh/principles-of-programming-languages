@@ -14,6 +14,9 @@ better viewed at
 
   - November 25th
     
+      - Sample solutions for homework 7 (the pretty printer for
+        `ULTerm`) are now posted.
+    
       - The due dates for assignment 2 and homework 8 have now been
         shifted.
         

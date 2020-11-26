@@ -317,3 +317,113 @@ Simply execute
 ```
 to run and see the results of the tests.
 #+end_src
+
+* Sample solution
+:PROPERTIES:
+:CUSTOM_ID: Sample-solution
+:END:
+
+These sample solutions make use of ~variableName~ methods
+which calculate a name from an integer, ~index~.
+Index ~0~ is assigned to ~a~, ~1~ to ~b~, etc., until ~25~ is assigned to ~z~.
+After that, the pattern is repeated, but with a digit
+(or, if there are enough variables, digits)
+following the letter.
+
+In Scala:
+#+begin_src amm
+def prettify(t: ULTerm): String = {
+  def variableName(index: Int): String = {
+    val letter = (index % 26 + 97).toChar
+    val number = index / 26
+    if (number == 0)
+      letter.toString
+    else
+      letter.toString + number.toString
+  }
+  
+  def prettifyHelper(t: ULTerm, currentBinders: Int): String = t match {
+    case ULVar(i) if i < currentBinders =>
+      // The indexing goes from the innermost binder to the outermost.
+      // So if i is 0, it refers to the (currentBinders - 1)'th bound variable.
+      //    If i is 1, it refers to the (currentBinders - 2)'th bound variable.
+      variableName(currentBinders - i - 1)
+    case ULVar(i) =>
+      // Indexing can go in increasing order for free variables.
+      variableName(i)
+    case ULAbs(t1) =>
+      val name = variableName(currentBinders)
+      val body = prettifyHelper(t1,currentBinders+1)
+      "lambda " + name +  " . " + body 
+    case ULApp(t1,t2) =>
+      val t1_pretty = prettifyHelper(t1,currentBinders)
+      val t2_pretty = prettifyHelper(t2,currentBinders)
+      "(" + t1_pretty + ") (" + t2_pretty + ")"
+  }
+
+  prettifyHelper(t,0)
+}
+#+end_src
+
+And in Ruby (including only the relevant methods for each class):
+#+begin_src ruby
+class ULTerm
+  def variableName(index)
+    # Choose the index'th character past lowercase a.
+    # If the index is more than 26, we'll also
+    # append a number, starting from 1 and counting up as needed.
+    letter = (index % 26 + 97).chr
+    number = index / 26  # for some reason, the slash breaks my fontification
+                         # until a matching one, so here: /
+                         # If my students are reading this, don't worry about it;
+                         # it's some sort of bug with my editor.
+    if number == 0
+      letter
+    else
+      letter + number.to_c
+    end
+  end
+  
+  def prettify
+    prettify_helper(0)
+  end
+end
+
+class ULVar < ULTerm
+  def prettify_helper(current_binders)
+    if @index < current_binders
+      variableName(current_binders - @index - 1)
+    else
+      variableName(@index)
+    end
+    
+    # This alternate implementation names all bound variables xn,
+    # where n is an integer
+    # and all free variables zn where n is an integer.
+    #if @index < current_binders
+    #  # This is a bound variable.
+    #  'x' + @index.to_s
+    #else
+    #  # This is a free variable.
+    #  'z' + (@index - current_binders).to_s
+    #end
+  end
+end
+
+class ULAbs < ULTerm
+  def prettify_helper(current_binders)
+    "lambda " + variableName(current_binders) + " . " + @t.prettify_helper(current_binders+1)
+    # This alternate code matches that in the ULVar method
+    # which gave all bound variables the name "x" 
+    #"lambda x" + current_binders.to_s + " . " + @t.prettify_helper(current_binders+1)
+  end
+end
+
+class ULApp < ULTerm
+  def prettify_helper(current_binders)
+    pretty1 = @t1.prettify_helper(current_binders)
+    pretty2 = @t2.prettify_helper(current_binders)
+    "(" + pretty1 + ") (" + pretty2 + ")" 
+  end
+end
+#+end_src

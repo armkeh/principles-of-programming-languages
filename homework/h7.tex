@@ -1,4 +1,4 @@
-% Created 2020-11-06 Fri 14:44
+% Created 2020-11-25 Wed 20:32
 % Intended LaTeX compiler: lualatex
 \documentclass[11pt]{article}
 \usepackage{graphicx}
@@ -28,7 +28,7 @@
    pdftitle={Computer Science 3MI3 – 2020 homework 7},
    pdfkeywords={},
    pdfsubject={Preparing for assignment 2 by writing pretty printers.},
-   pdfcreator={Emacs 27.0.91 (Org mode 9.4)},
+   pdfcreator={Emacs 27.0.90 (Org mode 9.4)},
    pdflang={English},
    colorlinks,
    linkcolor=blue,
@@ -42,7 +42,7 @@
 
 
 \section*{Introduction}
-\label{sec:org279ed62}
+\label{sec:org5ce830e}
 For this homework, you will extend the implementations
 of the \texttt{UL} untyped λ-calculus in Scala and Ruby,
 which are provided in assignment 2,
@@ -82,9 +82,9 @@ that chooses variable names for a term and “prints” the term
 not print them directly.)
 
 \section*{Updates}
-\label{sec:org822f30d}
+\label{sec:org79b123d}
 \subsection*{November 5th}
-\label{sec:org1b27f9c}
+\label{sec:org8fbcbf4}
 \begin{itemize}
 \item Testing and Docker setup has been added.
 \item The suggested output has been adjusted slightly
@@ -104,11 +104,11 @@ You may wish to apply those updates to your code as well.
 \end{itemize}
 
 \section*{Boilerplate}
-\label{sec:org9439fac}
+\label{sec:org3e64c22}
 \subsection*{Submission procedures}
-\label{sec:org2050495}
+\label{sec:orge008dec}
 \subsubsection*{Submission method}
-\label{sec:org8eaa800}
+\label{sec:orgf066798}
 
 Homework should be submitted to your McMaster CAS Gitlab respository
 in the \texttt{cs3mi3-fall2020} project.
@@ -117,7 +117,7 @@ Ensure that you have \textbf{pushed} the commits to the remote repository
 in time for the deadline, and not just committed to your local copy.
 
 \subsubsection*{Naming requirements}
-\label{sec:orgf961231}
+\label{sec:orge16c7d7}
 
 Place all files for the homework
 inside a folder titled \texttt{hn}, where \texttt{n} is the number of the homework.
@@ -133,7 +133,7 @@ according to this list:
 \item For Scala, \texttt{ext} is \texttt{sc}.
 \item For Prolog, \texttt{ext} is \texttt{pl}.
 \item For Ruby, \texttt{ext} is \texttt{rb}.
-\item For Clojure, \texttt{ext} is \texttt{clg}.
+\item For Clojure, \texttt{ext} is \texttt{clj}.
 \end{itemize}
 If multiple languages are used in the homework,
 submit a \texttt{hn.ext} file for each language.
@@ -148,7 +148,7 @@ submit a \texttt{hn.ext} file for each language.
 \end{center}
 
 \subsubsection*{Do not submit testing or diagnostic code}
-\label{sec:org3efa1fc}
+\label{sec:org1903f00}
 
 Unless you are instructed to do so in the homework questions,
 \textbf{you should not submit testing code with your homework submission}.
@@ -168,7 +168,7 @@ in your final submission.
 For instance, by using a wrapper on the print function or macros.
 
 \subsubsection*{Due date and allowance for technical difficulties}
-\label{sec:org6e036a2}
+\label{sec:org30ea424}
 
 Homework is due on the second Sunday following its release,
 by the end of the day (midnight).
@@ -183,9 +183,9 @@ This information will help ensure we are able
 to accept your submission once the technical difficulties are resolved.
 
 \subsection*{Proper conduct for coursework}
-\label{sec:org50ac568}
+\label{sec:org39744b0}
 \subsubsection*{Individual work}
-\label{sec:org020b3c1}
+\label{sec:org41fe881}
 
 Unless explicitely stated in the homework questions,
 all homework in this course is intended
@@ -234,7 +234,7 @@ probably add a catch-all \texttt{\_} case to your \texttt{match} expressions.”
 \end{enumerate}
 
 \subsubsection*{Language library resources}
-\label{sec:org083cb52}
+\label{sec:org80f5df6}
 
 Unless explicitely stated in the questions,
 it is not expected that you will use any language library resources
@@ -258,7 +258,7 @@ including \texttt{map}, \texttt{reduce}, \texttt{flatten}, and \texttt{filter} a
 unless the task is to implement such a higher-order operator.
 
 \section*{Part 1: The “pretty printer” \texttt{prettify} method  [30 marks]}
-\label{sec:org4d9d8cf}
+\label{sec:orgd865526}
 Implement a method \texttt{prettify} on the \texttt{UTTerm} type
 provided in assignment.
 The implementation of the \texttt{UTTerm} type can be found
@@ -291,7 +291,7 @@ keep track of the variable names already in use.
 But as usual, the implementation details are within your control.)
 
 \section*{Testing}
-\label{sec:orgae7eb57}
+\label{sec:org2f35173}
 Unit tests for the requested methods/functions
 are available
 \begin{itemize}
@@ -311,7 +311,7 @@ must be equivalent except for naming of bound variables.
 \end{center}
 
 \subsection*{Automated testing via Docker}
-\label{sec:org7bd2be3}
+\label{sec:orgc697c76}
 The Docker setup and usage scripts are available at the following links.
 Their contents are also repeated below.
 \begin{itemize}
@@ -334,7 +334,7 @@ and not using WSL or WSL2, you may have
 to run the commands contained in those scripts manually.
 
 \subsection*{The tests}
-\label{sec:org027d2b0}
+\label{sec:org293379d}
 The contents of the testing script are repeated here.
 
 \href{./testing/h7/h7t.sc}{h7t.sc}
@@ -388,7 +388,7 @@ puts lllappvars.prettify
 \end{minted}
 
 \subsection*{The Docker setup}
-\label{sec:org4611436}
+\label{sec:orgd9f600a}
 The contents of the Docker setup files and scripts are repeated here.
 
 \href{./testing/h7/Dockerfile}{Dockerfile}
@@ -478,5 +478,112 @@ Simply execute
 ./run.sh
 ```
 to run and see the results of the tests.
+\end{minted}
+
+\section*{Sample solution}
+\label{sec:orgcd0d0b5}
+These sample solutions make use of \texttt{variableName} methods
+which calculate a name from an integer, \texttt{index}.
+Index \texttt{0} is assigned to \texttt{a}, \texttt{1} to \texttt{b}, etc., until \texttt{25} is assigned to \texttt{z}.
+After that, the pattern is repeated, but with a digit
+(or, if there are enough variables, digits)
+following the letter.
+
+In Scala:
+\begin{minted}[breaklines=true]{scala}
+def prettify(t: ULTerm): String = {
+  def variableName(index: Int): String = {
+    val letter = (index % 26 + 97).toChar
+    val number = index / 26
+    if (number == 0)
+      letter.toString
+    else
+      letter.toString + number.toString
+  }
+  
+  def prettifyHelper(t: ULTerm, currentBinders: Int): String = t match {
+    case ULVar(i) if i < currentBinders =>
+      // The indexing goes from the innermost binder to the outermost.
+      // So if i is 0, it refers to the (currentBinders - 1)'th bound variable.
+      //    If i is 1, it refers to the (currentBinders - 2)'th bound variable.
+      variableName(currentBinders - i - 1)
+    case ULVar(i) =>
+      // Indexing can go in increasing order for free variables.
+      variableName(i)
+    case ULAbs(t1) =>
+      val name = variableName(currentBinders)
+      val body = prettifyHelper(t1,currentBinders+1)
+      "lambda " + name +  " . " + body 
+    case ULApp(t1,t2) =>
+      val t1_pretty = prettifyHelper(t1,currentBinders)
+      val t2_pretty = prettifyHelper(t2,currentBinders)
+      "(" + t1_pretty + ") (" + t2_pretty + ")"
+  }
+
+  prettifyHelper(t,0)
+}
+\end{minted}
+
+And in Ruby (including only the relevant methods for each class):
+\begin{minted}[breaklines=true]{ruby}
+class ULTerm
+  def variableName(index)
+    # Choose the index'th character past lowercase a.
+    # If the index is more than 26, we'll also
+    # append a number, starting from 1 and counting up as needed.
+    letter = (index % 26 + 97).chr
+    number = index / 26  # for some reason, the slash breaks my fontification
+                         # until a matching one, so here: /
+                         # If my students are reading this, don't worry about it;
+                         # it's some sort of bug with my editor.
+    if number == 0
+      letter
+    else
+      letter + number.to_c
+    end
+  end
+  
+  def prettify
+    prettify_helper(0)
+  end
+end
+
+class ULVar < ULTerm
+  def prettify_helper(current_binders)
+    if @index < current_binders
+      variableName(current_binders - @index - 1)
+    else
+      variableName(@index)
+    end
+    
+    # This alternate implementation names all bound variables xn,
+    # where n is an integer
+    # and all free variables zn where n is an integer.
+    #if @index < current_binders
+    #  # This is a bound variable.
+    #  'x' + @index.to_s
+    #else
+    #  # This is a free variable.
+    #  'z' + (@index - current_binders).to_s
+    #end
+  end
+end
+
+class ULAbs < ULTerm
+  def prettify_helper(current_binders)
+    "lambda " + variableName(current_binders) + " . " + @t.prettify_helper(current_binders+1)
+    # This alternate code matches that in the ULVar method
+    # which gave all bound variables the name "x" 
+    #"lambda x" + current_binders.to_s + " . " + @t.prettify_helper(current_binders+1)
+  end
+end
+
+class ULApp < ULTerm
+  def prettify_helper(current_binders)
+    pretty1 = @t1.prettify_helper(current_binders)
+    pretty2 = @t2.prettify_helper(current_binders)
+    "(" + pretty1 + ") (" + pretty2 + ")" 
+  end
+end
 \end{minted}
 \end{document}

@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-11-06 Fri 14:44 -->
+<!-- 2020-11-25 Wed 20:32 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Computer Science 3MI3 – 2020 homework 7</title>
@@ -245,16 +245,16 @@
 <ul>
 <li><a href="#Submission-procedures">Submission procedures</a>
 <ul>
-<li><a href="#orgff5eb1e">Submission method</a></li>
-<li><a href="#org379156f">Naming requirements</a></li>
-<li><a href="#orgca692a1">Do not submit testing or diagnostic code</a></li>
-<li><a href="#org3caeb0f">Due date and allowance for technical difficulties</a></li>
+<li><a href="#org9d479d9">Submission method</a></li>
+<li><a href="#org09f5d85">Naming requirements</a></li>
+<li><a href="#orgba8a23b">Do not submit testing or diagnostic code</a></li>
+<li><a href="#org34ddc19">Due date and allowance for technical difficulties</a></li>
 </ul>
 </li>
 <li><a href="#Proper-conduct-for-coursework">Proper conduct for coursework</a>
 <ul>
-<li><a href="#org1e761ac">Individual work</a></li>
-<li><a href="#org96eafbb">Language library resources</a></li>
+<li><a href="#orgbb85590">Individual work</a></li>
+<li><a href="#orgb6b45ae">Language library resources</a></li>
 </ul>
 </li>
 </ul>
@@ -267,6 +267,7 @@
 <li><a href="#The-Docker-setup">The Docker setup</a></li>
 </ul>
 </li>
+<li><a href="#Sample-solution">Sample solution</a></li>
 </ul>
 </div>
 </div>
@@ -369,9 +370,9 @@ You may wish to apply those updates to your code as well.
 <div class="outline-text-3" id="text-Submission-procedures">
 </div>
 
-<div id="outline-container-orgff5eb1e" class="outline-4">
-<h4 id="orgff5eb1e">Submission method</h4>
-<div class="outline-text-4" id="text-orgff5eb1e">
+<div id="outline-container-org9d479d9" class="outline-4">
+<h4 id="org9d479d9">Submission method</h4>
+<div class="outline-text-4" id="text-org9d479d9">
 <p>
 Homework should be submitted to your McMaster CAS Gitlab respository
 in the <code>cs3mi3-fall2020</code> project.
@@ -384,9 +385,9 @@ in time for the deadline, and not just committed to your local copy.
 </div>
 </div>
 
-<div id="outline-container-org379156f" class="outline-4">
-<h4 id="org379156f">Naming requirements</h4>
-<div class="outline-text-4" id="text-org379156f">
+<div id="outline-container-org09f5d85" class="outline-4">
+<h4 id="org09f5d85">Naming requirements</h4>
+<div class="outline-text-4" id="text-org09f5d85">
 <p>
 Place all files for the homework
 inside a folder titled <code>hn</code>, where <code>n</code> is the number of the homework.
@@ -405,7 +406,7 @@ according to this list:
 <li>For Scala, <code>ext</code> is <code>sc</code>.</li>
 <li>For Prolog, <code>ext</code> is <code>pl</code>.</li>
 <li>For Ruby, <code>ext</code> is <code>rb</code>.</li>
-<li>For Clojure, <code>ext</code> is <code>clg</code>.</li>
+<li>For Clojure, <code>ext</code> is <code>clj</code>.</li>
 </ul>
 <p>
 If multiple languages are used in the homework,
@@ -427,9 +428,9 @@ submit a <code>hn.ext</code> file for each language.
 </div>
 </div>
 
-<div id="outline-container-orgca692a1" class="outline-4">
-<h4 id="orgca692a1">Do not submit testing or diagnostic code</h4>
-<div class="outline-text-4" id="text-orgca692a1">
+<div id="outline-container-orgba8a23b" class="outline-4">
+<h4 id="orgba8a23b">Do not submit testing or diagnostic code</h4>
+<div class="outline-text-4" id="text-orgba8a23b">
 <p>
 Unless you are instructed to do so in the homework questions,
 <b>you should not submit testing code with your homework submission</b>.
@@ -457,9 +458,9 @@ For instance, by using a wrapper on the print function or macros.
 </div>
 </div>
 
-<div id="outline-container-org3caeb0f" class="outline-4">
-<h4 id="org3caeb0f">Due date and allowance for technical difficulties</h4>
-<div class="outline-text-4" id="text-org3caeb0f">
+<div id="outline-container-org34ddc19" class="outline-4">
+<h4 id="org34ddc19">Due date and allowance for technical difficulties</h4>
+<div class="outline-text-4" id="text-org34ddc19">
 <p>
 Homework is due on the second Sunday following its release,
 by the end of the day (midnight).
@@ -484,9 +485,9 @@ to accept your submission once the technical difficulties are resolved.
 <div class="outline-text-3" id="text-Proper-conduct-for-coursework">
 </div>
 
-<div id="outline-container-org1e761ac" class="outline-4">
-<h4 id="org1e761ac">Individual work</h4>
-<div class="outline-text-4" id="text-org1e761ac">
+<div id="outline-container-orgbb85590" class="outline-4">
+<h4 id="orgbb85590">Individual work</h4>
+<div class="outline-text-4" id="text-orgbb85590">
 <p>
 Unless explicitely stated in the homework questions,
 all homework in this course is intended
@@ -547,9 +548,9 @@ probably add a catch-all <code>_</code> case to your <code>match</code> expressi
 </div>
 </div>
 
-<div id="outline-container-org96eafbb" class="outline-4">
-<h4 id="org96eafbb">Language library resources</h4>
-<div class="outline-text-4" id="text-org96eafbb">
+<div id="outline-container-orgb6b45ae" class="outline-4">
+<h4 id="orgb6b45ae">Language library resources</h4>
+<div class="outline-text-4" id="text-orgb6b45ae">
 <p>
 Unless explicitely stated in the questions,
 it is not expected that you will use any language library resources
@@ -876,13 +877,131 @@ to run and see the results of the tests.
 </div>
 </div>
 </div>
+
+<div id="outline-container-Sample-solution" class="outline-2">
+<h2 id="Sample-solution">Sample solution</h2>
+<div class="outline-text-2" id="text-Sample-solution">
+<p>
+These sample solutions make use of <code>variableName</code> methods
+which calculate a name from an integer, <code>index</code>.
+Index <code>0</code> is assigned to <code>a</code>, <code>1</code> to <code>b</code>, etc., until <code>25</code> is assigned to <code>z</code>.
+After that, the pattern is repeated, but with a digit
+(or, if there are enough variables, digits)
+following the letter.
+</p>
+
+<p>
+In Scala:
+</p>
+<div class="org-src-container">
+<pre class="src src-amm"><span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">prettify</span><span style="color: #00cd68;">(</span>t<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">ULTerm</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">String</span> <span style="color: #b6a0ff;">=</span> <span style="color: #00cd68;">{</span>
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">variableName</span><span style="color: #b6a0ff;">(</span>index<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">Int</span><span style="color: #b6a0ff;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">String</span> <span style="color: #b6a0ff;">=</span> <span style="color: #b6a0ff;">{</span>
+    <span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">letter</span> <span style="color: #b6a0ff;">=</span> <span style="color: #6ae4b9;">(</span>index % <span style="color: #00bcff;">26</span> + <span style="color: #00bcff;">97</span><span style="color: #6ae4b9;">)</span>.toChar
+    <span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">number</span> <span style="color: #b6a0ff;">=</span> index / <span style="color: #00bcff;">26</span>
+    <span style="color: #b6a0ff;">if</span> <span style="color: #6ae4b9;">(</span>number == <span style="color: #00bcff;">0</span><span style="color: #6ae4b9;">)</span>
+      letter.toString
+    <span style="color: #b6a0ff;">else</span>
+      letter.toString + number.toString
+  <span style="color: #b6a0ff;">}</span>
+  
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">prettifyHelper</span><span style="color: #b6a0ff;">(</span>t<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">ULTerm</span>, currentBinders<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">Int</span><span style="color: #b6a0ff;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">String</span> <span style="color: #b6a0ff;">=</span> t <span style="color: #b6a0ff;">match</span> <span style="color: #b6a0ff;">{</span>
+    <span style="color: #b6a0ff;">case</span> <span style="color: #6ae4b9;">ULVar</span><span style="color: #6ae4b9;">(</span><span style="color: #00d3d0;">i</span><span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">if</span> i &lt; currentBinders <span style="color: #b6a0ff;">=&gt;</span>
+      <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">The indexing goes from the innermost binder to the outermost.</span>
+      <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">So if i is 0, it refers to the (currentBinders - 1)'th bound variable.</span>
+      <span style="color: #a8a8a8;">//    </span><span style="color: #a8a8a8;">If i is 1, it refers to the (currentBinders - 2)'th bound variable.</span>
+      variableName<span style="color: #6ae4b9;">(</span>currentBinders - i - <span style="color: #00bcff;">1</span><span style="color: #6ae4b9;">)</span>
+    <span style="color: #b6a0ff;">case</span> <span style="color: #6ae4b9;">ULVar</span><span style="color: #6ae4b9;">(</span><span style="color: #00d3d0;">i</span><span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">=&gt;</span>
+      <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Indexing can go in increasing order for free variables.</span>
+      variableName<span style="color: #6ae4b9;">(</span>i<span style="color: #6ae4b9;">)</span>
+    <span style="color: #b6a0ff;">case</span> <span style="color: #6ae4b9;">ULAbs</span><span style="color: #6ae4b9;">(</span><span style="color: #00d3d0;">t1</span><span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">=&gt;</span>
+      <span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">name</span> <span style="color: #b6a0ff;">=</span> variableName<span style="color: #6ae4b9;">(</span>currentBinders<span style="color: #6ae4b9;">)</span>
+      <span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">body</span> <span style="color: #b6a0ff;">=</span> prettifyHelper<span style="color: #6ae4b9;">(</span>t1,currentBinders+<span style="color: #00bcff;">1</span><span style="color: #6ae4b9;">)</span>
+      <span style="color: #79a8ff;">"lambda "</span> + name +  <span style="color: #79a8ff;">" . "</span> + body 
+    <span style="color: #b6a0ff;">case</span> <span style="color: #6ae4b9;">ULApp</span><span style="color: #6ae4b9;">(</span><span style="color: #00d3d0;">t1</span>,<span style="color: #00d3d0;">t2</span><span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">=&gt;</span>
+      <span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">t1_pretty</span> <span style="color: #b6a0ff;">=</span> prettifyHelper<span style="color: #6ae4b9;">(</span>t1,currentBinders<span style="color: #6ae4b9;">)</span>
+      <span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">t2_pretty</span> <span style="color: #b6a0ff;">=</span> prettifyHelper<span style="color: #6ae4b9;">(</span>t2,currentBinders<span style="color: #6ae4b9;">)</span>
+      <span style="color: #79a8ff;">"("</span> + t1_pretty + <span style="color: #79a8ff;">") ("</span> + t2_pretty + <span style="color: #79a8ff;">")"</span>
+  <span style="color: #b6a0ff;">}</span>
+
+  prettifyHelper<span style="color: #b6a0ff;">(</span>t,<span style="color: #00bcff;">0</span><span style="color: #b6a0ff;">)</span>
+<span style="color: #00cd68;">}</span>
+</pre>
+</div>
+
+<p>
+And in Ruby (including only the relevant methods for each class):
+</p>
+<div class="org-src-container">
+<pre class="src src-ruby"><span style="color: #b6a0ff;">class</span> <span style="color: #6ae4b9;">ULTerm</span>
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">variableName</span><span style="color: #00cd68;">(</span>index<span style="color: #00cd68;">)</span>
+    <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Choose the index'th character past lowercase a.</span>
+    <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">If the index is more than 26, we'll also</span>
+    <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">append a number, starting from 1 and counting up as needed.</span>
+    letter = <span style="color: #00cd68;">(</span>index % 26 + 97<span style="color: #00cd68;">)</span>.chr
+    number = index <span style="color: #79a8ff;">/ 26  # for some reason, the slash breaks my fontification</span>
+<span style="color: #79a8ff;">                         # until a matching one, so here: /</span>
+                         <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">If my students are reading this, don't worry about it;</span>
+                         <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">it's some sort of bug with my editor.</span>
+    <span style="color: #b6a0ff;">if</span> number == 0
+      letter
+    <span style="color: #b6a0ff;">else</span>
+      letter + number.to_c
+    <span style="color: #b6a0ff;">end</span>
+  <span style="color: #b6a0ff;">end</span>
+  
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">prettify</span>
+    prettify_helper<span style="color: #00cd68;">(</span>0<span style="color: #00cd68;">)</span>
+  <span style="color: #b6a0ff;">end</span>
+<span style="color: #b6a0ff;">end</span>
+
+<span style="color: #b6a0ff;">class</span> <span style="color: #6ae4b9;">ULVar</span> &lt; <span style="color: #6ae4b9;">ULTerm</span>
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">prettify_helper</span><span style="color: #00cd68;">(</span>current_binders<span style="color: #00cd68;">)</span>
+    <span style="color: #b6a0ff;">if</span> <span style="color: #00d3d0;">@index</span> &lt; current_binders
+      variableName<span style="color: #00cd68;">(</span>current_binders - <span style="color: #00d3d0;">@index</span> - 1<span style="color: #00cd68;">)</span>
+    <span style="color: #b6a0ff;">else</span>
+      variableName<span style="color: #00cd68;">(</span><span style="color: #00d3d0;">@index</span><span style="color: #00cd68;">)</span>
+    <span style="color: #b6a0ff;">end</span>
+    
+    <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">This alternate implementation names all bound variables xn,</span>
+    <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">where n is an integer</span>
+    <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">and all free variables zn where n is an integer.</span>
+    <span style="color: #a8a8a8;">#</span><span style="color: #a8a8a8;">if @index &lt; current_binders</span>
+    <span style="color: #a8a8a8;">#  </span><span style="color: #a8a8a8;"># This is a bound variable.</span>
+    <span style="color: #a8a8a8;">#  </span><span style="color: #a8a8a8;">'x' + @index.to_s</span>
+    <span style="color: #a8a8a8;">#</span><span style="color: #a8a8a8;">else</span>
+    <span style="color: #a8a8a8;">#  </span><span style="color: #a8a8a8;"># This is a free variable.</span>
+    <span style="color: #a8a8a8;">#  </span><span style="color: #a8a8a8;">'z' + (@index - current_binders).to_s</span>
+    <span style="color: #a8a8a8;">#</span><span style="color: #a8a8a8;">end</span>
+  <span style="color: #b6a0ff;">end</span>
+<span style="color: #b6a0ff;">end</span>
+
+<span style="color: #b6a0ff;">class</span> <span style="color: #6ae4b9;">ULAbs</span> &lt; <span style="color: #6ae4b9;">ULTerm</span>
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">prettify_helper</span><span style="color: #00cd68;">(</span>current_binders<span style="color: #00cd68;">)</span>
+    <span style="color: #79a8ff;">"lambda "</span> + variableName<span style="color: #00cd68;">(</span>current_binders<span style="color: #00cd68;">)</span> + <span style="color: #79a8ff;">" . "</span> + <span style="color: #00d3d0;">@t</span>.prettify_helper<span style="color: #00cd68;">(</span>current_binders+1<span style="color: #00cd68;">)</span>
+    <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">This alternate code matches that in the ULVar method</span>
+    <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">which gave all bound variables the name "x" </span>
+    <span style="color: #a8a8a8;">#</span><span style="color: #a8a8a8;">"lambda x" + current_binders.to_s + " . " + @t.prettify_helper(current_binders+1)</span>
+  <span style="color: #b6a0ff;">end</span>
+<span style="color: #b6a0ff;">end</span>
+
+<span style="color: #b6a0ff;">class</span> <span style="color: #6ae4b9;">ULApp</span> &lt; <span style="color: #6ae4b9;">ULTerm</span>
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">prettify_helper</span><span style="color: #00cd68;">(</span>current_binders<span style="color: #00cd68;">)</span>
+    pretty1 = <span style="color: #00d3d0;">@t1</span>.prettify_helper<span style="color: #00cd68;">(</span>current_binders<span style="color: #00cd68;">)</span>
+    pretty2 = <span style="color: #00d3d0;">@t2</span>.prettify_helper<span style="color: #00cd68;">(</span>current_binders<span style="color: #00cd68;">)</span>
+    <span style="color: #79a8ff;">"("</span> + pretty1 + <span style="color: #79a8ff;">") ("</span> + pretty2 + <span style="color: #79a8ff;">")"</span> 
+  <span style="color: #b6a0ff;">end</span>
+<span style="color: #b6a0ff;">end</span>
+</pre>
+</div>
+</div>
+</div>
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Mark Armstrong</p>
-     <p class="author">Contact: <a href="mailto:markparmstrong@gmail.com">markparmstrong@gmail.com</a></p>
+     <p class="author">Contact: <a href="mailto:armstmp@mcmaster.ca">armstmp@mcmaster.ca</a></p>
      <p class="date">Original date: November 1st, 2020</p>
-     <p class="date">Last updated: 2020-11-06 Fri 14:44</p>
-     <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4)</p>
+     <p class="date">Last updated: 2020-11-25 Wed 20:30</p>
+     <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.90 (<a href="https://orgmode.org">Org</a> mode 9.4)</p>
      <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

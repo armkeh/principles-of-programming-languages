@@ -20,6 +20,9 @@
 
 - November 25th ::
 
+  - Sample solutions for homework 7 (the pretty printer for ~ULTerm~)
+    are now posted.
+
   - The due dates for assignment 2 and homework 8 have now been shifted.
     - Assignment 2 is shifted to November 29th (Sunday) from the 26th.
     - Homework 8 is shifted to November 26th from the 25th.
