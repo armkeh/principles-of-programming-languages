@@ -1,0 +1,180 @@
+#+Title: Introductory concurrency
+#+Author: Mark Armstrong
+#+Description: An introductory look at concurrency support in our
+#+Description: course languages, along with some basic discussion
+#+Description: of issues arising from concurrency.
+#+SETUPFILE: ../../org-html-themes/setup/theme-readtheorg-local.setup
+
+* LaTeX settings                                :noexport:
+
+#+LaTeX_header: \usepackage{unicode-math}
+#+LaTeX_header: \usepackage{unicode}
+
+* Introduction
+
+Here we briefly explore (some of) the techniques to take advantage
+of concurrency and parallelism in the languages we have used
+throughout the course.
+
+Our context for this discussion will be the problem
+of computing them maximum element of an (unsorted) tree of integers.
+This naturally leads to a divide an conquer approach,
+which can easily take advantage of concurrency,
+while also avoiding the issues that can arise from concurrent execution.
+We do give a brief discussion of these issues before
+starting our exploration.
+
+We justify the use of this problem to frame our exploration
+with a discussion at the end of the notes.
+
+* Some brief background
+
+The following should be review from other courses,
+most notably from “Concurrent Systems”.
+If you are not familiar with these topics,
+this will be a sufficient introduction
+for our purposes here.
+
+** Concurrency vs. parallelism
+
+To define concurrency and parallelism, we must refer to
+“tasks being executed”.
+
+Two tasks ~A~ and ~B~ are said to be /concurrently executed/ if
+the execution may be carried out in any of these orders:
+- Part of ~A~ is executed, then the remainder of ~A~ and ~B~ are
+  executed concurrently.
+- Part of ~B~ is executed, then the remainder of ~B~ and ~A~ are
+  executed concurrently.
+- Part of ~A~ and part of ~B~ are executed /at the same time/,
+  then the remainder of ~A~ and ~B~ are executed concurrently.
+
+Note that tasks can be run concurrently /even if/ it is not possible
+for the underlying system to execute two tasks at the same time.
+
+On the other hand, two tasks are said to be /executed in parallel/ if
+their execution takes place (at least partly) at the same time.
+
+Parallelism then requires hardware support
+to run two tasks at the same time.
+In the past, this implied distributed systems, but on modern computers,
+the presence of multiple /cores/ of the processor allow for
+local parallel computation.
+
+As the notion of concurrency is more general,
+we usually talk about concurrent execution,
+unless we specifically mean that tasks are executed at
+the exact same time.
+
+** Process vs. thread
+
+A /process/ is an instance of a program being executed on a machine.
+The machine, usually through an operating system,
+grants each process its own memory space, and
+handles the scheduling of the execution of this and all other processes.
+
+A /thread/ is a single sequence of instructions to be executed
+by the machine. Threads are not granted their own memory space
+by the machine (but the process may handle assigning memory to threads.)
+
+A single process process may be made up of several threads;
+so long as the process is being executed, there is at least
+one thread (of execution.)
+
+** Race condition vs. deadlock vs. starvation
+
+Race conditions, deadlock and starvation are all classes of error
+that can occur when using concurrency.
+
+A /race condition/ refers to an error that arises when …
+
+A /deadlock/ refers to an error that arises when …
+
+A task is said to /starve/ when …
+
+* Creating threads with futures in Clojure
+
+** Preamble                                    :ignore:
+
+Clojure has support for several approaches to concurrency,
+including but not limited to:
+- a STM (Software Transactional Memory) system,
+- an /agent/ system (somewhat related to the /actor model/), and
+- an /atom/ system which avoids race conditions
+  regarding changes to data.
+Refer to the [[https://clojure.org/about/concurrent_programming][documentation]]
+for more information about these.
+
+For today, we are well served with a simpler approach:
+the ~future~ macro.
+A sequence of expressions wrapped in a ~future~ are evaluated in
+a new thread.
+#+begin_src clojure
+(future (Thread/sleep 4000) ;; 4 seconds
+        (println "Computation on this thread paused and this printed after 4 seconds."))
+
+(println "Computation on the main thread continued and this printed immediately.")
+#+end_src
+
+Before we look closer at futures,
+we must discuss how we represent these trees in Clojure.
+Then we will show a single-threaded implementation of the maximum
+function, and finally rework it into an approach using threads via futures.
+
+** Representing trees in Clojure
+
+Quite simply, we will consider /nested sequences/ to be trees.
+We will use the convention (at least for these notes)
+that the first element of the list is the /label/ of a node,
+and the next two elements of the list gives the /children/ of that node.
+
+For instance, the tree
+[[../../homework/media/BinTree.png]]
+can be written
+#+begin_src clojure
+'(1 (2) (3 (4) (5)))
+#+end_src
+
+#+RESULTS:
+: Please reevaluate when nREPL is connected
+
+Note that in the case that a tree has no children,
+we omit the rest of the list.
+
+** Finding the maximum of a tree
+
+#+begin_src clojure
+(defn maximum-tree
+  "Find the maximum element of a tree of integers `t`.
+`t` is assumed to be a list whose first element is an integer
+(the label of the root) and whose remaining elements are lists
+representing trees containing integers."
+  [t]
+  (if
+    (empty? t) ##-Inf
+    ;; Use list deconstruction to separate the `label` and the list of `children`.
+    (let [[label left right] t]
+      (max label (maximum-tree left) (maximum-tree right)))))
+#+end_src
+
+#+RESULTS:
+: #'user/maximum-tree
+
+#+begin_src clojure
+(maximum-tree [1 [2] [3 [4] [5]]])
+#+end_src
+
+#+RESULTS:
+: 5
+
+** Using futures
+
+:TODO:
+
+* Forking processes in Ruby
+
+:TODO:
+
+* Justifying our example problem
+
+:TODO:

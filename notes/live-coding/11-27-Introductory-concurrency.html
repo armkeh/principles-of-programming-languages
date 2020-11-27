@@ -1,0 +1,520 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2020-11-27 Fri 13:31 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Introductory concurrency</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Mark Armstrong" />
+<meta name="description" content="An introductory look at concurrency support in our
+course languages, along with some basic discussion
+of issues arising from concurrency."
+ />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="styles/readtheorg/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="styles/readtheorg/css/readtheorg.css"/>
+<script type="text/javascript" src="styles/lib/js/jquery.min.js"></script>
+<script type="text/javascript" src="styles/lib/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="styles/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" src="styles/readtheorg/js/readtheorg.js"></script>
+<style>pre.src{background:#000000;color:white;} </style>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:e95b018ef3580986a04669f1b5879592219e2a7a&dn=public-domain.txt Public Domain
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.add("code-highlighted");
+         target.classList.add("code-highlighted");
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.remove("code-highlighted");
+         target.classList.remove("code-highlighted");
+       }
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Introductory concurrency</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#Introduction">1. Introduction</a></li>
+<li><a href="#Some-brief-background">2. Some brief background</a>
+<ul>
+<li><a href="#Concurrency-vs. parallelism">2.1. Concurrency vs. parallelism</a></li>
+<li><a href="#Process-vs. thread">2.2. Process vs. thread</a></li>
+<li><a href="#Race-condition-vs. deadlock-vs. starvation">2.3. Race condition vs. deadlock vs. starvation</a></li>
+</ul>
+</li>
+<li><a href="#Creating-threads-with-futures-in-Clojure">3. Creating threads with futures in Clojure</a>
+<ul>
+<li><a href="#Representing-trees-in-Clojure">3.1. Representing trees in Clojure</a></li>
+<li><a href="#Finding-the-maximum-of-a-tree">3.2. Finding the maximum of a tree</a></li>
+<li><a href="#Using-futures">3.3. Using futures</a></li>
+</ul>
+</li>
+<li><a href="#Forking-processes-in-Ruby">4. Forking processes in Ruby</a></li>
+<li><a href="#Justifying-our-example-problem">5. Justifying our example problem</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-Introduction" class="outline-2">
+<h2 id="Introduction"><span class="section-number-2">1</span> Introduction</h2>
+<div class="outline-text-2" id="text-Introduction">
+<p>
+Here we briefly explore (some of) the techniques to take advantage
+of concurrency and parallelism in the languages we have used
+throughout the course.
+</p>
+
+<p>
+Our context for this discussion will be the problem
+of computing them maximum element of an (unsorted) tree of integers.
+This naturally leads to a divide an conquer approach,
+which can easily take advantage of concurrency,
+while also avoiding the issues that can arise from concurrent execution.
+We do give a brief discussion of these issues before
+starting our exploration.
+</p>
+
+<p>
+We justify the use of this problem to frame our exploration
+with a discussion at the end of the notes.
+</p>
+</div>
+</div>
+
+<div id="outline-container-Some-brief-background" class="outline-2">
+<h2 id="Some-brief-background"><span class="section-number-2">2</span> Some brief background</h2>
+<div class="outline-text-2" id="text-Some-brief-background">
+<p>
+The following should be review from other courses,
+most notably from “Concurrent Systems”.
+If you are not familiar with these topics,
+this will be a sufficient introduction
+for our purposes here.
+</p>
+</div>
+
+<div id="outline-container-Concurrency-vs. parallelism" class="outline-3">
+<h3 id="Concurrency-vs. parallelism"><span class="section-number-3">2.1</span> Concurrency vs. parallelism</h3>
+<div class="outline-text-3" id="text-Concurrency-vs. parallelism">
+<p>
+To define concurrency and parallelism, we must refer to
+“tasks being executed”.
+</p>
+
+<p>
+Two tasks <code>A</code> and <code>B</code> are said to be <i>concurrently executed</i> if
+the execution may be carried out in any of these orders:
+</p>
+<ul class="org-ul">
+<li>Part of <code>A</code> is executed, then the remainder of <code>A</code> and <code>B</code> are
+executed concurrently.</li>
+<li>Part of <code>B</code> is executed, then the remainder of <code>B</code> and <code>A</code> are
+executed concurrently.</li>
+<li>Part of <code>A</code> and part of <code>B</code> are executed <i>at the same time</i>,
+then the remainder of <code>A</code> and <code>B</code> are executed concurrently.</li>
+</ul>
+
+<p>
+Note that tasks can be run concurrently <i>even if</i> it is not possible
+for the underlying system to execute two tasks at the same time.
+</p>
+
+<p>
+On the other hand, two tasks are said to be <i>executed in parallel</i> if
+their execution takes place (at least partly) at the same time.
+</p>
+
+<p>
+Parallelism then requires hardware support
+to run two tasks at the same time.
+In the past, this implied distributed systems, but on modern computers,
+the presence of multiple <i>cores</i> of the processor allow for
+local parallel computation.
+</p>
+
+<p>
+As the notion of concurrency is more general,
+we usually talk about concurrent execution,
+unless we specifically mean that tasks are executed at
+the exact same time.
+</p>
+</div>
+</div>
+
+<div id="outline-container-Process-vs. thread" class="outline-3">
+<h3 id="Process-vs. thread"><span class="section-number-3">2.2</span> Process vs. thread</h3>
+<div class="outline-text-3" id="text-Process-vs. thread">
+<p>
+A <i>process</i> is an instance of a program being executed on a machine.
+The machine, usually through an operating system,
+grants each process its own memory space, and
+handles the scheduling of the execution of this and all other processes.
+</p>
+
+<p>
+A <i>thread</i> is a single sequence of instructions to be executed
+by the machine. Threads are not granted their own memory space
+by the machine (but the process may handle assigning memory to threads.)
+</p>
+
+<p>
+A single process process may be made up of several threads;
+so long as the process is being executed, there is at least
+one thread (of execution.)
+</p>
+</div>
+</div>
+
+<div id="outline-container-Race-condition-vs. deadlock-vs. starvation" class="outline-3">
+<h3 id="Race-condition-vs. deadlock-vs. starvation"><span class="section-number-3">2.3</span> Race condition vs. deadlock vs. starvation</h3>
+<div class="outline-text-3" id="text-Race-condition-vs. deadlock-vs. starvation">
+<p>
+Race conditions, deadlock and starvation are all classes of error
+that can occur when using concurrency.
+</p>
+
+<p>
+A <i>race condition</i> refers to an error that arises when …
+</p>
+
+<p>
+A <i>deadlock</i> refers to an error that arises when …
+</p>
+
+<p>
+A task is said to <i>starve</i> when …
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-Creating-threads-with-futures-in-Clojure" class="outline-2">
+<h2 id="Creating-threads-with-futures-in-Clojure"><span class="section-number-2">3</span> Creating threads with futures in Clojure</h2>
+<div class="outline-text-2" id="text-Creating-threads-with-futures-in-Clojure">
+<p>
+Clojure has support for several approaches to concurrency,
+including but not limited to:
+</p>
+<ul class="org-ul">
+<li>a STM (Software Transactional Memory) system,</li>
+<li>an <i>agent</i> system (somewhat related to the <i>actor model</i>), and</li>
+<li>an <i>atom</i> system which avoids race conditions
+regarding changes to data.</li>
+</ul>
+<p>
+Refer to the <a href="https://clojure.org/about/concurrent_programming">documentation</a>
+for more information about these.
+</p>
+
+<p>
+For today, we are well served with a simpler approach:
+the <code>future</code> macro.
+A sequence of expressions wrapped in a <code>future</code> are evaluated in
+a new thread.
+</p>
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #00cd68;">(</span>future <span style="color: #b6a0ff;">(</span><span style="color: #6ae4b9;">Thread</span>/sleep 4000<span style="color: #b6a0ff;">)</span> <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">4 seconds</span>
+        <span style="color: #b6a0ff;">(</span>println <span style="color: #79a8ff;">"Computation on this thread paused and this printed after 4 seconds."</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+
+<span style="color: #00cd68;">(</span>println <span style="color: #79a8ff;">"Computation on the main thread continued and this printed immediately."</span><span style="color: #00cd68;">)</span>
+</pre>
+</div>
+
+<p>
+Before we look closer at futures,
+we must discuss how we represent these trees in Clojure.
+Then we will show a single-threaded implementation of the maximum
+function, and finally rework it into an approach using threads via futures.
+</p>
+</div>
+
+<div id="outline-container-Representing-trees-in-Clojure" class="outline-3">
+<h3 id="Representing-trees-in-Clojure"><span class="section-number-3">3.1</span> Representing trees in Clojure</h3>
+<div class="outline-text-3" id="text-Representing-trees-in-Clojure">
+<p>
+Quite simply, we will consider <i>nested sequences</i> to be trees.
+We will use the convention (at least for these notes)
+that the first element of the list is the <i>label</i> of a node,
+and the next two elements of the list gives the <i>children</i> of that node.
+</p>
+
+<p>
+For instance, the tree
+<img src="../../homework/media/BinTree.png" alt="BinTree.png" />
+can be written
+</p>
+<div class="org-src-container">
+<pre class="src src-clojure">'<span style="color: #00cd68;">(</span>1 <span style="color: #b6a0ff;">(</span>2<span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">(</span>3 <span style="color: #6ae4b9;">(</span>4<span style="color: #6ae4b9;">)</span> <span style="color: #6ae4b9;">(</span>5<span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+</pre>
+</div>
+
+<p>
+Note that in the case that a tree has no children,
+we omit the rest of the list.
+</p>
+</div>
+</div>
+
+<div id="outline-container-Finding-the-maximum-of-a-tree" class="outline-3">
+<h3 id="Finding-the-maximum-of-a-tree"><span class="section-number-3">3.2</span> Finding the maximum of a tree</h3>
+<div class="outline-text-3" id="text-Finding-the-maximum-of-a-tree">
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">defn</span> <span style="color: #feacd0;">maximum-tree</span>
+  <span style="color: #b0d6f5;">"Find the maximum element of a tree of integers `</span><span style="color: #00bcff;">t</span><span style="color: #b0d6f5;">`.</span>
+<span style="color: #b0d6f5;">`</span><span style="color: #00bcff;">t</span><span style="color: #b0d6f5;">` is assumed to be a list whose first element is an integer</span>
+<span style="color: #b0d6f5;">(the label of the root) and whose remaining elements are lists</span>
+<span style="color: #b0d6f5;">representing trees containing integers."</span>
+  <span style="color: #b6a0ff;">[</span>t<span style="color: #b6a0ff;">]</span>
+  <span style="color: #b6a0ff;">(</span><span style="color: #b6a0ff;">if</span>
+    <span style="color: #6ae4b9;">(</span>empty? t<span style="color: #6ae4b9;">)</span> ##-Inf
+    <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">Use list deconstruction to separate the `</span><span style="color: #00bcff;">label</span><span style="color: #a8a8a8;">` and the list of `</span><span style="color: #00bcff;">children</span><span style="color: #a8a8a8;">`.</span>
+    <span style="color: #6ae4b9;">(</span><span style="color: #b6a0ff;">let</span> <span style="color: #f0ce43;">[</span><span style="color: #00bcff;">[</span>label left right<span style="color: #00bcff;">]</span> t<span style="color: #f0ce43;">]</span>
+      <span style="color: #f0ce43;">(</span>max label <span style="color: #00bcff;">(</span>maximum-tree left<span style="color: #00bcff;">)</span> <span style="color: #00bcff;">(</span>maximum-tree right<span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #00cd68;">(</span>maximum-tree <span style="color: #b6a0ff;">[</span>1 <span style="color: #6ae4b9;">[</span>2<span style="color: #6ae4b9;">]</span> <span style="color: #6ae4b9;">[</span>3 <span style="color: #f0ce43;">[</span>4<span style="color: #f0ce43;">]</span> <span style="color: #f0ce43;">[</span>5<span style="color: #f0ce43;">]</span><span style="color: #6ae4b9;">]</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-Using-futures" class="outline-3">
+<h3 id="Using-futures"><span class="section-number-3">3.3</span> Using futures</h3>
+<div class="outline-text-3" id="text-Using-futures">
+<p>
+:TODO:
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-Forking-processes-in-Ruby" class="outline-2">
+<h2 id="Forking-processes-in-Ruby"><span class="section-number-2">4</span> Forking processes in Ruby</h2>
+<div class="outline-text-2" id="text-Forking-processes-in-Ruby">
+<p>
+:TODO:
+</p>
+</div>
+</div>
+
+<div id="outline-container-Justifying-our-example-problem" class="outline-2">
+<h2 id="Justifying-our-example-problem"><span class="section-number-2">5</span> Justifying our example problem</h2>
+<div class="outline-text-2" id="text-Justifying-our-example-problem">
+<p>
+:TODO:
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Mark Armstrong</p>
+     <p class="author">Contact: <a href="mailto:markparmstrong@gmail.com">markparmstrong@gmail.com</a></p>
+     <p class="date">Original date: </p>
+     <p class="date">Last updated: 2020-11-27 Fri 13:31</p>
+     <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4)</p>
+     <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

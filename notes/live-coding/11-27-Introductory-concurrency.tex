@@ -1,0 +1,206 @@
+% Created 2020-11-27 Fri 13:31
+% Intended LaTeX compiler: lualatex
+\documentclass[11pt]{article}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{etoolbox}
+\makeatletter
+\def\dontdofcolorbox{\renewcommand\fcolorbox[4][]{##4}}
+\AtBeginEnvironment{minted}{\dontdofcolorbox}
+\makeatother
+\usepackage[newfloat]{minted}
+\usepackage{unicode-math}
+\usepackage{unicode}
+\author{Mark Armstrong}
+\date{\today}
+\title{Introductory concurrency}
+\hypersetup{
+   pdfauthor={Mark Armstrong},
+   pdftitle={Introductory concurrency},
+   pdfkeywords={},
+   pdfsubject={An introductory look at concurrency support in our course languages, along with some basic discussion of issues arising from concurrency.},
+   pdfcreator={Emacs 27.0.91 (Org mode 9.4)},
+   pdflang={English},
+   colorlinks,
+   linkcolor=blue,
+   citecolor=blue,
+   urlcolor=blue
+   }
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+
+\section{Introduction}
+\label{sec:orge2e3b2a}
+Here we briefly explore (some of) the techniques to take advantage
+of concurrency and parallelism in the languages we have used
+throughout the course.
+
+Our context for this discussion will be the problem
+of computing them maximum element of an (unsorted) tree of integers.
+This naturally leads to a divide an conquer approach,
+which can easily take advantage of concurrency,
+while also avoiding the issues that can arise from concurrent execution.
+We do give a brief discussion of these issues before
+starting our exploration.
+
+We justify the use of this problem to frame our exploration
+with a discussion at the end of the notes.
+
+\section{Some brief background}
+\label{sec:org27eb38a}
+The following should be review from other courses,
+most notably from “Concurrent Systems”.
+If you are not familiar with these topics,
+this will be a sufficient introduction
+for our purposes here.
+
+\subsection{Concurrency vs. parallelism}
+\label{sec:orgdc8b0a7}
+To define concurrency and parallelism, we must refer to
+“tasks being executed”.
+
+Two tasks \texttt{A} and \texttt{B} are said to be \emph{concurrently executed} if
+the execution may be carried out in any of these orders:
+\begin{itemize}
+\item Part of \texttt{A} is executed, then the remainder of \texttt{A} and \texttt{B} are
+executed concurrently.
+\item Part of \texttt{B} is executed, then the remainder of \texttt{B} and \texttt{A} are
+executed concurrently.
+\item Part of \texttt{A} and part of \texttt{B} are executed \emph{at the same time},
+then the remainder of \texttt{A} and \texttt{B} are executed concurrently.
+\end{itemize}
+
+Note that tasks can be run concurrently \emph{even if} it is not possible
+for the underlying system to execute two tasks at the same time.
+
+On the other hand, two tasks are said to be \emph{executed in parallel} if
+their execution takes place (at least partly) at the same time.
+
+Parallelism then requires hardware support
+to run two tasks at the same time.
+In the past, this implied distributed systems, but on modern computers,
+the presence of multiple \emph{cores} of the processor allow for
+local parallel computation.
+
+As the notion of concurrency is more general,
+we usually talk about concurrent execution,
+unless we specifically mean that tasks are executed at
+the exact same time.
+
+\subsection{Process vs. thread}
+\label{sec:orgcf261a6}
+A \emph{process} is an instance of a program being executed on a machine.
+The machine, usually through an operating system,
+grants each process its own memory space, and
+handles the scheduling of the execution of this and all other processes.
+
+A \emph{thread} is a single sequence of instructions to be executed
+by the machine. Threads are not granted their own memory space
+by the machine (but the process may handle assigning memory to threads.)
+
+A single process process may be made up of several threads;
+so long as the process is being executed, there is at least
+one thread (of execution.)
+
+\subsection{Race condition vs. deadlock vs. starvation}
+\label{sec:orga3c5c05}
+Race conditions, deadlock and starvation are all classes of error
+that can occur when using concurrency.
+
+A \emph{race condition} refers to an error that arises when …
+
+A \emph{deadlock} refers to an error that arises when …
+
+A task is said to \emph{starve} when …
+
+\section{Creating threads with futures in Clojure}
+\label{sec:org50e780e}
+Clojure has support for several approaches to concurrency,
+including but not limited to:
+\begin{itemize}
+\item a STM (Software Transactional Memory) system,
+\item an \emph{agent} system (somewhat related to the \emph{actor model}), and
+\item an \emph{atom} system which avoids race conditions
+regarding changes to data.
+\end{itemize}
+Refer to the \href{https://clojure.org/about/concurrent\_programming}{documentation}
+for more information about these.
+
+For today, we are well served with a simpler approach:
+the \texttt{future} macro.
+A sequence of expressions wrapped in a \texttt{future} are evaluated in
+a new thread.
+\begin{minted}[breaklines=true]{clojure}
+(future (Thread/sleep 4000) ;; 4 seconds
+        (println "Computation on this thread paused and this printed after 4 seconds."))
+
+(println "Computation on the main thread continued and this printed immediately.")
+\end{minted}
+
+Before we look closer at futures,
+we must discuss how we represent these trees in Clojure.
+Then we will show a single-threaded implementation of the maximum
+function, and finally rework it into an approach using threads via futures.
+
+\subsection{Representing trees in Clojure}
+\label{sec:orge2074c0}
+Quite simply, we will consider \emph{nested sequences} to be trees.
+We will use the convention (at least for these notes)
+that the first element of the list is the \emph{label} of a node,
+and the next two elements of the list gives the \emph{children} of that node.
+
+For instance, the tree
+\includegraphics{../../homework/media/BinTree.png}
+can be written
+\begin{minted}[breaklines=true]{clojure}
+'(1 (2) (3 (4) (5)))
+\end{minted}
+
+Note that in the case that a tree has no children,
+we omit the rest of the list.
+
+\subsection{Finding the maximum of a tree}
+\label{sec:orgfb6cf19}
+\begin{minted}[breaklines=true]{clojure}
+(defn maximum-tree
+  "Find the maximum element of a tree of integers `t`.
+`t` is assumed to be a list whose first element is an integer
+(the label of the root) and whose remaining elements are lists
+representing trees containing integers."
+  [t]
+  (if
+    (empty? t) ##-Inf
+    ;; Use list deconstruction to separate the `label` and the list of `children`.
+    (let [[label left right] t]
+      (max label (maximum-tree left) (maximum-tree right)))))
+\end{minted}
+
+\begin{minted}[breaklines=true]{clojure}
+(maximum-tree [1 [2] [3 [4] [5]]])
+\end{minted}
+
+\subsection{Using futures}
+\label{sec:org409f0e4}
+:TODO:
+
+\section{Forking processes in Ruby}
+\label{sec:org9bbdf09}
+:TODO:
+
+\section{Justifying our example problem}
+\label{sec:orgf4ac4ab}
+:TODO:
+\end{document}

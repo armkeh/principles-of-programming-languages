@@ -723,6 +723,24 @@ Particularly relevant portions of raw code are also included.
 :CUSTOM_ID: Lectures
 :END:
 
+*** November 27th – Introductory concurrency
+:PROPERTIES:
+:CUSTOM_ID: November-27th-–-Introductory-concurrency
+:END:
+
+- [[./notes/live-coding/11-27-Introductory-concurrency.html][HTML]]
+- [[./notes/live-coding/11-27-Introductory-concurrency.pdf][PDF]]
+- [[./notes/live-coding/11-27-Introductory-concurrency.org][Org plaintext]]
+
+*** November 20th – Introductory metaprogramming
+:PROPERTIES:
+:CUSTOM_ID: November-20th-–-Introductory-metaprogramming
+:END:
+
+- [[./notes/live-coding/11-20-Introductory-metaprogramming.html][HTML]]
+- [[./notes/live-coding/11-20-Introductory-metaprogramming.pdf][PDF]]
+- [[./notes/live-coding/11-20-Introductory-metaprogramming.org][Org plaintext]]
+
 *** November 6th – Introduction to Clojure
 :PROPERTIES:
 :CUSTOM_ID: November-6th-–-Introduction-to-Clojure

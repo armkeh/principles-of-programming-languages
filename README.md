@@ -701,6 +701,20 @@ are also included.
 
 ## Lectures
 
+### November 27th – Introductory concurrency
+
+  - [HTML](./notes/live-coding/11-27-Introductory-concurrency.html)
+  - [PDF](./notes/live-coding/11-27-Introductory-concurrency.pdf)
+  - [Org
+    plaintext](./notes/live-coding/11-27-Introductory-concurrency.org)
+
+### November 20th – Introductory metaprogramming
+
+  - [HTML](./notes/live-coding/11-20-Introductory-metaprogramming.html)
+  - [PDF](./notes/live-coding/11-20-Introductory-metaprogramming.pdf)
+  - [Org
+    plaintext](./notes/live-coding/11-20-Introductory-metaprogramming.org)
+
 ### November 6th – Introduction to Clojure
 
   - [HTML](./notes/live-coding/11-06-Introduction-to-Clojure.html)
