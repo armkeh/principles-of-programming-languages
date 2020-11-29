@@ -1,0 +1,850 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2020-11-29 Sun 02:35 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Computer Science 3MI3 – 2020 homework 9</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Mark Armstrong" />
+<meta name="description" content="Exploring a different kind of control structure: the guarded command."
+ />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="styles/readtheorg/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="styles/readtheorg/css/readtheorg.css"/>
+<script type="text/javascript" src="styles/lib/js/jquery.min.js"></script>
+<script type="text/javascript" src="styles/lib/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="styles/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" src="styles/readtheorg/js/readtheorg.js"></script>
+<style>pre.src{background:#000000;color:white;} </style>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:e95b018ef3580986a04669f1b5879592219e2a7a&dn=public-domain.txt Public Domain
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.add("code-highlighted");
+         target.classList.add("code-highlighted");
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.remove("code-highlighted");
+         target.classList.remove("code-highlighted");
+       }
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Computer Science 3MI3 – 2020 homework 9
+<br />
+<span class="subtitle">Adding “guarded commands” to Clojure</span>
+</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#Introduction">Introduction</a></li>
+<li><a href="#Boilerplate">Boilerplate</a>
+<ul>
+<li><a href="#Submission-procedures">Submission procedures</a>
+<ul>
+<li><a href="#orgc37b377">Submission method</a></li>
+<li><a href="#org87bcead">Naming requirements</a></li>
+<li><a href="#orgf55ea90">Do not submit testing or diagnostic code</a></li>
+<li><a href="#org46d0f6c">Due date and allowance for technical difficulties</a></li>
+</ul>
+</li>
+<li><a href="#Proper-conduct-for-coursework">Proper conduct for coursework</a>
+<ul>
+<li><a href="#org72a066d">Individual work</a></li>
+<li><a href="#org76737d4">Language library resources</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#Part-0.1:-An-introduction-to-guarded-commands">Part 0.1: An introduction to guarded commands</a></li>
+<li><a href="#Part-0.2:-Representing-guarded-commands-in-Clojure">Part 0.2: Representing guarded commands in Clojure</a></li>
+<li><a href="#Part-0.3:-An-example-construct-for-using-guarded-commands">Part 0.3: An example construct for using guarded commands</a></li>
+<li><a href="#Part-1:-Sequence-of-commands-whose-guards-are-satisfied-------[20 points]">Part 1: Sequence of commands whose guards are satisfied       [20 points]</a></li>
+<li><a href="#Part-2:-A-nondeterministic-~if~-expression-for-guarded-commands-[15 points]">Part 2: A nondeterministic <code>if</code> expression for guarded commands [15 points]</a></li>
+<li><a href="#Part-3:-A-nondeterministic-~do~-expression-for-guarded-commands-[15 points]">Part 3: A nondeterministic <code>do</code> expression for guarded commands [15 points]</a></li>
+<li><a href="#Part-4:-GCD---------------------------------------------------[10 points]">Part 4: GCD                                                   [10 points]</a></li>
+<li><a href="#Part-5:-GCD-by-iteration-[5 bonus points]">Part 5: GCD by iteration [5 bonus points]</a></li>
+<li><a href="#Testing">Testing</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-Introduction" class="outline-2">
+<h2 id="Introduction">Introduction</h2>
+<div class="outline-text-2" id="text-Introduction">
+<p>
+In his 1975 paper
+<a href="https://dl.acm.org/doi/10.1145/360933.360975">Guarded commands, nondeterminacy and formal derivation of programs</a>,
+Edsger W. Dijkstra proposed a foundation for an imperative language
+different from the commonly used branching and iterating constructs;
+the <i>guarded commands</i>, along with control structures operating on them.
+</p>
+
+<p>
+The guarded command language is especially interesting
+in comparison to the languages we have developed
+in that it is inherently <i>non-deterministic</i>.
+</p>
+
+<p>
+In this homework, we familiarise ourselves with the guarded command
+control constructs by implementing them in Clojure, using macros.
+</p>
+</div>
+</div>
+
+<div id="outline-container-Boilerplate" class="outline-2">
+<h2 id="Boilerplate">Boilerplate</h2>
+<div class="outline-text-2" id="text-Boilerplate">
+</div>
+
+<div id="outline-container-Submission-procedures" class="outline-3">
+<h3 id="Submission-procedures">Submission procedures</h3>
+<div class="outline-text-3" id="text-Submission-procedures">
+</div>
+
+<div id="outline-container-orgc37b377" class="outline-4">
+<h4 id="orgc37b377">Submission method</h4>
+<div class="outline-text-4" id="text-orgc37b377">
+<p>
+Homework should be submitted to your McMaster CAS Gitlab respository
+in the <code>cs3mi3-fall2020</code> project.
+</p>
+
+<p>
+Ensure that you have <b>pushed</b> the commits to the remote repository
+in time for the deadline, and not just committed to your local copy.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org87bcead" class="outline-4">
+<h4 id="org87bcead">Naming requirements</h4>
+<div class="outline-text-4" id="text-org87bcead">
+<p>
+Place all files for the homework
+inside a folder titled <code>hn</code>, where <code>n</code> is the number of the homework.
+So, for homework 1, use the folder <code>h1</code>, for homework 2 the folder <code>h2</code>, etc.
+Ensure you do not capitalise the <code>h</code>.
+</p>
+
+<p>
+Unless otherwise instructed in the homework questions,
+place all of your code for the homework
+in a single file in the <code>hn</code> folder named <code>hn.ext</code>,
+where <code>ext</code> is the appropriate extension for the language used
+according to this list:
+</p>
+<ul class="org-ul">
+<li>For Scala, <code>ext</code> is <code>sc</code>.</li>
+<li>For Prolog, <code>ext</code> is <code>pl</code>.</li>
+<li>For Ruby, <code>ext</code> is <code>rb</code>.</li>
+<li>For Clojure, <code>ext</code> is <code>clj</code>.</li>
+</ul>
+<p>
+If multiple languages are used in the homework,
+submit a <code>hn.ext</code> file for each language.
+</p>
+
+<div class="org-center">
+<p>
+<b>If the language supports multiple different file extensions,</b>
+<b>you must still follow the extension conventions above.</b>
+</p>
+</div>
+
+<div class="org-center">
+<p>
+<b>Incorrect naming of files may result in up to a 10% deduction in your grade.</b>
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgf55ea90" class="outline-4">
+<h4 id="orgf55ea90">Do not submit testing or diagnostic code</h4>
+<div class="outline-text-4" id="text-orgf55ea90">
+<p>
+Unless you are instructed to do so in the homework questions,
+<b>you should not submit testing code with your homework submission</b>.
+</p>
+
+<p>
+This includes
+</p>
+<ul class="org-ul">
+<li>any <code>main</code> function,</li>
+<li>any <code>print</code> statements which output information
+<b>that is not directly requested as console output</b>
+<b>in the homework questions</b>.</li>
+</ul>
+
+<p>
+If you do not wish to remove diagnostic print statements manually,
+you will have to find a way to ensure that they disabled
+in your final submission.
+</p>
+
+<p>
+For instance, by using a wrapper on the print function or macros.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org46d0f6c" class="outline-4">
+<h4 id="org46d0f6c">Due date and allowance for technical difficulties</h4>
+<div class="outline-text-4" id="text-org46d0f6c">
+<p>
+Homework is due on the second Sunday following its release,
+by the end of the day (midnight).
+Submissions past 00:00 may not be considered.
+</p>
+
+<p>
+If you experience technical difficulties
+leading up to the submission time,
+please contact Mark <b>ASAP</b> with the details of the problem
+and, if possible, attach the current state of your homework
+to the communication.
+This information will help ensure we are able
+to accept your submission once the technical difficulties are resolved.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-Proper-conduct-for-coursework" class="outline-3">
+<h3 id="Proper-conduct-for-coursework">Proper conduct for coursework</h3>
+<div class="outline-text-3" id="text-Proper-conduct-for-coursework">
+</div>
+
+<div id="outline-container-org72a066d" class="outline-4">
+<h4 id="org72a066d">Individual work</h4>
+<div class="outline-text-4" id="text-org72a066d">
+<p>
+Unless explicitely stated in the homework questions,
+all homework in this course is intended
+to be <i>individually completed</i>.
+</p>
+
+<p>
+You are welcome to discuss the content of the homework in
+the public forum of the class Microsoft Teams team homework channel,
+though obviously solutions or partial solutions should not
+be posted or described.
+</p>
+
+<p>
+Private discussions about the homework cannot reasonably be
+forbidden, but such discussions should follow the same guidelines
+as public discussions.
+</p>
+
+<div class="org-center">
+<p>
+<b>Inappopriate collaboration via private discussions</b>
+<b>which is later discovered by course staff</b>
+<b>may be considered academic dishonesty.</b>
+</p>
+
+<p>
+When in doubt, make the discussion private, or report its contents
+to the course staff by making a note of it
+in your homework.
+</p>
+</div>
+
+<p>
+To clarify what is considered appropriate discussions
+of homework content, here are some examples:
+</p>
+<ol class="org-ol">
+<li>Discussing the language features introduced or needed for the homework.
+<ul class="org-ul">
+<li>Such as relevant builtin datatypes
+and datatype definition methods and their general use.</li>
+<li>Code snippets that are not partial solutions to the homework
+are welcome and encouraged.</li>
+</ul></li>
+<li>Questions of the form “What is meant by <code>x</code>?”,
+“Does <code>x</code> really mean <code>y</code>?” or “Is there a mistake with <code>x</code>?”
+<ul class="org-ul">
+<li>Of course, questions of those form which would be answered
+by partial solutions are not considered appropriate.</li>
+</ul></li>
+<li>Questions or advice about errors that may be encountered.
+<ul class="org-ul">
+<li>Such as “If you see a <code>scala.MatchError</code> you should
+probably add a catch-all <code>_</code> case to your <code>match</code> expressions.”</li>
+</ul></li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org76737d4" class="outline-4">
+<h4 id="org76737d4">Language library resources</h4>
+<div class="outline-text-4" id="text-org76737d4">
+<p>
+Unless explicitely stated in the questions,
+it is not expected that you will use any language library resources
+in the homeworks.
+</p>
+
+<p>
+Possible exceptions to this rule include implementations
+of datatypes we discuss in this course, such as lists
+or options/maybes, if they are included in a standard library
+instead of being builtin.
+</p>
+
+<p>
+<i>Basic</i> operations on such types would also be allowed.
+</p>
+<ul class="org-ul">
+<li>For instance, <code>head</code>, <code>tail</code>, <code>append</code>, etc. on lists
+would not require explicit permission to be used.</li>
+<li>More complex operations such as sorting procedures
+would require permission before you used them.</li>
+</ul>
+
+<p>
+Additionally, the standard <i>higher-order</i> operations
+including <code>map</code>, <code>reduce</code>, <code>flatten</code>, and <code>filter</code> are permitted generally,
+unless the task is to implement such a higher-order operator.
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-Part-0.1:-An-introduction-to-guarded-commands" class="outline-2">
+<h2 id="Part-0.1:-An-introduction-to-guarded-commands">Part 0.1: An introduction to guarded commands</h2>
+<div class="outline-text-2" id="text-Part-0.1:-An-introduction-to-guarded-commands">
+<p>
+A very brief and informative article discussing the guarded command
+by Jerrold L. Wagener is freely available
+from the <a href="https://dl.acm.org/doi/10.5555/1074100.1074433">ACM digital library</a>.
+</p>
+
+<p>
+A <i>guarded command</i> consists of a (presumably boolean valued) <i>guard</i> along
+with a <i>command</i> (an expression or statement of the language).
+</p>
+
+<p>
+We write a set or sequence of guarded commands as
+</p>
+<div class="org-src-container">
+<pre class="src src-text">  B&#8321; &#10230; S&#8321;
+  B&#8322; &#10230; S&#8322;
+     &#8942;
+  B&#8345; &#10230; S&#8345;
+</pre>
+</div>
+<p>
+(where each <code>Bᵢ</code> is the guard for the command <code>Sᵢ</code>).
+</p>
+
+<p>
+By itself, a set of guarded commands is not a control structure.
+Instead, we introduce special constructs
+which operate on sets of guarded commands to form a control structure.
+</p>
+
+<p>
+The <code>if</code> construct, when applied to a set of guarded commands, as in
+</p>
+<div class="org-src-container">
+<pre class="src src-text">if
+  B&#8321; &#10230; S&#8321;
+  B&#8322; &#10230; S&#8322;
+     &#8942;
+  B&#8345; &#10230; S&#8345;
+</pre>
+</div>
+<p>
+selects any command whose guard evaluates to true,
+and executes that command.
+If no command is true, it does nothing.
+</p>
+
+<p>
+The <code>do</code> construct, when applied to a set of guarded commands, as in
+</p>
+<div class="org-src-container">
+<pre class="src src-text">do
+  B&#8321; &#10230; S&#8321;
+  B&#8322; &#10230; S&#8322;
+     &#8942;
+  B&#8345; &#10230; S&#8345;
+</pre>
+</div>
+<p>
+also selects any command whose guard evaluates to true
+and executes that command,
+but it <i>continues to do so</i> until no guard is true. 
+</p>
+
+<p>
+We will be interested in versions of the <code>if</code> and <code>do</code> constructs
+which <i>nondeterministically</i> select which command to evaluate.
+This can be accomplished by making use of functions
+which act <i>randomly</i>.
+</p>
+
+<p>
+The appeal of this nondeterminism is that it forces the programmer
+to be certain that their programs behaviour does not depend
+upon the ordering of the commands;
+instead, the guards must be made explicit enough
+to ensure that their command is only executed in the correct context.
+</p>
+</div>
+</div>
+
+<div id="outline-container-Part-0.2:-Representing-guarded-commands-in-Clojure" class="outline-2">
+<h2 id="Part-0.2:-Representing-guarded-commands-in-Clojure">Part 0.2: Representing guarded commands in Clojure</h2>
+<div class="outline-text-2" id="text-Part-0.2:-Representing-guarded-commands-in-Clojure">
+<p>
+We can easily write guarded commands in Clojure
+as a record consisting of the <code>guard</code> and the <code>command</code>.
+</p>
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">defrecord</span> <span style="color: #6ae4b9;">GuardedCommand</span> <span style="color: #b6a0ff;">[</span>guard command<span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span>
+</pre>
+</div>
+
+<p>
+We can create an instance of this record as in
+</p>
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #00cd68;">(</span>GuardedCommand. '<span style="color: #b6a0ff;">(</span>&gt; x 5<span style="color: #b6a0ff;">)</span> '<span style="color: #b6a0ff;">(</span>- x 1<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+</pre>
+</div>
+
+<p>
+We can access the fields of these records as if they were maps,
+or using syntax based on Java field accessors.
+That is, given a <code>GuardedCommand</code> instance <code>grd-cmd</code>,
+we can write e.g., <code>(:guard grd-cmd)</code> or <code>(.command grd-cmd)</code>.
+</p>
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">let</span> <span style="color: #b6a0ff;">[</span>grd-cmd <span style="color: #6ae4b9;">(</span>GuardedCommand. '<span style="color: #f0ce43;">(</span>&gt; x 5<span style="color: #f0ce43;">)</span> '<span style="color: #f0ce43;">(</span>- x 1<span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">]</span>
+  <span style="color: #b6a0ff;">(</span>printf <span style="color: #79a8ff;">"The guard of this command is %s</span><span style="color: #79a8ff; font-weight: bold;">\n</span><span style="color: #79a8ff;">"</span> <span style="color: #6ae4b9;">(</span><span style="color: #00bcff;">:guard</span> grd-cmd<span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span>
+  <span style="color: #b6a0ff;">(</span>printf <span style="color: #79a8ff;">"The command of this command is %s</span><span style="color: #79a8ff; font-weight: bold;">\n</span><span style="color: #79a8ff;">"</span> <span style="color: #6ae4b9;">(</span>.command grd-cmd<span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+</pre>
+</div>
+
+<p>
+So we will operate on lists or vectors of <code>GuardCommands</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-Part-0.3:-An-example-construct-for-using-guarded-commands" class="outline-2">
+<h2 id="Part-0.3:-An-example-construct-for-using-guarded-commands">Part 0.3: An example construct for using guarded commands</h2>
+<div class="outline-text-2" id="text-Part-0.3:-An-example-construct-for-using-guarded-commands">
+<p>
+To get you started, we define here a <i>deterministic</i> <code>if</code> construct
+operating on guarded commands.
+</p>
+
+<p>
+This construct differs from the one you will be tasked to define
+in that it always chooses the first command in the sequence
+whose guard is true
+(instead of nondeterministically/randomly selecting a command.)
+</p>
+
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">defn</span> <span style="color: #feacd0;">first-allowed-command</span>
+  <span style="color: #b0d6f5;">"Find the first command in a sequence of guarded `</span><span style="color: #00bcff;">commands</span><span style="color: #b0d6f5;">`</span>
+<span style="color: #b0d6f5;">whose `</span><span style="color: #00bcff;">.guard</span><span style="color: #b0d6f5;">` evaluates to a truthy value and return its `</span><span style="color: #00bcff;">.command</span><span style="color: #b0d6f5;">`.</span>
+<span style="color: #b0d6f5;">Returns `</span><span style="color: #00bcff;">nil</span><span style="color: #b0d6f5;">` if none of the guards are satisfied."</span>
+  <span style="color: #b6a0ff;">[</span>commands<span style="color: #b6a0ff;">]</span>
+  <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">If the `</span><span style="color: #00bcff;">commands</span><span style="color: #a8a8a8;">` list is empty, "do nothing" by returning `</span><span style="color: #00bcff;">nil</span><span style="color: #a8a8a8;">`.</span>
+  <span style="color: #b6a0ff;">(</span><span style="color: #b6a0ff;">if</span> <span style="color: #6ae4b9;">(</span>empty? commands<span style="color: #6ae4b9;">)</span> <span style="color: #00bcff;">nil</span>
+      <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">Otherwise, deconstruct the `</span><span style="color: #00bcff;">commands</span><span style="color: #a8a8a8;">` list into</span>
+      <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">the first `</span><span style="color: #00bcff;">command</span><span style="color: #a8a8a8;">` and the `</span><span style="color: #00bcff;">rest</span><span style="color: #a8a8a8;">`.</span>
+      <span style="color: #6ae4b9;">(</span><span style="color: #b6a0ff;">let</span> <span style="color: #f0ce43;">[</span><span style="color: #00bcff;">[</span>command &amp; rest<span style="color: #00bcff;">]</span> commands<span style="color: #f0ce43;">]</span>
+        <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">Diagnostic print statement, if needed.</span>
+        <span style="color: #a8a8a8;">;(printf "Checking command %s with guard %s and command %s\n" command (.guard command) (.command command))</span>
+        <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">Now check the `</span><span style="color: #00bcff;">guard</span><span style="color: #a8a8a8;">`, and if it's satisfied, return the first `</span><span style="color: #00bcff;">command</span><span style="color: #a8a8a8;">`.</span>
+        <span style="color: #f0ce43;">(</span><span style="color: #b6a0ff;">if</span> <span style="color: #00bcff;">(</span>eval <span style="color: #80d200;">(</span>.guard command<span style="color: #80d200;">)</span><span style="color: #00bcff;">)</span> <span style="color: #00bcff;">(</span>.command command<span style="color: #00bcff;">)</span>
+            <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">Otherwise, continue to check the `</span><span style="color: #00bcff;">rest</span><span style="color: #a8a8a8;">` of the guarded commands.</span>
+            <span style="color: #00bcff;">(</span>first-allowed-command rest<span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+
+<span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">defmacro</span> <span style="color: #feacd0;">guarded-deterministic-if</span>
+  <span style="color: #b0d6f5;">"Given a sequence of `</span><span style="color: #00bcff;">GuardedCommands</span><span style="color: #b0d6f5;">`, `</span><span style="color: #00bcff;">commands</span><span style="color: #b0d6f5;">`,</span>
+<span style="color: #b0d6f5;">select the first guarded command whose `</span><span style="color: #00bcff;">.guard</span><span style="color: #b0d6f5;">` evaluates</span>
+<span style="color: #b0d6f5;">to a truthy value and evaluate its `</span><span style="color: #00bcff;">.command</span><span style="color: #b0d6f5;">`."</span>
+  <span style="color: #b6a0ff;">[</span>&amp; commands<span style="color: #b6a0ff;">]</span>
+  <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">The body must be quoted, so that nothing is evaluated until runtime.</span>
+  `<span style="color: #b6a0ff;">(</span>eval <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">Evaluate...</span>
+    <span style="color: #6ae4b9;">(</span>first-allowed-command <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">...the command returned by first-allowed-command... </span>
+     <span style="color: #f0ce43;">[</span>~@commands<span style="color: #f0ce43;">]</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span> <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">to which we pass a vector of the commands.</span>
+<span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">The ~@ applied to `</span><span style="color: #00bcff;">commands</span><span style="color: #a8a8a8;">` here "splices" the elements of `</span><span style="color: #00bcff;">commands</span><span style="color: #a8a8a8;">` into place here.</span>
+<span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">That is, each element of the sequence `</span><span style="color: #00bcff;">commands</span><span style="color: #a8a8a8;">` is inserted here in order.</span>
+<span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">But not literally as a sequence (between parentheses or brackets.) Hence we wrap in [].</span>
+<span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">The use of the [] is actually quite particular; using a quoted list, '(...), would not work.</span>
+<span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">Because the guarded commands within would be treated as sequences instead of records.</span>
+</pre>
+</div>
+
+<p>
+As an example, we use this form to define a <code>max</code> operation.
+</p>
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">defn</span> <span style="color: #feacd0;">max</span> <span style="color: #b6a0ff;">[</span>x y<span style="color: #b6a0ff;">]</span>
+  <span style="color: #b6a0ff;">(</span>guarded-deterministic-if
+   <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">For variables to maintain their meaning within a quoted list,</span>
+   <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">use the special backtick ` quote and unquote the variables with ~.</span>
+   <span style="color: #6ae4b9;">(</span>GuardedCommand. `<span style="color: #f0ce43;">(</span>&gt;= ~x ~y<span style="color: #f0ce43;">)</span> x<span style="color: #6ae4b9;">)</span>
+   <span style="color: #6ae4b9;">(</span>GuardedCommand. `<span style="color: #f0ce43;">(</span>&gt;= ~y ~x<span style="color: #f0ce43;">)</span> y<span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-Part-1:-Sequence-of-commands-whose-guards-are-satisfied-------[20 points]" class="outline-2">
+<h2 id="Part-1:-Sequence-of-commands-whose-guards-are-satisfied-------[20 points]">Part 1: Sequence of commands whose guards are satisfied       [20 points]</h2>
+<div class="outline-text-2" id="text-Part-1:-Sequence-of-commands-whose-guards-are-satisfied-------[20 points]">
+<p>
+Create a function <code>allowed-commands</code> which, given a sequence
+of <code>GuardedCommands</code> (the record type defined in Part 0.2)
+produces a list of commands whose guard is satisfied
+(evaluates to a truthy value.)
+</p>
+
+<p>
+For instance,
+</p>
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">let</span> <span style="color: #b6a0ff;">[</span>x 10
+      y 10<span style="color: #b6a0ff;">]</span>
+  <span style="color: #b6a0ff;">(</span>allowed-commands
+   <span style="color: #6ae4b9;">[</span><span style="color: #f0ce43;">(</span>GuardedCommand. `<span style="color: #00bcff;">(</span>&gt;= ~x ~y<span style="color: #00bcff;">)</span> `<span style="color: #00bcff;">(</span>printf <span style="color: #79a8ff;">"%s is greater than or equal to %s"</span> ~x ~y<span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span>
+    <span style="color: #f0ce43;">(</span>GuardedCommand. `<span style="color: #00bcff;">(</span>=  ~x ~y<span style="color: #00bcff;">)</span> `<span style="color: #00bcff;">(</span>printf <span style="color: #79a8ff;">"%s is equal to %s"</span> ~x ~y<span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span>
+    <span style="color: #f0ce43;">(</span>GuardedCommand. `<span style="color: #00bcff;">(</span>&lt;= ~x ~y<span style="color: #00bcff;">)</span> `<span style="color: #00bcff;">(</span>printf <span style="color: #79a8ff;">"%s is less than or equal to %s"</span> ~x ~y<span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">]</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+</pre>
+</div>
+<p>
+should return a sequence of all three of the commands
+(since <code>x</code> is equal to <code>y</code> here.)
+Whereas
+</p>
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">let</span> <span style="color: #b6a0ff;">[</span>x  5
+      y 10<span style="color: #b6a0ff;">]</span>
+  <span style="color: #b6a0ff;">(</span>allowed-commands
+   <span style="color: #6ae4b9;">[</span><span style="color: #f0ce43;">(</span>GuardedCommand. `<span style="color: #00bcff;">(</span>&gt;= ~x ~y<span style="color: #00bcff;">)</span> `<span style="color: #00bcff;">(</span>printf <span style="color: #79a8ff;">"%s is greater than or equal to %s"</span> ~x ~y<span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span>
+    <span style="color: #f0ce43;">(</span>GuardedCommand. `<span style="color: #00bcff;">(</span>=  ~x ~y<span style="color: #00bcff;">)</span> `<span style="color: #00bcff;">(</span>printf <span style="color: #79a8ff;">"%s is equal to %s"</span> ~x ~y<span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span>
+    <span style="color: #f0ce43;">(</span>GuardedCommand. `<span style="color: #00bcff;">(</span>&lt;= ~x ~y<span style="color: #00bcff;">)</span> `<span style="color: #00bcff;">(</span>printf <span style="color: #79a8ff;">"%s is less than or equal to %s"</span> ~x ~y<span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">]</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+</pre>
+</div>
+<p>
+should return a sequence containing only the last command
+(since <code>x</code> is strictly less than <code>y</code> here.)
+</p>
+
+<p>
+(Refer to the <code>first-allowed-command</code> function defined in part 0.3
+as a possible starting point for your <code>allowed-commands</code> function.
+Other approaches are permitted and encouraged, though.)
+</p>
+</div>
+</div>
+
+<div id="outline-container-Part-2:-A-nondeterministic-~if~-expression-for-guarded-commands-[15 points]" class="outline-2">
+<h2 id="Part-2:-A-nondeterministic-~if~-expression-for-guarded-commands-[15 points]">Part 2: A nondeterministic <code>if</code> expression for guarded commands [15 points]</h2>
+<div class="outline-text-2" id="text-Part-2:-A-nondeterministic-~if~-expression-for-guarded-commands-[15 points]">
+<p>
+Define a macro for the nondeterministic <code>if</code> construct
+called <code>guarded-if</code>.
+</p>
+
+<p>
+It should take a sequence of <code>GuardedCommand</code> instances,
+randomly pick one whose guard is true,
+and execute its command.
+</p>
+
+<p>
+The <code>rand-nth</code> function documented <a href="https://clojuredocs.org/clojure.core/rand-nth">here</a>,
+which picks a random element out of a sequence, may be of use here
+(in conjunction with your function from part 1.)
+</p>
+</div>
+</div>
+
+<div id="outline-container-Part-3:-A-nondeterministic-~do~-expression-for-guarded-commands-[15 points]" class="outline-2">
+<h2 id="Part-3:-A-nondeterministic-~do~-expression-for-guarded-commands-[15 points]">Part 3: A nondeterministic <code>do</code> expression for guarded commands [15 points]</h2>
+<div class="outline-text-2" id="text-Part-3:-A-nondeterministic-~do~-expression-for-guarded-commands-[15 points]">
+<p>
+Now define a macro for the nondeterministic <code>do</code> construct
+called <code>guarded-do</code>. In contrast to the <code>guarded-if</code> macro,
+this construct should continue evaluating commands
+until none of the guards are true.
+</p>
+</div>
+</div>
+
+<div id="outline-container-Part-4:-GCD---------------------------------------------------[10 points]" class="outline-2">
+<h2 id="Part-4:-GCD---------------------------------------------------[10 points]">Part 4: GCD                                                   [10 points]</h2>
+<div class="outline-text-2" id="text-Part-4:-GCD---------------------------------------------------[10 points]">
+<p>
+Use the guarded command constructs you have defined
+to define a function <code>gcd</code> to find the greatest common denominator
+of two integers.
+</p>
+
+<p>
+The intention for this part is that you use the <code>if</code> construct
+from part 1 and recursion to define the GCD function.
+A version using iteration (the <code>do</code> construct) is given as a bonus.
+</p>
+
+<p>
+Note that the iterative algorithm for the GCD using guarded commands is
+very well known; it was the first example used by Dijkstra
+in his presentation of the language.
+You can see this algorithm in
+<a href="https://dl.acm.org/doi/10.5555/1074100.1074433">Wagener's paper</a> referenced above.
+It should be relatively simple to translate this to a recursive algorithm.
+</p>
+</div>
+</div>
+
+<div id="outline-container-Part-5:-GCD-by-iteration-[5 bonus points]" class="outline-2">
+<h2 id="Part-5:-GCD-by-iteration-[5 bonus points]">Part 5: GCD by iteration [5 bonus points]</h2>
+<div class="outline-text-2" id="text-Part-5:-GCD-by-iteration-[5 bonus points]">
+<p>
+Define the function <code>gcd-iter</code> which calculates the GCD of two integers
+using iteration (the <code>do</code> construct.)
+</p>
+
+<p>
+The challenge to this part is not the algorithm;
+instead, it is the use of mutable variables,
+which we have not shown in Clojure.
+</p>
+</div>
+</div>
+
+<div id="outline-container-Testing" class="outline-2">
+<h2 id="Testing">Testing</h2>
+<div class="outline-text-2" id="text-Testing">
+<p>
+:TODO:
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Mark Armstrong</p>
+     <p class="author">Contact: <a href="mailto:markparmstrong@gmail.com">markparmstrong@gmail.com</a></p>
+     <p class="date">Original date: November 28th, 2020</p>
+     <p class="date">Last updated: 2020-11-29 Sun 02:35</p>
+     <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4)</p>
+     <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

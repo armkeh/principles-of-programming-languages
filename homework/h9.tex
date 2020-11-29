@@ -1,0 +1,432 @@
+% Created 2020-11-29 Sun 02:35
+% Intended LaTeX compiler: lualatex
+\documentclass[11pt]{article}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{etoolbox}
+\makeatletter
+\def\dontdofcolorbox{\renewcommand\fcolorbox[4][]{##4}}
+\AtBeginEnvironment{minted}{\dontdofcolorbox}
+\makeatother
+\usepackage[newfloat]{minted}
+\author{Mark Armstrong}
+\date{November 28th, 2020}
+\title{Computer Science 3MI3 – 2020 homework 9\\\medskip
+\large Adding “guarded commands” to Clojure}
+\hypersetup{
+   pdfauthor={Mark Armstrong},
+   pdftitle={Computer Science 3MI3 – 2020 homework 9},
+   pdfkeywords={},
+   pdfsubject={Exploring a different kind of control structure: the guarded command.},
+   pdfcreator={Emacs 27.0.91 (Org mode 9.4)},
+   pdflang={English},
+   colorlinks,
+   linkcolor=blue,
+   citecolor=blue,
+   urlcolor=blue
+   }
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+
+\section*{Introduction}
+\label{sec:org9fd6d91}
+In his 1975 paper
+\href{https://dl.acm.org/doi/10.1145/360933.360975}{Guarded commands, nondeterminacy and formal derivation of programs},
+Edsger W. Dijkstra proposed a foundation for an imperative language
+different from the commonly used branching and iterating constructs;
+the \emph{guarded commands}, along with control structures operating on them.
+
+The guarded command language is especially interesting
+in comparison to the languages we have developed
+in that it is inherently \emph{non-deterministic}.
+
+In this homework, we familiarise ourselves with the guarded command
+control constructs by implementing them in Clojure, using macros.
+
+\section*{Boilerplate}
+\label{sec:orgb32dfc5}
+\subsection*{Submission procedures}
+\label{sec:orgf06c6fc}
+\subsubsection*{Submission method}
+\label{sec:org5496a9d}
+
+Homework should be submitted to your McMaster CAS Gitlab respository
+in the \texttt{cs3mi3-fall2020} project.
+
+Ensure that you have \textbf{pushed} the commits to the remote repository
+in time for the deadline, and not just committed to your local copy.
+
+\subsubsection*{Naming requirements}
+\label{sec:org7f92938}
+
+Place all files for the homework
+inside a folder titled \texttt{hn}, where \texttt{n} is the number of the homework.
+So, for homework 1, use the folder \texttt{h1}, for homework 2 the folder \texttt{h2}, etc.
+Ensure you do not capitalise the \texttt{h}.
+
+Unless otherwise instructed in the homework questions,
+place all of your code for the homework
+in a single file in the \texttt{hn} folder named \texttt{hn.ext},
+where \texttt{ext} is the appropriate extension for the language used
+according to this list:
+\begin{itemize}
+\item For Scala, \texttt{ext} is \texttt{sc}.
+\item For Prolog, \texttt{ext} is \texttt{pl}.
+\item For Ruby, \texttt{ext} is \texttt{rb}.
+\item For Clojure, \texttt{ext} is \texttt{clj}.
+\end{itemize}
+If multiple languages are used in the homework,
+submit a \texttt{hn.ext} file for each language.
+
+\begin{center}
+\textbf{If the language supports multiple different file extensions,}
+\textbf{you must still follow the extension conventions above.}
+\end{center}
+
+\begin{center}
+\textbf{Incorrect naming of files may result in up to a 10\% deduction in your grade.}
+\end{center}
+
+\subsubsection*{Do not submit testing or diagnostic code}
+\label{sec:orge475099}
+
+Unless you are instructed to do so in the homework questions,
+\textbf{you should not submit testing code with your homework submission}.
+
+This includes
+\begin{itemize}
+\item any \texttt{main} function,
+\item any \texttt{print} statements which output information
+\textbf{that is not directly requested as console output}
+\textbf{in the homework questions}.
+\end{itemize}
+
+If you do not wish to remove diagnostic print statements manually,
+you will have to find a way to ensure that they disabled
+in your final submission.
+
+For instance, by using a wrapper on the print function or macros.
+
+\subsubsection*{Due date and allowance for technical difficulties}
+\label{sec:org7ca28ab}
+
+Homework is due on the second Sunday following its release,
+by the end of the day (midnight).
+Submissions past 00:00 may not be considered.
+
+If you experience technical difficulties
+leading up to the submission time,
+please contact Mark \textbf{ASAP} with the details of the problem
+and, if possible, attach the current state of your homework
+to the communication.
+This information will help ensure we are able
+to accept your submission once the technical difficulties are resolved.
+
+\subsection*{Proper conduct for coursework}
+\label{sec:org723f377}
+\subsubsection*{Individual work}
+\label{sec:orge6e1ef1}
+
+Unless explicitely stated in the homework questions,
+all homework in this course is intended
+to be \emph{individually completed}.
+
+You are welcome to discuss the content of the homework in
+the public forum of the class Microsoft Teams team homework channel,
+though obviously solutions or partial solutions should not
+be posted or described.
+
+Private discussions about the homework cannot reasonably be
+forbidden, but such discussions should follow the same guidelines
+as public discussions.
+
+\begin{center}
+\textbf{Inappopriate collaboration via private discussions}
+\textbf{which is later discovered by course staff}
+\textbf{may be considered academic dishonesty.}
+
+When in doubt, make the discussion private, or report its contents
+to the course staff by making a note of it
+in your homework.
+\end{center}
+
+To clarify what is considered appropriate discussions
+of homework content, here are some examples:
+\begin{enumerate}
+\item Discussing the language features introduced or needed for the homework.
+\begin{itemize}
+\item Such as relevant builtin datatypes
+and datatype definition methods and their general use.
+\item Code snippets that are not partial solutions to the homework
+are welcome and encouraged.
+\end{itemize}
+\item Questions of the form “What is meant by \texttt{x}?”,
+“Does \texttt{x} really mean \texttt{y}?” or “Is there a mistake with \texttt{x}?”
+\begin{itemize}
+\item Of course, questions of those form which would be answered
+by partial solutions are not considered appropriate.
+\end{itemize}
+\item Questions or advice about errors that may be encountered.
+\begin{itemize}
+\item Such as “If you see a \texttt{scala.MatchError} you should
+probably add a catch-all \texttt{\_} case to your \texttt{match} expressions.”
+\end{itemize}
+\end{enumerate}
+
+\subsubsection*{Language library resources}
+\label{sec:orgd478926}
+
+Unless explicitely stated in the questions,
+it is not expected that you will use any language library resources
+in the homeworks.
+
+Possible exceptions to this rule include implementations
+of datatypes we discuss in this course, such as lists
+or options/maybes, if they are included in a standard library
+instead of being builtin.
+
+\emph{Basic} operations on such types would also be allowed.
+\begin{itemize}
+\item For instance, \texttt{head}, \texttt{tail}, \texttt{append}, etc. on lists
+would not require explicit permission to be used.
+\item More complex operations such as sorting procedures
+would require permission before you used them.
+\end{itemize}
+
+Additionally, the standard \emph{higher-order} operations
+including \texttt{map}, \texttt{reduce}, \texttt{flatten}, and \texttt{filter} are permitted generally,
+unless the task is to implement such a higher-order operator.
+
+\section*{Part 0.1: An introduction to guarded commands}
+\label{sec:orga455311}
+A very brief and informative article discussing the guarded command
+by Jerrold L. Wagener is freely available
+from the \href{https://dl.acm.org/doi/10.5555/1074100.1074433}{ACM digital library}.
+
+A \emph{guarded command} consists of a (presumably boolean valued) \emph{guard} along
+with a \emph{command} (an expression or statement of the language).
+
+We write a set or sequence of guarded commands as
+\begin{minted}[breaklines=true]{text}
+  B₁ ⟶ S₁
+  B₂ ⟶ S₂
+     ⋮
+  Bₙ ⟶ Sₙ
+\end{minted}
+(where each \texttt{Bᵢ} is the guard for the command \texttt{Sᵢ}).
+
+By itself, a set of guarded commands is not a control structure.
+Instead, we introduce special constructs
+which operate on sets of guarded commands to form a control structure.
+
+The \texttt{if} construct, when applied to a set of guarded commands, as in
+\begin{minted}[breaklines=true]{text}
+if
+  B₁ ⟶ S₁
+  B₂ ⟶ S₂
+     ⋮
+  Bₙ ⟶ Sₙ
+\end{minted}
+selects any command whose guard evaluates to true,
+and executes that command.
+If no command is true, it does nothing.
+
+The \texttt{do} construct, when applied to a set of guarded commands, as in
+\begin{minted}[breaklines=true]{text}
+do
+  B₁ ⟶ S₁
+  B₂ ⟶ S₂
+     ⋮
+  Bₙ ⟶ Sₙ
+\end{minted}
+also selects any command whose guard evaluates to true
+and executes that command,
+but it \emph{continues to do so} until no guard is true. 
+
+We will be interested in versions of the \texttt{if} and \texttt{do} constructs
+which \emph{nondeterministically} select which command to evaluate.
+This can be accomplished by making use of functions
+which act \emph{randomly}.
+
+The appeal of this nondeterminism is that it forces the programmer
+to be certain that their programs behaviour does not depend
+upon the ordering of the commands;
+instead, the guards must be made explicit enough
+to ensure that their command is only executed in the correct context.
+
+\section*{Part 0.2: Representing guarded commands in Clojure}
+\label{sec:org703db18}
+We can easily write guarded commands in Clojure
+as a record consisting of the \texttt{guard} and the \texttt{command}.
+\begin{minted}[breaklines=true]{clojure}
+(defrecord GuardedCommand [guard command])
+\end{minted}
+
+We can create an instance of this record as in
+\begin{minted}[breaklines=true]{clojure}
+(GuardedCommand. '(> x 5) '(- x 1))
+\end{minted}
+
+We can access the fields of these records as if they were maps,
+or using syntax based on Java field accessors.
+That is, given a \texttt{GuardedCommand} instance \texttt{grd-cmd},
+we can write e.g., \texttt{(:guard grd-cmd)} or \texttt{(.command grd-cmd)}.
+\begin{minted}[breaklines=true]{clojure}
+(let [grd-cmd (GuardedCommand. '(> x 5) '(- x 1))]
+  (printf "The guard of this command is %s\n" (:guard grd-cmd))
+  (printf "The command of this command is %s\n" (.command grd-cmd)))
+\end{minted}
+
+So we will operate on lists or vectors of \texttt{GuardCommands}.
+
+\section*{Part 0.3: An example construct for using guarded commands}
+\label{sec:orgbbd33bc}
+To get you started, we define here a \emph{deterministic} \texttt{if} construct
+operating on guarded commands.
+
+This construct differs from the one you will be tasked to define
+in that it always chooses the first command in the sequence
+whose guard is true
+(instead of nondeterministically/randomly selecting a command.)
+
+\begin{minted}[breaklines=true]{clojure}
+(defn first-allowed-command
+  "Find the first command in a sequence of guarded `commands`
+whose `.guard` evaluates to a truthy value and return its `.command`.
+Returns `nil` if none of the guards are satisfied."
+  [commands]
+  ;; If the `commands` list is empty, "do nothing" by returning `nil`.
+  (if (empty? commands) nil
+      ;; Otherwise, deconstruct the `commands` list into
+      ;; the first `command` and the `rest`.
+      (let [[command & rest] commands]
+        ;; Diagnostic print statement, if needed.
+        ;(printf "Checking command %s with guard %s and command %s\n" command (.guard command) (.command command))
+        ;; Now check the `guard`, and if it's satisfied, return the first `command`.
+        (if (eval (.guard command)) (.command command)
+            ;; Otherwise, continue to check the `rest` of the guarded commands.
+            (first-allowed-command rest)))))
+
+(defmacro guarded-deterministic-if
+  "Given a sequence of `GuardedCommands`, `commands`,
+select the first guarded command whose `.guard` evaluates
+to a truthy value and evaluate its `.command`."
+  [& commands]
+  ;; The body must be quoted, so that nothing is evaluated until runtime.
+  `(eval ;; Evaluate...
+    (first-allowed-command ;; ...the command returned by first-allowed-command... 
+     [~@commands]))) ;; to which we pass a vector of the commands.
+;; The ~@ applied to `commands` here "splices" the elements of `commands` into place here.
+;; That is, each element of the sequence `commands` is inserted here in order.
+;; But not literally as a sequence (between parentheses or brackets.) Hence we wrap in [].
+;; The use of the [] is actually quite particular; using a quoted list, '(...), would not work.
+;; Because the guarded commands within would be treated as sequences instead of records.
+\end{minted}
+
+As an example, we use this form to define a \texttt{max} operation.
+\begin{minted}[breaklines=true]{clojure}
+(defn max [x y]
+  (guarded-deterministic-if
+   ;; For variables to maintain their meaning within a quoted list,
+   ;; use the special backtick ` quote and unquote the variables with ~.
+   (GuardedCommand. `(>= ~x ~y) x)
+   (GuardedCommand. `(>= ~y ~x) y)))
+\end{minted}
+
+\section*{Part 1: Sequence of commands whose guards are satisfied       [20 points]}
+\label{sec:org3fffcea}
+Create a function \texttt{allowed-commands} which, given a sequence
+of \texttt{GuardedCommands} (the record type defined in Part 0.2)
+produces a list of commands whose guard is satisfied
+(evaluates to a truthy value.)
+
+For instance,
+\begin{minted}[breaklines=true]{clojure}
+(let [x 10
+      y 10]
+  (allowed-commands
+   [(GuardedCommand. `(>= ~x ~y) `(printf "%s is greater than or equal to %s" ~x ~y))
+    (GuardedCommand. `(=  ~x ~y) `(printf "%s is equal to %s" ~x ~y))
+    (GuardedCommand. `(<= ~x ~y) `(printf "%s is less than or equal to %s" ~x ~y))]))
+\end{minted}
+should return a sequence of all three of the commands
+(since \texttt{x} is equal to \texttt{y} here.)
+Whereas
+\begin{minted}[breaklines=true]{clojure}
+(let [x  5
+      y 10]
+  (allowed-commands
+   [(GuardedCommand. `(>= ~x ~y) `(printf "%s is greater than or equal to %s" ~x ~y))
+    (GuardedCommand. `(=  ~x ~y) `(printf "%s is equal to %s" ~x ~y))
+    (GuardedCommand. `(<= ~x ~y) `(printf "%s is less than or equal to %s" ~x ~y))]))
+\end{minted}
+should return a sequence containing only the last command
+(since \texttt{x} is strictly less than \texttt{y} here.)
+
+(Refer to the \texttt{first-allowed-command} function defined in part 0.3
+as a possible starting point for your \texttt{allowed-commands} function.
+Other approaches are permitted and encouraged, though.)
+
+\section*{Part 2: A nondeterministic \texttt{if} expression for guarded commands [15 points]}
+\label{sec:org32f09e4}
+Define a macro for the nondeterministic \texttt{if} construct
+called \texttt{guarded-if}.
+
+It should take a sequence of \texttt{GuardedCommand} instances,
+randomly pick one whose guard is true,
+and execute its command.
+
+The \texttt{rand-nth} function documented \href{https://clojuredocs.org/clojure.core/rand-nth}{here},
+which picks a random element out of a sequence, may be of use here
+(in conjunction with your function from part 1.)
+
+\section*{Part 3: A nondeterministic \texttt{do} expression for guarded commands [15 points]}
+\label{sec:orgfa08afe}
+Now define a macro for the nondeterministic \texttt{do} construct
+called \texttt{guarded-do}. In contrast to the \texttt{guarded-if} macro,
+this construct should continue evaluating commands
+until none of the guards are true.
+
+\section*{Part 4: GCD                                                   [10 points]}
+\label{sec:org1ffb7e2}
+Use the guarded command constructs you have defined
+to define a function \texttt{gcd} to find the greatest common denominator
+of two integers.
+
+The intention for this part is that you use the \texttt{if} construct
+from part 1 and recursion to define the GCD function.
+A version using iteration (the \texttt{do} construct) is given as a bonus.
+
+Note that the iterative algorithm for the GCD using guarded commands is
+very well known; it was the first example used by Dijkstra
+in his presentation of the language.
+You can see this algorithm in
+\href{https://dl.acm.org/doi/10.5555/1074100.1074433}{Wagener's paper} referenced above.
+It should be relatively simple to translate this to a recursive algorithm.
+
+\section*{Part 5: GCD by iteration [5 bonus points]}
+\label{sec:orgf28364d}
+Define the function \texttt{gcd-iter} which calculates the GCD of two integers
+using iteration (the \texttt{do} construct.)
+
+The challenge to this part is not the algorithm;
+instead, it is the use of mutable variables,
+which we have not shown in Clojure.
+
+\section*{Testing}
+\label{sec:org1ea9e24}
+:TODO:
+\end{document}

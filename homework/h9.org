@@ -1,0 +1,462 @@
+#+Title: Computer Science 3MI3 – 2020 homework 9
+#+Subtitle: Adding “guarded commands” to Clojure
+#+Author: Mark Armstrong
+#+Date: November 28th, 2020
+#+Description: Exploring a different kind of control structure: the guarded command.
+#+Options: num:nil
+#+SETUPFILE: ../org-html-themes/setup/theme-readtheorg-local.setup
+
+* Introduction
+:PROPERTIES:
+:CUSTOM_ID: Introduction
+:END:
+
+In his 1975 paper
+[[https://dl.acm.org/doi/10.1145/360933.360975][Guarded commands, nondeterminacy and formal derivation of programs]],
+Edsger W. Dijkstra proposed a foundation for an imperative language
+different from the commonly used branching and iterating constructs;
+the /guarded commands/, along with control structures operating on them.
+
+The guarded command language is especially interesting
+in comparison to the languages we have developed
+in that it is inherently /non-deterministic/.
+
+In this homework, we familiarise ourselves with the guarded command
+control constructs by implementing them in Clojure, using macros.
+
+* Boilerplate
+:PROPERTIES:
+:CUSTOM_ID: Boilerplate
+:END:
+
+** Submission procedures
+:PROPERTIES:
+:CUSTOM_ID: Submission-procedures
+:END:
+
+#+INCLUDE: "./../boilerplate.org::*Homework submission" :only-contents t
+
+** Proper conduct for coursework
+:PROPERTIES:
+:CUSTOM_ID: Proper-conduct-for-coursework
+:END:
+
+#+INCLUDE: "./../boilerplate.org::*Homework conduct" :only-contents t
+
+* Part 0.1: An introduction to guarded commands
+:PROPERTIES:
+:CUSTOM_ID: Part-0.1:-An-introduction-to-guarded-commands
+:END:
+
+A very brief and informative article discussing the guarded command
+by Jerrold L. Wagener is freely available
+from the [[https://dl.acm.org/doi/10.5555/1074100.1074433][ACM digital library]].
+
+A /guarded command/ consists of a (presumably boolean valued) /guard/ along
+with a /command/ (an expression or statement of the language).
+
+We write a set or sequence of guarded commands as
+#+begin_src text
+  B₁ ⟶ S₁
+  B₂ ⟶ S₂
+     ⋮
+  Bₙ ⟶ Sₙ
+#+end_src
+(where each ~Bᵢ~ is the guard for the command ~Sᵢ~).
+
+By itself, a set of guarded commands is not a control structure.
+Instead, we introduce special constructs
+which operate on sets of guarded commands to form a control structure.
+
+The ~if~ construct, when applied to a set of guarded commands, as in
+#+begin_src text
+if
+  B₁ ⟶ S₁
+  B₂ ⟶ S₂
+     ⋮
+  Bₙ ⟶ Sₙ
+#+end_src
+selects any command whose guard evaluates to true,
+and executes that command.
+If no command is true, it does nothing.
+
+The ~do~ construct, when applied to a set of guarded commands, as in
+#+begin_src text
+do
+  B₁ ⟶ S₁
+  B₂ ⟶ S₂
+     ⋮
+  Bₙ ⟶ Sₙ
+#+end_src
+also selects any command whose guard evaluates to true
+and executes that command,
+but it /continues to do so/ until no guard is true. 
+
+We will be interested in versions of the ~if~ and ~do~ constructs
+which /nondeterministically/ select which command to evaluate.
+This can be accomplished by making use of functions
+which act /randomly/.
+
+The appeal of this nondeterminism is that it forces the programmer
+to be certain that their programs behaviour does not depend
+upon the ordering of the commands;
+instead, the guards must be made explicit enough
+to ensure that their command is only executed in the correct context.
+
+* Part 0.2: Representing guarded commands in Clojure
+:PROPERTIES:
+:CUSTOM_ID: Part-0.2:-Representing-guarded-commands-in-Clojure
+:END:
+
+We can easily write guarded commands in Clojure
+as a record consisting of the ~guard~ and the ~command~.
+#+begin_src clojure :tangle ./src/h9/h9.clj
+(defrecord GuardedCommand [guard command])
+#+end_src
+
+#+RESULTS:
+: user.GuardedCommand
+
+We can create an instance of this record as in
+#+begin_src clojure
+(GuardedCommand. '(> x 5) '(- x 1))
+#+end_src
+
+#+RESULTS:
+: #user.GuardedCommand{:guard (> x 5), :command (- x 1)}
+
+We can access the fields of these records as if they were maps,
+or using syntax based on Java field accessors.
+That is, given a ~GuardedCommand~ instance ~grd-cmd~,
+we can write e.g., ~(:guard grd-cmd)~ or ~(.command grd-cmd)~.
+#+begin_src clojure
+(let [grd-cmd (GuardedCommand. '(> x 5) '(- x 1))]
+  (printf "The guard of this command is %s\n" (:guard grd-cmd))
+  (printf "The command of this command is %s\n" (.command grd-cmd)))
+#+end_src
+
+#+RESULTS:
+
+So we will operate on lists or vectors of ~GuardCommands~.
+
+* Part 0.3: An example construct for using guarded commands
+:PROPERTIES:
+:CUSTOM_ID: Part-0.3:-An-example-construct-for-using-guarded-commands
+:END:
+
+To get you started, we define here a /deterministic/ ~if~ construct
+operating on guarded commands.
+
+This construct differs from the one you will be tasked to define
+in that it always chooses the first command in the sequence
+whose guard is true
+(instead of nondeterministically/randomly selecting a command.)
+
+#+begin_src clojure
+(defn first-allowed-command
+  "Find the first command in a sequence of guarded `commands`
+whose `.guard` evaluates to a truthy value and return its `.command`.
+Returns `nil` if none of the guards are satisfied."
+  [commands]
+  ;; If the `commands` list is empty, "do nothing" by returning `nil`.
+  (if (empty? commands) nil
+      ;; Otherwise, deconstruct the `commands` list into
+      ;; the first `command` and the `rest`.
+      (let [[command & rest] commands]
+        ;; Diagnostic print statement, if needed.
+        ;(printf "Checking command %s with guard %s and command %s\n" command (.guard command) (.command command))
+        ;; Now check the `guard`, and if it's satisfied, return the first `command`.
+        (if (eval (.guard command)) (.command command)
+            ;; Otherwise, continue to check the `rest` of the guarded commands.
+            (first-allowed-command rest)))))
+
+(defmacro guarded-deterministic-if
+  "Given a sequence of `GuardedCommands`, `commands`,
+select the first guarded command whose `.guard` evaluates
+to a truthy value and evaluate its `.command`."
+  [& commands]
+  ;; The body must be quoted, so that nothing is evaluated until runtime.
+  `(eval ;; Evaluate...
+    (first-allowed-command ;; ...the command returned by first-allowed-command... 
+     [~@commands]))) ;; to which we pass a vector of the commands.
+;; The ~@ applied to `commands` here "splices" the elements of `commands` into place here.
+;; That is, each element of the sequence `commands` is inserted here in order.
+;; But not literally as a sequence (between parentheses or brackets.) Hence we wrap in [].
+;; The use of the [] is actually quite particular; using a quoted list, '(...), would not work.
+;; Because the guarded commands within would be treated as sequences instead of records.
+#+end_src
+
+#+RESULTS:
+| #'user/first-allowed-command    |
+| #'user/guarded-deterministic-if |
+
+As an example, we use this form to define a ~max~ operation.
+#+begin_src clojure
+(defn max [x y]
+  (guarded-deterministic-if
+   ;; For variables to maintain their meaning within a quoted list,
+   ;; use the special backtick ` quote and unquote the variables with ~.
+   (GuardedCommand. `(>= ~x ~y) x)
+   (GuardedCommand. `(>= ~y ~x) y)))
+#+end_src
+
+#+RESULTS:
+: #'user/max
+
+* Part 1: Sequence of commands whose guards are satisfied       [20 points]
+:PROPERTIES:
+:CUSTOM_ID: Part-1:-Sequence-of-commands-whose-guards-are-satisfied-------[20 points]
+:END:
+
+Create a function ~allowed-commands~ which, given a sequence
+of ~GuardedCommands~ (the record type defined in Part 0.2)
+produces a list of commands whose guard is satisfied
+(evaluates to a truthy value.)
+
+For instance,
+#+begin_src clojure
+(let [x 10
+      y 10]
+  (allowed-commands
+   [(GuardedCommand. `(>= ~x ~y) `(printf "%s is greater than or equal to %s" ~x ~y))
+    (GuardedCommand. `(=  ~x ~y) `(printf "%s is equal to %s" ~x ~y))
+    (GuardedCommand. `(<= ~x ~y) `(printf "%s is less than or equal to %s" ~x ~y))]))
+#+end_src
+should return a sequence of all three of the commands
+(since ~x~ is equal to ~y~ here.)
+Whereas
+#+begin_src clojure
+(let [x  5
+      y 10]
+  (allowed-commands
+   [(GuardedCommand. `(>= ~x ~y) `(printf "%s is greater than or equal to %s" ~x ~y))
+    (GuardedCommand. `(=  ~x ~y) `(printf "%s is equal to %s" ~x ~y))
+    (GuardedCommand. `(<= ~x ~y) `(printf "%s is less than or equal to %s" ~x ~y))]))
+#+end_src
+should return a sequence containing only the last command
+(since ~x~ is strictly less than ~y~ here.)
+
+(Refer to the ~first-allowed-command~ function defined in part 0.3
+as a possible starting point for your ~allowed-commands~ function.
+Other approaches are permitted and encouraged, though.)
+
+* Part 2: A nondeterministic ~if~ expression for guarded commands [15 points]
+:PROPERTIES:
+:CUSTOM_ID: Part-2:-A-nondeterministic-~if~-expression-for-guarded-commands-[15 points]
+:END:
+
+Define a macro for the nondeterministic ~if~ construct
+called ~guarded-if~.
+
+It should take a sequence of ~GuardedCommand~ instances,
+randomly pick one whose guard is true,
+and execute its command.
+
+The ~rand-nth~ function documented [[https://clojuredocs.org/clojure.core/rand-nth][here]],
+which picks a random element out of a sequence, may be of use here
+(in conjunction with your function from part 1.)
+
+* Part 3: A nondeterministic ~do~ expression for guarded commands [15 points]
+:PROPERTIES:
+:CUSTOM_ID: Part-3:-A-nondeterministic-~do~-expression-for-guarded-commands-[15 points]
+:END:
+
+Now define a macro for the nondeterministic ~do~ construct
+called ~guarded-do~. In contrast to the ~guarded-if~ macro,
+this construct should continue evaluating commands
+until none of the guards are true.
+
+* Part 4: GCD                                                   [10 points]
+:PROPERTIES:
+:CUSTOM_ID: Part-4:-GCD---------------------------------------------------[10 points]
+:END:
+
+Use the guarded command constructs you have defined
+to define a function ~gcd~ to find the greatest common denominator
+of two integers.
+
+The intention for this part is that you use the ~if~ construct
+from part 1 and recursion to define the GCD function.
+A version using iteration (the ~do~ construct) is given as a bonus.
+
+Note that the iterative algorithm for the GCD using guarded commands is
+very well known; it was the first example used by Dijkstra
+in his presentation of the language.
+You can see this algorithm in
+[[https://dl.acm.org/doi/10.5555/1074100.1074433][Wagener's paper]] referenced above.
+It should be relatively simple to translate this to a recursive algorithm.
+
+* Part 5: GCD by iteration [5 bonus points]
+:PROPERTIES:
+:CUSTOM_ID: Part-5:-GCD-by-iteration-[5 bonus points]
+:END:
+
+Define the function ~gcd-iter~ which calculates the GCD of two integers
+using iteration (the ~do~ construct.)
+
+The challenge to this part is not the algorithm;
+instead, it is the use of mutable variables,
+which we have not shown in Clojure.
+
+* Testing
+:PROPERTIES:
+:CUSTOM_ID: Testing
+:END:
+
+:TODO:
+
+* COMMENT
+:PROPERTIES:
+:CUSTOM_ID: COMMENT
+:END:
+
+Unit tests for the requested methods/functions
+are available here [[./testing/h9/h9t.clj][h9t.clj]].
+The contents of the unit test file are also repeated below.
+
+** Automated testing via Docker
+:PROPERTIES:
+:CUSTOM_ID: Automated-testing-via-Docker
+:END:
+
+The Docker setup and usage scripts are available at the following links.
+Their contents are also repeated below.
+- [[./testing/h8/Dockerfile][Dockerfile]]
+- [[./testing/h8/docker-compose.yml][docker-compose.yml]]
+- [[./testing/h8/setup.sh][setup.sh]]
+- [[./testing/h8/run.sh][run.sh]]
+Place them into your ~h8~ directory where your ~h8.clj~ file
+and the ~h8t.clj~ (linked to above) files exist,
+then run ~setup.sh~ and ~run.sh~.
+
+You may also refer to the README
+for this testing setup and those files
+[[https://github.com/armkeh/principles-of-programming-languages/tree/master/homework/testing/h5][on the course GitHub repo]].
+
+Note that the use of the ~setup.sh~ and ~run.sh~ scripts assumes
+that you are in a ~bash~ like shell; if you are on Windows,
+and not using WSL or WSL2, you may have
+to run the commands contained in those scripts manually.
+
+** The tests
+:PROPERTIES:
+:CUSTOM_ID: The-tests
+:END:
+
+The contents of the testing script are repeated here.
+
+[[./testing/h9/h9t.clj][h9t.clj]]
+#+begin_src clojure :tangle ./testing/h9/h9t.clj
+(ns testing)
+(use 'clojure.test)
+(load-file "h9.clj")
+
+(def compare-ten-ten
+   '((GuardedCommand. '(>= 10 10) :gte)
+     (GuardedCommand. '(=  10 10) :eq)
+     (GuardedCommand. '(<= 10 10) :lte)))
+
+(def compare-ten-five
+   '((GuardedCommand. '(>= 10 5) :gte)
+     (GuardedCommand. '(=  10 5) :eq)
+     (GuardedCommand. '(<= 10 5) :lte)))
+
+(def compare-five-ten
+   '((GuardedCommand. '(>= 5 10) :gte)
+     (GuardedCommand. '(=  5 10) :eq)
+     (GuardedCommand. '(<= 5 10) :lte)))
+
+(deftest allowed-commands-tests
+  (is (= (postfixes-tr '(1 2 3 4 5 6)) '((1 2 3 4 5 6) (2 3 4 5 6) (3 4 5 6) (4 5 6) (5 6) (6) ())))
+  (is (= (postfixes-tr '(0)) '((0) ())))
+  (is (= (postfixes-tr '(6 5 4 3 2 1)) '((6 5 4 3 2 1) (5 4 3 2 1) (4 3 2 1) (3 2 1) (2 1) (1) ()))))
+
+;; If we define `test-ns-hook`, it is called when running `run-tests`,
+;; instead of just calling all tests in the namespace.
+;; This lets us control the order of the tests.
+(deftest test-ns-hook
+  (naive-exponent)
+  )
+
+(run-tests 'testing)
+#+end_src
+
+** The Docker setup
+:PROPERTIES:
+:CUSTOM_ID: The-Docker-setup
+:END:
+
+The contents of the Docker setup files and scripts are repeated here.
+
+[[./testing/h9/Dockerfile][Dockerfile]]
+#+begin_src docker :tangle ./testing/h9/Dockerfile
+# Define the argument for openjdk version
+ARG OPENJDK_TAG=8u232
+
+FROM clojure:openjdk-8
+    
+# Set the name of the maintainers
+MAINTAINER Habib Ghaffari Hadigheh, Mark Armstrong <ghaffh1@mcmaster.ca, armstmp@mcmaster.ca>
+
+# Set the working directory
+WORKDIR /opt/h9
+#+end_src
+
+[[./testing/h9/docker-compose.yml][docker-compose.yml]]
+#+begin_src yaml :tangle ./testing/h9/docker-compose.yml
+version: '2'
+services:
+  service:
+    build: .
+    image: 3mi3_h9_docker_image
+    volumes:
+      - .:/opt/h8
+    container_name: 3mi3_h9_container
+    command: bash -c
+      "cat h9t.clj | lein repl"
+#+end_src
+
+[[./testing/h9/setup.sh][setup.sh]]
+#+begin_src shell :tangle ./testing/h9/setup.sh :shebang t
+docker-compose build --force-rm
+#+end_src
+
+[[./testing/h9/run.sh][run.sh]]
+#+begin_src shell :tangle ./testing/h9/run.sh :shebang t
+# Run the container
+docker-compose up --force-recreate
+# Stop the container after finishing the test run
+docker-compose stop -t 1
+#+end_src
+
+[[./testing/h9/README.md][README.md]]
+#+begin_src text :tangle ./testing/h9/README.md
+# Instructions for automated testing using Docker
+
+We have already created a `Dockerfile` here which specifies
+all the necessary packages, etc., for compiling and running your code.
+You only need to follow the instructions below to see 
+the results of unit tests designed to check your implementation.
+
+## Setup
+We use `docker-compose` and its configuration file to build the image.
+Assuming you have `docker` and `docker-compose` installed,
+simply execute
+```shell script
+./setup.sh
+```
+to generate the image.
+
+## Prepare your code for the running the tests
+You only need to place the `h8t.clj` unit test file and
+the `run.sh` file in the same directory as your `h9.clj` source file.
+
+## Running the tests
+As with the build process, we have already put
+the configuration needed for running the test inside `docker-compose.yml`.
+Simply execute
+```shell script
+./run.sh
+```
+to run and see the results of the tests.
+#+end_src

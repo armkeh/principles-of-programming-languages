@@ -12,6 +12,12 @@ better viewed at
 
 ## November
 
+  - November 29th
+    
+      - Homework 9 is now posted. Its due date has been modified to be
+        the end of term (which will also be the due date of the
+        still-to-be-released final homework 10.)
+
   - November 25th
     
       - Sample solutions for homework 7 (the pretty printer for
@@ -938,14 +944,14 @@ significant difference between Monday and Wednesday.
 
 ## Current homeworks
 
-### Homework 8 – Visualing the call stack in Clojure – Nov 19th to Nov 26th
+### Homework 9 – Adding “guarded commands” to Clojure – Nov 29th to Dec 9th
 
-**As of November 25th, the due date for this homework was shifted to
-November 26th** from November 25th. The testing setup is also released.
+**Note the due date; considering the late release of this homework,**
+**it is not due until the last day of classes.**
 
-  - [HTML](./homework/h8.html)
-  - [PDF](./homework/h8.pdf)
-  - [Org plaintext](./homework/h8.org)
+  - [HTML](./homework/h9.html)
+  - [PDF](./homework/h9.pdf)
+  - [Org plaintext](./homework/h9.org)
 
 ## Homework testing policy
 
@@ -968,6 +974,16 @@ used for every student's
 submission.
 
 ## Previous homeworks
+
+### Homework 8 – Visualing the call stack in Clojure – Nov 19th to Nov 26th
+
+**As of November 25th, the due date for this homework was shifted to
+November 26th** from November 25th. The testing setup is also released.
+
+  - [HTML](./homework/h8.html)
+  - [PDF](./homework/h8.pdf)
+  - [Org
+plaintext](./homework/h8.org)
 
 ### Homework 7 – Pretty printing a representation of the untyped λ-calculus – Nov 1st to Nov 8th
 
