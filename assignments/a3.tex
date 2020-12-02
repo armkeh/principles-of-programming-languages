@@ -1,0 +1,413 @@
+% Created 2020-12-02 Wed 00:01
+% Intended LaTeX compiler: lualatex
+\documentclass[11pt]{article}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{etoolbox}
+\makeatletter
+\def\dontdofcolorbox{\renewcommand\fcolorbox[4][]{##4}}
+\AtBeginEnvironment{minted}{\dontdofcolorbox}
+\makeatother
+\usepackage[newfloat]{minted}
+\usepackage{amsthm}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\usepackage{unicode-math}
+\usepackage{unicode}
+\author{Mark Armstrong}
+\date{December 2, 2020}
+\title{Computer Science 3MI3 – 2020 assignment 3\\\medskip
+\large A representation of Dijkstra's guarded command language}
+\hypersetup{
+   pdfauthor={Mark Armstrong},
+   pdftitle={Computer Science 3MI3 – 2020 assignment 3},
+   pdfkeywords={},
+   pdfsubject={Implementing various operational semantics of various versions of the guarded command language.},
+   pdfcreator={Emacs 27.0.91 (Org mode 9.4)},
+   pdflang={English},
+   colorlinks,
+   linkcolor=blue,
+   citecolor=blue,
+   urlcolor=blue
+   }
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+
+\section*{Introduction}
+\label{sec:org218ac0e}
+This assignment 
+
+\section*{Updates and file history}
+\label{sec:org5c3a470}
+\subsection*{December 1st}
+\label{sec:org563183c}
+\begin{itemize}
+\item Initial version posted.
+\end{itemize}
+
+\section*{Boilerplate}
+\label{sec:org80be87e}
+\subsection*{Documentation}
+\label{sec:org0bac481}
+In addition to the code for the assignments,
+you are required to submit (relatively light) documentation,
+along the lines of that found in
+\href{https://armkeh.github.io/principles-of-programming-languages/\#outline-container-Lecture-literate-programs}{the literate programs}
+from lectures and tutorials.
+\begin{itemize}
+\item Those occasionally include a lot of writing when introducing concepts;
+you do not have to introduce concepts, so your documentation
+should be similar to the \emph{end} of those documents,
+where only the purpose and implementation details
+of types, functions, etc., are discussed.
+\end{itemize}
+
+This documentation is not assigned its own marks;
+rather, 20\% of the marks of each part of the assignment
+will be for the documentation.
+
+This documentation \textbf{must be} in the literate style,
+with (nicely typeset) English paragraphs alongside code snippets;
+comments in your source code do not count.
+The basic requirement is
+\begin{itemize}
+\item the English paragraphs must use non-fixed width font, whereas
+\item the code snippets must use fixed width font.
+\item For example, see these lecture notes on Prolog:
+\begin{itemize}
+\item \url{https://courses.cs.washington.edu/courses/cse341/98sp/logic/prolog.html}
+\end{itemize}
+\end{itemize}
+But you are encouraged to strive for nicer than just
+“the basic requirement”.
+(the ability to write decent looking documentation is an asset!
+
+You are free to present your documentation in any of these formats:
+\begin{itemize}
+\item an HTML file,
+\begin{itemize}
+\item (named \texttt{README.html})
+\end{itemize}
+\item a PDF (for instance, by writing it in \LaTeX{} using
+the \texttt{listings} or \texttt{minted} package for your code blocks),
+\begin{itemize}
+\item (named \texttt{README.pdf}), or
+\end{itemize}
+\item rendering on GitLab (for instance, by writing it in markdown or Org)
+\begin{itemize}
+\item (named \texttt{README.md} or \texttt{README.org}.)
+\end{itemize}
+\end{itemize}
+If you wish to use another format, contact Mark to discuss it.
+
+Not all of your code needs to be shown;
+only portions which are of interest are needed.
+Feel free to omit some “repetitive” portions.
+(For instance, if there are several cases in a definition
+which look almost identical, only one or two need to be shown.)
+
+\subsection*{Submission procedures}
+\label{sec:orgf1e99c1}
+The same guidelines as for homework
+(which can be seen in any of the homework files)
+apply to assignments, except for the differences below.
+
+\subsubsection*{Assignment naming requirements}
+\label{sec:org6fd5192}
+
+Place all files for the assignment
+inside a folder titled \texttt{an}, where \texttt{n} is the number of the assignment.
+So, for assignment 1, use the folder \texttt{a1}, for assignment 2 the folder \texttt{a2}, etc.
+Ensure you do not capitalise the \texttt{a}.
+
+Each part of the assignments will direct you on where to
+save your code for that part. Follow those instructions!
+
+\begin{center}
+\textbf{If the language supports multiple different file extensions,}
+\textbf{you must still follow the extension conventions noted in the assignment.}
+\end{center}
+
+\begin{center}
+\textbf{Incorrect naming of files may result in up to a 5\% deduction in your grade.}
+\end{center}
+This is slightly decreased from the 10\% for homeworks.
+
+\subsection*{Proper conduct for coursework}
+\label{sec:orgf0f1398}
+Refer to the homework code of conduct available in any of the homework files.
+The same guidelines apply to assignments.
+
+\section*{Part 0 – The guarded command language, \emph{GCL}}
+\label{sec:orgb6e7e5a}
+This assignment involves representing a simple
+kind of \emph{guarded command language}, which we call \emph{GCL},
+and a small extension to it which we call \emph{GCLe},
+which adds a notion of scope.
+
+\subsection*{\emph{GCL}}
+\label{sec:orge47e448}
+The syntax of \emph{GCL} is given as
+\begin{minted}[breaklines=true]{text}
+⟨expr⟩ ∷= constant_integer | variable
+        | ⟨expr⟩ ('+' | '*' | '-' | '÷') ⟨expr⟩
+
+⟨test⟩ ∷= ⟨expr⟩ ('=' | '<' | '>') ⟨expr⟩
+        | ⟨test⟩ ('and' | 'or') ⟨test⟩
+
+
+⟨stmt⟩ ∷= 'skip'
+        | variable '≔' ⟨expr⟩
+        | ⟨stmt⟩ ';' ⟨stmt⟩
+        | 'if' ⟨gc_list⟩
+        | 'do' ⟨gc_list⟩
+
+⟨gc⟩ ∷= ⟨test⟩ '⇒' ⟨stmt⟩
+
+⟨gc_list⟩ ∷= { ⟨gc⟩ }
+\end{minted}
+That is, the language consists of
+\begin{itemize}
+\item (integer) expressions built from integer constants, variable names,
+and the binary operations addition, multiplication, subtraction and division.
+\item (boolean) tests built from equality and inequality checks on expressions,
+along with \texttt{and} and \texttt{or}.
+\item statements, which may be
+\begin{itemize}
+\item \texttt{skip}, the empty statement that does nothing,
+\item assignment of an expression to a variable,
+\item the composition of two statements,
+\item the “choice” construct \texttt{if} applied to a list of guarded commands,
+\item the “iteration” construct \texttt{do} applied to a list of guarded commands,
+\end{itemize}
+\item and guarded command lists, which are
+a sequence of zero or more guarded commands,
+\begin{itemize}
+\item where a guarded command consists of a (boolean) test and a statement.
+\end{itemize}
+\end{itemize}
+
+For this language, we use the same notion of (memory) state as in
+the beginning of the notes on the \emph{WHILE} language:
+a map or function from variable names to integers.
+\textbf{We assume for this language that variables are always initialised to 0}.
+
+The semantics of the expressions, tests and
+the \texttt{skip}, assignment and composition statements
+are intended to be similar to those of \emph{WHILE} as described in lecture.
+
+The semantics of the \texttt{if} and \texttt{do} constructs on guarded command lists
+are as noted in homework 9, which discussed the guarded command.
+One important note: in both cases, if the guarded command list
+is empty, the result should be to “do nothing”.
+
+\subsection*{\emph{GCLe}}
+\label{sec:org4ec9d90}
+The language \emph{GCLe} is obtained from \emph{GCL} by adding these productions
+to grammer.
+\begin{minted}[breaklines=true]{text}
+⟨program⟩ ∷= ⟨globals⟩ ⟨stmt⟩
+
+⟨globals⟩ ∷= 'global' { variable }
+
+⟨stmt⟩ ∷= 'local' variable 'in' ⟨stmt⟩
+\end{minted}
+
+The intent is that a \emph{program} now consists of
+a list of global variables followed by a statement,
+which we may call the “body” of the program.
+
+Additionally, we add a new kind of statement for declaring
+local variables.
+
+With these constructs in place, we may now discuss
+whether a given program is \emph{well-scoped};
+that is, if every variable used in the program is either
+\begin{itemize}
+\item a global variable, or
+\item a local variable declared by some wrapping \texttt{local} statement.
+\end{itemize}
+
+We will assume in the semantics that all programs are well-scoped,
+and we can make use of a more precise notion of memory state;
+a memory state is some mapping from \emph{variables which are in scope} to
+values. Variables which are not in scope are not handled
+by such a memory state.
+
+\section*{Part 1 – Representations of \emph{GCL} and a small extension}
+\label{sec:orgac49491}
+In Ruby and in Clojure, create a representation of
+the language \emph{GCL} described in part 0.
+
+In Ruby, define the types \texttt{GCExpr}, \texttt{GCTest} and \texttt{GCStmt},
+with the following subclasses.
+\begin{itemize}
+\item \texttt{GCExpr} has subclasses
+\begin{itemize}
+\item \texttt{GCConst}, the constructor of which takes a single integer argument,
+\item \texttt{GCVar}, the constructor of which takes a symbol for the variable name,
+\item \texttt{GCOp}, the constructor of which has as its first two arguments are \texttt{GCExpr}'s
+and as its third argument a symbol,
+which is intended to be one of \texttt{:plus}, \texttt{:times}, \texttt{:minus} or \texttt{:div}.
+\end{itemize}
+\item \texttt{GCTest} has subclasses
+\begin{itemize}
+\item \texttt{GCComp}, the constructor of which has as its first two arguments \texttt{GCExpr}'s
+and as its third argument a symbol,
+which is intended to be one of \texttt{:eq}, \texttt{:less} or \texttt{:greater},
+\item \texttt{GCAnd} and \texttt{GCOr}, the constructors of which take as arguments two \texttt{GCExpr}'s.
+\end{itemize}
+\item \texttt{GCStmt} has subclasses
+\begin{itemize}
+\item \texttt{GCSkip}, the constructor of which (if it exists) takes no arguments.
+\item \texttt{GCAssign}, the constructor of which takes as arguments
+a symbol for the variable name and a \texttt{GCExpr}.
+\item \texttt{GCCompose}, the constructor of which takes two \texttt{GCStmt}'s as arguments,
+\item \texttt{GCIf} and \texttt{GCDo}, the constructors of which
+take a list of \texttt{GCTest} and \texttt{GCStmt} pairs
+(pairs being lists of two elements.)
+\end{itemize}
+\end{itemize}
+
+Wrap all of these definitions inside a \texttt{module} named \texttt{GCL}.
+(This is to avoid name clashes with definitions requested below.)
+
+In Clojure, define \emph{records} (documentation and examples
+\href{https://clojuredocs.org/clojure.core/defrecord}{here}) for each kind of expression, test and statement
+(using the same naming as in Ruby.)
+There is no need to define the \texttt{GCExpr}, \texttt{GCTest} and \texttt{GCStmt} types themselves;
+only the subtypes as records.
+
+Then, in Ruby, create a separate representation of
+the language \emph{GCLe} described in part 0.
+Create a class \texttt{GCProgram} to represent programs,
+the constructor of which takes as its first argument
+a list of symbols for the global variable names,
+and as its second argument a \texttt{GCStmt}.
+Also add an additional subclass to \texttt{GCStmt}, \texttt{GCLocal},
+the constructor of which takes as its first argument a symbol
+for the variable name and as its second argument a \texttt{GCStmt}.
+Wrap all of these definitions inside a \texttt{module} named \texttt{GCLe}.
+
+\section*{Part 2 – A stack machine for \emph{GCL} in Ruby}
+\label{sec:org58d3b21}
+Within the \texttt{GCL} module, define a method \texttt{stack\_eval} on \texttt{GCL}'s,
+which carries out the evaluation of a \texttt{GCStmt} using a stack machine.
+
+The stack machine in question should really be a method
+taking three arguments:
+\begin{enumerate}
+\item the command stack (implemented using a list),
+\item the results stack (implemented a list), and
+\item the memory state (implemented using a lambda; that is, a block.)
+\end{enumerate}
+
+The method should return an updated state
+(that is, another lambda/block.)
+
+\section*{Part 3 – The small-step semantics of \emph{GCL} in Clojure}
+\label{sec:orgad4ee73}
+Define in Clojure a function \texttt{reduce} which takes
+a \emph{GCL} statement and a memory state
+(a function mapping symbols, representing the variable names, to integers)
+and performs \emph{one step} of the computation, returning the
+remaining code to be run and the updated memory state.
+
+\section*{Part 4 – The big-step semantics of \emph{GCLe} in Ruby}
+\label{sec:orgc180894}
+This portion of the assignment should be done in
+the \texttt{GCLe} module created in part 1.
+
+Begin by defining a method \texttt{wellScoped} which checks that
+all variables appearing within the body of a \texttt{GCProgram}
+(either in an expression or on the left side of an assignment)
+are \emph{within scope} at the point of their use;
+that is, either the variable is one declared to be \texttt{global},
+or there is a \texttt{local} statement for that variable wrapping the use.
+\begin{itemize}
+\item This method should take a \texttt{GCStmt} as its only argument,
+and return a boolean.
+\item Hint: This operation is similar to typechecking.
+Use your experience working with \texttt{typeOf} as a starting point.
+\begin{itemize}
+\item Helper methods are always permitted.
+\end{itemize}
+\end{itemize}
+
+Then define the semantics of the language,
+this time defining a method \texttt{eval} directly
+(without making use of a stack machine.)
+That is, define the \emph{big-step} semantics of the language
+(remember that big-step semantics are called evaluation semantics.)
+\begin{itemize}
+\item This method also should take a \texttt{GCStmt} as its only argument.
+It should return a \texttt{Hash} mapping the \texttt{global} variable names
+to integers.
+\end{itemize}
+
+You may decide what the behaviour is for programs which
+do not initialise variables before their first use.
+\begin{itemize}
+\item Your choice may be judged in the marking.
+\begin{itemize}
+\item It is suggested that such programs “fail gracefully”,
+reporting an error that a variable was used before initialisation.
+\item Otherwise, it's suggested that they behave as predictably as possible.
+\end{itemize}
+\end{itemize}
+
+\section*{Part 5 – \emph{GCLe} in Clojure}
+\label{sec:org8220426}
+\emph{As a bonus}, repeat part 4 in Clojure.
+
+Place the code for this portion in a file \texttt{a3b.clj}.
+
+This time, you may choose the underlying approach to the operational semantics
+(you do not have to use big-step semantics.)
+
+Document this portion especially well, and include your own
+tests in a file \texttt{a3bt.clj}. This file should output the results of the tests
+when executed using \texttt{cat a3bt.clj | lein} from the command line.
+
+\section*{Submission checklist}
+\label{sec:orgb723f35}
+For your convenience, this checklist is provided
+to track the files you need to submit.
+Use it if you wish.
+\begin{minted}[breaklines=true]{text}
+- [ ] Documentation; one of
+  - [ ] README.html
+  - [ ] README.pdf
+  - [ ] README.md
+  - [ ] README.org
+- [ ] Code files
+  - [ ] a3.rb
+  - [ ] a3.clj
+- [ ] Part 2 tests
+  - [ ] a3p2_test.rb tests have passed! (No submission needed.)
+- [ ] Part 3 tests
+  - [ ] a3p3_test.clj tests have passed! (No submission needed.)
+- [ ] Part 4 tests
+  - [ ] a3p4_test.clj tests have passed! (No submission needed.)
+- [ ] Part 5 (Bonus)
+  - [ ] a3b.clj
+  - [ ] a3bt.clj
+\end{minted}
+
+\section*{Testing}
+\label{sec:org65c579b}
+:TODO:
+\end{document}

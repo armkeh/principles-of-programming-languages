@@ -1,0 +1,795 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2020-12-02 Wed 00:01 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Computer Science 3MI3 – 2020 assignment 3</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Mark Armstrong" />
+<meta name="description" content="Implementing various operational semantics of
+various versions of the guarded command language."
+ />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="styles/readtheorg/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="styles/readtheorg/css/readtheorg.css"/>
+<script type="text/javascript" src="styles/lib/js/jquery.min.js"></script>
+<script type="text/javascript" src="styles/lib/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="styles/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" src="styles/readtheorg/js/readtheorg.js"></script>
+<style>pre.src{background:#000000;color:white;} </style>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:e95b018ef3580986a04669f1b5879592219e2a7a&dn=public-domain.txt Public Domain
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.add("code-highlighted");
+         target.classList.add("code-highlighted");
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.remove("code-highlighted");
+         target.classList.remove("code-highlighted");
+       }
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Computer Science 3MI3 – 2020 assignment 3
+<br />
+<span class="subtitle">A representation of Dijkstra's guarded command language</span>
+</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#Introduction">Introduction</a></li>
+<li><a href="#Updates-and-file-history">Updates and file history</a>
+<ul>
+<li><a href="#December-1st">December 1st</a></li>
+</ul>
+</li>
+<li><a href="#Boilerplate">Boilerplate</a>
+<ul>
+<li><a href="#Submission-procedures">Documentation</a></li>
+<li><a href="#Submission-procedures">Submission procedures</a>
+<ul>
+<li><a href="#org74d803a">Assignment naming requirements</a></li>
+</ul>
+</li>
+<li><a href="#Proper-conduct-for-coursework">Proper conduct for coursework</a></li>
+</ul>
+</li>
+<li><a href="#Part-0-–-The-guarded-command-language,-/GCL/">Part 0 – The guarded command language, <i>GCL</i></a>
+<ul>
+<li><a href="#/GCL/"><i>GCL</i></a></li>
+<li><a href="#/GCLe/"><i>GCLe</i></a></li>
+</ul>
+</li>
+<li><a href="#Part-1-–-Representations-of-/GCL/-and-a-small-extension">Part 1 – Representations of <i>GCL</i> and a small extension</a></li>
+<li><a href="#Part-2-–-A-stack-machine-for-/GCL/-in-Ruby">Part 2 – A stack machine for <i>GCL</i> in Ruby</a></li>
+<li><a href="#Part-3-–-The-small-step-semantics-of-/GCL/-in-Clojure">Part 3 – The small-step semantics of <i>GCL</i> in Clojure</a></li>
+<li><a href="#Part-4-–-The-big-step-semantics-of-/GCLe/-in-Ruby">Part 4 – The big-step semantics of <i>GCLe</i> in Ruby</a></li>
+<li><a href="#Part-5-–-/GCLe/-in-Clojure">Part 5 – <i>GCLe</i> in Clojure</a></li>
+<li><a href="#Submission-checklist">Submission checklist</a></li>
+<li><a href="#Testing">Testing</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-Introduction" class="outline-2">
+<h2 id="Introduction">Introduction</h2>
+<div class="outline-text-2" id="text-Introduction">
+<p>
+This assignment 
+</p>
+</div>
+</div>
+
+<div id="outline-container-Updates-and-file-history" class="outline-2">
+<h2 id="Updates-and-file-history">Updates and file history</h2>
+<div class="outline-text-2" id="text-Updates-and-file-history">
+</div>
+
+<div id="outline-container-December-1st" class="outline-3">
+<h3 id="December-1st">December 1st</h3>
+<div class="outline-text-3" id="text-December-1st">
+<ul class="org-ul">
+<li>Initial version posted.</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-Boilerplate" class="outline-2">
+<h2 id="Boilerplate">Boilerplate</h2>
+<div class="outline-text-2" id="text-Boilerplate">
+</div>
+
+<div id="outline-container-Submission-procedures" class="outline-3">
+<h3 id="Submission-procedures">Documentation</h3>
+<div class="outline-text-3" id="text-Submission-procedures">
+<p>
+In addition to the code for the assignments,
+you are required to submit (relatively light) documentation,
+along the lines of that found in
+<a href="https://armkeh.github.io/principles-of-programming-languages/#outline-container-Lecture-literate-programs">the literate programs</a>
+from lectures and tutorials.
+</p>
+<ul class="org-ul">
+<li>Those occasionally include a lot of writing when introducing concepts;
+you do not have to introduce concepts, so your documentation
+should be similar to the <i>end</i> of those documents,
+where only the purpose and implementation details
+of types, functions, etc., are discussed.</li>
+</ul>
+
+<p>
+This documentation is not assigned its own marks;
+rather, 20% of the marks of each part of the assignment
+will be for the documentation.
+</p>
+
+<p>
+This documentation <b>must be</b> in the literate style,
+with (nicely typeset) English paragraphs alongside code snippets;
+comments in your source code do not count.
+The basic requirement is
+</p>
+<ul class="org-ul">
+<li>the English paragraphs must use non-fixed width font, whereas</li>
+<li>the code snippets must use fixed width font.</li>
+<li>For example, see these lecture notes on Prolog:
+<ul class="org-ul">
+<li><a href="https://courses.cs.washington.edu/courses/cse341/98sp/logic/prolog.html">https://courses.cs.washington.edu/courses/cse341/98sp/logic/prolog.html</a></li>
+</ul></li>
+</ul>
+<p>
+But you are encouraged to strive for nicer than just
+“the basic requirement”.
+(the ability to write decent looking documentation is an asset!
+</p>
+
+<p>
+You are free to present your documentation in any of these formats:
+</p>
+<ul class="org-ul">
+<li>an HTML file,
+<ul class="org-ul">
+<li>(named <code>README.html</code>)</li>
+</ul></li>
+<li>a PDF (for instance, by writing it in LaTeX using
+the <code>listings</code> or <code>minted</code> package for your code blocks),
+<ul class="org-ul">
+<li>(named <code>README.pdf</code>), or</li>
+</ul></li>
+<li>rendering on GitLab (for instance, by writing it in markdown or Org)
+<ul class="org-ul">
+<li>(named <code>README.md</code> or <code>README.org</code>.)</li>
+</ul></li>
+</ul>
+<p>
+If you wish to use another format, contact Mark to discuss it.
+</p>
+
+<p>
+Not all of your code needs to be shown;
+only portions which are of interest are needed.
+Feel free to omit some “repetitive” portions.
+(For instance, if there are several cases in a definition
+which look almost identical, only one or two need to be shown.)
+</p>
+</div>
+</div>
+
+<div id="outline-container-Submission-procedures" class="outline-3">
+<h3 id="Submission-procedures">Submission procedures</h3>
+<div class="outline-text-3" id="text-Submission-procedures">
+<p>
+The same guidelines as for homework
+(which can be seen in any of the homework files)
+apply to assignments, except for the differences below.
+</p>
+</div>
+
+<div id="outline-container-org74d803a" class="outline-4">
+<h4 id="org74d803a">Assignment naming requirements</h4>
+<div class="outline-text-4" id="text-org74d803a">
+<p>
+Place all files for the assignment
+inside a folder titled <code>an</code>, where <code>n</code> is the number of the assignment.
+So, for assignment 1, use the folder <code>a1</code>, for assignment 2 the folder <code>a2</code>, etc.
+Ensure you do not capitalise the <code>a</code>.
+</p>
+
+<p>
+Each part of the assignments will direct you on where to
+save your code for that part. Follow those instructions!
+</p>
+
+<div class="org-center">
+<p>
+<b>If the language supports multiple different file extensions,</b>
+<b>you must still follow the extension conventions noted in the assignment.</b>
+</p>
+</div>
+
+<div class="org-center">
+<p>
+<b>Incorrect naming of files may result in up to a 5% deduction in your grade.</b>
+</p>
+</div>
+<p>
+This is slightly decreased from the 10% for homeworks.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-Proper-conduct-for-coursework" class="outline-3">
+<h3 id="Proper-conduct-for-coursework">Proper conduct for coursework</h3>
+<div class="outline-text-3" id="text-Proper-conduct-for-coursework">
+<p>
+Refer to the homework code of conduct available in any of the homework files.
+The same guidelines apply to assignments.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-Part-0-–-The-guarded-command-language,-/GCL/" class="outline-2">
+<h2 id="Part-0-–-The-guarded-command-language,-/GCL/">Part 0 – The guarded command language, <i>GCL</i></h2>
+<div class="outline-text-2" id="text-Part-0-–-The-guarded-command-language,-/GCL/">
+<p>
+This assignment involves representing a simple
+kind of <i>guarded command language</i>, which we call <i>GCL</i>,
+and a small extension to it which we call <i>GCLe</i>,
+which adds a notion of scope.
+</p>
+</div>
+
+<div id="outline-container-/GCL/" class="outline-3">
+<h3 id="/GCL/"><i>GCL</i></h3>
+<div class="outline-text-3" id="text-/GCL/">
+<p>
+The syntax of <i>GCL</i> is given as
+</p>
+<div class="org-src-container">
+<pre class="src src-text"><span style="color: #00cd68;">&#10216;</span>expr<span style="color: #00cd68;">&#10217;</span> &#8759;= constant_integer | variable
+        | <span style="color: #00cd68;">&#10216;</span>expr<span style="color: #00cd68;">&#10217;</span> <span style="color: #00cd68;">(</span>'+' | '*' | '-' | '&#247;'<span style="color: #00cd68;">)</span> <span style="color: #00cd68;">&#10216;</span>expr<span style="color: #00cd68;">&#10217;</span>
+
+<span style="color: #00cd68;">&#10216;</span>test<span style="color: #00cd68;">&#10217;</span> &#8759;= <span style="color: #00cd68;">&#10216;</span>expr<span style="color: #00cd68;">&#10217;</span> <span style="color: #00cd68;">(</span>'=' | '&lt;' | '&gt;'<span style="color: #00cd68;">)</span> <span style="color: #00cd68;">&#10216;</span>expr<span style="color: #00cd68;">&#10217;</span>
+        | <span style="color: #00cd68;">&#10216;</span>test<span style="color: #00cd68;">&#10217;</span> <span style="color: #00cd68;">(</span>'and' | 'or'<span style="color: #00cd68;">)</span> <span style="color: #00cd68;">&#10216;</span>test<span style="color: #00cd68;">&#10217;</span>
+
+
+<span style="color: #00cd68;">&#10216;</span>stmt<span style="color: #00cd68;">&#10217;</span> &#8759;= 'skip'
+        | variable '&#8788;' <span style="color: #00cd68;">&#10216;</span>expr<span style="color: #00cd68;">&#10217;</span>
+        | <span style="color: #00cd68;">&#10216;</span>stmt<span style="color: #00cd68;">&#10217;</span> ';' <span style="color: #00cd68;">&#10216;</span>stmt<span style="color: #00cd68;">&#10217;</span>
+        | 'if' <span style="color: #00cd68;">&#10216;</span>gc_list<span style="color: #00cd68;">&#10217;</span>
+        | 'do' <span style="color: #00cd68;">&#10216;</span>gc_list<span style="color: #00cd68;">&#10217;</span>
+
+<span style="color: #00cd68;">&#10216;</span>gc<span style="color: #00cd68;">&#10217;</span> &#8759;= <span style="color: #00cd68;">&#10216;</span>test<span style="color: #00cd68;">&#10217;</span> '&#8658;' <span style="color: #00cd68;">&#10216;</span>stmt<span style="color: #00cd68;">&#10217;</span>
+
+<span style="color: #00cd68;">&#10216;</span>gc_list<span style="color: #00cd68;">&#10217;</span> &#8759;= <span style="color: #00cd68;">{</span> <span style="color: #b6a0ff;">&#10216;</span>gc<span style="color: #b6a0ff;">&#10217;</span> <span style="color: #00cd68;">}</span>
+</pre>
+</div>
+<p>
+That is, the language consists of
+</p>
+<ul class="org-ul">
+<li>(integer) expressions built from integer constants, variable names,
+and the binary operations addition, multiplication, subtraction and division.</li>
+<li>(boolean) tests built from equality and inequality checks on expressions,
+along with <code>and</code> and <code>or</code>.</li>
+<li>statements, which may be
+<ul class="org-ul">
+<li><code>skip</code>, the empty statement that does nothing,</li>
+<li>assignment of an expression to a variable,</li>
+<li>the composition of two statements,</li>
+<li>the “choice” construct <code>if</code> applied to a list of guarded commands,</li>
+<li>the “iteration” construct <code>do</code> applied to a list of guarded commands,</li>
+</ul></li>
+<li>and guarded command lists, which are
+a sequence of zero or more guarded commands,
+<ul class="org-ul">
+<li>where a guarded command consists of a (boolean) test and a statement.</li>
+</ul></li>
+</ul>
+
+<p>
+For this language, we use the same notion of (memory) state as in
+the beginning of the notes on the <i>WHILE</i> language:
+a map or function from variable names to integers.
+<b>We assume for this language that variables are always initialised to 0</b>.
+</p>
+
+<p>
+The semantics of the expressions, tests and
+the <code>skip</code>, assignment and composition statements
+are intended to be similar to those of <i>WHILE</i> as described in lecture.
+</p>
+
+<p>
+The semantics of the <code>if</code> and <code>do</code> constructs on guarded command lists
+are as noted in homework 9, which discussed the guarded command.
+One important note: in both cases, if the guarded command list
+is empty, the result should be to “do nothing”.
+</p>
+</div>
+</div>
+
+<div id="outline-container-/GCLe/" class="outline-3">
+<h3 id="/GCLe/"><i>GCLe</i></h3>
+<div class="outline-text-3" id="text-/GCLe/">
+<p>
+The language <i>GCLe</i> is obtained from <i>GCL</i> by adding these productions
+to grammer.
+</p>
+<div class="org-src-container">
+<pre class="src src-text"><span style="color: #00cd68;">&#10216;</span>program<span style="color: #00cd68;">&#10217;</span> &#8759;= <span style="color: #00cd68;">&#10216;</span>globals<span style="color: #00cd68;">&#10217;</span> <span style="color: #00cd68;">&#10216;</span>stmt<span style="color: #00cd68;">&#10217;</span>
+
+<span style="color: #00cd68;">&#10216;</span>globals<span style="color: #00cd68;">&#10217;</span> &#8759;= 'global' <span style="color: #00cd68;">{</span> variable <span style="color: #00cd68;">}</span>
+
+<span style="color: #00cd68;">&#10216;</span>stmt<span style="color: #00cd68;">&#10217;</span> &#8759;= 'local' variable 'in' <span style="color: #00cd68;">&#10216;</span>stmt<span style="color: #00cd68;">&#10217;</span>
+</pre>
+</div>
+
+<p>
+The intent is that a <i>program</i> now consists of
+a list of global variables followed by a statement,
+which we may call the “body” of the program.
+</p>
+
+<p>
+Additionally, we add a new kind of statement for declaring
+local variables.
+</p>
+
+<p>
+With these constructs in place, we may now discuss
+whether a given program is <i>well-scoped</i>;
+that is, if every variable used in the program is either
+</p>
+<ul class="org-ul">
+<li>a global variable, or</li>
+<li>a local variable declared by some wrapping <code>local</code> statement.</li>
+</ul>
+
+<p>
+We will assume in the semantics that all programs are well-scoped,
+and we can make use of a more precise notion of memory state;
+a memory state is some mapping from <i>variables which are in scope</i> to
+values. Variables which are not in scope are not handled
+by such a memory state.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-Part-1-–-Representations-of-/GCL/-and-a-small-extension" class="outline-2">
+<h2 id="Part-1-–-Representations-of-/GCL/-and-a-small-extension">Part 1 – Representations of <i>GCL</i> and a small extension</h2>
+<div class="outline-text-2" id="text-Part-1-–-Representations-of-/GCL/-and-a-small-extension">
+<p>
+In Ruby and in Clojure, create a representation of
+the language <i>GCL</i> described in part 0.
+</p>
+
+<p>
+In Ruby, define the types <code>GCExpr</code>, <code>GCTest</code> and <code>GCStmt</code>,
+with the following subclasses.
+</p>
+<ul class="org-ul">
+<li><code>GCExpr</code> has subclasses
+<ul class="org-ul">
+<li><code>GCConst</code>, the constructor of which takes a single integer argument,</li>
+<li><code>GCVar</code>, the constructor of which takes a symbol for the variable name,</li>
+<li><code>GCOp</code>, the constructor of which has as its first two arguments are <code>GCExpr</code>'s
+and as its third argument a symbol,
+which is intended to be one of <code>:plus</code>, <code>:times</code>, <code>:minus</code> or <code>:div</code>.</li>
+</ul></li>
+<li><code>GCTest</code> has subclasses
+<ul class="org-ul">
+<li><code>GCComp</code>, the constructor of which has as its first two arguments <code>GCExpr</code>'s
+and as its third argument a symbol,
+which is intended to be one of <code>:eq</code>, <code>:less</code> or <code>:greater</code>,</li>
+<li><code>GCAnd</code> and <code>GCOr</code>, the constructors of which take as arguments two <code>GCExpr</code>'s.</li>
+</ul></li>
+<li><code>GCStmt</code> has subclasses
+<ul class="org-ul">
+<li><code>GCSkip</code>, the constructor of which (if it exists) takes no arguments.</li>
+<li><code>GCAssign</code>, the constructor of which takes as arguments
+a symbol for the variable name and a <code>GCExpr</code>.</li>
+<li><code>GCCompose</code>, the constructor of which takes two <code>GCStmt</code>'s as arguments,</li>
+<li><code>GCIf</code> and <code>GCDo</code>, the constructors of which
+take a list of <code>GCTest</code> and <code>GCStmt</code> pairs
+(pairs being lists of two elements.)</li>
+</ul></li>
+</ul>
+
+<p>
+Wrap all of these definitions inside a <code>module</code> named <code>GCL</code>.
+(This is to avoid name clashes with definitions requested below.)
+</p>
+
+<p>
+In Clojure, define <i>records</i> (documentation and examples
+<a href="https://clojuredocs.org/clojure.core/defrecord">here</a>) for each kind of expression, test and statement
+(using the same naming as in Ruby.)
+There is no need to define the <code>GCExpr</code>, <code>GCTest</code> and <code>GCStmt</code> types themselves;
+only the subtypes as records.
+</p>
+
+<p>
+Then, in Ruby, create a separate representation of
+the language <i>GCLe</i> described in part 0.
+Create a class <code>GCProgram</code> to represent programs,
+the constructor of which takes as its first argument
+a list of symbols for the global variable names,
+and as its second argument a <code>GCStmt</code>.
+Also add an additional subclass to <code>GCStmt</code>, <code>GCLocal</code>,
+the constructor of which takes as its first argument a symbol
+for the variable name and as its second argument a <code>GCStmt</code>.
+Wrap all of these definitions inside a <code>module</code> named <code>GCLe</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-Part-2-–-A-stack-machine-for-/GCL/-in-Ruby" class="outline-2">
+<h2 id="Part-2-–-A-stack-machine-for-/GCL/-in-Ruby">Part 2 – A stack machine for <i>GCL</i> in Ruby</h2>
+<div class="outline-text-2" id="text-Part-2-–-A-stack-machine-for-/GCL/-in-Ruby">
+<p>
+Within the <code>GCL</code> module, define a method <code>stack_eval</code> on <code>GCL</code>'s,
+which carries out the evaluation of a <code>GCStmt</code> using a stack machine.
+</p>
+
+<p>
+The stack machine in question should really be a method
+taking three arguments:
+</p>
+<ol class="org-ol">
+<li>the command stack (implemented using a list),</li>
+<li>the results stack (implemented a list), and</li>
+<li>the memory state (implemented using a lambda; that is, a block.)</li>
+</ol>
+
+<p>
+The method should return an updated state
+(that is, another lambda/block.)
+</p>
+</div>
+</div>
+
+<div id="outline-container-Part-3-–-The-small-step-semantics-of-/GCL/-in-Clojure" class="outline-2">
+<h2 id="Part-3-–-The-small-step-semantics-of-/GCL/-in-Clojure">Part 3 – The small-step semantics of <i>GCL</i> in Clojure</h2>
+<div class="outline-text-2" id="text-Part-3-–-The-small-step-semantics-of-/GCL/-in-Clojure">
+<p>
+Define in Clojure a function <code>reduce</code> which takes
+a <i>GCL</i> statement and a memory state
+(a function mapping symbols, representing the variable names, to integers)
+and performs <i>one step</i> of the computation, returning the
+remaining code to be run and the updated memory state.
+</p>
+</div>
+</div>
+
+<div id="outline-container-Part-4-–-The-big-step-semantics-of-/GCLe/-in-Ruby" class="outline-2">
+<h2 id="Part-4-–-The-big-step-semantics-of-/GCLe/-in-Ruby">Part 4 – The big-step semantics of <i>GCLe</i> in Ruby</h2>
+<div class="outline-text-2" id="text-Part-4-–-The-big-step-semantics-of-/GCLe/-in-Ruby">
+<p>
+This portion of the assignment should be done in
+the <code>GCLe</code> module created in part 1.
+</p>
+
+<p>
+Begin by defining a method <code>wellScoped</code> which checks that
+all variables appearing within the body of a <code>GCProgram</code>
+(either in an expression or on the left side of an assignment)
+are <i>within scope</i> at the point of their use;
+that is, either the variable is one declared to be <code>global</code>,
+or there is a <code>local</code> statement for that variable wrapping the use.
+</p>
+<ul class="org-ul">
+<li>This method should take a <code>GCStmt</code> as its only argument,
+and return a boolean.</li>
+<li>Hint: This operation is similar to typechecking.
+Use your experience working with <code>typeOf</code> as a starting point.
+<ul class="org-ul">
+<li>Helper methods are always permitted.</li>
+</ul></li>
+</ul>
+
+<p>
+Then define the semantics of the language,
+this time defining a method <code>eval</code> directly
+(without making use of a stack machine.)
+That is, define the <i>big-step</i> semantics of the language
+(remember that big-step semantics are called evaluation semantics.)
+</p>
+<ul class="org-ul">
+<li>This method also should take a <code>GCStmt</code> as its only argument.
+It should return a <code>Hash</code> mapping the <code>global</code> variable names
+to integers.</li>
+</ul>
+
+<p>
+You may decide what the behaviour is for programs which
+do not initialise variables before their first use.
+</p>
+<ul class="org-ul">
+<li>Your choice may be judged in the marking.
+<ul class="org-ul">
+<li>It is suggested that such programs “fail gracefully”,
+reporting an error that a variable was used before initialisation.</li>
+<li>Otherwise, it's suggested that they behave as predictably as possible.</li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-Part-5-–-/GCLe/-in-Clojure" class="outline-2">
+<h2 id="Part-5-–-/GCLe/-in-Clojure">Part 5 – <i>GCLe</i> in Clojure</h2>
+<div class="outline-text-2" id="text-Part-5-–-/GCLe/-in-Clojure">
+<p>
+<i>As a bonus</i>, repeat part 4 in Clojure.
+</p>
+
+<p>
+Place the code for this portion in a file <code>a3b.clj</code>.
+</p>
+
+<p>
+This time, you may choose the underlying approach to the operational semantics
+(you do not have to use big-step semantics.)
+</p>
+
+<p>
+Document this portion especially well, and include your own
+tests in a file <code>a3bt.clj</code>. This file should output the results of the tests
+when executed using <code>cat a3bt.clj | lein</code> from the command line.
+</p>
+</div>
+</div>
+
+<div id="outline-container-Submission-checklist" class="outline-2">
+<h2 id="Submission-checklist">Submission checklist</h2>
+<div class="outline-text-2" id="text-Submission-checklist">
+<p>
+For your convenience, this checklist is provided
+to track the files you need to submit.
+Use it if you wish.
+</p>
+<div class="org-src-container">
+<pre class="src src-text">- <span style="color: #00cd68;">[</span> <span style="color: #00cd68;">]</span> Documentation; one of
+  - <span style="color: #00cd68;">[</span> <span style="color: #00cd68;">]</span> README.html
+  - <span style="color: #00cd68;">[</span> <span style="color: #00cd68;">]</span> README.pdf
+  - <span style="color: #00cd68;">[</span> <span style="color: #00cd68;">]</span> README.md
+  - <span style="color: #00cd68;">[</span> <span style="color: #00cd68;">]</span> README.org
+- <span style="color: #00cd68;">[</span> <span style="color: #00cd68;">]</span> Code files
+  - <span style="color: #00cd68;">[</span> <span style="color: #00cd68;">]</span> a3.rb
+  - <span style="color: #00cd68;">[</span> <span style="color: #00cd68;">]</span> a3.clj
+- <span style="color: #00cd68;">[</span> <span style="color: #00cd68;">]</span> Part 2 tests
+  - <span style="color: #00cd68;">[</span> <span style="color: #00cd68;">]</span> a3p2_test.rb tests have passed! <span style="color: #00cd68;">(</span>No submission needed.<span style="color: #00cd68;">)</span>
+- <span style="color: #00cd68;">[</span> <span style="color: #00cd68;">]</span> Part 3 tests
+  - <span style="color: #00cd68;">[</span> <span style="color: #00cd68;">]</span> a3p3_test.clj tests have passed! <span style="color: #00cd68;">(</span>No submission needed.<span style="color: #00cd68;">)</span>
+- <span style="color: #00cd68;">[</span> <span style="color: #00cd68;">]</span> Part 4 tests
+  - <span style="color: #00cd68;">[</span> <span style="color: #00cd68;">]</span> a3p4_test.clj tests have passed! <span style="color: #00cd68;">(</span>No submission needed.<span style="color: #00cd68;">)</span>
+- <span style="color: #00cd68;">[</span> <span style="color: #00cd68;">]</span> Part 5 <span style="color: #00cd68;">(</span>Bonus<span style="color: #00cd68;">)</span>
+  - <span style="color: #00cd68;">[</span> <span style="color: #00cd68;">]</span> a3b.clj
+  - <span style="color: #00cd68;">[</span> <span style="color: #00cd68;">]</span> a3bt.clj
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-Testing" class="outline-2">
+<h2 id="Testing">Testing</h2>
+<div class="outline-text-2" id="text-Testing">
+<p>
+:TODO:
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Mark Armstrong</p>
+     <p class="author">Contact: <a href="mailto:markparmstrong@gmail.com">markparmstrong@gmail.com</a></p>
+     <p class="date">Original date: December 2, 2020</p>
+     <p class="date">Last updated: 2020-12-02 Wed 00:01</p>
+     <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4)</p>
+     <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

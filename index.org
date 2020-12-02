@@ -10,8 +10,17 @@
 
 * Communication
 :PROPERTIES:
-:CUSTOM_ID: Communications/Announcements
+:CUSTOM_ID: Communications
 :END:
+
+** December
+:PROPERTIES:
+:CUSTOM_ID: December
+:END:
+
+- December 2nd :: Assignment 3 is now posted.
+  There should not be major changes to it, but the testing
+  is not posted yet.
 
 ** November
 :PROPERTIES:
@@ -1094,6 +1103,15 @@ Note the due date: the Sunday following reading week.
 :PROPERTIES:
 :CUSTOM_ID: Assignments
 :END:
+
+** Assignment 3 – A representation of Dijkstra's guarded command language – Dec 2nd to Dec 18th
+:PROPERTIES:
+:CUSTOM_ID: Assignment-3-–-A-representation-of-Dijkstra's-guarded-command-language-–-Dec-2nd-to-Dec-18th
+:END:
+
+- [[./assignments/a3.html][HTML]]
+- [[./assignments/a3.pdf][PDF]]
+- [[./assignments/a3.org][Org plaintext]]
 
 ** Assignment 2 – Typing a λ-calculus – Oct 30th to Nov 29th
 :PROPERTIES:

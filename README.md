@@ -10,6 +10,12 @@ better viewed at
 
 # Communication
 
+## December
+
+  - December 2nd  
+    Assignment 3 is now posted. There should not be major changes to it,
+    but the testing is not posted yet.
+
 ## November
 
   - November 29th
@@ -1030,9 +1036,16 @@ plaintext](./homework/h4.org)
 
   - [HTML](./homework/h1.html)
   - [PDF](./homework/h1.pdf)
-  - [Org plaintext](./homework/h1.org)
+  - [Org
+plaintext](./homework/h1.org)
 
 # Assignments
+
+## Assignment 3 – A representation of Dijkstra's guarded command language – Dec 2nd to Dec 18th
+
+  - [HTML](./assignments/a3.html)
+  - [PDF](./assignments/a3.pdf)
+  - [Org plaintext](./assignments/a3.org)
 
 ## Assignment 2 – Typing a λ-calculus – Oct 30th to Nov 29th
 

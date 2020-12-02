@@ -1,0 +1,623 @@
+#+Title: Computer Science 3MI3 – 2020 assignment 3
+#+Subtitle: A representation of Dijkstra's guarded command language
+#+Author: Mark Armstrong
+#+Date: December 2, 2020
+#+Description: Implementing various operational semantics of 
+#+Description: various versions of the guarded command language.
+#+Options: num:nil
+#+SETUPFILE: ../org-html-themes/setup/theme-readtheorg-local.setup
+
+* LaTeX settings                                :noexport:
+
+#+LaTeX_header: \usepackage{amsthm}
+#+LaTeX_header: \theoremstyle{definition}
+#+LaTeX_header: \newtheorem{definition}{Definition}[section]
+
+#+LaTeX_header: \usepackage{unicode-math}
+#+LaTeX_header: \usepackage{unicode}
+
+* Introduction
+:PROPERTIES:
+:CUSTOM_ID: Introduction
+:END:
+
+This assignment 
+
+* Updates and file history
+:PROPERTIES:
+:CUSTOM_ID: Updates-and-file-history
+:END:
+
+** December 1st
+:PROPERTIES:
+:CUSTOM_ID: December-1st
+:END:
+
+- Initial version posted.
+
+* Boilerplate
+:PROPERTIES:
+:CUSTOM_ID: Boilerplate
+:END:
+
+** Documentation
+:PROPERTIES:
+:CUSTOM_ID: Submission-procedures
+:END:
+
+#+INCLUDE: "./../boilerplate.org::*Assignment documentation" :only-contents t
+
+** Submission procedures
+:PROPERTIES:
+:CUSTOM_ID: Submission-procedures
+:END:
+
+#+INCLUDE: "./../boilerplate.org::*Assignment submission" :only-contents t
+
+** Proper conduct for coursework
+:PROPERTIES:
+:CUSTOM_ID: Proper-conduct-for-coursework
+:END:
+
+#+INCLUDE: "./../boilerplate.org::*Assignment conduct" :only-contents t
+
+* Part 0 – The guarded command language, /GCL/
+:PROPERTIES:
+:CUSTOM_ID: Part-0-–-The-guarded-command-language,-/GCL/
+:END:
+
+This assignment involves representing a simple
+kind of /guarded command language/, which we call /GCL/,
+and a small extension to it which we call /GCLe/,
+which adds a notion of scope.
+
+** /GCL/
+:PROPERTIES:
+:CUSTOM_ID: /GCL/
+:END:
+
+The syntax of /GCL/ is given as
+#+begin_src text
+⟨expr⟩ ∷= constant_integer | variable
+        | ⟨expr⟩ ('+' | '*' | '-' | '÷') ⟨expr⟩
+
+⟨test⟩ ∷= ⟨expr⟩ ('=' | '<' | '>') ⟨expr⟩
+        | ⟨test⟩ ('and' | 'or') ⟨test⟩
+
+
+⟨stmt⟩ ∷= 'skip'
+        | variable '≔' ⟨expr⟩
+        | ⟨stmt⟩ ';' ⟨stmt⟩
+        | 'if' ⟨gc_list⟩
+        | 'do' ⟨gc_list⟩
+
+⟨gc⟩ ∷= ⟨test⟩ '⇒' ⟨stmt⟩
+
+⟨gc_list⟩ ∷= { ⟨gc⟩ }
+#+end_src
+That is, the language consists of
+- (integer) expressions built from integer constants, variable names,
+  and the binary operations addition, multiplication, subtraction and division.
+- (boolean) tests built from equality and inequality checks on expressions,
+  along with ~and~ and ~or~.
+- statements, which may be
+  - ~skip~, the empty statement that does nothing,
+  - assignment of an expression to a variable,
+  - the composition of two statements,
+  - the “choice” construct ~if~ applied to a list of guarded commands,
+  - the “iteration” construct ~do~ applied to a list of guarded commands,
+- and guarded command lists, which are
+  a sequence of zero or more guarded commands,
+  - where a guarded command consists of a (boolean) test and a statement.
+
+For this language, we use the same notion of (memory) state as in
+the beginning of the notes on the /WHILE/ language:
+a map or function from variable names to integers.
+*We assume for this language that variables are always initialised to 0*.
+
+The semantics of the expressions, tests and
+the ~skip~, assignment and composition statements
+are intended to be similar to those of /WHILE/ as described in lecture.
+
+The semantics of the ~if~ and ~do~ constructs on guarded command lists
+are as noted in homework 9, which discussed the guarded command.
+One important note: in both cases, if the guarded command list
+is empty, the result should be to “do nothing”.
+
+** /GCLe/
+:PROPERTIES:
+:CUSTOM_ID: /GCLe/
+:END:
+
+The language /GCLe/ is obtained from /GCL/ by adding these productions
+to grammer.
+#+begin_src text
+⟨program⟩ ∷= ⟨globals⟩ ⟨stmt⟩
+
+⟨globals⟩ ∷= 'global' { variable }
+
+⟨stmt⟩ ∷= 'local' variable 'in' ⟨stmt⟩
+#+end_src
+
+The intent is that a /program/ now consists of
+a list of global variables followed by a statement,
+which we may call the “body” of the program.
+
+Additionally, we add a new kind of statement for declaring
+local variables.
+
+With these constructs in place, we may now discuss
+whether a given program is /well-scoped/;
+that is, if every variable used in the program is either
+- a global variable, or
+- a local variable declared by some wrapping ~local~ statement.
+
+We will assume in the semantics that all programs are well-scoped,
+and we can make use of a more precise notion of memory state;
+a memory state is some mapping from /variables which are in scope/ to
+values. Variables which are not in scope are not handled
+by such a memory state.
+
+* Part 1 – Representations of /GCL/ and a small extension
+:PROPERTIES:
+:CUSTOM_ID: Part-1-–-Representations-of-/GCL/-and-a-small-extension
+:END:
+
+In Ruby and in Clojure, create a representation of
+the language /GCL/ described in part 0.
+
+In Ruby, define the types ~GCExpr~, ~GCTest~ and ~GCStmt~,
+with the following subclasses.
+- ~GCExpr~ has subclasses
+  - ~GCConst~, the constructor of which takes a single integer argument,
+  - ~GCVar~, the constructor of which takes a symbol for the variable name,
+  - ~GCOp~, the constructor of which has as its first two arguments are ~GCExpr~'s
+    and as its third argument a symbol,
+    which is intended to be one of ~:plus~, ~:times~, ~:minus~ or ~:div~.
+- ~GCTest~ has subclasses
+  - ~GCComp~, the constructor of which has as its first two arguments ~GCExpr~'s
+    and as its third argument a symbol,
+    which is intended to be one of ~:eq~, ~:less~ or ~:greater~,
+  - ~GCAnd~ and ~GCOr~, the constructors of which take as arguments two ~GCExpr~'s.
+- ~GCStmt~ has subclasses
+  - ~GCSkip~, the constructor of which (if it exists) takes no arguments.
+  - ~GCAssign~, the constructor of which takes as arguments
+    a symbol for the variable name and a ~GCExpr~.
+  - ~GCCompose~, the constructor of which takes two ~GCStmt~'s as arguments,
+  - ~GCIf~ and ~GCDo~, the constructors of which
+    take a list of ~GCTest~ and ~GCStmt~ pairs
+    (pairs being lists of two elements.)
+  
+Wrap all of these definitions inside a ~module~ named ~GCL~.
+(This is to avoid name clashes with definitions requested below.)
+
+In Clojure, define /records/ (documentation and examples
+[[https://clojuredocs.org/clojure.core/defrecord][here]]) for each kind of expression, test and statement
+(using the same naming as in Ruby.)
+There is no need to define the ~GCExpr~, ~GCTest~ and ~GCStmt~ types themselves;
+only the subtypes as records.
+
+Then, in Ruby, create a separate representation of
+the language /GCLe/ described in part 0.
+Create a class ~GCProgram~ to represent programs,
+the constructor of which takes as its first argument
+a list of symbols for the global variable names,
+and as its second argument a ~GCStmt~.
+Also add an additional subclass to ~GCStmt~, ~GCLocal~,
+the constructor of which takes as its first argument a symbol
+for the variable name and as its second argument a ~GCStmt~.
+Wrap all of these definitions inside a ~module~ named ~GCLe~.
+
+* Part 2 – A stack machine for /GCL/ in Ruby
+:PROPERTIES:
+:CUSTOM_ID: Part-2-–-A-stack-machine-for-/GCL/-in-Ruby
+:END:
+
+Within the ~GCL~ module, define a method ~stack_eval~ on ~GCL~'s,
+which carries out the evaluation of a ~GCStmt~ using a stack machine.
+
+The stack machine in question should really be a method
+taking three arguments:
+1. the command stack (implemented using a list),
+2. the results stack (implemented a list), and
+3. the memory state (implemented using a lambda; that is, a block.)
+
+The method should return an updated state
+(that is, another lambda/block.)
+
+* Part 3 – The small-step semantics of /GCL/ in Clojure
+:PROPERTIES:
+:CUSTOM_ID: Part-3-–-The-small-step-semantics-of-/GCL/-in-Clojure
+:END:
+
+Define in Clojure a function ~reduce~ which takes
+a /GCL/ statement and a memory state
+(a function mapping symbols, representing the variable names, to integers)
+and performs /one step/ of the computation, returning the
+remaining code to be run and the updated memory state.
+
+* Part 4 – The big-step semantics of /GCLe/ in Ruby 
+:PROPERTIES:
+:CUSTOM_ID: Part-4-–-The-big-step-semantics-of-/GCLe/-in-Ruby
+:END:
+
+This portion of the assignment should be done in
+the ~GCLe~ module created in part 1.
+
+Begin by defining a method ~wellScoped~ which checks that
+all variables appearing within the body of a ~GCProgram~
+(either in an expression or on the left side of an assignment)
+are /within scope/ at the point of their use;
+that is, either the variable is one declared to be ~global~,
+or there is a ~local~ statement for that variable wrapping the use.
+- This method should take a ~GCStmt~ as its only argument,
+  and return a boolean.
+- Hint: This operation is similar to typechecking.
+  Use your experience working with ~typeOf~ as a starting point.
+  - Helper methods are always permitted.
+
+Then define the semantics of the language,
+this time defining a method ~eval~ directly
+(without making use of a stack machine.)
+That is, define the /big-step/ semantics of the language
+(remember that big-step semantics are called evaluation semantics.)
+- This method also should take a ~GCStmt~ as its only argument.
+  It should return a ~Hash~ mapping the ~global~ variable names
+  to integers.
+
+You may decide what the behaviour is for programs which
+do not initialise variables before their first use.
+- Your choice may be judged in the marking.
+  - It is suggested that such programs “fail gracefully”,
+    reporting an error that a variable was used before initialisation.
+  - Otherwise, it's suggested that they behave as predictably as possible.
+
+* Part 5 – /GCLe/ in Clojure
+:PROPERTIES:
+:CUSTOM_ID: Part-5-–-/GCLe/-in-Clojure
+:END:
+
+/As a bonus/, repeat part 4 in Clojure.
+
+Place the code for this portion in a file ~a3b.clj~.
+
+This time, you may choose the underlying approach to the operational semantics
+(you do not have to use big-step semantics.)
+
+Document this portion especially well, and include your own
+tests in a file ~a3bt.clj~. This file should output the results of the tests
+when executed using ~cat a3bt.clj | lein~ from the command line.
+
+* Submission checklist
+:PROPERTIES:
+:CUSTOM_ID: Submission-checklist
+:END:
+
+For your convenience, this checklist is provided
+to track the files you need to submit.
+Use it if you wish.
+#+begin_src text
+- [ ] Documentation; one of
+  - [ ] README.html
+  - [ ] README.pdf
+  - [ ] README.md
+  - [ ] README.org
+- [ ] Code files
+  - [ ] a3.rb
+  - [ ] a3.clj
+- [ ] Part 2 tests
+  - [ ] a3p2_test.rb tests have passed! (No submission needed.)
+- [ ] Part 3 tests
+  - [ ] a3p3_test.clj tests have passed! (No submission needed.)
+- [ ] Part 4 tests
+  - [ ] a3p4_test.clj tests have passed! (No submission needed.)
+- [ ] Part 5 (Bonus)
+  - [ ] a3b.clj
+  - [ ] a3bt.clj
+#+end_src
+
+* Testing
+:PROPERTIES:
+:CUSTOM_ID: Testing
+:END:
+
+:TODO:
+
+* COMMENT
+:PROPERTIES:
+:CUSTOM_ID: COMMENT
+:END:
+
+Unit tests for the requested types, methods and predicates
+are available here.
+- [[./testing/a2/a2_test.sc][a2_test.sc]]
+- [[./testing/a2/a2_test.rb][a2_test.rb]]
+The contents of the unit test files are also repeated below.
+
+The tests can be run by placing the test files
+in the same directory as your code files.
+
+To run the tests for the Scala portions, use the command
+#+begin_src shell
+amm a2_test.sc
+#+end_src
+
+To run the tests for the Ruby portions,us the commands
+#+begin_src shell
+ruby a2_test.rb
+#+end_src
+
+#+begin_center
+*You are strongly encouraged to add your own additional test cases*
+*to those provided for you.*
+
+The provided test cases check a very minimal amount!
+#+end_center
+
+** Automated testing via Docker
+:PROPERTIES:
+:CUSTOM_ID: Automated-testing-via-Docker
+:END:
+
+The Docker setup and usage scripts are available at the following links.
+Their contents are also repeated below.
+- [[./testing/a2/Dockerfile][Dockerfile]]
+- [[./testing/a2/docker-compose.yml][docker-compose.yml]]
+- [[./testing/a2/setup.sh][setup.sh]]
+- [[./testing/a2/run.sh][run.sh]]
+Place them into your ~a2~ directory where your code files
+and the test files (linked to above) exist,
+then run ~setup.sh~ and ~run.sh~.
+
+Note that the use of the ~setup.sh~ and ~run.sh~ scripts assumes
+that you are in a ~bash~ like shell; if you are on Windows,
+and not using WSL or WSL2, you may have
+to run the commands contained in those scripts manually.
+
+** The tests
+:PROPERTIES:
+:CUSTOM_ID: The-tests
+:END:
+
+*** Scala
+:PROPERTIES:
+:CUSTOM_ID: Scala
+:END:
+
+[[./testing/a2/a2_test.sc][a2_test.sc]]
+#+begin_src amm :tangle ./testing/a2/a2_test.sc
+import $file.a2, a2._
+import $file.a2_ulterm, a2_ulterm._
+
+/* Given an expected result and a computed result,
+   check if they are equal in value.
+   If so, return 0. Otherwise, inform the user, and return 1,
+   so the number of failures can be counted. */
+def test[A](given: A, expected: A, the_test: String) =
+  if (!(given equals expected)) {
+    println("+---------------------------------------------------")
+    println("| " + the_test + " failed.")
+    println("| Expected " + expected + ", got " + given + ".")
+    println("+---------------------------------------------------")
+    1
+  } else {
+    0
+  }
+
+val providedTests : List[Tuple3[Unit => Any, Any, String]] = List(
+
+  // Positive typechecking test cases
+  (_ => typecheck(STZero),                       true, "Typecheck zero"),
+  (_ => typecheck(STSuc(STZero)),                true, "Typecheck one"),
+  (_ => typecheck(STIsZero(STZero)),             true, "Typecheck iszero zero"),
+  (_ => typecheck(STTrue),                       true, "Typecheck true"),
+  (_ => typecheck(STFalse),                      true, "Typecheck false"),
+  (_ => typecheck(STTest(STTrue,STZero,STZero)), true, "Typecheck test true zero zero"),
+  (_ => typecheck(STAbs(STNat,STVar(0))),        true, "Typecheck lambda x : nat . x"),
+  (_ => typecheck(STApp(STAbs(STNat,STVar(0)),STZero)), true, "Typecheck (lambda x : nat . x) (zero)"),
+
+  
+  // Negative typechecking test cases
+  (_ => typecheck(STSuc(STFalse)), false,
+    "Successor of false should not typecheck."),
+  (_ => typecheck(STVar(0)), false,
+    "Free variables should not typecheck"),
+  (_ => typecheck(STApp(STAbs(STNat,STVar(0)),STFalse)), false,
+    "Applying a boolean to a natural function should not typecheck"),
+
+  // Type erasure tests
+  (_ => eraseTypes(STTrue), ULAbs(ULAbs(ULVar(1))), "Erase types of true"),
+  (_ => eraseTypes(STSuc(STZero)),
+    ULApp(
+      // Encoding of suc
+      ULAbs( // lambda n .
+        ULAbs( // lambda s.
+          ULAbs( // lambda z.
+            ULApp(ULVar(1),ULApp(ULApp(ULVar(2),ULVar(1)),ULVar(0)))))), // s (n s z)
+      // Encoding of zero
+      ULAbs( // lambda s .
+        ULAbs( // lambda z .
+          ULVar(0)))), // z
+    "Erase types of one"),
+  (_ => eraseTypes(STApp(STAbs(STNat,STVar(0)),STZero)),
+    ULApp(ULAbs(ULVar(0)), ULAbs(ULAbs(ULVar(0)))),
+    "Erase types of (lambda x : nat . x) (zero)"),
+)
+
+def runTests[A](tests: List[Tuple3[Unit => A,A,String]]): Unit = {
+  // Apply test to each element of tests, and sum the return values.
+  // This is essentially a for loop.
+  val failed = tests.foldLeft(0) {
+    (failures, next) => next match {
+      // Deconstruct the tuple to get its parts
+      case (given, expected, the_test) => {
+        val failure = try {
+          test(given(), expected, the_test)
+        } catch {
+          case e: Exception => {
+            print("Test " + the_test + "encountered exception: ")
+            println(e)
+            1
+          }
+        }
+        failures + failure
+      }
+    }
+  }
+  
+  println("+---------------------------------------------------")
+  println("| " + failed + " tests failed")
+  println("+---------------------------------------------------")
+}
+
+runTests(providedTests)
+#+end_src
+
+*** Ruby
+:PROPERTIES:
+:CUSTOM_ID: Ruby
+:END:
+
+[[./testing/a2_test.rb][a2_test.rb]]
+#+begin_src ruby :tangle ./testing/a2/a2_test.rb
+require_relative "a2"
+require_relative "a2_ulterm"
+require "test/unit"
+
+class ProvidedTests < Test::Unit::TestCase
+
+  # Positive type checking tests
+  def test_simple0
+    assert_equal(true, STZero.new.typecheck, "Typecheck zero")
+  end
+  def test_simple1
+    assert_equal(true, STSuc.new(STZero.new).typecheck, "Typecheck one")
+  end
+  def test_simple2
+    assert_equal(true, STIsZero.new(STZero.new).typecheck, "Typecheck iszero zero")
+  end
+  def test_simple3
+    assert_equal(true, STTrue.new.typecheck, "Typecheck true")
+  end
+  def test_simple4
+    assert_equal(true, STFalse.new.typecheck, "Typecheck false")
+  end
+  def test_simple5
+    assert_equal(true,
+                 STTest.new(STTrue.new,STZero.new,STZero.new).typecheck,
+                 "Typecheck test true zero zero")
+  end
+  def test_simple6
+    assert_equal(true,
+                 STAbs.new(STNat.new,STVar.new(0)).typecheck,
+                 "Typecheck lambda x : nat . x")
+  end
+  def test_simple7
+    assert_equal(true,
+                 STApp.new(STAbs.new(STNat.new,STVar.new(0)),STZero.new).typecheck,
+                 "Typecheck (lambda x : nat . x) (zero)")
+  end
+
+  # Negative typechecking tests  
+  def test_simple8
+    assert_equal(false,
+                 STSuc.new(STFalse.new).typecheck,
+                 "Successor of false should not typecheck.")
+  end
+  def test_simple9
+    assert_equal(false,
+                 STVar.new(0).typecheck,
+                 "Free variables should not typecheck")
+  end
+  def test_simple10
+    assert_equal(false,
+                 STApp.new(STAbs.new(STNat.new,STVar.new(0)),STFalse.new).typecheck,
+                 "Applying a boolean to a natural function should not typecheck")
+  end
+
+  def test_simple11
+    assert_equal(ULAbs.new(ULAbs.new(ULVar.new(1))), STTrue.new.eraseTypes, "Erase types of true")
+  end
+  def test_simple12
+    assert_equal(ULApp.new(
+                   # Encoding of suc
+                   ULAbs.new( # lambda n .
+                     ULAbs.new( # lambda s.
+                       ULAbs.new( # lambda z.
+                         ULApp.new(ULVar.new(1),ULApp.new(ULApp.new(ULVar.new(2),ULVar.new(1)),ULVar.new(0)))))), # s (n s z)
+                   # Encoding of zero
+                   ULAbs.new( # lambda s .
+                     ULAbs.new( # lambda z .
+                       ULVar.new(0)))), # z
+                 STSuc.new(STZero.new).eraseTypes,
+                 "Erase types of one")
+  end
+  def test_simple13
+    assert_equal(ULApp.new(ULAbs.new(          ULVar.new(0)),ULAbs.new(ULAbs.new(ULVar.new(0)))),
+                 STApp.new(STAbs.new(STNat.new,STVar.new(0)),STZero.new).eraseTypes,
+                 "Erase types of (lambda x : nat . x) (zero)")
+  end
+end
+#+end_src
+
+** The Docker setup
+:PROPERTIES:
+:CUSTOM_ID: The-Docker-setup
+:END:
+
+[[./testing/a2/Dockerfile][Dockerfile]]
+#+begin_src docker :tangle ./testing/a2/Dockerfile
+# Define the argument for openjdk version
+ARG OPENJDK_TAG=8u232
+
+FROM ruby:2.7.2-buster
+
+# Setup to install Scala
+RUN apt-get update && \
+    apt-get install scala -y && \
+    apt-get install -y curl && \
+    sh -c '(echo "#!/usr/bin/env sh" && \
+    curl -L https://github.com/lihaoyi/Ammonite/releases/download/2.1.1/2.12-2.1.1) > /usr/local/bin/amm && \
+    chmod +x /usr/local/bin/amm'
+RUN (rm -rf /root/.cache)
+     
+# Set the name of the maintainers
+MAINTAINER Habib Ghaffari Hadigheh, Mark Armstrong <ghaffh1@mcmaster.ca, armstmp@mcmaster.ca>
+
+# Set the working directory
+WORKDIR /opt/a2
+#+end_src
+
+[[./testing/a2/docker-compose.yml][docker-compose.yml]]
+#+begin_src yaml :tangle ./testing/a2/docker-compose.yml
+version: '2'
+services:
+  service:
+    build: .
+    image: 3mi3_a2_docker_image
+    volumes:
+      - .:/opt/a2
+    container_name: 3mi3_a2_container
+    command: bash -c
+      "echo 'Scala testing' &&
+       echo '----------------------------------------------------------------------' &&
+       amm a2_test.sc &&
+       printf '\\n\\n\\n' &&
+       echo 'Ruby testing' &&
+       echo '----------------------------------------------------------------------' &&
+       ruby a2_test.rb &&
+       echo '----------------------------------------------------------------------'"
+#+end_src
+
+[[./testing/a2/setup.sh][setup.sh]]
+#+begin_src shell :tangle ./testing/a2/setup.sh :tangle-mode (identity #o755)
+docker-compose build --force-rm
+#+end_src
+
+[[./testing/a2/run.sh][run.sh]]
+#+begin_src shell :tangle ./testing/a2/run.sh :tangle-mode (identity #o755)
+# Run the container
+docker-compose up --force-recreate
+# Stop the container after finishing the test run
+docker-compose stop -t 1
+#+end_src
