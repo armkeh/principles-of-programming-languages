@@ -1,0 +1,193 @@
+#+Title: Imperativeness and an imperative core /WHILE/
+#+Subtitle: Principles of Programming Languages
+#+Author: Mark Armstrong
+#+Date: Fall 2020
+#+Description: Discussion of traits of the imperative programming paradigm
+#+Description: not found in pure functional languages.
+#+Description:  a small imperative language.
+#+Options: toc:nil
+
+# TODO: statements, side effects, and impurity.
+
+* HTML settings                                 :noexport:
+
+** Reveal settings
+
+#+Reveal_root: ./reveal.js
+#+Reveal_init_options: width:1600, height:900, controlsLayout:'edges',
+#+Reveal_init_options: margin: 0.1, minScale:0.125, maxScale:5,
+#+Reveal_init_options: mouseWheel: true
+#+Reveal_extra_css: local.css
+
+# #+HTML: <script src="https://cdnjs.cloudflare.com/ajax/libs/headjs/0.96/head.min.js"></script>
+
+* LaTeX settings                                :noexport:
+
+#+LaTeX_header: \usepackage{amsthm}
+#+LaTeX_header: \theoremstyle{definition}
+#+LaTeX_header: \newtheorem{definition}{Definition}[section]
+
+#+LaTeX_header: \usepackage{unicode-math}
+#+LaTeX_header: \usepackage{unicode}
+
+* Preamble
+:PROPERTIES:
+:CUSTOM_ID: Preamble
+:END:
+
+** TODO Notable references
+:PROPERTIES:
+:CUSTOM_ID: Notable-references
+:END:
+
+:TODO:
+
+** TODO Table of contents
+:PROPERTIES:
+:CUSTOM_ID: Table-of-contents
+:END:
+
+# The table of contents are added using org-reveal-manual-toc,
+# and so must be updated upon changes or added last.
+# Note that hidden headings are included, and so must be deleted!
+
+#+HTML: <font size="-1">
+#+begin_scriptsize
+  - [[Preamble][Preamble]]
+#+end_scriptsize
+#+HTML: </font>
+
+* Introduction
+:PROPERTIES:
+:CUSTOM_ID: Introduction
+:END:
+
+In this section we leave behind the “pure” languages
+which we have considered so far, and discuss the central features
+of imperative languages.
+
+We then construct a simple imperative language,
+based on the ~while~ loop,
+giving several approaches to defining its semantics
+(and extend the language slightly.)
+
+* The “Von Neumann Architecture”
+:PROPERTIES:
+:CUSTOM_ID: The-“Von-Neumann-Architecture”
+:END:
+
+:TODO:
+
+* Imperative traits
+:PROPERTIES:
+:CUSTOM_ID: Imperative-traits
+:END:
+
+:TODO:
+
+* The /WHILE/ language
+:PROPERTIES:
+:CUSTOM_ID: The-/WHILE/-language
+:END:
+
+We now construct a simple imperative language,
+and give a stack-machine based semantics for it
+followed by a “small-step”, reduction based semantics for it.
+
+After this, we will extend the language slightly
+and provide other approaches to its semantics.
+
+To begin, the language consists of
+- integer expressions, which may involve (integer-valued) variables,
+- boolean tests, which can only appear in conditional/iteration constructs, and
+- statements, which include assignment, composition, a conditional ~if~,
+  and the iterating ~while~ statement.
+
+** Syntax
+:PROPERTIES:
+:CUSTOM_ID: Syntax
+:END:
+
+#+begin_src text
+⟨expr⟩ ∷= constant_integer | variable
+        | ⟨expr⟩ ('+' | '*' | '-' | '÷') ⟨expr⟩
+
+⟨test⟩ ∷= ⟨expr⟩ ('=' | '<' | '>') ⟨expr⟩
+        | ⟨test⟩ ('and' | 'or') ⟨test⟩
+
+⟨stmt⟩ ∷= 'skip'
+        | variable '≔' ⟨expr⟩
+        | ⟨stmt⟩ ';' ⟨stmt⟩
+        | 'if' ⟨test⟩ 'then' ⟨stmt⟩ 'else' ⟨stmt⟩
+        | 'while' ⟨test⟩ 'do' ⟨stmt⟩
+#+end_src
+
+** A stack-machine semantics for /WHILE/
+:PROPERTIES:
+:CUSTOM_ID: A-stack-machine
+:END:
+
+Constants are simply moved from the control stack to the results stack.
+#+begin_src text
+⟨n ∙ c, r, σ⟩ ↝ ⟨c, n ∙ r, σ⟩
+#+end_src
+
+For variables, we instead place the value of the variable
+at the current state onto the results stack.
+#+begin_src text
+⟨v ∙ c, r, σ⟩ ↝ ⟨c, σ(v) ∙ r, σ⟩
+#+end_src
+
+#+begin_src text
+⟨'E₁ op E₂' ∙ c, r, σ⟩ ↝ ⟨E₂ ∙ E₁ ∙ op ∙ c, σ(v) ∙ r, σ⟩
+
+⟨op ∙ c, n₁ ∙ n₂ ∙ r, σ⟩ ↝ ⟨c, n ∙ r, σ⟩   where n = n₁ op n₂
+#+end_src
+
+** A small-step semantics for /WHILE/
+
+* The /WHILE/ language with scoping
+:PROPERTIES:
+:CUSTOM_ID: The-/WHILE/-language-with-scoping
+:END:
+
+We now extend our /WHILE/ language with the necessary syntax
+to express /variable scopes/, and then give
+scoping rules for programs.
+
+Our approach introduces both /global/ and /local/ variables.
+- Global variables may be considered to be the input/output to the program
+  in this model.
+
+** Syntax
+
+#+begin_src text
+⟨expr⟩ ∷= constant_integer | variable
+        | ⟨expr⟩ ('+' | '*' | '-' | '÷') ⟨expr⟩
+
+⟨test⟩ ∷= ⟨expr⟩ ('=' | '<' | '>') ⟨expr⟩
+        | ⟨test⟩ ('and' | 'or') ⟨test⟩
+
+⟨stmt⟩ ∷= 'skip'
+        | 'local' variable 'in' ⟨stmt⟩
+        | variable '≔' ⟨expr⟩
+        | ⟨stmt⟩ ';' ⟨stmt⟩
+        | 'if' ⟨test⟩ 'then' ⟨stmt⟩ 'else' ⟨stmt⟩
+        | 'while' ⟨test⟩ 'do' ⟨stmt⟩
+
+⟨prog⟩ ∷= ⟨globals⟩ ⟨stmt⟩
+
+⟨globals⟩ ∷= 'global' { variable }
+#+end_src
+
+** The scoping rules
+
+:TODO:
+
+** A small-step semantics for /WHILE/ with scoping
+
+:TODO:
+
+** A /big-step/ semantics for /WHILE/ with scoping
+
+:TODO:

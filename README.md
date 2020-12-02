@@ -658,17 +658,13 @@ The slides are available as
   - [PDF](./notes/6--A-typed-lambda-calculus-TL.pdf)
   - [Org plaintext](./notes/6--A-typed-lambda-calculus-TL.org)
 
-### 7 – Imperativeness
+### 7 – Imperativeness and an imperative core, *WHILE*
 
-  - [Online slides](./notes/7--Imperativeness.html)
-  - [PDF](./notes/7--Imperativeness.pdf)
-  - [Org plaintext](./notes/7--Imperativeness.org)
-
-### 8 – An imperative core, *WHILE*
-
-  - [Online slides](./notes/8--An-imperative-core-While.html)
-  - [PDF](./notes/8--An-imperative-core-While.pdf)
-  - [Org plaintext](./notes/8--An-imperative-core-While.org)
+  - [Online
+    slides](./notes/7--Imperativeness-and-an-imperative-core-WHILE.html)
+  - [PDF](./notes/7--Imperativeness-and-an-imperative-core-WHILE.pdf)
+  - [Org
+    plaintext](./notes/7--Imperativeness-and-an-imperative-core-WHILE.org)
 
 ### Appendix 1 – Notation and conventions
 

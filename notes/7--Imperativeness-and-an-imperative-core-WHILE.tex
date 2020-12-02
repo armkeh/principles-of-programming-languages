@@ -1,0 +1,183 @@
+% Created 2020-12-02 Wed 11:26
+% Intended LaTeX compiler: lualatex
+\documentclass[11pt]{article}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{etoolbox}
+\makeatletter
+\def\dontdofcolorbox{\renewcommand\fcolorbox[4][]{##4}}
+\AtBeginEnvironment{minted}{\dontdofcolorbox}
+\makeatother
+\usepackage[newfloat]{minted}
+\usepackage{amsthm}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\usepackage{unicode-math}
+\usepackage{unicode}
+\author{Mark Armstrong}
+\date{Fall 2020}
+\title{Imperativeness and an imperative core \emph{WHILE}\\\medskip
+\large Principles of Programming Languages}
+\hypersetup{
+   pdfauthor={Mark Armstrong},
+   pdftitle={Imperativeness and an imperative core \emph{WHILE}},
+   pdfkeywords={},
+   pdfsubject={Discussion of traits of the imperative programming paradigm not found in pure functional languages. a small imperative language.},
+   pdfcreator={Emacs 27.0.91 (Org mode 9.4)},
+   pdflang={English},
+   colorlinks,
+   linkcolor=blue,
+   citecolor=blue,
+   urlcolor=blue
+   }
+\begin{document}
+
+\maketitle
+
+\section{Preamble}
+\label{sec:orged3510b}
+\subsection{{\bfseries\sffamily TODO} Notable references}
+\label{sec:orgb8689bc}
+:TODO:
+
+\subsection{{\bfseries\sffamily TODO} Table of contents}
+\label{sec:orgeddbb05}
+\begin{scriptsize}
+\begin{itemize}
+\item \hyperref[sec:orged3510b]{Preamble}
+\end{itemize}
+\end{scriptsize}
+
+\section{Introduction}
+\label{sec:org6581f99}
+In this section we leave behind the “pure” languages
+which we have considered so far, and discuss the central features
+of imperative languages.
+
+We then construct a simple imperative language,
+based on the \texttt{while} loop,
+giving several approaches to defining its semantics
+(and extend the language slightly.)
+
+\section{The “Von Neumann Architecture”}
+\label{sec:org529b2db}
+:TODO:
+
+\section{Imperative traits}
+\label{sec:org87f99dd}
+:TODO:
+
+\section{The \emph{WHILE} language}
+\label{sec:org9936eda}
+We now construct a simple imperative language,
+and give a stack-machine based semantics for it
+followed by a “small-step”, reduction based semantics for it.
+
+After this, we will extend the language slightly
+and provide other approaches to its semantics.
+
+To begin, the language consists of
+\begin{itemize}
+\item integer expressions, which may involve (integer-valued) variables,
+\item boolean tests, which can only appear in conditional/iteration constructs, and
+\item statements, which include assignment, composition, a conditional \texttt{if},
+and the iterating \texttt{while} statement.
+\end{itemize}
+
+\subsection{Syntax}
+\label{sec:orga8c34ba}
+\begin{minted}[breaklines=true]{text}
+⟨expr⟩ ∷= constant_integer | variable
+        | ⟨expr⟩ ('+' | '*' | '-' | '÷') ⟨expr⟩
+
+⟨test⟩ ∷= ⟨expr⟩ ('=' | '<' | '>') ⟨expr⟩
+        | ⟨test⟩ ('and' | 'or') ⟨test⟩
+
+⟨stmt⟩ ∷= 'skip'
+        | variable '≔' ⟨expr⟩
+        | ⟨stmt⟩ ';' ⟨stmt⟩
+        | 'if' ⟨test⟩ 'then' ⟨stmt⟩ 'else' ⟨stmt⟩
+        | 'while' ⟨test⟩ 'do' ⟨stmt⟩
+\end{minted}
+
+\subsection{A stack-machine semantics for \emph{WHILE}}
+\label{sec:org6abbb62}
+Constants are simply moved from the control stack to the results stack.
+\begin{minted}[breaklines=true]{text}
+⟨n ∙ c, r, σ⟩ ↝ ⟨c, n ∙ r, σ⟩
+\end{minted}
+
+For variables, we instead place the value of the variable
+at the current state onto the results stack.
+\begin{minted}[breaklines=true]{text}
+⟨v ∙ c, r, σ⟩ ↝ ⟨c, σ(v) ∙ r, σ⟩
+\end{minted}
+
+\begin{minted}[breaklines=true]{text}
+⟨'E₁ op E₂' ∙ c, r, σ⟩ ↝ ⟨E₂ ∙ E₁ ∙ op ∙ c, σ(v) ∙ r, σ⟩
+
+⟨op ∙ c, n₁ ∙ n₂ ∙ r, σ⟩ ↝ ⟨c, n ∙ r, σ⟩   where n = n₁ op n₂
+\end{minted}
+
+\subsection{A small-step semantics for \emph{WHILE}}
+\label{sec:orgf0c8785}
+
+\section{The \emph{WHILE} language with scoping}
+\label{sec:orgc00abd3}
+We now extend our \emph{WHILE} language with the necessary syntax
+to express \emph{variable scopes}, and then give
+scoping rules for programs.
+
+Our approach introduces both \emph{global} and \emph{local} variables.
+\begin{itemize}
+\item Global variables may be considered to be the input/output to the program
+in this model.
+\end{itemize}
+
+\subsection{Syntax}
+\label{sec:orgc3ff243}
+
+\begin{minted}[breaklines=true]{text}
+⟨expr⟩ ∷= constant_integer | variable
+        | ⟨expr⟩ ('+' | '*' | '-' | '÷') ⟨expr⟩
+
+⟨test⟩ ∷= ⟨expr⟩ ('=' | '<' | '>') ⟨expr⟩
+        | ⟨test⟩ ('and' | 'or') ⟨test⟩
+
+⟨stmt⟩ ∷= 'skip'
+        | 'local' variable 'in' ⟨stmt⟩
+        | variable '≔' ⟨expr⟩
+        | ⟨stmt⟩ ';' ⟨stmt⟩
+        | 'if' ⟨test⟩ 'then' ⟨stmt⟩ 'else' ⟨stmt⟩
+        | 'while' ⟨test⟩ 'do' ⟨stmt⟩
+
+⟨prog⟩ ∷= ⟨globals⟩ ⟨stmt⟩
+
+⟨globals⟩ ∷= 'global' { variable }
+\end{minted}
+
+\subsection{The scoping rules}
+\label{sec:orgf92d1f4}
+
+:TODO:
+
+\subsection{A small-step semantics for \emph{WHILE} with scoping}
+\label{sec:org53cd557}
+
+:TODO:
+
+\subsection{A \emph{big-step} semantics for \emph{WHILE} with scoping}
+\label{sec:org79a7913}
+
+:TODO:
+\end{document}
