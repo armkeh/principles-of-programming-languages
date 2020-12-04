@@ -12,6 +12,13 @@ better viewed at
 
 ## December
 
+  - December 4th
+    
+      - Homework 10 is now posted, focussed on concurrency. To account
+        for the shorter time before the deadline, the majority of the
+        solution is provided; you must only adjust the code to take
+        advantage of concurrency.
+
   - December 2nd  
     Assignment 3 is now posted. There should not be major changes to it,
     but the testing is not posted yet.
@@ -945,6 +952,13 @@ significant difference between Monday and Wednesday.
 # Homework
 
 ## Current homeworks
+
+### Homework 10 – Using concurrency to break up large problems – Dec 4th to Dec 9th
+
+  - [HTML](./homework/h10.html)
+  - [PDF](./homework/h10.pdf)
+  - [Org
+plaintext](./homework/h10.org)
 
 ### Homework 9 – Adding “guarded commands” to Clojure – Nov 29th to Dec 9th
 

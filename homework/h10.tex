@@ -1,0 +1,382 @@
+% Created 2020-12-04 Fri 01:54
+% Intended LaTeX compiler: lualatex
+\documentclass[11pt]{article}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{etoolbox}
+\makeatletter
+\def\dontdofcolorbox{\renewcommand\fcolorbox[4][]{##4}}
+\AtBeginEnvironment{minted}{\dontdofcolorbox}
+\makeatother
+\usepackage[newfloat]{minted}
+\author{Mark Armstrong}
+\date{December 4, 2020}
+\title{Computer Science 3MI3 – 2020 homework 10\\\medskip
+\large Using concurrency to break up large problems}
+\hypersetup{
+   pdfauthor={Mark Armstrong},
+   pdftitle={Computer Science 3MI3 – 2020 homework 10},
+   pdfkeywords={},
+   pdfsubject={Making use of concurrency approaches in all of our languages.},
+   pdfcreator={Emacs 27.0.91 (Org mode 9.4)},
+   pdflang={English},
+   colorlinks,
+   linkcolor=blue,
+   citecolor=blue,
+   urlcolor=blue
+   }
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+
+\section*{Introduction}
+\label{sec:org939084e}
+This homework presents a somewhat contrived problem
+involving a computation over a slightly large dataset
+in order to justify the use of concurrency.
+
+This problem is based on the one presented on
+\href{https://adventofcode.com/2020/day/1}{day 1} of
+the \href{https://adventofcode.com/}{Advent of Code} programming challenge
+for 2020.
+
+The homework provides a solution to the problem in Clojure, Ruby
+and Scala, and asks you to modify the solutions
+to take advantage of concurency.
+
+\section*{Boilerplate}
+\label{sec:org0f4eff5}
+\subsection*{Submission procedures}
+\label{sec:org544194e}
+\subsubsection*{Submission method}
+\label{sec:org7fd6809}
+
+Homework should be submitted to your McMaster CAS Gitlab respository
+in the \texttt{cs3mi3-fall2020} project.
+
+Ensure that you have \textbf{pushed} the commits to the remote repository
+in time for the deadline, and not just committed to your local copy.
+
+\subsubsection*{Naming requirements}
+\label{sec:org1372593}
+
+Place all files for the homework
+inside a folder titled \texttt{hn}, where \texttt{n} is the number of the homework.
+So, for homework 1, use the folder \texttt{h1}, for homework 2 the folder \texttt{h2}, etc.
+Ensure you do not capitalise the \texttt{h}.
+
+Unless otherwise instructed in the homework questions,
+place all of your code for the homework
+in a single file in the \texttt{hn} folder named \texttt{hn.ext},
+where \texttt{ext} is the appropriate extension for the language used
+according to this list:
+\begin{itemize}
+\item For Scala, \texttt{ext} is \texttt{sc}.
+\item For Prolog, \texttt{ext} is \texttt{pl}.
+\item For Ruby, \texttt{ext} is \texttt{rb}.
+\item For Clojure, \texttt{ext} is \texttt{clj}.
+\end{itemize}
+If multiple languages are used in the homework,
+submit a \texttt{hn.ext} file for each language.
+
+\begin{center}
+\textbf{If the language supports multiple different file extensions,}
+\textbf{you must still follow the extension conventions above.}
+\end{center}
+
+\begin{center}
+\textbf{Incorrect naming of files may result in up to a 10\% deduction in your grade.}
+\end{center}
+
+\subsubsection*{Do not submit testing or diagnostic code}
+\label{sec:org8500c74}
+
+Unless you are instructed to do so in the homework questions,
+\textbf{you should not submit testing code with your homework submission}.
+
+This includes
+\begin{itemize}
+\item any \texttt{main} function,
+\item any \texttt{print} statements which output information
+\textbf{that is not directly requested as console output}
+\textbf{in the homework questions}.
+\end{itemize}
+
+If you do not wish to remove diagnostic print statements manually,
+you will have to find a way to ensure that they disabled
+in your final submission.
+
+For instance, by using a wrapper on the print function or macros.
+
+\subsubsection*{Due date and allowance for technical difficulties}
+\label{sec:orgaf85af1}
+
+Homework is due on the second Sunday following its release,
+by the end of the day (midnight).
+Submissions past 00:00 may not be considered.
+
+If you experience technical difficulties
+leading up to the submission time,
+please contact Mark \textbf{ASAP} with the details of the problem
+and, if possible, attach the current state of your homework
+to the communication.
+This information will help ensure we are able
+to accept your submission once the technical difficulties are resolved.
+
+\subsection*{Proper conduct for coursework}
+\label{sec:orga7b2f7b}
+\subsubsection*{Individual work}
+\label{sec:org48deb27}
+
+Unless explicitely stated in the homework questions,
+all homework in this course is intended
+to be \emph{individually completed}.
+
+You are welcome to discuss the content of the homework in
+the public forum of the class Microsoft Teams team homework channel,
+though obviously solutions or partial solutions should not
+be posted or described.
+
+Private discussions about the homework cannot reasonably be
+forbidden, but such discussions should follow the same guidelines
+as public discussions.
+
+\begin{center}
+\textbf{Inappopriate collaboration via private discussions}
+\textbf{which is later discovered by course staff}
+\textbf{may be considered academic dishonesty.}
+
+When in doubt, make the discussion private, or report its contents
+to the course staff by making a note of it
+in your homework.
+\end{center}
+
+To clarify what is considered appropriate discussions
+of homework content, here are some examples:
+\begin{enumerate}
+\item Discussing the language features introduced or needed for the homework.
+\begin{itemize}
+\item Such as relevant builtin datatypes
+and datatype definition methods and their general use.
+\item Code snippets that are not partial solutions to the homework
+are welcome and encouraged.
+\end{itemize}
+\item Questions of the form “What is meant by \texttt{x}?”,
+“Does \texttt{x} really mean \texttt{y}?” or “Is there a mistake with \texttt{x}?”
+\begin{itemize}
+\item Of course, questions of those form which would be answered
+by partial solutions are not considered appropriate.
+\end{itemize}
+\item Questions or advice about errors that may be encountered.
+\begin{itemize}
+\item Such as “If you see a \texttt{scala.MatchError} you should
+probably add a catch-all \texttt{\_} case to your \texttt{match} expressions.”
+\end{itemize}
+\end{enumerate}
+
+\subsubsection*{Language library resources}
+\label{sec:org431b8bb}
+
+Unless explicitely stated in the questions,
+it is not expected that you will use any language library resources
+in the homeworks.
+
+Possible exceptions to this rule include implementations
+of datatypes we discuss in this course, such as lists
+or options/maybes, if they are included in a standard library
+instead of being builtin.
+
+\emph{Basic} operations on such types would also be allowed.
+\begin{itemize}
+\item For instance, \texttt{head}, \texttt{tail}, \texttt{append}, etc. on lists
+would not require explicit permission to be used.
+\item More complex operations such as sorting procedures
+would require permission before you used them.
+\end{itemize}
+
+Additionally, the standard \emph{higher-order} operations
+including \texttt{map}, \texttt{reduce}, \texttt{flatten}, and \texttt{filter} are permitted generally,
+unless the task is to implement such a higher-order operator.
+
+\section*{Part 0: The problem}
+\label{sec:org0735334}
+You are provided with a collection of integers for this homework.
+What we want to compute on this collection is:
+Given an integer \texttt{sum}, find all possible pairs
+of (two of) those integers whose sum is less than or equal to \texttt{sum},
+and return a sequence of those pairs.
+
+(The pairing of one of the integers with itself is
+assumed not to count, unless that integer
+appears twice in the provided collection.)
+
+Code is provided which solves this problem in Clojure,
+Ruby and Scala. Your task is then to improve the performance
+of this code using concurrency.
+
+Note that we will not test for the exact ordering of the sequence,
+and it is not required to be in a specific order.
+We will instead test for membership within the list.
+
+The collection is available \href{./src/h10/collection.txt}{here} in plaintext,
+and below as a defined sequence in each language.
+
+\section*{Part 1: Clojure [15 points]}
+\label{sec:orgb4b9385}
+The given collection is available in the file \href{./src/h10/collection.clj}{collection.clj},
+which defines it as a Clojure array \texttt{input}.
+
+Below, you will see the function \texttt{summingPairs} implemented in Clojure
+to solve our given problem.
+
+Implement a version of \texttt{summingPairs} which takes advantage of
+the \texttt{future} form to run parts of the computation in separate threads.
+You may choose how many threads to make use of.
+Try to improve the performance of \texttt{summingPairs} through this process.
+
+Here is the function:
+\begin{minted}[breaklines=true]{clojure}
+(defn summingPairs [xs sum]
+  (letfn [(summingPairsHelper [xs the_pairs]
+            ;; If `xs` is empty, we're done.
+            (if (empty? xs) the_pairs
+                ;; Otherwise, decompose `xs` into the `fst` element
+                ;; and the `rest`.
+                (let [[fst & rest] xs]
+                  ;; We use the `recur` form to make the recursive call.
+                  ;; This ensures tail call optimisation
+                  (recur
+                   rest
+                   ;; Concatenate `the_pairs` we have so far with the sequence
+                   ;; of every `[fst snd]` where `snd` is in `rest` with
+                   ;; `fst + snd <= sum`. The `doall` outside the `concat`
+                   ;; forces it to be calculated immediately; without this,
+                   ;; we get a (lazy) buildup of `concat`'s which may
+                   ;; cause a stack overflow when looking at the result.
+                   (doall 
+                    (concat the_pairs
+                            (for [snd rest ;; For each `snd` in `rest`...
+                                  :when (<= (+ fst snd) sum)]
+                              ;;... put `[fst snd]` into this sequence.
+                              [fst snd])))))))]
+    (summingPairsHelper xs [])))
+\end{minted}
+
+It can be run over the \texttt{input} using the following code,
+which also shows the starting and ending time of the computation,
+so you may judge its performance.
+\begin{minted}[breaklines=true]{clojure}
+(load-file "./collection.clj")
+
+(println (str
+          "Starting at:   "
+          (.getSecond (java.time.LocalDateTime/now))
+          " seconds, "
+          (.getNano (java.time.LocalDateTime/now))
+          " nanoseconds"))
+(println (summingPairs input 2020))
+(println (str
+          "Ending at:     "
+          (.getSecond (java.time.LocalDateTime/now))
+          " seconds, "
+          (.getNano (java.time.LocalDateTime/now))
+          " nanoseconds"))
+\end{minted}
+
+\section*{Part 2: Ruby    [15 points]}
+\label{sec:org167af2d}
+Repeat part 1 in Ruby, potentially using the below method \texttt{summingPairs} as
+a starting point.
+
+The \texttt{input} collection is defined as a Ruby array
+in the file \href{./src/h10/collection.rb}{collection.rb}.
+
+The method:
+\begin{minted}[breaklines=true]{ruby}
+Pair = Struct.new(:fst,:snd)
+
+def summingPairs(xs, sum)
+  the_pairs = []
+  len = xs.length
+
+  for i in 0..(len-1)
+    for j in (i+1)..(len-1)
+      if xs[i] + xs[j] <= sum
+        the_pairs.push(Pair.new(xs[i],xs[j]))
+      end
+    end
+  end
+
+  return the_pairs
+end
+\end{minted}
+
+And code to make use of it on the \texttt{input} array:
+\begin{minted}[breaklines=true]{ruby}
+require 'date'
+require_relative 'collection'
+
+puts "Starting at:   #{DateTime.now.sec} seconds, #{DateTime.now.strftime("%9N")} nanoseconds"
+puts summingPairs(INPUT,2020)
+puts "Ending at:     #{DateTime.now.sec} seconds, #{DateTime.now.strftime("%9N")} nanoseconds"
+\end{minted}
+
+\section*{Part 3: Scala   [15 points]}
+\label{sec:org1e121fb}
+Once more, repeat parts 1 and 2, this time in Scala.
+You may make use of the below method \texttt{summingPairs} if you like.
+
+This time, the \texttt{input} collection is defined as a Scala array
+in \href{./src/h10/collection.sc}{collection.sc}. Note this is an array, not a list as we have
+usually made use of in Scala.
+The size of the collection necessitated avoiding the (linked) list type.
+
+The method:
+\begin{minted}[breaklines=true]{scala}
+def summingPairs(xs: Vector[Int], sum: Int): Vector[Tuple2[Int,Int]] = {
+  def summingPairsHelper(xs: Vector[Int],
+                         the_pairs: Vector[Tuple2[Int,Int]]): Vector[Tuple2[Int,Int]] =
+    xs match {
+      case fst +: rest =>
+        // Search through `rest` for numbers `snd` such that `fst + snd` is the `sum`.
+        val pairs_here = rest.collect({case snd if fst + snd <= sum => (fst,snd)})
+        // Make the recursive call, adding in the pairs we just found.
+        summingPairsHelper(rest, the_pairs ++ pairs_here)
+      case _ => the_pairs // If there's no head element, the vector is empty.
+    }
+  
+  summingPairsHelper(xs,Vector())
+}
+\end{minted}
+
+And code to make use of it on the \texttt{input} array:
+\begin{minted}[breaklines=true]{scala}
+import java.time.LocalDateTime
+import $file.collection, collection._
+
+println(s"Starting at:   ${LocalDateTime.now.getSecond} seconds, ${LocalDateTime.now.getNano} nanoseconds")
+println(summingPairs(input,2020))
+println(s"Ending at:     ${LocalDateTime.now.getSecond} seconds, ${LocalDateTime.now.getNano} nanoseconds")
+\end{minted}
+
+\section*{Part 4: Prolog  [5 bonus points]}
+\label{sec:org536e8db}
+For bonus marks, implement a \texttt{summingPairs} predicate in Prolog,
+making use of the \texttt{concurrent} predicate.
+
+\section*{Testing}
+\label{sec:orge0743ff}
+:TODO:
+\end{document}

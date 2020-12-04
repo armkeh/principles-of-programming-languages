@@ -11,6 +11,9 @@
 #+LaTeX_header: \usepackage{unicode}
 
 * Introduction
+:PROPERTIES:
+:CUSTOM_ID: Introduction
+:END:
 
 Here we briefly explore (some of) the techniques to take advantage
 of concurrency and parallelism in the languages we have used
@@ -18,7 +21,7 @@ throughout the course.
 
 Our context for this discussion will be the problem
 of computing them maximum element of an (unsorted) tree of integers.
-This naturally leads to a divide an conquer approach,
+This naturally leads to a divide and conquer approach,
 which can easily take advantage of concurrency,
 while also avoiding the issues that can arise from concurrent execution.
 We do give a brief discussion of these issues before
@@ -28,6 +31,9 @@ We justify the use of this problem to frame our exploration
 with a discussion at the end of the notes.
 
 * Some brief background
+:PROPERTIES:
+:CUSTOM_ID: Some-brief-background
+:END:
 
 The following should be review from other courses,
 most notably from “Concurrent Systems”.
@@ -36,6 +42,9 @@ this will be a sufficient introduction
 for our purposes here.
 
 ** Concurrency vs. parallelism
+:PROPERTIES:
+:CUSTOM_ID: Concurrency-vs. parallelism
+:END:
 
 To define concurrency and parallelism, we must refer to
 “tasks being executed”.
@@ -67,6 +76,9 @@ unless we specifically mean that tasks are executed at
 the exact same time.
 
 ** Process vs. thread
+:PROPERTIES:
+:CUSTOM_ID: Process-vs. thread
+:END:
 
 A /process/ is an instance of a program being executed on a machine.
 The machine, usually through an operating system,
@@ -81,18 +93,45 @@ A single process process may be made up of several threads;
 so long as the process is being executed, there is at least
 one thread (of execution.)
 
+So, this gives rise to two approaches to concurrency:
+using multiple processes or using multiple threads.
+Processes are more independent, and usually more costly to create
+(because the system must allocate them memory.)
+Threads may be more dangerous, because they inherently share
+memory, which can lead to errors.
+
 ** Race condition vs. deadlock vs. starvation
+:PROPERTIES:
+:CUSTOM_ID: Race-condition-vs. deadlock-vs. starvation
+:END:
 
 Race conditions, deadlock and starvation are all classes of error
 that can occur when using concurrency.
 
-A /race condition/ refers to an error that arises when …
+A /race condition/ refers to an error that arises when
+one thread of execution performs a task
+before another thread of execution expected it to be done.
+Common instances include
+- writing to memory while a thread expected memory
+  to remain the same,
+- :TODO:
 
-A /deadlock/ refers to an error that arises when …
+A /deadlock/ refers to an error that arises when
+multiple threads of execution are all waiting for access
+or control of some resources, and each holds
+a resource that the other is waiting for.
+This means no progress can be made until one thread
+relinquishes control of the resource it is holding.
 
-A task is said to /starve/ when …
+A task is said to /starve/ when it is waiting for
+access or control of some resource, but it does not
+get that access or control due to other threads “locking it out”
+(either indefinitely, or for an unacceptable amount of time.)
 
 * Creating threads with futures in Clojure
+:PROPERTIES:
+:CUSTOM_ID: Creating-threads-with-futures-in-Clojure
+:END:
 
 ** Preamble                                    :ignore:
 
@@ -122,6 +161,9 @@ Then we will show a single-threaded implementation of the maximum
 function, and finally rework it into an approach using threads via futures.
 
 ** Representing trees in Clojure
+:PROPERTIES:
+:CUSTOM_ID: Representing-trees-in-Clojure
+:END:
 
 Quite simply, we will consider /nested sequences/ to be trees.
 We will use the convention (at least for these notes)
@@ -136,12 +178,15 @@ can be written
 #+end_src
 
 #+RESULTS:
-: Please reevaluate when nREPL is connected
+| 1 | (2) | (3 (4) (5)) |
 
 Note that in the case that a tree has no children,
 we omit the rest of the list.
 
 ** Finding the maximum of a tree
+:PROPERTIES:
+:CUSTOM_ID: Finding-the-maximum-of-a-tree
+:END:
 
 #+begin_src clojure
 (defn maximum-tree
@@ -151,7 +196,7 @@ we omit the rest of the list.
 representing trees containing integers."
   [t]
   (if
-    (empty? t) ##-Inf
+    (empty? t) ##-Inf ;; Negative infinity
     ;; Use list deconstruction to separate the `label` and the list of `children`.
     (let [[label left right] t]
       (max label (maximum-tree left) (maximum-tree right)))))
@@ -161,20 +206,229 @@ representing trees containing integers."
 : #'user/maximum-tree
 
 #+begin_src clojure
-(maximum-tree [1 [2] [3 [4] [5]]])
+(maximum-tree [1 [2] [3 [4 [10] [20]] [5]]])
 #+end_src
 
 #+RESULTS:
-: 5
+: 20
 
 ** Using futures
+:PROPERTIES:
+:CUSTOM_ID: Using-futures
+:END:
 
-:TODO:
+#+begin_src clojure
+(defn maximum-tree
+  "Find the maximum element of a tree of integers `t`.
+`t` is assumed to be a list whose first element is an integer
+(the label of the root) and whose remaining elements are lists
+representing trees containing integers."
+  [t]
+  (print   "Finding the maximum of ")
+  (println t)
+  (if
+    (empty? t) ##-Inf ;; Negative infinity
+    ;; Use list deconstruction to separate the `label` and the list of `children`.
+    (let [[label left right] t]
+      (let [max-left  (future (maximum-tree left))
+            max-right (future (maximum-tree right))]
+        ;; Need to dereference the reference of the futures
+        ;; either using the `deref` form or an `@`.
+        (max label @max-left @max-right)))))
+#+end_src
+
+#+RESULTS:
+: #'user/maximum-tree
 
 * Forking processes in Ruby
+:PROPERTIES:
+:CUSTOM_ID: Forking-processes-in-Ruby
+:END:
 
-:TODO:
+** Introduction
+
+# NOTE TO SELF: the below example does not behave as expected
+# when executing the block. Execute the tangled code instead.
+
+In Ruby, we can generate new /processes/ easily using the ~fork~ method.
+#+begin_src ruby :results output :tangle src/ruby-processes.rb
+10.times do |i|
+  fork do
+    sleep 3
+    puts "I am process #{i}"
+  end
+end
+
+puts "All started."
+Process.waitall
+puts "All done."
+#+end_src
+The ~Process.waitall~ method can be used to wait for
+all “child” processes to finish their execution. 
+
+Watch out for “zombie” processes if you do not wait!
+#+begin_src ruby :results output :tangle src/ruby-zombie-processes.rb
+10.times do |i|
+  fork do
+    sleep 3
+    puts "I'm zombie number #{i}!"
+  end
+end
+abort "The main process has aborted, but the children might still act."
+#+end_src
+
+** Summing trees
+
+Now, consider an implementation of these trees
+with a ~sumtree~ operation in Ruby.
+#+begin_src ruby :results output :tangle ./src/ruby-concurrent-sumtree.rb
+class Tree
+  def sumtree()
+    case self
+    when Leaf
+      0
+    when Branch
+      # Non-concurrent solution:
+      # self.data + self.lchild.sumtree + self.rchild.sumtree
+
+      # Concurrent solution:
+      # To communicate betwen processes, we use an IO pipe.
+      reader, writer = IO.pipe
+      fork do
+        sum = self.lchild.sumtree 
+        writer.puts(sum) # Print the result to the pipe.
+      end
+      fork do
+        sum = self.rchild.sumtree
+        writer.puts(sum) # Print the result to the pipe.
+      end
+      Process.waitall
+      sum1 = reader.gets.to_i   # Read one result and convert it to an integer.
+      sum2 = reader.gets.to_i   # Read the other result and convert it.
+
+      self.data + sum1 + sum2
+    end
+  end
+end
+
+class Leaf < Tree
+end
+
+class Branch < Tree
+  attr_reader :lchild
+  attr_reader :rchild
+  attr_reader :data
+
+  def initialize(l,v,r)
+    @lchild = l
+    @rchild = r
+    @data = v
+  end
+end
+
+x = Leaf.new
+puts x.sumtree
+
+x = Branch.new(Branch.new(Branch.new(Leaf.new,
+                                     5,
+                                     Leaf.new),
+                         3,
+                         Leaf.new),
+               1,
+               Branch.new(Leaf.new,
+                          2,
+                          Leaf.new))
+puts x.sumtree
+#+end_src
+
+#+RESULTS:
+
+* The ~thread~ library in Prolog
+
+In (SWI) Prolog, one method to run goals concurrently is
+the [[https://www.swi-prolog.org/pldoc/man?section=thread][thread]] library,
+which provides high-level threading primitives.
+
+(There may be other methods, and there may be different methods
+ in non-SWI implementations.)
+
+The simplest predicate in the library is ~concurrent~.
+~concurrent(N,Goals,Options)~ runs
+- each goal in the list of goals ~Goals~,
+- using ~N~ threads, and
+- initialising each thread with the list of options ~Options~.
+#+begin_src prolog :tangle ./src/sumtree.pl
+sumtree(empty,0).
+sumtree(branch(T1,V,T2),N) :-
+        % sumtree(T1,N1),
+        % sumtree(T2,N2),
+        concurrent(2,[sumtree(T1,N1),sumtree(T2,N2)],[]),
+        N is V + N1 + N2.
+#+end_src
+
+* Futures in Scala
+
+#+begin_src amm
+sealed trait Tree
+case object Leaf extends Tree
+case class Branch(left: Tree, n: Int, right: Tree) extends Tree
+
+def sumtree(t: Tree): Int = t match {
+  case Leaf => 0
+  case Branch(l,n,r) =>
+    sumtree(l) + n + sumtree(r)
+}
+#+end_src
+
+#+RESULTS:
+: defined trait Tree
+: defined object Leaf
+: defined class Branch
+: defined function sumtree
+
+#+begin_src amm
+import scala.concurrent.Future
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.util.{Try, Success, Failure}
+#+end_src
+
+#+begin_src amm
+def sumtree(t: Tree): Int = t match {
+  case Leaf => 0
+  case Branch(l,v,r) =>
+    val l_sum = Future { sumtree(l) }
+    val r_sum = Future { sumtree(r) }
+    l_sum + r_sum + v
+}
+#+end_src
+
+#+RESULTS:
+: cmd6.sc:6: type mismatch;
+:  found   : scala.concurrent.Future[Int]
+:  required: String
+:     l_sum + r_sum + v
+:             ^
+: Compilation Failed
+
+#+begin_src amm
+def sumtree_future(t: Tree): Future[Int] = t match { 
+  case Leaf => Future { 0 }
+  case Branch(l,n,r) =>
+    val l_sum: Future[Int] = sumtree_future(l)
+    val r_sum: Future[Int] = sumtree_future(r)
+
+    l_sum.flatMap(the_l_sum =>
+      r_sum.flatMap(the_r_sum =>
+        Future { n + the_l_sum + the_r_sum }))
+}
+#+end_src
+
+#+RESULTS:
+: defined function sumtree_future
 
 * Justifying our example problem
+:PROPERTIES:
+:CUSTOM_ID: Justifying-our-example-problem
+:END:
 
 :TODO:

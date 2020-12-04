@@ -18,6 +18,14 @@
 :CUSTOM_ID: December
 :END:
 
+- December 4th ::
+
+  - Homework 10 is now posted, focussed on concurrency.
+    To account for the shorter time before the deadline,
+    the majority of the solution is provided;
+    you must only adjust the code to take advantage
+    of concurrency.
+
 - December 2nd :: Assignment 3 is now posted.
   There should not be major changes to it, but the testing
   is not posted yet.
@@ -971,6 +979,15 @@ difference between Monday and Wednesday.
 :PROPERTIES:
 :CUSTOM_ID: Current-homeworks
 :END:
+
+*** Homework 10 – Using concurrency to break up large problems – Dec 4th to Dec 9th
+:PROPERTIES:
+:CUSTOM_ID: Homework-10-–-Using-concurrency-to-break-up-large-problems-–-Dec-4th-to-Dec-9th
+:END:
+
+- [[./homework/h10.html][HTML]]
+- [[./homework/h10.pdf][PDF]]
+- [[./homework/h10.org][Org plaintext]]
 
 *** Homework 9 – Adding “guarded commands” to Clojure – Nov 29th to Dec 9th
 :PROPERTIES:
