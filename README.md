@@ -12,6 +12,10 @@ better viewed at
 
 ## December
 
+  - December 5th
+    
+      - The tests for homework 9 are now posted.
+
   - December 4th
     
       - Homework 10 is now posted, focussed on concurrency. To account

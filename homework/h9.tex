@@ -1,4 +1,4 @@
-% Created 2020-11-29 Sun 02:35
+% Created 2020-12-05 Sat 02:18
 % Intended LaTeX compiler: lualatex
 \documentclass[11pt]{article}
 \usepackage{graphicx}
@@ -42,7 +42,7 @@
 
 
 \section*{Introduction}
-\label{sec:org9fd6d91}
+\label{sec:orgf5c8584}
 In his 1975 paper
 \href{https://dl.acm.org/doi/10.1145/360933.360975}{Guarded commands, nondeterminacy and formal derivation of programs},
 Edsger W. Dijkstra proposed a foundation for an imperative language
@@ -57,11 +57,11 @@ In this homework, we familiarise ourselves with the guarded command
 control constructs by implementing them in Clojure, using macros.
 
 \section*{Boilerplate}
-\label{sec:orgb32dfc5}
+\label{sec:org81e9080}
 \subsection*{Submission procedures}
-\label{sec:orgf06c6fc}
+\label{sec:orgd463fb2}
 \subsubsection*{Submission method}
-\label{sec:org5496a9d}
+\label{sec:orgaef969d}
 
 Homework should be submitted to your McMaster CAS Gitlab respository
 in the \texttt{cs3mi3-fall2020} project.
@@ -70,7 +70,7 @@ Ensure that you have \textbf{pushed} the commits to the remote repository
 in time for the deadline, and not just committed to your local copy.
 
 \subsubsection*{Naming requirements}
-\label{sec:org7f92938}
+\label{sec:orga867085}
 
 Place all files for the homework
 inside a folder titled \texttt{hn}, where \texttt{n} is the number of the homework.
@@ -101,7 +101,7 @@ submit a \texttt{hn.ext} file for each language.
 \end{center}
 
 \subsubsection*{Do not submit testing or diagnostic code}
-\label{sec:orge475099}
+\label{sec:org86c686c}
 
 Unless you are instructed to do so in the homework questions,
 \textbf{you should not submit testing code with your homework submission}.
@@ -121,7 +121,7 @@ in your final submission.
 For instance, by using a wrapper on the print function or macros.
 
 \subsubsection*{Due date and allowance for technical difficulties}
-\label{sec:org7ca28ab}
+\label{sec:org902f9c2}
 
 Homework is due on the second Sunday following its release,
 by the end of the day (midnight).
@@ -136,9 +136,9 @@ This information will help ensure we are able
 to accept your submission once the technical difficulties are resolved.
 
 \subsection*{Proper conduct for coursework}
-\label{sec:org723f377}
+\label{sec:org33108ec}
 \subsubsection*{Individual work}
-\label{sec:orge6e1ef1}
+\label{sec:org71e1998}
 
 Unless explicitely stated in the homework questions,
 all homework in this course is intended
@@ -187,7 +187,7 @@ probably add a catch-all \texttt{\_} case to your \texttt{match} expressions.”
 \end{enumerate}
 
 \subsubsection*{Language library resources}
-\label{sec:orgd478926}
+\label{sec:orgdf9d2b1}
 
 Unless explicitely stated in the questions,
 it is not expected that you will use any language library resources
@@ -211,7 +211,7 @@ including \texttt{map}, \texttt{reduce}, \texttt{flatten}, and \texttt{filter} a
 unless the task is to implement such a higher-order operator.
 
 \section*{Part 0.1: An introduction to guarded commands}
-\label{sec:orga455311}
+\label{sec:orgece27db}
 A very brief and informative article discussing the guarded command
 by Jerrold L. Wagener is freely available
 from the \href{https://dl.acm.org/doi/10.5555/1074100.1074433}{ACM digital library}.
@@ -268,7 +268,7 @@ instead, the guards must be made explicit enough
 to ensure that their command is only executed in the correct context.
 
 \section*{Part 0.2: Representing guarded commands in Clojure}
-\label{sec:org703db18}
+\label{sec:orgb7a2bda}
 We can easily write guarded commands in Clojure
 as a record consisting of the \texttt{guard} and the \texttt{command}.
 \begin{minted}[breaklines=true]{clojure}
@@ -293,7 +293,7 @@ we can write e.g., \texttt{(:guard grd-cmd)} or \texttt{(.command grd-cmd)}.
 So we will operate on lists or vectors of \texttt{GuardCommands}.
 
 \section*{Part 0.3: An example construct for using guarded commands}
-\label{sec:orgbbd33bc}
+\label{sec:org036e8eb}
 To get you started, we define here a \emph{deterministic} \texttt{if} construct
 operating on guarded commands.
 
@@ -347,7 +347,7 @@ As an example, we use this form to define a \texttt{max} operation.
 \end{minted}
 
 \section*{Part 1: Sequence of commands whose guards are satisfied       [20 points]}
-\label{sec:org3fffcea}
+\label{sec:org10702d6}
 Create a function \texttt{allowed-commands} which, given a sequence
 of \texttt{GuardedCommands} (the record type defined in Part 0.2)
 produces a list of commands whose guard is satisfied
@@ -381,7 +381,7 @@ as a possible starting point for your \texttt{allowed-commands} function.
 Other approaches are permitted and encouraged, though.)
 
 \section*{Part 2: A nondeterministic \texttt{if} expression for guarded commands [15 points]}
-\label{sec:org32f09e4}
+\label{sec:orgb80f493}
 Define a macro for the nondeterministic \texttt{if} construct
 called \texttt{guarded-if}.
 
@@ -394,14 +394,14 @@ which picks a random element out of a sequence, may be of use here
 (in conjunction with your function from part 1.)
 
 \section*{Part 3: A nondeterministic \texttt{do} expression for guarded commands [15 points]}
-\label{sec:orgfa08afe}
+\label{sec:org2902609}
 Now define a macro for the nondeterministic \texttt{do} construct
 called \texttt{guarded-do}. In contrast to the \texttt{guarded-if} macro,
 this construct should continue evaluating commands
 until none of the guards are true.
 
 \section*{Part 4: GCD                                                   [10 points]}
-\label{sec:org1ffb7e2}
+\label{sec:org132c674}
 Use the guarded command constructs you have defined
 to define a function \texttt{gcd} to find the greatest common denominator
 of two integers.
@@ -418,7 +418,7 @@ You can see this algorithm in
 It should be relatively simple to translate this to a recursive algorithm.
 
 \section*{Part 5: GCD by iteration [5 bonus points]}
-\label{sec:orgf28364d}
+\label{sec:org6333cf7}
 Define the function \texttt{gcd-iter} which calculates the GCD of two integers
 using iteration (the \texttt{do} construct.)
 
@@ -427,6 +427,207 @@ instead, it is the use of mutable variables,
 which we have not shown in Clojure.
 
 \section*{Testing}
-\label{sec:org1ea9e24}
+\label{sec:org26b41da}
 :TODO:
+
+
+Unit tests for the requested methods/functions
+are available here \href{./testing/h9/h9t.clj}{h9t.clj}.
+The contents of the unit test file are also repeated below.
+
+\subsection*{Automated testing via Docker}
+\label{sec:org3fba615}
+The Docker setup and usage scripts are available at the following links.
+Their contents are also repeated below.
+\begin{itemize}
+\item \href{./testing/h8/Dockerfile}{Dockerfile}
+\item \href{./testing/h8/docker-compose.yml}{docker-compose.yml}
+\item \href{./testing/h8/setup.sh}{setup.sh}
+\item \href{./testing/h8/run.sh}{run.sh}
+\end{itemize}
+Place them into your \texttt{h8} directory where your \texttt{h8.clj} file
+and the \texttt{h8t.clj} (linked to above) files exist,
+then run \texttt{setup.sh} and \texttt{run.sh}.
+
+You may also refer to the README
+for this testing setup and those files
+\href{https://github.com/armkeh/principles-of-programming-languages/tree/master/homework/testing/h5}{on the course GitHub repo}.
+
+Note that the use of the \texttt{setup.sh} and \texttt{run.sh} scripts assumes
+that you are in a \texttt{bash} like shell; if you are on Windows,
+and not using WSL or WSL2, you may have
+to run the commands contained in those scripts manually.
+
+\subsection*{The tests}
+\label{sec:org5e61cdc}
+The contents of the testing script are repeated here.
+
+\href{./testing/h9/h9t.clj}{h9t.clj}
+\begin{minted}[breaklines=true]{clojure}
+(ns testing)
+(use 'clojure.test)
+(load-file "h9.clj")
+
+
+;; Tests based on the examples from the homework.
+(def compare-10-10
+  (let [x 10
+        y 10]
+    [(GuardedCommand. `(>= ~x ~y) (str x " is >= " y))
+     (GuardedCommand. `(=  ~x ~y) (str x " is =  " y))
+     (GuardedCommand. `(<= ~x ~y) (str x " is <= " y))]))
+
+(def compare-5-10
+  (let [x  5
+        y 10]
+    [(GuardedCommand. `(>= ~x ~y) (str x " is >= " y))
+     (GuardedCommand. `(=  ~x ~y) (str x " is =  " y))
+     (GuardedCommand. `(<= ~x ~y) (str x " is <= " y))]))
+
+(def compare-10-5
+  (let [x 10
+        y  5]
+    [(GuardedCommand. `(>= ~x ~y) (str x " is >= " y))
+     (GuardedCommand. `(=  ~x ~y) (str x " is =  " y))
+     (GuardedCommand. `(<= ~x ~y) (str x " is <= " y))]))
+
+
+
+;; A method to compute a given expression a number of times,
+;; creating a list of the results.
+;; Used to test the non-determinacy of the `guarded-if` and `guarded-do` forms.
+(defn times [n f]
+  "Repeatedly evaluate `f` `n` times and concatenate together the results."
+  (concat
+   (repeatedly n #(eval f))))
+
+
+
+(deftest allowed-commands-compare-10-10
+  (is (some #(= "10 is >= 10" %) (allowed-commands compare-10-10))
+            "When comparing 10 and 10, the \">=\" command was not allowed!")
+  (is (some #(= "10 is =  10" %) (allowed-commands compare-10-10))
+            "When comparing 10 and 10, the \"=\" command was not allowed!")
+  (is (some #(= "10 is <= 10" %) (allowed-commands compare-10-10))
+            "When comparing 10 and 10, the \"<=\" command was not allowed!"))
+
+(deftest allowed-commands-compare-5-10
+  (is (not (some #(= "5 is >= 10" %) (allowed-commands compare-5-10)))
+            "When comparing 5 and 10, the \">=\" command was incorrectly allowed!")
+  (is (not (some #(= "5 is =  10" %) (allowed-commands compare-5-10)))
+            "When comparing 5 and 10, the \"=\" command was incorrectly allowed!")
+  (is      (some #(= "5 is <= 10" %) (allowed-commands compare-5-10))
+            "When comparing 5 and 10, the \"<=\" command was not allowed!"))
+
+(deftest allowed-commands-compare-10-5
+  (is      (some #(= "10 is >= 5" %) (allowed-commands compare-10-5))
+            "When comparing 10 and 10, the \">=\" command was not allowed!")
+  (is (not (some #(= "10 is =  5" %) (allowed-commands compare-10-5)))
+            "When comparing 10 and 10, the \"=\" command was incorrectly allowed!")
+  (is (not (some #(= "10 is <= 5" %) (allowed-commands compare-10-5)))
+            "When comparing 10 and 10, the \"<=\" command was incorrectly allowed!"))
+
+(deftest guarded-if-compare-10-10
+  (is (some #(= "10 is >= 10" %) (times 100 '(guarded-if (nth compare-10-10 0) (nth compare-10-10 1) (nth compare-10-10 2)))))
+  (is (some #(= "10 is =  10" %) (times 100 '(guarded-if (nth compare-10-10 0) (nth compare-10-10 1) (nth compare-10-10 2)))))
+  (is (some #(= "10 is <= 10" %) (times 100 '(guarded-if (nth compare-10-10 0) (nth compare-10-10 1) (nth compare-10-10 2))))))
+
+;; There are not tests for the `do` constructs.
+;; It will only be visually inspected, not tested.
+
+(deftest gcd-test
+  (is 5 (gcd 10 25))
+  (is 1 (gcd 1024 625))
+  (is 100 (gcd 100 10000)))
+
+
+;; If we define `test-ns-hook`, it is called when running `run-tests`,
+;; instead of just calling all tests in the namespace.
+;; This lets us control the order of the tests.
+(deftest test-ns-hook
+  (allowed-commands-compare-10-10)
+  (allowed-commands-compare-5-10)
+  (allowed-commands-compare-10-5)
+  (guarded-if-compare-10-10)
+  (gcd-test))
+
+(run-tests 'testing)
+\end{minted}
+
+\subsection*{The Docker setup}
+\label{sec:orgc0bf921}
+The contents of the Docker setup files and scripts are repeated here.
+
+\href{./testing/h9/Dockerfile}{Dockerfile}
+\begin{minted}[breaklines=true]{docker}
+# Define the argument for openjdk version
+ARG OPENJDK_TAG=8u232
+
+FROM clojure:openjdk-8
+    
+# Set the name of the maintainers
+MAINTAINER Habib Ghaffari Hadigheh, Mark Armstrong <ghaffh1@mcmaster.ca, armstmp@mcmaster.ca>
+
+# Set the working directory
+WORKDIR /opt/h9
+\end{minted}
+
+\href{./testing/h9/docker-compose.yml}{docker-compose.yml}
+\begin{minted}[breaklines=true]{yaml}
+version: '2'
+services:
+  service:
+    build: .
+    image: 3mi3_h9_docker_image
+    volumes:
+      - .:/opt/h8
+    container_name: 3mi3_h9_container
+    command: bash -c
+      "cat h9t.clj | lein repl"
+\end{minted}
+
+\href{./testing/h9/setup.sh}{setup.sh}
+\begin{minted}[breaklines=true]{shell}
+docker-compose build --force-rm
+\end{minted}
+
+\href{./testing/h9/run.sh}{run.sh}
+\begin{minted}[breaklines=true]{shell}
+# Run the container
+docker-compose up --force-recreate
+# Stop the container after finishing the test run
+docker-compose stop -t 1
+\end{minted}
+
+\href{./testing/h9/README.md}{README.md}
+\begin{minted}[breaklines=true]{text}
+# Instructions for automated testing using Docker
+
+We have already created a `Dockerfile` here which specifies
+all the necessary packages, etc., for compiling and running your code.
+You only need to follow the instructions below to see 
+the results of unit tests designed to check your implementation.
+
+## Setup
+We use `docker-compose` and its configuration file to build the image.
+Assuming you have `docker` and `docker-compose` installed,
+simply execute
+```shell script
+./setup.sh
+```
+to generate the image.
+
+## Prepare your code for the running the tests
+You only need to place the `h8t.clj` unit test file and
+the `run.sh` file in the same directory as your `h9.clj` source file.
+
+## Running the tests
+As with the build process, we have already put
+the configuration needed for running the test inside `docker-compose.yml`.
+Simply execute
+```shell script
+./run.sh
+```
+to run and see the results of the tests.
+\end{minted}
 \end{document}

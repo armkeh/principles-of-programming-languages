@@ -305,10 +305,6 @@ which we have not shown in Clojure.
 
 :TODO:
 
-* COMMENT
-:PROPERTIES:
-:CUSTOM_ID: COMMENT
-:END:
 
 Unit tests for the requested methods/functions
 are available here [[./testing/h9/h9t.clj][h9t.clj]].
@@ -351,32 +347,88 @@ The contents of the testing script are repeated here.
 (use 'clojure.test)
 (load-file "h9.clj")
 
-(def compare-ten-ten
-   '((GuardedCommand. '(>= 10 10) :gte)
-     (GuardedCommand. '(=  10 10) :eq)
-     (GuardedCommand. '(<= 10 10) :lte)))
 
-(def compare-ten-five
-   '((GuardedCommand. '(>= 10 5) :gte)
-     (GuardedCommand. '(=  10 5) :eq)
-     (GuardedCommand. '(<= 10 5) :lte)))
+;; Tests based on the examples from the homework.
+(def compare-10-10
+  (let [x 10
+        y 10]
+    [(GuardedCommand. `(>= ~x ~y) (str x " is >= " y))
+     (GuardedCommand. `(=  ~x ~y) (str x " is =  " y))
+     (GuardedCommand. `(<= ~x ~y) (str x " is <= " y))]))
 
-(def compare-five-ten
-   '((GuardedCommand. '(>= 5 10) :gte)
-     (GuardedCommand. '(=  5 10) :eq)
-     (GuardedCommand. '(<= 5 10) :lte)))
+(def compare-5-10
+  (let [x  5
+        y 10]
+    [(GuardedCommand. `(>= ~x ~y) (str x " is >= " y))
+     (GuardedCommand. `(=  ~x ~y) (str x " is =  " y))
+     (GuardedCommand. `(<= ~x ~y) (str x " is <= " y))]))
 
-(deftest allowed-commands-tests
-  (is (= (postfixes-tr '(1 2 3 4 5 6)) '((1 2 3 4 5 6) (2 3 4 5 6) (3 4 5 6) (4 5 6) (5 6) (6) ())))
-  (is (= (postfixes-tr '(0)) '((0) ())))
-  (is (= (postfixes-tr '(6 5 4 3 2 1)) '((6 5 4 3 2 1) (5 4 3 2 1) (4 3 2 1) (3 2 1) (2 1) (1) ()))))
+(def compare-10-5
+  (let [x 10
+        y  5]
+    [(GuardedCommand. `(>= ~x ~y) (str x " is >= " y))
+     (GuardedCommand. `(=  ~x ~y) (str x " is =  " y))
+     (GuardedCommand. `(<= ~x ~y) (str x " is <= " y))]))
+
+
+
+;; A method to compute a given expression a number of times,
+;; creating a list of the results.
+;; Used to test the non-determinacy of the `guarded-if` and `guarded-do` forms.
+(defn times [n f]
+  "Repeatedly evaluate `f` `n` times and concatenate together the results."
+  (concat
+   (repeatedly n #(eval f))))
+
+
+
+(deftest allowed-commands-compare-10-10
+  (is (some #(= "10 is >= 10" %) (allowed-commands compare-10-10))
+            "When comparing 10 and 10, the \">=\" command was not allowed!")
+  (is (some #(= "10 is =  10" %) (allowed-commands compare-10-10))
+            "When comparing 10 and 10, the \"=\" command was not allowed!")
+  (is (some #(= "10 is <= 10" %) (allowed-commands compare-10-10))
+            "When comparing 10 and 10, the \"<=\" command was not allowed!"))
+
+(deftest allowed-commands-compare-5-10
+  (is (not (some #(= "5 is >= 10" %) (allowed-commands compare-5-10)))
+            "When comparing 5 and 10, the \">=\" command was incorrectly allowed!")
+  (is (not (some #(= "5 is =  10" %) (allowed-commands compare-5-10)))
+            "When comparing 5 and 10, the \"=\" command was incorrectly allowed!")
+  (is      (some #(= "5 is <= 10" %) (allowed-commands compare-5-10))
+            "When comparing 5 and 10, the \"<=\" command was not allowed!"))
+
+(deftest allowed-commands-compare-10-5
+  (is      (some #(= "10 is >= 5" %) (allowed-commands compare-10-5))
+            "When comparing 10 and 10, the \">=\" command was not allowed!")
+  (is (not (some #(= "10 is =  5" %) (allowed-commands compare-10-5)))
+            "When comparing 10 and 10, the \"=\" command was incorrectly allowed!")
+  (is (not (some #(= "10 is <= 5" %) (allowed-commands compare-10-5)))
+            "When comparing 10 and 10, the \"<=\" command was incorrectly allowed!"))
+
+(deftest guarded-if-compare-10-10
+  (is (some #(= "10 is >= 10" %) (times 100 '(guarded-if (nth compare-10-10 0) (nth compare-10-10 1) (nth compare-10-10 2)))))
+  (is (some #(= "10 is =  10" %) (times 100 '(guarded-if (nth compare-10-10 0) (nth compare-10-10 1) (nth compare-10-10 2)))))
+  (is (some #(= "10 is <= 10" %) (times 100 '(guarded-if (nth compare-10-10 0) (nth compare-10-10 1) (nth compare-10-10 2))))))
+
+;; There are not tests for the `do` constructs.
+;; It will only be visually inspected, not tested.
+
+(deftest gcd-test
+  (is 5 (gcd 10 25))
+  (is 1 (gcd 1024 625))
+  (is 100 (gcd 100 10000)))
+
 
 ;; If we define `test-ns-hook`, it is called when running `run-tests`,
 ;; instead of just calling all tests in the namespace.
 ;; This lets us control the order of the tests.
 (deftest test-ns-hook
-  (naive-exponent)
-  )
+  (allowed-commands-compare-10-10)
+  (allowed-commands-compare-5-10)
+  (allowed-commands-compare-10-5)
+  (guarded-if-compare-10-10)
+  (gcd-test))
 
 (run-tests 'testing)
 #+end_src

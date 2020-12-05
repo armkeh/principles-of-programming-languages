@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-11-29 Sun 02:35 -->
+<!-- 2020-12-05 Sat 02:18 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Computer Science 3MI3 – 2020 homework 9</title>
@@ -240,16 +240,16 @@
 <ul>
 <li><a href="#Submission-procedures">Submission procedures</a>
 <ul>
-<li><a href="#orgc37b377">Submission method</a></li>
-<li><a href="#org87bcead">Naming requirements</a></li>
-<li><a href="#orgf55ea90">Do not submit testing or diagnostic code</a></li>
-<li><a href="#org46d0f6c">Due date and allowance for technical difficulties</a></li>
+<li><a href="#org031f284">Submission method</a></li>
+<li><a href="#org5e46933">Naming requirements</a></li>
+<li><a href="#org63ac582">Do not submit testing or diagnostic code</a></li>
+<li><a href="#org91db7b8">Due date and allowance for technical difficulties</a></li>
 </ul>
 </li>
 <li><a href="#Proper-conduct-for-coursework">Proper conduct for coursework</a>
 <ul>
-<li><a href="#org72a066d">Individual work</a></li>
-<li><a href="#org76737d4">Language library resources</a></li>
+<li><a href="#orgac8a401">Individual work</a></li>
+<li><a href="#org553a445">Language library resources</a></li>
 </ul>
 </li>
 </ul>
@@ -262,7 +262,13 @@
 <li><a href="#Part-3:-A-nondeterministic-~do~-expression-for-guarded-commands-[15 points]">Part 3: A nondeterministic <code>do</code> expression for guarded commands [15 points]</a></li>
 <li><a href="#Part-4:-GCD---------------------------------------------------[10 points]">Part 4: GCD                                                   [10 points]</a></li>
 <li><a href="#Part-5:-GCD-by-iteration-[5 bonus points]">Part 5: GCD by iteration [5 bonus points]</a></li>
-<li><a href="#Testing">Testing</a></li>
+<li><a href="#Testing">Testing</a>
+<ul>
+<li><a href="#Automated-testing-via-Docker">Automated testing via Docker</a></li>
+<li><a href="#The-tests">The tests</a></li>
+<li><a href="#The-Docker-setup">The Docker setup</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -301,9 +307,9 @@ control constructs by implementing them in Clojure, using macros.
 <div class="outline-text-3" id="text-Submission-procedures">
 </div>
 
-<div id="outline-container-orgc37b377" class="outline-4">
-<h4 id="orgc37b377">Submission method</h4>
-<div class="outline-text-4" id="text-orgc37b377">
+<div id="outline-container-org031f284" class="outline-4">
+<h4 id="org031f284">Submission method</h4>
+<div class="outline-text-4" id="text-org031f284">
 <p>
 Homework should be submitted to your McMaster CAS Gitlab respository
 in the <code>cs3mi3-fall2020</code> project.
@@ -316,9 +322,9 @@ in time for the deadline, and not just committed to your local copy.
 </div>
 </div>
 
-<div id="outline-container-org87bcead" class="outline-4">
-<h4 id="org87bcead">Naming requirements</h4>
-<div class="outline-text-4" id="text-org87bcead">
+<div id="outline-container-org5e46933" class="outline-4">
+<h4 id="org5e46933">Naming requirements</h4>
+<div class="outline-text-4" id="text-org5e46933">
 <p>
 Place all files for the homework
 inside a folder titled <code>hn</code>, where <code>n</code> is the number of the homework.
@@ -359,9 +365,9 @@ submit a <code>hn.ext</code> file for each language.
 </div>
 </div>
 
-<div id="outline-container-orgf55ea90" class="outline-4">
-<h4 id="orgf55ea90">Do not submit testing or diagnostic code</h4>
-<div class="outline-text-4" id="text-orgf55ea90">
+<div id="outline-container-org63ac582" class="outline-4">
+<h4 id="org63ac582">Do not submit testing or diagnostic code</h4>
+<div class="outline-text-4" id="text-org63ac582">
 <p>
 Unless you are instructed to do so in the homework questions,
 <b>you should not submit testing code with your homework submission</b>.
@@ -389,9 +395,9 @@ For instance, by using a wrapper on the print function or macros.
 </div>
 </div>
 
-<div id="outline-container-org46d0f6c" class="outline-4">
-<h4 id="org46d0f6c">Due date and allowance for technical difficulties</h4>
-<div class="outline-text-4" id="text-org46d0f6c">
+<div id="outline-container-org91db7b8" class="outline-4">
+<h4 id="org91db7b8">Due date and allowance for technical difficulties</h4>
+<div class="outline-text-4" id="text-org91db7b8">
 <p>
 Homework is due on the second Sunday following its release,
 by the end of the day (midnight).
@@ -416,9 +422,9 @@ to accept your submission once the technical difficulties are resolved.
 <div class="outline-text-3" id="text-Proper-conduct-for-coursework">
 </div>
 
-<div id="outline-container-org72a066d" class="outline-4">
-<h4 id="org72a066d">Individual work</h4>
-<div class="outline-text-4" id="text-org72a066d">
+<div id="outline-container-orgac8a401" class="outline-4">
+<h4 id="orgac8a401">Individual work</h4>
+<div class="outline-text-4" id="text-orgac8a401">
 <p>
 Unless explicitely stated in the homework questions,
 all homework in this course is intended
@@ -479,9 +485,9 @@ probably add a catch-all <code>_</code> case to your <code>match</code> expressi
 </div>
 </div>
 
-<div id="outline-container-org76737d4" class="outline-4">
-<h4 id="org76737d4">Language library resources</h4>
-<div class="outline-text-4" id="text-org76737d4">
+<div id="outline-container-org553a445" class="outline-4">
+<h4 id="org553a445">Language library resources</h4>
+<div class="outline-text-4" id="text-org553a445">
 <p>
 Unless explicitely stated in the questions,
 it is not expected that you will use any language library resources
@@ -835,6 +841,248 @@ which we have not shown in Clojure.
 <p>
 :TODO:
 </p>
+
+
+<p>
+Unit tests for the requested methods/functions
+are available here <a href="./testing/h9/h9t.clj">h9t.clj</a>.
+The contents of the unit test file are also repeated below.
+</p>
+</div>
+
+<div id="outline-container-Automated-testing-via-Docker" class="outline-3">
+<h3 id="Automated-testing-via-Docker">Automated testing via Docker</h3>
+<div class="outline-text-3" id="text-Automated-testing-via-Docker">
+<p>
+The Docker setup and usage scripts are available at the following links.
+Their contents are also repeated below.
+</p>
+<ul class="org-ul">
+<li><a href="./testing/h8/Dockerfile">Dockerfile</a></li>
+<li><a href="./testing/h8/docker-compose.yml">docker-compose.yml</a></li>
+<li><a href="./testing/h8/setup.sh">setup.sh</a></li>
+<li><a href="./testing/h8/run.sh">run.sh</a></li>
+</ul>
+<p>
+Place them into your <code>h8</code> directory where your <code>h8.clj</code> file
+and the <code>h8t.clj</code> (linked to above) files exist,
+then run <code>setup.sh</code> and <code>run.sh</code>.
+</p>
+
+<p>
+You may also refer to the README
+for this testing setup and those files
+<a href="https://github.com/armkeh/principles-of-programming-languages/tree/master/homework/testing/h5">on the course GitHub repo</a>.
+</p>
+
+<p>
+Note that the use of the <code>setup.sh</code> and <code>run.sh</code> scripts assumes
+that you are in a <code>bash</code> like shell; if you are on Windows,
+and not using WSL or WSL2, you may have
+to run the commands contained in those scripts manually.
+</p>
+</div>
+</div>
+
+<div id="outline-container-The-tests" class="outline-3">
+<h3 id="The-tests">The tests</h3>
+<div class="outline-text-3" id="text-The-tests">
+<p>
+The contents of the testing script are repeated here.
+</p>
+
+<p>
+<a href="./testing/h9/h9t.clj">h9t.clj</a>
+</p>
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">ns</span> <span style="color: #6ae4b9;">testing</span><span style="color: #00cd68;">)</span>
+<span style="color: #00cd68;">(</span>use 'clojure.test<span style="color: #00cd68;">)</span>
+<span style="color: #00cd68;">(</span>load-file <span style="color: #79a8ff;">"h9.clj"</span><span style="color: #00cd68;">)</span>
+
+
+<span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">Tests based on the examples from the homework.</span>
+<span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">def</span> <span style="color: #00d3d0;">compare-10-10</span>
+  <span style="color: #b6a0ff;">(</span><span style="color: #b6a0ff;">let</span> <span style="color: #6ae4b9;">[</span>x 10
+        y 10<span style="color: #6ae4b9;">]</span>
+    <span style="color: #6ae4b9;">[</span><span style="color: #f0ce43;">(</span>GuardedCommand. `<span style="color: #00bcff;">(</span>&gt;= ~x ~y<span style="color: #00bcff;">)</span> <span style="color: #00bcff;">(</span>str x <span style="color: #79a8ff;">" is &gt;= "</span> y<span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span>
+     <span style="color: #f0ce43;">(</span>GuardedCommand. `<span style="color: #00bcff;">(</span>=  ~x ~y<span style="color: #00bcff;">)</span> <span style="color: #00bcff;">(</span>str x <span style="color: #79a8ff;">" is =  "</span> y<span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span>
+     <span style="color: #f0ce43;">(</span>GuardedCommand. `<span style="color: #00bcff;">(</span>&lt;= ~x ~y<span style="color: #00bcff;">)</span> <span style="color: #00bcff;">(</span>str x <span style="color: #79a8ff;">" is &lt;= "</span> y<span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">]</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+
+<span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">def</span> <span style="color: #00d3d0;">compare-5-10</span>
+  <span style="color: #b6a0ff;">(</span><span style="color: #b6a0ff;">let</span> <span style="color: #6ae4b9;">[</span>x  5
+        y 10<span style="color: #6ae4b9;">]</span>
+    <span style="color: #6ae4b9;">[</span><span style="color: #f0ce43;">(</span>GuardedCommand. `<span style="color: #00bcff;">(</span>&gt;= ~x ~y<span style="color: #00bcff;">)</span> <span style="color: #00bcff;">(</span>str x <span style="color: #79a8ff;">" is &gt;= "</span> y<span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span>
+     <span style="color: #f0ce43;">(</span>GuardedCommand. `<span style="color: #00bcff;">(</span>=  ~x ~y<span style="color: #00bcff;">)</span> <span style="color: #00bcff;">(</span>str x <span style="color: #79a8ff;">" is =  "</span> y<span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span>
+     <span style="color: #f0ce43;">(</span>GuardedCommand. `<span style="color: #00bcff;">(</span>&lt;= ~x ~y<span style="color: #00bcff;">)</span> <span style="color: #00bcff;">(</span>str x <span style="color: #79a8ff;">" is &lt;= "</span> y<span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">]</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+
+<span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">def</span> <span style="color: #00d3d0;">compare-10-5</span>
+  <span style="color: #b6a0ff;">(</span><span style="color: #b6a0ff;">let</span> <span style="color: #6ae4b9;">[</span>x 10
+        y  5<span style="color: #6ae4b9;">]</span>
+    <span style="color: #6ae4b9;">[</span><span style="color: #f0ce43;">(</span>GuardedCommand. `<span style="color: #00bcff;">(</span>&gt;= ~x ~y<span style="color: #00bcff;">)</span> <span style="color: #00bcff;">(</span>str x <span style="color: #79a8ff;">" is &gt;= "</span> y<span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span>
+     <span style="color: #f0ce43;">(</span>GuardedCommand. `<span style="color: #00bcff;">(</span>=  ~x ~y<span style="color: #00bcff;">)</span> <span style="color: #00bcff;">(</span>str x <span style="color: #79a8ff;">" is =  "</span> y<span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span>
+     <span style="color: #f0ce43;">(</span>GuardedCommand. `<span style="color: #00bcff;">(</span>&lt;= ~x ~y<span style="color: #00bcff;">)</span> <span style="color: #00bcff;">(</span>str x <span style="color: #79a8ff;">" is &lt;= "</span> y<span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">]</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+
+
+
+<span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">A method to compute a given expression a number of times,</span>
+<span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">creating a list of the results.</span>
+<span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">Used to test the non-determinacy of the `</span><span style="color: #00bcff;">guarded-if</span><span style="color: #a8a8a8;">` and `</span><span style="color: #00bcff;">guarded-do</span><span style="color: #a8a8a8;">` forms.</span>
+<span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">defn</span> <span style="color: #feacd0;">times</span> <span style="color: #b6a0ff;">[</span>n f<span style="color: #b6a0ff;">]</span>
+  <span style="color: #79a8ff;">"Repeatedly evaluate `</span><span style="color: #00bcff;">f</span><span style="color: #79a8ff;">` `</span><span style="color: #00bcff;">n</span><span style="color: #79a8ff;">` times and concatenate together the results."</span>
+  <span style="color: #b6a0ff;">(</span>concat
+   <span style="color: #6ae4b9;">(</span>repeatedly n #<span style="color: #f0ce43;">(</span>eval f<span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+
+
+
+<span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">deftest</span> <span style="color: #feacd0;">allowed-commands-compare-10-10</span>
+  <span style="color: #b6a0ff;">(</span>is <span style="color: #6ae4b9;">(</span>some #<span style="color: #f0ce43;">(</span>= <span style="color: #79a8ff;">"10 is &gt;= 10"</span> <span style="color: #00d3d0;">%</span><span style="color: #f0ce43;">)</span> <span style="color: #f0ce43;">(</span>allowed-commands compare-10-10<span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>
+            <span style="color: #79a8ff;">"When comparing 10 and 10, the </span><span style="color: #79a8ff; font-weight: bold;">\"</span><span style="color: #79a8ff;">&gt;=</span><span style="color: #79a8ff; font-weight: bold;">\"</span><span style="color: #79a8ff;"> command was not allowed!"</span><span style="color: #b6a0ff;">)</span>
+  <span style="color: #b6a0ff;">(</span>is <span style="color: #6ae4b9;">(</span>some #<span style="color: #f0ce43;">(</span>= <span style="color: #79a8ff;">"10 is =  10"</span> <span style="color: #00d3d0;">%</span><span style="color: #f0ce43;">)</span> <span style="color: #f0ce43;">(</span>allowed-commands compare-10-10<span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>
+            <span style="color: #79a8ff;">"When comparing 10 and 10, the </span><span style="color: #79a8ff; font-weight: bold;">\"</span><span style="color: #79a8ff;">=</span><span style="color: #79a8ff; font-weight: bold;">\"</span><span style="color: #79a8ff;"> command was not allowed!"</span><span style="color: #b6a0ff;">)</span>
+  <span style="color: #b6a0ff;">(</span>is <span style="color: #6ae4b9;">(</span>some #<span style="color: #f0ce43;">(</span>= <span style="color: #79a8ff;">"10 is &lt;= 10"</span> <span style="color: #00d3d0;">%</span><span style="color: #f0ce43;">)</span> <span style="color: #f0ce43;">(</span>allowed-commands compare-10-10<span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>
+            <span style="color: #79a8ff;">"When comparing 10 and 10, the </span><span style="color: #79a8ff; font-weight: bold;">\"</span><span style="color: #79a8ff;">&lt;=</span><span style="color: #79a8ff; font-weight: bold;">\"</span><span style="color: #79a8ff;"> command was not allowed!"</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+
+<span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">deftest</span> <span style="color: #feacd0;">allowed-commands-compare-5-10</span>
+  <span style="color: #b6a0ff;">(</span>is <span style="color: #6ae4b9;">(</span>not <span style="color: #f0ce43;">(</span>some #<span style="color: #00bcff;">(</span>= <span style="color: #79a8ff;">"5 is &gt;= 10"</span> <span style="color: #00d3d0;">%</span><span style="color: #00bcff;">)</span> <span style="color: #00bcff;">(</span>allowed-commands compare-5-10<span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>
+            <span style="color: #79a8ff;">"When comparing 5 and 10, the </span><span style="color: #79a8ff; font-weight: bold;">\"</span><span style="color: #79a8ff;">&gt;=</span><span style="color: #79a8ff; font-weight: bold;">\"</span><span style="color: #79a8ff;"> command was incorrectly allowed!"</span><span style="color: #b6a0ff;">)</span>
+  <span style="color: #b6a0ff;">(</span>is <span style="color: #6ae4b9;">(</span>not <span style="color: #f0ce43;">(</span>some #<span style="color: #00bcff;">(</span>= <span style="color: #79a8ff;">"5 is =  10"</span> <span style="color: #00d3d0;">%</span><span style="color: #00bcff;">)</span> <span style="color: #00bcff;">(</span>allowed-commands compare-5-10<span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>
+            <span style="color: #79a8ff;">"When comparing 5 and 10, the </span><span style="color: #79a8ff; font-weight: bold;">\"</span><span style="color: #79a8ff;">=</span><span style="color: #79a8ff; font-weight: bold;">\"</span><span style="color: #79a8ff;"> command was incorrectly allowed!"</span><span style="color: #b6a0ff;">)</span>
+  <span style="color: #b6a0ff;">(</span>is      <span style="color: #6ae4b9;">(</span>some #<span style="color: #f0ce43;">(</span>= <span style="color: #79a8ff;">"5 is &lt;= 10"</span> <span style="color: #00d3d0;">%</span><span style="color: #f0ce43;">)</span> <span style="color: #f0ce43;">(</span>allowed-commands compare-5-10<span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>
+            <span style="color: #79a8ff;">"When comparing 5 and 10, the </span><span style="color: #79a8ff; font-weight: bold;">\"</span><span style="color: #79a8ff;">&lt;=</span><span style="color: #79a8ff; font-weight: bold;">\"</span><span style="color: #79a8ff;"> command was not allowed!"</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+
+<span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">deftest</span> <span style="color: #feacd0;">allowed-commands-compare-10-5</span>
+  <span style="color: #b6a0ff;">(</span>is      <span style="color: #6ae4b9;">(</span>some #<span style="color: #f0ce43;">(</span>= <span style="color: #79a8ff;">"10 is &gt;= 5"</span> <span style="color: #00d3d0;">%</span><span style="color: #f0ce43;">)</span> <span style="color: #f0ce43;">(</span>allowed-commands compare-10-5<span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>
+            <span style="color: #79a8ff;">"When comparing 10 and 10, the </span><span style="color: #79a8ff; font-weight: bold;">\"</span><span style="color: #79a8ff;">&gt;=</span><span style="color: #79a8ff; font-weight: bold;">\"</span><span style="color: #79a8ff;"> command was not allowed!"</span><span style="color: #b6a0ff;">)</span>
+  <span style="color: #b6a0ff;">(</span>is <span style="color: #6ae4b9;">(</span>not <span style="color: #f0ce43;">(</span>some #<span style="color: #00bcff;">(</span>= <span style="color: #79a8ff;">"10 is =  5"</span> <span style="color: #00d3d0;">%</span><span style="color: #00bcff;">)</span> <span style="color: #00bcff;">(</span>allowed-commands compare-10-5<span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>
+            <span style="color: #79a8ff;">"When comparing 10 and 10, the </span><span style="color: #79a8ff; font-weight: bold;">\"</span><span style="color: #79a8ff;">=</span><span style="color: #79a8ff; font-weight: bold;">\"</span><span style="color: #79a8ff;"> command was incorrectly allowed!"</span><span style="color: #b6a0ff;">)</span>
+  <span style="color: #b6a0ff;">(</span>is <span style="color: #6ae4b9;">(</span>not <span style="color: #f0ce43;">(</span>some #<span style="color: #00bcff;">(</span>= <span style="color: #79a8ff;">"10 is &lt;= 5"</span> <span style="color: #00d3d0;">%</span><span style="color: #00bcff;">)</span> <span style="color: #00bcff;">(</span>allowed-commands compare-10-5<span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>
+            <span style="color: #79a8ff;">"When comparing 10 and 10, the </span><span style="color: #79a8ff; font-weight: bold;">\"</span><span style="color: #79a8ff;">&lt;=</span><span style="color: #79a8ff; font-weight: bold;">\"</span><span style="color: #79a8ff;"> command was incorrectly allowed!"</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+
+<span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">deftest</span> <span style="color: #feacd0;">guarded-if-compare-10-10</span>
+  <span style="color: #b6a0ff;">(</span>is <span style="color: #6ae4b9;">(</span>some #<span style="color: #f0ce43;">(</span>= <span style="color: #79a8ff;">"10 is &gt;= 10"</span> <span style="color: #00d3d0;">%</span><span style="color: #f0ce43;">)</span> <span style="color: #f0ce43;">(</span>times 100 '<span style="color: #00bcff;">(</span>guarded-if <span style="color: #80d200;">(</span>nth compare-10-10 0<span style="color: #80d200;">)</span> <span style="color: #80d200;">(</span>nth compare-10-10 1<span style="color: #80d200;">)</span> <span style="color: #80d200;">(</span>nth compare-10-10 2<span style="color: #80d200;">)</span><span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span>
+  <span style="color: #b6a0ff;">(</span>is <span style="color: #6ae4b9;">(</span>some #<span style="color: #f0ce43;">(</span>= <span style="color: #79a8ff;">"10 is =  10"</span> <span style="color: #00d3d0;">%</span><span style="color: #f0ce43;">)</span> <span style="color: #f0ce43;">(</span>times 100 '<span style="color: #00bcff;">(</span>guarded-if <span style="color: #80d200;">(</span>nth compare-10-10 0<span style="color: #80d200;">)</span> <span style="color: #80d200;">(</span>nth compare-10-10 1<span style="color: #80d200;">)</span> <span style="color: #80d200;">(</span>nth compare-10-10 2<span style="color: #80d200;">)</span><span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span>
+  <span style="color: #b6a0ff;">(</span>is <span style="color: #6ae4b9;">(</span>some #<span style="color: #f0ce43;">(</span>= <span style="color: #79a8ff;">"10 is &lt;= 10"</span> <span style="color: #00d3d0;">%</span><span style="color: #f0ce43;">)</span> <span style="color: #f0ce43;">(</span>times 100 '<span style="color: #00bcff;">(</span>guarded-if <span style="color: #80d200;">(</span>nth compare-10-10 0<span style="color: #80d200;">)</span> <span style="color: #80d200;">(</span>nth compare-10-10 1<span style="color: #80d200;">)</span> <span style="color: #80d200;">(</span>nth compare-10-10 2<span style="color: #80d200;">)</span><span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+
+<span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">There are not tests for the `</span><span style="color: #00bcff;">do</span><span style="color: #a8a8a8;">` constructs.</span>
+<span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">It will only be visually inspected, not tested.</span>
+
+<span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">deftest</span> <span style="color: #feacd0;">gcd-test</span>
+  <span style="color: #b6a0ff;">(</span>is 5 <span style="color: #6ae4b9;">(</span>gcd 10 25<span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span>
+  <span style="color: #b6a0ff;">(</span>is 1 <span style="color: #6ae4b9;">(</span>gcd 1024 625<span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span>
+  <span style="color: #b6a0ff;">(</span>is 100 <span style="color: #6ae4b9;">(</span>gcd 100 10000<span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+
+
+<span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">If we define `</span><span style="color: #00bcff;">test-ns-hook</span><span style="color: #a8a8a8;">`, it is called when running `</span><span style="color: #00bcff;">run-tests</span><span style="color: #a8a8a8;">`,</span>
+<span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">instead of just calling all tests in the namespace.</span>
+<span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">This lets us control the order of the tests.</span>
+<span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">deftest</span> <span style="color: #feacd0;">test-ns-hook</span>
+  <span style="color: #b6a0ff;">(</span>allowed-commands-compare-10-10<span style="color: #b6a0ff;">)</span>
+  <span style="color: #b6a0ff;">(</span>allowed-commands-compare-5-10<span style="color: #b6a0ff;">)</span>
+  <span style="color: #b6a0ff;">(</span>allowed-commands-compare-10-5<span style="color: #b6a0ff;">)</span>
+  <span style="color: #b6a0ff;">(</span>guarded-if-compare-10-10<span style="color: #b6a0ff;">)</span>
+  <span style="color: #b6a0ff;">(</span>gcd-test<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+
+<span style="color: #00cd68;">(</span>run-tests 'testing<span style="color: #00cd68;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-The-Docker-setup" class="outline-3">
+<h3 id="The-Docker-setup">The Docker setup</h3>
+<div class="outline-text-3" id="text-The-Docker-setup">
+<p>
+The contents of the Docker setup files and scripts are repeated here.
+</p>
+
+<p>
+<a href="./testing/h9/Dockerfile">Dockerfile</a>
+</p>
+<div class="org-src-container">
+<pre class="src src-docker"># Define the argument for openjdk version
+ARG OPENJDK_TAG=8u232
+
+FROM clojure:openjdk-8
+    
+# Set the name of the maintainers
+MAINTAINER Habib Ghaffari Hadigheh, Mark Armstrong &lt;ghaffh1@mcmaster.ca, armstmp@mcmaster.ca&gt;
+
+# Set the working directory
+WORKDIR /opt/h9
+</pre>
+</div>
+
+<p>
+<a href="./testing/h9/docker-compose.yml">docker-compose.yml</a>
+</p>
+<div class="org-src-container">
+<pre class="src src-yaml">version: '2'
+services:
+  service:
+    build: .
+    image: 3mi3_h9_docker_image
+    volumes:
+      - .:/opt/h8
+    container_name: 3mi3_h9_container
+    command: bash -c
+      "cat h9t.clj | lein repl"
+</pre>
+</div>
+
+<p>
+<a href="./testing/h9/setup.sh">setup.sh</a>
+</p>
+<div class="org-src-container">
+<pre class="src src-shell">docker-compose build --force-rm
+</pre>
+</div>
+
+<p>
+<a href="./testing/h9/run.sh">run.sh</a>
+</p>
+<div class="org-src-container">
+<pre class="src src-shell"><span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Run the container</span>
+docker-compose up --force-recreate
+<span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Stop the container after finishing the test run</span>
+docker-compose stop -t 1
+</pre>
+</div>
+
+<p>
+<a href="./testing/h9/README.md">README.md</a>
+</p>
+<div class="org-src-container">
+<pre class="src src-text"># Instructions for automated testing using Docker
+
+We have already created a `Dockerfile` here which specifies
+all the necessary packages, etc., for compiling and running your code.
+You only need to follow the instructions below to see 
+the results of unit tests designed to check your implementation.
+
+## Setup
+We use `docker-compose` and its configuration file to build the image.
+Assuming you have `docker` and `docker-compose` installed,
+simply execute
+```shell script
+./setup.sh
+```
+to generate the image.
+
+## Prepare your code for the running the tests
+You only need to place the `h8t.clj` unit test file and
+the `run.sh` file in the same directory as your `h9.clj` source file.
+
+## Running the tests
+As with the build process, we have already put
+the configuration needed for running the test inside `docker-compose.yml`.
+Simply execute
+```shell script
+./run.sh
+```
+to run and see the results of the tests.
+</pre>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -842,7 +1090,7 @@ which we have not shown in Clojure.
 <p class="author">Author: Mark Armstrong</p>
      <p class="author">Contact: <a href="mailto:markparmstrong@gmail.com">markparmstrong@gmail.com</a></p>
      <p class="date">Original date: November 28th, 2020</p>
-     <p class="date">Last updated: 2020-11-29 Sun 02:35</p>
+     <p class="date">Last updated: 2020-12-05 Sat 02:17</p>
      <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4)</p>
      <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
