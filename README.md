@@ -14,6 +14,13 @@ better viewed at
 
   - December 7th
     
+      - The more complete version of the introductory concurrency notes
+        (under Literate Programs) is now posted. This includes examples
+        of using the constructs in all 4 languages. Of particular note,
+        it shows a means of communicating between the `fork`'ed
+        processes in Ruby, and how to extract the results of a `Future`
+        in Scala.
+    
       - Some errors in the links to the testing files, as well as a typo
         in the `docker-compose.yml` file, have been corrected. If you
         have trouble with the testing setup, try downloading them now.

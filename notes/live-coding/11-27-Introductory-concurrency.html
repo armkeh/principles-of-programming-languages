@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-11-27 Fri 13:31 -->
+<!-- 2020-12-07 Mon 17:29 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Introductory concurrency</title>
@@ -249,8 +249,15 @@ of issues arising from concurrency."
 <li><a href="#Using-futures">3.3. Using futures</a></li>
 </ul>
 </li>
-<li><a href="#Forking-processes-in-Ruby">4. Forking processes in Ruby</a></li>
-<li><a href="#Justifying-our-example-problem">5. Justifying our example problem</a></li>
+<li><a href="#Forking-processes-in-Ruby">4. Forking processes in Ruby</a>
+<ul>
+<li><a href="#Introduction">4.1. Introduction</a></li>
+<li><a href="#Summing-trees">4.2. Summing trees</a></li>
+</ul>
+</li>
+<li><a href="#The-~thread~-library-in-Prolog">5. The <code>thread</code> library in Prolog</a></li>
+<li><a href="#Futures-in-Scala">6. Futures in Scala</a></li>
+<li><a href="#Justifying-our-example-problem">7. Justifying our example problem</a></li>
 </ul>
 </div>
 </div>
@@ -267,7 +274,7 @@ throughout the course.
 <p>
 Our context for this discussion will be the problem
 of computing them maximum element of an (unsorted) tree of integers.
-This naturally leads to a divide an conquer approach,
+This naturally leads to a divide and conquer approach,
 which can easily take advantage of concurrency,
 while also avoiding the issues that can arise from concurrent execution.
 We do give a brief discussion of these issues before
@@ -362,6 +369,15 @@ A single process process may be made up of several threads;
 so long as the process is being executed, there is at least
 one thread (of execution.)
 </p>
+
+<p>
+So, this gives rise to two approaches to concurrency:
+using multiple processes or using multiple threads.
+Processes are more independent, and usually more costly to create
+(because the system must allocate them memory.)
+Threads may be more dangerous, because they inherently share
+memory, which can lead to errors.
+</p>
 </div>
 </div>
 
@@ -374,15 +390,31 @@ that can occur when using concurrency.
 </p>
 
 <p>
-A <i>race condition</i> refers to an error that arises when …
+A <i>race condition</i> refers to an error that arises when
+one thread of execution performs a task
+before another thread of execution expected it to be done.
+Common instances include
+</p>
+<ul class="org-ul">
+<li>writing to memory while a thread expected memory
+to remain the same,</li>
+<li>:TODO:</li>
+</ul>
+
+<p>
+A <i>deadlock</i> refers to an error that arises when
+multiple threads of execution are all waiting for access
+or control of some resources, and each holds
+a resource that the other is waiting for.
+This means no progress can be made until one thread
+relinquishes control of the resource it is holding.
 </p>
 
 <p>
-A <i>deadlock</i> refers to an error that arises when …
-</p>
-
-<p>
-A task is said to <i>starve</i> when …
+A task is said to <i>starve</i> when it is waiting for
+access or control of some resource, but it does not
+get that access or control due to other threads “locking it out”
+(either indefinitely, or for an unacceptable amount of time.)
 </p>
 </div>
 </div>
@@ -466,7 +498,7 @@ we omit the rest of the list.
 <span style="color: #b0d6f5;">representing trees containing integers."</span>
   <span style="color: #b6a0ff;">[</span>t<span style="color: #b6a0ff;">]</span>
   <span style="color: #b6a0ff;">(</span><span style="color: #b6a0ff;">if</span>
-    <span style="color: #6ae4b9;">(</span>empty? t<span style="color: #6ae4b9;">)</span> ##-Inf
+    <span style="color: #6ae4b9;">(</span>empty? t<span style="color: #6ae4b9;">)</span> ##-Inf <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">Negative infinity</span>
     <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">Use list deconstruction to separate the `</span><span style="color: #00bcff;">label</span><span style="color: #a8a8a8;">` and the list of `</span><span style="color: #00bcff;">children</span><span style="color: #a8a8a8;">`.</span>
     <span style="color: #6ae4b9;">(</span><span style="color: #b6a0ff;">let</span> <span style="color: #f0ce43;">[</span><span style="color: #00bcff;">[</span>label left right<span style="color: #00bcff;">]</span> t<span style="color: #f0ce43;">]</span>
       <span style="color: #f0ce43;">(</span>max label <span style="color: #00bcff;">(</span>maximum-tree left<span style="color: #00bcff;">)</span> <span style="color: #00bcff;">(</span>maximum-tree right<span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
@@ -474,7 +506,7 @@ we omit the rest of the list.
 </div>
 
 <div class="org-src-container">
-<pre class="src src-clojure"><span style="color: #00cd68;">(</span>maximum-tree <span style="color: #b6a0ff;">[</span>1 <span style="color: #6ae4b9;">[</span>2<span style="color: #6ae4b9;">]</span> <span style="color: #6ae4b9;">[</span>3 <span style="color: #f0ce43;">[</span>4<span style="color: #f0ce43;">]</span> <span style="color: #f0ce43;">[</span>5<span style="color: #f0ce43;">]</span><span style="color: #6ae4b9;">]</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span>
+<pre class="src src-clojure"><span style="color: #00cd68;">(</span>maximum-tree <span style="color: #b6a0ff;">[</span>1 <span style="color: #6ae4b9;">[</span>2<span style="color: #6ae4b9;">]</span> <span style="color: #6ae4b9;">[</span>3 <span style="color: #f0ce43;">[</span>4 <span style="color: #00bcff;">[</span>10<span style="color: #00bcff;">]</span> <span style="color: #00bcff;">[</span>20<span style="color: #00bcff;">]</span><span style="color: #f0ce43;">]</span> <span style="color: #f0ce43;">[</span>5<span style="color: #f0ce43;">]</span><span style="color: #6ae4b9;">]</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span>
 </pre>
 </div>
 </div>
@@ -483,9 +515,26 @@ we omit the rest of the list.
 <div id="outline-container-Using-futures" class="outline-3">
 <h3 id="Using-futures"><span class="section-number-3">3.3</span> Using futures</h3>
 <div class="outline-text-3" id="text-Using-futures">
-<p>
-:TODO:
-</p>
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">defn</span> <span style="color: #feacd0;">maximum-tree</span>
+  <span style="color: #b0d6f5;">"Find the maximum element of a tree of integers `</span><span style="color: #00bcff;">t</span><span style="color: #b0d6f5;">`.</span>
+<span style="color: #b0d6f5;">`</span><span style="color: #00bcff;">t</span><span style="color: #b0d6f5;">` is assumed to be a list whose first element is an integer</span>
+<span style="color: #b0d6f5;">(the label of the root) and whose remaining elements are lists</span>
+<span style="color: #b0d6f5;">representing trees containing integers."</span>
+  <span style="color: #b6a0ff;">[</span>t<span style="color: #b6a0ff;">]</span>
+  <span style="color: #b6a0ff;">(</span>print   <span style="color: #79a8ff;">"Finding the maximum of "</span><span style="color: #b6a0ff;">)</span>
+  <span style="color: #b6a0ff;">(</span>println t<span style="color: #b6a0ff;">)</span>
+  <span style="color: #b6a0ff;">(</span><span style="color: #b6a0ff;">if</span>
+    <span style="color: #6ae4b9;">(</span>empty? t<span style="color: #6ae4b9;">)</span> ##-Inf <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">Negative infinity</span>
+    <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">Use list deconstruction to separate the `</span><span style="color: #00bcff;">label</span><span style="color: #a8a8a8;">` and the list of `</span><span style="color: #00bcff;">children</span><span style="color: #a8a8a8;">`.</span>
+    <span style="color: #6ae4b9;">(</span><span style="color: #b6a0ff;">let</span> <span style="color: #f0ce43;">[</span><span style="color: #00bcff;">[</span>label left right<span style="color: #00bcff;">]</span> t<span style="color: #f0ce43;">]</span>
+      <span style="color: #f0ce43;">(</span><span style="color: #b6a0ff;">let</span> <span style="color: #00bcff;">[</span>max-left  <span style="color: #80d200;">(</span>future <span style="color: #f78fe7;">(</span>maximum-tree left<span style="color: #f78fe7;">)</span><span style="color: #80d200;">)</span>
+            max-right <span style="color: #80d200;">(</span>future <span style="color: #f78fe7;">(</span>maximum-tree right<span style="color: #f78fe7;">)</span><span style="color: #80d200;">)</span><span style="color: #00bcff;">]</span>
+        <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">Need to dereference the reference of the futures</span>
+        <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">either using the `</span><span style="color: #00bcff;">deref</span><span style="color: #a8a8a8;">` form or an `@`.</span>
+        <span style="color: #00bcff;">(</span>max label @max-left @max-right<span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+</pre>
+</div>
 </div>
 </div>
 </div>
@@ -493,14 +542,206 @@ we omit the rest of the list.
 <div id="outline-container-Forking-processes-in-Ruby" class="outline-2">
 <h2 id="Forking-processes-in-Ruby"><span class="section-number-2">4</span> Forking processes in Ruby</h2>
 <div class="outline-text-2" id="text-Forking-processes-in-Ruby">
+</div>
+
+<div id="outline-container-Introduction" class="outline-3">
+<h3 id="Introduction"><span class="section-number-3">4.1</span> Introduction</h3>
+<div class="outline-text-3" id="text-Introduction">
 <p>
-:TODO:
+In Ruby, we can generate new <i>processes</i> easily using the <code>fork</code> method.
 </p>
+<div class="org-src-container">
+<pre class="src src-ruby">10.times <span style="color: #b6a0ff;">do</span> |i|
+  <span style="color: #f78fe7;">fork</span> <span style="color: #b6a0ff;">do</span>
+    <span style="color: #f78fe7;">sleep</span> 3
+    <span style="color: #f78fe7;">puts</span> <span style="color: #79a8ff;">"I am process </span><span style="color: #00d3d0;">#{i}</span><span style="color: #79a8ff;">"</span>
+  <span style="color: #b6a0ff;">end</span>
+<span style="color: #b6a0ff;">end</span>
+
+<span style="color: #f78fe7;">puts</span> <span style="color: #79a8ff;">"All started."</span>
+<span style="color: #6ae4b9;">Process</span>.waitall
+<span style="color: #f78fe7;">puts</span> <span style="color: #79a8ff;">"All done."</span>
+</pre>
+</div>
+<p>
+The <code>Process.waitall</code> method can be used to wait for
+all “child” processes to finish their execution. 
+</p>
+
+<p>
+Watch out for “zombie” processes if you do not wait!
+</p>
+<div class="org-src-container">
+<pre class="src src-ruby">10.times <span style="color: #b6a0ff;">do</span> |i|
+  <span style="color: #f78fe7;">fork</span> <span style="color: #b6a0ff;">do</span>
+    <span style="color: #f78fe7;">sleep</span> 3
+    <span style="color: #f78fe7;">puts</span> <span style="color: #79a8ff;">"I'm zombie number </span><span style="color: #00d3d0;">#{i}</span><span style="color: #79a8ff;">!"</span>
+  <span style="color: #b6a0ff;">end</span>
+<span style="color: #b6a0ff;">end</span>
+<span style="color: #f78fe7;">abort</span> <span style="color: #79a8ff;">"The main process has aborted, but the children might still act."</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-Summing-trees" class="outline-3">
+<h3 id="Summing-trees"><span class="section-number-3">4.2</span> Summing trees</h3>
+<div class="outline-text-3" id="text-Summing-trees">
+<p>
+Now, consider an implementation of these trees
+with a <code>sumtree</code> operation in Ruby.
+</p>
+<div class="org-src-container">
+<pre class="src src-ruby"><span style="color: #b6a0ff;">class</span> <span style="color: #6ae4b9;">Tree</span>
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">sumtree</span><span style="color: #00cd68;">()</span>
+    <span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">self</span>
+    <span style="color: #b6a0ff;">when</span> <span style="color: #6ae4b9;">Leaf</span>
+      0
+    <span style="color: #b6a0ff;">when</span> <span style="color: #6ae4b9;">Branch</span>
+      <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Non-concurrent solution:</span>
+      <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">self.data + self.lchild.sumtree + self.rchild.sumtree</span>
+
+      <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Concurrent solution:</span>
+      <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">To communicate betwen processes, we use an IO pipe.</span>
+      reader, writer = <span style="color: #6ae4b9;">IO</span>.pipe
+      <span style="color: #f78fe7;">fork</span> <span style="color: #b6a0ff;">do</span>
+        sum = <span style="color: #b6a0ff;">self</span>.lchild.sumtree 
+        writer.puts<span style="color: #00cd68;">(</span>sum<span style="color: #00cd68;">)</span> <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Print the result to the pipe.</span>
+      <span style="color: #b6a0ff;">end</span>
+      <span style="color: #f78fe7;">fork</span> <span style="color: #b6a0ff;">do</span>
+        sum = <span style="color: #b6a0ff;">self</span>.rchild.sumtree
+        writer.puts<span style="color: #00cd68;">(</span>sum<span style="color: #00cd68;">)</span> <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Print the result to the pipe.</span>
+      <span style="color: #b6a0ff;">end</span>
+      <span style="color: #6ae4b9;">Process</span>.waitall
+      sum1 = reader.gets.to_i   <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Read one result and convert it to an integer.</span>
+      sum2 = reader.gets.to_i   <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Read the other result and convert it.</span>
+
+      <span style="color: #b6a0ff;">self</span>.data + sum1 + sum2
+    <span style="color: #b6a0ff;">end</span>
+  <span style="color: #b6a0ff;">end</span>
+<span style="color: #b6a0ff;">end</span>
+
+<span style="color: #b6a0ff;">class</span> <span style="color: #6ae4b9;">Leaf</span> &lt; <span style="color: #6ae4b9;">Tree</span>
+<span style="color: #b6a0ff;">end</span>
+
+<span style="color: #b6a0ff;">class</span> <span style="color: #6ae4b9;">Branch</span> &lt; <span style="color: #6ae4b9;">Tree</span>
+  <span style="color: #f78fe7;">attr_reader</span> <span style="color: #00bcff;">:lchild</span>
+  <span style="color: #f78fe7;">attr_reader</span> <span style="color: #00bcff;">:rchild</span>
+  <span style="color: #f78fe7;">attr_reader</span> <span style="color: #00bcff;">:data</span>
+
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">initialize</span><span style="color: #00cd68;">(</span>l,v,r<span style="color: #00cd68;">)</span>
+    <span style="color: #00d3d0;">@lchild</span> = l
+    <span style="color: #00d3d0;">@rchild</span> = r
+    <span style="color: #00d3d0;">@data</span> = v
+  <span style="color: #b6a0ff;">end</span>
+<span style="color: #b6a0ff;">end</span>
+
+x = <span style="color: #6ae4b9;">Leaf</span>.new
+<span style="color: #f78fe7;">puts</span> x.sumtree
+
+x = <span style="color: #6ae4b9;">Branch</span>.new<span style="color: #00cd68;">(</span><span style="color: #6ae4b9;">Branch</span>.new<span style="color: #b6a0ff;">(</span><span style="color: #6ae4b9;">Branch</span>.new<span style="color: #6ae4b9;">(</span><span style="color: #6ae4b9;">Leaf</span>.new,
+                                     5,
+                                     <span style="color: #6ae4b9;">Leaf</span>.new<span style="color: #6ae4b9;">)</span>,
+                         3,
+                         <span style="color: #6ae4b9;">Leaf</span>.new<span style="color: #b6a0ff;">)</span>,
+               1,
+               <span style="color: #6ae4b9;">Branch</span>.new<span style="color: #b6a0ff;">(</span><span style="color: #6ae4b9;">Leaf</span>.new,
+                          2,
+                          <span style="color: #6ae4b9;">Leaf</span>.new<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+<span style="color: #f78fe7;">puts</span> x.sumtree
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-The-~thread~-library-in-Prolog" class="outline-2">
+<h2 id="The-~thread~-library-in-Prolog"><span class="section-number-2">5</span> The <code>thread</code> library in Prolog</h2>
+<div class="outline-text-2" id="text-The-~thread~-library-in-Prolog">
+<p>
+In (SWI) Prolog, one method to run goals concurrently is
+the <a href="https://www.swi-prolog.org/pldoc/man?section=thread">thread</a> library,
+which provides high-level threading primitives.
+</p>
+
+<p>
+(There may be other methods, and there may be different methods
+ in non-SWI implementations.)
+</p>
+
+<p>
+The simplest predicate in the library is <code>concurrent</code>.
+<code>concurrent(N,Goals,Options)</code> runs
+</p>
+<ul class="org-ul">
+<li>each goal in the list of goals <code>Goals</code>,</li>
+<li>using <code>N</code> threads, and</li>
+<li>initialising each thread with the list of options <code>Options</code>.</li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-prolog"><span style="color: #feacd0;">sumtree</span>(empty,0).
+<span style="color: #feacd0;">sumtree</span>(branch(<span style="color: #00d3d0;">T1</span>,<span style="color: #00d3d0;">V</span>,<span style="color: #00d3d0;">T2</span>),<span style="color: #00d3d0;">N</span>) :-
+        <span style="color: #a8a8a8;">% sumtree(T1,N1),</span>
+        <span style="color: #a8a8a8;">% sumtree(T2,N2),</span>
+        concurrent(2,<span style="color: #b6a0ff;">[</span>sumtree(<span style="color: #00d3d0;">T1</span>,<span style="color: #00d3d0;">N1</span>),sumtree(<span style="color: #00d3d0;">T2</span>,<span style="color: #00d3d0;">N2</span>)<span style="color: #b6a0ff;">]</span>,<span style="color: #b6a0ff;">[]</span>),
+        <span style="color: #00d3d0;">N</span> is <span style="color: #00d3d0;">V</span> + <span style="color: #00d3d0;">N1</span> + <span style="color: #00d3d0;">N2</span>.
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-Futures-in-Scala" class="outline-2">
+<h2 id="Futures-in-Scala"><span class="section-number-2">6</span> Futures in Scala</h2>
+<div class="outline-text-2" id="text-Futures-in-Scala">
+<div class="org-src-container">
+<pre class="src src-amm"><span style="color: #f78fe7;">sealed</span> <span style="color: #b6a0ff;">trait</span> <span style="color: #6ae4b9;">Tree</span>
+<span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">object</span> <span style="color: #00bcff;">Leaf</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #6ae4b9;">Tree</span>
+<span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #6ae4b9;">Branch</span><span style="color: #00cd68;">(</span>left<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">Tree</span>, n<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">Int</span>, right<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">Tree</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #6ae4b9;">Tree</span>
+
+<span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">sumtree</span><span style="color: #00cd68;">(</span>t<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">Tree</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">Int</span> <span style="color: #b6a0ff;">=</span> t <span style="color: #b6a0ff;">match</span> <span style="color: #00cd68;">{</span>
+  <span style="color: #b6a0ff;">case</span> <span style="color: #00bcff;">Leaf</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">0</span>
+  <span style="color: #b6a0ff;">case</span> <span style="color: #6ae4b9;">Branch</span><span style="color: #b6a0ff;">(</span><span style="color: #00d3d0;">l</span>,<span style="color: #00d3d0;">n</span>,<span style="color: #00d3d0;">r</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">=&gt;</span>
+    sumtree<span style="color: #b6a0ff;">(</span>l<span style="color: #b6a0ff;">)</span> + n + sumtree<span style="color: #b6a0ff;">(</span>r<span style="color: #b6a0ff;">)</span>
+<span style="color: #00cd68;">}</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-amm"><span style="color: #b6a0ff;">import</span> scala.concurrent.<span style="color: #00bcff;">Future</span>
+<span style="color: #b6a0ff;">import</span> scala.concurrent.<span style="color: #00bcff;">ExecutionContext</span>.<span style="color: #00bcff;">Implicits</span>.global
+<span style="color: #b6a0ff;">import</span> scala.util.<span style="color: #00cd68;">{</span><span style="color: #00bcff;">Try</span>, <span style="color: #00bcff;">Success</span>, <span style="color: #00bcff;">Failure</span><span style="color: #00cd68;">}</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-amm"><span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">sumtree</span><span style="color: #00cd68;">(</span>t<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">Tree</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">Int</span> <span style="color: #b6a0ff;">=</span> t <span style="color: #b6a0ff;">match</span> <span style="color: #00cd68;">{</span>
+  <span style="color: #b6a0ff;">case</span> <span style="color: #00bcff;">Leaf</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">0</span>
+  <span style="color: #b6a0ff;">case</span> <span style="color: #6ae4b9;">Branch</span><span style="color: #b6a0ff;">(</span><span style="color: #00d3d0;">l</span>,<span style="color: #00d3d0;">v</span>,<span style="color: #00d3d0;">r</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">=&gt;</span>
+    <span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">l_sum</span> <span style="color: #b6a0ff;">=</span> <span style="color: #00bcff;">Future</span> <span style="color: #b6a0ff;">{</span> sumtree<span style="color: #6ae4b9;">(</span>l<span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">}</span>
+    <span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">r_sum</span> <span style="color: #b6a0ff;">=</span> <span style="color: #00bcff;">Future</span> <span style="color: #b6a0ff;">{</span> sumtree<span style="color: #6ae4b9;">(</span>r<span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">}</span>
+    l_sum + r_sum + v
+<span style="color: #00cd68;">}</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-amm"><span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">sumtree_future</span><span style="color: #00cd68;">(</span>t<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">Tree</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">Future</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">Int</span><span style="color: #00cd68;">]</span> <span style="color: #b6a0ff;">=</span> t <span style="color: #b6a0ff;">match</span> <span style="color: #00cd68;">{</span> 
+  <span style="color: #b6a0ff;">case</span> <span style="color: #00bcff;">Leaf</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">Future</span> <span style="color: #b6a0ff;">{</span> <span style="color: #00bcff;">0</span> <span style="color: #b6a0ff;">}</span>
+  <span style="color: #b6a0ff;">case</span> <span style="color: #6ae4b9;">Branch</span><span style="color: #b6a0ff;">(</span><span style="color: #00d3d0;">l</span>,<span style="color: #00d3d0;">n</span>,<span style="color: #00d3d0;">r</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">=&gt;</span>
+    <span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">l_sum</span><span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">Future</span><span style="color: #b6a0ff;">[</span><span style="color: #00bcff;">Int</span><span style="color: #b6a0ff;">]</span> <span style="color: #b6a0ff;">=</span> sumtree_future<span style="color: #b6a0ff;">(</span>l<span style="color: #b6a0ff;">)</span>
+    <span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">r_sum</span><span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">Future</span><span style="color: #b6a0ff;">[</span><span style="color: #00bcff;">Int</span><span style="color: #b6a0ff;">]</span> <span style="color: #b6a0ff;">=</span> sumtree_future<span style="color: #b6a0ff;">(</span>r<span style="color: #b6a0ff;">)</span>
+
+    l_sum.flatMap<span style="color: #b6a0ff;">(</span>the_l_sum <span style="color: #b6a0ff;">=&gt;</span>
+      r_sum.flatMap<span style="color: #6ae4b9;">(</span>the_r_sum <span style="color: #b6a0ff;">=&gt;</span>
+        <span style="color: #00bcff;">Future</span> <span style="color: #f0ce43;">{</span> n + the_l_sum + the_r_sum <span style="color: #f0ce43;">}</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span>
+<span style="color: #00cd68;">}</span>
+</pre>
+</div>
 </div>
 </div>
 
 <div id="outline-container-Justifying-our-example-problem" class="outline-2">
-<h2 id="Justifying-our-example-problem"><span class="section-number-2">5</span> Justifying our example problem</h2>
+<h2 id="Justifying-our-example-problem"><span class="section-number-2">7</span> Justifying our example problem</h2>
 <div class="outline-text-2" id="text-Justifying-our-example-problem">
 <p>
 :TODO:
@@ -512,7 +753,7 @@ we omit the rest of the list.
 <p class="author">Author: Mark Armstrong</p>
      <p class="author">Contact: <a href="mailto:markparmstrong@gmail.com">markparmstrong@gmail.com</a></p>
      <p class="date">Original date: </p>
-     <p class="date">Last updated: 2020-11-27 Fri 13:31</p>
+     <p class="date">Last updated: 2020-12-02 Wed 10:16</p>
      <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4)</p>
      <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

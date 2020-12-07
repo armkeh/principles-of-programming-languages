@@ -1,4 +1,4 @@
-% Created 2020-11-27 Fri 13:31
+% Created 2020-12-07 Mon 17:29
 % Intended LaTeX compiler: lualatex
 \documentclass[11pt]{article}
 \usepackage{graphicx}
@@ -43,14 +43,14 @@
 
 
 \section{Introduction}
-\label{sec:orge2e3b2a}
+\label{sec:orgc205cad}
 Here we briefly explore (some of) the techniques to take advantage
 of concurrency and parallelism in the languages we have used
 throughout the course.
 
 Our context for this discussion will be the problem
 of computing them maximum element of an (unsorted) tree of integers.
-This naturally leads to a divide an conquer approach,
+This naturally leads to a divide and conquer approach,
 which can easily take advantage of concurrency,
 while also avoiding the issues that can arise from concurrent execution.
 We do give a brief discussion of these issues before
@@ -60,7 +60,7 @@ We justify the use of this problem to frame our exploration
 with a discussion at the end of the notes.
 
 \section{Some brief background}
-\label{sec:org27eb38a}
+\label{sec:org66b77d3}
 The following should be review from other courses,
 most notably from “Concurrent Systems”.
 If you are not familiar with these topics,
@@ -68,7 +68,7 @@ this will be a sufficient introduction
 for our purposes here.
 
 \subsection{Concurrency vs. parallelism}
-\label{sec:orgdc8b0a7}
+\label{sec:org972afc8}
 To define concurrency and parallelism, we must refer to
 “tasks being executed”.
 
@@ -101,7 +101,7 @@ unless we specifically mean that tasks are executed at
 the exact same time.
 
 \subsection{Process vs. thread}
-\label{sec:orgcf261a6}
+\label{sec:orgc7c9911}
 A \emph{process} is an instance of a program being executed on a machine.
 The machine, usually through an operating system,
 grants each process its own memory space, and
@@ -115,19 +115,42 @@ A single process process may be made up of several threads;
 so long as the process is being executed, there is at least
 one thread (of execution.)
 
+So, this gives rise to two approaches to concurrency:
+using multiple processes or using multiple threads.
+Processes are more independent, and usually more costly to create
+(because the system must allocate them memory.)
+Threads may be more dangerous, because they inherently share
+memory, which can lead to errors.
+
 \subsection{Race condition vs. deadlock vs. starvation}
-\label{sec:orga3c5c05}
+\label{sec:orgaabfa72}
 Race conditions, deadlock and starvation are all classes of error
 that can occur when using concurrency.
 
-A \emph{race condition} refers to an error that arises when …
+A \emph{race condition} refers to an error that arises when
+one thread of execution performs a task
+before another thread of execution expected it to be done.
+Common instances include
+\begin{itemize}
+\item writing to memory while a thread expected memory
+to remain the same,
+\item :TODO:
+\end{itemize}
 
-A \emph{deadlock} refers to an error that arises when …
+A \emph{deadlock} refers to an error that arises when
+multiple threads of execution are all waiting for access
+or control of some resources, and each holds
+a resource that the other is waiting for.
+This means no progress can be made until one thread
+relinquishes control of the resource it is holding.
 
-A task is said to \emph{starve} when …
+A task is said to \emph{starve} when it is waiting for
+access or control of some resource, but it does not
+get that access or control due to other threads “locking it out”
+(either indefinitely, or for an unacceptable amount of time.)
 
 \section{Creating threads with futures in Clojure}
-\label{sec:org50e780e}
+\label{sec:org8014d37}
 Clojure has support for several approaches to concurrency,
 including but not limited to:
 \begin{itemize}
@@ -156,7 +179,7 @@ Then we will show a single-threaded implementation of the maximum
 function, and finally rework it into an approach using threads via futures.
 
 \subsection{Representing trees in Clojure}
-\label{sec:orge2074c0}
+\label{sec:orgad2c451}
 Quite simply, we will consider \emph{nested sequences} to be trees.
 We will use the convention (at least for these notes)
 that the first element of the list is the \emph{label} of a node,
@@ -173,7 +196,7 @@ Note that in the case that a tree has no children,
 we omit the rest of the list.
 
 \subsection{Finding the maximum of a tree}
-\label{sec:orgfb6cf19}
+\label{sec:orga1e35d8}
 \begin{minted}[breaklines=true]{clojure}
 (defn maximum-tree
   "Find the maximum element of a tree of integers `t`.
@@ -182,25 +205,202 @@ we omit the rest of the list.
 representing trees containing integers."
   [t]
   (if
-    (empty? t) ##-Inf
+    (empty? t) ##-Inf ;; Negative infinity
     ;; Use list deconstruction to separate the `label` and the list of `children`.
     (let [[label left right] t]
       (max label (maximum-tree left) (maximum-tree right)))))
 \end{minted}
 
 \begin{minted}[breaklines=true]{clojure}
-(maximum-tree [1 [2] [3 [4] [5]]])
+(maximum-tree [1 [2] [3 [4 [10] [20]] [5]]])
 \end{minted}
 
 \subsection{Using futures}
-\label{sec:org409f0e4}
-:TODO:
+\label{sec:org98a5333}
+\begin{minted}[breaklines=true]{clojure}
+(defn maximum-tree
+  "Find the maximum element of a tree of integers `t`.
+`t` is assumed to be a list whose first element is an integer
+(the label of the root) and whose remaining elements are lists
+representing trees containing integers."
+  [t]
+  (print   "Finding the maximum of ")
+  (println t)
+  (if
+    (empty? t) ##-Inf ;; Negative infinity
+    ;; Use list deconstruction to separate the `label` and the list of `children`.
+    (let [[label left right] t]
+      (let [max-left  (future (maximum-tree left))
+            max-right (future (maximum-tree right))]
+        ;; Need to dereference the reference of the futures
+        ;; either using the `deref` form or an `@`.
+        (max label @max-left @max-right)))))
+\end{minted}
 
 \section{Forking processes in Ruby}
-\label{sec:org9bbdf09}
-:TODO:
+\label{sec:org8bd57a4}
+\subsection{Introduction}
+\label{sec:orgd629614}
+In Ruby, we can generate new \emph{processes} easily using the \texttt{fork} method.
+\begin{minted}[breaklines=true]{ruby}
+10.times do |i|
+  fork do
+    sleep 3
+    puts "I am process #{i}"
+  end
+end
+
+puts "All started."
+Process.waitall
+puts "All done."
+\end{minted}
+The \texttt{Process.waitall} method can be used to wait for
+all “child” processes to finish their execution. 
+
+Watch out for “zombie” processes if you do not wait!
+\begin{minted}[breaklines=true]{ruby}
+10.times do |i|
+  fork do
+    sleep 3
+    puts "I'm zombie number #{i}!"
+  end
+end
+abort "The main process has aborted, but the children might still act."
+\end{minted}
+
+\subsection{Summing trees}
+\label{sec:orgec999bc}
+Now, consider an implementation of these trees
+with a \texttt{sumtree} operation in Ruby.
+\begin{minted}[breaklines=true]{ruby}
+class Tree
+  def sumtree()
+    case self
+    when Leaf
+      0
+    when Branch
+      # Non-concurrent solution:
+      # self.data + self.lchild.sumtree + self.rchild.sumtree
+
+      # Concurrent solution:
+      # To communicate betwen processes, we use an IO pipe.
+      reader, writer = IO.pipe
+      fork do
+        sum = self.lchild.sumtree 
+        writer.puts(sum) # Print the result to the pipe.
+      end
+      fork do
+        sum = self.rchild.sumtree
+        writer.puts(sum) # Print the result to the pipe.
+      end
+      Process.waitall
+      sum1 = reader.gets.to_i   # Read one result and convert it to an integer.
+      sum2 = reader.gets.to_i   # Read the other result and convert it.
+
+      self.data + sum1 + sum2
+    end
+  end
+end
+
+class Leaf < Tree
+end
+
+class Branch < Tree
+  attr_reader :lchild
+  attr_reader :rchild
+  attr_reader :data
+
+  def initialize(l,v,r)
+    @lchild = l
+    @rchild = r
+    @data = v
+  end
+end
+
+x = Leaf.new
+puts x.sumtree
+
+x = Branch.new(Branch.new(Branch.new(Leaf.new,
+                                     5,
+                                     Leaf.new),
+                         3,
+                         Leaf.new),
+               1,
+               Branch.new(Leaf.new,
+                          2,
+                          Leaf.new))
+puts x.sumtree
+\end{minted}
+
+\section{The \texttt{thread} library in Prolog}
+\label{sec:org5ab70c6}
+In (SWI) Prolog, one method to run goals concurrently is
+the \href{https://www.swi-prolog.org/pldoc/man?section=thread}{thread} library,
+which provides high-level threading primitives.
+
+(There may be other methods, and there may be different methods
+ in non-SWI implementations.)
+
+The simplest predicate in the library is \texttt{concurrent}.
+\texttt{concurrent(N,Goals,Options)} runs
+\begin{itemize}
+\item each goal in the list of goals \texttt{Goals},
+\item using \texttt{N} threads, and
+\item initialising each thread with the list of options \texttt{Options}.
+\end{itemize}
+\begin{minted}[breaklines=true]{prolog}
+sumtree(empty,0).
+sumtree(branch(T1,V,T2),N) :-
+        % sumtree(T1,N1),
+        % sumtree(T2,N2),
+        concurrent(2,[sumtree(T1,N1),sumtree(T2,N2)],[]),
+        N is V + N1 + N2.
+\end{minted}
+
+\section{Futures in Scala}
+\label{sec:org67e40ab}
+\begin{minted}[breaklines=true]{scala}
+sealed trait Tree
+case object Leaf extends Tree
+case class Branch(left: Tree, n: Int, right: Tree) extends Tree
+
+def sumtree(t: Tree): Int = t match {
+  case Leaf => 0
+  case Branch(l,n,r) =>
+    sumtree(l) + n + sumtree(r)
+}
+\end{minted}
+
+\begin{minted}[breaklines=true]{scala}
+import scala.concurrent.Future
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.util.{Try, Success, Failure}
+\end{minted}
+
+\begin{minted}[breaklines=true]{scala}
+def sumtree(t: Tree): Int = t match {
+  case Leaf => 0
+  case Branch(l,v,r) =>
+    val l_sum = Future { sumtree(l) }
+    val r_sum = Future { sumtree(r) }
+    l_sum + r_sum + v
+}
+\end{minted}
+
+\begin{minted}[breaklines=true]{scala}
+def sumtree_future(t: Tree): Future[Int] = t match { 
+  case Leaf => Future { 0 }
+  case Branch(l,n,r) =>
+    val l_sum: Future[Int] = sumtree_future(l)
+    val r_sum: Future[Int] = sumtree_future(r)
+
+    l_sum.flatMap(the_l_sum =>
+      r_sum.flatMap(the_r_sum =>
+        Future { n + the_l_sum + the_r_sum }))
+}
+\end{minted}
 
 \section{Justifying our example problem}
-\label{sec:orgf4ac4ab}
+\label{sec:org031a291}
 :TODO:
 \end{document}
