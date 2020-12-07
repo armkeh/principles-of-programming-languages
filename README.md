@@ -12,6 +12,13 @@ better viewed at
 
 ## December
 
+  - December 7th
+    
+      - Some errors in the links to the testing files, as well as a typo
+        in the `docker-compose.yml` file, have been corrected. If you
+        have trouble with the testing setup, try downloading them now.
+        Tnanks to Hishmat Salehi for catching these errors\!
+
   - December 5th
     
       - The tests for homework 9 are now posted.

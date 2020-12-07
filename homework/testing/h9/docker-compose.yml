@@ -4,7 +4,7 @@ services:
     build: .
     image: 3mi3_h9_docker_image
     volumes:
-      - .:/opt/h8
+      - .:/opt/h9
     container_name: 3mi3_h9_container
     command: bash -c
       "cat h9t.clj | lein repl"

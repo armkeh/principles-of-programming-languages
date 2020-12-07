@@ -303,9 +303,6 @@ which we have not shown in Clojure.
 :CUSTOM_ID: Testing
 :END:
 
-:TODO:
-
-
 Unit tests for the requested methods/functions
 are available here [[./testing/h9/h9t.clj][h9t.clj]].
 The contents of the unit test file are also repeated below.
@@ -317,12 +314,12 @@ The contents of the unit test file are also repeated below.
 
 The Docker setup and usage scripts are available at the following links.
 Their contents are also repeated below.
-- [[./testing/h8/Dockerfile][Dockerfile]]
-- [[./testing/h8/docker-compose.yml][docker-compose.yml]]
-- [[./testing/h8/setup.sh][setup.sh]]
-- [[./testing/h8/run.sh][run.sh]]
-Place them into your ~h8~ directory where your ~h8.clj~ file
-and the ~h8t.clj~ (linked to above) files exist,
+- [[./testing/h9/Dockerfile][Dockerfile]]
+- [[./testing/h9/docker-compose.yml][docker-compose.yml]]
+- [[./testing/h9/setup.sh][setup.sh]]
+- [[./testing/h9/run.sh][run.sh]]
+Place them into your ~h9~ directory where your ~h9.clj~ file
+and the ~h9t.clj~ (linked to above) files exist,
 then run ~setup.sh~ and ~run.sh~.
 
 You may also refer to the README
@@ -462,7 +459,7 @@ services:
     build: .
     image: 3mi3_h9_docker_image
     volumes:
-      - .:/opt/h8
+      - .:/opt/h9
     container_name: 3mi3_h9_container
     command: bash -c
       "cat h9t.clj | lein repl"
