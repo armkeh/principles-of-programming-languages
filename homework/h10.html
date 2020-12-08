@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-12-04 Fri 01:54 -->
+<!-- 2020-12-07 Mon 19:10 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Computer Science 3MI3 – 2020 homework 10</title>
@@ -240,16 +240,16 @@
 <ul>
 <li><a href="#Submission-procedures">Submission procedures</a>
 <ul>
-<li><a href="#org358c733">Submission method</a></li>
-<li><a href="#orge135e69">Naming requirements</a></li>
-<li><a href="#org33efe4b">Do not submit testing or diagnostic code</a></li>
-<li><a href="#orgd8c2056">Due date and allowance for technical difficulties</a></li>
+<li><a href="#org770b696">Submission method</a></li>
+<li><a href="#org6e0a4aa">Naming requirements</a></li>
+<li><a href="#org09bfc1f">Do not submit testing or diagnostic code</a></li>
+<li><a href="#org6b1cca9">Due date and allowance for technical difficulties</a></li>
 </ul>
 </li>
 <li><a href="#Proper-conduct-for-coursework">Proper conduct for coursework</a>
 <ul>
-<li><a href="#orgee885ea">Individual work</a></li>
-<li><a href="#org1d4821a">Language library resources</a></li>
+<li><a href="#org152bfaa">Individual work</a></li>
+<li><a href="#org300fbde">Language library resources</a></li>
 </ul>
 </li>
 </ul>
@@ -259,7 +259,13 @@
 <li><a href="#Part-2:-Ruby----[15 points]">Part 2: Ruby    [15 points]</a></li>
 <li><a href="#Part-3:-Scala---[15 points]">Part 3: Scala   [15 points]</a></li>
 <li><a href="#Part-4:-Prolog--[5 bonus points]">Part 4: Prolog  [5 bonus points]</a></li>
-<li><a href="#Testing">Testing</a></li>
+<li><a href="#Testing">Testing</a>
+<ul>
+<li><a href="#Automated-testing-via-Docker">Automated testing via Docker</a></li>
+<li><a href="#The-tests">The tests</a></li>
+<li><a href="#The-Docker-setup">The Docker setup</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -298,9 +304,9 @@ to take advantage of concurency.
 <div class="outline-text-3" id="text-Submission-procedures">
 </div>
 
-<div id="outline-container-org358c733" class="outline-4">
-<h4 id="org358c733">Submission method</h4>
-<div class="outline-text-4" id="text-org358c733">
+<div id="outline-container-org770b696" class="outline-4">
+<h4 id="org770b696">Submission method</h4>
+<div class="outline-text-4" id="text-org770b696">
 <p>
 Homework should be submitted to your McMaster CAS Gitlab respository
 in the <code>cs3mi3-fall2020</code> project.
@@ -313,9 +319,9 @@ in time for the deadline, and not just committed to your local copy.
 </div>
 </div>
 
-<div id="outline-container-orge135e69" class="outline-4">
-<h4 id="orge135e69">Naming requirements</h4>
-<div class="outline-text-4" id="text-orge135e69">
+<div id="outline-container-org6e0a4aa" class="outline-4">
+<h4 id="org6e0a4aa">Naming requirements</h4>
+<div class="outline-text-4" id="text-org6e0a4aa">
 <p>
 Place all files for the homework
 inside a folder titled <code>hn</code>, where <code>n</code> is the number of the homework.
@@ -356,9 +362,9 @@ submit a <code>hn.ext</code> file for each language.
 </div>
 </div>
 
-<div id="outline-container-org33efe4b" class="outline-4">
-<h4 id="org33efe4b">Do not submit testing or diagnostic code</h4>
-<div class="outline-text-4" id="text-org33efe4b">
+<div id="outline-container-org09bfc1f" class="outline-4">
+<h4 id="org09bfc1f">Do not submit testing or diagnostic code</h4>
+<div class="outline-text-4" id="text-org09bfc1f">
 <p>
 Unless you are instructed to do so in the homework questions,
 <b>you should not submit testing code with your homework submission</b>.
@@ -386,9 +392,9 @@ For instance, by using a wrapper on the print function or macros.
 </div>
 </div>
 
-<div id="outline-container-orgd8c2056" class="outline-4">
-<h4 id="orgd8c2056">Due date and allowance for technical difficulties</h4>
-<div class="outline-text-4" id="text-orgd8c2056">
+<div id="outline-container-org6b1cca9" class="outline-4">
+<h4 id="org6b1cca9">Due date and allowance for technical difficulties</h4>
+<div class="outline-text-4" id="text-org6b1cca9">
 <p>
 Homework is due on the second Sunday following its release,
 by the end of the day (midnight).
@@ -413,9 +419,9 @@ to accept your submission once the technical difficulties are resolved.
 <div class="outline-text-3" id="text-Proper-conduct-for-coursework">
 </div>
 
-<div id="outline-container-orgee885ea" class="outline-4">
-<h4 id="orgee885ea">Individual work</h4>
-<div class="outline-text-4" id="text-orgee885ea">
+<div id="outline-container-org152bfaa" class="outline-4">
+<h4 id="org152bfaa">Individual work</h4>
+<div class="outline-text-4" id="text-org152bfaa">
 <p>
 Unless explicitely stated in the homework questions,
 all homework in this course is intended
@@ -476,9 +482,9 @@ probably add a catch-all <code>_</code> case to your <code>match</code> expressi
 </div>
 </div>
 
-<div id="outline-container-org1d4821a" class="outline-4">
-<h4 id="org1d4821a">Language library resources</h4>
-<div class="outline-text-4" id="text-org1d4821a">
+<div id="outline-container-org300fbde" class="outline-4">
+<h4 id="org300fbde">Language library resources</h4>
+<div class="outline-text-4" id="text-org300fbde">
 <p>
 Unless explicitely stated in the questions,
 it is not expected that you will use any language library resources
@@ -741,8 +747,276 @@ making use of the <code>concurrent</code> predicate.
 <h2 id="Testing">Testing</h2>
 <div class="outline-text-2" id="text-Testing">
 <p>
-:TODO:
+Unit tests for the requested methods/functions
+are available:
 </p>
+<ul class="org-ul">
+<li><a href="./testing/h10/h10t.clj">h10t.clj</a> for Clojure,</li>
+<li><a href="./testing/h10/h10t.rb">h10t.rb</a> for Ruby, and</li>
+<li><a href="./testing/h10/h10t.sc">h10t.sc</a> for Scala.</li>
+</ul>
+<p>
+The contents of the unit test file are also repeated below.
+</p>
+</div>
+
+<div id="outline-container-Automated-testing-via-Docker" class="outline-3">
+<h3 id="Automated-testing-via-Docker">Automated testing via Docker</h3>
+<div class="outline-text-3" id="text-Automated-testing-via-Docker">
+<p>
+The Docker setup and usage scripts are available at the following links.
+Their contents are also repeated below.
+</p>
+<ul class="org-ul">
+<li><a href="./testing/h10/Dockerfile">Dockerfile</a></li>
+<li><a href="./testing/h10/docker-compose.yml">docker-compose.yml</a></li>
+<li><a href="./testing/h10/setup.sh">setup.sh</a></li>
+<li><a href="./testing/h10/run.sh">run.sh</a></li>
+</ul>
+<p>
+Place them into your <code>h10</code> directory where your <code>h10.clj</code> file
+and the <code>h10t.clj</code> (linked to above) files exist,
+then run <code>setup.sh</code> and <code>run.sh</code>.
+</p>
+
+<p>
+You may also refer to the README
+for this testing setup and those files
+<a href="https://github.com/armkeh/principles-of-programming-languages/tree/master/homework/testing/h10">on the course GitHub repo</a>.
+</p>
+
+<p>
+Note that the use of the <code>setup.sh</code> and <code>run.sh</code> scripts assumes
+that you are in a <code>bash</code> like shell; if you are on Windows,
+and not using WSL or WSL2, you may have
+to run the commands contained in those scripts manually.
+</p>
+</div>
+</div>
+
+<div id="outline-container-The-tests" class="outline-3">
+<h3 id="The-tests">The tests</h3>
+<div class="outline-text-3" id="text-The-tests">
+<p>
+The contents of the testing scripts are repeated here.
+</p>
+
+<p>
+<a href="./testing/h10/h10t.clj">h10t.clj</a>
+</p>
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">ns</span> <span style="color: #6ae4b9;">testing</span><span style="color: #00cd68;">)</span>
+<span style="color: #00cd68;">(</span>use 'clojure.test<span style="color: #00cd68;">)</span>
+<span style="color: #00cd68;">(</span>load-file <span style="color: #79a8ff;">"collection.clj"</span><span style="color: #00cd68;">)</span> <span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">The `</span><span style="color: #00bcff;">collection</span><span style="color: #a8a8a8;">` file provided with the homework.</span>
+<span style="color: #00cd68;">(</span>load-file <span style="color: #79a8ff;">"h10.clj"</span><span style="color: #00cd68;">)</span>
+
+<span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">deftest</span> <span style="color: #feacd0;">contains-checks</span>
+  <span style="color: #b6a0ff;">(</span><span style="color: #b6a0ff;">let</span> <span style="color: #6ae4b9;">[</span>result <span style="color: #f0ce43;">(</span>summingPairs input 2020<span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">]</span>
+    <span style="color: #6ae4b9;">(</span>is <span style="color: #f0ce43;">(</span>contains? <span style="color: #00bcff;">(</span>set result<span style="color: #00bcff;">)</span> <span style="color: #00bcff;">[</span>374 150<span style="color: #00bcff;">]</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>
+    <span style="color: #6ae4b9;">(</span>is <span style="color: #f0ce43;">(</span>contains? <span style="color: #00bcff;">(</span>set result<span style="color: #00bcff;">)</span> <span style="color: #00bcff;">[</span>626 1030<span style="color: #00bcff;">]</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>
+    <span style="color: #6ae4b9;">(</span>is <span style="color: #f0ce43;">(</span>contains? <span style="color: #00bcff;">(</span>set result<span style="color: #00bcff;">)</span> <span style="color: #00bcff;">[</span>150 1850<span style="color: #00bcff;">]</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+
+<span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">If we define `</span><span style="color: #00bcff;">test-ns-hook</span><span style="color: #a8a8a8;">`, it is called when running `</span><span style="color: #00bcff;">run-tests</span><span style="color: #a8a8a8;">`,</span>
+<span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">instead of just calling all tests in the namespace.</span>
+<span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">This lets us control the order of the tests.</span>
+<span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">deftest</span> <span style="color: #feacd0;">test-ns-hook</span>
+  <span style="color: #b6a0ff;">(</span>contains-checks<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+
+<span style="color: #00cd68;">(</span>run-tests 'testing<span style="color: #00cd68;">)</span>
+</pre>
+</div>
+
+<p>
+<a href="./testing/h10/h10t.rb">h10t.rb</a>
+</p>
+<div class="org-src-container">
+<pre class="src src-ruby"><span style="color: #f78fe7;">require_relative</span> <span style="color: #79a8ff;">"h10"</span>
+<span style="color: #f78fe7;">require</span> <span style="color: #79a8ff;">"test/unit"</span>
+
+<span style="color: #6ae4b9;">RESULT</span> = summingPairs<span style="color: #00cd68;">(</span><span style="color: #6ae4b9;">INPUT</span>,2020<span style="color: #00cd68;">)</span>
+
+<span style="color: #b6a0ff;">class</span> <span style="color: #6ae4b9;">SimpleTests</span> &lt; <span style="color: #6ae4b9;">Test</span>::<span style="color: #6ae4b9;">Unit</span>::<span style="color: #6ae4b9;">TestCase</span>
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">test_contains_checks</span>
+    assert_equal<span style="color: #00cd68;">(</span><span style="color: #00bcff;">true</span>, <span style="color: #6ae4b9;">RESULT</span>.include?<span style="color: #b6a0ff;">(</span><span style="color: #6ae4b9;">Pair</span>.new<span style="color: #6ae4b9;">(</span>374, 150<span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+    assert_equal<span style="color: #00cd68;">(</span><span style="color: #00bcff;">true</span>, <span style="color: #6ae4b9;">RESULT</span>.include?<span style="color: #b6a0ff;">(</span><span style="color: #6ae4b9;">Pair</span>.new<span style="color: #6ae4b9;">(</span>626, 1030<span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+    assert_equal<span style="color: #00cd68;">(</span><span style="color: #00bcff;">true</span>, <span style="color: #6ae4b9;">RESULT</span>.include?<span style="color: #b6a0ff;">(</span><span style="color: #6ae4b9;">Pair</span>.new<span style="color: #6ae4b9;">(</span>150, 1850<span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+  <span style="color: #b6a0ff;">end</span>
+<span style="color: #b6a0ff;">end</span>
+</pre>
+</div>
+
+<p>
+<a href="./testing/h10/h10t.sc">h10t.sc</a>
+</p>
+<div class="org-src-container">
+<pre class="src src-amm"><span style="color: #b6a0ff;">import</span> $file.h10, h10.<span style="color: #b6a0ff;">_</span>
+<span style="color: #b6a0ff;">import</span> $file.collection, collection.<span style="color: #b6a0ff;">_</span>
+
+<span style="color: #a8a8a8;">/* </span><span style="color: #a8a8a8;">Given an expected result and a computed result,</span>
+<span style="color: #a8a8a8;">   check if they are equal in value.</span>
+<span style="color: #a8a8a8;">   If so, return 0. Otherwise, inform the user, and return 1,</span>
+<span style="color: #a8a8a8;">   so the number of failures can be counted. */</span>
+<span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">test</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">](</span><span style="color: #b6a0ff;">given:</span> <span style="color: #6ae4b9;">A</span>, expected<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">A</span>, the_test<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">String</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">=</span>
+  <span style="color: #b6a0ff;">if</span> <span style="color: #00cd68;">(</span>!<span style="color: #b6a0ff;">(</span><span style="color: #b6a0ff;">given</span> equals expected<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span> <span style="color: #00cd68;">{</span>
+    println<span style="color: #b6a0ff;">(</span><span style="color: #79a8ff;">"+---------------------------------------------------"</span><span style="color: #b6a0ff;">)</span>
+    println<span style="color: #b6a0ff;">(</span><span style="color: #79a8ff;">"| "</span> + the_test + <span style="color: #79a8ff;">" failed."</span><span style="color: #b6a0ff;">)</span>
+    println<span style="color: #b6a0ff;">(</span><span style="color: #79a8ff;">"| Expected "</span> + expected + <span style="color: #79a8ff;">", got "</span> + <span style="color: #b6a0ff;">given</span> + <span style="color: #79a8ff;">"."</span><span style="color: #b6a0ff;">)</span>
+    println<span style="color: #b6a0ff;">(</span><span style="color: #79a8ff;">"+---------------------------------------------------"</span><span style="color: #b6a0ff;">)</span>
+    <span style="color: #00bcff;">1</span>
+  <span style="color: #00cd68;">}</span> <span style="color: #b6a0ff;">else</span> <span style="color: #00cd68;">{</span>
+    <span style="color: #00bcff;">0</span>
+  <span style="color: #00cd68;">}</span>
+
+
+<span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">result</span> <span style="color: #b6a0ff;">=</span> summingPairs<span style="color: #00cd68;">(</span>input,<span style="color: #00bcff;">2020</span><span style="color: #00cd68;">)</span>
+
+<span style="color: #a8a8a8;">//  </span><span style="color: #a8a8a8;">The tests are saved as tuples, the pieces of which will be passed</span>
+<span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">to test.</span>
+<span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">tests</span> <span style="color: #b6a0ff;">=</span> <span style="color: #00bcff;">List</span><span style="color: #00cd68;">(</span>
+  <span style="color: #b6a0ff;">(</span>result.contains<span style="color: #6ae4b9;">(</span><span style="color: #00bcff;">Tuple2</span><span style="color: #f0ce43;">(</span><span style="color: #00bcff;">374</span>,<span style="color: #00bcff;">150</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>, <span style="color: #00bcff;">true</span>, <span style="color: #79a8ff;">"374,150"</span><span style="color: #b6a0ff;">)</span>,
+  <span style="color: #b6a0ff;">(</span>result.contains<span style="color: #6ae4b9;">(</span><span style="color: #00bcff;">Tuple2</span><span style="color: #f0ce43;">(</span><span style="color: #00bcff;">626</span>,<span style="color: #00bcff;">1030</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>, <span style="color: #00bcff;">true</span>, <span style="color: #79a8ff;">"626,1030"</span><span style="color: #b6a0ff;">)</span>,
+  <span style="color: #b6a0ff;">(</span>result.contains<span style="color: #6ae4b9;">(</span><span style="color: #00bcff;">Tuple2</span><span style="color: #f0ce43;">(</span><span style="color: #00bcff;">150</span>,<span style="color: #00bcff;">1850</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>, <span style="color: #00bcff;">true</span>, <span style="color: #79a8ff;">"150,1850"</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+
+<span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Apply test to each element of tests, and sum the return values.</span>
+<span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">This is essentially a for loop.</span>
+<span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">failed</span> <span style="color: #b6a0ff;">=</span> tests.foldLeft<span style="color: #00cd68;">(</span><span style="color: #00bcff;">0</span><span style="color: #00cd68;">)</span> <span style="color: #00cd68;">{</span>
+  <span style="color: #b6a0ff;">(</span>failures, next<span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">=&gt;</span> next <span style="color: #b6a0ff;">match</span> <span style="color: #b6a0ff;">{</span>
+    <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Deconstruct the tuple to get its parts</span>
+    <span style="color: #b6a0ff;">case</span> <span style="color: #6ae4b9;">(</span><span style="color: #b6a0ff;">given</span>, expected, the_test<span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">=&gt;</span> failures + test<span style="color: #6ae4b9;">(</span><span style="color: #b6a0ff;">given</span>, expected, the_test<span style="color: #6ae4b9;">)</span>
+  <span style="color: #b6a0ff;">}</span>
+<span style="color: #00cd68;">}</span>
+
+println<span style="color: #00cd68;">(</span><span style="color: #79a8ff;">"+---------------------------------------------------"</span><span style="color: #00cd68;">)</span>
+println<span style="color: #00cd68;">(</span><span style="color: #79a8ff;">"| "</span> + failed + <span style="color: #79a8ff;">" tests failed"</span><span style="color: #00cd68;">)</span>
+println<span style="color: #00cd68;">(</span><span style="color: #79a8ff;">"+---------------------------------------------------"</span><span style="color: #00cd68;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-The-Docker-setup" class="outline-3">
+<h3 id="The-Docker-setup">The Docker setup</h3>
+<div class="outline-text-3" id="text-The-Docker-setup">
+<p>
+The contents of the Docker setup files and scripts are repeated here.
+</p>
+
+<p>
+<a href="./testing/h10/Dockerfile">Dockerfile</a>
+</p>
+<div class="org-src-container">
+<pre class="src src-docker"># Define the argument for openjdk version
+ARG OPENJDK_TAG=8u232
+
+FROM clojure:openjdk-8
+
+# Setup to install Scala
+RUN apt-get update &amp;&amp; \
+    apt-get install scala -y &amp;&amp; \
+    apt-get install -y curl &amp;&amp; \
+    sh -c '(echo "#!/usr/bin/env sh" &amp;&amp; \
+    curl -L https://github.com/lihaoyi/Ammonite/releases/download/2.1.1/2.12-2.1.1) &gt; /usr/local/bin/amm &amp;&amp; \
+    chmod +x /usr/local/bin/amm'
+RUN (rm -rf /root/.cache)
+
+# Install Ruby
+RUN apt-get update &amp;&amp; apt-get install -y --no-install-recommends --no-install-suggests curl bzip2 build-essential libssl-dev libreadline-dev zlib1g-dev &amp;&amp; \
+    rm -rf /var/lib/apt/lists/* &amp;&amp; \
+    curl -L https://github.com/rbenv/ruby-build/archive/v20201118.tar.gz | tar -zxvf - -C /tmp/ &amp;&amp; \
+    cd /tmp/ruby-build-* &amp;&amp; ./install.sh &amp;&amp; cd / &amp;&amp; \
+    ruby-build -v 2.7.2 /usr/local &amp;&amp; rm -rfv /tmp/ruby-build-*
+
+# Set the name of the maintainers
+MAINTAINER Habib Ghaffari Hadigheh, Mark Armstrong &lt;ghaffh1@mcmaster.ca, armstmp@mcmaster.ca&gt;
+
+# Set the working directory
+WORKDIR /opt/h10
+</pre>
+</div>
+
+<p>
+<a href="./testing/h10/docker-compose.yml">docker-compose.yml</a>
+</p>
+<div class="org-src-container">
+<pre class="src src-yaml">version: '2'
+services:
+  service:
+    build: .
+    image: 3mi3_h10_docker_image
+    volumes:
+      - .:/opt/h10
+    container_name: 3mi3_h10_container
+    command: bash -c
+      "echo 'Scala testing' ;
+       echo '----------------------------------------------------------------------' ;
+       amm h10t.sc ;
+       printf '\\n\\n\\n' ;
+       echo 'Ruby testing' ;
+       echo '----------------------------------------------------------------------' ;
+       ruby h10t.rb ;
+       echo '----------------------------------------------------------------------' ;
+       printf '\\n\\n\\n' ;
+       echo 'Clojure testing' ;
+       echo '----------------------------------------------------------------------' ;
+       cat h10t.clj | lein repl ;
+       echo '----------------------------------------------------------------------'"
+</pre>
+</div>
+
+<p>
+<a href="./testing/h10/setup.sh">setup.sh</a>
+</p>
+<div class="org-src-container">
+<pre class="src src-shell">docker-compose build --force-rm
+</pre>
+</div>
+
+<p>
+<a href="./testing/h10/run.sh">run.sh</a>
+</p>
+<div class="org-src-container">
+<pre class="src src-shell"><span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Run the container</span>
+docker-compose up --force-recreate
+<span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Stop the container after finishing the test run</span>
+docker-compose stop -t 1
+</pre>
+</div>
+
+<p>
+<a href="./testing/h10/README.md">README.md</a>
+</p>
+<div class="org-src-container">
+<pre class="src src-text"># Instructions for automated testing using Docker
+
+We have already created a `Dockerfile` here which specifies
+all the necessary packages, etc., for compiling and running your code.
+You only need to follow the instructions below to see 
+the results of unit tests designed to check your implementation.
+
+## Setup
+We use `docker-compose` and its configuration file to build the image.
+Assuming you have `docker` and `docker-compose` installed,
+simply execute
+```shell script
+./setup.sh
+```
+to generate the image.
+
+## Prepare your code for the running the tests
+You only need to place the `h8t.clj` unit test file and
+the `run.sh` file in the same directory as your `h9.clj` source file.
+
+## Running the tests
+As with the build process, we have already put
+the configuration needed for running the test inside `docker-compose.yml`.
+Simply execute
+```shell script
+./run.sh
+```
+to run and see the results of the tests.
+</pre>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -750,7 +1024,7 @@ making use of the <code>concurrent</code> predicate.
 <p class="author">Author: Mark Armstrong</p>
      <p class="author">Contact: <a href="mailto:markparmstrong@gmail.com">markparmstrong@gmail.com</a></p>
      <p class="date">Original date: December 4, 2020</p>
-     <p class="date">Last updated: 2020-12-04 Fri 01:54</p>
+     <p class="date">Last updated: 2020-12-07 Mon 19:10</p>
      <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4)</p>
      <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

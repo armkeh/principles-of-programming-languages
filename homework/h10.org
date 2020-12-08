@@ -262,15 +262,11 @@ making use of the ~concurrent~ predicate.
 :CUSTOM_ID: Testing
 :END:
 
-:TODO:
-
-* COMMENT
-:PROPERTIES:
-:CUSTOM_ID: COMMENT
-:END:
-
 Unit tests for the requested methods/functions
-are available here [[./testing/h9/h9t.clj][h9t.clj]].
+are available:
+- [[./testing/h10/h10t.clj][h10t.clj]] for Clojure,
+- [[./testing/h10/h10t.rb][h10t.rb]] for Ruby, and
+- [[./testing/h10/h10t.sc][h10t.sc]] for Scala.
 The contents of the unit test file are also repeated below.
 
 ** Automated testing via Docker
@@ -280,17 +276,17 @@ The contents of the unit test file are also repeated below.
 
 The Docker setup and usage scripts are available at the following links.
 Their contents are also repeated below.
-- [[./testing/h8/Dockerfile][Dockerfile]]
-- [[./testing/h8/docker-compose.yml][docker-compose.yml]]
-- [[./testing/h8/setup.sh][setup.sh]]
-- [[./testing/h8/run.sh][run.sh]]
-Place them into your ~h8~ directory where your ~h8.clj~ file
-and the ~h8t.clj~ (linked to above) files exist,
+- [[./testing/h10/Dockerfile][Dockerfile]]
+- [[./testing/h10/docker-compose.yml][docker-compose.yml]]
+- [[./testing/h10/setup.sh][setup.sh]]
+- [[./testing/h10/run.sh][run.sh]]
+Place them into your ~h10~ directory where your ~h10.clj~ file
+and the ~h10t.clj~ (linked to above) files exist,
 then run ~setup.sh~ and ~run.sh~.
 
 You may also refer to the README
 for this testing setup and those files
-[[https://github.com/armkeh/principles-of-programming-languages/tree/master/homework/testing/h5][on the course GitHub repo]].
+[[https://github.com/armkeh/principles-of-programming-languages/tree/master/homework/testing/h10][on the course GitHub repo]].
 
 Note that the use of the ~setup.sh~ and ~run.sh~ scripts assumes
 that you are in a ~bash~ like shell; if you are on Windows,
@@ -302,42 +298,88 @@ to run the commands contained in those scripts manually.
 :CUSTOM_ID: The-tests
 :END:
 
-The contents of the testing script are repeated here.
+The contents of the testing scripts are repeated here.
 
-[[./testing/h9/h9t.clj][h9t.clj]]
-#+begin_src clojure :tangle ./testing/h9/h9t.clj
+[[./testing/h10/h10t.clj][h10t.clj]]
+#+begin_src clojure :tangle testing/h10/h10t.clj
 (ns testing)
 (use 'clojure.test)
-(load-file "h9.clj")
+(load-file "collection.clj") ;; The `collection` file provided with the homework.
+(load-file "h10.clj")
 
-(def compare-ten-ten
-   '((GuardedCommand. '(>= 10 10) :gte)
-     (GuardedCommand. '(=  10 10) :eq)
-     (GuardedCommand. '(<= 10 10) :lte)))
-
-(def compare-ten-five
-   '((GuardedCommand. '(>= 10 5) :gte)
-     (GuardedCommand. '(=  10 5) :eq)
-     (GuardedCommand. '(<= 10 5) :lte)))
-
-(def compare-five-ten
-   '((GuardedCommand. '(>= 5 10) :gte)
-     (GuardedCommand. '(=  5 10) :eq)
-     (GuardedCommand. '(<= 5 10) :lte)))
-
-(deftest allowed-commands-tests
-  (is (= (postfixes-tr '(1 2 3 4 5 6)) '((1 2 3 4 5 6) (2 3 4 5 6) (3 4 5 6) (4 5 6) (5 6) (6) ())))
-  (is (= (postfixes-tr '(0)) '((0) ())))
-  (is (= (postfixes-tr '(6 5 4 3 2 1)) '((6 5 4 3 2 1) (5 4 3 2 1) (4 3 2 1) (3 2 1) (2 1) (1) ()))))
+(deftest contains-checks
+  (let [result (summingPairs input 2020)]
+    (is (contains? (set result) [374 150]))
+    (is (contains? (set result) [626 1030]))
+    (is (contains? (set result) [150 1850]))))
 
 ;; If we define `test-ns-hook`, it is called when running `run-tests`,
 ;; instead of just calling all tests in the namespace.
 ;; This lets us control the order of the tests.
 (deftest test-ns-hook
-  (naive-exponent)
-  )
+  (contains-checks))
 
 (run-tests 'testing)
+#+end_src
+
+[[./testing/h10/h10t.rb][h10t.rb]]
+#+begin_src ruby :tangle testing/h10/h10t.rb
+require_relative "h10"
+require "test/unit"
+
+RESULT = summingPairs(INPUT,2020)
+
+class SimpleTests < Test::Unit::TestCase
+  def test_contains_checks
+    assert_equal(true, RESULT.include?(Pair.new(374, 150)))
+    assert_equal(true, RESULT.include?(Pair.new(626, 1030)))
+    assert_equal(true, RESULT.include?(Pair.new(150, 1850)))
+  end
+end
+#+end_src
+
+[[./testing/h10/h10t.sc][h10t.sc]]
+#+begin_src amm :tangle testing/h10/h10t.sc
+import $file.h10, h10._
+import $file.collection, collection._
+
+/* Given an expected result and a computed result,
+   check if they are equal in value.
+   If so, return 0. Otherwise, inform the user, and return 1,
+   so the number of failures can be counted. */
+def test[A](given: A, expected: A, the_test: String) =
+  if (!(given equals expected)) {
+    println("+---------------------------------------------------")
+    println("| " + the_test + " failed.")
+    println("| Expected " + expected + ", got " + given + ".")
+    println("+---------------------------------------------------")
+    1
+  } else {
+    0
+  }
+
+
+val result = summingPairs(input,2020)
+
+//  The tests are saved as tuples, the pieces of which will be passed
+// to test.
+val tests = List(
+  (result.contains(Tuple2(374,150)), true, "374,150"),
+  (result.contains(Tuple2(626,1030)), true, "626,1030"),
+  (result.contains(Tuple2(150,1850)), true, "150,1850"))
+
+// Apply test to each element of tests, and sum the return values.
+// This is essentially a for loop.
+val failed = tests.foldLeft(0) {
+  (failures, next) => next match {
+    // Deconstruct the tuple to get its parts
+    case (given, expected, the_test) => failures + test(given, expected, the_test)
+  }
+}
+
+println("+---------------------------------------------------")
+println("| " + failed + " tests failed")
+println("+---------------------------------------------------")
 #+end_src
 
 ** The Docker setup
@@ -347,49 +389,77 @@ The contents of the testing script are repeated here.
 
 The contents of the Docker setup files and scripts are repeated here.
 
-[[./testing/h9/Dockerfile][Dockerfile]]
-#+begin_src docker :tangle ./testing/h9/Dockerfile
+[[./testing/h10/Dockerfile][Dockerfile]]
+#+begin_src docker :tangle ./testing/h10/Dockerfile
 # Define the argument for openjdk version
 ARG OPENJDK_TAG=8u232
 
 FROM clojure:openjdk-8
-    
+
+# Setup to install Scala
+RUN apt-get update && \
+    apt-get install scala -y && \
+    apt-get install -y curl && \
+    sh -c '(echo "#!/usr/bin/env sh" && \
+    curl -L https://github.com/lihaoyi/Ammonite/releases/download/2.1.1/2.12-2.1.1) > /usr/local/bin/amm && \
+    chmod +x /usr/local/bin/amm'
+RUN (rm -rf /root/.cache)
+
+# Install Ruby
+RUN apt-get update && apt-get install -y --no-install-recommends --no-install-suggests curl bzip2 build-essential libssl-dev libreadline-dev zlib1g-dev && \
+    rm -rf /var/lib/apt/lists/* && \
+    curl -L https://github.com/rbenv/ruby-build/archive/v20201118.tar.gz | tar -zxvf - -C /tmp/ && \
+    cd /tmp/ruby-build-* && ./install.sh && cd / && \
+    ruby-build -v 2.7.2 /usr/local && rm -rfv /tmp/ruby-build-*
+
 # Set the name of the maintainers
 MAINTAINER Habib Ghaffari Hadigheh, Mark Armstrong <ghaffh1@mcmaster.ca, armstmp@mcmaster.ca>
 
 # Set the working directory
-WORKDIR /opt/h9
+WORKDIR /opt/h10
 #+end_src
 
-[[./testing/h9/docker-compose.yml][docker-compose.yml]]
-#+begin_src yaml :tangle ./testing/h9/docker-compose.yml
+[[./testing/h10/docker-compose.yml][docker-compose.yml]]
+#+begin_src yaml :tangle ./testing/h10/docker-compose.yml
 version: '2'
 services:
   service:
     build: .
-    image: 3mi3_h9_docker_image
+    image: 3mi3_h10_docker_image
     volumes:
-      - .:/opt/h8
-    container_name: 3mi3_h9_container
+      - .:/opt/h10
+    container_name: 3mi3_h10_container
     command: bash -c
-      "cat h9t.clj | lein repl"
+      "echo 'Scala testing' ;
+       echo '----------------------------------------------------------------------' ;
+       amm h10t.sc ;
+       printf '\\n\\n\\n' ;
+       echo 'Ruby testing' ;
+       echo '----------------------------------------------------------------------' ;
+       ruby h10t.rb ;
+       echo '----------------------------------------------------------------------' ;
+       printf '\\n\\n\\n' ;
+       echo 'Clojure testing' ;
+       echo '----------------------------------------------------------------------' ;
+       cat h10t.clj | lein repl ;
+       echo '----------------------------------------------------------------------'"
 #+end_src
 
-[[./testing/h9/setup.sh][setup.sh]]
-#+begin_src shell :tangle ./testing/h9/setup.sh :shebang t
+[[./testing/h10/setup.sh][setup.sh]]
+#+begin_src shell :tangle ./testing/h10/setup.sh :shebang
 docker-compose build --force-rm
 #+end_src
 
-[[./testing/h9/run.sh][run.sh]]
-#+begin_src shell :tangle ./testing/h9/run.sh :shebang t
+[[./testing/h10/run.sh][run.sh]]
+#+begin_src shell :tangle ./testing/h10/run.sh :shebang
 # Run the container
 docker-compose up --force-recreate
 # Stop the container after finishing the test run
 docker-compose stop -t 1
 #+end_src
 
-[[./testing/h9/README.md][README.md]]
-#+begin_src text :tangle ./testing/h9/README.md
+[[./testing/h10/README.md][README.md]]
+#+begin_src text :tangle ./testing/h10/README.md
 # Instructions for automated testing using Docker
 
 We have already created a `Dockerfile` here which specifies

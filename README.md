@@ -14,6 +14,8 @@ better viewed at
 
   - December 7th
     
+      - Tests for homework 10 are now posted.
+    
       - The more complete version of the introductory concurrency notes
         (under Literate Programs) is now posted. This includes examples
         of using the constructs in all 4 languages. Of particular note,
