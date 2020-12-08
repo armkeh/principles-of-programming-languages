@@ -12,6 +12,25 @@ better viewed at
 
 ## December
 
+  - December 8th
+    
+      - A note regarding individual extensions to assignment 3 has been
+        added to the assignment 3 portion of the Assignments tab.
+        
+        <div class="center">
+        
+        **Please review it.**
+        
+        </div>
+    
+      - As a last reminder, online course evaluations close tomorrow. If
+        you have not yet, please take the time to offer some feedback on
+        this course and your other courses at
+        <https://evals.mcmaster.ca>.
+        
+          - Preferably, make your feedback constructive, whether it is
+            positive or negative. Thank you\!
+
   - December 7th
     
       - Tests for homework 10 are now posted.
@@ -1076,6 +1095,24 @@ plaintext](./homework/h1.org)
   - [HTML](./assignments/a3.html)
   - [PDF](./assignments/a3.pdf)
   - [Org plaintext](./assignments/a3.org)
+
+### Regarding MSAFs, the due date, and extensions
+
+Note that because this assignment is worth 30%, the use of an MSAF would
+require approval of the faculty office and presumably some
+documentation.
+
+The set due date of the assignment (the 18th of December) **will not**
+be shifted again in any circumstance, in order to ensure time for
+students who are granted an extension to still submit before the 23rd.
+
+With all of that said, you **may** communicate with Mark to discuss
+individual extensions of no more than 4 days (which is the length of a
+normal MSAF extension), without necessarily needing to submit an MSAF.
+
+To ensure your comfort, please **do not** initially send any
+documentation or any more details about why you need an extension than
+you are absolutely comfortable sharing with us.
 
 ## Assignment 2 – Typing a λ-calculus – Oct 30th to Nov 29th
 
