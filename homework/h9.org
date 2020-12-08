@@ -90,7 +90,9 @@ do
 #+end_src
 also selects any command whose guard evaluates to true
 and executes that command,
-but it /continues to do so/ until no guard is true. 
+but it /continues to do so/ until no guard is true.
+That is, the ~do~ is a loop, which at each step executes a random command
+(with a valid guard) and only stops when all of the guards are ~false~.
 
 We will be interested in versions of the ~if~ and ~do~ constructs
 which /nondeterministically/ select which command to evaluate.
@@ -261,10 +263,22 @@ which picks a random element out of a sequence, may be of use here
 :CUSTOM_ID: Part-3:-A-nondeterministic-~do~-expression-for-guarded-commands-[15 points]
 :END:
 
-Now define a macro for the nondeterministic ~do~ construct
+Now define a macro for the *looping* nondeterministic ~do~ construct
 called ~guarded-do~. In contrast to the ~guarded-if~ macro,
-this construct should continue evaluating commands
+this construct should continue to loop and evaluate commands
 until none of the guards are true.
+
+(Added December 7th.) We have not discussed how to create and
+handle mutable (non-constant) variables in Clojure.
+And in fact, because of the way this assignment instructs
+you to represent guarded commands (as a record),
+it actually might be impossible to use your macro on Clojure code
+that involves mutable variables.
+Because of this, you may only be able to test out your ~guarded-do~ macro
+by causing an infinite loop.
+
+Because of this, we will not actually be testing the ~guarded-do~;
+it will be checked by visual inspection only.
 
 * Part 4: GCD                                                   [10 points]
 :PROPERTIES:
@@ -276,7 +290,8 @@ to define a function ~gcd~ to find the greatest common denominator
 of two integers.
 
 The intention for this part is that you use the ~if~ construct
-from part 1 and recursion to define the GCD function.
+from part 2 (corrected December 8th; this originally said part 1)
+and recursion to define the GCD function.
 A version using iteration (the ~do~ construct) is given as a bonus.
 
 Note that the iterative algorithm for the GCD using guarded commands is

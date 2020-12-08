@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-12-07 Mon 15:31 -->
+<!-- 2020-12-08 Tue 01:43 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Computer Science 3MI3 – 2020 homework 9</title>
@@ -240,16 +240,16 @@
 <ul>
 <li><a href="#Submission-procedures">Submission procedures</a>
 <ul>
-<li><a href="#org6611961">Submission method</a></li>
-<li><a href="#org2f60af8">Naming requirements</a></li>
-<li><a href="#org10c3a1d">Do not submit testing or diagnostic code</a></li>
-<li><a href="#orgbad5112">Due date and allowance for technical difficulties</a></li>
+<li><a href="#orgcd2ddb3">Submission method</a></li>
+<li><a href="#orgcd9c97c">Naming requirements</a></li>
+<li><a href="#org42ef0ac">Do not submit testing or diagnostic code</a></li>
+<li><a href="#org81cc2de">Due date and allowance for technical difficulties</a></li>
 </ul>
 </li>
 <li><a href="#Proper-conduct-for-coursework">Proper conduct for coursework</a>
 <ul>
-<li><a href="#orga0defbd">Individual work</a></li>
-<li><a href="#org404726e">Language library resources</a></li>
+<li><a href="#orgd7da857">Individual work</a></li>
+<li><a href="#org6c1a842">Language library resources</a></li>
 </ul>
 </li>
 </ul>
@@ -307,9 +307,9 @@ control constructs by implementing them in Clojure, using macros.
 <div class="outline-text-3" id="text-Submission-procedures">
 </div>
 
-<div id="outline-container-org6611961" class="outline-4">
-<h4 id="org6611961">Submission method</h4>
-<div class="outline-text-4" id="text-org6611961">
+<div id="outline-container-orgcd2ddb3" class="outline-4">
+<h4 id="orgcd2ddb3">Submission method</h4>
+<div class="outline-text-4" id="text-orgcd2ddb3">
 <p>
 Homework should be submitted to your McMaster CAS Gitlab respository
 in the <code>cs3mi3-fall2020</code> project.
@@ -322,9 +322,9 @@ in time for the deadline, and not just committed to your local copy.
 </div>
 </div>
 
-<div id="outline-container-org2f60af8" class="outline-4">
-<h4 id="org2f60af8">Naming requirements</h4>
-<div class="outline-text-4" id="text-org2f60af8">
+<div id="outline-container-orgcd9c97c" class="outline-4">
+<h4 id="orgcd9c97c">Naming requirements</h4>
+<div class="outline-text-4" id="text-orgcd9c97c">
 <p>
 Place all files for the homework
 inside a folder titled <code>hn</code>, where <code>n</code> is the number of the homework.
@@ -365,9 +365,9 @@ submit a <code>hn.ext</code> file for each language.
 </div>
 </div>
 
-<div id="outline-container-org10c3a1d" class="outline-4">
-<h4 id="org10c3a1d">Do not submit testing or diagnostic code</h4>
-<div class="outline-text-4" id="text-org10c3a1d">
+<div id="outline-container-org42ef0ac" class="outline-4">
+<h4 id="org42ef0ac">Do not submit testing or diagnostic code</h4>
+<div class="outline-text-4" id="text-org42ef0ac">
 <p>
 Unless you are instructed to do so in the homework questions,
 <b>you should not submit testing code with your homework submission</b>.
@@ -395,9 +395,9 @@ For instance, by using a wrapper on the print function or macros.
 </div>
 </div>
 
-<div id="outline-container-orgbad5112" class="outline-4">
-<h4 id="orgbad5112">Due date and allowance for technical difficulties</h4>
-<div class="outline-text-4" id="text-orgbad5112">
+<div id="outline-container-org81cc2de" class="outline-4">
+<h4 id="org81cc2de">Due date and allowance for technical difficulties</h4>
+<div class="outline-text-4" id="text-org81cc2de">
 <p>
 Homework is due on the second Sunday following its release,
 by the end of the day (midnight).
@@ -422,9 +422,9 @@ to accept your submission once the technical difficulties are resolved.
 <div class="outline-text-3" id="text-Proper-conduct-for-coursework">
 </div>
 
-<div id="outline-container-orga0defbd" class="outline-4">
-<h4 id="orga0defbd">Individual work</h4>
-<div class="outline-text-4" id="text-orga0defbd">
+<div id="outline-container-orgd7da857" class="outline-4">
+<h4 id="orgd7da857">Individual work</h4>
+<div class="outline-text-4" id="text-orgd7da857">
 <p>
 Unless explicitely stated in the homework questions,
 all homework in this course is intended
@@ -485,9 +485,9 @@ probably add a catch-all <code>_</code> case to your <code>match</code> expressi
 </div>
 </div>
 
-<div id="outline-container-org404726e" class="outline-4">
-<h4 id="org404726e">Language library resources</h4>
-<div class="outline-text-4" id="text-org404726e">
+<div id="outline-container-org6c1a842" class="outline-4">
+<h4 id="org6c1a842">Language library resources</h4>
+<div class="outline-text-4" id="text-org6c1a842">
 <p>
 Unless explicitely stated in the questions,
 it is not expected that you will use any language library resources
@@ -586,7 +586,9 @@ The <code>do</code> construct, when applied to a set of guarded commands, as in
 <p>
 also selects any command whose guard evaluates to true
 and executes that command,
-but it <i>continues to do so</i> until no guard is true. 
+but it <i>continues to do so</i> until no guard is true.
+That is, the <code>do</code> is a loop, which at each step executes a random command
+(with a valid guard) and only stops when all of the guards are <code>false</code>.
 </p>
 
 <p>
@@ -785,10 +787,26 @@ which picks a random element out of a sequence, may be of use here
 <h2 id="Part-3:-A-nondeterministic-~do~-expression-for-guarded-commands-[15 points]">Part 3: A nondeterministic <code>do</code> expression for guarded commands [15 points]</h2>
 <div class="outline-text-2" id="text-Part-3:-A-nondeterministic-~do~-expression-for-guarded-commands-[15 points]">
 <p>
-Now define a macro for the nondeterministic <code>do</code> construct
+Now define a macro for the <b>looping</b> nondeterministic <code>do</code> construct
 called <code>guarded-do</code>. In contrast to the <code>guarded-if</code> macro,
-this construct should continue evaluating commands
+this construct should continue to loop and evaluate commands
 until none of the guards are true.
+</p>
+
+<p>
+(Added December 7th.) We have not discussed how to create and
+handle mutable (non-constant) variables in Clojure.
+And in fact, because of the way this assignment instructs
+you to represent guarded commands (as a record),
+it actually might be impossible to use your macro on Clojure code
+that involves mutable variables.
+Because of this, you may only be able to test out your <code>guarded-do</code> macro
+by causing an infinite loop.
+</p>
+
+<p>
+Because of this, we will not actually be testing the <code>guarded-do</code>;
+it will be checked by visual inspection only.
 </p>
 </div>
 </div>
@@ -804,7 +822,8 @@ of two integers.
 
 <p>
 The intention for this part is that you use the <code>if</code> construct
-from part 1 and recursion to define the GCD function.
+from part 2 (corrected December 8th; this originally said part 1)
+and recursion to define the GCD function.
 A version using iteration (the <code>do</code> construct) is given as a bonus.
 </p>
 
@@ -1085,7 +1104,7 @@ to run and see the results of the tests.
 <p class="author">Author: Mark Armstrong</p>
      <p class="author">Contact: <a href="mailto:markparmstrong@gmail.com">markparmstrong@gmail.com</a></p>
      <p class="date">Original date: November 28th, 2020</p>
-     <p class="date">Last updated: 2020-12-07 Mon 15:31</p>
+     <p class="date">Last updated: 2020-12-08 Tue 01:18</p>
      <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4)</p>
      <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

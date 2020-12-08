@@ -1,4 +1,4 @@
-% Created 2020-12-07 Mon 15:31
+% Created 2020-12-08 Tue 01:43
 % Intended LaTeX compiler: lualatex
 \documentclass[11pt]{article}
 \usepackage{graphicx}
@@ -42,7 +42,7 @@
 
 
 \section*{Introduction}
-\label{sec:org79ad8d9}
+\label{sec:orgb06f954}
 In his 1975 paper
 \href{https://dl.acm.org/doi/10.1145/360933.360975}{Guarded commands, nondeterminacy and formal derivation of programs},
 Edsger W. Dijkstra proposed a foundation for an imperative language
@@ -57,11 +57,11 @@ In this homework, we familiarise ourselves with the guarded command
 control constructs by implementing them in Clojure, using macros.
 
 \section*{Boilerplate}
-\label{sec:org5b60f03}
+\label{sec:orgb3b2153}
 \subsection*{Submission procedures}
-\label{sec:org40c3435}
+\label{sec:org9034036}
 \subsubsection*{Submission method}
-\label{sec:org8ba832b}
+\label{sec:orgf9cf8c8}
 
 Homework should be submitted to your McMaster CAS Gitlab respository
 in the \texttt{cs3mi3-fall2020} project.
@@ -70,7 +70,7 @@ Ensure that you have \textbf{pushed} the commits to the remote repository
 in time for the deadline, and not just committed to your local copy.
 
 \subsubsection*{Naming requirements}
-\label{sec:org4065c85}
+\label{sec:org39d1bae}
 
 Place all files for the homework
 inside a folder titled \texttt{hn}, where \texttt{n} is the number of the homework.
@@ -101,7 +101,7 @@ submit a \texttt{hn.ext} file for each language.
 \end{center}
 
 \subsubsection*{Do not submit testing or diagnostic code}
-\label{sec:orgcba8d32}
+\label{sec:orgbf339fb}
 
 Unless you are instructed to do so in the homework questions,
 \textbf{you should not submit testing code with your homework submission}.
@@ -121,7 +121,7 @@ in your final submission.
 For instance, by using a wrapper on the print function or macros.
 
 \subsubsection*{Due date and allowance for technical difficulties}
-\label{sec:orgece87cb}
+\label{sec:org6b87735}
 
 Homework is due on the second Sunday following its release,
 by the end of the day (midnight).
@@ -136,9 +136,9 @@ This information will help ensure we are able
 to accept your submission once the technical difficulties are resolved.
 
 \subsection*{Proper conduct for coursework}
-\label{sec:orgcae174c}
+\label{sec:orgfe223ba}
 \subsubsection*{Individual work}
-\label{sec:org3436181}
+\label{sec:org6840550}
 
 Unless explicitely stated in the homework questions,
 all homework in this course is intended
@@ -187,7 +187,7 @@ probably add a catch-all \texttt{\_} case to your \texttt{match} expressions.”
 \end{enumerate}
 
 \subsubsection*{Language library resources}
-\label{sec:orgcf63476}
+\label{sec:orgdac2e12}
 
 Unless explicitely stated in the questions,
 it is not expected that you will use any language library resources
@@ -211,7 +211,7 @@ including \texttt{map}, \texttt{reduce}, \texttt{flatten}, and \texttt{filter} a
 unless the task is to implement such a higher-order operator.
 
 \section*{Part 0.1: An introduction to guarded commands}
-\label{sec:org4af9dbe}
+\label{sec:orgf549d6d}
 A very brief and informative article discussing the guarded command
 by Jerrold L. Wagener is freely available
 from the \href{https://dl.acm.org/doi/10.5555/1074100.1074433}{ACM digital library}.
@@ -254,7 +254,9 @@ do
 \end{minted}
 also selects any command whose guard evaluates to true
 and executes that command,
-but it \emph{continues to do so} until no guard is true. 
+but it \emph{continues to do so} until no guard is true.
+That is, the \texttt{do} is a loop, which at each step executes a random command
+(with a valid guard) and only stops when all of the guards are \texttt{false}.
 
 We will be interested in versions of the \texttt{if} and \texttt{do} constructs
 which \emph{nondeterministically} select which command to evaluate.
@@ -268,7 +270,7 @@ instead, the guards must be made explicit enough
 to ensure that their command is only executed in the correct context.
 
 \section*{Part 0.2: Representing guarded commands in Clojure}
-\label{sec:orgc7e3b7f}
+\label{sec:orge6793cb}
 We can easily write guarded commands in Clojure
 as a record consisting of the \texttt{guard} and the \texttt{command}.
 \begin{minted}[breaklines=true]{clojure}
@@ -293,7 +295,7 @@ we can write e.g., \texttt{(:guard grd-cmd)} or \texttt{(.command grd-cmd)}.
 So we will operate on lists or vectors of \texttt{GuardCommands}.
 
 \section*{Part 0.3: An example construct for using guarded commands}
-\label{sec:org327dfaa}
+\label{sec:org61256ce}
 To get you started, we define here a \emph{deterministic} \texttt{if} construct
 operating on guarded commands.
 
@@ -347,7 +349,7 @@ As an example, we use this form to define a \texttt{max} operation.
 \end{minted}
 
 \section*{Part 1: Sequence of commands whose guards are satisfied       [20 points]}
-\label{sec:orga9f7538}
+\label{sec:org45a647e}
 Create a function \texttt{allowed-commands} which, given a sequence
 of \texttt{GuardedCommands} (the record type defined in Part 0.2)
 produces a list of commands whose guard is satisfied
@@ -381,7 +383,7 @@ as a possible starting point for your \texttt{allowed-commands} function.
 Other approaches are permitted and encouraged, though.)
 
 \section*{Part 2: A nondeterministic \texttt{if} expression for guarded commands [15 points]}
-\label{sec:orgbd29cf2}
+\label{sec:orgd34fcda}
 Define a macro for the nondeterministic \texttt{if} construct
 called \texttt{guarded-if}.
 
@@ -394,20 +396,33 @@ which picks a random element out of a sequence, may be of use here
 (in conjunction with your function from part 1.)
 
 \section*{Part 3: A nondeterministic \texttt{do} expression for guarded commands [15 points]}
-\label{sec:orgde5c71e}
-Now define a macro for the nondeterministic \texttt{do} construct
+\label{sec:org06b3ee2}
+Now define a macro for the \textbf{looping} nondeterministic \texttt{do} construct
 called \texttt{guarded-do}. In contrast to the \texttt{guarded-if} macro,
-this construct should continue evaluating commands
+this construct should continue to loop and evaluate commands
 until none of the guards are true.
 
+(Added December 7th.) We have not discussed how to create and
+handle mutable (non-constant) variables in Clojure.
+And in fact, because of the way this assignment instructs
+you to represent guarded commands (as a record),
+it actually might be impossible to use your macro on Clojure code
+that involves mutable variables.
+Because of this, you may only be able to test out your \texttt{guarded-do} macro
+by causing an infinite loop.
+
+Because of this, we will not actually be testing the \texttt{guarded-do};
+it will be checked by visual inspection only.
+
 \section*{Part 4: GCD                                                   [10 points]}
-\label{sec:org764cbd0}
+\label{sec:org32b3680}
 Use the guarded command constructs you have defined
 to define a function \texttt{gcd} to find the greatest common denominator
 of two integers.
 
 The intention for this part is that you use the \texttt{if} construct
-from part 1 and recursion to define the GCD function.
+from part 2 (corrected December 8th; this originally said part 1)
+and recursion to define the GCD function.
 A version using iteration (the \texttt{do} construct) is given as a bonus.
 
 Note that the iterative algorithm for the GCD using guarded commands is
@@ -418,7 +433,7 @@ You can see this algorithm in
 It should be relatively simple to translate this to a recursive algorithm.
 
 \section*{Part 5: GCD by iteration [5 bonus points]}
-\label{sec:org4551217}
+\label{sec:orgb47799f}
 Define the function \texttt{gcd-iter} which calculates the GCD of two integers
 using iteration (the \texttt{do} construct.)
 
@@ -427,13 +442,13 @@ instead, it is the use of mutable variables,
 which we have not shown in Clojure.
 
 \section*{Testing}
-\label{sec:orge0abb5f}
+\label{sec:org6df55d6}
 Unit tests for the requested methods/functions
 are available here \href{./testing/h9/h9t.clj}{h9t.clj}.
 The contents of the unit test file are also repeated below.
 
 \subsection*{Automated testing via Docker}
-\label{sec:orgfdfd441}
+\label{sec:org82bb06d}
 The Docker setup and usage scripts are available at the following links.
 Their contents are also repeated below.
 \begin{itemize}
@@ -456,7 +471,7 @@ and not using WSL or WSL2, you may have
 to run the commands contained in those scripts manually.
 
 \subsection*{The tests}
-\label{sec:org29695ec}
+\label{sec:org3a457b2}
 The contents of the testing script are repeated here.
 
 \href{./testing/h9/h9t.clj}{h9t.clj}
@@ -552,7 +567,7 @@ The contents of the testing script are repeated here.
 \end{minted}
 
 \subsection*{The Docker setup}
-\label{sec:org7fbfb4b}
+\label{sec:orgd61b11d}
 The contents of the Docker setup files and scripts are repeated here.
 
 \href{./testing/h9/Dockerfile}{Dockerfile}
