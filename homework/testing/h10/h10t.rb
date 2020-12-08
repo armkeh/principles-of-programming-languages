@@ -1,4 +1,5 @@
 require_relative "h10"
+require_relative "collection"
 require "test/unit"
 
 RESULT = summingPairs(INPUT,2020)

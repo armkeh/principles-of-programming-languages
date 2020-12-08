@@ -325,6 +325,7 @@ The contents of the testing scripts are repeated here.
 [[./testing/h10/h10t.rb][h10t.rb]]
 #+begin_src ruby :tangle testing/h10/h10t.rb
 require_relative "h10"
+require_relative "collection"
 require "test/unit"
 
 RESULT = summingPairs(INPUT,2020)

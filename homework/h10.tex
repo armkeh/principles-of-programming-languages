@@ -1,4 +1,4 @@
-% Created 2020-12-07 Mon 19:10
+% Created 2020-12-08 Tue 17:19
 % Intended LaTeX compiler: lualatex
 \documentclass[11pt]{article}
 \usepackage{graphicx}
@@ -28,7 +28,7 @@
    pdftitle={Computer Science 3MI3 – 2020 homework 10},
    pdfkeywords={},
    pdfsubject={Making use of concurrency approaches in all of our languages.},
-   pdfcreator={Emacs 27.0.91 (Org mode 9.4)},
+   pdfcreator={Emacs 27.0.90 (Org mode 9.4)},
    pdflang={English},
    colorlinks,
    linkcolor=blue,
@@ -42,7 +42,7 @@
 
 
 \section*{Introduction}
-\label{sec:org7563efd}
+\label{sec:orge3bf733}
 This homework presents a somewhat contrived problem
 involving a computation over a slightly large dataset
 in order to justify the use of concurrency.
@@ -57,11 +57,11 @@ and Scala, and asks you to modify the solutions
 to take advantage of concurency.
 
 \section*{Boilerplate}
-\label{sec:org6997ffc}
+\label{sec:org8c8c858}
 \subsection*{Submission procedures}
-\label{sec:orgbc092ac}
+\label{sec:org34ac541}
 \subsubsection*{Submission method}
-\label{sec:org1181ecf}
+\label{sec:org92e9ada}
 
 Homework should be submitted to your McMaster CAS Gitlab respository
 in the \texttt{cs3mi3-fall2020} project.
@@ -70,7 +70,7 @@ Ensure that you have \textbf{pushed} the commits to the remote repository
 in time for the deadline, and not just committed to your local copy.
 
 \subsubsection*{Naming requirements}
-\label{sec:org19d267c}
+\label{sec:org186563b}
 
 Place all files for the homework
 inside a folder titled \texttt{hn}, where \texttt{n} is the number of the homework.
@@ -101,7 +101,7 @@ submit a \texttt{hn.ext} file for each language.
 \end{center}
 
 \subsubsection*{Do not submit testing or diagnostic code}
-\label{sec:org205e73e}
+\label{sec:org8798e0c}
 
 Unless you are instructed to do so in the homework questions,
 \textbf{you should not submit testing code with your homework submission}.
@@ -121,7 +121,7 @@ in your final submission.
 For instance, by using a wrapper on the print function or macros.
 
 \subsubsection*{Due date and allowance for technical difficulties}
-\label{sec:orgaec43c9}
+\label{sec:org0be2c16}
 
 Homework is due on the second Sunday following its release,
 by the end of the day (midnight).
@@ -136,9 +136,9 @@ This information will help ensure we are able
 to accept your submission once the technical difficulties are resolved.
 
 \subsection*{Proper conduct for coursework}
-\label{sec:orga62adb6}
+\label{sec:orgfd76da2}
 \subsubsection*{Individual work}
-\label{sec:org1ddaec4}
+\label{sec:orgf01aeb5}
 
 Unless explicitely stated in the homework questions,
 all homework in this course is intended
@@ -187,7 +187,7 @@ probably add a catch-all \texttt{\_} case to your \texttt{match} expressions.”
 \end{enumerate}
 
 \subsubsection*{Language library resources}
-\label{sec:orgb928677}
+\label{sec:org5781a14}
 
 Unless explicitely stated in the questions,
 it is not expected that you will use any language library resources
@@ -211,7 +211,7 @@ including \texttt{map}, \texttt{reduce}, \texttt{flatten}, and \texttt{filter} a
 unless the task is to implement such a higher-order operator.
 
 \section*{Part 0: The problem}
-\label{sec:org5dd2eb2}
+\label{sec:org61db818}
 You are provided with a collection of integers for this homework.
 What we want to compute on this collection is:
 Given an integer \texttt{sum}, find all possible pairs
@@ -234,7 +234,7 @@ The collection is available \href{./src/h10/collection.txt}{here} in plaintext,
 and below as a defined sequence in each language.
 
 \section*{Part 1: Clojure [15 points]}
-\label{sec:orgadd51b8}
+\label{sec:orgc65909a}
 The given collection is available in the file \href{./src/h10/collection.clj}{collection.clj},
 which defines it as a Clojure array \texttt{input}.
 
@@ -296,7 +296,7 @@ so you may judge its performance.
 \end{minted}
 
 \section*{Part 2: Ruby    [15 points]}
-\label{sec:orgb6cea98}
+\label{sec:orga1baef5}
 Repeat part 1 in Ruby, potentially using the below method \texttt{summingPairs} as
 a starting point.
 
@@ -334,7 +334,7 @@ puts "Ending at:     #{DateTime.now.sec} seconds, #{DateTime.now.strftime("%9N")
 \end{minted}
 
 \section*{Part 3: Scala   [15 points]}
-\label{sec:org56f4f8e}
+\label{sec:org7b53348}
 Once more, repeat parts 1 and 2, this time in Scala.
 You may make use of the below method \texttt{summingPairs} if you like.
 
@@ -372,12 +372,12 @@ println(s"Ending at:     ${LocalDateTime.now.getSecond} seconds, ${LocalDateTime
 \end{minted}
 
 \section*{Part 4: Prolog  [5 bonus points]}
-\label{sec:org53dfd60}
+\label{sec:org4dfd9e5}
 For bonus marks, implement a \texttt{summingPairs} predicate in Prolog,
 making use of the \texttt{concurrent} predicate.
 
 \section*{Testing}
-\label{sec:org836768a}
+\label{sec:org13a75e4}
 Unit tests for the requested methods/functions
 are available:
 \begin{itemize}
@@ -388,7 +388,7 @@ are available:
 The contents of the unit test file are also repeated below.
 
 \subsection*{Automated testing via Docker}
-\label{sec:orgea9a528}
+\label{sec:org61fa4e2}
 The Docker setup and usage scripts are available at the following links.
 Their contents are also repeated below.
 \begin{itemize}
@@ -411,7 +411,7 @@ and not using WSL or WSL2, you may have
 to run the commands contained in those scripts manually.
 
 \subsection*{The tests}
-\label{sec:orgf5d2048}
+\label{sec:org3abc8d0}
 The contents of the testing scripts are repeated here.
 
 \href{./testing/h10/h10t.clj}{h10t.clj}
@@ -439,6 +439,7 @@ The contents of the testing scripts are repeated here.
 \href{./testing/h10/h10t.rb}{h10t.rb}
 \begin{minted}[breaklines=true]{ruby}
 require_relative "h10"
+require_relative "collection"
 require "test/unit"
 
 RESULT = summingPairs(INPUT,2020)
@@ -497,7 +498,7 @@ println("+---------------------------------------------------")
 \end{minted}
 
 \subsection*{The Docker setup}
-\label{sec:orga903ed9}
+\label{sec:org4c165a6}
 The contents of the Docker setup files and scripts are repeated here.
 
 \href{./testing/h10/Dockerfile}{Dockerfile}

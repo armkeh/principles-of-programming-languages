@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-12-07 Mon 19:10 -->
+<!-- 2020-12-08 Tue 17:22 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Computer Science 3MI3 – 2020 homework 10</title>
@@ -240,16 +240,16 @@
 <ul>
 <li><a href="#Submission-procedures">Submission procedures</a>
 <ul>
-<li><a href="#org770b696">Submission method</a></li>
-<li><a href="#org6e0a4aa">Naming requirements</a></li>
-<li><a href="#org09bfc1f">Do not submit testing or diagnostic code</a></li>
-<li><a href="#org6b1cca9">Due date and allowance for technical difficulties</a></li>
+<li><a href="#org9f9e0f4">Submission method</a></li>
+<li><a href="#orgab1502d">Naming requirements</a></li>
+<li><a href="#org51f6294">Do not submit testing or diagnostic code</a></li>
+<li><a href="#org06ae6ab">Due date and allowance for technical difficulties</a></li>
 </ul>
 </li>
 <li><a href="#Proper-conduct-for-coursework">Proper conduct for coursework</a>
 <ul>
-<li><a href="#org152bfaa">Individual work</a></li>
-<li><a href="#org300fbde">Language library resources</a></li>
+<li><a href="#org592afa3">Individual work</a></li>
+<li><a href="#org072a171">Language library resources</a></li>
 </ul>
 </li>
 </ul>
@@ -304,9 +304,9 @@ to take advantage of concurency.
 <div class="outline-text-3" id="text-Submission-procedures">
 </div>
 
-<div id="outline-container-org770b696" class="outline-4">
-<h4 id="org770b696">Submission method</h4>
-<div class="outline-text-4" id="text-org770b696">
+<div id="outline-container-org9f9e0f4" class="outline-4">
+<h4 id="org9f9e0f4">Submission method</h4>
+<div class="outline-text-4" id="text-org9f9e0f4">
 <p>
 Homework should be submitted to your McMaster CAS Gitlab respository
 in the <code>cs3mi3-fall2020</code> project.
@@ -319,9 +319,9 @@ in time for the deadline, and not just committed to your local copy.
 </div>
 </div>
 
-<div id="outline-container-org6e0a4aa" class="outline-4">
-<h4 id="org6e0a4aa">Naming requirements</h4>
-<div class="outline-text-4" id="text-org6e0a4aa">
+<div id="outline-container-orgab1502d" class="outline-4">
+<h4 id="orgab1502d">Naming requirements</h4>
+<div class="outline-text-4" id="text-orgab1502d">
 <p>
 Place all files for the homework
 inside a folder titled <code>hn</code>, where <code>n</code> is the number of the homework.
@@ -362,9 +362,9 @@ submit a <code>hn.ext</code> file for each language.
 </div>
 </div>
 
-<div id="outline-container-org09bfc1f" class="outline-4">
-<h4 id="org09bfc1f">Do not submit testing or diagnostic code</h4>
-<div class="outline-text-4" id="text-org09bfc1f">
+<div id="outline-container-org51f6294" class="outline-4">
+<h4 id="org51f6294">Do not submit testing or diagnostic code</h4>
+<div class="outline-text-4" id="text-org51f6294">
 <p>
 Unless you are instructed to do so in the homework questions,
 <b>you should not submit testing code with your homework submission</b>.
@@ -392,9 +392,9 @@ For instance, by using a wrapper on the print function or macros.
 </div>
 </div>
 
-<div id="outline-container-org6b1cca9" class="outline-4">
-<h4 id="org6b1cca9">Due date and allowance for technical difficulties</h4>
-<div class="outline-text-4" id="text-org6b1cca9">
+<div id="outline-container-org06ae6ab" class="outline-4">
+<h4 id="org06ae6ab">Due date and allowance for technical difficulties</h4>
+<div class="outline-text-4" id="text-org06ae6ab">
 <p>
 Homework is due on the second Sunday following its release,
 by the end of the day (midnight).
@@ -419,9 +419,9 @@ to accept your submission once the technical difficulties are resolved.
 <div class="outline-text-3" id="text-Proper-conduct-for-coursework">
 </div>
 
-<div id="outline-container-org152bfaa" class="outline-4">
-<h4 id="org152bfaa">Individual work</h4>
-<div class="outline-text-4" id="text-org152bfaa">
+<div id="outline-container-org592afa3" class="outline-4">
+<h4 id="org592afa3">Individual work</h4>
+<div class="outline-text-4" id="text-org592afa3">
 <p>
 Unless explicitely stated in the homework questions,
 all homework in this course is intended
@@ -482,9 +482,9 @@ probably add a catch-all <code>_</code> case to your <code>match</code> expressi
 </div>
 </div>
 
-<div id="outline-container-org300fbde" class="outline-4">
-<h4 id="org300fbde">Language library resources</h4>
-<div class="outline-text-4" id="text-org300fbde">
+<div id="outline-container-org072a171" class="outline-4">
+<h4 id="org072a171">Language library resources</h4>
+<div class="outline-text-4" id="text-org072a171">
 <p>
 Unless explicitely stated in the questions,
 it is not expected that you will use any language library resources
@@ -831,6 +831,7 @@ The contents of the testing scripts are repeated here.
 </p>
 <div class="org-src-container">
 <pre class="src src-ruby"><span style="color: #f78fe7;">require_relative</span> <span style="color: #79a8ff;">"h10"</span>
+<span style="color: #f78fe7;">require_relative</span> <span style="color: #79a8ff;">"collection"</span>
 <span style="color: #f78fe7;">require</span> <span style="color: #79a8ff;">"test/unit"</span>
 
 <span style="color: #6ae4b9;">RESULT</span> = summingPairs<span style="color: #00cd68;">(</span><span style="color: #6ae4b9;">INPUT</span>,2020<span style="color: #00cd68;">)</span>
@@ -1024,8 +1025,8 @@ to run and see the results of the tests.
 <p class="author">Author: Mark Armstrong</p>
      <p class="author">Contact: <a href="mailto:markparmstrong@gmail.com">markparmstrong@gmail.com</a></p>
      <p class="date">Original date: December 4, 2020</p>
-     <p class="date">Last updated: 2020-12-07 Mon 19:10</p>
-     <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4)</p>
+     <p class="date">Last updated: 2020-12-08 Tue 17:18</p>
+     <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.90 (<a href="https://orgmode.org">Org</a> mode 9.4)</p>
      <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
