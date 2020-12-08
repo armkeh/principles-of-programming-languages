@@ -20,6 +20,29 @@
 
 - December 8th ::
 
+  - Two notes regarding homework 10:
+    - I encourage you to attempt to make your concurrent solution
+      more efficient than the non-concurrent solution,
+      but because of the relatively small size of the input list
+      that may not be possible,
+      and you will not be penalised if your solution
+      does end up slower.
+      - For some context, I had hoped to make the input much larger;
+        initially it was to be 100,000 or 1,000,000 integers.
+        But such a large list could not be written as a single
+        vector in Scala (and possibly in the other languages)
+        as it exhausted the space on the heap.
+        Of course there are ways I could have worked around this,
+        but it would have complicated the problem,
+        so it was not done.
+    - While the homework suggests the approaches to concurrency
+      that were discussed in the lecture and tutorials,
+      you can investigate alternative approaches
+      and are free to use them,
+      so long as your code remains compatible with the tests
+      (which only checks the result, not the means of computation.)
+      - That is, independent study is encouraged!
+
   - A note regarding individual extensions to assignment 3
     has been added to the assignment 3 portion
     of the Assignments tab.
