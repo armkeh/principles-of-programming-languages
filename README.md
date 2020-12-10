@@ -12,7 +12,64 @@ better viewed at
 
 ## December
 
+  - December 9th
+    
+      - For those who may not be regularly checking the Teams channel,
+        there have been some common problems with homework 10, in
+        particular with the Scala portion. There seems to be a bug with
+        Ammonite affecting the use of `Future`'s on some systems
+        (specifically, it is a problem with using `Await.results` to
+        extract the value of a `Future`. Because of this, an alternate
+        set of tests for the Scala portion has been posted, which expect
+        your method to return the `Vector` wrapped in a `Future`.
+        
+        <div class="center">
+        
+        These tests are not intended to *replace* the originals; they
+        are an alternate test set, and you can code towards either one
+        (presumably the other set will not typecheck for you.)
+        
+        </div>
+        
+        Because this is very last minute, if you need additional time
+        because you want to adjust your code to the new test set, please
+        let me (Mark) know. We will accept late changes to your
+        repository.
+        
+        If you would have benefitted from this change, but are unable to
+        take the time to adjust your code due to other coursework or
+        exams, please also let me know. Scala code that fails both test
+        sets will be marked by visual inspection, and I would appreciate
+        knowing if the reason for the incompatability with the tests was
+        lack of time.
+        
+        To emphasise, if your code passes the existing tests, there's no
+        need to do anything.
+
   - December 8th
+    
+      - Two notes regarding homework 10:
+        
+          - I encourage you to attempt to make your concurrent solution
+            more efficient than the non-concurrent solution, but because
+            of the relatively small size of the input list that may not
+            be possible, and you will not be penalised if your solution
+            does end up slower.
+              - For some context, I had hoped to make the input much
+                larger; initially it was to be 100,000 or 1,000,000
+                integers. But such a large list could not be written as
+                a single vector in Scala (and possibly in the other
+                languages) as it exhausted the space on the heap. Of
+                course there are ways I could have worked around this,
+                but it would have complicated the problem, so it was not
+                done.
+          - While the homework suggests the approaches to concurrency
+            that were discussed in the lecture and tutorials, you can
+            investigate alternative approaches and are free to use them,
+            so long as your code remains compatible with the tests
+            (which only checks the result, not the means of
+            computation.)
+              - That is, independent study is encouraged\!
     
       - A note regarding individual extensions to assignment 3 has been
         added to the assignment 3 portion of the Assignments tab.
