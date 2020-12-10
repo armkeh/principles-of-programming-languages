@@ -9,14 +9,18 @@ services:
     command: bash -c
       "echo 'Scala testing' ;
        echo '----------------------------------------------------------------------' ;
-       amm h10t.sc ;
+       timeout 2m amm h10t.sc ;
+       printf '\\n\\n\\n' ;
+       echo 'Scala testing (alternate)' ;
+       echo '----------------------------------------------------------------------' ;
+       timeout 2m amm h10ta.sc ;
        printf '\\n\\n\\n' ;
        echo 'Ruby testing' ;
        echo '----------------------------------------------------------------------' ;
-       ruby h10t.rb ;
+       timeout 2m ruby h10t.rb ;
        echo '----------------------------------------------------------------------' ;
        printf '\\n\\n\\n' ;
        echo 'Clojure testing' ;
        echo '----------------------------------------------------------------------' ;
-       cat h10t.clj | lein repl ;
+       cat h10t.clj | timeout 2m lein repl ;
        echo '----------------------------------------------------------------------'"

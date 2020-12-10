@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-12-08 Tue 17:22 -->
+<!-- 2020-12-09 Wed 22:22 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Computer Science 3MI3 – 2020 homework 10</title>
@@ -240,16 +240,16 @@
 <ul>
 <li><a href="#Submission-procedures">Submission procedures</a>
 <ul>
-<li><a href="#org9f9e0f4">Submission method</a></li>
-<li><a href="#orgab1502d">Naming requirements</a></li>
-<li><a href="#org51f6294">Do not submit testing or diagnostic code</a></li>
-<li><a href="#org06ae6ab">Due date and allowance for technical difficulties</a></li>
+<li><a href="#org9ed1d7a">Submission method</a></li>
+<li><a href="#org24543e6">Naming requirements</a></li>
+<li><a href="#orgee1dbcd">Do not submit testing or diagnostic code</a></li>
+<li><a href="#org3835676">Due date and allowance for technical difficulties</a></li>
 </ul>
 </li>
 <li><a href="#Proper-conduct-for-coursework">Proper conduct for coursework</a>
 <ul>
-<li><a href="#org592afa3">Individual work</a></li>
-<li><a href="#org072a171">Language library resources</a></li>
+<li><a href="#orgb024db1">Individual work</a></li>
+<li><a href="#org1f03ae6">Language library resources</a></li>
 </ul>
 </li>
 </ul>
@@ -304,9 +304,9 @@ to take advantage of concurency.
 <div class="outline-text-3" id="text-Submission-procedures">
 </div>
 
-<div id="outline-container-org9f9e0f4" class="outline-4">
-<h4 id="org9f9e0f4">Submission method</h4>
-<div class="outline-text-4" id="text-org9f9e0f4">
+<div id="outline-container-org9ed1d7a" class="outline-4">
+<h4 id="org9ed1d7a">Submission method</h4>
+<div class="outline-text-4" id="text-org9ed1d7a">
 <p>
 Homework should be submitted to your McMaster CAS Gitlab respository
 in the <code>cs3mi3-fall2020</code> project.
@@ -319,9 +319,9 @@ in time for the deadline, and not just committed to your local copy.
 </div>
 </div>
 
-<div id="outline-container-orgab1502d" class="outline-4">
-<h4 id="orgab1502d">Naming requirements</h4>
-<div class="outline-text-4" id="text-orgab1502d">
+<div id="outline-container-org24543e6" class="outline-4">
+<h4 id="org24543e6">Naming requirements</h4>
+<div class="outline-text-4" id="text-org24543e6">
 <p>
 Place all files for the homework
 inside a folder titled <code>hn</code>, where <code>n</code> is the number of the homework.
@@ -362,9 +362,9 @@ submit a <code>hn.ext</code> file for each language.
 </div>
 </div>
 
-<div id="outline-container-org51f6294" class="outline-4">
-<h4 id="org51f6294">Do not submit testing or diagnostic code</h4>
-<div class="outline-text-4" id="text-org51f6294">
+<div id="outline-container-orgee1dbcd" class="outline-4">
+<h4 id="orgee1dbcd">Do not submit testing or diagnostic code</h4>
+<div class="outline-text-4" id="text-orgee1dbcd">
 <p>
 Unless you are instructed to do so in the homework questions,
 <b>you should not submit testing code with your homework submission</b>.
@@ -392,9 +392,9 @@ For instance, by using a wrapper on the print function or macros.
 </div>
 </div>
 
-<div id="outline-container-org06ae6ab" class="outline-4">
-<h4 id="org06ae6ab">Due date and allowance for technical difficulties</h4>
-<div class="outline-text-4" id="text-org06ae6ab">
+<div id="outline-container-org3835676" class="outline-4">
+<h4 id="org3835676">Due date and allowance for technical difficulties</h4>
+<div class="outline-text-4" id="text-org3835676">
 <p>
 Homework is due on the second Sunday following its release,
 by the end of the day (midnight).
@@ -419,9 +419,9 @@ to accept your submission once the technical difficulties are resolved.
 <div class="outline-text-3" id="text-Proper-conduct-for-coursework">
 </div>
 
-<div id="outline-container-org592afa3" class="outline-4">
-<h4 id="org592afa3">Individual work</h4>
-<div class="outline-text-4" id="text-org592afa3">
+<div id="outline-container-orgb024db1" class="outline-4">
+<h4 id="orgb024db1">Individual work</h4>
+<div class="outline-text-4" id="text-orgb024db1">
 <p>
 Unless explicitely stated in the homework questions,
 all homework in this course is intended
@@ -482,9 +482,9 @@ probably add a catch-all <code>_</code> case to your <code>match</code> expressi
 </div>
 </div>
 
-<div id="outline-container-org072a171" class="outline-4">
-<h4 id="org072a171">Language library resources</h4>
-<div class="outline-text-4" id="text-org072a171">
+<div id="outline-container-org1f03ae6" class="outline-4">
+<h4 id="org1f03ae6">Language library resources</h4>
+<div class="outline-text-4" id="text-org1f03ae6">
 <p>
 Unless explicitely stated in the questions,
 it is not expected that you will use any language library resources
@@ -892,8 +892,65 @@ println<span style="color: #00cd68;">(</span><span style="color: #79a8ff;">"| "<
 println<span style="color: #00cd68;">(</span><span style="color: #79a8ff;">"+---------------------------------------------------"</span><span style="color: #00cd68;">)</span>
 </pre>
 </div>
+
+<p>
+<a href="./testing/h10/h10ta.sc">h10ta.sc</a>; an alternative version of the above tests
+which expects a <code>Future</code>-wrapped value from <code>summingPairs</code>.
+</p>
+<div class="org-src-container">
+<pre class="src src-amm"><span style="color: #b6a0ff;">import</span> $file.h10a, h10a.<span style="color: #b6a0ff;">_</span>
+<span style="color: #b6a0ff;">import</span> $file.collection, collection.<span style="color: #b6a0ff;">_</span>
+<span style="color: #b6a0ff;">import</span> scala.concurrent.<span style="color: #00bcff;">Future</span>
+<span style="color: #b6a0ff;">import</span> scala.concurrent.<span style="color: #00bcff;">ExecutionContext</span>.<span style="color: #00bcff;">Implicits</span>.global
+<span style="color: #b6a0ff;">import</span> scala.util.<span style="color: #00cd68;">{</span><span style="color: #00bcff;">Try</span>, <span style="color: #00bcff;">Success</span>, <span style="color: #00bcff;">Failure</span><span style="color: #00cd68;">}</span>
+<span style="color: #b6a0ff;">import</span> scala.concurrent.<span style="color: #b6a0ff;">_</span>
+<span style="color: #b6a0ff;">import</span> scala.concurrent.duration.<span style="color: #b6a0ff;">_</span>
+
+<span style="color: #a8a8a8;">/* </span><span style="color: #a8a8a8;">Given an expected result and a computed result,</span>
+<span style="color: #a8a8a8;">   check if they are equal in value.</span>
+<span style="color: #a8a8a8;">   If so, return 0. Otherwise, inform the user, and return 1,</span>
+<span style="color: #a8a8a8;">   so the number of failures can be counted. */</span>
+<span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">test</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">A</span><span style="color: #00cd68;">](</span><span style="color: #b6a0ff;">given:</span> <span style="color: #6ae4b9;">A</span>, expected<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">A</span>, the_test<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">String</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">=</span>
+  <span style="color: #b6a0ff;">if</span> <span style="color: #00cd68;">(</span>!<span style="color: #b6a0ff;">(</span><span style="color: #b6a0ff;">given</span> equals expected<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span> <span style="color: #00cd68;">{</span>
+    println<span style="color: #b6a0ff;">(</span><span style="color: #79a8ff;">"+---------------------------------------------------"</span><span style="color: #b6a0ff;">)</span>
+    println<span style="color: #b6a0ff;">(</span><span style="color: #79a8ff;">"| "</span> + the_test + <span style="color: #79a8ff;">" failed."</span><span style="color: #b6a0ff;">)</span>
+    println<span style="color: #b6a0ff;">(</span><span style="color: #79a8ff;">"| Expected "</span> + expected + <span style="color: #79a8ff;">", got "</span> + <span style="color: #b6a0ff;">given</span> + <span style="color: #79a8ff;">"."</span><span style="color: #b6a0ff;">)</span>
+    println<span style="color: #b6a0ff;">(</span><span style="color: #79a8ff;">"+---------------------------------------------------"</span><span style="color: #b6a0ff;">)</span>
+    <span style="color: #00bcff;">1</span>
+  <span style="color: #00cd68;">}</span> <span style="color: #b6a0ff;">else</span> <span style="color: #00cd68;">{</span>
+    <span style="color: #00bcff;">0</span>
+  <span style="color: #00cd68;">}</span>
+
+
+<span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">result</span> <span style="color: #b6a0ff;">=</span> summingPairs<span style="color: #00cd68;">(</span>input,<span style="color: #00bcff;">2020</span><span style="color: #00cd68;">)</span>
+
+<span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">The rest of the script is mapped over the `Future`.</span>
+result.onComplete<span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">{</span> <span style="color: #b6a0ff;">case</span> <span style="color: #6ae4b9;">Success</span><span style="color: #6ae4b9;">(</span><span style="color: #00d3d0;">result</span><span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">=&gt;</span>
+  <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">The tests are saved as tuples, the pieces of which will be passed</span>
+  <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">to test.</span>
+  <span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">tests</span> <span style="color: #b6a0ff;">=</span> <span style="color: #00bcff;">List</span><span style="color: #6ae4b9;">(</span>
+    <span style="color: #f0ce43;">(</span>result.contains<span style="color: #00bcff;">(</span><span style="color: #00bcff;">Tuple2</span><span style="color: #80d200;">(</span><span style="color: #00bcff;">374</span>,<span style="color: #00bcff;">150</span><span style="color: #80d200;">)</span><span style="color: #00bcff;">)</span>, <span style="color: #00bcff;">true</span>, <span style="color: #79a8ff;">"374,150"</span><span style="color: #f0ce43;">)</span>,
+    <span style="color: #f0ce43;">(</span>result.contains<span style="color: #00bcff;">(</span><span style="color: #00bcff;">Tuple2</span><span style="color: #80d200;">(</span><span style="color: #00bcff;">626</span>,<span style="color: #00bcff;">1030</span><span style="color: #80d200;">)</span><span style="color: #00bcff;">)</span>, <span style="color: #00bcff;">true</span>, <span style="color: #79a8ff;">"626,1030"</span><span style="color: #f0ce43;">)</span>,
+    <span style="color: #f0ce43;">(</span>result.contains<span style="color: #00bcff;">(</span><span style="color: #00bcff;">Tuple2</span><span style="color: #80d200;">(</span><span style="color: #00bcff;">150</span>,<span style="color: #00bcff;">1850</span><span style="color: #80d200;">)</span><span style="color: #00bcff;">)</span>, <span style="color: #00bcff;">true</span>, <span style="color: #79a8ff;">"150,1850"</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>
+  
+  <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Apply test to each element of tests, and sum the return values.</span>
+  <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">This is essentially a for loop.</span>
+  <span style="color: #b6a0ff;">val</span> <span style="color: #00d3d0;">failed</span> <span style="color: #b6a0ff;">=</span> tests.foldLeft<span style="color: #6ae4b9;">(</span><span style="color: #00bcff;">0</span><span style="color: #6ae4b9;">)</span> <span style="color: #6ae4b9;">{</span>
+    <span style="color: #f0ce43;">(</span>failures, next<span style="color: #f0ce43;">)</span> <span style="color: #b6a0ff;">=&gt;</span> next <span style="color: #b6a0ff;">match</span> <span style="color: #f0ce43;">{</span>
+      <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Deconstruct the tuple to get its parts</span>
+      <span style="color: #b6a0ff;">case</span> <span style="color: #00bcff;">(</span><span style="color: #b6a0ff;">given</span>, expected, the_test<span style="color: #00bcff;">)</span> <span style="color: #b6a0ff;">=&gt;</span> failures + test<span style="color: #00bcff;">(</span><span style="color: #b6a0ff;">given</span>, expected, the_test<span style="color: #00bcff;">)</span>
+    <span style="color: #f0ce43;">}</span>
+  <span style="color: #6ae4b9;">}</span>
+
+  println<span style="color: #6ae4b9;">(</span><span style="color: #79a8ff;">"+---------------------------------------------------"</span><span style="color: #6ae4b9;">)</span>
+  println<span style="color: #6ae4b9;">(</span><span style="color: #79a8ff;">"| "</span> + failed + <span style="color: #79a8ff;">" tests failed"</span><span style="color: #6ae4b9;">)</span>
+  println<span style="color: #6ae4b9;">(</span><span style="color: #79a8ff;">"+---------------------------------------------------"</span><span style="color: #6ae4b9;">)</span>
+<span style="color: #b6a0ff;">}</span><span style="color: #00cd68;">)</span>
+</pre>
 </div>
 </div>
+</div>
+
 
 <div id="outline-container-The-Docker-setup" class="outline-3">
 <h3 id="The-Docker-setup">The Docker setup</h3>
@@ -950,16 +1007,20 @@ services:
     command: bash -c
       "echo 'Scala testing' ;
        echo '----------------------------------------------------------------------' ;
-       amm h10t.sc ;
+       timeout 2m amm h10t.sc ;
+       printf '\\n\\n\\n' ;
+       echo 'Scala testing (alternate)' ;
+       echo '----------------------------------------------------------------------' ;
+       timeout 2m amm h10ta.sc ;
        printf '\\n\\n\\n' ;
        echo 'Ruby testing' ;
        echo '----------------------------------------------------------------------' ;
-       ruby h10t.rb ;
+       timeout 2m ruby h10t.rb ;
        echo '----------------------------------------------------------------------' ;
        printf '\\n\\n\\n' ;
        echo 'Clojure testing' ;
        echo '----------------------------------------------------------------------' ;
-       cat h10t.clj | lein repl ;
+       cat h10t.clj | timeout 2m lein repl ;
        echo '----------------------------------------------------------------------'"
 </pre>
 </div>
@@ -1025,8 +1086,8 @@ to run and see the results of the tests.
 <p class="author">Author: Mark Armstrong</p>
      <p class="author">Contact: <a href="mailto:markparmstrong@gmail.com">markparmstrong@gmail.com</a></p>
      <p class="date">Original date: December 4, 2020</p>
-     <p class="date">Last updated: 2020-12-08 Tue 17:18</p>
-     <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.90 (<a href="https://orgmode.org">Org</a> mode 9.4)</p>
+     <p class="date">Last updated: 2020-12-09 Wed 22:22</p>
+     <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4)</p>
      <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

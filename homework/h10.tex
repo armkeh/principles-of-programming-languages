@@ -1,4 +1,4 @@
-% Created 2020-12-08 Tue 17:19
+% Created 2020-12-09 Wed 22:22
 % Intended LaTeX compiler: lualatex
 \documentclass[11pt]{article}
 \usepackage{graphicx}
@@ -28,7 +28,7 @@
    pdftitle={Computer Science 3MI3 – 2020 homework 10},
    pdfkeywords={},
    pdfsubject={Making use of concurrency approaches in all of our languages.},
-   pdfcreator={Emacs 27.0.90 (Org mode 9.4)},
+   pdfcreator={Emacs 27.0.91 (Org mode 9.4)},
    pdflang={English},
    colorlinks,
    linkcolor=blue,
@@ -42,7 +42,7 @@
 
 
 \section*{Introduction}
-\label{sec:orge3bf733}
+\label{sec:org076be3b}
 This homework presents a somewhat contrived problem
 involving a computation over a slightly large dataset
 in order to justify the use of concurrency.
@@ -57,11 +57,11 @@ and Scala, and asks you to modify the solutions
 to take advantage of concurency.
 
 \section*{Boilerplate}
-\label{sec:org8c8c858}
+\label{sec:orgffb0d1a}
 \subsection*{Submission procedures}
-\label{sec:org34ac541}
+\label{sec:org7861799}
 \subsubsection*{Submission method}
-\label{sec:org92e9ada}
+\label{sec:orgfe701bb}
 
 Homework should be submitted to your McMaster CAS Gitlab respository
 in the \texttt{cs3mi3-fall2020} project.
@@ -70,7 +70,7 @@ Ensure that you have \textbf{pushed} the commits to the remote repository
 in time for the deadline, and not just committed to your local copy.
 
 \subsubsection*{Naming requirements}
-\label{sec:org186563b}
+\label{sec:orgce2bc5e}
 
 Place all files for the homework
 inside a folder titled \texttt{hn}, where \texttt{n} is the number of the homework.
@@ -101,7 +101,7 @@ submit a \texttt{hn.ext} file for each language.
 \end{center}
 
 \subsubsection*{Do not submit testing or diagnostic code}
-\label{sec:org8798e0c}
+\label{sec:orgb7c8cea}
 
 Unless you are instructed to do so in the homework questions,
 \textbf{you should not submit testing code with your homework submission}.
@@ -121,7 +121,7 @@ in your final submission.
 For instance, by using a wrapper on the print function or macros.
 
 \subsubsection*{Due date and allowance for technical difficulties}
-\label{sec:org0be2c16}
+\label{sec:org560021f}
 
 Homework is due on the second Sunday following its release,
 by the end of the day (midnight).
@@ -136,9 +136,9 @@ This information will help ensure we are able
 to accept your submission once the technical difficulties are resolved.
 
 \subsection*{Proper conduct for coursework}
-\label{sec:orgfd76da2}
+\label{sec:orgde5b39d}
 \subsubsection*{Individual work}
-\label{sec:orgf01aeb5}
+\label{sec:orgc063bbc}
 
 Unless explicitely stated in the homework questions,
 all homework in this course is intended
@@ -187,7 +187,7 @@ probably add a catch-all \texttt{\_} case to your \texttt{match} expressions.”
 \end{enumerate}
 
 \subsubsection*{Language library resources}
-\label{sec:org5781a14}
+\label{sec:orgf359616}
 
 Unless explicitely stated in the questions,
 it is not expected that you will use any language library resources
@@ -211,7 +211,7 @@ including \texttt{map}, \texttt{reduce}, \texttt{flatten}, and \texttt{filter} a
 unless the task is to implement such a higher-order operator.
 
 \section*{Part 0: The problem}
-\label{sec:org61db818}
+\label{sec:org93bf901}
 You are provided with a collection of integers for this homework.
 What we want to compute on this collection is:
 Given an integer \texttt{sum}, find all possible pairs
@@ -234,7 +234,7 @@ The collection is available \href{./src/h10/collection.txt}{here} in plaintext,
 and below as a defined sequence in each language.
 
 \section*{Part 1: Clojure [15 points]}
-\label{sec:orgc65909a}
+\label{sec:org6a15cf1}
 The given collection is available in the file \href{./src/h10/collection.clj}{collection.clj},
 which defines it as a Clojure array \texttt{input}.
 
@@ -296,7 +296,7 @@ so you may judge its performance.
 \end{minted}
 
 \section*{Part 2: Ruby    [15 points]}
-\label{sec:orga1baef5}
+\label{sec:orgf5f2f9d}
 Repeat part 1 in Ruby, potentially using the below method \texttt{summingPairs} as
 a starting point.
 
@@ -334,7 +334,7 @@ puts "Ending at:     #{DateTime.now.sec} seconds, #{DateTime.now.strftime("%9N")
 \end{minted}
 
 \section*{Part 3: Scala   [15 points]}
-\label{sec:org7b53348}
+\label{sec:org0af657c}
 Once more, repeat parts 1 and 2, this time in Scala.
 You may make use of the below method \texttt{summingPairs} if you like.
 
@@ -372,12 +372,12 @@ println(s"Ending at:     ${LocalDateTime.now.getSecond} seconds, ${LocalDateTime
 \end{minted}
 
 \section*{Part 4: Prolog  [5 bonus points]}
-\label{sec:org4dfd9e5}
+\label{sec:org5e3cddd}
 For bonus marks, implement a \texttt{summingPairs} predicate in Prolog,
 making use of the \texttt{concurrent} predicate.
 
 \section*{Testing}
-\label{sec:org13a75e4}
+\label{sec:org8d4980a}
 Unit tests for the requested methods/functions
 are available:
 \begin{itemize}
@@ -388,7 +388,7 @@ are available:
 The contents of the unit test file are also repeated below.
 
 \subsection*{Automated testing via Docker}
-\label{sec:org61fa4e2}
+\label{sec:org2045f18}
 The Docker setup and usage scripts are available at the following links.
 Their contents are also repeated below.
 \begin{itemize}
@@ -411,7 +411,7 @@ and not using WSL or WSL2, you may have
 to run the commands contained in those scripts manually.
 
 \subsection*{The tests}
-\label{sec:org3abc8d0}
+\label{sec:org2e2144f}
 The contents of the testing scripts are repeated here.
 
 \href{./testing/h10/h10t.clj}{h10t.clj}
@@ -497,8 +497,62 @@ println("| " + failed + " tests failed")
 println("+---------------------------------------------------")
 \end{minted}
 
+\href{./testing/h10/h10ta.sc}{h10ta.sc}; an alternative version of the above tests
+which expects a \texttt{Future}-wrapped value from \texttt{summingPairs}.
+\begin{minted}[breaklines=true]{scala}
+import $file.h10a, h10a._
+import $file.collection, collection._
+import scala.concurrent.Future
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.util.{Try, Success, Failure}
+import scala.concurrent._
+import scala.concurrent.duration._
+
+/* Given an expected result and a computed result,
+   check if they are equal in value.
+   If so, return 0. Otherwise, inform the user, and return 1,
+   so the number of failures can be counted. */
+def test[A](given: A, expected: A, the_test: String) =
+  if (!(given equals expected)) {
+    println("+---------------------------------------------------")
+    println("| " + the_test + " failed.")
+    println("| Expected " + expected + ", got " + given + ".")
+    println("+---------------------------------------------------")
+    1
+  } else {
+    0
+  }
+
+
+val result = summingPairs(input,2020)
+
+// The rest of the script is mapped over the `Future`.
+result.onComplete({ case Success(result) =>
+  // The tests are saved as tuples, the pieces of which will be passed
+  // to test.
+  val tests = List(
+    (result.contains(Tuple2(374,150)), true, "374,150"),
+    (result.contains(Tuple2(626,1030)), true, "626,1030"),
+    (result.contains(Tuple2(150,1850)), true, "150,1850"))
+  
+  // Apply test to each element of tests, and sum the return values.
+  // This is essentially a for loop.
+  val failed = tests.foldLeft(0) {
+    (failures, next) => next match {
+      // Deconstruct the tuple to get its parts
+      case (given, expected, the_test) => failures + test(given, expected, the_test)
+    }
+  }
+
+  println("+---------------------------------------------------")
+  println("| " + failed + " tests failed")
+  println("+---------------------------------------------------")
+})
+\end{minted}
+
+
 \subsection*{The Docker setup}
-\label{sec:org4c165a6}
+\label{sec:orga511aa6}
 The contents of the Docker setup files and scripts are repeated here.
 
 \href{./testing/h10/Dockerfile}{Dockerfile}
@@ -544,16 +598,20 @@ services:
     command: bash -c
       "echo 'Scala testing' ;
        echo '----------------------------------------------------------------------' ;
-       amm h10t.sc ;
+       timeout 2m amm h10t.sc ;
+       printf '\\n\\n\\n' ;
+       echo 'Scala testing (alternate)' ;
+       echo '----------------------------------------------------------------------' ;
+       timeout 2m amm h10ta.sc ;
        printf '\\n\\n\\n' ;
        echo 'Ruby testing' ;
        echo '----------------------------------------------------------------------' ;
-       ruby h10t.rb ;
+       timeout 2m ruby h10t.rb ;
        echo '----------------------------------------------------------------------' ;
        printf '\\n\\n\\n' ;
        echo 'Clojure testing' ;
        echo '----------------------------------------------------------------------' ;
-       cat h10t.clj | lein repl ;
+       cat h10t.clj | timeout 2m lein repl ;
        echo '----------------------------------------------------------------------'"
 \end{minted}
 
