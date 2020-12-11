@@ -39,6 +39,7 @@ and defining various semantics for it.
 - The testing and Docker setup has been added.
 - The method from part 2 has been renamed to ~stackEval~,
   instead of ~stack_eval~.
+- Mark amounts were added to each part.
 - Some minor clarifying statements have been added to parts 2, 3 and 4.
   They are prepended by “(Added December 11th.)” 
 

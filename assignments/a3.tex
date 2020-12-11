@@ -1,4 +1,4 @@
-% Created 2020-12-11 Fri 13:21
+% Created 2020-12-11 Fri 14:11
 % Intended LaTeX compiler: lualatex
 \documentclass[11pt]{article}
 \usepackage{graphicx}
@@ -47,34 +47,35 @@
 
 
 \section*{Introduction}
-\label{sec:org82aef75}
+\label{sec:org80bd3ef}
 This assignment tasks you with representing
 Dijkstra's “guarded command language” in
 Ruby and Clojure,
 and defining various semantics for it.
 
 \section*{Updates and file history}
-\label{sec:org9e8981e}
+\label{sec:orgfc88c9a}
 \subsection*{December 11th}
-\label{sec:org2952484}
+\label{sec:org3bbed87}
 \begin{itemize}
 \item The testing and Docker setup has been added.
 \item The method from part 2 has been renamed to \texttt{stackEval},
 instead of \texttt{stack\_eval}.
+\item Mark amounts were added to each part.
 \item Some minor clarifying statements have been added to parts 2, 3 and 4.
 They are prepended by “(Added December 11th.)”
 \end{itemize}
 
 \subsection*{December 1st}
-\label{sec:orgc61087c}
+\label{sec:orgece2f8b}
 \begin{itemize}
 \item Initial version posted.
 \end{itemize}
 
 \section*{Boilerplate}
-\label{sec:orge8499f1}
+\label{sec:org2d0f47d}
 \subsection*{Documentation}
-\label{sec:orgb955d3f}
+\label{sec:org9155523}
 In addition to the code for the assignments,
 you are required to submit (relatively light) documentation,
 along the lines of that found in
@@ -133,13 +134,13 @@ Feel free to omit some “repetitive” portions.
 which look almost identical, only one or two need to be shown.)
 
 \subsection*{Submission procedures}
-\label{sec:orga2818b6}
+\label{sec:org314563e}
 The same guidelines as for homework
 (which can be seen in any of the homework files)
 apply to assignments, except for the differences below.
 
 \subsubsection*{Assignment naming requirements}
-\label{sec:org99dc666}
+\label{sec:orgafead90}
 
 Place all files for the assignment
 inside a folder titled \texttt{an}, where \texttt{n} is the number of the assignment.
@@ -160,19 +161,19 @@ save your code for that part. Follow those instructions!
 This is slightly decreased from the 10\% for homeworks.
 
 \subsection*{Proper conduct for coursework}
-\label{sec:org7cd83bb}
+\label{sec:org3d877b0}
 Refer to the homework code of conduct available in any of the homework files.
 The same guidelines apply to assignments.
 
 \section*{Part 0 – The guarded command language, \emph{GCL}}
-\label{sec:orge1cbcd4}
+\label{sec:org9419066}
 This assignment involves representing a simple
 kind of \emph{guarded command language}, which we call \emph{GCL},
 and a small extension to it which we call \emph{GCLe},
 which adds a notion of scope.
 
 \subsection*{\emph{GCL}}
-\label{sec:orge75fa77}
+\label{sec:orgd25c62b}
 The syntax of \emph{GCL} is given as
 \begin{minted}[breaklines=true]{text}
 ⟨expr⟩ ∷= constant_integer | variable
@@ -229,7 +230,7 @@ One important note: in both cases, if the guarded command list
 is empty, the result should be to “do nothing”.
 
 \subsection*{\emph{GCLe}}
-\label{sec:org91099fc}
+\label{sec:org8d04abc}
 The language \emph{GCLe} is obtained from \emph{GCL} by adding these productions
 to grammer.
 \begin{minted}[breaklines=true]{text}
@@ -262,7 +263,7 @@ values. Variables which are not in scope are not handled
 by such a memory state.
 
 \section*{Part 1 – Representations of \emph{GCL} and a small extension [10 marks]}
-\label{sec:orge8c29c7}
+\label{sec:org6208731}
 In Ruby and in Clojure, create a representation of
 the language \emph{GCL} described in part 0.
 
@@ -318,7 +319,7 @@ for the variable name and as its second argument a \texttt{GCStmt}.
 Wrap all of these definitions inside a \texttt{module} named \texttt{GCLe}.
 
 \section*{Part 2 – A stack machine for \emph{GCL} in Ruby              [25 marks]}
-\label{sec:org298cca1}
+\label{sec:org2e817d8}
 Within the \texttt{GCL} module, define a method \texttt{stackEval} on \texttt{GCL}'s,
 which carries out the evaluation of a \texttt{GCStmt} using a stack machine.
 
@@ -357,7 +358,7 @@ to the same value as the lambda \texttt{sigma}.
  in your \texttt{stackEval} method.)
 
 \section*{Part 3 – The small-step semantics of \emph{GCL} in Clojure   [25 marks]}
-\label{sec:org0d1083f}
+\label{sec:orgdd58ade}
 Define in Clojure a function \texttt{reduce} which takes
 a \emph{GCL} statement and a memory state
 (a function mapping symbols, representing the variable names, to integers)
@@ -373,7 +374,7 @@ described in part 2 (returning anonymous functions.)
  during testing.)
 
 \section*{Part 4 – The big-step semantics of \emph{GCLe} in Ruby       [40 marks]}
-\label{sec:orgcda7932}
+\label{sec:org39ac3a0}
 This portion of the assignment should be done in
 the \texttt{GCLe} module created in part 1.
 
@@ -422,7 +423,7 @@ in this part the tests do not rely upon the \texttt{emptyState} method
 to define similar methods.
 
 \section*{Part 5 – \emph{GCLe} in Clojure}
-\label{sec:org18fe555}
+\label{sec:orgbb7ffd0}
 \emph{As a bonus}, repeat part 4 in Clojure.
 
 Place the code for this portion in a file \texttt{a3b.clj}.
@@ -435,7 +436,7 @@ tests in a file \texttt{a3bt.clj}. This file should output the results of the te
 when executed using \texttt{cat a3bt.clj | lein} from the command line.
 
 \section*{Submission checklist}
-\label{sec:orgbb0cd45}
+\label{sec:org72867a2}
 For your convenience, this checklist is provided
 to track the files you need to submit.
 Use it if you wish.
@@ -460,7 +461,7 @@ Use it if you wish.
 \end{minted}
 
 \section*{Testing}
-\label{sec:org96d4836}
+\label{sec:org9525b18}
 Unit tests for the requested types, methods and predicates
 are available here.
 \begin{itemize}
@@ -490,7 +491,7 @@ The provided test cases check a very minimal amount!
 \end{center}
 
 \subsection*{Automated testing via Docker}
-\label{sec:orgc2b844a}
+\label{sec:org41aa829}
 The Docker setup and usage scripts are available at the following links.
 Their contents are also repeated below.
 \begin{itemize}
@@ -509,9 +510,9 @@ and not using WSL or WSL2, you may have
 to run the commands contained in those scripts manually.
 
 \subsection*{The tests}
-\label{sec:org03073ad}
+\label{sec:orgf698257}
 \subsubsection*{Ruby}
-\label{sec:org0bea6f7}
+\label{sec:org13611a0}
 \href{./testing/a3p2\_test.rb}{a3p2\_test.rb}
 \begin{minted}[breaklines=true]{ruby}
 require "test/unit"
@@ -695,7 +696,7 @@ end
 \end{minted}
 
 \subsubsection*{Clojure}
-\label{sec:orgbaa8ff6}
+\label{sec:orgbd09fcd}
 \href{./testing/a3\_test.clj}{a3\_test.clj}
 \begin{minted}[breaklines=true]{clojure}
 (ns testing)
@@ -738,7 +739,7 @@ end
 \end{minted}
 
 \subsection*{The Docker setup}
-\label{sec:org0e56c10}
+\label{sec:org1d73915}
 \href{./testing/a2/Dockerfile}{Dockerfile}
 \begin{minted}[breaklines=true]{docker}
 # Define the argument for openjdk version
