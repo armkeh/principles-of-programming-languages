@@ -21,7 +21,10 @@
 :CUSTOM_ID: Introduction
 :END:
 
-This assignment 
+This assignment tasks you with representing
+Dijkstra's “guarded command language” in
+Ruby and Clojure,
+and defining various semantics for it.
 
 * Updates and file history
 :PROPERTIES:
@@ -29,10 +32,15 @@ This assignment
 :END:
 
 ** December 11th
+:PROPERTIES:
+:CUSTOM_ID: December-11th
+:END:
 
 - The testing and Docker setup has been added.
 - The method from part 2 has been renamed to ~stackEval~,
   instead of ~stack_eval~.
+- Some minor clarifying statements have been added to parts 2, 3 and 4.
+  They are prepended by “(Added December 11th.)” 
 
 ** December 1st
 :PROPERTIES:
@@ -233,6 +241,23 @@ taking three arguments:
 The method should return an updated state
 (that is, another lambda/block.)
 
+(Added December 11th.)
+As part of the ~GCL~ module,
+also define a method ~emptyState~ which takes no arguments and
+- which returns a lambda for the empty memory state function
+  - (that is, a lambda that maps all arguments to ~0~),
+and a method ~updateState~ which takes 3 arguments;
+- a lambda (for the previous memory state),
+- a variable name (i.e., a symbol), and
+- an integer.
+Then ~updateState(sigma,x,n)~ returns a lambda
+which maps ~x~ to ~n~, and any other variable
+to the same value as the lambda ~sigma~.
+(Technically, only the ~emptyState~ method is required to be
+ as described for the testing.
+ But a method similar to ~updateState~ will be necessary
+ in your ~stackEval~ method.)
+
 * Part 3 – The small-step semantics of /GCL/ in Clojure   [25 marks]
 :PROPERTIES:
 :CUSTOM_ID: Part-3-–-The-small-step-semantics-of-/GCL/-in-Clojure
@@ -243,6 +268,14 @@ a /GCL/ statement and a memory state
 (a function mapping symbols, representing the variable names, to integers)
 and performs /one step/ of the computation, returning the
 remaining code to be run and the updated memory state.
+
+(Added December 11th.)
+Also define functions ~emptyState~ and ~updateState~ for use
+with your ~reduce~ function.
+These should behave equivalently to the methods of the same name
+described in part 2 (returning anonymous functions.)
+(Once again, only the ~emptyState~ method is needed
+ during testing.)
 
 * Part 4 – The big-step semantics of /GCLe/ in Ruby       [40 marks]
 :PROPERTIES:
@@ -279,6 +312,12 @@ do not initialise variables before their first use.
   - It is suggested that such programs “fail gracefully”,
     reporting an error that a variable was used before initialisation.
   - Otherwise, it's suggested that they behave as predictably as possible.
+
+(Added December 11th.)
+Because the ~eval~ method does not require a “state” argument,
+in this part the tests do not rely upon the ~emptyState~ method
+(or the ~updateState~ method.) But you will still need
+to define similar methods.
 
 * Part 5 – /GCLe/ in Clojure
 :PROPERTIES:

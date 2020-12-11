@@ -14,11 +14,10 @@ better viewed at
 
   - December 11th
     
-      - Tests have been posted for assignment 3. Some small
-        clarifications to the requirements will be added shortly, to
-        account for assumptions made in the testing; in particular,
-        parts 2 and 3 require a method/function for the “empty memory
-        state”.
+      - Tests have been posted for assignment 3.
+      - Some minor clarifying statements were added to the assignment
+        around midday; the updates to each section are prepended by
+        “(Added December 11th.)”.
 
   - December 9th
     
@@ -87,16 +86,17 @@ better viewed at
         **Please review it.**
         
         </div>
-    
-      - As a last reminder, online course evaluations close tomorrow. If
-        you have not yet, please take the time to offer some feedback on
-        this course and your other courses at
-        <https://evals.mcmaster.ca>.
-        
-          - Preferably, make your feedback constructive, whether it is
-            positive or negative. Thank you\!
 
-  - December 7th
+<!-- end list -->
+
+  - As a last reminder, online course evaluations close tomorrow. If you
+    have not yet, please take the time to offer some feedback on this
+    course and your other courses at <https://evals.mcmaster.ca>.
+    
+      - Preferably, make your feedback constructive, whether it is
+        positive or negative. Thank you\!
+
+  - December 7th ::
     
       - Tests for homework 10 are now posted.
     
@@ -112,20 +112,19 @@ better viewed at
         have trouble with the testing setup, try downloading them now.
         Tnanks to Hishmat Salehi for catching these errors\!
 
-  - December 5th
+  - December 5th ::
     
       - The tests for homework 9 are now posted.
 
-  - December 4th
+  - December 4th ::
     
       - Homework 10 is now posted, focussed on concurrency. To account
         for the shorter time before the deadline, the majority of the
         solution is provided; you must only adjust the code to take
         advantage of concurrency.
 
-  - December 2nd  
-    Assignment 3 is now posted. There should not be major changes to it,
-    but the testing is not posted yet.
+  - December 2nd :: Assignment 3 is now posted. There should not be
+    major changes to it, but the testing is not posted yet.
 
 ## November
 

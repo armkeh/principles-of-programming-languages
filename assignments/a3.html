@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-12-11 Fri 03:13 -->
+<!-- 2020-12-11 Fri 13:21 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Computer Science 3MI3 – 2020 assignment 3</title>
@@ -248,7 +248,7 @@ various versions of the guarded command language."
 <li><a href="#Submission-procedures">Documentation</a></li>
 <li><a href="#Submission-procedures">Submission procedures</a>
 <ul>
-<li><a href="#org1302042">Assignment naming requirements</a></li>
+<li><a href="#orge8f8bc1">Assignment naming requirements</a></li>
 </ul>
 </li>
 <li><a href="#Proper-conduct-for-coursework">Proper conduct for coursework</a></li>
@@ -286,7 +286,10 @@ various versions of the guarded command language."
 <h2 id="Introduction">Introduction</h2>
 <div class="outline-text-2" id="text-Introduction">
 <p>
-This assignment 
+This assignment tasks you with representing
+Dijkstra's “guarded command language” in
+Ruby and Clojure,
+and defining various semantics for it.
 </p>
 </div>
 </div>
@@ -303,6 +306,8 @@ This assignment
 <li>The testing and Docker setup has been added.</li>
 <li>The method from part 2 has been renamed to <code>stackEval</code>,
 instead of <code>stack_eval</code>.</li>
+<li>Some minor clarifying statements have been added to parts 2, 3 and 4.
+They are prepended by “(Added December 11th.)”</li>
 </ul>
 </div>
 </div>
@@ -408,9 +413,9 @@ apply to assignments, except for the differences below.
 </p>
 </div>
 
-<div id="outline-container-org1302042" class="outline-4">
-<h4 id="org1302042">Assignment naming requirements</h4>
-<div class="outline-text-4" id="text-org1302042">
+<div id="outline-container-orge8f8bc1" class="outline-4">
+<h4 id="orge8f8bc1">Assignment naming requirements</h4>
+<div class="outline-text-4" id="text-orge8f8bc1">
 <p>
 Place all files for the assignment
 inside a folder titled <code>an</code>, where <code>n</code> is the number of the assignment.
@@ -674,6 +679,35 @@ taking three arguments:
 The method should return an updated state
 (that is, another lambda/block.)
 </p>
+
+<p>
+(Added December 11th.)
+As part of the <code>GCL</code> module,
+also define a method <code>emptyState</code> which takes no arguments and
+</p>
+<ul class="org-ul">
+<li>which returns a lambda for the empty memory state function
+<ul class="org-ul">
+<li>(that is, a lambda that maps all arguments to <code>0</code>),</li>
+</ul></li>
+</ul>
+<p>
+and a method <code>updateState</code> which takes 3 arguments;
+</p>
+<ul class="org-ul">
+<li>a lambda (for the previous memory state),</li>
+<li>a variable name (i.e., a symbol), and</li>
+<li>an integer.</li>
+</ul>
+<p>
+Then <code>updateState(sigma,x,n)</code> returns a lambda
+which maps <code>x</code> to <code>n</code>, and any other variable
+to the same value as the lambda <code>sigma</code>.
+(Technically, only the <code>emptyState</code> method is required to be
+ as described for the testing.
+ But a method similar to <code>updateState</code> will be necessary
+ in your <code>stackEval</code> method.)
+</p>
 </div>
 </div>
 
@@ -686,6 +720,16 @@ a <i>GCL</i> statement and a memory state
 (a function mapping symbols, representing the variable names, to integers)
 and performs <i>one step</i> of the computation, returning the
 remaining code to be run and the updated memory state.
+</p>
+
+<p>
+(Added December 11th.)
+Also define functions <code>emptyState</code> and <code>updateState</code> for use
+with your <code>reduce</code> function.
+These should behave equivalently to the methods of the same name
+described in part 2 (returning anonymous functions.)
+(Once again, only the <code>emptyState</code> method is needed
+ during testing.)
 </p>
 </div>
 </div>
@@ -741,6 +785,14 @@ reporting an error that a variable was used before initialisation.</li>
 <li>Otherwise, it's suggested that they behave as predictably as possible.</li>
 </ul></li>
 </ul>
+
+<p>
+(Added December 11th.)
+Because the <code>eval</code> method does not require a “state” argument,
+in this part the tests do not rely upon the <code>emptyState</code> method
+(or the <code>updateState</code> method.) But you will still need
+to define similar methods.
+</p>
 </div>
 </div>
 
@@ -1206,8 +1258,8 @@ docker-compose stop -t 1
 <p class="author">Author: Mark Armstrong</p>
      <p class="author">Contact: <a href="mailto:markparmstrong@gmail.com">markparmstrong@gmail.com</a></p>
      <p class="date">Original date: December 2, 2020</p>
-     <p class="date">Last updated: 2020-12-11 Fri 03:13</p>
-     <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4)</p>
+     <p class="date">Last updated: 2020-12-11 Fri 13:20</p>
+     <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.90 (<a href="https://orgmode.org">Org</a> mode 9.4)</p>
      <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

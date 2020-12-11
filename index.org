@@ -21,11 +21,9 @@
 - December 11th ::
 
   - Tests have been posted for assignment 3.
-    Some small clarifications to the requirements
-    will be added shortly, to account for assumptions made
-    in the testing; in particular,
-    parts 2 and 3 require a method/function
-    for the “empty memory state”.
+  - Some minor clarifying statements were added to the assignment
+    around midday; the updates to each section are prepended
+    by “(Added December 11th.)”.
 
 - December 9th ::
 
@@ -92,13 +90,13 @@ either one (presumably the other set will not typecheck for you.)
 *Please review it.*
     #+end_center
 
- - As a last reminder, online course evaluations close tomorrow.
-   If you have not yet, please take the time
-   to offer some feedback on this course
-   and your other courses at [[https://evals.mcmaster.ca]].
-   - Preferably, make your feedback constructive,
-     whether it is positive or negative.
-     Thank you!
+- As a last reminder, online course evaluations close tomorrow.
+  If you have not yet, please take the time
+  to offer some feedback on this course
+  and your other courses at [[https://evals.mcmaster.ca]].
+  - Preferably, make your feedback constructive,
+    whether it is positive or negative.
+    Thank you!
 
 - December 7th ::
 
