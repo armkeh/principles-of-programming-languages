@@ -28,6 +28,12 @@ This assignment
 :CUSTOM_ID: Updates-and-file-history
 :END:
 
+** December 11th
+
+- The testing and Docker setup has been added.
+- The method from part 2 has been renamed to ~stackEval~,
+  instead of ~stack_eval~.
+
 ** December 1st
 :PROPERTIES:
 :CUSTOM_ID: December-1st
@@ -83,6 +89,7 @@ The syntax of /GCL/ is given as
 
 ⟨test⟩ ∷= ⟨expr⟩ ('=' | '<' | '>') ⟨expr⟩
         | ⟨test⟩ ('and' | 'or') ⟨test⟩
+        | 'true' | 'false'
 
 
 ⟨stmt⟩ ∷= 'skip'
@@ -158,7 +165,7 @@ a memory state is some mapping from /variables which are in scope/ to
 values. Variables which are not in scope are not handled
 by such a memory state.
 
-* Part 1 – Representations of /GCL/ and a small extension
+* Part 1 – Representations of /GCL/ and a small extension [10 marks]
 :PROPERTIES:
 :CUSTOM_ID: Part-1-–-Representations-of-/GCL/-and-a-small-extension
 :END:
@@ -179,6 +186,7 @@ with the following subclasses.
     and as its third argument a symbol,
     which is intended to be one of ~:eq~, ~:less~ or ~:greater~,
   - ~GCAnd~ and ~GCOr~, the constructors of which take as arguments two ~GCExpr~'s.
+  - ~GCTrue~ and ~GCFalse~, the constructor of which (if it exists) takes no arguments.
 - ~GCStmt~ has subclasses
   - ~GCSkip~, the constructor of which (if it exists) takes no arguments.
   - ~GCAssign~, the constructor of which takes as arguments
@@ -208,12 +216,12 @@ the constructor of which takes as its first argument a symbol
 for the variable name and as its second argument a ~GCStmt~.
 Wrap all of these definitions inside a ~module~ named ~GCLe~.
 
-* Part 2 – A stack machine for /GCL/ in Ruby
+* Part 2 – A stack machine for /GCL/ in Ruby              [25 marks]
 :PROPERTIES:
 :CUSTOM_ID: Part-2-–-A-stack-machine-for-/GCL/-in-Ruby
 :END:
 
-Within the ~GCL~ module, define a method ~stack_eval~ on ~GCL~'s,
+Within the ~GCL~ module, define a method ~stackEval~ on ~GCL~'s,
 which carries out the evaluation of a ~GCStmt~ using a stack machine.
 
 The stack machine in question should really be a method
@@ -225,7 +233,7 @@ taking three arguments:
 The method should return an updated state
 (that is, another lambda/block.)
 
-* Part 3 – The small-step semantics of /GCL/ in Clojure
+* Part 3 – The small-step semantics of /GCL/ in Clojure   [25 marks]
 :PROPERTIES:
 :CUSTOM_ID: Part-3-–-The-small-step-semantics-of-/GCL/-in-Clojure
 :END:
@@ -236,7 +244,7 @@ a /GCL/ statement and a memory state
 and performs /one step/ of the computation, returning the
 remaining code to be run and the updated memory state.
 
-* Part 4 – The big-step semantics of /GCLe/ in Ruby 
+* Part 4 – The big-step semantics of /GCLe/ in Ruby       [40 marks]
 :PROPERTIES:
 :CUSTOM_ID: Part-4-–-The-big-step-semantics-of-/GCLe/-in-Ruby
 :END:
@@ -244,7 +252,7 @@ remaining code to be run and the updated memory state.
 This portion of the assignment should be done in
 the ~GCLe~ module created in part 1.
 
-Begin by defining a method ~wellScoped~ which checks that
+Begin by defining a method ~wellScoped~ [20 marks] which checks that
 all variables appearing within the body of a ~GCProgram~
 (either in an expression or on the left side of an assignment)
 are /within scope/ at the point of their use;
@@ -257,7 +265,7 @@ or there is a ~local~ statement for that variable wrapping the use.
   - Helper methods are always permitted.
 
 Then define the semantics of the language,
-this time defining a method ~eval~ directly
+this time defining a method ~eval~ [20 marks] directly
 (without making use of a stack machine.)
 That is, define the /big-step/ semantics of the language
 (remember that big-step semantics are called evaluation semantics.)
@@ -321,30 +329,23 @@ Use it if you wish.
 :CUSTOM_ID: Testing
 :END:
 
-:TODO:
-
-* COMMENT
-:PROPERTIES:
-:CUSTOM_ID: COMMENT
-:END:
-
 Unit tests for the requested types, methods and predicates
 are available here.
-- [[./testing/a2/a2_test.sc][a2_test.sc]]
-- [[./testing/a2/a2_test.rb][a2_test.rb]]
+- [[./testing/a3/a3_test.rb][a3_test.rb]]
+- [[./testing/a3/a3_test.clj][a3_test.clj]]
 The contents of the unit test files are also repeated below.
 
 The tests can be run by placing the test files
 in the same directory as your code files.
 
-To run the tests for the Scala portions, use the command
-#+begin_src shell
-amm a2_test.sc
-#+end_src
-
 To run the tests for the Ruby portions,us the commands
 #+begin_src shell
-ruby a2_test.rb
+ruby a3_test.rb
+#+end_src
+
+To run the tests for the Clojure portions,us the commands
+#+begin_src shell
+cat a3_test.clj | lein repl
 #+end_src
 
 #+begin_center
@@ -361,11 +362,11 @@ The provided test cases check a very minimal amount!
 
 The Docker setup and usage scripts are available at the following links.
 Their contents are also repeated below.
-- [[./testing/a2/Dockerfile][Dockerfile]]
-- [[./testing/a2/docker-compose.yml][docker-compose.yml]]
-- [[./testing/a2/setup.sh][setup.sh]]
-- [[./testing/a2/run.sh][run.sh]]
-Place them into your ~a2~ directory where your code files
+- [[./testing/a3/Dockerfile][Dockerfile]]
+- [[./testing/a3/docker-compose.yml][docker-compose.yml]]
+- [[./testing/a3/setup.sh][setup.sh]]
+- [[./testing/a3/run.sh][run.sh]]
+Place them into your ~a3~ directory where your code files
 and the test files (linked to above) exist,
 then run ~setup.sh~ and ~run.sh~.
 
@@ -379,185 +380,237 @@ to run the commands contained in those scripts manually.
 :CUSTOM_ID: The-tests
 :END:
 
-*** Scala
-:PROPERTIES:
-:CUSTOM_ID: Scala
-:END:
-
-[[./testing/a2/a2_test.sc][a2_test.sc]]
-#+begin_src amm :tangle ./testing/a2/a2_test.sc
-import $file.a2, a2._
-import $file.a2_ulterm, a2_ulterm._
-
-/* Given an expected result and a computed result,
-   check if they are equal in value.
-   If so, return 0. Otherwise, inform the user, and return 1,
-   so the number of failures can be counted. */
-def test[A](given: A, expected: A, the_test: String) =
-  if (!(given equals expected)) {
-    println("+---------------------------------------------------")
-    println("| " + the_test + " failed.")
-    println("| Expected " + expected + ", got " + given + ".")
-    println("+---------------------------------------------------")
-    1
-  } else {
-    0
-  }
-
-val providedTests : List[Tuple3[Unit => Any, Any, String]] = List(
-
-  // Positive typechecking test cases
-  (_ => typecheck(STZero),                       true, "Typecheck zero"),
-  (_ => typecheck(STSuc(STZero)),                true, "Typecheck one"),
-  (_ => typecheck(STIsZero(STZero)),             true, "Typecheck iszero zero"),
-  (_ => typecheck(STTrue),                       true, "Typecheck true"),
-  (_ => typecheck(STFalse),                      true, "Typecheck false"),
-  (_ => typecheck(STTest(STTrue,STZero,STZero)), true, "Typecheck test true zero zero"),
-  (_ => typecheck(STAbs(STNat,STVar(0))),        true, "Typecheck lambda x : nat . x"),
-  (_ => typecheck(STApp(STAbs(STNat,STVar(0)),STZero)), true, "Typecheck (lambda x : nat . x) (zero)"),
-
-  
-  // Negative typechecking test cases
-  (_ => typecheck(STSuc(STFalse)), false,
-    "Successor of false should not typecheck."),
-  (_ => typecheck(STVar(0)), false,
-    "Free variables should not typecheck"),
-  (_ => typecheck(STApp(STAbs(STNat,STVar(0)),STFalse)), false,
-    "Applying a boolean to a natural function should not typecheck"),
-
-  // Type erasure tests
-  (_ => eraseTypes(STTrue), ULAbs(ULAbs(ULVar(1))), "Erase types of true"),
-  (_ => eraseTypes(STSuc(STZero)),
-    ULApp(
-      // Encoding of suc
-      ULAbs( // lambda n .
-        ULAbs( // lambda s.
-          ULAbs( // lambda z.
-            ULApp(ULVar(1),ULApp(ULApp(ULVar(2),ULVar(1)),ULVar(0)))))), // s (n s z)
-      // Encoding of zero
-      ULAbs( // lambda s .
-        ULAbs( // lambda z .
-          ULVar(0)))), // z
-    "Erase types of one"),
-  (_ => eraseTypes(STApp(STAbs(STNat,STVar(0)),STZero)),
-    ULApp(ULAbs(ULVar(0)), ULAbs(ULAbs(ULVar(0)))),
-    "Erase types of (lambda x : nat . x) (zero)"),
-)
-
-def runTests[A](tests: List[Tuple3[Unit => A,A,String]]): Unit = {
-  // Apply test to each element of tests, and sum the return values.
-  // This is essentially a for loop.
-  val failed = tests.foldLeft(0) {
-    (failures, next) => next match {
-      // Deconstruct the tuple to get its parts
-      case (given, expected, the_test) => {
-        val failure = try {
-          test(given(), expected, the_test)
-        } catch {
-          case e: Exception => {
-            print("Test " + the_test + "encountered exception: ")
-            println(e)
-            1
-          }
-        }
-        failures + failure
-      }
-    }
-  }
-  
-  println("+---------------------------------------------------")
-  println("| " + failed + " tests failed")
-  println("+---------------------------------------------------")
-}
-
-runTests(providedTests)
-#+end_src
-
 *** Ruby
 :PROPERTIES:
 :CUSTOM_ID: Ruby
 :END:
 
-[[./testing/a2_test.rb][a2_test.rb]]
-#+begin_src ruby :tangle ./testing/a2/a2_test.rb
-require_relative "a2"
-require_relative "a2_ulterm"
+[[./testing/a3p2_test.rb][a3p2_test.rb]]
+#+begin_src ruby :tangle ./testing/a3/a3p2_test.rb
 require "test/unit"
+require_relative "a3"
+include GCL
 
-class ProvidedTests < Test::Unit::TestCase
+class SimpleTests < Test::Unit::TestCase
+  def test_assign_zero
+    constant_one = GCConst.new(1)
+    assign_constant_one = GCAssign.new(:z, constant_one)
+    updated_state = stackEval([assign_constant_one], [], emptyState)
 
-  # Positive type checking tests
-  def test_simple0
-    assert_equal(true, STZero.new.typecheck, "Typecheck zero")
-  end
-  def test_simple1
-    assert_equal(true, STSuc.new(STZero.new).typecheck, "Typecheck one")
-  end
-  def test_simple2
-    assert_equal(true, STIsZero.new(STZero.new).typecheck, "Typecheck iszero zero")
-  end
-  def test_simple3
-    assert_equal(true, STTrue.new.typecheck, "Typecheck true")
-  end
-  def test_simple4
-    assert_equal(true, STFalse.new.typecheck, "Typecheck false")
-  end
-  def test_simple5
-    assert_equal(true,
-                 STTest.new(STTrue.new,STZero.new,STZero.new).typecheck,
-                 "Typecheck test true zero zero")
-  end
-  def test_simple6
-    assert_equal(true,
-                 STAbs.new(STNat.new,STVar.new(0)).typecheck,
-                 "Typecheck lambda x : nat . x")
-  end
-  def test_simple7
-    assert_equal(true,
-                 STApp.new(STAbs.new(STNat.new,STVar.new(0)),STZero.new).typecheck,
-                 "Typecheck (lambda x : nat . x) (zero)")
+    assert_equal(1, updated_state.call(:z), "Assigning 1 to z did not work.")
   end
 
-  # Negative typechecking tests  
-  def test_simple8
-    assert_equal(false,
-                 STSuc.new(STFalse.new).typecheck,
-                 "Successor of false should not typecheck.")
-  end
-  def test_simple9
-    assert_equal(false,
-                 STVar.new(0).typecheck,
-                 "Free variables should not typecheck")
-  end
-  def test_simple10
-    assert_equal(false,
-                 STApp.new(STAbs.new(STNat.new,STVar.new(0)),STFalse.new).typecheck,
-                 "Applying a boolean to a natural function should not typecheck")
+  def test_two_possible_assignments_part1
+    constant_one = GCConst.new(1)
+    constant_two = GCConst.new(2)
+    assign_constant_one = GCAssign.new(:y, constant_one)
+    assign_constant_two = GCAssign.new(:y, constant_two)
+    branch = GCIf.new([[GCTrue.new, assign_constant_one],
+                       [GCTrue.new, assign_constant_two]])
+    
+    # Run the program 50 times, to make relatively sure
+    # both possible results (y = 1 and y = 2) are seen.
+    results = []
+    50.times do results.push(GCL::stackEval([branch], [], emptyState).call(:y)) end
+
+    assert_equal(true,results.include?(1), "An if statement which randomly assigns 1 or 2 never assigned 1.")
   end
 
-  def test_simple11
-    assert_equal(ULAbs.new(ULAbs.new(ULVar.new(1))), STTrue.new.eraseTypes, "Erase types of true")
+  def test_two_possible_assignments_part2
+    constant_one = GCConst.new(1)
+    constant_two = GCConst.new(2)
+    assign_constant_one = GCAssign.new(:y, constant_one)
+    assign_constant_two = GCAssign.new(:y, constant_two)
+    branch = GCIf.new([[GCTrue.new, assign_constant_one],
+                       [GCTrue.new, assign_constant_two]])
+    
+    # Run the program 50 times, to make relatively sure
+    # both possible results (y = 1 and y = 2) are seen.
+    results = []
+    50.times do results.push(GCL::stackEval([branch], [], emptyState).call(:y)) end
+
+    assert_equal(true,results.include?(2), "An if statement which randomly assigns 1 or 2 never assigned 2.")
   end
-  def test_simple12
-    assert_equal(ULApp.new(
-                   # Encoding of suc
-                   ULAbs.new( # lambda n .
-                     ULAbs.new( # lambda s.
-                       ULAbs.new( # lambda z.
-                         ULApp.new(ULVar.new(1),ULApp.new(ULApp.new(ULVar.new(2),ULVar.new(1)),ULVar.new(0)))))), # s (n s z)
-                   # Encoding of zero
-                   ULAbs.new( # lambda s .
-                     ULAbs.new( # lambda z .
-                       ULVar.new(0)))), # z
-                 STSuc.new(STZero.new).eraseTypes,
-                 "Erase types of one")
+
+  def test_oscillating
+    x_var = GCVar.new(:x)
+    assign_x_5 = GCAssign.new(:x,GCConst.new(5))
+    inc_x_1 = GCAssign.new(:x,GCOp.new(x_var,GCConst.new(1),:plus))
+    dec_x_1 = GCAssign.new(:x,GCOp.new(x_var,GCConst.new(1),:minus))
+    check_x_less_8    = GCComp.new(x_var,GCConst.new(8),:less)
+    check_x_greater_2 = GCComp.new(x_var,GCConst.new(2),:greater)
+    check_x_within_3_7 = GCAnd.new(check_x_greater_2,check_x_less_8)
+    
+    # A program to increment or decrement the value of variable x
+    # randomly until it is less than 3 or greater than 7,
+    oscillate_x = GCDo.new([[check_x_within_3_7, dec_x_1],
+                            [check_x_within_3_7, inc_x_1]])
+    
+    # Run the program 50 times, to make relatively sure
+    # both possible results (x = 2 and x = 8) are seen.
+    results = []
+    50.times do results.push(GCL::stackEval([oscillate_x], [], emptyState).call(:x)) end
+
+    assert_equal(true,results.include?(2), "A do statement which oscillates the value of x between 2 and 8 never got to 2.")
+    assert_equal(true,results.include?(8), "A do statement which oscillates the value of x between 2 and 8 never got to 8.")
   end
-  def test_simple13
-    assert_equal(ULApp.new(ULAbs.new(          ULVar.new(0)),ULAbs.new(ULAbs.new(ULVar.new(0)))),
-                 STApp.new(STAbs.new(STNat.new,STVar.new(0)),STZero.new).eraseTypes,
-                 "Erase types of (lambda x : nat . x) (zero)")
-  end
+
 end
+#+end_src
+
+[[./testing/a3p4_test.rb][a3p4_test.rb]]
+#+begin_src ruby :tangle ./testing/a3/a3p4_test.rb
+require "test/unit"
+require_relative "a3"
+include GCLe
+
+class SimpleTests < Test::Unit::TestCase
+  
+  def test_wellscoped1
+    assert_equal(true, GCLe::wellScoped(GCProgram.new([:x,:y], GCAssign.new(:x, GCVar.new(:x)))),
+                 "global x y; x := x should be well scoped.")
+  end
+
+  def test_wellscoped2
+    assert_equal(true, GCLe::wellScoped(GCProgram.new([:x,:y], GCAssign.new(:x, GCVar.new(:y)))),
+                 "global x y; x := y should be well scoped.")
+  end
+
+  def test_wellscoped3
+    assert_equal(true, GCLe::wellScoped(GCProgram.new([], GCLocal.new(:x, GCAssign.new(:x, GCVar.new(:y))))),
+                 "global; local x in x := x should be well scoped.")
+  end
+
+  def test_not_wellscoped1
+    assert_equal(false, GCLe::wellScoped(GCProgram.new([:y], GCAssign.new(:x, GCVar.new(:x)))),
+                 "global y; x := x should NOT be well scoped.")
+  end
+
+  def test_not_wellscoped2
+    assert_equal(false, GCLe::wellScoped(GCProgram.new([:x], GCAssign.new(:x, GCVar.new(:y)))),
+                 "global x; x := y should NOT be well scoped.")
+  end
+
+  def test_not_wellscoped3
+    assert_equal(false, GCLe::wellScoped(GCProgram.new([], GCLocal.new(:y, GCAssign.new(:x, GCVar.new(:y))))),
+                 "global; local y in x := x should NOT be well scoped.")
+  end
+
+  def test_assign_zero
+    constant_one = GCConst.new(1)
+    assign_constant_one = GCAssign.new(:z, constant_one)
+    updated_state = GCLe::eval(GCProgram.new([:z],assign_constant_one))
+
+    assert_equal(1, updated_state[:z], "Assigning 1 to z did not work.")
+  end
+
+  def test_two_possible_assignments_part1
+    constant_one = GCConst.new(1)
+    constant_two = GCConst.new(2)
+    assign_constant_one = GCAssign.new(:t, constant_one)
+    assign_constant_two = GCAssign.new(:t, constant_two)
+    branch = GCIf.new([[GCTrue.new, assign_constant_one],
+                       [GCTrue.new, assign_constant_two]])
+    assign_t_to_y = GCAssign.new(:y, GCVar.new(:t))
+    the_program = GCProgram.new([:y],GCLocal.new(:t,GCCompose.new(branch, assign_t_to_y)))
+
+    # Run the program 50 times, to make relatively sure
+    # both possible results (y = 1 and y = 2) are seen.
+    results = []
+    50.times do results.push(GCLe::eval(the_program)[:y]) end
+  
+    assert_equal(true,results.include?(2), "An if statement which randomly assigns 1 or 2 never assigned 1.")
+  end
+
+  def test_two_possible_assignments_part2
+    constant_one = GCConst.new(1)
+    constant_two = GCConst.new(2)
+    assign_constant_one = GCAssign.new(:t, constant_one)
+    assign_constant_two = GCAssign.new(:t, constant_two)
+    branch = GCIf.new([[GCTrue.new, assign_constant_one],
+                       [GCTrue.new, assign_constant_two]])
+    assign_t_to_y = GCAssign.new(:y, GCVar.new(:t))
+    the_program = GCProgram.new([:y],GCLocal.new(:t,GCCompose.new(branch, assign_t_to_y)))
+
+    # Run the program 50 times, to make relatively sure
+    # both possible results (y = 1 and y = 2) are seen.
+    results = []
+    50.times do results.push(GCLe::eval(the_program)[:y]) end
+  
+    assert_equal(true,results.include?(0), "An if statement which randomly assigns 1 or 2 never assigned 2.")
+  end
+  
+  def test_oscillating
+    x_var = GCVar.new(:x)
+    assign_x_5 = GCAssign.new(:x,GCConst.new(5))
+    inc_x_1 = GCAssign.new(:x,GCOp.new(x_var,GCConst.new(1),:plus))
+    dec_x_1 = GCAssign.new(:x,GCOp.new(x_var,GCConst.new(1),:minus))
+    check_x_less_8    = GCComp.new(x_var,GCConst.new(8),:less)
+    check_x_greater_2 = GCComp.new(x_var,GCConst.new(2),:greater)
+    check_x_within_3_7 = GCAnd.new(check_x_greater_2,check_x_less_8)
+    
+    # A program to increment or decrement the value of variable x
+    # randomly until it is less than 3 or greater than 7,
+    oscillate_x = GCDo.new([[check_x_within_3_7, dec_x_1],
+                            [check_x_within_3_7, inc_x_1]])
+    the_program = GCProgram.new([:x],oscillate_x)
+    
+    # Run the program 50 times, to make relatively sure
+    # both possible results (x = 2 and x = 8) are seen.
+    results = []
+    50.times do results.push(GCLe::eval(the_program)[:x]) end
+  
+    assert_equal(true,results.include?(2), "A do statement which oscillates the value of x between 2 and 8 never got to 2.")
+    assert_equal(true,results.include?(8), "A do statement which oscillates the value of x between 2 and 8 never got to 8.")
+  end
+
+end
+#+end_src
+
+*** Clojure
+:PROPERTIES:
+:CUSTOM_ID: Clojure
+:END:
+
+[[./testing/a3_test.clj][a3_test.clj]]
+#+begin_src clojure :tangle ./testing/a3/a3_test.clj
+(ns testing)
+(use 'clojure.test)
+(load-file "a3.clj")
+
+;; A function to compute a given expression a number of times,
+;; creating a list of the results.
+;; Used to test the non-determinacy of GC programs involvings ifs and dos.
+(defn times [n f]
+  "Repeatedly evaluate `f` `n` times and concatenate together the results."
+  (concat
+   (repeatedly n #(eval f))))
+
+
+
+(deftest test-state-assign-constant-one
+  (is (= 1        ((.sig  (reduce (Config. (GCAssign. :x (GCConst. 1)) emptyState))) :x))))
+
+(deftest test-stmt-assign-constant-one
+  (is (= (GCSkip.) (.stmt (reduce (Config. (GCAssign. :x (GCConst. 1)) emptyState))))))
+
+(deftest test-two-possible-branches-first
+  (let [branch (GCIf. [[(GCTrue.) (GCAssign. :x (GCConst. 0))] [(GCTrue.) (GCAssign. :x (GCConst. 1))]])]
+    (is (some #(= (GCAssign. :x (GCConst. 0)) %) (times 50 `(.stmt (reduce (Config. ~branch emptyState))))))))
+
+(deftest test-two-possible-branches-second
+  (let [branch (GCIf. [[(GCTrue.) (GCAssign. :x (GCConst. 0))] [(GCTrue.) (GCAssign. :x (GCConst. 1))]])]
+    (is (some #(= (GCAssign. :x (GCConst. 1)) %) (times 50 `(.stmt (reduce (Config. ~branch emptyState))))))))
+
+;; If we define `test-ns-hook`, it is called when running `run-tests`,
+;; instead of just calling all tests in the namespace.
+;; This lets us control the order of the tests.
+(deftest test-ns-hook
+  (test-state-assign-constant-one)
+  (test-stmt-assign-constant-one)
+  (test-two-possible-branches-first))
+
+(run-tests 'testing)
 #+end_src
 
 ** The Docker setup
@@ -566,56 +619,60 @@ end
 :END:
 
 [[./testing/a2/Dockerfile][Dockerfile]]
-#+begin_src docker :tangle ./testing/a2/Dockerfile
+#+begin_src docker :tangle ./testing/a3/Dockerfile
 # Define the argument for openjdk version
 ARG OPENJDK_TAG=8u232
 
-FROM ruby:2.7.2-buster
+FROM clojure:openjdk-8
 
-# Setup to install Scala
-RUN apt-get update && \
-    apt-get install scala -y && \
-    apt-get install -y curl && \
-    sh -c '(echo "#!/usr/bin/env sh" && \
-    curl -L https://github.com/lihaoyi/Ammonite/releases/download/2.1.1/2.12-2.1.1) > /usr/local/bin/amm && \
-    chmod +x /usr/local/bin/amm'
-RUN (rm -rf /root/.cache)
-     
+# Install Ruby
+RUN apt-get update && apt-get install -y --no-install-recommends --no-install-suggests curl bzip2 build-essential libssl-dev libreadline-dev zlib1g-dev && \
+    rm -rf /var/lib/apt/lists/* && \
+    curl -L https://github.com/rbenv/ruby-build/archive/v20201118.tar.gz | tar -zxvf - -C /tmp/ && \
+    cd /tmp/ruby-build-* && ./install.sh && cd / && \
+    ruby-build -v 2.7.2 /usr/local && rm -rfv /tmp/ruby-build-*
+
 # Set the name of the maintainers
 MAINTAINER Habib Ghaffari Hadigheh, Mark Armstrong <ghaffh1@mcmaster.ca, armstmp@mcmaster.ca>
 
 # Set the working directory
-WORKDIR /opt/a2
+WORKDIR /opt/a3
 #+end_src
 
 [[./testing/a2/docker-compose.yml][docker-compose.yml]]
-#+begin_src yaml :tangle ./testing/a2/docker-compose.yml
+#+begin_src yaml :tangle ./testing/a3/docker-compose.yml
 version: '2'
 services:
   service:
     build: .
-    image: 3mi3_a2_docker_image
+    image: 3mi3_a3_docker_image
     volumes:
-      - .:/opt/a2
-    container_name: 3mi3_a2_container
+      - .:/opt/a3
+    container_name: 3mi3_a3_container
     command: bash -c
-      "echo 'Scala testing' &&
-       echo '----------------------------------------------------------------------' &&
-       amm a2_test.sc &&
-       printf '\\n\\n\\n' &&
-       echo 'Ruby testing' &&
-       echo '----------------------------------------------------------------------' &&
-       ruby a2_test.rb &&
+      "echo 'Ruby part 2 testing' ;
+       echo '----------------------------------------------------------------------' ;
+       timeout 2m ruby a3p2_test.rb ;
+       echo '----------------------------------------------------------------------' ;
+       printf '\\n\\n\\n' ;
+       echo 'Ruby part 4 testing' ;
+       echo '----------------------------------------------------------------------' ;
+       timeout 2m ruby a3p4_test.rb ;
+       echo '----------------------------------------------------------------------' ;
+       printf '\\n\\n\\n' ;
+       echo 'Clojure testing' ;
+       echo '----------------------------------------------------------------------' ;
+       cat a3_test.clj | timeout 2m lein repl ;
        echo '----------------------------------------------------------------------'"
 #+end_src
 
 [[./testing/a2/setup.sh][setup.sh]]
-#+begin_src shell :tangle ./testing/a2/setup.sh :tangle-mode (identity #o755)
+#+begin_src shell :tangle ./testing/a3/setup.sh :tangle-mode (identity #o755)
 docker-compose build --force-rm
 #+end_src
 
 [[./testing/a2/run.sh][run.sh]]
-#+begin_src shell :tangle ./testing/a2/run.sh :tangle-mode (identity #o755)
+#+begin_src shell :tangle ./testing/a3/run.sh :tangle-mode (identity #o755)
 # Run the container
 docker-compose up --force-recreate
 # Stop the container after finishing the test run

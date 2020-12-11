@@ -12,6 +12,14 @@ better viewed at
 
 ## December
 
+  - December 11th
+    
+      - Tests have been posted for assignment 3. Some small
+        clarifications to the requirements will be added shortly, to
+        account for assumptions made in the testing; in particular,
+        parts 2 and 3 require a method/function for the “empty memory
+        state”.
+
   - December 9th
     
       - For those who may not be regularly checking the Teams channel,

@@ -1,4 +1,4 @@
-% Created 2020-12-02 Wed 00:01
+% Created 2020-12-11 Fri 03:13
 % Intended LaTeX compiler: lualatex
 \documentclass[11pt]{article}
 \usepackage{graphicx}
@@ -47,21 +47,29 @@
 
 
 \section*{Introduction}
-\label{sec:org218ac0e}
+\label{sec:orgec7337d}
 This assignment 
 
 \section*{Updates and file history}
-\label{sec:org5c3a470}
+\label{sec:orgd7db204}
+\subsection*{December 11th}
+\label{sec:orgce70cf5}
+\begin{itemize}
+\item The testing and Docker setup has been added.
+\item The method from part 2 has been renamed to \texttt{stackEval},
+instead of \texttt{stack\_eval}.
+\end{itemize}
+
 \subsection*{December 1st}
-\label{sec:org563183c}
+\label{sec:org8644b83}
 \begin{itemize}
 \item Initial version posted.
 \end{itemize}
 
 \section*{Boilerplate}
-\label{sec:org80be87e}
+\label{sec:orge9dedd0}
 \subsection*{Documentation}
-\label{sec:org0bac481}
+\label{sec:org2f2edee}
 In addition to the code for the assignments,
 you are required to submit (relatively light) documentation,
 along the lines of that found in
@@ -120,13 +128,13 @@ Feel free to omit some “repetitive” portions.
 which look almost identical, only one or two need to be shown.)
 
 \subsection*{Submission procedures}
-\label{sec:orgf1e99c1}
+\label{sec:org65f26b9}
 The same guidelines as for homework
 (which can be seen in any of the homework files)
 apply to assignments, except for the differences below.
 
 \subsubsection*{Assignment naming requirements}
-\label{sec:org6fd5192}
+\label{sec:orgc0a41a9}
 
 Place all files for the assignment
 inside a folder titled \texttt{an}, where \texttt{n} is the number of the assignment.
@@ -147,19 +155,19 @@ save your code for that part. Follow those instructions!
 This is slightly decreased from the 10\% for homeworks.
 
 \subsection*{Proper conduct for coursework}
-\label{sec:orgf0f1398}
+\label{sec:orgf7e262e}
 Refer to the homework code of conduct available in any of the homework files.
 The same guidelines apply to assignments.
 
 \section*{Part 0 – The guarded command language, \emph{GCL}}
-\label{sec:orgb6e7e5a}
+\label{sec:org19f2c4d}
 This assignment involves representing a simple
 kind of \emph{guarded command language}, which we call \emph{GCL},
 and a small extension to it which we call \emph{GCLe},
 which adds a notion of scope.
 
 \subsection*{\emph{GCL}}
-\label{sec:orge47e448}
+\label{sec:org8f0851e}
 The syntax of \emph{GCL} is given as
 \begin{minted}[breaklines=true]{text}
 ⟨expr⟩ ∷= constant_integer | variable
@@ -167,6 +175,7 @@ The syntax of \emph{GCL} is given as
 
 ⟨test⟩ ∷= ⟨expr⟩ ('=' | '<' | '>') ⟨expr⟩
         | ⟨test⟩ ('and' | 'or') ⟨test⟩
+        | 'true' | 'false'
 
 
 ⟨stmt⟩ ∷= 'skip'
@@ -215,7 +224,7 @@ One important note: in both cases, if the guarded command list
 is empty, the result should be to “do nothing”.
 
 \subsection*{\emph{GCLe}}
-\label{sec:org4ec9d90}
+\label{sec:org3efbd79}
 The language \emph{GCLe} is obtained from \emph{GCL} by adding these productions
 to grammer.
 \begin{minted}[breaklines=true]{text}
@@ -247,8 +256,8 @@ a memory state is some mapping from \emph{variables which are in scope} to
 values. Variables which are not in scope are not handled
 by such a memory state.
 
-\section*{Part 1 – Representations of \emph{GCL} and a small extension}
-\label{sec:orgac49491}
+\section*{Part 1 – Representations of \emph{GCL} and a small extension [10 marks]}
+\label{sec:orgde79e44}
 In Ruby and in Clojure, create a representation of
 the language \emph{GCL} described in part 0.
 
@@ -269,6 +278,7 @@ which is intended to be one of \texttt{:plus}, \texttt{:times}, \texttt{:minus} 
 and as its third argument a symbol,
 which is intended to be one of \texttt{:eq}, \texttt{:less} or \texttt{:greater},
 \item \texttt{GCAnd} and \texttt{GCOr}, the constructors of which take as arguments two \texttt{GCExpr}'s.
+\item \texttt{GCTrue} and \texttt{GCFalse}, the constructor of which (if it exists) takes no arguments.
 \end{itemize}
 \item \texttt{GCStmt} has subclasses
 \begin{itemize}
@@ -302,9 +312,9 @@ the constructor of which takes as its first argument a symbol
 for the variable name and as its second argument a \texttt{GCStmt}.
 Wrap all of these definitions inside a \texttt{module} named \texttt{GCLe}.
 
-\section*{Part 2 – A stack machine for \emph{GCL} in Ruby}
-\label{sec:org58d3b21}
-Within the \texttt{GCL} module, define a method \texttt{stack\_eval} on \texttt{GCL}'s,
+\section*{Part 2 – A stack machine for \emph{GCL} in Ruby              [25 marks]}
+\label{sec:org9124665}
+Within the \texttt{GCL} module, define a method \texttt{stackEval} on \texttt{GCL}'s,
 which carries out the evaluation of a \texttt{GCStmt} using a stack machine.
 
 The stack machine in question should really be a method
@@ -318,20 +328,20 @@ taking three arguments:
 The method should return an updated state
 (that is, another lambda/block.)
 
-\section*{Part 3 – The small-step semantics of \emph{GCL} in Clojure}
-\label{sec:orgad4ee73}
+\section*{Part 3 – The small-step semantics of \emph{GCL} in Clojure   [25 marks]}
+\label{sec:org5e4f5d5}
 Define in Clojure a function \texttt{reduce} which takes
 a \emph{GCL} statement and a memory state
 (a function mapping symbols, representing the variable names, to integers)
 and performs \emph{one step} of the computation, returning the
 remaining code to be run and the updated memory state.
 
-\section*{Part 4 – The big-step semantics of \emph{GCLe} in Ruby}
-\label{sec:orgc180894}
+\section*{Part 4 – The big-step semantics of \emph{GCLe} in Ruby       [40 marks]}
+\label{sec:org82c7def}
 This portion of the assignment should be done in
 the \texttt{GCLe} module created in part 1.
 
-Begin by defining a method \texttt{wellScoped} which checks that
+Begin by defining a method \texttt{wellScoped} [20 marks] which checks that
 all variables appearing within the body of a \texttt{GCProgram}
 (either in an expression or on the left side of an assignment)
 are \emph{within scope} at the point of their use;
@@ -348,7 +358,7 @@ Use your experience working with \texttt{typeOf} as a starting point.
 \end{itemize}
 
 Then define the semantics of the language,
-this time defining a method \texttt{eval} directly
+this time defining a method \texttt{eval} [20 marks] directly
 (without making use of a stack machine.)
 That is, define the \emph{big-step} semantics of the language
 (remember that big-step semantics are called evaluation semantics.)
@@ -370,7 +380,7 @@ reporting an error that a variable was used before initialisation.
 \end{itemize}
 
 \section*{Part 5 – \emph{GCLe} in Clojure}
-\label{sec:org8220426}
+\label{sec:orgbd9d1aa}
 \emph{As a bonus}, repeat part 4 in Clojure.
 
 Place the code for this portion in a file \texttt{a3b.clj}.
@@ -383,7 +393,7 @@ tests in a file \texttt{a3bt.clj}. This file should output the results of the te
 when executed using \texttt{cat a3bt.clj | lein} from the command line.
 
 \section*{Submission checklist}
-\label{sec:orgb723f35}
+\label{sec:orgff6453b}
 For your convenience, this checklist is provided
 to track the files you need to submit.
 Use it if you wish.
@@ -408,6 +418,343 @@ Use it if you wish.
 \end{minted}
 
 \section*{Testing}
-\label{sec:org65c579b}
-:TODO:
+\label{sec:org8520fff}
+Unit tests for the requested types, methods and predicates
+are available here.
+\begin{itemize}
+\item \href{./testing/a3/a3\_test.rb}{a3\_test.rb}
+\item \href{./testing/a3/a3\_test.clj}{a3\_test.clj}
+\end{itemize}
+The contents of the unit test files are also repeated below.
+
+The tests can be run by placing the test files
+in the same directory as your code files.
+
+To run the tests for the Ruby portions,us the commands
+\begin{minted}[breaklines=true]{shell}
+ruby a3_test.rb
+\end{minted}
+
+To run the tests for the Clojure portions,us the commands
+\begin{minted}[breaklines=true]{shell}
+cat a3_test.clj | lein repl
+\end{minted}
+
+\begin{center}
+\textbf{You are strongly encouraged to add your own additional test cases}
+\textbf{to those provided for you.}
+
+The provided test cases check a very minimal amount!
+\end{center}
+
+\subsection*{Automated testing via Docker}
+\label{sec:orgb440c7f}
+The Docker setup and usage scripts are available at the following links.
+Their contents are also repeated below.
+\begin{itemize}
+\item \href{./testing/a3/Dockerfile}{Dockerfile}
+\item \href{./testing/a3/docker-compose.yml}{docker-compose.yml}
+\item \href{./testing/a3/setup.sh}{setup.sh}
+\item \href{./testing/a3/run.sh}{run.sh}
+\end{itemize}
+Place them into your \texttt{a3} directory where your code files
+and the test files (linked to above) exist,
+then run \texttt{setup.sh} and \texttt{run.sh}.
+
+Note that the use of the \texttt{setup.sh} and \texttt{run.sh} scripts assumes
+that you are in a \texttt{bash} like shell; if you are on Windows,
+and not using WSL or WSL2, you may have
+to run the commands contained in those scripts manually.
+
+\subsection*{The tests}
+\label{sec:org6e229ee}
+\subsubsection*{Ruby}
+\label{sec:org79307a1}
+\href{./testing/a3p2\_test.rb}{a3p2\_test.rb}
+\begin{minted}[breaklines=true]{ruby}
+require "test/unit"
+require_relative "a3"
+include GCL
+
+class SimpleTests < Test::Unit::TestCase
+  def test_assign_zero
+    constant_one = GCConst.new(1)
+    assign_constant_one = GCAssign.new(:z, constant_one)
+    updated_state = stackEval([assign_constant_one], [], emptyState)
+
+    assert_equal(1, updated_state.call(:z), "Assigning 1 to z did not work.")
+  end
+
+  def test_two_possible_assignments_part1
+    constant_one = GCConst.new(1)
+    constant_two = GCConst.new(2)
+    assign_constant_one = GCAssign.new(:y, constant_one)
+    assign_constant_two = GCAssign.new(:y, constant_two)
+    branch = GCIf.new([[GCTrue.new, assign_constant_one],
+                       [GCTrue.new, assign_constant_two]])
+    
+    # Run the program 50 times, to make relatively sure
+    # both possible results (y = 1 and y = 2) are seen.
+    results = []
+    50.times do results.push(GCL::stackEval([branch], [], emptyState).call(:y)) end
+
+    assert_equal(true,results.include?(1), "An if statement which randomly assigns 1 or 2 never assigned 1.")
+  end
+
+  def test_two_possible_assignments_part2
+    constant_one = GCConst.new(1)
+    constant_two = GCConst.new(2)
+    assign_constant_one = GCAssign.new(:y, constant_one)
+    assign_constant_two = GCAssign.new(:y, constant_two)
+    branch = GCIf.new([[GCTrue.new, assign_constant_one],
+                       [GCTrue.new, assign_constant_two]])
+    
+    # Run the program 50 times, to make relatively sure
+    # both possible results (y = 1 and y = 2) are seen.
+    results = []
+    50.times do results.push(GCL::stackEval([branch], [], emptyState).call(:y)) end
+
+    assert_equal(true,results.include?(2), "An if statement which randomly assigns 1 or 2 never assigned 2.")
+  end
+
+  def test_oscillating
+    x_var = GCVar.new(:x)
+    assign_x_5 = GCAssign.new(:x,GCConst.new(5))
+    inc_x_1 = GCAssign.new(:x,GCOp.new(x_var,GCConst.new(1),:plus))
+    dec_x_1 = GCAssign.new(:x,GCOp.new(x_var,GCConst.new(1),:minus))
+    check_x_less_8    = GCComp.new(x_var,GCConst.new(8),:less)
+    check_x_greater_2 = GCComp.new(x_var,GCConst.new(2),:greater)
+    check_x_within_3_7 = GCAnd.new(check_x_greater_2,check_x_less_8)
+    
+    # A program to increment or decrement the value of variable x
+    # randomly until it is less than 3 or greater than 7,
+    oscillate_x = GCDo.new([[check_x_within_3_7, dec_x_1],
+                            [check_x_within_3_7, inc_x_1]])
+    
+    # Run the program 50 times, to make relatively sure
+    # both possible results (x = 2 and x = 8) are seen.
+    results = []
+    50.times do results.push(GCL::stackEval([oscillate_x], [], emptyState).call(:x)) end
+
+    assert_equal(true,results.include?(2), "A do statement which oscillates the value of x between 2 and 8 never got to 2.")
+    assert_equal(true,results.include?(8), "A do statement which oscillates the value of x between 2 and 8 never got to 8.")
+  end
+
+end
+\end{minted}
+
+\href{./testing/a3p4\_test.rb}{a3p4\_test.rb}
+\begin{minted}[breaklines=true]{ruby}
+require "test/unit"
+require_relative "a3"
+include GCLe
+
+class SimpleTests < Test::Unit::TestCase
+  
+  def test_wellscoped1
+    assert_equal(true, GCLe::wellScoped(GCProgram.new([:x,:y], GCAssign.new(:x, GCVar.new(:x)))),
+                 "global x y; x := x should be well scoped.")
+  end
+
+  def test_wellscoped2
+    assert_equal(true, GCLe::wellScoped(GCProgram.new([:x,:y], GCAssign.new(:x, GCVar.new(:y)))),
+                 "global x y; x := y should be well scoped.")
+  end
+
+  def test_wellscoped3
+    assert_equal(true, GCLe::wellScoped(GCProgram.new([], GCLocal.new(:x, GCAssign.new(:x, GCVar.new(:y))))),
+                 "global; local x in x := x should be well scoped.")
+  end
+
+  def test_not_wellscoped1
+    assert_equal(false, GCLe::wellScoped(GCProgram.new([:y], GCAssign.new(:x, GCVar.new(:x)))),
+                 "global y; x := x should NOT be well scoped.")
+  end
+
+  def test_not_wellscoped2
+    assert_equal(false, GCLe::wellScoped(GCProgram.new([:x], GCAssign.new(:x, GCVar.new(:y)))),
+                 "global x; x := y should NOT be well scoped.")
+  end
+
+  def test_not_wellscoped3
+    assert_equal(false, GCLe::wellScoped(GCProgram.new([], GCLocal.new(:y, GCAssign.new(:x, GCVar.new(:y))))),
+                 "global; local y in x := x should NOT be well scoped.")
+  end
+
+  def test_assign_zero
+    constant_one = GCConst.new(1)
+    assign_constant_one = GCAssign.new(:z, constant_one)
+    updated_state = GCLe::eval(GCProgram.new([:z],assign_constant_one))
+
+    assert_equal(1, updated_state[:z], "Assigning 1 to z did not work.")
+  end
+
+  def test_two_possible_assignments_part1
+    constant_one = GCConst.new(1)
+    constant_two = GCConst.new(2)
+    assign_constant_one = GCAssign.new(:t, constant_one)
+    assign_constant_two = GCAssign.new(:t, constant_two)
+    branch = GCIf.new([[GCTrue.new, assign_constant_one],
+                       [GCTrue.new, assign_constant_two]])
+    assign_t_to_y = GCAssign.new(:y, GCVar.new(:t))
+    the_program = GCProgram.new([:y],GCLocal.new(:t,GCCompose.new(branch, assign_t_to_y)))
+
+    # Run the program 50 times, to make relatively sure
+    # both possible results (y = 1 and y = 2) are seen.
+    results = []
+    50.times do results.push(GCLe::eval(the_program)[:y]) end
+  
+    assert_equal(true,results.include?(2), "An if statement which randomly assigns 1 or 2 never assigned 1.")
+  end
+
+  def test_two_possible_assignments_part2
+    constant_one = GCConst.new(1)
+    constant_two = GCConst.new(2)
+    assign_constant_one = GCAssign.new(:t, constant_one)
+    assign_constant_two = GCAssign.new(:t, constant_two)
+    branch = GCIf.new([[GCTrue.new, assign_constant_one],
+                       [GCTrue.new, assign_constant_two]])
+    assign_t_to_y = GCAssign.new(:y, GCVar.new(:t))
+    the_program = GCProgram.new([:y],GCLocal.new(:t,GCCompose.new(branch, assign_t_to_y)))
+
+    # Run the program 50 times, to make relatively sure
+    # both possible results (y = 1 and y = 2) are seen.
+    results = []
+    50.times do results.push(GCLe::eval(the_program)[:y]) end
+  
+    assert_equal(true,results.include?(0), "An if statement which randomly assigns 1 or 2 never assigned 2.")
+  end
+  
+  def test_oscillating
+    x_var = GCVar.new(:x)
+    assign_x_5 = GCAssign.new(:x,GCConst.new(5))
+    inc_x_1 = GCAssign.new(:x,GCOp.new(x_var,GCConst.new(1),:plus))
+    dec_x_1 = GCAssign.new(:x,GCOp.new(x_var,GCConst.new(1),:minus))
+    check_x_less_8    = GCComp.new(x_var,GCConst.new(8),:less)
+    check_x_greater_2 = GCComp.new(x_var,GCConst.new(2),:greater)
+    check_x_within_3_7 = GCAnd.new(check_x_greater_2,check_x_less_8)
+    
+    # A program to increment or decrement the value of variable x
+    # randomly until it is less than 3 or greater than 7,
+    oscillate_x = GCDo.new([[check_x_within_3_7, dec_x_1],
+                            [check_x_within_3_7, inc_x_1]])
+    the_program = GCProgram.new([:x],oscillate_x)
+    
+    # Run the program 50 times, to make relatively sure
+    # both possible results (x = 2 and x = 8) are seen.
+    results = []
+    50.times do results.push(GCLe::eval(the_program)[:x]) end
+  
+    assert_equal(true,results.include?(2), "A do statement which oscillates the value of x between 2 and 8 never got to 2.")
+    assert_equal(true,results.include?(8), "A do statement which oscillates the value of x between 2 and 8 never got to 8.")
+  end
+
+end
+\end{minted}
+
+\subsubsection*{Clojure}
+\label{sec:orga14d853}
+\href{./testing/a3\_test.clj}{a3\_test.clj}
+\begin{minted}[breaklines=true]{clojure}
+(ns testing)
+(use 'clojure.test)
+(load-file "a3.clj")
+
+;; A function to compute a given expression a number of times,
+;; creating a list of the results.
+;; Used to test the non-determinacy of GC programs involvings ifs and dos.
+(defn times [n f]
+  "Repeatedly evaluate `f` `n` times and concatenate together the results."
+  (concat
+   (repeatedly n #(eval f))))
+
+
+
+(deftest test-state-assign-constant-one
+  (is (= 1        ((.sig  (reduce (Config. (GCAssign. :x (GCConst. 1)) emptyState))) :x))))
+
+(deftest test-stmt-assign-constant-one
+  (is (= (GCSkip.) (.stmt (reduce (Config. (GCAssign. :x (GCConst. 1)) emptyState))))))
+
+(deftest test-two-possible-branches-first
+  (let [branch (GCIf. [[(GCTrue.) (GCAssign. :x (GCConst. 0))] [(GCTrue.) (GCAssign. :x (GCConst. 1))]])]
+    (is (some #(= (GCAssign. :x (GCConst. 0)) %) (times 50 `(.stmt (reduce (Config. ~branch emptyState))))))))
+
+(deftest test-two-possible-branches-second
+  (let [branch (GCIf. [[(GCTrue.) (GCAssign. :x (GCConst. 0))] [(GCTrue.) (GCAssign. :x (GCConst. 1))]])]
+    (is (some #(= (GCAssign. :x (GCConst. 1)) %) (times 50 `(.stmt (reduce (Config. ~branch emptyState))))))))
+
+;; If we define `test-ns-hook`, it is called when running `run-tests`,
+;; instead of just calling all tests in the namespace.
+;; This lets us control the order of the tests.
+(deftest test-ns-hook
+  (test-state-assign-constant-one)
+  (test-stmt-assign-constant-one)
+  (test-two-possible-branches-first))
+
+(run-tests 'testing)
+\end{minted}
+
+\subsection*{The Docker setup}
+\label{sec:org90a12dd}
+\href{./testing/a2/Dockerfile}{Dockerfile}
+\begin{minted}[breaklines=true]{docker}
+# Define the argument for openjdk version
+ARG OPENJDK_TAG=8u232
+
+FROM clojure:openjdk-8
+
+# Install Ruby
+RUN apt-get update && apt-get install -y --no-install-recommends --no-install-suggests curl bzip2 build-essential libssl-dev libreadline-dev zlib1g-dev && \
+    rm -rf /var/lib/apt/lists/* && \
+    curl -L https://github.com/rbenv/ruby-build/archive/v20201118.tar.gz | tar -zxvf - -C /tmp/ && \
+    cd /tmp/ruby-build-* && ./install.sh && cd / && \
+    ruby-build -v 2.7.2 /usr/local && rm -rfv /tmp/ruby-build-*
+
+# Set the name of the maintainers
+MAINTAINER Habib Ghaffari Hadigheh, Mark Armstrong <ghaffh1@mcmaster.ca, armstmp@mcmaster.ca>
+
+# Set the working directory
+WORKDIR /opt/a3
+\end{minted}
+
+\href{./testing/a2/docker-compose.yml}{docker-compose.yml}
+\begin{minted}[breaklines=true]{yaml}
+version: '2'
+services:
+  service:
+    build: .
+    image: 3mi3_a3_docker_image
+    volumes:
+      - .:/opt/a3
+    container_name: 3mi3_a3_container
+    command: bash -c
+      "echo 'Ruby part 2 testing' ;
+       echo '----------------------------------------------------------------------' ;
+       timeout 2m ruby a3p2_test.rb ;
+       echo '----------------------------------------------------------------------' ;
+       printf '\\n\\n\\n' ;
+       echo 'Ruby part 4 testing' ;
+       echo '----------------------------------------------------------------------' ;
+       timeout 2m ruby a3p4_test.rb ;
+       echo '----------------------------------------------------------------------' ;
+       printf '\\n\\n\\n' ;
+       echo 'Clojure testing' ;
+       echo '----------------------------------------------------------------------' ;
+       cat a3_test.clj | timeout 2m lein repl ;
+       echo '----------------------------------------------------------------------'"
+\end{minted}
+
+\href{./testing/a2/setup.sh}{setup.sh}
+\begin{minted}[breaklines=true]{shell}
+docker-compose build --force-rm
+\end{minted}
+
+\href{./testing/a2/run.sh}{run.sh}
+\begin{minted}[breaklines=true]{shell}
+# Run the container
+docker-compose up --force-recreate
+# Stop the container after finishing the test run
+docker-compose stop -t 1
+\end{minted}
 \end{document}

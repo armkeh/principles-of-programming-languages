@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-12-02 Wed 00:01 -->
+<!-- 2020-12-11 Fri 03:13 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Computer Science 3MI3 – 2020 assignment 3</title>
@@ -239,6 +239,7 @@ various versions of the guarded command language."
 <li><a href="#Introduction">Introduction</a></li>
 <li><a href="#Updates-and-file-history">Updates and file history</a>
 <ul>
+<li><a href="#December-11th">December 11th</a></li>
 <li><a href="#December-1st">December 1st</a></li>
 </ul>
 </li>
@@ -247,7 +248,7 @@ various versions of the guarded command language."
 <li><a href="#Submission-procedures">Documentation</a></li>
 <li><a href="#Submission-procedures">Submission procedures</a>
 <ul>
-<li><a href="#org74d803a">Assignment naming requirements</a></li>
+<li><a href="#org1302042">Assignment naming requirements</a></li>
 </ul>
 </li>
 <li><a href="#Proper-conduct-for-coursework">Proper conduct for coursework</a></li>
@@ -259,13 +260,24 @@ various versions of the guarded command language."
 <li><a href="#/GCLe/"><i>GCLe</i></a></li>
 </ul>
 </li>
-<li><a href="#Part-1-–-Representations-of-/GCL/-and-a-small-extension">Part 1 – Representations of <i>GCL</i> and a small extension</a></li>
-<li><a href="#Part-2-–-A-stack-machine-for-/GCL/-in-Ruby">Part 2 – A stack machine for <i>GCL</i> in Ruby</a></li>
-<li><a href="#Part-3-–-The-small-step-semantics-of-/GCL/-in-Clojure">Part 3 – The small-step semantics of <i>GCL</i> in Clojure</a></li>
-<li><a href="#Part-4-–-The-big-step-semantics-of-/GCLe/-in-Ruby">Part 4 – The big-step semantics of <i>GCLe</i> in Ruby</a></li>
+<li><a href="#Part-1-–-Representations-of-/GCL/-and-a-small-extension">Part 1 – Representations of <i>GCL</i> and a small extension [10 marks]</a></li>
+<li><a href="#Part-2-–-A-stack-machine-for-/GCL/-in-Ruby">Part 2 – A stack machine for <i>GCL</i> in Ruby              [25 marks]</a></li>
+<li><a href="#Part-3-–-The-small-step-semantics-of-/GCL/-in-Clojure">Part 3 – The small-step semantics of <i>GCL</i> in Clojure   [25 marks]</a></li>
+<li><a href="#Part-4-–-The-big-step-semantics-of-/GCLe/-in-Ruby">Part 4 – The big-step semantics of <i>GCLe</i> in Ruby       [40 marks]</a></li>
 <li><a href="#Part-5-–-/GCLe/-in-Clojure">Part 5 – <i>GCLe</i> in Clojure</a></li>
 <li><a href="#Submission-checklist">Submission checklist</a></li>
-<li><a href="#Testing">Testing</a></li>
+<li><a href="#Testing">Testing</a>
+<ul>
+<li><a href="#Automated-testing-via-Docker">Automated testing via Docker</a></li>
+<li><a href="#The-tests">The tests</a>
+<ul>
+<li><a href="#Ruby">Ruby</a></li>
+<li><a href="#Clojure">Clojure</a></li>
+</ul>
+</li>
+<li><a href="#The-Docker-setup">The Docker setup</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -282,6 +294,17 @@ This assignment
 <div id="outline-container-Updates-and-file-history" class="outline-2">
 <h2 id="Updates-and-file-history">Updates and file history</h2>
 <div class="outline-text-2" id="text-Updates-and-file-history">
+</div>
+
+<div id="outline-container-December-11th" class="outline-3">
+<h3 id="December-11th">December 11th</h3>
+<div class="outline-text-3" id="text-December-11th">
+<ul class="org-ul">
+<li>The testing and Docker setup has been added.</li>
+<li>The method from part 2 has been renamed to <code>stackEval</code>,
+instead of <code>stack_eval</code>.</li>
+</ul>
+</div>
 </div>
 
 <div id="outline-container-December-1st" class="outline-3">
@@ -385,9 +408,9 @@ apply to assignments, except for the differences below.
 </p>
 </div>
 
-<div id="outline-container-org74d803a" class="outline-4">
-<h4 id="org74d803a">Assignment naming requirements</h4>
-<div class="outline-text-4" id="text-org74d803a">
+<div id="outline-container-org1302042" class="outline-4">
+<h4 id="org1302042">Assignment naming requirements</h4>
+<div class="outline-text-4" id="text-org1302042">
 <p>
 Place all files for the assignment
 inside a folder titled <code>an</code>, where <code>n</code> is the number of the assignment.
@@ -453,6 +476,7 @@ The syntax of <i>GCL</i> is given as
 
 <span style="color: #00cd68;">&#10216;</span>test<span style="color: #00cd68;">&#10217;</span> &#8759;= <span style="color: #00cd68;">&#10216;</span>expr<span style="color: #00cd68;">&#10217;</span> <span style="color: #00cd68;">(</span>'=' | '&lt;' | '&gt;'<span style="color: #00cd68;">)</span> <span style="color: #00cd68;">&#10216;</span>expr<span style="color: #00cd68;">&#10217;</span>
         | <span style="color: #00cd68;">&#10216;</span>test<span style="color: #00cd68;">&#10217;</span> <span style="color: #00cd68;">(</span>'and' | 'or'<span style="color: #00cd68;">)</span> <span style="color: #00cd68;">&#10216;</span>test<span style="color: #00cd68;">&#10217;</span>
+        | 'true' | 'false'
 
 
 <span style="color: #00cd68;">&#10216;</span>stmt<span style="color: #00cd68;">&#10217;</span> &#8759;= 'skip'
@@ -560,7 +584,7 @@ by such a memory state.
 </div>
 
 <div id="outline-container-Part-1-–-Representations-of-/GCL/-and-a-small-extension" class="outline-2">
-<h2 id="Part-1-–-Representations-of-/GCL/-and-a-small-extension">Part 1 – Representations of <i>GCL</i> and a small extension</h2>
+<h2 id="Part-1-–-Representations-of-/GCL/-and-a-small-extension">Part 1 – Representations of <i>GCL</i> and a small extension [10 marks]</h2>
 <div class="outline-text-2" id="text-Part-1-–-Representations-of-/GCL/-and-a-small-extension">
 <p>
 In Ruby and in Clojure, create a representation of
@@ -586,6 +610,7 @@ which is intended to be one of <code>:plus</code>, <code>:times</code>, <code>:m
 and as its third argument a symbol,
 which is intended to be one of <code>:eq</code>, <code>:less</code> or <code>:greater</code>,</li>
 <li><code>GCAnd</code> and <code>GCOr</code>, the constructors of which take as arguments two <code>GCExpr</code>'s.</li>
+<li><code>GCTrue</code> and <code>GCFalse</code>, the constructor of which (if it exists) takes no arguments.</li>
 </ul></li>
 <li><code>GCStmt</code> has subclasses
 <ul class="org-ul">
@@ -628,10 +653,10 @@ Wrap all of these definitions inside a <code>module</code> named <code>GCLe</cod
 </div>
 
 <div id="outline-container-Part-2-–-A-stack-machine-for-/GCL/-in-Ruby" class="outline-2">
-<h2 id="Part-2-–-A-stack-machine-for-/GCL/-in-Ruby">Part 2 – A stack machine for <i>GCL</i> in Ruby</h2>
+<h2 id="Part-2-–-A-stack-machine-for-/GCL/-in-Ruby">Part 2 – A stack machine for <i>GCL</i> in Ruby              [25 marks]</h2>
 <div class="outline-text-2" id="text-Part-2-–-A-stack-machine-for-/GCL/-in-Ruby">
 <p>
-Within the <code>GCL</code> module, define a method <code>stack_eval</code> on <code>GCL</code>'s,
+Within the <code>GCL</code> module, define a method <code>stackEval</code> on <code>GCL</code>'s,
 which carries out the evaluation of a <code>GCStmt</code> using a stack machine.
 </p>
 
@@ -653,7 +678,7 @@ The method should return an updated state
 </div>
 
 <div id="outline-container-Part-3-–-The-small-step-semantics-of-/GCL/-in-Clojure" class="outline-2">
-<h2 id="Part-3-–-The-small-step-semantics-of-/GCL/-in-Clojure">Part 3 – The small-step semantics of <i>GCL</i> in Clojure</h2>
+<h2 id="Part-3-–-The-small-step-semantics-of-/GCL/-in-Clojure">Part 3 – The small-step semantics of <i>GCL</i> in Clojure   [25 marks]</h2>
 <div class="outline-text-2" id="text-Part-3-–-The-small-step-semantics-of-/GCL/-in-Clojure">
 <p>
 Define in Clojure a function <code>reduce</code> which takes
@@ -666,7 +691,7 @@ remaining code to be run and the updated memory state.
 </div>
 
 <div id="outline-container-Part-4-–-The-big-step-semantics-of-/GCLe/-in-Ruby" class="outline-2">
-<h2 id="Part-4-–-The-big-step-semantics-of-/GCLe/-in-Ruby">Part 4 – The big-step semantics of <i>GCLe</i> in Ruby</h2>
+<h2 id="Part-4-–-The-big-step-semantics-of-/GCLe/-in-Ruby">Part 4 – The big-step semantics of <i>GCLe</i> in Ruby       [40 marks]</h2>
 <div class="outline-text-2" id="text-Part-4-–-The-big-step-semantics-of-/GCLe/-in-Ruby">
 <p>
 This portion of the assignment should be done in
@@ -674,7 +699,7 @@ the <code>GCLe</code> module created in part 1.
 </p>
 
 <p>
-Begin by defining a method <code>wellScoped</code> which checks that
+Begin by defining a method <code>wellScoped</code> [20 marks] which checks that
 all variables appearing within the body of a <code>GCProgram</code>
 (either in an expression or on the left side of an assignment)
 are <i>within scope</i> at the point of their use;
@@ -693,7 +718,7 @@ Use your experience working with <code>typeOf</code> as a starting point.
 
 <p>
 Then define the semantics of the language,
-this time defining a method <code>eval</code> directly
+this time defining a method <code>eval</code> [20 marks] directly
 (without making use of a stack machine.)
 That is, define the <i>big-step</i> semantics of the language
 (remember that big-step semantics are called evaluation semantics.)
@@ -778,8 +803,402 @@ Use it if you wish.
 <h2 id="Testing">Testing</h2>
 <div class="outline-text-2" id="text-Testing">
 <p>
-:TODO:
+Unit tests for the requested types, methods and predicates
+are available here.
 </p>
+<ul class="org-ul">
+<li><a href="./testing/a3/a3_test.rb">a3_test.rb</a></li>
+<li><a href="./testing/a3/a3_test.clj">a3_test.clj</a></li>
+</ul>
+<p>
+The contents of the unit test files are also repeated below.
+</p>
+
+<p>
+The tests can be run by placing the test files
+in the same directory as your code files.
+</p>
+
+<p>
+To run the tests for the Ruby portions,us the commands
+</p>
+<div class="org-src-container">
+<pre class="src src-shell">ruby a3_test.rb
+</pre>
+</div>
+
+<p>
+To run the tests for the Clojure portions,us the commands
+</p>
+<div class="org-src-container">
+<pre class="src src-shell">cat a3_test.clj | lein repl
+</pre>
+</div>
+
+<div class="org-center">
+<p>
+<b>You are strongly encouraged to add your own additional test cases</b>
+<b>to those provided for you.</b>
+</p>
+
+<p>
+The provided test cases check a very minimal amount!
+</p>
+</div>
+</div>
+
+<div id="outline-container-Automated-testing-via-Docker" class="outline-3">
+<h3 id="Automated-testing-via-Docker">Automated testing via Docker</h3>
+<div class="outline-text-3" id="text-Automated-testing-via-Docker">
+<p>
+The Docker setup and usage scripts are available at the following links.
+Their contents are also repeated below.
+</p>
+<ul class="org-ul">
+<li><a href="./testing/a3/Dockerfile">Dockerfile</a></li>
+<li><a href="./testing/a3/docker-compose.yml">docker-compose.yml</a></li>
+<li><a href="./testing/a3/setup.sh">setup.sh</a></li>
+<li><a href="./testing/a3/run.sh">run.sh</a></li>
+</ul>
+<p>
+Place them into your <code>a3</code> directory where your code files
+and the test files (linked to above) exist,
+then run <code>setup.sh</code> and <code>run.sh</code>.
+</p>
+
+<p>
+Note that the use of the <code>setup.sh</code> and <code>run.sh</code> scripts assumes
+that you are in a <code>bash</code> like shell; if you are on Windows,
+and not using WSL or WSL2, you may have
+to run the commands contained in those scripts manually.
+</p>
+</div>
+</div>
+
+<div id="outline-container-The-tests" class="outline-3">
+<h3 id="The-tests">The tests</h3>
+<div class="outline-text-3" id="text-The-tests">
+</div>
+
+<div id="outline-container-Ruby" class="outline-4">
+<h4 id="Ruby">Ruby</h4>
+<div class="outline-text-4" id="text-Ruby">
+<p>
+<a href="./testing/a3p2_test.rb">a3p2_test.rb</a>
+</p>
+<div class="org-src-container">
+<pre class="src src-ruby"><span style="color: #f78fe7;">require</span> <span style="color: #79a8ff;">"test/unit"</span>
+<span style="color: #f78fe7;">require_relative</span> <span style="color: #79a8ff;">"a3"</span>
+<span style="color: #f78fe7;">include</span> <span style="color: #6ae4b9;">GCL</span>
+
+<span style="color: #b6a0ff;">class</span> <span style="color: #6ae4b9;">SimpleTests</span> &lt; <span style="color: #6ae4b9;">Test</span>::<span style="color: #6ae4b9;">Unit</span>::<span style="color: #6ae4b9;">TestCase</span>
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">test_assign_zero</span>
+    constant_one = <span style="color: #6ae4b9;">GCConst</span>.new<span style="color: #00cd68;">(</span>1<span style="color: #00cd68;">)</span>
+    assign_constant_one = <span style="color: #6ae4b9;">GCAssign</span>.new<span style="color: #00cd68;">(</span><span style="color: #00bcff;">:z</span>, constant_one<span style="color: #00cd68;">)</span>
+    updated_state = stackEval<span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">[</span>assign_constant_one<span style="color: #b6a0ff;">]</span>, <span style="color: #b6a0ff;">[]</span>, emptyState<span style="color: #00cd68;">)</span>
+
+    assert_equal<span style="color: #00cd68;">(</span>1, updated_state.call<span style="color: #b6a0ff;">(</span><span style="color: #00bcff;">:z</span><span style="color: #b6a0ff;">)</span>, <span style="color: #79a8ff;">"Assigning 1 to z did not work."</span><span style="color: #00cd68;">)</span>
+  <span style="color: #b6a0ff;">end</span>
+
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">test_two_possible_assignments_part1</span>
+    constant_one = <span style="color: #6ae4b9;">GCConst</span>.new<span style="color: #00cd68;">(</span>1<span style="color: #00cd68;">)</span>
+    constant_two = <span style="color: #6ae4b9;">GCConst</span>.new<span style="color: #00cd68;">(</span>2<span style="color: #00cd68;">)</span>
+    assign_constant_one = <span style="color: #6ae4b9;">GCAssign</span>.new<span style="color: #00cd68;">(</span><span style="color: #00bcff;">:y</span>, constant_one<span style="color: #00cd68;">)</span>
+    assign_constant_two = <span style="color: #6ae4b9;">GCAssign</span>.new<span style="color: #00cd68;">(</span><span style="color: #00bcff;">:y</span>, constant_two<span style="color: #00cd68;">)</span>
+    branch = <span style="color: #6ae4b9;">GCIf</span>.new<span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">[</span><span style="color: #6ae4b9;">[</span><span style="color: #6ae4b9;">GCTrue</span>.new, assign_constant_one<span style="color: #6ae4b9;">]</span>,
+                       <span style="color: #6ae4b9;">[</span><span style="color: #6ae4b9;">GCTrue</span>.new, assign_constant_two<span style="color: #6ae4b9;">]</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span>
+    
+    <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Run the program 50 times, to make relatively sure</span>
+    <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">both possible results (y = 1 and y = 2) are seen.</span>
+    results = <span style="color: #00cd68;">[]</span>
+    50.times <span style="color: #b6a0ff;">do</span> results.push<span style="color: #00cd68;">(</span><span style="color: #6ae4b9;">GCL</span>::stackEval<span style="color: #b6a0ff;">(</span><span style="color: #6ae4b9;">[</span>branch<span style="color: #6ae4b9;">]</span>, <span style="color: #6ae4b9;">[]</span>, emptyState<span style="color: #b6a0ff;">)</span>.call<span style="color: #b6a0ff;">(</span><span style="color: #00bcff;">:y</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">end</span>
+
+    assert_equal<span style="color: #00cd68;">(</span><span style="color: #00bcff;">true</span>,results.include?<span style="color: #b6a0ff;">(</span>1<span style="color: #b6a0ff;">)</span>, <span style="color: #79a8ff;">"An if statement which randomly assigns 1 or 2 never assigned 1."</span><span style="color: #00cd68;">)</span>
+  <span style="color: #b6a0ff;">end</span>
+
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">test_two_possible_assignments_part2</span>
+    constant_one = <span style="color: #6ae4b9;">GCConst</span>.new<span style="color: #00cd68;">(</span>1<span style="color: #00cd68;">)</span>
+    constant_two = <span style="color: #6ae4b9;">GCConst</span>.new<span style="color: #00cd68;">(</span>2<span style="color: #00cd68;">)</span>
+    assign_constant_one = <span style="color: #6ae4b9;">GCAssign</span>.new<span style="color: #00cd68;">(</span><span style="color: #00bcff;">:y</span>, constant_one<span style="color: #00cd68;">)</span>
+    assign_constant_two = <span style="color: #6ae4b9;">GCAssign</span>.new<span style="color: #00cd68;">(</span><span style="color: #00bcff;">:y</span>, constant_two<span style="color: #00cd68;">)</span>
+    branch = <span style="color: #6ae4b9;">GCIf</span>.new<span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">[</span><span style="color: #6ae4b9;">[</span><span style="color: #6ae4b9;">GCTrue</span>.new, assign_constant_one<span style="color: #6ae4b9;">]</span>,
+                       <span style="color: #6ae4b9;">[</span><span style="color: #6ae4b9;">GCTrue</span>.new, assign_constant_two<span style="color: #6ae4b9;">]</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span>
+    
+    <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Run the program 50 times, to make relatively sure</span>
+    <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">both possible results (y = 1 and y = 2) are seen.</span>
+    results = <span style="color: #00cd68;">[]</span>
+    50.times <span style="color: #b6a0ff;">do</span> results.push<span style="color: #00cd68;">(</span><span style="color: #6ae4b9;">GCL</span>::stackEval<span style="color: #b6a0ff;">(</span><span style="color: #6ae4b9;">[</span>branch<span style="color: #6ae4b9;">]</span>, <span style="color: #6ae4b9;">[]</span>, emptyState<span style="color: #b6a0ff;">)</span>.call<span style="color: #b6a0ff;">(</span><span style="color: #00bcff;">:y</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">end</span>
+
+    assert_equal<span style="color: #00cd68;">(</span><span style="color: #00bcff;">true</span>,results.include?<span style="color: #b6a0ff;">(</span>2<span style="color: #b6a0ff;">)</span>, <span style="color: #79a8ff;">"An if statement which randomly assigns 1 or 2 never assigned 2."</span><span style="color: #00cd68;">)</span>
+  <span style="color: #b6a0ff;">end</span>
+
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">test_oscillating</span>
+    x_var = <span style="color: #6ae4b9;">GCVar</span>.new<span style="color: #00cd68;">(</span><span style="color: #00bcff;">:x</span><span style="color: #00cd68;">)</span>
+    assign_x_5 = <span style="color: #6ae4b9;">GCAssign</span>.new<span style="color: #00cd68;">(</span><span style="color: #00bcff;">:x</span>,<span style="color: #6ae4b9;">GCConst</span>.new<span style="color: #b6a0ff;">(</span>5<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+    inc_x_1 = <span style="color: #6ae4b9;">GCAssign</span>.new<span style="color: #00cd68;">(</span><span style="color: #00bcff;">:x</span>,<span style="color: #6ae4b9;">GCOp</span>.new<span style="color: #b6a0ff;">(</span>x_var,<span style="color: #6ae4b9;">GCConst</span>.new<span style="color: #6ae4b9;">(</span>1<span style="color: #6ae4b9;">)</span>,<span style="color: #00bcff;">:plus</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+    dec_x_1 = <span style="color: #6ae4b9;">GCAssign</span>.new<span style="color: #00cd68;">(</span><span style="color: #00bcff;">:x</span>,<span style="color: #6ae4b9;">GCOp</span>.new<span style="color: #b6a0ff;">(</span>x_var,<span style="color: #6ae4b9;">GCConst</span>.new<span style="color: #6ae4b9;">(</span>1<span style="color: #6ae4b9;">)</span>,<span style="color: #00bcff;">:minus</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+    check_x_less_8    = <span style="color: #6ae4b9;">GCComp</span>.new<span style="color: #00cd68;">(</span>x_var,<span style="color: #6ae4b9;">GCConst</span>.new<span style="color: #b6a0ff;">(</span>8<span style="color: #b6a0ff;">)</span>,<span style="color: #00bcff;">:less</span><span style="color: #00cd68;">)</span>
+    check_x_greater_2 = <span style="color: #6ae4b9;">GCComp</span>.new<span style="color: #00cd68;">(</span>x_var,<span style="color: #6ae4b9;">GCConst</span>.new<span style="color: #b6a0ff;">(</span>2<span style="color: #b6a0ff;">)</span>,<span style="color: #00bcff;">:greater</span><span style="color: #00cd68;">)</span>
+    check_x_within_3_7 = <span style="color: #6ae4b9;">GCAnd</span>.new<span style="color: #00cd68;">(</span>check_x_greater_2,check_x_less_8<span style="color: #00cd68;">)</span>
+    
+    <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">A program to increment or decrement the value of variable x</span>
+    <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">randomly until it is less than 3 or greater than 7,</span>
+    oscillate_x = <span style="color: #6ae4b9;">GCDo</span>.new<span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">[</span><span style="color: #6ae4b9;">[</span>check_x_within_3_7, dec_x_1<span style="color: #6ae4b9;">]</span>,
+                            <span style="color: #6ae4b9;">[</span>check_x_within_3_7, inc_x_1<span style="color: #6ae4b9;">]</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span>
+    
+    <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Run the program 50 times, to make relatively sure</span>
+    <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">both possible results (x = 2 and x = 8) are seen.</span>
+    results = <span style="color: #00cd68;">[]</span>
+    50.times <span style="color: #b6a0ff;">do</span> results.push<span style="color: #00cd68;">(</span><span style="color: #6ae4b9;">GCL</span>::stackEval<span style="color: #b6a0ff;">(</span><span style="color: #6ae4b9;">[</span>oscillate_x<span style="color: #6ae4b9;">]</span>, <span style="color: #6ae4b9;">[]</span>, emptyState<span style="color: #b6a0ff;">)</span>.call<span style="color: #b6a0ff;">(</span><span style="color: #00bcff;">:x</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">end</span>
+
+    assert_equal<span style="color: #00cd68;">(</span><span style="color: #00bcff;">true</span>,results.include?<span style="color: #b6a0ff;">(</span>2<span style="color: #b6a0ff;">)</span>, <span style="color: #79a8ff;">"A do statement which oscillates the value of x between 2 and 8 never got to 2."</span><span style="color: #00cd68;">)</span>
+    assert_equal<span style="color: #00cd68;">(</span><span style="color: #00bcff;">true</span>,results.include?<span style="color: #b6a0ff;">(</span>8<span style="color: #b6a0ff;">)</span>, <span style="color: #79a8ff;">"A do statement which oscillates the value of x between 2 and 8 never got to 8."</span><span style="color: #00cd68;">)</span>
+  <span style="color: #b6a0ff;">end</span>
+
+<span style="color: #b6a0ff;">end</span>
+</pre>
+</div>
+
+<p>
+<a href="./testing/a3p4_test.rb">a3p4_test.rb</a>
+</p>
+<div class="org-src-container">
+<pre class="src src-ruby"><span style="color: #f78fe7;">require</span> <span style="color: #79a8ff;">"test/unit"</span>
+<span style="color: #f78fe7;">require_relative</span> <span style="color: #79a8ff;">"a3"</span>
+<span style="color: #f78fe7;">include</span> <span style="color: #6ae4b9;">GCLe</span>
+
+<span style="color: #b6a0ff;">class</span> <span style="color: #6ae4b9;">SimpleTests</span> &lt; <span style="color: #6ae4b9;">Test</span>::<span style="color: #6ae4b9;">Unit</span>::<span style="color: #6ae4b9;">TestCase</span>
+  
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">test_wellscoped1</span>
+    assert_equal<span style="color: #00cd68;">(</span><span style="color: #00bcff;">true</span>, <span style="color: #6ae4b9;">GCLe</span>::wellScoped<span style="color: #b6a0ff;">(</span><span style="color: #6ae4b9;">GCProgram</span>.new<span style="color: #6ae4b9;">(</span><span style="color: #f0ce43;">[</span><span style="color: #00bcff;">:x</span>,<span style="color: #00bcff;">:y</span><span style="color: #f0ce43;">]</span>, <span style="color: #6ae4b9;">GCAssign</span>.new<span style="color: #f0ce43;">(</span><span style="color: #00bcff;">:x</span>, <span style="color: #6ae4b9;">GCVar</span>.new<span style="color: #00bcff;">(</span><span style="color: #00bcff;">:x</span><span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span>,
+                 <span style="color: #79a8ff;">"global x y; x := x should be well scoped."</span><span style="color: #00cd68;">)</span>
+  <span style="color: #b6a0ff;">end</span>
+
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">test_wellscoped2</span>
+    assert_equal<span style="color: #00cd68;">(</span><span style="color: #00bcff;">true</span>, <span style="color: #6ae4b9;">GCLe</span>::wellScoped<span style="color: #b6a0ff;">(</span><span style="color: #6ae4b9;">GCProgram</span>.new<span style="color: #6ae4b9;">(</span><span style="color: #f0ce43;">[</span><span style="color: #00bcff;">:x</span>,<span style="color: #00bcff;">:y</span><span style="color: #f0ce43;">]</span>, <span style="color: #6ae4b9;">GCAssign</span>.new<span style="color: #f0ce43;">(</span><span style="color: #00bcff;">:x</span>, <span style="color: #6ae4b9;">GCVar</span>.new<span style="color: #00bcff;">(</span><span style="color: #00bcff;">:y</span><span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span>,
+                 <span style="color: #79a8ff;">"global x y; x := y should be well scoped."</span><span style="color: #00cd68;">)</span>
+  <span style="color: #b6a0ff;">end</span>
+
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">test_wellscoped3</span>
+    assert_equal<span style="color: #00cd68;">(</span><span style="color: #00bcff;">true</span>, <span style="color: #6ae4b9;">GCLe</span>::wellScoped<span style="color: #b6a0ff;">(</span><span style="color: #6ae4b9;">GCProgram</span>.new<span style="color: #6ae4b9;">(</span><span style="color: #f0ce43;">[]</span>, <span style="color: #6ae4b9;">GCLocal</span>.new<span style="color: #f0ce43;">(</span><span style="color: #00bcff;">:x</span>, <span style="color: #6ae4b9;">GCAssign</span>.new<span style="color: #00bcff;">(</span><span style="color: #00bcff;">:x</span>, <span style="color: #6ae4b9;">GCVar</span>.new<span style="color: #80d200;">(</span><span style="color: #00bcff;">:y</span><span style="color: #80d200;">)</span><span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span>,
+                 <span style="color: #79a8ff;">"global; local x in x := x should be well scoped."</span><span style="color: #00cd68;">)</span>
+  <span style="color: #b6a0ff;">end</span>
+
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">test_not_wellscoped1</span>
+    assert_equal<span style="color: #00cd68;">(</span><span style="color: #00bcff;">false</span>, <span style="color: #6ae4b9;">GCLe</span>::wellScoped<span style="color: #b6a0ff;">(</span><span style="color: #6ae4b9;">GCProgram</span>.new<span style="color: #6ae4b9;">(</span><span style="color: #f0ce43;">[</span><span style="color: #00bcff;">:y</span><span style="color: #f0ce43;">]</span>, <span style="color: #6ae4b9;">GCAssign</span>.new<span style="color: #f0ce43;">(</span><span style="color: #00bcff;">:x</span>, <span style="color: #6ae4b9;">GCVar</span>.new<span style="color: #00bcff;">(</span><span style="color: #00bcff;">:x</span><span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span>,
+                 <span style="color: #79a8ff;">"global y; x := x should NOT be well scoped."</span><span style="color: #00cd68;">)</span>
+  <span style="color: #b6a0ff;">end</span>
+
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">test_not_wellscoped2</span>
+    assert_equal<span style="color: #00cd68;">(</span><span style="color: #00bcff;">false</span>, <span style="color: #6ae4b9;">GCLe</span>::wellScoped<span style="color: #b6a0ff;">(</span><span style="color: #6ae4b9;">GCProgram</span>.new<span style="color: #6ae4b9;">(</span><span style="color: #f0ce43;">[</span><span style="color: #00bcff;">:x</span><span style="color: #f0ce43;">]</span>, <span style="color: #6ae4b9;">GCAssign</span>.new<span style="color: #f0ce43;">(</span><span style="color: #00bcff;">:x</span>, <span style="color: #6ae4b9;">GCVar</span>.new<span style="color: #00bcff;">(</span><span style="color: #00bcff;">:y</span><span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span>,
+                 <span style="color: #79a8ff;">"global x; x := y should NOT be well scoped."</span><span style="color: #00cd68;">)</span>
+  <span style="color: #b6a0ff;">end</span>
+
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">test_not_wellscoped3</span>
+    assert_equal<span style="color: #00cd68;">(</span><span style="color: #00bcff;">false</span>, <span style="color: #6ae4b9;">GCLe</span>::wellScoped<span style="color: #b6a0ff;">(</span><span style="color: #6ae4b9;">GCProgram</span>.new<span style="color: #6ae4b9;">(</span><span style="color: #f0ce43;">[]</span>, <span style="color: #6ae4b9;">GCLocal</span>.new<span style="color: #f0ce43;">(</span><span style="color: #00bcff;">:y</span>, <span style="color: #6ae4b9;">GCAssign</span>.new<span style="color: #00bcff;">(</span><span style="color: #00bcff;">:x</span>, <span style="color: #6ae4b9;">GCVar</span>.new<span style="color: #80d200;">(</span><span style="color: #00bcff;">:y</span><span style="color: #80d200;">)</span><span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span>,
+                 <span style="color: #79a8ff;">"global; local y in x := x should NOT be well scoped."</span><span style="color: #00cd68;">)</span>
+  <span style="color: #b6a0ff;">end</span>
+
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">test_assign_zero</span>
+    constant_one = <span style="color: #6ae4b9;">GCConst</span>.new<span style="color: #00cd68;">(</span>1<span style="color: #00cd68;">)</span>
+    assign_constant_one = <span style="color: #6ae4b9;">GCAssign</span>.new<span style="color: #00cd68;">(</span><span style="color: #00bcff;">:z</span>, constant_one<span style="color: #00cd68;">)</span>
+    updated_state = <span style="color: #6ae4b9;">GCLe</span>::eval<span style="color: #00cd68;">(</span><span style="color: #6ae4b9;">GCProgram</span>.new<span style="color: #b6a0ff;">(</span><span style="color: #6ae4b9;">[</span><span style="color: #00bcff;">:z</span><span style="color: #6ae4b9;">]</span>,assign_constant_one<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+
+    assert_equal<span style="color: #00cd68;">(</span>1, updated_state<span style="color: #b6a0ff;">[</span><span style="color: #00bcff;">:z</span><span style="color: #b6a0ff;">]</span>, <span style="color: #79a8ff;">"Assigning 1 to z did not work."</span><span style="color: #00cd68;">)</span>
+  <span style="color: #b6a0ff;">end</span>
+
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">test_two_possible_assignments_part1</span>
+    constant_one = <span style="color: #6ae4b9;">GCConst</span>.new<span style="color: #00cd68;">(</span>1<span style="color: #00cd68;">)</span>
+    constant_two = <span style="color: #6ae4b9;">GCConst</span>.new<span style="color: #00cd68;">(</span>2<span style="color: #00cd68;">)</span>
+    assign_constant_one = <span style="color: #6ae4b9;">GCAssign</span>.new<span style="color: #00cd68;">(</span><span style="color: #00bcff;">:t</span>, constant_one<span style="color: #00cd68;">)</span>
+    assign_constant_two = <span style="color: #6ae4b9;">GCAssign</span>.new<span style="color: #00cd68;">(</span><span style="color: #00bcff;">:t</span>, constant_two<span style="color: #00cd68;">)</span>
+    branch = <span style="color: #6ae4b9;">GCIf</span>.new<span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">[</span><span style="color: #6ae4b9;">[</span><span style="color: #6ae4b9;">GCTrue</span>.new, assign_constant_one<span style="color: #6ae4b9;">]</span>,
+                       <span style="color: #6ae4b9;">[</span><span style="color: #6ae4b9;">GCTrue</span>.new, assign_constant_two<span style="color: #6ae4b9;">]</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span>
+    assign_t_to_y = <span style="color: #6ae4b9;">GCAssign</span>.new<span style="color: #00cd68;">(</span><span style="color: #00bcff;">:y</span>, <span style="color: #6ae4b9;">GCVar</span>.new<span style="color: #b6a0ff;">(</span><span style="color: #00bcff;">:t</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+    the_program = <span style="color: #6ae4b9;">GCProgram</span>.new<span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">[</span><span style="color: #00bcff;">:y</span><span style="color: #b6a0ff;">]</span>,<span style="color: #6ae4b9;">GCLocal</span>.new<span style="color: #b6a0ff;">(</span><span style="color: #00bcff;">:t</span>,<span style="color: #6ae4b9;">GCCompose</span>.new<span style="color: #6ae4b9;">(</span>branch, assign_t_to_y<span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+
+    <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Run the program 50 times, to make relatively sure</span>
+    <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">both possible results (y = 1 and y = 2) are seen.</span>
+    results = <span style="color: #00cd68;">[]</span>
+    50.times <span style="color: #b6a0ff;">do</span> results.push<span style="color: #00cd68;">(</span><span style="color: #6ae4b9;">GCLe</span>::eval<span style="color: #b6a0ff;">(</span>the_program<span style="color: #b6a0ff;">)[</span><span style="color: #00bcff;">:y</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">end</span>
+  
+    assert_equal<span style="color: #00cd68;">(</span><span style="color: #00bcff;">true</span>,results.include?<span style="color: #b6a0ff;">(</span>2<span style="color: #b6a0ff;">)</span>, <span style="color: #79a8ff;">"An if statement which randomly assigns 1 or 2 never assigned 1."</span><span style="color: #00cd68;">)</span>
+  <span style="color: #b6a0ff;">end</span>
+
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">test_two_possible_assignments_part2</span>
+    constant_one = <span style="color: #6ae4b9;">GCConst</span>.new<span style="color: #00cd68;">(</span>1<span style="color: #00cd68;">)</span>
+    constant_two = <span style="color: #6ae4b9;">GCConst</span>.new<span style="color: #00cd68;">(</span>2<span style="color: #00cd68;">)</span>
+    assign_constant_one = <span style="color: #6ae4b9;">GCAssign</span>.new<span style="color: #00cd68;">(</span><span style="color: #00bcff;">:t</span>, constant_one<span style="color: #00cd68;">)</span>
+    assign_constant_two = <span style="color: #6ae4b9;">GCAssign</span>.new<span style="color: #00cd68;">(</span><span style="color: #00bcff;">:t</span>, constant_two<span style="color: #00cd68;">)</span>
+    branch = <span style="color: #6ae4b9;">GCIf</span>.new<span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">[</span><span style="color: #6ae4b9;">[</span><span style="color: #6ae4b9;">GCTrue</span>.new, assign_constant_one<span style="color: #6ae4b9;">]</span>,
+                       <span style="color: #6ae4b9;">[</span><span style="color: #6ae4b9;">GCTrue</span>.new, assign_constant_two<span style="color: #6ae4b9;">]</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span>
+    assign_t_to_y = <span style="color: #6ae4b9;">GCAssign</span>.new<span style="color: #00cd68;">(</span><span style="color: #00bcff;">:y</span>, <span style="color: #6ae4b9;">GCVar</span>.new<span style="color: #b6a0ff;">(</span><span style="color: #00bcff;">:t</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+    the_program = <span style="color: #6ae4b9;">GCProgram</span>.new<span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">[</span><span style="color: #00bcff;">:y</span><span style="color: #b6a0ff;">]</span>,<span style="color: #6ae4b9;">GCLocal</span>.new<span style="color: #b6a0ff;">(</span><span style="color: #00bcff;">:t</span>,<span style="color: #6ae4b9;">GCCompose</span>.new<span style="color: #6ae4b9;">(</span>branch, assign_t_to_y<span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+
+    <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Run the program 50 times, to make relatively sure</span>
+    <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">both possible results (y = 1 and y = 2) are seen.</span>
+    results = <span style="color: #00cd68;">[]</span>
+    50.times <span style="color: #b6a0ff;">do</span> results.push<span style="color: #00cd68;">(</span><span style="color: #6ae4b9;">GCLe</span>::eval<span style="color: #b6a0ff;">(</span>the_program<span style="color: #b6a0ff;">)[</span><span style="color: #00bcff;">:y</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">end</span>
+  
+    assert_equal<span style="color: #00cd68;">(</span><span style="color: #00bcff;">true</span>,results.include?<span style="color: #b6a0ff;">(</span>0<span style="color: #b6a0ff;">)</span>, <span style="color: #79a8ff;">"An if statement which randomly assigns 1 or 2 never assigned 2."</span><span style="color: #00cd68;">)</span>
+  <span style="color: #b6a0ff;">end</span>
+  
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">test_oscillating</span>
+    x_var = <span style="color: #6ae4b9;">GCVar</span>.new<span style="color: #00cd68;">(</span><span style="color: #00bcff;">:x</span><span style="color: #00cd68;">)</span>
+    assign_x_5 = <span style="color: #6ae4b9;">GCAssign</span>.new<span style="color: #00cd68;">(</span><span style="color: #00bcff;">:x</span>,<span style="color: #6ae4b9;">GCConst</span>.new<span style="color: #b6a0ff;">(</span>5<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+    inc_x_1 = <span style="color: #6ae4b9;">GCAssign</span>.new<span style="color: #00cd68;">(</span><span style="color: #00bcff;">:x</span>,<span style="color: #6ae4b9;">GCOp</span>.new<span style="color: #b6a0ff;">(</span>x_var,<span style="color: #6ae4b9;">GCConst</span>.new<span style="color: #6ae4b9;">(</span>1<span style="color: #6ae4b9;">)</span>,<span style="color: #00bcff;">:plus</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+    dec_x_1 = <span style="color: #6ae4b9;">GCAssign</span>.new<span style="color: #00cd68;">(</span><span style="color: #00bcff;">:x</span>,<span style="color: #6ae4b9;">GCOp</span>.new<span style="color: #b6a0ff;">(</span>x_var,<span style="color: #6ae4b9;">GCConst</span>.new<span style="color: #6ae4b9;">(</span>1<span style="color: #6ae4b9;">)</span>,<span style="color: #00bcff;">:minus</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+    check_x_less_8    = <span style="color: #6ae4b9;">GCComp</span>.new<span style="color: #00cd68;">(</span>x_var,<span style="color: #6ae4b9;">GCConst</span>.new<span style="color: #b6a0ff;">(</span>8<span style="color: #b6a0ff;">)</span>,<span style="color: #00bcff;">:less</span><span style="color: #00cd68;">)</span>
+    check_x_greater_2 = <span style="color: #6ae4b9;">GCComp</span>.new<span style="color: #00cd68;">(</span>x_var,<span style="color: #6ae4b9;">GCConst</span>.new<span style="color: #b6a0ff;">(</span>2<span style="color: #b6a0ff;">)</span>,<span style="color: #00bcff;">:greater</span><span style="color: #00cd68;">)</span>
+    check_x_within_3_7 = <span style="color: #6ae4b9;">GCAnd</span>.new<span style="color: #00cd68;">(</span>check_x_greater_2,check_x_less_8<span style="color: #00cd68;">)</span>
+    
+    <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">A program to increment or decrement the value of variable x</span>
+    <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">randomly until it is less than 3 or greater than 7,</span>
+    oscillate_x = <span style="color: #6ae4b9;">GCDo</span>.new<span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">[</span><span style="color: #6ae4b9;">[</span>check_x_within_3_7, dec_x_1<span style="color: #6ae4b9;">]</span>,
+                            <span style="color: #6ae4b9;">[</span>check_x_within_3_7, inc_x_1<span style="color: #6ae4b9;">]</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span>
+    the_program = <span style="color: #6ae4b9;">GCProgram</span>.new<span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">[</span><span style="color: #00bcff;">:x</span><span style="color: #b6a0ff;">]</span>,oscillate_x<span style="color: #00cd68;">)</span>
+    
+    <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Run the program 50 times, to make relatively sure</span>
+    <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">both possible results (x = 2 and x = 8) are seen.</span>
+    results = <span style="color: #00cd68;">[]</span>
+    50.times <span style="color: #b6a0ff;">do</span> results.push<span style="color: #00cd68;">(</span><span style="color: #6ae4b9;">GCLe</span>::eval<span style="color: #b6a0ff;">(</span>the_program<span style="color: #b6a0ff;">)[</span><span style="color: #00bcff;">:x</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">end</span>
+  
+    assert_equal<span style="color: #00cd68;">(</span><span style="color: #00bcff;">true</span>,results.include?<span style="color: #b6a0ff;">(</span>2<span style="color: #b6a0ff;">)</span>, <span style="color: #79a8ff;">"A do statement which oscillates the value of x between 2 and 8 never got to 2."</span><span style="color: #00cd68;">)</span>
+    assert_equal<span style="color: #00cd68;">(</span><span style="color: #00bcff;">true</span>,results.include?<span style="color: #b6a0ff;">(</span>8<span style="color: #b6a0ff;">)</span>, <span style="color: #79a8ff;">"A do statement which oscillates the value of x between 2 and 8 never got to 8."</span><span style="color: #00cd68;">)</span>
+  <span style="color: #b6a0ff;">end</span>
+
+<span style="color: #b6a0ff;">end</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-Clojure" class="outline-4">
+<h4 id="Clojure">Clojure</h4>
+<div class="outline-text-4" id="text-Clojure">
+<p>
+<a href="./testing/a3_test.clj">a3_test.clj</a>
+</p>
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">ns</span> <span style="color: #6ae4b9;">testing</span><span style="color: #00cd68;">)</span>
+<span style="color: #00cd68;">(</span>use 'clojure.test<span style="color: #00cd68;">)</span>
+<span style="color: #00cd68;">(</span>load-file <span style="color: #79a8ff;">"a3.clj"</span><span style="color: #00cd68;">)</span>
+
+<span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">A function to compute a given expression a number of times,</span>
+<span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">creating a list of the results.</span>
+<span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">Used to test the non-determinacy of GC programs involvings ifs and dos.</span>
+<span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">defn</span> <span style="color: #feacd0;">times</span> <span style="color: #b6a0ff;">[</span>n f<span style="color: #b6a0ff;">]</span>
+  <span style="color: #79a8ff;">"Repeatedly evaluate `</span><span style="color: #00bcff;">f</span><span style="color: #79a8ff;">` `</span><span style="color: #00bcff;">n</span><span style="color: #79a8ff;">` times and concatenate together the results."</span>
+  <span style="color: #b6a0ff;">(</span>concat
+   <span style="color: #6ae4b9;">(</span>repeatedly n #<span style="color: #f0ce43;">(</span>eval f<span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+
+
+
+<span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">deftest</span> <span style="color: #feacd0;">test-state-assign-constant-one</span>
+  <span style="color: #b6a0ff;">(</span>is <span style="color: #6ae4b9;">(</span>= 1        <span style="color: #f0ce43;">(</span><span style="color: #00bcff;">(</span>.sig  <span style="color: #80d200;">(</span>reduce <span style="color: #f78fe7;">(</span>Config. <span style="color: #4ae8fc;">(</span>GCAssign. <span style="color: #00bcff;">:x</span> <span style="color: #cfdf30;">(</span>GCConst. 1<span style="color: #cfdf30;">)</span><span style="color: #4ae8fc;">)</span> emptyState<span style="color: #f78fe7;">)</span><span style="color: #80d200;">)</span><span style="color: #00bcff;">)</span> <span style="color: #00bcff;">:x</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+
+<span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">deftest</span> <span style="color: #feacd0;">test-stmt-assign-constant-one</span>
+  <span style="color: #b6a0ff;">(</span>is <span style="color: #6ae4b9;">(</span>= <span style="color: #f0ce43;">(</span>GCSkip.<span style="color: #f0ce43;">)</span> <span style="color: #f0ce43;">(</span>.stmt <span style="color: #00bcff;">(</span>reduce <span style="color: #80d200;">(</span>Config. <span style="color: #f78fe7;">(</span>GCAssign. <span style="color: #00bcff;">:x</span> <span style="color: #4ae8fc;">(</span>GCConst. 1<span style="color: #4ae8fc;">)</span><span style="color: #f78fe7;">)</span> emptyState<span style="color: #80d200;">)</span><span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+
+<span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">deftest</span> <span style="color: #feacd0;">test-two-possible-branches-first</span>
+  <span style="color: #b6a0ff;">(</span><span style="color: #b6a0ff;">let</span> <span style="color: #6ae4b9;">[</span>branch <span style="color: #f0ce43;">(</span>GCIf. <span style="color: #00bcff;">[</span><span style="color: #80d200;">[</span><span style="color: #f78fe7;">(</span>GCTrue.<span style="color: #f78fe7;">)</span> <span style="color: #f78fe7;">(</span>GCAssign. <span style="color: #00bcff;">:x</span> <span style="color: #4ae8fc;">(</span>GCConst. 0<span style="color: #4ae8fc;">)</span><span style="color: #f78fe7;">)</span><span style="color: #80d200;">]</span> <span style="color: #80d200;">[</span><span style="color: #f78fe7;">(</span>GCTrue.<span style="color: #f78fe7;">)</span> <span style="color: #f78fe7;">(</span>GCAssign. <span style="color: #00bcff;">:x</span> <span style="color: #4ae8fc;">(</span>GCConst. 1<span style="color: #4ae8fc;">)</span><span style="color: #f78fe7;">)</span><span style="color: #80d200;">]</span><span style="color: #00bcff;">]</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">]</span>
+    <span style="color: #6ae4b9;">(</span>is <span style="color: #f0ce43;">(</span>some #<span style="color: #00bcff;">(</span>= <span style="color: #80d200;">(</span>GCAssign. <span style="color: #00bcff;">:x</span> <span style="color: #f78fe7;">(</span>GCConst. 0<span style="color: #f78fe7;">)</span><span style="color: #80d200;">)</span> <span style="color: #00d3d0;">%</span><span style="color: #00bcff;">)</span> <span style="color: #00bcff;">(</span>times 50 `<span style="color: #80d200;">(</span>.stmt <span style="color: #f78fe7;">(</span>reduce <span style="color: #4ae8fc;">(</span>Config. ~branch emptyState<span style="color: #4ae8fc;">)</span><span style="color: #f78fe7;">)</span><span style="color: #80d200;">)</span><span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+
+<span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">deftest</span> <span style="color: #feacd0;">test-two-possible-branches-second</span>
+  <span style="color: #b6a0ff;">(</span><span style="color: #b6a0ff;">let</span> <span style="color: #6ae4b9;">[</span>branch <span style="color: #f0ce43;">(</span>GCIf. <span style="color: #00bcff;">[</span><span style="color: #80d200;">[</span><span style="color: #f78fe7;">(</span>GCTrue.<span style="color: #f78fe7;">)</span> <span style="color: #f78fe7;">(</span>GCAssign. <span style="color: #00bcff;">:x</span> <span style="color: #4ae8fc;">(</span>GCConst. 0<span style="color: #4ae8fc;">)</span><span style="color: #f78fe7;">)</span><span style="color: #80d200;">]</span> <span style="color: #80d200;">[</span><span style="color: #f78fe7;">(</span>GCTrue.<span style="color: #f78fe7;">)</span> <span style="color: #f78fe7;">(</span>GCAssign. <span style="color: #00bcff;">:x</span> <span style="color: #4ae8fc;">(</span>GCConst. 1<span style="color: #4ae8fc;">)</span><span style="color: #f78fe7;">)</span><span style="color: #80d200;">]</span><span style="color: #00bcff;">]</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">]</span>
+    <span style="color: #6ae4b9;">(</span>is <span style="color: #f0ce43;">(</span>some #<span style="color: #00bcff;">(</span>= <span style="color: #80d200;">(</span>GCAssign. <span style="color: #00bcff;">:x</span> <span style="color: #f78fe7;">(</span>GCConst. 1<span style="color: #f78fe7;">)</span><span style="color: #80d200;">)</span> <span style="color: #00d3d0;">%</span><span style="color: #00bcff;">)</span> <span style="color: #00bcff;">(</span>times 50 `<span style="color: #80d200;">(</span>.stmt <span style="color: #f78fe7;">(</span>reduce <span style="color: #4ae8fc;">(</span>Config. ~branch emptyState<span style="color: #4ae8fc;">)</span><span style="color: #f78fe7;">)</span><span style="color: #80d200;">)</span><span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+
+<span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">If we define `</span><span style="color: #00bcff;">test-ns-hook</span><span style="color: #a8a8a8;">`, it is called when running `</span><span style="color: #00bcff;">run-tests</span><span style="color: #a8a8a8;">`,</span>
+<span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">instead of just calling all tests in the namespace.</span>
+<span style="color: #a8a8a8;">;; </span><span style="color: #a8a8a8;">This lets us control the order of the tests.</span>
+<span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">deftest</span> <span style="color: #feacd0;">test-ns-hook</span>
+  <span style="color: #b6a0ff;">(</span>test-state-assign-constant-one<span style="color: #b6a0ff;">)</span>
+  <span style="color: #b6a0ff;">(</span>test-stmt-assign-constant-one<span style="color: #b6a0ff;">)</span>
+  <span style="color: #b6a0ff;">(</span>test-two-possible-branches-first<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+
+<span style="color: #00cd68;">(</span>run-tests 'testing<span style="color: #00cd68;">)</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-The-Docker-setup" class="outline-3">
+<h3 id="The-Docker-setup">The Docker setup</h3>
+<div class="outline-text-3" id="text-The-Docker-setup">
+<p>
+<a href="./testing/a2/Dockerfile">Dockerfile</a>
+</p>
+<div class="org-src-container">
+<pre class="src src-docker"># Define the argument for openjdk version
+ARG OPENJDK_TAG=8u232
+
+FROM clojure:openjdk-8
+
+# Install Ruby
+RUN apt-get update &amp;&amp; apt-get install -y --no-install-recommends --no-install-suggests curl bzip2 build-essential libssl-dev libreadline-dev zlib1g-dev &amp;&amp; \
+    rm -rf /var/lib/apt/lists/* &amp;&amp; \
+    curl -L https://github.com/rbenv/ruby-build/archive/v20201118.tar.gz | tar -zxvf - -C /tmp/ &amp;&amp; \
+    cd /tmp/ruby-build-* &amp;&amp; ./install.sh &amp;&amp; cd / &amp;&amp; \
+    ruby-build -v 2.7.2 /usr/local &amp;&amp; rm -rfv /tmp/ruby-build-*
+
+# Set the name of the maintainers
+MAINTAINER Habib Ghaffari Hadigheh, Mark Armstrong &lt;ghaffh1@mcmaster.ca, armstmp@mcmaster.ca&gt;
+
+# Set the working directory
+WORKDIR /opt/a3
+</pre>
+</div>
+
+<p>
+<a href="./testing/a2/docker-compose.yml">docker-compose.yml</a>
+</p>
+<div class="org-src-container">
+<pre class="src src-yaml">version: '2'
+services:
+  service:
+    build: .
+    image: 3mi3_a3_docker_image
+    volumes:
+      - .:/opt/a3
+    container_name: 3mi3_a3_container
+    command: bash -c
+      "echo 'Ruby part 2 testing' ;
+       echo '----------------------------------------------------------------------' ;
+       timeout 2m ruby a3p2_test.rb ;
+       echo '----------------------------------------------------------------------' ;
+       printf '\\n\\n\\n' ;
+       echo 'Ruby part 4 testing' ;
+       echo '----------------------------------------------------------------------' ;
+       timeout 2m ruby a3p4_test.rb ;
+       echo '----------------------------------------------------------------------' ;
+       printf '\\n\\n\\n' ;
+       echo 'Clojure testing' ;
+       echo '----------------------------------------------------------------------' ;
+       cat a3_test.clj | timeout 2m lein repl ;
+       echo '----------------------------------------------------------------------'"
+</pre>
+</div>
+
+<p>
+<a href="./testing/a2/setup.sh">setup.sh</a>
+</p>
+<div class="org-src-container">
+<pre class="src src-shell">docker-compose build --force-rm
+</pre>
+</div>
+
+<p>
+<a href="./testing/a2/run.sh">run.sh</a>
+</p>
+<div class="org-src-container">
+<pre class="src src-shell"><span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Run the container</span>
+docker-compose up --force-recreate
+<span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Stop the container after finishing the test run</span>
+docker-compose stop -t 1
+</pre>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -787,7 +1206,7 @@ Use it if you wish.
 <p class="author">Author: Mark Armstrong</p>
      <p class="author">Contact: <a href="mailto:markparmstrong@gmail.com">markparmstrong@gmail.com</a></p>
      <p class="date">Original date: December 2, 2020</p>
-     <p class="date">Last updated: 2020-12-02 Wed 00:01</p>
+     <p class="date">Last updated: 2020-12-11 Fri 03:13</p>
      <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4)</p>
      <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

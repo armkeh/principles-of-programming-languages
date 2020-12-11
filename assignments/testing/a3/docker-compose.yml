@@ -1,0 +1,23 @@
+version: '2'
+services:
+  service:
+    build: .
+    image: 3mi3_a3_docker_image
+    volumes:
+      - .:/opt/a3
+    container_name: 3mi3_a3_container
+    command: bash -c
+      "echo 'Ruby part 2 testing' ;
+       echo '----------------------------------------------------------------------' ;
+       timeout 2m ruby a3p2_test.rb ;
+       echo '----------------------------------------------------------------------' ;
+       printf '\\n\\n\\n' ;
+       echo 'Ruby part 4 testing' ;
+       echo '----------------------------------------------------------------------' ;
+       timeout 2m ruby a3p4_test.rb ;
+       echo '----------------------------------------------------------------------' ;
+       printf '\\n\\n\\n' ;
+       echo 'Clojure testing' ;
+       echo '----------------------------------------------------------------------' ;
+       cat a3_test.clj | timeout 2m lein repl ;
+       echo '----------------------------------------------------------------------'"
