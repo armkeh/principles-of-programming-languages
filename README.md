@@ -10,6 +10,28 @@ better viewed at
 
 # Communication
 
+## Mark release tracker
+
+This table tracks which marks have been released, so you may check if
+your marks are missing or simply not released
+yet.
+
+| Coursework   | Marks released? | Bonus marks done? | Comments                                                    |
+| ------------ | --------------- | ----------------- | ----------------------------------------------------------- |
+| Assignment 3 | No              | No                |                                                             |
+| Homework 10  | No              | No                |                                                             |
+| Homework 9   | No              | No                |                                                             |
+| Assignment 2 | No              | No                |                                                             |
+| Homework 8   | No              | N/A               |                                                             |
+| Homework 7   | Yes             | N/A               |                                                             |
+| Homework 6   | Yes             | Yes               |                                                             |
+| Homework 5   | Yes             | No                |                                                             |
+| Assignment 1 | Yes             | Yes               |                                                             |
+| Homework 4   | Yes             | Yes               |                                                             |
+| Homework 3   | No              | N/A               |                                                             |
+| Homework 2   | Yes             | Yes               | Students whose files were misplaced are still missing marks |
+| Homework 1   | Yes             | Yes               |                                                             |
+
 ## December
 
   - December 16th
@@ -1085,7 +1107,8 @@ significant difference between Monday and Wednesday.
 
   - [HTML](./homework/h10.html)
   - [PDF](./homework/h10.pdf)
-  - [Org plaintext](./homework/h10.org)
+  - [Org
+plaintext](./homework/h10.org)
 
 ### Homework 9 – Adding “guarded commands” to Clojure – Nov 29th to Dec 9th
 
@@ -1113,7 +1136,8 @@ number of additional tests, usually chosen to test “edge cases”. You are
 encouraged to try and think of these cases yourselves, and add
 appropriate tests to the provided ones in order to better check your
 solutions. This is not required though; a uniform set of tests will be
-used for every student's submission.
+used for every student's
+submission.
 
 ## Previous homeworks
 
@@ -1124,13 +1148,15 @@ November 26th** from November 25th. The testing setup is also released.
 
   - [HTML](./homework/h8.html)
   - [PDF](./homework/h8.pdf)
-  - [Org plaintext](./homework/h8.org)
+  - [Org
+plaintext](./homework/h8.org)
 
 ### Homework 7 – Pretty printing a representation of the untyped λ-calculus – Nov 1st to Nov 8th
 
   - [HTML](./homework/h7.html)
   - [PDF](./homework/h7.pdf)
-  - [Org plaintext](./homework/h7.org)
+  - [Org
+plaintext](./homework/h7.org)
 
 ### Homework 6 – Representing and interpreting `Expr` in Ruby – Oct 23rd to Nov 1st
 
@@ -1144,13 +1170,15 @@ Note the due date: the Sunday following reading week.
 
   - [HTML](./homework/h5.html)
   - [PDF](./homework/h5.pdf)
-  - [Org plaintext](./homework/h5.org)
+  - [Org
+plaintext](./homework/h5.org)
 
 ### Homework 4 – Working with lazy (potentially infinite) lists in Scala – Oct 7th to Oct 19th
 
   - [HTML](./homework/h4.html)
   - [PDF](./homework/h4.pdf)
-  - [Org plaintext](./homework/h4.org)
+  - [Org
+plaintext](./homework/h4.org)
 
 ### Homework 3 – Revisiting homework 1 in Prolog and homework 2 in Scala – Sept 25th to Oct 4th
 
@@ -1168,7 +1196,8 @@ Note the due date: the Sunday following reading week.
 
   - [HTML](./homework/h1.html)
   - [PDF](./homework/h1.pdf)
-  - [Org plaintext](./homework/h1.org)
+  - [Org
+plaintext](./homework/h1.org)
 
 # Assignments
 
@@ -1206,7 +1235,8 @@ mark.
 
   - [HTML](./assignments/a2.html)
   - [PDF](./assignments/a2.pdf)
-  - [Org plaintext](./assignments/a2.org)
+  - [Org
+plaintext](./assignments/a2.org)
 
 ## Assignment 1 – Interpreting simple integer expressions – Sept 26th to Oct 21st
 
