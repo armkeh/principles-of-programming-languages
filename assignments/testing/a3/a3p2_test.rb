@@ -56,11 +56,13 @@ class SimpleTests < Test::Unit::TestCase
     # randomly until it is less than 3 or greater than 7,
     oscillate_x = GCDo.new([[check_x_within_3_7, dec_x_1],
                             [check_x_within_3_7, inc_x_1]])
+
+    assign_then_oscillate = GCCompose.new(assign_x_5, oscillate_x)
     
     # Run the program 50 times, to make relatively sure
     # both possible results (x = 2 and x = 8) are seen.
     results = []
-    50.times do results.push(GCL::stackEval([oscillate_x], [], emptyState).call(:x)) end
+    50.times do results.push(GCL::stackEval([assign_then_oscillate], [], emptyState).call(:x)) end
 
     assert_equal(true,results.include?(2), "A do statement which oscillates the value of x between 2 and 8 never got to 2.")
     assert_equal(true,results.include?(8), "A do statement which oscillates the value of x between 2 and 8 never got to 8.")

@@ -14,6 +14,11 @@ better viewed at
 
   - December 16th
     
+      - Some corrections have been made to the assignment 3
+        descriptions, and unfortunately to some of the testing.
+          - In particular, the “oscillating” test cases would always
+            fail as given, because they do not actually make the initial
+            assignment part of the evaluated statement.
       - Marks for homeworks 4 through 7 have now been added to your
         repositories.
           - Marks for homeworks 3 and 8 and assignment 2 should be
@@ -1080,8 +1085,7 @@ significant difference between Monday and Wednesday.
 
   - [HTML](./homework/h10.html)
   - [PDF](./homework/h10.pdf)
-  - [Org
-plaintext](./homework/h10.org)
+  - [Org plaintext](./homework/h10.org)
 
 ### Homework 9 – Adding “guarded commands” to Clojure – Nov 29th to Dec 9th
 
@@ -1109,8 +1113,7 @@ number of additional tests, usually chosen to test “edge cases”. You are
 encouraged to try and think of these cases yourselves, and add
 appropriate tests to the provided ones in order to better check your
 solutions. This is not required though; a uniform set of tests will be
-used for every student's
-submission.
+used for every student's submission.
 
 ## Previous homeworks
 
@@ -1121,15 +1124,13 @@ November 26th** from November 25th. The testing setup is also released.
 
   - [HTML](./homework/h8.html)
   - [PDF](./homework/h8.pdf)
-  - [Org
-plaintext](./homework/h8.org)
+  - [Org plaintext](./homework/h8.org)
 
 ### Homework 7 – Pretty printing a representation of the untyped λ-calculus – Nov 1st to Nov 8th
 
   - [HTML](./homework/h7.html)
   - [PDF](./homework/h7.pdf)
-  - [Org
-plaintext](./homework/h7.org)
+  - [Org plaintext](./homework/h7.org)
 
 ### Homework 6 – Representing and interpreting `Expr` in Ruby – Oct 23rd to Nov 1st
 
@@ -1143,15 +1144,13 @@ Note the due date: the Sunday following reading week.
 
   - [HTML](./homework/h5.html)
   - [PDF](./homework/h5.pdf)
-  - [Org
-plaintext](./homework/h5.org)
+  - [Org plaintext](./homework/h5.org)
 
 ### Homework 4 – Working with lazy (potentially infinite) lists in Scala – Oct 7th to Oct 19th
 
   - [HTML](./homework/h4.html)
   - [PDF](./homework/h4.pdf)
-  - [Org
-plaintext](./homework/h4.org)
+  - [Org plaintext](./homework/h4.org)
 
 ### Homework 3 – Revisiting homework 1 in Prolog and homework 2 in Scala – Sept 25th to Oct 4th
 
@@ -1169,8 +1168,7 @@ plaintext](./homework/h4.org)
 
   - [HTML](./homework/h1.html)
   - [PDF](./homework/h1.pdf)
-  - [Org
-plaintext](./homework/h1.org)
+  - [Org plaintext](./homework/h1.org)
 
 # Assignments
 
@@ -1208,8 +1206,7 @@ mark.
 
   - [HTML](./assignments/a2.html)
   - [PDF](./assignments/a2.pdf)
-  - [Org
-plaintext](./assignments/a2.org)
+  - [Org plaintext](./assignments/a2.org)
 
 ## Assignment 1 – Interpreting simple integer expressions – Sept 26th to Oct 21st
 

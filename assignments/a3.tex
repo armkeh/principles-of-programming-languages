@@ -1,4 +1,4 @@
-% Created 2020-12-11 Fri 14:11
+% Created 2020-12-16 Wed 03:22
 % Intended LaTeX compiler: lualatex
 \documentclass[11pt]{article}
 \usepackage{graphicx}
@@ -33,7 +33,7 @@
    pdftitle={Computer Science 3MI3 – 2020 assignment 3},
    pdfkeywords={},
    pdfsubject={Implementing various operational semantics of various versions of the guarded command language.},
-   pdfcreator={Emacs 27.0.90 (Org mode 9.4)},
+   pdfcreator={Emacs 27.0.91 (Org mode 9.4.2)},
    pdflang={English},
    colorlinks,
    linkcolor=blue,
@@ -47,16 +47,43 @@
 
 
 \section*{Introduction}
-\label{sec:org80bd3ef}
+\label{sec:orga467fa5}
 This assignment tasks you with representing
 Dijkstra's “guarded command language” in
 Ruby and Clojure,
 and defining various semantics for it.
 
 \section*{Updates and file history}
-\label{sec:orgfc88c9a}
+\label{sec:org36786f1}
+\subsection*{December 16th}
+\label{sec:org2133532}
+Some corrections have been made to the assignment description,
+and unfortunately to some of the test cases.
+
+In decreasing order of severity:
+\begin{itemize}
+\item The test cases in the Ruby portions for the “oscillating” statement/program
+did not correctly add the initial assignment to the variable
+to the program, and so will fail (the \texttt{do} will never run,
+because \texttt{:x} is assigned \texttt{0} by default which is outside the
+range for the oscillation, but \texttt{:x} can never become \texttt{2} or \texttt{8}.)
+\item The Ruby part 4 test which checks the scoping of the program
+“\texttt{global; local x in x := x should be well scoped.}”
+previously had a typo in the test itself,
+with the variable on the right of the assignment being a \texttt{y}.
+This has been corrected.
+\item Previously, it was stated that the \texttt{eval} method in part 4
+was to operate on \texttt{GCStmt}'s. However, it should instead
+operate on \texttt{GCProgram}'s, that is, statements with global variable lists.
+\item Previously, \texttt{GCAnd} and \texttt{GCOr} were incorrectly stated
+to operate on \texttt{GCExpr}'s. They are now correctly stated to operate
+on \texttt{GCTest}'s.
+\item The broken link to the Ruby testing at the top of that section
+has been replaced with the links to the two Ruby test files.
+\end{itemize}
+
 \subsection*{December 11th}
-\label{sec:org3bbed87}
+\label{sec:org721d153}
 \begin{itemize}
 \item The testing and Docker setup has been added.
 \item The method from part 2 has been renamed to \texttt{stackEval},
@@ -67,15 +94,15 @@ They are prepended by “(Added December 11th.)”
 \end{itemize}
 
 \subsection*{December 1st}
-\label{sec:orgece2f8b}
+\label{sec:org74112cb}
 \begin{itemize}
 \item Initial version posted.
 \end{itemize}
 
 \section*{Boilerplate}
-\label{sec:org2d0f47d}
+\label{sec:org2ad6804}
 \subsection*{Documentation}
-\label{sec:org9155523}
+\label{sec:orgc470325}
 In addition to the code for the assignments,
 you are required to submit (relatively light) documentation,
 along the lines of that found in
@@ -134,13 +161,13 @@ Feel free to omit some “repetitive” portions.
 which look almost identical, only one or two need to be shown.)
 
 \subsection*{Submission procedures}
-\label{sec:org314563e}
+\label{sec:org273156e}
 The same guidelines as for homework
 (which can be seen in any of the homework files)
 apply to assignments, except for the differences below.
 
 \subsubsection*{Assignment naming requirements}
-\label{sec:orgafead90}
+\label{sec:orge4940aa}
 
 Place all files for the assignment
 inside a folder titled \texttt{an}, where \texttt{n} is the number of the assignment.
@@ -161,19 +188,19 @@ save your code for that part. Follow those instructions!
 This is slightly decreased from the 10\% for homeworks.
 
 \subsection*{Proper conduct for coursework}
-\label{sec:org3d877b0}
+\label{sec:org2b6c94f}
 Refer to the homework code of conduct available in any of the homework files.
 The same guidelines apply to assignments.
 
 \section*{Part 0 – The guarded command language, \emph{GCL}}
-\label{sec:org9419066}
+\label{sec:org7a676d6}
 This assignment involves representing a simple
 kind of \emph{guarded command language}, which we call \emph{GCL},
 and a small extension to it which we call \emph{GCLe},
 which adds a notion of scope.
 
 \subsection*{\emph{GCL}}
-\label{sec:orgd25c62b}
+\label{sec:org31f5136}
 The syntax of \emph{GCL} is given as
 \begin{minted}[breaklines=true]{text}
 ⟨expr⟩ ∷= constant_integer | variable
@@ -230,7 +257,7 @@ One important note: in both cases, if the guarded command list
 is empty, the result should be to “do nothing”.
 
 \subsection*{\emph{GCLe}}
-\label{sec:org8d04abc}
+\label{sec:org3cff156}
 The language \emph{GCLe} is obtained from \emph{GCL} by adding these productions
 to grammer.
 \begin{minted}[breaklines=true]{text}
@@ -263,7 +290,7 @@ values. Variables which are not in scope are not handled
 by such a memory state.
 
 \section*{Part 1 – Representations of \emph{GCL} and a small extension [10 marks]}
-\label{sec:org6208731}
+\label{sec:org9cf50cb}
 In Ruby and in Clojure, create a representation of
 the language \emph{GCL} described in part 0.
 
@@ -283,7 +310,8 @@ which is intended to be one of \texttt{:plus}, \texttt{:times}, \texttt{:minus} 
 \item \texttt{GCComp}, the constructor of which has as its first two arguments \texttt{GCExpr}'s
 and as its third argument a symbol,
 which is intended to be one of \texttt{:eq}, \texttt{:less} or \texttt{:greater},
-\item \texttt{GCAnd} and \texttt{GCOr}, the constructors of which take as arguments two \texttt{GCExpr}'s.
+\item \texttt{GCAnd} and \texttt{GCOr}, the constructors of which take as arguments \sout{two \texttt{GCExpr}'s} two \texttt{GCTest}'s
+(corrected December 16th.)
 \item \texttt{GCTrue} and \texttt{GCFalse}, the constructor of which (if it exists) takes no arguments.
 \end{itemize}
 \item \texttt{GCStmt} has subclasses
@@ -319,7 +347,7 @@ for the variable name and as its second argument a \texttt{GCStmt}.
 Wrap all of these definitions inside a \texttt{module} named \texttt{GCLe}.
 
 \section*{Part 2 – A stack machine for \emph{GCL} in Ruby              [25 marks]}
-\label{sec:org2e817d8}
+\label{sec:org0573c3b}
 Within the \texttt{GCL} module, define a method \texttt{stackEval} on \texttt{GCL}'s,
 which carries out the evaluation of a \texttt{GCStmt} using a stack machine.
 
@@ -358,7 +386,7 @@ to the same value as the lambda \texttt{sigma}.
  in your \texttt{stackEval} method.)
 
 \section*{Part 3 – The small-step semantics of \emph{GCL} in Clojure   [25 marks]}
-\label{sec:orgdd58ade}
+\label{sec:orgb8a35f5}
 Define in Clojure a function \texttt{reduce} which takes
 a \emph{GCL} statement and a memory state
 (a function mapping symbols, representing the variable names, to integers)
@@ -374,7 +402,7 @@ described in part 2 (returning anonymous functions.)
  during testing.)
 
 \section*{Part 4 – The big-step semantics of \emph{GCLe} in Ruby       [40 marks]}
-\label{sec:org39ac3a0}
+\label{sec:orge055879}
 This portion of the assignment should be done in
 the \texttt{GCLe} module created in part 1.
 
@@ -385,8 +413,10 @@ are \emph{within scope} at the point of their use;
 that is, either the variable is one declared to be \texttt{global},
 or there is a \texttt{local} statement for that variable wrapping the use.
 \begin{itemize}
-\item This method should take a \texttt{GCStmt} as its only argument,
-and return a boolean.
+\item This method
+\sout{should take a \texttt{GCStmt} as its only argument}
+should take a \texttt{GCProgram} as its only argument,
+and return a boolean (Corrected December 16th.)
 \item Hint: This operation is similar to typechecking.
 Use your experience working with \texttt{typeOf} as a starting point.
 \begin{itemize}
@@ -423,7 +453,7 @@ in this part the tests do not rely upon the \texttt{emptyState} method
 to define similar methods.
 
 \section*{Part 5 – \emph{GCLe} in Clojure}
-\label{sec:orgbb7ffd0}
+\label{sec:org2d79150}
 \emph{As a bonus}, repeat part 4 in Clojure.
 
 Place the code for this portion in a file \texttt{a3b.clj}.
@@ -436,7 +466,7 @@ tests in a file \texttt{a3bt.clj}. This file should output the results of the te
 when executed using \texttt{cat a3bt.clj | lein} from the command line.
 
 \section*{Submission checklist}
-\label{sec:org72867a2}
+\label{sec:org796d742}
 For your convenience, this checklist is provided
 to track the files you need to submit.
 Use it if you wish.
@@ -452,20 +482,21 @@ Use it if you wish.
 - [ ] Part 2 tests
   - [ ] a3p2_test.rb tests have passed! (No submission needed.)
 - [ ] Part 3 tests
-  - [ ] a3p3_test.clj tests have passed! (No submission needed.)
+  - [ ] a3_test.clj tests have passed! (No submission needed.)
 - [ ] Part 4 tests
-  - [ ] a3p4_test.clj tests have passed! (No submission needed.)
+  - [ ] a3p4_test.rb tests have passed! (No submission needed.)
 - [ ] Part 5 (Bonus)
   - [ ] a3b.clj
   - [ ] a3bt.clj
 \end{minted}
 
 \section*{Testing}
-\label{sec:org9525b18}
+\label{sec:orgfb1ce77}
 Unit tests for the requested types, methods and predicates
 are available here.
 \begin{itemize}
-\item \href{./testing/a3/a3\_test.rb}{a3\_test.rb}
+\item \href{./testing/a3/a3p2\_test.rb}{a3p2\_test.rb}
+\item \href{./testing/a3/a3p4\_test.rb}{a3p4\_test.rb}
 \item \href{./testing/a3/a3\_test.clj}{a3\_test.clj}
 \end{itemize}
 The contents of the unit test files are also repeated below.
@@ -491,7 +522,7 @@ The provided test cases check a very minimal amount!
 \end{center}
 
 \subsection*{Automated testing via Docker}
-\label{sec:org41aa829}
+\label{sec:orgffbbba5}
 The Docker setup and usage scripts are available at the following links.
 Their contents are also repeated below.
 \begin{itemize}
@@ -510,9 +541,9 @@ and not using WSL or WSL2, you may have
 to run the commands contained in those scripts manually.
 
 \subsection*{The tests}
-\label{sec:orgf698257}
+\label{sec:org1e6d27e}
 \subsubsection*{Ruby}
-\label{sec:org13611a0}
+\label{sec:orgd4def2b}
 \href{./testing/a3p2\_test.rb}{a3p2\_test.rb}
 \begin{minted}[breaklines=true]{ruby}
 require "test/unit"
@@ -573,11 +604,13 @@ class SimpleTests < Test::Unit::TestCase
     # randomly until it is less than 3 or greater than 7,
     oscillate_x = GCDo.new([[check_x_within_3_7, dec_x_1],
                             [check_x_within_3_7, inc_x_1]])
+
+    assign_then_oscillate = GCCompose.new(assign_x_5, oscillate_x)
     
     # Run the program 50 times, to make relatively sure
     # both possible results (x = 2 and x = 8) are seen.
     results = []
-    50.times do results.push(GCL::stackEval([oscillate_x], [], emptyState).call(:x)) end
+    50.times do results.push(GCL::stackEval([assign_then_oscillate], [], emptyState).call(:x)) end
 
     assert_equal(true,results.include?(2), "A do statement which oscillates the value of x between 2 and 8 never got to 2.")
     assert_equal(true,results.include?(8), "A do statement which oscillates the value of x between 2 and 8 never got to 8.")
@@ -605,8 +638,8 @@ class SimpleTests < Test::Unit::TestCase
   end
 
   def test_wellscoped3
-    assert_equal(true, GCLe::wellScoped(GCProgram.new([], GCLocal.new(:x, GCAssign.new(:x, GCVar.new(:y))))),
-                 "global; local x in x := x should be well scoped.")
+    assert_equal(true, GCLe::wellScoped(GCProgram.new([], GCLocal.new(:x, GCAssign.new(:x, GCVar.new(:x))))),
+                 "global; local x in x := x should be well scoped. TEST UPDATED DEC16.")
   end
 
   def test_not_wellscoped1
@@ -621,7 +654,7 @@ class SimpleTests < Test::Unit::TestCase
 
   def test_not_wellscoped3
     assert_equal(false, GCLe::wellScoped(GCProgram.new([], GCLocal.new(:y, GCAssign.new(:x, GCVar.new(:y))))),
-                 "global; local y in x := x should NOT be well scoped.")
+                 "global; local y in x := y should NOT be well scoped. DESCRIPTION UPDATED DEC16.")
   end
 
   def test_assign_zero
@@ -681,8 +714,11 @@ class SimpleTests < Test::Unit::TestCase
     # randomly until it is less than 3 or greater than 7,
     oscillate_x = GCDo.new([[check_x_within_3_7, dec_x_1],
                             [check_x_within_3_7, inc_x_1]])
-    the_program = GCProgram.new([:x],oscillate_x)
-    
+
+    assign_then_oscillate = GCCompose.new(assign_x_5, oscillate_x)
+
+    the_program = GCProgram.new([:x],assign_then_oscillate)
+
     # Run the program 50 times, to make relatively sure
     # both possible results (x = 2 and x = 8) are seen.
     results = []
@@ -696,7 +732,7 @@ end
 \end{minted}
 
 \subsubsection*{Clojure}
-\label{sec:orgbd09fcd}
+\label{sec:org4d5574f}
 \href{./testing/a3\_test.clj}{a3\_test.clj}
 \begin{minted}[breaklines=true]{clojure}
 (ns testing)
@@ -739,7 +775,7 @@ end
 \end{minted}
 
 \subsection*{The Docker setup}
-\label{sec:org1d73915}
+\label{sec:org43eea6f}
 \href{./testing/a2/Dockerfile}{Dockerfile}
 \begin{minted}[breaklines=true]{docker}
 # Define the argument for openjdk version

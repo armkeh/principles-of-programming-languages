@@ -15,8 +15,8 @@ class SimpleTests < Test::Unit::TestCase
   end
 
   def test_wellscoped3
-    assert_equal(true, GCLe::wellScoped(GCProgram.new([], GCLocal.new(:x, GCAssign.new(:x, GCVar.new(:y))))),
-                 "global; local x in x := x should be well scoped.")
+    assert_equal(true, GCLe::wellScoped(GCProgram.new([], GCLocal.new(:x, GCAssign.new(:x, GCVar.new(:x))))),
+                 "global; local x in x := x should be well scoped. TEST UPDATED DEC16.")
   end
 
   def test_not_wellscoped1
@@ -31,7 +31,7 @@ class SimpleTests < Test::Unit::TestCase
 
   def test_not_wellscoped3
     assert_equal(false, GCLe::wellScoped(GCProgram.new([], GCLocal.new(:y, GCAssign.new(:x, GCVar.new(:y))))),
-                 "global; local y in x := x should NOT be well scoped.")
+                 "global; local y in x := y should NOT be well scoped. DESCRIPTION UPDATED DEC16.")
   end
 
   def test_assign_zero
@@ -91,8 +91,11 @@ class SimpleTests < Test::Unit::TestCase
     # randomly until it is less than 3 or greater than 7,
     oscillate_x = GCDo.new([[check_x_within_3_7, dec_x_1],
                             [check_x_within_3_7, inc_x_1]])
-    the_program = GCProgram.new([:x],oscillate_x)
-    
+
+    assign_then_oscillate = GCCompose.new(assign_x_5, oscillate_x)
+
+    the_program = GCProgram.new([:x],assign_then_oscillate)
+
     # Run the program 50 times, to make relatively sure
     # both possible results (x = 2 and x = 8) are seen.
     results = []

@@ -31,6 +31,31 @@ and defining various semantics for it.
 :CUSTOM_ID: Updates-and-file-history
 :END:
 
+** December 16th
+
+Some corrections have been made to the assignment description,
+and unfortunately to some of the test cases.
+
+In decreasing order of severity:
+- The test cases in the Ruby portions for the “oscillating” statement/program
+  did not correctly add the initial assignment to the variable
+  to the program, and so will fail (the ~do~ will never run,
+  because ~:x~ is assigned ~0~ by default which is outside the
+  range for the oscillation, but ~:x~ can never become ~2~ or ~8~.)
+- The Ruby part 4 test which checks the scoping of the program
+  “~global; local x in x := x should be well scoped.~”
+  previously had a typo in the test itself,
+  with the variable on the right of the assignment being a ~y~.
+  This has been corrected.
+- Previously, it was stated that the ~eval~ method in part 4
+  was to operate on ~GCStmt~'s. However, it should instead
+  operate on ~GCProgram~'s, that is, statements with global variable lists.
+- Previously, ~GCAnd~ and ~GCOr~ were incorrectly stated
+  to operate on ~GCExpr~'s. They are now correctly stated to operate
+  on ~GCTest~'s.
+- The broken link to the Ruby testing at the top of that section
+  has been replaced with the links to the two Ruby test files.
+
 ** December 11th
 :PROPERTIES:
 :CUSTOM_ID: December-11th
@@ -194,7 +219,8 @@ with the following subclasses.
   - ~GCComp~, the constructor of which has as its first two arguments ~GCExpr~'s
     and as its third argument a symbol,
     which is intended to be one of ~:eq~, ~:less~ or ~:greater~,
-  - ~GCAnd~ and ~GCOr~, the constructors of which take as arguments two ~GCExpr~'s.
+  - ~GCAnd~ and ~GCOr~, the constructors of which take as arguments +two ~GCExpr~'s+ two ~GCTest~'s
+    (corrected December 16th.)
   - ~GCTrue~ and ~GCFalse~, the constructor of which (if it exists) takes no arguments.
 - ~GCStmt~ has subclasses
   - ~GCSkip~, the constructor of which (if it exists) takes no arguments.
@@ -292,8 +318,10 @@ all variables appearing within the body of a ~GCProgram~
 are /within scope/ at the point of their use;
 that is, either the variable is one declared to be ~global~,
 or there is a ~local~ statement for that variable wrapping the use.
-- This method should take a ~GCStmt~ as its only argument,
-  and return a boolean.
+- This method
+  +should take a ~GCStmt~ as its only argument+
+  should take a ~GCProgram~ as its only argument,
+  and return a boolean (Corrected December 16th.)
 - Hint: This operation is similar to typechecking.
   Use your experience working with ~typeOf~ as a starting point.
   - Helper methods are always permitted.
@@ -356,9 +384,9 @@ Use it if you wish.
 - [ ] Part 2 tests
   - [ ] a3p2_test.rb tests have passed! (No submission needed.)
 - [ ] Part 3 tests
-  - [ ] a3p3_test.clj tests have passed! (No submission needed.)
+  - [ ] a3_test.clj tests have passed! (No submission needed.)
 - [ ] Part 4 tests
-  - [ ] a3p4_test.clj tests have passed! (No submission needed.)
+  - [ ] a3p4_test.rb tests have passed! (No submission needed.)
 - [ ] Part 5 (Bonus)
   - [ ] a3b.clj
   - [ ] a3bt.clj
@@ -371,7 +399,8 @@ Use it if you wish.
 
 Unit tests for the requested types, methods and predicates
 are available here.
-- [[./testing/a3/a3_test.rb][a3_test.rb]]
+- [[./testing/a3/a3p2_test.rb][a3p2_test.rb]]
+- [[./testing/a3/a3p4_test.rb][a3p4_test.rb]]
 - [[./testing/a3/a3_test.clj][a3_test.clj]]
 The contents of the unit test files are also repeated below.
 
@@ -485,11 +514,13 @@ class SimpleTests < Test::Unit::TestCase
     # randomly until it is less than 3 or greater than 7,
     oscillate_x = GCDo.new([[check_x_within_3_7, dec_x_1],
                             [check_x_within_3_7, inc_x_1]])
+
+    assign_then_oscillate = GCCompose.new(assign_x_5, oscillate_x)
     
     # Run the program 50 times, to make relatively sure
     # both possible results (x = 2 and x = 8) are seen.
     results = []
-    50.times do results.push(GCL::stackEval([oscillate_x], [], emptyState).call(:x)) end
+    50.times do results.push(GCL::stackEval([assign_then_oscillate], [], emptyState).call(:x)) end
 
     assert_equal(true,results.include?(2), "A do statement which oscillates the value of x between 2 and 8 never got to 2.")
     assert_equal(true,results.include?(8), "A do statement which oscillates the value of x between 2 and 8 never got to 8.")
@@ -517,8 +548,8 @@ class SimpleTests < Test::Unit::TestCase
   end
 
   def test_wellscoped3
-    assert_equal(true, GCLe::wellScoped(GCProgram.new([], GCLocal.new(:x, GCAssign.new(:x, GCVar.new(:y))))),
-                 "global; local x in x := x should be well scoped.")
+    assert_equal(true, GCLe::wellScoped(GCProgram.new([], GCLocal.new(:x, GCAssign.new(:x, GCVar.new(:x))))),
+                 "global; local x in x := x should be well scoped. TEST UPDATED DEC16.")
   end
 
   def test_not_wellscoped1
@@ -533,7 +564,7 @@ class SimpleTests < Test::Unit::TestCase
 
   def test_not_wellscoped3
     assert_equal(false, GCLe::wellScoped(GCProgram.new([], GCLocal.new(:y, GCAssign.new(:x, GCVar.new(:y))))),
-                 "global; local y in x := x should NOT be well scoped.")
+                 "global; local y in x := y should NOT be well scoped. DESCRIPTION UPDATED DEC16.")
   end
 
   def test_assign_zero
@@ -593,8 +624,11 @@ class SimpleTests < Test::Unit::TestCase
     # randomly until it is less than 3 or greater than 7,
     oscillate_x = GCDo.new([[check_x_within_3_7, dec_x_1],
                             [check_x_within_3_7, inc_x_1]])
-    the_program = GCProgram.new([:x],oscillate_x)
-    
+
+    assign_then_oscillate = GCCompose.new(assign_x_5, oscillate_x)
+
+    the_program = GCProgram.new([:x],assign_then_oscillate)
+
     # Run the program 50 times, to make relatively sure
     # both possible results (x = 2 and x = 8) are seen.
     results = []

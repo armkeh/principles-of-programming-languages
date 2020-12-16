@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-12-11 Fri 14:11 -->
+<!-- 2020-12-16 Wed 03:21 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Computer Science 3MI3 – 2020 assignment 3</title>
@@ -239,6 +239,7 @@ various versions of the guarded command language."
 <li><a href="#Introduction">Introduction</a></li>
 <li><a href="#Updates-and-file-history">Updates and file history</a>
 <ul>
+<li><a href="#December-16th">December 16th</a></li>
 <li><a href="#December-11th">December 11th</a></li>
 <li><a href="#December-1st">December 1st</a></li>
 </ul>
@@ -248,7 +249,7 @@ various versions of the guarded command language."
 <li><a href="#Submission-procedures">Documentation</a></li>
 <li><a href="#Submission-procedures">Submission procedures</a>
 <ul>
-<li><a href="#orgff91998">Assignment naming requirements</a></li>
+<li><a href="#org673ed49">Assignment naming requirements</a></li>
 </ul>
 </li>
 <li><a href="#Proper-conduct-for-coursework">Proper conduct for coursework</a></li>
@@ -297,6 +298,40 @@ and defining various semantics for it.
 <div id="outline-container-Updates-and-file-history" class="outline-2">
 <h2 id="Updates-and-file-history">Updates and file history</h2>
 <div class="outline-text-2" id="text-Updates-and-file-history">
+</div>
+
+<div id="outline-container-December-16th" class="outline-3">
+<h3 id="December-16th">December 16th</h3>
+<div class="outline-text-3" id="text-December-16th">
+<p>
+Some corrections have been made to the assignment description,
+and unfortunately to some of the test cases.
+</p>
+
+<p>
+In decreasing order of severity:
+</p>
+<ul class="org-ul">
+<li>The test cases in the Ruby portions for the “oscillating” statement/program
+did not correctly add the initial assignment to the variable
+to the program, and so will fail (the <code>do</code> will never run,
+because <code>:x</code> is assigned <code>0</code> by default which is outside the
+range for the oscillation, but <code>:x</code> can never become <code>2</code> or <code>8</code>.)</li>
+<li>The Ruby part 4 test which checks the scoping of the program
+“<code>global; local x in x := x should be well scoped.</code>”
+previously had a typo in the test itself,
+with the variable on the right of the assignment being a <code>y</code>.
+This has been corrected.</li>
+<li>Previously, it was stated that the <code>eval</code> method in part 4
+was to operate on <code>GCStmt</code>'s. However, it should instead
+operate on <code>GCProgram</code>'s, that is, statements with global variable lists.</li>
+<li>Previously, <code>GCAnd</code> and <code>GCOr</code> were incorrectly stated
+to operate on <code>GCExpr</code>'s. They are now correctly stated to operate
+on <code>GCTest</code>'s.</li>
+<li>The broken link to the Ruby testing at the top of that section
+has been replaced with the links to the two Ruby test files.</li>
+</ul>
+</div>
 </div>
 
 <div id="outline-container-December-11th" class="outline-3">
@@ -414,9 +449,9 @@ apply to assignments, except for the differences below.
 </p>
 </div>
 
-<div id="outline-container-orgff91998" class="outline-4">
-<h4 id="orgff91998">Assignment naming requirements</h4>
-<div class="outline-text-4" id="text-orgff91998">
+<div id="outline-container-org673ed49" class="outline-4">
+<h4 id="org673ed49">Assignment naming requirements</h4>
+<div class="outline-text-4" id="text-org673ed49">
 <p>
 Place all files for the assignment
 inside a folder titled <code>an</code>, where <code>n</code> is the number of the assignment.
@@ -615,7 +650,8 @@ which is intended to be one of <code>:plus</code>, <code>:times</code>, <code>:m
 <li><code>GCComp</code>, the constructor of which has as its first two arguments <code>GCExpr</code>'s
 and as its third argument a symbol,
 which is intended to be one of <code>:eq</code>, <code>:less</code> or <code>:greater</code>,</li>
-<li><code>GCAnd</code> and <code>GCOr</code>, the constructors of which take as arguments two <code>GCExpr</code>'s.</li>
+<li><code>GCAnd</code> and <code>GCOr</code>, the constructors of which take as arguments <del>two <code>GCExpr</code>'s</del> two <code>GCTest</code>'s
+(corrected December 16th.)</li>
 <li><code>GCTrue</code> and <code>GCFalse</code>, the constructor of which (if it exists) takes no arguments.</li>
 </ul></li>
 <li><code>GCStmt</code> has subclasses
@@ -752,8 +788,10 @@ that is, either the variable is one declared to be <code>global</code>,
 or there is a <code>local</code> statement for that variable wrapping the use.
 </p>
 <ul class="org-ul">
-<li>This method should take a <code>GCStmt</code> as its only argument,
-and return a boolean.</li>
+<li>This method
+<del>should take a <code>GCStmt</code> as its only argument</del>
+should take a <code>GCProgram</code> as its only argument,
+and return a boolean (Corrected December 16th.)</li>
 <li>Hint: This operation is similar to typechecking.
 Use your experience working with <code>typeOf</code> as a starting point.
 <ul class="org-ul">
@@ -841,9 +879,9 @@ Use it if you wish.
 - <span style="color: #00cd68;">[</span> <span style="color: #00cd68;">]</span> Part 2 tests
   - <span style="color: #00cd68;">[</span> <span style="color: #00cd68;">]</span> a3p2_test.rb tests have passed! <span style="color: #00cd68;">(</span>No submission needed.<span style="color: #00cd68;">)</span>
 - <span style="color: #00cd68;">[</span> <span style="color: #00cd68;">]</span> Part 3 tests
-  - <span style="color: #00cd68;">[</span> <span style="color: #00cd68;">]</span> a3p3_test.clj tests have passed! <span style="color: #00cd68;">(</span>No submission needed.<span style="color: #00cd68;">)</span>
+  - <span style="color: #00cd68;">[</span> <span style="color: #00cd68;">]</span> a3_test.clj tests have passed! <span style="color: #00cd68;">(</span>No submission needed.<span style="color: #00cd68;">)</span>
 - <span style="color: #00cd68;">[</span> <span style="color: #00cd68;">]</span> Part 4 tests
-  - <span style="color: #00cd68;">[</span> <span style="color: #00cd68;">]</span> a3p4_test.clj tests have passed! <span style="color: #00cd68;">(</span>No submission needed.<span style="color: #00cd68;">)</span>
+  - <span style="color: #00cd68;">[</span> <span style="color: #00cd68;">]</span> a3p4_test.rb tests have passed! <span style="color: #00cd68;">(</span>No submission needed.<span style="color: #00cd68;">)</span>
 - <span style="color: #00cd68;">[</span> <span style="color: #00cd68;">]</span> Part 5 <span style="color: #00cd68;">(</span>Bonus<span style="color: #00cd68;">)</span>
   - <span style="color: #00cd68;">[</span> <span style="color: #00cd68;">]</span> a3b.clj
   - <span style="color: #00cd68;">[</span> <span style="color: #00cd68;">]</span> a3bt.clj
@@ -860,7 +898,8 @@ Unit tests for the requested types, methods and predicates
 are available here.
 </p>
 <ul class="org-ul">
-<li><a href="./testing/a3/a3_test.rb">a3_test.rb</a></li>
+<li><a href="./testing/a3/a3p2_test.rb">a3p2_test.rb</a></li>
+<li><a href="./testing/a3/a3p4_test.rb">a3p4_test.rb</a></li>
 <li><a href="./testing/a3/a3_test.clj">a3_test.clj</a></li>
 </ul>
 <p>
@@ -998,11 +1037,13 @@ to run the commands contained in those scripts manually.
     <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">randomly until it is less than 3 or greater than 7,</span>
     oscillate_x = <span style="color: #6ae4b9;">GCDo</span>.new<span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">[</span><span style="color: #6ae4b9;">[</span>check_x_within_3_7, dec_x_1<span style="color: #6ae4b9;">]</span>,
                             <span style="color: #6ae4b9;">[</span>check_x_within_3_7, inc_x_1<span style="color: #6ae4b9;">]</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span>
+
+    assign_then_oscillate = <span style="color: #6ae4b9;">GCCompose</span>.new<span style="color: #00cd68;">(</span>assign_x_5, oscillate_x<span style="color: #00cd68;">)</span>
     
     <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Run the program 50 times, to make relatively sure</span>
     <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">both possible results (x = 2 and x = 8) are seen.</span>
     results = <span style="color: #00cd68;">[]</span>
-    50.times <span style="color: #b6a0ff;">do</span> results.push<span style="color: #00cd68;">(</span><span style="color: #6ae4b9;">GCL</span>::stackEval<span style="color: #b6a0ff;">(</span><span style="color: #6ae4b9;">[</span>oscillate_x<span style="color: #6ae4b9;">]</span>, <span style="color: #6ae4b9;">[]</span>, emptyState<span style="color: #b6a0ff;">)</span>.call<span style="color: #b6a0ff;">(</span><span style="color: #00bcff;">:x</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">end</span>
+    50.times <span style="color: #b6a0ff;">do</span> results.push<span style="color: #00cd68;">(</span><span style="color: #6ae4b9;">GCL</span>::stackEval<span style="color: #b6a0ff;">(</span><span style="color: #6ae4b9;">[</span>assign_then_oscillate<span style="color: #6ae4b9;">]</span>, <span style="color: #6ae4b9;">[]</span>, emptyState<span style="color: #b6a0ff;">)</span>.call<span style="color: #b6a0ff;">(</span><span style="color: #00bcff;">:x</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">end</span>
 
     assert_equal<span style="color: #00cd68;">(</span><span style="color: #00bcff;">true</span>,results.include?<span style="color: #b6a0ff;">(</span>2<span style="color: #b6a0ff;">)</span>, <span style="color: #79a8ff;">"A do statement which oscillates the value of x between 2 and 8 never got to 2."</span><span style="color: #00cd68;">)</span>
     assert_equal<span style="color: #00cd68;">(</span><span style="color: #00bcff;">true</span>,results.include?<span style="color: #b6a0ff;">(</span>8<span style="color: #b6a0ff;">)</span>, <span style="color: #79a8ff;">"A do statement which oscillates the value of x between 2 and 8 never got to 8."</span><span style="color: #00cd68;">)</span>
@@ -1033,8 +1074,8 @@ to run the commands contained in those scripts manually.
   <span style="color: #b6a0ff;">end</span>
 
   <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">test_wellscoped3</span>
-    assert_equal<span style="color: #00cd68;">(</span><span style="color: #00bcff;">true</span>, <span style="color: #6ae4b9;">GCLe</span>::wellScoped<span style="color: #b6a0ff;">(</span><span style="color: #6ae4b9;">GCProgram</span>.new<span style="color: #6ae4b9;">(</span><span style="color: #f0ce43;">[]</span>, <span style="color: #6ae4b9;">GCLocal</span>.new<span style="color: #f0ce43;">(</span><span style="color: #00bcff;">:x</span>, <span style="color: #6ae4b9;">GCAssign</span>.new<span style="color: #00bcff;">(</span><span style="color: #00bcff;">:x</span>, <span style="color: #6ae4b9;">GCVar</span>.new<span style="color: #80d200;">(</span><span style="color: #00bcff;">:y</span><span style="color: #80d200;">)</span><span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span>,
-                 <span style="color: #79a8ff;">"global; local x in x := x should be well scoped."</span><span style="color: #00cd68;">)</span>
+    assert_equal<span style="color: #00cd68;">(</span><span style="color: #00bcff;">true</span>, <span style="color: #6ae4b9;">GCLe</span>::wellScoped<span style="color: #b6a0ff;">(</span><span style="color: #6ae4b9;">GCProgram</span>.new<span style="color: #6ae4b9;">(</span><span style="color: #f0ce43;">[]</span>, <span style="color: #6ae4b9;">GCLocal</span>.new<span style="color: #f0ce43;">(</span><span style="color: #00bcff;">:x</span>, <span style="color: #6ae4b9;">GCAssign</span>.new<span style="color: #00bcff;">(</span><span style="color: #00bcff;">:x</span>, <span style="color: #6ae4b9;">GCVar</span>.new<span style="color: #80d200;">(</span><span style="color: #00bcff;">:x</span><span style="color: #80d200;">)</span><span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span>,
+                 <span style="color: #79a8ff;">"global; local x in x := x should be well scoped. TEST UPDATED DEC16."</span><span style="color: #00cd68;">)</span>
   <span style="color: #b6a0ff;">end</span>
 
   <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">test_not_wellscoped1</span>
@@ -1049,7 +1090,7 @@ to run the commands contained in those scripts manually.
 
   <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">test_not_wellscoped3</span>
     assert_equal<span style="color: #00cd68;">(</span><span style="color: #00bcff;">false</span>, <span style="color: #6ae4b9;">GCLe</span>::wellScoped<span style="color: #b6a0ff;">(</span><span style="color: #6ae4b9;">GCProgram</span>.new<span style="color: #6ae4b9;">(</span><span style="color: #f0ce43;">[]</span>, <span style="color: #6ae4b9;">GCLocal</span>.new<span style="color: #f0ce43;">(</span><span style="color: #00bcff;">:y</span>, <span style="color: #6ae4b9;">GCAssign</span>.new<span style="color: #00bcff;">(</span><span style="color: #00bcff;">:x</span>, <span style="color: #6ae4b9;">GCVar</span>.new<span style="color: #80d200;">(</span><span style="color: #00bcff;">:y</span><span style="color: #80d200;">)</span><span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span>,
-                 <span style="color: #79a8ff;">"global; local y in x := x should NOT be well scoped."</span><span style="color: #00cd68;">)</span>
+                 <span style="color: #79a8ff;">"global; local y in x := y should NOT be well scoped. DESCRIPTION UPDATED DEC16."</span><span style="color: #00cd68;">)</span>
   <span style="color: #b6a0ff;">end</span>
 
   <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">test_assign_zero</span>
@@ -1109,8 +1150,11 @@ to run the commands contained in those scripts manually.
     <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">randomly until it is less than 3 or greater than 7,</span>
     oscillate_x = <span style="color: #6ae4b9;">GCDo</span>.new<span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">[</span><span style="color: #6ae4b9;">[</span>check_x_within_3_7, dec_x_1<span style="color: #6ae4b9;">]</span>,
                             <span style="color: #6ae4b9;">[</span>check_x_within_3_7, inc_x_1<span style="color: #6ae4b9;">]</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span>
-    the_program = <span style="color: #6ae4b9;">GCProgram</span>.new<span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">[</span><span style="color: #00bcff;">:x</span><span style="color: #b6a0ff;">]</span>,oscillate_x<span style="color: #00cd68;">)</span>
-    
+
+    assign_then_oscillate = <span style="color: #6ae4b9;">GCCompose</span>.new<span style="color: #00cd68;">(</span>assign_x_5, oscillate_x<span style="color: #00cd68;">)</span>
+
+    the_program = <span style="color: #6ae4b9;">GCProgram</span>.new<span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">[</span><span style="color: #00bcff;">:x</span><span style="color: #b6a0ff;">]</span>,assign_then_oscillate<span style="color: #00cd68;">)</span>
+
     <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Run the program 50 times, to make relatively sure</span>
     <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">both possible results (x = 2 and x = 8) are seen.</span>
     results = <span style="color: #00cd68;">[]</span>
@@ -1259,8 +1303,8 @@ docker-compose stop -t 1
 <p class="author">Author: Mark Armstrong</p>
      <p class="author">Contact: <a href="mailto:markparmstrong@gmail.com">markparmstrong@gmail.com</a></p>
      <p class="date">Original date: December 2, 2020</p>
-     <p class="date">Last updated: 2020-12-11 Fri 14:11</p>
-     <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.90 (<a href="https://orgmode.org">Org</a> mode 9.4)</p>
+     <p class="date">Last updated: 2020-12-16 Wed 03:19</p>
+     <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4.2)</p>
      <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
