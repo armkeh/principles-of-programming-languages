@@ -18,6 +18,24 @@
 :CUSTOM_ID: December
 :END:
 
+- December 16th ::
+
+  - Marks for homeworks 4 through 7 have now been
+    added to your repositories.
+    - Marks for homeworks 3 and 8 and assignment 2
+      should be following shortly.
+  - Those students whose homework 2 was incorrectly marked as incomplete
+    (due to file naming issues) should also have marks added soon.
+  - The homework 2 and assignment 1 bonus marking is also now done.
+    In the testing, a “naive” implementation took about
+    1,400,000,000. The marks were roughly
+    - 5/10 for implementations taking about 700,000,000 inferences,
+    - 7/10 for implementations taking about 100,000 inferences,
+    - 9/10 for implementations taking about 20,000 inferences, and
+    - 10/10 for implementations taking under 500,000 inferences
+      which do not rely upon builtin predicates (except those
+      suggested in the homework itself.)
+
 - December 11th ::
 
   - Tests have been posted for assignment 3.
