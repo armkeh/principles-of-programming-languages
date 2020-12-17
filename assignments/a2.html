@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-11-25 Wed 23:38 -->
+<!-- 2020-12-17 Thu 00:16 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Computer Science 3MI3 – 2020 assignment 2</title>
@@ -252,7 +252,7 @@
 <li><a href="#Submission-procedures">Documentation</a></li>
 <li><a href="#Submission-procedures">Submission procedures</a>
 <ul>
-<li><a href="#orgb841f0f">Assignment naming requirements</a></li>
+<li><a href="#orgcf27540">Assignment naming requirements</a></li>
 </ul>
 </li>
 <li><a href="#Proper-conduct-for-coursework">Proper conduct for coursework</a></li>
@@ -283,6 +283,12 @@
 </ul>
 </li>
 <li><a href="#The-Docker-setup">The Docker setup</a></li>
+</ul>
+</li>
+<li><a href="#Sample-solutions">Sample solutions</a>
+<ul>
+<li><a href="#Sample-Scala-solution">Sample Scala solution</a></li>
+<li><a href="#Sample-Ruby-solution">Sample Ruby solution</a></li>
 </ul>
 </li>
 </ul>
@@ -492,9 +498,9 @@ apply to assignments, except for the differences below.
 </p>
 </div>
 
-<div id="outline-container-orgb841f0f" class="outline-4">
-<h4 id="orgb841f0f">Assignment naming requirements</h4>
-<div class="outline-text-4" id="text-orgb841f0f">
+<div id="outline-container-orgcf27540" class="outline-4">
+<h4 id="orgcf27540">Assignment naming requirements</h4>
+<div class="outline-text-4" id="text-orgcf27540">
 <p>
 Place all files for the assignment
 inside a folder titled <code>an</code>, where <code>n</code> is the number of the assignment.
@@ -1853,12 +1859,370 @@ docker-compose stop -t 1
 </div>
 </div>
 </div>
+
+<div id="outline-container-Sample-solutions" class="outline-2">
+<h2 id="Sample-solutions">Sample solutions</h2>
+<div class="outline-text-2" id="text-Sample-solutions">
+</div>
+
+<div id="outline-container-Sample-Scala-solution" class="outline-3">
+<h3 id="Sample-Scala-solution">Sample Scala solution</h3>
+<div class="outline-text-3" id="text-Sample-Scala-solution">
+<div class="org-src-container">
+<pre class="src src-amm"><span style="color: #b6a0ff;">import</span> $file.a2_ulterm, a2_ulterm.<span style="color: #b6a0ff;">_</span>
+
+<span style="color: #f78fe7;">sealed</span> <span style="color: #b6a0ff;">trait</span> <span style="color: #6ae4b9;">STType</span>
+<span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">object</span> <span style="color: #00bcff;">STNat</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #6ae4b9;">STType</span> <span style="color: #00cd68;">{</span>
+  <span style="color: #f78fe7;">override</span> <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">toString</span><span style="color: #b6a0ff;">()</span> <span style="color: #b6a0ff;">=</span> <span style="color: #79a8ff;">"Nat"</span>
+<span style="color: #00cd68;">}</span>
+<span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">object</span> <span style="color: #00bcff;">STBool</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #6ae4b9;">STType</span> <span style="color: #00cd68;">{</span>
+  <span style="color: #f78fe7;">override</span> <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">toString</span><span style="color: #b6a0ff;">()</span> <span style="color: #b6a0ff;">=</span> <span style="color: #79a8ff;">"Bool"</span>
+<span style="color: #00cd68;">}</span>
+<span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #6ae4b9;">STFun</span><span style="color: #00cd68;">(</span>dom<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">STType</span>, codom<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">STType</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #6ae4b9;">STType</span> <span style="color: #00cd68;">{</span>
+  <span style="color: #f78fe7;">override</span> <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">toString</span><span style="color: #b6a0ff;">()</span> <span style="color: #b6a0ff;">=</span> <span style="color: #79a8ff;">"("</span> + dom.toString + <span style="color: #79a8ff;">") -&gt; ("</span> + codom.toString + <span style="color: #79a8ff;">")"</span>
+<span style="color: #00cd68;">}</span>
+
+
+
+<span style="color: #f78fe7;">sealed</span> <span style="color: #b6a0ff;">trait</span> <span style="color: #6ae4b9;">STTerm</span>
+<span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #6ae4b9;">STVar</span><span style="color: #00cd68;">(</span>index<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">Int</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #6ae4b9;">STTerm</span> <span style="color: #00cd68;">{</span>
+  <span style="color: #f78fe7;">override</span> <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">toString</span><span style="color: #b6a0ff;">()</span> <span style="color: #b6a0ff;">=</span> index.toString<span style="color: #b6a0ff;">()</span>
+<span style="color: #00cd68;">}</span>
+<span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #6ae4b9;">STAbs</span><span style="color: #00cd68;">(</span>a<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">STType</span>, t<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">STTerm</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #6ae4b9;">STTerm</span> <span style="color: #00cd68;">{</span>
+  <span style="color: #f78fe7;">override</span> <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">toString</span><span style="color: #b6a0ff;">()</span> <span style="color: #b6a0ff;">=</span> <span style="color: #79a8ff;">"lambda: "</span> + a.toString + <span style="color: #79a8ff;">" . "</span> + t.toString<span style="color: #b6a0ff;">()</span>
+<span style="color: #00cd68;">}</span>
+<span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #6ae4b9;">STApp</span><span style="color: #00cd68;">(</span>t1<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">STTerm</span>, t2<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">STTerm</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #6ae4b9;">STTerm</span> <span style="color: #00cd68;">{</span>
+  <span style="color: #f78fe7;">override</span> <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">toString</span><span style="color: #b6a0ff;">()</span> <span style="color: #b6a0ff;">=</span> <span style="color: #79a8ff;">"("</span> + t1.toString<span style="color: #b6a0ff;">()</span> + <span style="color: #79a8ff;">") ("</span> + t2.toString<span style="color: #b6a0ff;">()</span> + <span style="color: #79a8ff;">")"</span>
+<span style="color: #00cd68;">}</span>
+<span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">object</span> <span style="color: #00bcff;">STZero</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #6ae4b9;">STTerm</span> <span style="color: #00cd68;">{</span>
+  <span style="color: #f78fe7;">override</span> <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">toString</span><span style="color: #b6a0ff;">()</span> <span style="color: #b6a0ff;">=</span> <span style="color: #79a8ff;">"zero"</span>
+<span style="color: #00cd68;">}</span>
+<span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #6ae4b9;">STSuc</span><span style="color: #00cd68;">(</span>t<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">STTerm</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #6ae4b9;">STTerm</span> <span style="color: #00cd68;">{</span>
+  <span style="color: #f78fe7;">override</span> <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">toString</span><span style="color: #b6a0ff;">()</span> <span style="color: #b6a0ff;">=</span> <span style="color: #79a8ff;">"suc "</span> + t.toString
+<span style="color: #00cd68;">}</span>
+<span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #6ae4b9;">STIsZero</span><span style="color: #00cd68;">(</span>t<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">STTerm</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #6ae4b9;">STTerm</span> <span style="color: #00cd68;">{</span>
+  <span style="color: #f78fe7;">override</span> <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">toString</span><span style="color: #b6a0ff;">()</span> <span style="color: #b6a0ff;">=</span> <span style="color: #79a8ff;">"iszero "</span> + t.toString
+<span style="color: #00cd68;">}</span>
+<span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">object</span> <span style="color: #00bcff;">STTrue</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #6ae4b9;">STTerm</span> <span style="color: #00cd68;">{</span>
+  <span style="color: #f78fe7;">override</span> <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">toString</span><span style="color: #b6a0ff;">()</span> <span style="color: #b6a0ff;">=</span> <span style="color: #79a8ff;">"true"</span>
+<span style="color: #00cd68;">}</span>
+<span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">object</span> <span style="color: #00bcff;">STFalse</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #6ae4b9;">STTerm</span> <span style="color: #00cd68;">{</span>
+  <span style="color: #f78fe7;">override</span> <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">toString</span><span style="color: #b6a0ff;">()</span> <span style="color: #b6a0ff;">=</span> <span style="color: #79a8ff;">"false"</span>
+<span style="color: #00cd68;">}</span>
+<span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">class</span> <span style="color: #6ae4b9;">STTest</span><span style="color: #00cd68;">(</span>b<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">STTerm</span>, t1<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">STTerm</span>, t2<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">STTerm</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">extends</span> <span style="color: #6ae4b9;">STTerm</span> <span style="color: #00cd68;">{</span>
+  <span style="color: #f78fe7;">override</span> <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">toString</span><span style="color: #b6a0ff;">()</span> <span style="color: #b6a0ff;">=</span>
+    <span style="color: #79a8ff;">"test ("</span> + b.toString + <span style="color: #79a8ff;">") ("</span> + t1.toString + <span style="color: #79a8ff;">") ("</span> + t2.toString + <span style="color: #79a8ff;">")"</span>
+<span style="color: #00cd68;">}</span>
+
+<span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">emptyEnv</span><span style="color: #00cd68;">()</span><span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">Int</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">Option</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">STType</span><span style="color: #00cd68;">]</span> <span style="color: #b6a0ff;">=</span> <span style="color: #b6a0ff;">_</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">None</span>
+
+<span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">prependEnv</span><span style="color: #00cd68;">(</span>a<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">STType</span>, env<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">Int</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">Option</span><span style="color: #b6a0ff;">[</span><span style="color: #00bcff;">STType</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">Int</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">Option</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">STType</span><span style="color: #00cd68;">]</span> <span style="color: #b6a0ff;">=</span> <span style="color: #00cd68;">{</span>
+  i <span style="color: #b6a0ff;">=&gt;</span> i <span style="color: #b6a0ff;">match</span> <span style="color: #b6a0ff;">{</span>
+    <span style="color: #b6a0ff;">case</span> <span style="color: #00bcff;">0</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">Some</span><span style="color: #6ae4b9;">(</span>a<span style="color: #6ae4b9;">)</span>
+    <span style="color: #b6a0ff;">case</span> <span style="color: #00d3d0;">n</span> <span style="color: #b6a0ff;">=&gt;</span> env<span style="color: #6ae4b9;">(</span>n-1<span style="color: #6ae4b9;">)</span>
+  <span style="color: #b6a0ff;">}</span>
+<span style="color: #00cd68;">}</span>
+
+<span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">typeOf</span><span style="color: #00cd68;">(</span>t<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">STTerm</span>, env<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">Int</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">Option</span><span style="color: #b6a0ff;">[</span><span style="color: #00bcff;">STType</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">Option</span><span style="color: #00cd68;">[</span><span style="color: #00bcff;">STType</span><span style="color: #00cd68;">]</span> <span style="color: #b6a0ff;">=</span>
+  t <span style="color: #b6a0ff;">match</span> <span style="color: #00cd68;">{</span>
+    <span style="color: #b6a0ff;">case</span> <span style="color: #6ae4b9;">STVar</span><span style="color: #b6a0ff;">(</span><span style="color: #00d3d0;">i</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">=&gt;</span>
+      <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Return the type of the variable if it is in the environment (is bound).</span>
+      <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Otherwise, return None. Note the env function already returns None</span>
+      <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">for variables not in the environment.</span>
+      env<span style="color: #b6a0ff;">(</span>i<span style="color: #b6a0ff;">)</span>
+    <span style="color: #b6a0ff;">case</span> <span style="color: #6ae4b9;">STAbs</span><span style="color: #b6a0ff;">(</span><span style="color: #00d3d0;">a</span>, <span style="color: #00d3d0;">t</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">=&gt;</span>
+      <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">Check the type of the body, with this variable's type</span>
+      <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">prepended to the environment.</span>
+      <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">If the body has type b, then this abstraction has type a -&gt; b.</span>
+      typeOf<span style="color: #b6a0ff;">(</span>t, prependEnv<span style="color: #6ae4b9;">(</span>a,env<span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span>.flatMap<span style="color: #b6a0ff;">(</span>b <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">Some</span><span style="color: #6ae4b9;">(</span><span style="color: #00bcff;">STFun</span><span style="color: #f0ce43;">(</span>a,b<span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span>
+    <span style="color: #b6a0ff;">case</span> <span style="color: #6ae4b9;">STApp</span><span style="color: #b6a0ff;">(</span><span style="color: #00d3d0;">t1</span>, <span style="color: #00d3d0;">t2</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #b6a0ff;">(</span>typeOf<span style="color: #6ae4b9;">(</span>t1,env<span style="color: #6ae4b9;">)</span>, typeOf<span style="color: #6ae4b9;">(</span>t2,env<span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">match</span> <span style="color: #b6a0ff;">{</span>
+      <span style="color: #b6a0ff;">case</span> <span style="color: #6ae4b9;">(</span><span style="color: #6ae4b9;">Some</span><span style="color: #f0ce43;">(</span><span style="color: #6ae4b9;">STFun</span><span style="color: #00bcff;">(</span><span style="color: #00d3d0;">a1</span>,<span style="color: #00d3d0;">b</span><span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span>, <span style="color: #6ae4b9;">Some</span><span style="color: #f0ce43;">(</span><span style="color: #00d3d0;">a2</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">if</span> a1 == a2 <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">Some</span><span style="color: #6ae4b9;">(</span>b<span style="color: #6ae4b9;">)</span>
+      <span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">_</span>  <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">None</span> 
+    <span style="color: #b6a0ff;">}</span>
+    <span style="color: #b6a0ff;">case</span> <span style="color: #00bcff;">STZero</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">Some</span><span style="color: #b6a0ff;">(</span><span style="color: #00bcff;">STNat</span><span style="color: #b6a0ff;">)</span>
+    <span style="color: #b6a0ff;">case</span> <span style="color: #6ae4b9;">STSuc</span><span style="color: #b6a0ff;">(</span><span style="color: #00d3d0;">t</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">=&gt;</span>
+      typeOf<span style="color: #b6a0ff;">(</span>t,env<span style="color: #b6a0ff;">)</span>.flatMap<span style="color: #b6a0ff;">(</span>a <span style="color: #b6a0ff;">=&gt;</span> a <span style="color: #b6a0ff;">match</span> <span style="color: #6ae4b9;">{</span>
+        <span style="color: #b6a0ff;">case</span> <span style="color: #00bcff;">STNat</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">Some</span><span style="color: #f0ce43;">(</span><span style="color: #00bcff;">STNat</span><span style="color: #f0ce43;">)</span>;
+        <span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">_</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">None</span>
+      <span style="color: #6ae4b9;">}</span><span style="color: #b6a0ff;">)</span>
+    <span style="color: #b6a0ff;">case</span> <span style="color: #6ae4b9;">STIsZero</span><span style="color: #b6a0ff;">(</span><span style="color: #00d3d0;">t</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">=&gt;</span>
+      typeOf<span style="color: #b6a0ff;">(</span>t,env<span style="color: #b6a0ff;">)</span>.flatMap<span style="color: #b6a0ff;">(</span>a <span style="color: #b6a0ff;">=&gt;</span> a <span style="color: #b6a0ff;">match</span> <span style="color: #6ae4b9;">{</span>
+        <span style="color: #b6a0ff;">case</span> <span style="color: #00bcff;">STNat</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">Some</span><span style="color: #f0ce43;">(</span><span style="color: #00bcff;">STBool</span><span style="color: #f0ce43;">)</span>;
+        <span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">_</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">None</span>
+      <span style="color: #6ae4b9;">}</span><span style="color: #b6a0ff;">)</span>
+    <span style="color: #b6a0ff;">case</span> <span style="color: #00bcff;">STTrue</span>  <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">Some</span><span style="color: #b6a0ff;">(</span><span style="color: #00bcff;">STBool</span><span style="color: #b6a0ff;">)</span>
+    <span style="color: #b6a0ff;">case</span> <span style="color: #00bcff;">STFalse</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">Some</span><span style="color: #b6a0ff;">(</span><span style="color: #00bcff;">STBool</span><span style="color: #b6a0ff;">)</span>
+    <span style="color: #b6a0ff;">case</span> <span style="color: #6ae4b9;">STTest</span><span style="color: #b6a0ff;">(</span><span style="color: #00d3d0;">b</span>,<span style="color: #00d3d0;">t1</span>,<span style="color: #00d3d0;">t2</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #b6a0ff;">(</span>typeOf<span style="color: #6ae4b9;">(</span>b,env<span style="color: #6ae4b9;">)</span>, typeOf<span style="color: #6ae4b9;">(</span>t1,env<span style="color: #6ae4b9;">)</span>, typeOf<span style="color: #6ae4b9;">(</span>t2,env<span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">match</span> <span style="color: #b6a0ff;">{</span>
+      <span style="color: #b6a0ff;">case</span> <span style="color: #6ae4b9;">(</span><span style="color: #6ae4b9;">Some</span><span style="color: #f0ce43;">(</span><span style="color: #00bcff;">STBool</span><span style="color: #f0ce43;">)</span>, <span style="color: #6ae4b9;">Some</span><span style="color: #f0ce43;">(</span><span style="color: #00d3d0;">a1</span><span style="color: #f0ce43;">)</span>, <span style="color: #6ae4b9;">Some</span><span style="color: #f0ce43;">(</span><span style="color: #00d3d0;">a2</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span> <span style="color: #b6a0ff;">if</span> a1 == a2 <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">Some</span><span style="color: #6ae4b9;">(</span>a1<span style="color: #6ae4b9;">)</span>
+      <span style="color: #b6a0ff;">case</span> <span style="color: #b6a0ff;">_</span>  <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">None</span> 
+    <span style="color: #b6a0ff;">}</span>
+  <span style="color: #00cd68;">}</span>
+
+<span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">typecheck</span><span style="color: #00cd68;">(</span>t<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">STTerm</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">Boolean</span> <span style="color: #b6a0ff;">=</span> typeOf<span style="color: #00cd68;">(</span>t,emptyEnv<span style="color: #b6a0ff;">()</span><span style="color: #00cd68;">)</span>.isDefined
+
+<span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">eraseTypes</span><span style="color: #00cd68;">(</span>t<span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">STTerm</span><span style="color: #00cd68;">)</span><span style="color: #b6a0ff;">:</span> <span style="color: #6ae4b9;">ULTerm</span> <span style="color: #b6a0ff;">=</span> t <span style="color: #b6a0ff;">match</span> <span style="color: #00cd68;">{</span>
+  <span style="color: #b6a0ff;">case</span> <span style="color: #6ae4b9;">STVar</span><span style="color: #b6a0ff;">(</span><span style="color: #00d3d0;">i</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">ULVar</span><span style="color: #b6a0ff;">(</span>i<span style="color: #b6a0ff;">)</span>
+  <span style="color: #b6a0ff;">case</span> <span style="color: #6ae4b9;">STAbs</span><span style="color: #b6a0ff;">(</span><span style="color: #00d3d0;">a</span>,<span style="color: #00d3d0;">t</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">ULAbs</span><span style="color: #b6a0ff;">(</span>eraseTypes<span style="color: #6ae4b9;">(</span>t<span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span>
+  <span style="color: #b6a0ff;">case</span> <span style="color: #6ae4b9;">STApp</span><span style="color: #b6a0ff;">(</span><span style="color: #00d3d0;">t1</span>,<span style="color: #00d3d0;">t2</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">ULApp</span><span style="color: #b6a0ff;">(</span>eraseTypes<span style="color: #6ae4b9;">(</span>t1<span style="color: #6ae4b9;">)</span>,eraseTypes<span style="color: #6ae4b9;">(</span>t2<span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span>
+  <span style="color: #b6a0ff;">case</span> <span style="color: #00bcff;">STZero</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">ULAbs</span><span style="color: #b6a0ff;">(</span><span style="color: #00bcff;">ULAbs</span><span style="color: #6ae4b9;">(</span><span style="color: #00bcff;">ULVar</span><span style="color: #f0ce43;">(</span><span style="color: #00bcff;">0</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span>
+  <span style="color: #b6a0ff;">case</span> <span style="color: #6ae4b9;">STSuc</span><span style="color: #b6a0ff;">(</span><span style="color: #00d3d0;">t</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">=&gt;</span>
+    <span style="color: #00bcff;">ULApp</span><span style="color: #b6a0ff;">(</span><span style="color: #00bcff;">ULAbs</span><span style="color: #6ae4b9;">(</span><span style="color: #00bcff;">ULAbs</span><span style="color: #f0ce43;">(</span><span style="color: #00bcff;">ULAbs</span><span style="color: #00bcff;">(</span><span style="color: #00bcff;">ULApp</span><span style="color: #80d200;">(</span><span style="color: #00bcff;">ULVar</span><span style="color: #f78fe7;">(</span><span style="color: #00bcff;">1</span><span style="color: #f78fe7;">)</span>,<span style="color: #00bcff;">ULApp</span><span style="color: #f78fe7;">(</span><span style="color: #00bcff;">ULApp</span><span style="color: #4ae8fc;">(</span><span style="color: #00bcff;">ULVar</span><span style="color: #cfdf30;">(</span><span style="color: #00bcff;">2</span><span style="color: #cfdf30;">)</span>,<span style="color: #00bcff;">ULVar</span><span style="color: #cfdf30;">(</span><span style="color: #00bcff;">1</span><span style="color: #cfdf30;">)</span><span style="color: #4ae8fc;">)</span>,<span style="color: #00bcff;">ULVar</span><span style="color: #4ae8fc;">(</span><span style="color: #00bcff;">0</span><span style="color: #4ae8fc;">)</span><span style="color: #f78fe7;">)</span><span style="color: #80d200;">)</span><span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span>,
+          eraseTypes<span style="color: #6ae4b9;">(</span>t<span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span>
+  <span style="color: #b6a0ff;">case</span> <span style="color: #6ae4b9;">STIsZero</span><span style="color: #b6a0ff;">(</span><span style="color: #00d3d0;">t</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #00bcff;">ULAbs</span><span style="color: #b6a0ff;">(</span><span style="color: #00bcff;">ULApp</span><span style="color: #6ae4b9;">(</span><span style="color: #00bcff;">ULApp</span><span style="color: #f0ce43;">(</span><span style="color: #00bcff;">ULVar</span><span style="color: #00bcff;">(</span><span style="color: #00bcff;">0</span><span style="color: #00bcff;">)</span>,<span style="color: #00bcff;">ULAbs</span><span style="color: #00bcff;">(</span>eraseTypes<span style="color: #80d200;">(</span><span style="color: #00bcff;">STFalse</span><span style="color: #80d200;">)</span><span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span>,eraseTypes<span style="color: #f0ce43;">(</span><span style="color: #00bcff;">STTrue</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span>
+  <span style="color: #b6a0ff;">case</span> <span style="color: #00bcff;">STTrue</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #b6a0ff;">(</span><span style="color: #00bcff;">ULAbs</span><span style="color: #6ae4b9;">(</span><span style="color: #00bcff;">ULAbs</span><span style="color: #f0ce43;">(</span><span style="color: #00bcff;">ULVar</span><span style="color: #00bcff;">(</span><span style="color: #00bcff;">1</span><span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span>
+  <span style="color: #b6a0ff;">case</span> <span style="color: #00bcff;">STFalse</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #b6a0ff;">(</span><span style="color: #00bcff;">ULAbs</span><span style="color: #6ae4b9;">(</span><span style="color: #00bcff;">ULAbs</span><span style="color: #f0ce43;">(</span><span style="color: #00bcff;">ULVar</span><span style="color: #00bcff;">(</span><span style="color: #00bcff;">0</span><span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span>
+  <span style="color: #b6a0ff;">case</span> <span style="color: #6ae4b9;">STTest</span><span style="color: #b6a0ff;">(</span><span style="color: #00d3d0;">b</span>,<span style="color: #00d3d0;">t1</span>,<span style="color: #00d3d0;">t2</span><span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">=&gt;</span> <span style="color: #b6a0ff;">(</span><span style="color: #00bcff;">ULAbs</span><span style="color: #6ae4b9;">(</span><span style="color: #00bcff;">ULAbs</span><span style="color: #f0ce43;">(</span><span style="color: #00bcff;">ULAbs</span><span style="color: #00bcff;">(</span><span style="color: #00bcff;">ULApp</span><span style="color: #80d200;">(</span><span style="color: #00bcff;">ULApp</span><span style="color: #f78fe7;">(</span><span style="color: #00bcff;">ULVar</span><span style="color: #4ae8fc;">(</span><span style="color: #00bcff;">2</span><span style="color: #4ae8fc;">)</span>,<span style="color: #00bcff;">ULVar</span><span style="color: #4ae8fc;">(</span><span style="color: #00bcff;">1</span><span style="color: #4ae8fc;">)</span><span style="color: #f78fe7;">)</span>,<span style="color: #00bcff;">ULVar</span><span style="color: #f78fe7;">(</span><span style="color: #00bcff;">0</span><span style="color: #f78fe7;">)</span><span style="color: #80d200;">)</span><span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span>
+<span style="color: #00cd68;">}</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-Sample-Ruby-solution" class="outline-3">
+<h3 id="Sample-Ruby-solution">Sample Ruby solution</h3>
+<div class="outline-text-3" id="text-Sample-Ruby-solution">
+<div class="org-src-container">
+<pre class="src src-ruby"><span style="color: #f78fe7;">require_relative</span> <span style="color: #79a8ff;">"a2_ulterm"</span>
+
+<span style="color: #b6a0ff;">class</span> <span style="color: #6ae4b9;">STType</span> <span style="color: #b6a0ff;">end</span>
+
+<span style="color: #b6a0ff;">class</span> <span style="color: #6ae4b9;">STNat</span> &lt; <span style="color: #6ae4b9;">STType</span>
+  <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Comparison and printing methods</span>
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">==</span><span style="color: #00cd68;">(</span>type<span style="color: #00cd68;">)</span>; type.is_a?<span style="color: #00cd68;">(</span><span style="color: #6ae4b9;">STNat</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">end</span>
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">to_s;</span> <span style="color: #79a8ff;">"nat"</span> <span style="color: #b6a0ff;">end</span>
+<span style="color: #b6a0ff;">end</span>
+
+<span style="color: #b6a0ff;">class</span> <span style="color: #6ae4b9;">STBool</span> &lt; <span style="color: #6ae4b9;">STType</span>
+  <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Comparison and printing methods</span>
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">==</span><span style="color: #00cd68;">(</span>type<span style="color: #00cd68;">)</span>; type.is_a?<span style="color: #00cd68;">(</span><span style="color: #6ae4b9;">STBool</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">end</span>
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">to_s;</span> <span style="color: #79a8ff;">"bool"</span> <span style="color: #b6a0ff;">end</span>
+<span style="color: #b6a0ff;">end</span>
+
+
+<span style="color: #b6a0ff;">class</span> <span style="color: #6ae4b9;">STFun</span> &lt; <span style="color: #6ae4b9;">STType</span>
+  <span style="color: #f78fe7;">attr_reader</span> <span style="color: #00bcff;">:dom</span>
+  <span style="color: #f78fe7;">attr_reader</span> <span style="color: #00bcff;">:codom</span>
+  
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">initialize</span><span style="color: #00cd68;">(</span>dom, codom<span style="color: #00cd68;">)</span>
+    <span style="color: #b6a0ff;">unless</span> dom.is_a?<span style="color: #00cd68;">(</span><span style="color: #6ae4b9;">STType</span><span style="color: #00cd68;">)</span> &amp;&amp; dom.is_a?<span style="color: #00cd68;">(</span><span style="color: #6ae4b9;">STType</span><span style="color: #00cd68;">)</span>
+      <span style="color: #f78fe7;">throw</span> <span style="color: #79a8ff;">"Constructing a type out of non-types"</span>
+    <span style="color: #b6a0ff;">end</span>
+    <span style="color: #00d3d0;">@dom</span> = dom; <span style="color: #00d3d0;">@codom</span> = codom
+  <span style="color: #b6a0ff;">end</span>
+
+  <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Comparison and printing methods</span>
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">==</span><span style="color: #00cd68;">(</span>type<span style="color: #00cd68;">)</span>; type.is_a?<span style="color: #00cd68;">(</span><span style="color: #6ae4b9;">STFun</span><span style="color: #00cd68;">)</span> &amp;&amp; type.dom == <span style="color: #00d3d0;">@dom</span> &amp;&amp; type.codom == <span style="color: #00d3d0;">@codom</span> <span style="color: #b6a0ff;">end</span> 
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">to_s;</span> <span style="color: #79a8ff;">"("</span> + dom.to_s + <span style="color: #79a8ff;">") -&gt; ("</span> + codom.to_s + <span style="color: #79a8ff;">")"</span> <span style="color: #b6a0ff;">end</span>
+<span style="color: #b6a0ff;">end</span>
+
+
+
+<span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">emptyEnv;</span> <span style="color: #f78fe7;">lambda</span> <span style="color: #00cd68;">{</span> |i| <span style="color: #f78fe7;">throw</span> <span style="color: #79a8ff;">"Typing an unbound variable"</span> <span style="color: #00cd68;">}</span> <span style="color: #b6a0ff;">end</span>
+  
+<span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">prependEnv</span><span style="color: #00cd68;">(</span>a, &amp;env<span style="color: #00cd68;">)</span>
+  <span style="color: #f78fe7;">lambda</span> <span style="color: #00cd68;">{</span> |i| <span style="color: #b6a0ff;">if</span> i == 0 <span style="color: #b6a0ff;">then</span> a <span style="color: #b6a0ff;">else</span> env.call<span style="color: #b6a0ff;">(</span>i<span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">end</span> <span style="color: #00cd68;">}</span>
+<span style="color: #b6a0ff;">end</span>
+
+
+
+<span style="color: #b6a0ff;">class</span> <span style="color: #6ae4b9;">STTerm</span>
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">typecheck</span>
+    <span style="color: #b6a0ff;">begin</span>
+      typeOf<span style="color: #00cd68;">(</span>&amp;emptyEnv<span style="color: #00cd68;">)</span>
+      <span style="color: #b6a0ff;">return</span> <span style="color: #00bcff;">true</span>
+    <span style="color: #b6a0ff;">rescue</span>
+      <span style="color: #b6a0ff;">return</span> <span style="color: #00bcff;">false</span>
+    <span style="color: #b6a0ff;">end</span>
+  <span style="color: #b6a0ff;">end</span>
+<span style="color: #b6a0ff;">end</span>
+
+
+<span style="color: #b6a0ff;">class</span> <span style="color: #6ae4b9;">STVar</span> &lt; <span style="color: #6ae4b9;">STTerm</span>
+  <span style="color: #f78fe7;">attr_reader</span> <span style="color: #00bcff;">:index</span>
+
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">initialize</span><span style="color: #00cd68;">(</span>i<span style="color: #00cd68;">)</span>
+    <span style="color: #b6a0ff;">unless</span> i.is_a?<span style="color: #00cd68;">(</span><span style="color: #6ae4b9;">Integer</span><span style="color: #00cd68;">)</span>
+      <span style="color: #f78fe7;">throw</span> <span style="color: #79a8ff;">"Constructing a lambda term out of non-lambda terms"</span>
+    <span style="color: #b6a0ff;">end</span>
+    <span style="color: #00d3d0;">@index</span> = i
+  <span style="color: #b6a0ff;">end</span>
+
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">to_s</span>
+    <span style="color: #00d3d0;">@index</span>.to_s
+  <span style="color: #b6a0ff;">end</span>
+
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">typeOf</span><span style="color: #00cd68;">(</span>&amp;env<span style="color: #00cd68;">)</span>
+    env.call<span style="color: #00cd68;">(</span><span style="color: #00d3d0;">@index</span><span style="color: #00cd68;">)</span>
+  <span style="color: #b6a0ff;">end</span>
+
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">eraseTypes;</span> <span style="color: #6ae4b9;">ULVar</span>.new<span style="color: #00cd68;">(</span><span style="color: #00d3d0;">@index</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">end</span>
+<span style="color: #b6a0ff;">end</span>
+
+
+<span style="color: #b6a0ff;">class</span> <span style="color: #6ae4b9;">STAbs</span> &lt; <span style="color: #6ae4b9;">STTerm</span>
+  <span style="color: #f78fe7;">attr_reader</span> <span style="color: #00bcff;">:type</span>
+  <span style="color: #f78fe7;">attr_reader</span> <span style="color: #00bcff;">:t</span>
+
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">initialize</span><span style="color: #00cd68;">(</span>a,t<span style="color: #00cd68;">)</span>
+    <span style="color: #b6a0ff;">unless</span> a.is_a?<span style="color: #00cd68;">(</span><span style="color: #6ae4b9;">STType</span><span style="color: #00cd68;">)</span> &amp;&amp; t.is_a?<span style="color: #00cd68;">(</span><span style="color: #6ae4b9;">STTerm</span><span style="color: #00cd68;">)</span>
+      <span style="color: #f78fe7;">throw</span> <span style="color: #79a8ff;">"Constructing a lambda term with a non-lambda term or a non-type"</span>
+    <span style="color: #b6a0ff;">end</span>
+    <span style="color: #00d3d0;">@type</span> = a
+    <span style="color: #00d3d0;">@t</span> = t
+  <span style="color: #b6a0ff;">end</span>
+  
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">to_s</span>
+    <span style="color: #79a8ff;">"lambda "</span> + <span style="color: #00d3d0;">@type</span>.to_s + <span style="color: #79a8ff;">" . "</span> + <span style="color: #00d3d0;">@t</span>.to_s
+  <span style="color: #b6a0ff;">end</span>
+
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">typeOf</span><span style="color: #00cd68;">(</span>&amp;env<span style="color: #00cd68;">)</span>
+    <span style="color: #6ae4b9;">STFun</span>.new<span style="color: #00cd68;">(</span><span style="color: #00d3d0;">@type</span>,<span style="color: #00d3d0;">@t</span>.typeOf<span style="color: #b6a0ff;">(</span>&amp;prependEnv<span style="color: #6ae4b9;">(</span><span style="color: #00d3d0;">@type</span>,&amp;env<span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+  <span style="color: #b6a0ff;">end</span>
+
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">eraseTypes;</span> <span style="color: #6ae4b9;">ULAbs</span>.new<span style="color: #00cd68;">(</span><span style="color: #00d3d0;">@t</span>.eraseTypes<span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">end</span>
+<span style="color: #b6a0ff;">end</span>
+
+
+<span style="color: #b6a0ff;">class</span> <span style="color: #6ae4b9;">STApp</span> &lt; <span style="color: #6ae4b9;">STTerm</span>
+  <span style="color: #f78fe7;">attr_reader</span> <span style="color: #00bcff;">:t1</span>
+  <span style="color: #f78fe7;">attr_reader</span> <span style="color: #00bcff;">:t2</span>
+
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">initialize</span><span style="color: #00cd68;">(</span>t1,t2<span style="color: #00cd68;">)</span>
+    <span style="color: #b6a0ff;">unless</span> t1.is_a?<span style="color: #00cd68;">(</span><span style="color: #6ae4b9;">STTerm</span><span style="color: #00cd68;">)</span> &amp;&amp; t2.is_a?<span style="color: #00cd68;">(</span><span style="color: #6ae4b9;">STTerm</span><span style="color: #00cd68;">)</span>
+      <span style="color: #f78fe7;">throw</span> <span style="color: #79a8ff;">"Constructing a lambda term out of non-lambda terms"</span>
+    <span style="color: #b6a0ff;">end</span>
+    <span style="color: #00d3d0;">@t1</span> = t1; <span style="color: #00d3d0;">@t2</span> = t2
+  <span style="color: #b6a0ff;">end</span>
+  
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">to_s</span>
+    <span style="color: #79a8ff;">"("</span> + <span style="color: #00d3d0;">@t1</span>.to_s + <span style="color: #79a8ff;">") ("</span> + <span style="color: #00d3d0;">@t2</span>.to_s + <span style="color: #79a8ff;">")"</span> 
+  <span style="color: #b6a0ff;">end</span>
+
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">typeOf</span><span style="color: #00cd68;">(</span>&amp;env<span style="color: #00cd68;">)</span>
+    t1_type = <span style="color: #00d3d0;">@t1</span>.typeOf<span style="color: #00cd68;">(</span>&amp;env<span style="color: #00cd68;">)</span>
+    a1 = t1_type.dom
+    b = t1_type.codom
+    a2 = <span style="color: #00d3d0;">@t2</span>.typeOf<span style="color: #00cd68;">(</span>&amp;env<span style="color: #00cd68;">)</span>
+
+    <span style="color: #b6a0ff;">if</span> a1 == a2 <span style="color: #b6a0ff;">then</span> b <span style="color: #b6a0ff;">else</span> <span style="color: #f78fe7;">throw</span> <span style="color: #79a8ff;">"Applying the wrong type of value to an abstraction"</span> <span style="color: #b6a0ff;">end</span>
+  <span style="color: #b6a0ff;">end</span>
+
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">eraseTypes;</span> <span style="color: #6ae4b9;">ULApp</span>.new<span style="color: #00cd68;">(</span><span style="color: #00d3d0;">@t1</span>.eraseTypes, <span style="color: #00d3d0;">@t2</span>.eraseTypes<span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">end</span>
+<span style="color: #b6a0ff;">end</span>
+
+
+<span style="color: #b6a0ff;">class</span> <span style="color: #6ae4b9;">STZero</span> &lt; <span style="color: #6ae4b9;">STTerm</span>
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">to_s;</span> <span style="color: #79a8ff;">"zero"</span> <span style="color: #b6a0ff;">end</span>
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">typeOf</span><span style="color: #00cd68;">(</span>&amp;env<span style="color: #00cd68;">)</span>; <span style="color: #6ae4b9;">STNat</span>.new <span style="color: #b6a0ff;">end</span>
+
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">eraseTypes;</span> <span style="color: #6ae4b9;">ULAbs</span>.new<span style="color: #00cd68;">(</span><span style="color: #6ae4b9;">ULAbs</span>.new<span style="color: #b6a0ff;">(</span><span style="color: #6ae4b9;">ULVar</span>.new<span style="color: #6ae4b9;">(</span>0<span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">end</span>
+<span style="color: #b6a0ff;">end</span>
+
+
+<span style="color: #b6a0ff;">class</span> <span style="color: #6ae4b9;">STSuc</span> &lt; <span style="color: #6ae4b9;">STTerm</span>
+  <span style="color: #f78fe7;">attr_reader</span> <span style="color: #00bcff;">:t</span>
+
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">initialize</span><span style="color: #00cd68;">(</span>t<span style="color: #00cd68;">)</span>; <span style="color: #00d3d0;">@t</span> = t <span style="color: #b6a0ff;">end</span>
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">to_s;</span> <span style="color: #79a8ff;">"suc "</span> + <span style="color: #00d3d0;">@t</span>.to_s <span style="color: #b6a0ff;">end</span>
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">typeOf</span><span style="color: #00cd68;">(</span>&amp;env<span style="color: #00cd68;">)</span>
+    <span style="color: #f78fe7;">throw</span> <span style="color: #79a8ff;">"Applying successor to a non-natural"</span> <span style="color: #b6a0ff;">unless</span> <span style="color: #00d3d0;">@t</span>.typeOf<span style="color: #00cd68;">(</span>&amp;env<span style="color: #00cd68;">)</span> == <span style="color: #6ae4b9;">STNat</span>.new
+    <span style="color: #6ae4b9;">STNat</span>.new
+  <span style="color: #b6a0ff;">end</span>
+
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">eraseTypes</span>
+    <span style="color: #6ae4b9;">ULApp</span>.new<span style="color: #00cd68;">(</span>
+      <span style="color: #6ae4b9;">ULAbs</span>.new<span style="color: #b6a0ff;">(</span> <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">lambda n</span>
+        <span style="color: #6ae4b9;">ULAbs</span>.new<span style="color: #6ae4b9;">(</span> <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">lambda s</span>
+          <span style="color: #6ae4b9;">ULAbs</span>.new<span style="color: #f0ce43;">(</span> <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">lambda z</span>
+            <span style="color: #6ae4b9;">ULApp</span>.new<span style="color: #00bcff;">(</span><span style="color: #6ae4b9;">ULVar</span>.new<span style="color: #80d200;">(</span>1<span style="color: #80d200;">)</span>, <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">s</span>
+                      <span style="color: #6ae4b9;">ULApp</span>.new<span style="color: #80d200;">(</span><span style="color: #6ae4b9;">ULApp</span>.new<span style="color: #f78fe7;">(</span><span style="color: #6ae4b9;">ULVar</span>.new<span style="color: #4ae8fc;">(</span>2<span style="color: #4ae8fc;">)</span>,  <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">n</span>
+                                          <span style="color: #6ae4b9;">ULVar</span>.new<span style="color: #4ae8fc;">(</span>1<span style="color: #4ae8fc;">)</span><span style="color: #f78fe7;">)</span>, <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">s</span>
+                                <span style="color: #6ae4b9;">ULVar</span>.new<span style="color: #f78fe7;">(</span>0<span style="color: #f78fe7;">)</span><span style="color: #80d200;">)</span><span style="color: #00bcff;">)</span><span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span>, <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">z</span>
+      <span style="color: #00d3d0;">@t</span>.eraseTypes<span style="color: #00cd68;">)</span>
+  <span style="color: #b6a0ff;">end</span>
+<span style="color: #b6a0ff;">end</span>
+
+
+<span style="color: #b6a0ff;">class</span> <span style="color: #6ae4b9;">STIsZero</span> &lt; <span style="color: #6ae4b9;">STTerm</span>
+  <span style="color: #f78fe7;">attr_reader</span> <span style="color: #00bcff;">:t</span>
+
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">initialize</span><span style="color: #00cd68;">(</span>t<span style="color: #00cd68;">)</span>; <span style="color: #00d3d0;">@t</span> = t <span style="color: #b6a0ff;">end</span>
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">to_s;</span> <span style="color: #79a8ff;">"iszero "</span> + <span style="color: #00d3d0;">@t</span>.to_s <span style="color: #b6a0ff;">end</span>
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">typeOf</span><span style="color: #00cd68;">(</span>&amp;env<span style="color: #00cd68;">)</span>
+    <span style="color: #f78fe7;">throw</span> <span style="color: #79a8ff;">"Applying iszero to a non-natural"</span> <span style="color: #b6a0ff;">unless</span> <span style="color: #00d3d0;">@t</span>.typeOf<span style="color: #00cd68;">(</span>&amp;env<span style="color: #00cd68;">)</span> == <span style="color: #6ae4b9;">STNat</span>.new
+    <span style="color: #6ae4b9;">STBool</span>.new
+  <span style="color: #b6a0ff;">end</span>
+
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">eraseTypes</span>
+    tru = <span style="color: #6ae4b9;">STTrue</span>.eraseTypes
+    fls = <span style="color: #6ae4b9;">STFalse</span>.eraseTypes
+    test = <span style="color: #6ae4b9;">ULAbs</span>.new<span style="color: #00cd68;">(</span><span style="color: #6ae4b9;">ULApp</span>.new<span style="color: #b6a0ff;">(</span><span style="color: #6ae4b9;">ULApp</span>.new<span style="color: #6ae4b9;">(</span><span style="color: #6ae4b9;">ULVar</span>.new<span style="color: #f0ce43;">(</span>0<span style="color: #f0ce43;">)</span>,<span style="color: #6ae4b9;">ULAbs</span>.new<span style="color: #f0ce43;">(</span>fls<span style="color: #f0ce43;">)</span><span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span>,tru<span style="color: #00cd68;">)</span>
+    
+    ULApp<span style="color: #00cd68;">(</span>test,<span style="color: #00d3d0;">@t</span>.eraseTypes<span style="color: #00cd68;">)</span>
+  <span style="color: #b6a0ff;">end</span>
+<span style="color: #b6a0ff;">end</span>
+
+
+<span style="color: #b6a0ff;">class</span> <span style="color: #6ae4b9;">STTrue</span> &lt; <span style="color: #6ae4b9;">STTerm</span>
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">to_s;</span> <span style="color: #79a8ff;">"true"</span> <span style="color: #b6a0ff;">end</span>
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">typeOf</span><span style="color: #00cd68;">(</span>&amp;env<span style="color: #00cd68;">)</span>; <span style="color: #6ae4b9;">STBool</span>.new <span style="color: #b6a0ff;">end</span>
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">eraseTypes;</span> <span style="color: #6ae4b9;">ULAbs</span>.new<span style="color: #00cd68;">(</span><span style="color: #6ae4b9;">ULAbs</span>.new<span style="color: #b6a0ff;">(</span><span style="color: #6ae4b9;">ULVar</span>.new<span style="color: #6ae4b9;">(</span>1<span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">end</span>
+<span style="color: #b6a0ff;">end</span>
+
+
+<span style="color: #b6a0ff;">class</span> <span style="color: #6ae4b9;">STFalse</span> &lt; <span style="color: #6ae4b9;">STTerm</span>
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">to_s;</span> <span style="color: #79a8ff;">"false"</span> <span style="color: #b6a0ff;">end</span>
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">typeOf</span><span style="color: #00cd68;">(</span>&amp;env<span style="color: #00cd68;">)</span>; <span style="color: #6ae4b9;">STBool</span>.new <span style="color: #b6a0ff;">end</span>
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">eraseTypes;</span> <span style="color: #6ae4b9;">ULAbs</span>.new<span style="color: #00cd68;">(</span><span style="color: #6ae4b9;">ULAbs</span>.new<span style="color: #b6a0ff;">(</span><span style="color: #6ae4b9;">ULVar</span>.new<span style="color: #6ae4b9;">(</span>0<span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">end</span>
+<span style="color: #b6a0ff;">end</span>
+
+
+<span style="color: #b6a0ff;">class</span> <span style="color: #6ae4b9;">STTest</span> &lt; <span style="color: #6ae4b9;">STTerm</span>
+  <span style="color: #f78fe7;">attr_reader</span> <span style="color: #00bcff;">:b</span>
+  <span style="color: #f78fe7;">attr_reader</span> <span style="color: #00bcff;">:t1</span>
+  <span style="color: #f78fe7;">attr_reader</span> <span style="color: #00bcff;">:t2</span>
+
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">initialize</span><span style="color: #00cd68;">(</span>b,t1,t2<span style="color: #00cd68;">)</span>; <span style="color: #00d3d0;">@b</span> = b; <span style="color: #00d3d0;">@t1</span> = t1; <span style="color: #00d3d0;">@t2</span> = t2 <span style="color: #b6a0ff;">end</span>
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">to_s;</span> <span style="color: #79a8ff;">"test "</span> + <span style="color: #00d3d0;">@b</span>.to_s + <span style="color: #79a8ff;">" "</span> + <span style="color: #00d3d0;">@t1</span>.to_s + <span style="color: #79a8ff;">" "</span> + <span style="color: #00d3d0;">@t2</span>.to_s <span style="color: #b6a0ff;">end</span>
+
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">typeOf</span><span style="color: #00cd68;">(</span>&amp;env<span style="color: #00cd68;">)</span>
+    
+    <span style="color: #f78fe7;">throw</span> <span style="color: #79a8ff;">"Testing a non-boolean"</span> <span style="color: #b6a0ff;">unless</span> <span style="color: #00d3d0;">@b</span>.typeOf == <span style="color: #6ae4b9;">STBool</span>.new
+    
+    a1 = <span style="color: #00d3d0;">@t1</span>.typeOf<span style="color: #00cd68;">(</span>&amp;env<span style="color: #00cd68;">)</span>
+    a2 = <span style="color: #00d3d0;">@t2</span>.typeOf<span style="color: #00cd68;">(</span>&amp;env<span style="color: #00cd68;">)</span>
+    
+    <span style="color: #f78fe7;">throw</span> <span style="color: #79a8ff;">"Types of branches do not match"</span> <span style="color: #b6a0ff;">unless</span> a1 == a2
+
+    a1
+  <span style="color: #b6a0ff;">end</span>
+
+  <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">eraseTypes</span>
+    lmn = <span style="color: #6ae4b9;">ULApp</span>.new<span style="color: #00cd68;">(</span><span style="color: #6ae4b9;">ULApp</span>.new<span style="color: #b6a0ff;">(</span><span style="color: #6ae4b9;">ULVar</span>.new<span style="color: #6ae4b9;">(</span>2<span style="color: #6ae4b9;">)</span>, <span style="color: #6ae4b9;">ULVar</span>.new<span style="color: #6ae4b9;">(</span>1<span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span>, <span style="color: #6ae4b9;">ULVar</span>.new<span style="color: #b6a0ff;">(</span>0<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+    test = <span style="color: #6ae4b9;">ULAbs</span>.new<span style="color: #00cd68;">(</span> <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">lambda l .</span>
+             <span style="color: #6ae4b9;">ULAbs</span>.new<span style="color: #b6a0ff;">(</span> <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">lambda m .</span>
+               <span style="color: #6ae4b9;">ULAbs</span>.new<span style="color: #6ae4b9;">(</span> <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">lambda n .</span>
+                 lmn<span style="color: #6ae4b9;">)</span><span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
+    
+    <span style="color: #a8a8a8;"># </span><span style="color: #a8a8a8;">Apply test to the condition and branches</span>
+    <span style="color: #6ae4b9;">ULApp</span>.new<span style="color: #00cd68;">(</span>
+      <span style="color: #6ae4b9;">ULApp</span>.new<span style="color: #b6a0ff;">(</span>
+        <span style="color: #6ae4b9;">ULApp</span>.new<span style="color: #6ae4b9;">(</span>test,
+                  <span style="color: #00d3d0;">@b</span>.eraseTypes<span style="color: #6ae4b9;">)</span>,
+        <span style="color: #00d3d0;">@t1</span>.eraseTypes<span style="color: #b6a0ff;">)</span>,
+      <span style="color: #00d3d0;">@t2</span>.eraseTypes<span style="color: #00cd68;">)</span>
+  <span style="color: #b6a0ff;">end</span>
+<span style="color: #b6a0ff;">end</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Mark Armstrong</p>
      <p class="author">Contact: <a href="mailto:armstmp@mcmaster.ca">armstmp@mcmaster.ca</a></p>
      <p class="date">Original date: October 30th, 2020</p>
-     <p class="date">Last updated: 2020-11-25 Wed 23:36</p>
+     <p class="date">Last updated: 2020-12-17 Thu 00:15</p>
      <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.90 (<a href="https://orgmode.org">Org</a> mode 9.4)</p>
      <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

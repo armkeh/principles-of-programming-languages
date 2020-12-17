@@ -43,6 +43,11 @@ so you may check if your marks are missing or simply not released yet.
 :CUSTOM_ID: December
 :END:
 
+- December 17th ::
+
+  - Sample solutions are now posted for assignment 2,
+    in the assignment documents.
+
 - December 16th ::
 
   - Some corrections have been made to the assignment 3 descriptions,

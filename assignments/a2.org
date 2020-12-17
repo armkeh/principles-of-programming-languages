@@ -1241,3 +1241,358 @@ docker-compose up --force-recreate
 # Stop the container after finishing the test run
 docker-compose stop -t 1
 #+end_src
+
+* Sample solutions
+:PROPERTIES:
+:CUSTOM_ID: Sample-solutions
+:END:
+
+** Sample Scala solution
+:PROPERTIES:
+:CUSTOM_ID: Sample-Scala-solution
+:END:
+
+#+begin_src amm :tangle ./docker/a2/a2.sc
+import $file.a2_ulterm, a2_ulterm._
+
+sealed trait STType
+case object STNat extends STType {
+  override def toString() = "Nat"
+}
+case object STBool extends STType {
+  override def toString() = "Bool"
+}
+case class STFun(dom: STType, codom: STType) extends STType {
+  override def toString() = "(" + dom.toString + ") -> (" + codom.toString + ")"
+}
+
+
+
+sealed trait STTerm
+case class STVar(index: Int) extends STTerm {
+  override def toString() = index.toString()
+}
+case class STAbs(a: STType, t: STTerm) extends STTerm {
+  override def toString() = "lambda: " + a.toString + " . " + t.toString()
+}
+case class STApp(t1: STTerm, t2: STTerm) extends STTerm {
+  override def toString() = "(" + t1.toString() + ") (" + t2.toString() + ")"
+}
+case object STZero extends STTerm {
+  override def toString() = "zero"
+}
+case class STSuc(t: STTerm) extends STTerm {
+  override def toString() = "suc " + t.toString
+}
+case class STIsZero(t: STTerm) extends STTerm {
+  override def toString() = "iszero " + t.toString
+}
+case object STTrue extends STTerm {
+  override def toString() = "true"
+}
+case object STFalse extends STTerm {
+  override def toString() = "false"
+}
+case class STTest(b: STTerm, t1: STTerm, t2: STTerm) extends STTerm {
+  override def toString() =
+    "test (" + b.toString + ") (" + t1.toString + ") (" + t2.toString + ")"
+}
+
+def emptyEnv(): Int => Option[STType] = _ => None
+
+def prependEnv(a: STType, env: Int => Option[STType]): Int => Option[STType] = {
+  i => i match {
+    case 0 => Some(a)
+    case n => env(n-1)
+  }
+}
+
+def typeOf(t: STTerm, env: Int => Option[STType]): Option[STType] =
+  t match {
+    case STVar(i) =>
+      // Return the type of the variable if it is in the environment (is bound).
+      // Otherwise, return None. Note the env function already returns None
+      // for variables not in the environment.
+      env(i)
+    case STAbs(a, t) =>
+      // Check the type of the body, with this variable's type
+      // prepended to the environment.
+      // If the body has type b, then this abstraction has type a -> b.
+      typeOf(t, prependEnv(a,env)).flatMap(b => Some(STFun(a,b)))
+    case STApp(t1, t2) => (typeOf(t1,env), typeOf(t2,env)) match {
+      case (Some(STFun(a1,b)), Some(a2)) if a1 == a2 => Some(b)
+      case _  => None 
+    }
+    case STZero => Some(STNat)
+    case STSuc(t) =>
+      typeOf(t,env).flatMap(a => a match {
+        case STNat => Some(STNat);
+        case _ => None
+      })
+    case STIsZero(t) =>
+      typeOf(t,env).flatMap(a => a match {
+        case STNat => Some(STBool);
+        case _ => None
+      })
+    case STTrue  => Some(STBool)
+    case STFalse => Some(STBool)
+    case STTest(b,t1,t2) => (typeOf(b,env), typeOf(t1,env), typeOf(t2,env)) match {
+      case (Some(STBool), Some(a1), Some(a2)) if a1 == a2 => Some(a1)
+      case _  => None 
+    }
+  }
+
+def typecheck(t: STTerm): Boolean = typeOf(t,emptyEnv()).isDefined
+
+def eraseTypes(t: STTerm): ULTerm = t match {
+  case STVar(i) => ULVar(i)
+  case STAbs(a,t) => ULAbs(eraseTypes(t))
+  case STApp(t1,t2) => ULApp(eraseTypes(t1),eraseTypes(t2))
+  case STZero => ULAbs(ULAbs(ULVar(0)))
+  case STSuc(t) =>
+    ULApp(ULAbs(ULAbs(ULAbs(ULApp(ULVar(1),ULApp(ULApp(ULVar(2),ULVar(1)),ULVar(0)))))),
+          eraseTypes(t))
+  case STIsZero(t) => ULAbs(ULApp(ULApp(ULVar(0),ULAbs(eraseTypes(STFalse))),eraseTypes(STTrue)))
+  case STTrue => (ULAbs(ULAbs(ULVar(1))))
+  case STFalse => (ULAbs(ULAbs(ULVar(0))))
+  case STTest(b,t1,t2) => (ULAbs(ULAbs(ULAbs(ULApp(ULApp(ULVar(2),ULVar(1)),ULVar(0))))))
+}
+#+end_src
+** Sample Ruby solution
+:PROPERTIES:
+:CUSTOM_ID: Sample-Ruby-solution
+:END:
+
+#+begin_src ruby :results output :tangle ./docker/a2/a2.rb
+require_relative "a2_ulterm"
+
+class STType end
+
+class STNat < STType
+  # Comparison and printing methods
+  def ==(type); type.is_a?(STNat) end
+  def to_s; "nat" end
+end
+
+class STBool < STType
+  # Comparison and printing methods
+  def ==(type); type.is_a?(STBool) end
+  def to_s; "bool" end
+end
+
+
+class STFun < STType
+  attr_reader :dom
+  attr_reader :codom
+  
+  def initialize(dom, codom)
+    unless dom.is_a?(STType) && dom.is_a?(STType)
+      throw "Constructing a type out of non-types"
+    end
+    @dom = dom; @codom = codom
+  end
+
+  # Comparison and printing methods
+  def ==(type); type.is_a?(STFun) && type.dom == @dom && type.codom == @codom end 
+  def to_s; "(" + dom.to_s + ") -> (" + codom.to_s + ")" end
+end
+
+
+
+def emptyEnv; lambda { |i| throw "Typing an unbound variable" } end
+  
+def prependEnv(a, &env)
+  lambda { |i| if i == 0 then a else env.call(i) end }
+end
+
+
+
+class STTerm
+  def typecheck
+    begin
+      typeOf(&emptyEnv)
+      return true
+    rescue
+      return false
+    end
+  end
+end
+
+
+class STVar < STTerm
+  attr_reader :index
+
+  def initialize(i)
+    unless i.is_a?(Integer)
+      throw "Constructing a lambda term out of non-lambda terms"
+    end
+    @index = i
+  end
+
+  def to_s
+    @index.to_s
+  end
+
+  def typeOf(&env)
+    env.call(@index)
+  end
+
+  def eraseTypes; ULVar.new(@index) end
+end
+
+
+class STAbs < STTerm
+  attr_reader :type
+  attr_reader :t
+
+  def initialize(a,t)
+    unless a.is_a?(STType) && t.is_a?(STTerm)
+      throw "Constructing a lambda term with a non-lambda term or a non-type"
+    end
+    @type = a
+    @t = t
+  end
+  
+  def to_s
+    "lambda " + @type.to_s + " . " + @t.to_s
+  end
+
+  def typeOf(&env)
+    STFun.new(@type,@t.typeOf(&prependEnv(@type,&env)))
+  end
+
+  def eraseTypes; ULAbs.new(@t.eraseTypes) end
+end
+
+
+class STApp < STTerm
+  attr_reader :t1
+  attr_reader :t2
+
+  def initialize(t1,t2)
+    unless t1.is_a?(STTerm) && t2.is_a?(STTerm)
+      throw "Constructing a lambda term out of non-lambda terms"
+    end
+    @t1 = t1; @t2 = t2
+  end
+  
+  def to_s
+    "(" + @t1.to_s + ") (" + @t2.to_s + ")" 
+  end
+
+  def typeOf(&env)
+    t1_type = @t1.typeOf(&env)
+    a1 = t1_type.dom
+    b = t1_type.codom
+    a2 = @t2.typeOf(&env)
+
+    if a1 == a2 then b else throw "Applying the wrong type of value to an abstraction" end
+  end
+
+  def eraseTypes; ULApp.new(@t1.eraseTypes, @t2.eraseTypes) end
+end
+
+
+class STZero < STTerm
+  def to_s; "zero" end
+  def typeOf(&env); STNat.new end
+
+  def eraseTypes; ULAbs.new(ULAbs.new(ULVar.new(0))) end
+end
+
+
+class STSuc < STTerm
+  attr_reader :t
+
+  def initialize(t); @t = t end
+  def to_s; "suc " + @t.to_s end
+  def typeOf(&env)
+    throw "Applying successor to a non-natural" unless @t.typeOf(&env) == STNat.new
+    STNat.new
+  end
+
+  def eraseTypes
+    ULApp.new(
+      ULAbs.new( # lambda n
+        ULAbs.new( # lambda s
+          ULAbs.new( # lambda z
+            ULApp.new(ULVar.new(1), # s
+                      ULApp.new(ULApp.new(ULVar.new(2),  # n
+                                          ULVar.new(1)), # s
+                                ULVar.new(0)))))), # z
+      @t.eraseTypes)
+  end
+end
+
+
+class STIsZero < STTerm
+  attr_reader :t
+
+  def initialize(t); @t = t end
+  def to_s; "iszero " + @t.to_s end
+  def typeOf(&env)
+    throw "Applying iszero to a non-natural" unless @t.typeOf(&env) == STNat.new
+    STBool.new
+  end
+
+  def eraseTypes
+    tru = STTrue.eraseTypes
+    fls = STFalse.eraseTypes
+    test = ULAbs.new(ULApp.new(ULApp.new(ULVar.new(0),ULAbs.new(fls))),tru)
+    
+    ULApp(test,@t.eraseTypes)
+  end
+end
+
+
+class STTrue < STTerm
+  def to_s; "true" end
+  def typeOf(&env); STBool.new end
+  def eraseTypes; ULAbs.new(ULAbs.new(ULVar.new(1))) end
+end
+
+
+class STFalse < STTerm
+  def to_s; "false" end
+  def typeOf(&env); STBool.new end
+  def eraseTypes; ULAbs.new(ULAbs.new(ULVar.new(0))) end
+end
+
+
+class STTest < STTerm
+  attr_reader :b
+  attr_reader :t1
+  attr_reader :t2
+
+  def initialize(b,t1,t2); @b = b; @t1 = t1; @t2 = t2 end
+  def to_s; "test " + @b.to_s + " " + @t1.to_s + " " + @t2.to_s end
+
+  def typeOf(&env)
+    
+    throw "Testing a non-boolean" unless @b.typeOf == STBool.new
+    
+    a1 = @t1.typeOf(&env)
+    a2 = @t2.typeOf(&env)
+    
+    throw "Types of branches do not match" unless a1 == a2
+
+    a1
+  end
+
+  def eraseTypes
+    lmn = ULApp.new(ULApp.new(ULVar.new(2), ULVar.new(1)), ULVar.new(0))
+    test = ULAbs.new( # lambda l .
+             ULAbs.new( # lambda m .
+               ULAbs.new( # lambda n .
+                 lmn)))
+    
+    # Apply test to the condition and branches
+    ULApp.new(
+      ULApp.new(
+        ULApp.new(test,
+                  @b.eraseTypes),
+        @t1.eraseTypes),
+      @t2.eraseTypes)
+  end
+end
+#+end_src

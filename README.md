@@ -34,6 +34,11 @@ yet.
 
 ## December
 
+  - December 17th
+    
+      - Sample solutions are now posted for assignment 2, in the
+        assignment documents.
+
   - December 16th
     
       - Some corrections have been made to the assignment 3
