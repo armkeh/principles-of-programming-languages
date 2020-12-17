@@ -31,7 +31,20 @@ and defining various semantics for it.
 :CUSTOM_ID: Updates-and-file-history
 :END:
 
+** December 17th
+:PROPERTIES:
+:CUSTOM_ID: December-17th
+:END:
+
+- A definition for a record type called ~Config~ was added
+  to part 3 (the Clojure part.)
+  This is the record used as input and output for the ~reduce~ function
+  in the testing (I mistakenly did not add mention of it here earlier.)
+
 ** December 16th
+:PROPERTIES:
+:CUSTOM_ID: December-16th
+:END:
 
 Some corrections have been made to the assignment description,
 and unfortunately to some of the test cases.
@@ -303,6 +316,17 @@ These should behave equivalently to the methods of the same name
 described in part 2 (returning anonymous functions.)
 (Once again, only the ~emptyState~ method is needed
  during testing.)
+
+(Added December 17th.)
+The testing code makes use of a record called ~Config~ for the
+argument (and return type) of the ~reduce~ function.
+This record type was mistakenly not shared with you previously.
+Here is a definition for it.
+#+begin_src clojure
+(defrecord Config [stmt sig])
+#+end_src
+For your code to be compatible with the tests, you should
+use this record type as both the input and output for ~reduce~.
 
 * Part 4 – The big-step semantics of /GCLe/ in Ruby       [40 marks]
 :PROPERTIES:

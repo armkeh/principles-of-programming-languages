@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-12-16 Wed 03:21 -->
+<!-- 2020-12-17 Thu 17:09 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Computer Science 3MI3 – 2020 assignment 3</title>
@@ -239,6 +239,7 @@ various versions of the guarded command language."
 <li><a href="#Introduction">Introduction</a></li>
 <li><a href="#Updates-and-file-history">Updates and file history</a>
 <ul>
+<li><a href="#December-17th">December 17th</a></li>
 <li><a href="#December-16th">December 16th</a></li>
 <li><a href="#December-11th">December 11th</a></li>
 <li><a href="#December-1st">December 1st</a></li>
@@ -249,7 +250,7 @@ various versions of the guarded command language."
 <li><a href="#Submission-procedures">Documentation</a></li>
 <li><a href="#Submission-procedures">Submission procedures</a>
 <ul>
-<li><a href="#org673ed49">Assignment naming requirements</a></li>
+<li><a href="#orgcf98863">Assignment naming requirements</a></li>
 </ul>
 </li>
 <li><a href="#Proper-conduct-for-coursework">Proper conduct for coursework</a></li>
@@ -298,6 +299,18 @@ and defining various semantics for it.
 <div id="outline-container-Updates-and-file-history" class="outline-2">
 <h2 id="Updates-and-file-history">Updates and file history</h2>
 <div class="outline-text-2" id="text-Updates-and-file-history">
+</div>
+
+<div id="outline-container-December-17th" class="outline-3">
+<h3 id="December-17th">December 17th</h3>
+<div class="outline-text-3" id="text-December-17th">
+<ul class="org-ul">
+<li>A definition for a record type called <code>Config</code> was added
+to part 3 (the Clojure part.)
+This is the record used as input and output for the <code>reduce</code> function
+in the testing (I mistakenly did not add mention of it here earlier.)</li>
+</ul>
+</div>
 </div>
 
 <div id="outline-container-December-16th" class="outline-3">
@@ -449,9 +462,9 @@ apply to assignments, except for the differences below.
 </p>
 </div>
 
-<div id="outline-container-org673ed49" class="outline-4">
-<h4 id="org673ed49">Assignment naming requirements</h4>
-<div class="outline-text-4" id="text-org673ed49">
+<div id="outline-container-orgcf98863" class="outline-4">
+<h4 id="orgcf98863">Assignment naming requirements</h4>
+<div class="outline-text-4" id="text-orgcf98863">
 <p>
 Place all files for the assignment
 inside a folder titled <code>an</code>, where <code>n</code> is the number of the assignment.
@@ -767,6 +780,22 @@ These should behave equivalently to the methods of the same name
 described in part 2 (returning anonymous functions.)
 (Once again, only the <code>emptyState</code> method is needed
  during testing.)
+</p>
+
+<p>
+(Added December 17th.)
+The testing code makes use of a record called <code>Config</code> for the
+argument (and return type) of the <code>reduce</code> function.
+This record type was mistakenly not shared with you previously.
+Here is a definition for it.
+</p>
+<div class="org-src-container">
+<pre class="src src-clojure"><span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">defrecord</span> <span style="color: #6ae4b9;">Config</span> <span style="color: #b6a0ff;">[</span>stmt sig<span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span>
+</pre>
+</div>
+<p>
+For your code to be compatible with the tests, you should
+use this record type as both the input and output for <code>reduce</code>.
 </p>
 </div>
 </div>
@@ -1301,10 +1330,10 @@ docker-compose stop -t 1
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Mark Armstrong</p>
-     <p class="author">Contact: <a href="mailto:markparmstrong@gmail.com">markparmstrong@gmail.com</a></p>
+     <p class="author">Contact: <a href="mailto:armstmp@mcmaster.ca">armstmp@mcmaster.ca</a></p>
      <p class="date">Original date: December 2, 2020</p>
-     <p class="date">Last updated: 2020-12-16 Wed 03:19</p>
-     <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.91 (<a href="https://orgmode.org">Org</a> mode 9.4.2)</p>
+     <p class="date">Last updated: 2020-12-17 Thu 17:09</p>
+     <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.90 (<a href="https://orgmode.org">Org</a> mode 9.4)</p>
      <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

@@ -45,6 +45,9 @@ so you may check if your marks are missing or simply not released yet.
 
 - December 17th ::
 
+  - A missing Clojure record type definition, the ~Config~ record
+    used in the testing, has been added to the assignment 3 document.
+
   - Over the last week in particular, I got very behind in responding
     to emails and messages. I believe I am now fully caught up.
     If you have tried to get in touch with me about anything
