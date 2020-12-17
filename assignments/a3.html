@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-12-17 Thu 17:09 -->
+<!-- 2020-12-17 Thu 18:00 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Computer Science 3MI3 – 2020 assignment 3</title>
@@ -250,7 +250,7 @@ various versions of the guarded command language."
 <li><a href="#Submission-procedures">Documentation</a></li>
 <li><a href="#Submission-procedures">Submission procedures</a>
 <ul>
-<li><a href="#orgcf98863">Assignment naming requirements</a></li>
+<li><a href="#orgf75a39d">Assignment naming requirements</a></li>
 </ul>
 </li>
 <li><a href="#Proper-conduct-for-coursework">Proper conduct for coursework</a></li>
@@ -305,6 +305,12 @@ and defining various semantics for it.
 <h3 id="December-17th">December 17th</h3>
 <div class="outline-text-3" id="text-December-17th">
 <ul class="org-ul">
+<li>An additional problem with the testing was discovered.
+In the test for part 4 named <code>test_two_possible_assignments_part2</code>,
+the test checked if that value <code>0</code> could be assigned to variable <code>:y</code>.
+This should not be; this test and the preceding on should check
+if <code>1</code> and <code>2</code> can be assigned to <code>:y</code>.</li>
+
 <li>A definition for a record type called <code>Config</code> was added
 to part 3 (the Clojure part.)
 This is the record used as input and output for the <code>reduce</code> function
@@ -462,9 +468,9 @@ apply to assignments, except for the differences below.
 </p>
 </div>
 
-<div id="outline-container-orgcf98863" class="outline-4">
-<h4 id="orgcf98863">Assignment naming requirements</h4>
-<div class="outline-text-4" id="text-orgcf98863">
+<div id="outline-container-orgf75a39d" class="outline-4">
+<h4 id="orgf75a39d">Assignment naming requirements</h4>
+<div class="outline-text-4" id="text-orgf75a39d">
 <p>
 Place all files for the assignment
 inside a folder titled <code>an</code>, where <code>n</code> is the number of the assignment.
@@ -796,6 +802,13 @@ Here is a definition for it.
 <p>
 For your code to be compatible with the tests, you should
 use this record type as both the input and output for <code>reduce</code>.
+</p>
+
+<p>
+Note that the <code>reduce</code> function was always stated to return both
+the remaining code to be run and the updated memory state.
+Bundling these two return values is the purpose of this record,
+and since it exists, it may as well be used as the argument type as well.
 </p>
 </div>
 </div>
@@ -1145,7 +1158,7 @@ to run the commands contained in those scripts manually.
     results = <span style="color: #00cd68;">[]</span>
     50.times <span style="color: #b6a0ff;">do</span> results.push<span style="color: #00cd68;">(</span><span style="color: #6ae4b9;">GCLe</span>::eval<span style="color: #b6a0ff;">(</span>the_program<span style="color: #b6a0ff;">)[</span><span style="color: #00bcff;">:y</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">end</span>
   
-    assert_equal<span style="color: #00cd68;">(</span><span style="color: #00bcff;">true</span>,results.include?<span style="color: #b6a0ff;">(</span>2<span style="color: #b6a0ff;">)</span>, <span style="color: #79a8ff;">"An if statement which randomly assigns 1 or 2 never assigned 1."</span><span style="color: #00cd68;">)</span>
+    assert_equal<span style="color: #00cd68;">(</span><span style="color: #00bcff;">true</span>,results.include?<span style="color: #b6a0ff;">(</span>1<span style="color: #b6a0ff;">)</span>, <span style="color: #79a8ff;">"An if statement which randomly assigns 1 or 2 never assigned 1."</span><span style="color: #00cd68;">)</span>
   <span style="color: #b6a0ff;">end</span>
 
   <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">test_two_possible_assignments_part2</span>
@@ -1163,7 +1176,7 @@ to run the commands contained in those scripts manually.
     results = <span style="color: #00cd68;">[]</span>
     50.times <span style="color: #b6a0ff;">do</span> results.push<span style="color: #00cd68;">(</span><span style="color: #6ae4b9;">GCLe</span>::eval<span style="color: #b6a0ff;">(</span>the_program<span style="color: #b6a0ff;">)[</span><span style="color: #00bcff;">:y</span><span style="color: #b6a0ff;">]</span><span style="color: #00cd68;">)</span> <span style="color: #b6a0ff;">end</span>
   
-    assert_equal<span style="color: #00cd68;">(</span><span style="color: #00bcff;">true</span>,results.include?<span style="color: #b6a0ff;">(</span>0<span style="color: #b6a0ff;">)</span>, <span style="color: #79a8ff;">"An if statement which randomly assigns 1 or 2 never assigned 2."</span><span style="color: #00cd68;">)</span>
+    assert_equal<span style="color: #00cd68;">(</span><span style="color: #00bcff;">true</span>,results.include?<span style="color: #b6a0ff;">(</span>2<span style="color: #b6a0ff;">)</span>, <span style="color: #79a8ff;">"An if statement which randomly assigns 1 or 2 never assigned 2."</span><span style="color: #00cd68;">)</span>
   <span style="color: #b6a0ff;">end</span>
   
   <span style="color: #b6a0ff;">def</span> <span style="color: #feacd0;">test_oscillating</span>
@@ -1332,7 +1345,7 @@ docker-compose stop -t 1
 <p class="author">Author: Mark Armstrong</p>
      <p class="author">Contact: <a href="mailto:armstmp@mcmaster.ca">armstmp@mcmaster.ca</a></p>
      <p class="date">Original date: December 2, 2020</p>
-     <p class="date">Last updated: 2020-12-17 Thu 17:09</p>
+     <p class="date">Last updated: 2020-12-17 Thu 18:00</p>
      <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.90 (<a href="https://orgmode.org">Org</a> mode 9.4)</p>
      <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>

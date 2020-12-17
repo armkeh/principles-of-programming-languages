@@ -45,6 +45,9 @@ so you may check if your marks are missing or simply not released yet.
 
 - December 17th ::
 
+  - One more bad test case was identified and corrected in
+    assignment 3. See the updates in that file.
+
   - A missing Clojure record type definition, the ~Config~ record
     used in the testing, has been added to the assignment 3 document.
 

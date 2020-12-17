@@ -36,6 +36,12 @@ and defining various semantics for it.
 :CUSTOM_ID: December-17th
 :END:
 
+- An additional problem with the testing was discovered.
+  In the test for part 4 named ~test_two_possible_assignments_part2~,
+  the test checked if that value ~0~ could be assigned to variable ~:y~.
+  This should not be; this test and the preceding on should check
+  if ~1~ and ~2~ can be assigned to ~:y~.
+
 - A definition for a record type called ~Config~ was added
   to part 3 (the Clojure part.)
   This is the record used as input and output for the ~reduce~ function
@@ -328,6 +334,11 @@ Here is a definition for it.
 For your code to be compatible with the tests, you should
 use this record type as both the input and output for ~reduce~.
 
+Note that the ~reduce~ function was always stated to return both
+the remaining code to be run and the updated memory state.
+Bundling these two return values is the purpose of this record,
+and since it exists, it may as well be used as the argument type as well.
+
 * Part 4 – The big-step semantics of /GCLe/ in Ruby       [40 marks]
 :PROPERTIES:
 :CUSTOM_ID: Part-4-–-The-big-step-semantics-of-/GCLe/-in-Ruby
@@ -614,7 +625,7 @@ class SimpleTests < Test::Unit::TestCase
     results = []
     50.times do results.push(GCLe::eval(the_program)[:y]) end
   
-    assert_equal(true,results.include?(2), "An if statement which randomly assigns 1 or 2 never assigned 1.")
+    assert_equal(true,results.include?(1), "An if statement which randomly assigns 1 or 2 never assigned 1.")
   end
 
   def test_two_possible_assignments_part2
@@ -632,7 +643,7 @@ class SimpleTests < Test::Unit::TestCase
     results = []
     50.times do results.push(GCLe::eval(the_program)[:y]) end
   
-    assert_equal(true,results.include?(0), "An if statement which randomly assigns 1 or 2 never assigned 2.")
+    assert_equal(true,results.include?(2), "An if statement which randomly assigns 1 or 2 never assigned 2.")
   end
   
   def test_oscillating
