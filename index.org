@@ -20,23 +20,23 @@
 
 This table tracks which marks have been released,
 so you may check if your marks are missing or simply not released yet.
-|--------------+-----------------+-------------------+-------------------------------------------------------------|
-| Coursework   | Marks released? | Bonus marks done? | Comments                                                    |
-|--------------+-----------------+-------------------+-------------------------------------------------------------|
-| Assignment 3 | No              | No                |                                                             |
-| Homework 10  | No              | No                |                                                             |
-| Homework 9   | No              | No                |                                                             |
-| Assignment 2 | No              | No                |                                                             |
-| Homework 8   | No              | N/A               |                                                             |
-| Homework 7   | Yes             | N/A               |                                                             |
-| Homework 6   | Yes             | Yes               |                                                             |
-| Homework 5   | Yes             | No                |                                                             |
-| Assignment 1 | Yes             | Yes               |                                                             |
-| Homework 4   | Yes             | Yes               |                                                             |
-| Homework 3   | No              | N/A               |                                                             |
-| Homework 2   | Yes             | Yes               | Students whose files were misplaced are still missing marks |
-| Homework 1   | Yes             | Yes               |                                                             |
-|--------------+-----------------+-------------------+-------------------------------------------------------------|
+|--------------+-----------------+-------------------+----------|
+| Coursework   | Marks released? | Bonus marks done? | Comments |
+|--------------+-----------------+-------------------+----------|
+| Assignment 3 | No              | No                | Note that the total grades noted in your repo still need the assignment 3 marks added; so so far, they are out of 70. |
+| Homework 10  | Yes             | N/A               |          |
+| Homework 9   | Yes             | Yes               |          |
+| Assignment 2 | Yes             | Yes               |          |
+| Homework 8   | Yes             | N/A               |          |
+| Homework 7   | Yes             | N/A               |          |
+| Homework 6   | Yes             | Yes               |          |
+| Homework 5   | Yes             | Yes               |          |
+| Assignment 1 | Yes             | Yes               |          |
+| Homework 4   | Yes             | Yes               |          |
+| Homework 3   | Yes             | N/A               |          |
+| Homework 2   | Yes             | Yes               |          |
+| Homework 1   | Yes             | Yes               |          |
+|--------------+-----------------+-------------------+----------|
 
 ** December
 :PROPERTIES:
