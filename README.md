@@ -10,27 +10,40 @@ better viewed at
 
 # Communication
 
+## End of term
+
+  - All marks have now been pushed to your repositories, and the grades
+    have been submitted to the school.
+      - Still, do feel free to contact me if you have any concerns.
+  - For those who submitted assignment 2 early, your mark may have been
+    adjusted up by one if it was within 1% of where it would have been
+    done so otherwise. This did not apply in every case.
+
+\*All the best with your future studies\!\*
+
+  - For those taking 3ac3 this term, I will be a TA (though I'm not
+    running any tutorials.)
+
 ## Mark release tracker
 
 This table tracks which marks have been released, so you may check if
-your marks are missing or simply not released
-yet.
+your marks are missing or simply not released yet.
 
-| Coursework   | Marks released? | Bonus marks done? | Comments                                                                                                              |
-| ------------ | --------------- | ----------------- | --------------------------------------------------------------------------------------------------------------------- |
-| Assignment 3 | No              | No                | Note that the total grades noted in your repo still need the assignment 3 marks added; so so far, they are out of 70. |
-| Homework 10  | Yes             | N/A               |                                                                                                                       |
-| Homework 9   | Yes             | Yes               |                                                                                                                       |
-| Assignment 2 | Yes             | Yes               |                                                                                                                       |
-| Homework 8   | Yes             | N/A               |                                                                                                                       |
-| Homework 7   | Yes             | N/A               |                                                                                                                       |
-| Homework 6   | Yes             | Yes               |                                                                                                                       |
-| Homework 5   | Yes             | Yes               |                                                                                                                       |
-| Assignment 1 | Yes             | Yes               |                                                                                                                       |
-| Homework 4   | Yes             | Yes               |                                                                                                                       |
-| Homework 3   | Yes             | N/A               |                                                                                                                       |
-| Homework 2   | Yes             | Yes               |                                                                                                                       |
-| Homework 1   | Yes             | Yes               |                                                                                                                       |
+| Coursework   | Marks released? | Bonus marks done? | Comments |
+| ------------ | --------------- | ----------------- | -------- |
+| Assignment 3 | Yes             | Yes               |          |
+| Homework 10  | Yes             | N/A               |          |
+| Homework 9   | Yes             | Yes               |          |
+| Assignment 2 | Yes             | Yes               |          |
+| Homework 8   | Yes             | N/A               |          |
+| Homework 7   | Yes             | N/A               |          |
+| Homework 6   | Yes             | Yes               |          |
+| Homework 5   | Yes             | Yes               |          |
+| Assignment 1 | Yes             | Yes               |          |
+| Homework 4   | Yes             | Yes               |          |
+| Homework 3   | Yes             | N/A               |          |
+| Homework 2   | Yes             | Yes               |          |
+| Homework 1   | Yes             | Yes               |          |
 
 ## December
 
