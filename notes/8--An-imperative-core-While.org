@@ -48,6 +48,7 @@
 
 In this section we construct a simple imperative language,
 based on the ~while~ loop.
+
 * The imperative core
 
 :TODO:

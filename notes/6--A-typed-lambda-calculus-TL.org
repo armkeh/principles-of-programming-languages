@@ -746,3 +746,18 @@ we have put a type ascription on uses of ~inl~ and ~inr~.
  inl t as A ⟶ inl t′ as A                   inr t as A ⟶ inr t′ as A
 
 #+end_src
+
+** Records and variants
+
+:TODO:
+
+* ~let~ bindings and recursion
+
+** Preamble                                    :ignore:
+
+Recall, from the untyped λ-calculus,
+that recursive definitions could be expressed using this
+“fixed-point” combinator, known as the Y-combinator.
+#+begin_src text
+fix = λ f → (λ x → f (λ y → x x y)) (λ x → f (λ y → x x y))
+#+end_src

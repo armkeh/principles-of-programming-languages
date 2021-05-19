@@ -436,7 +436,6 @@ result.onComplete({ case Success(result) =>
 })
 #+end_src
 
-
 ** The Docker setup
 :PROPERTIES:
 :CUSTOM_ID: The-Docker-setup

@@ -57,7 +57,7 @@ class SimpleTests < Test::Unit::TestCase
     results = []
     50.times do results.push(GCLe::eval(the_program)[:y]) end
   
-    assert_equal(true,results.include?(2), "An if statement which randomly assigns 1 or 2 never assigned 1.")
+    assert_equal(true,results.include?(1), "An if statement which randomly assigns 1 or 2 never assigned 1.")
   end
 
   def test_two_possible_assignments_part2
@@ -75,7 +75,7 @@ class SimpleTests < Test::Unit::TestCase
     results = []
     50.times do results.push(GCLe::eval(the_program)[:y]) end
   
-    assert_equal(true,results.include?(0), "An if statement which randomly assigns 1 or 2 never assigned 2.")
+    assert_equal(true,results.include?(2), "An if statement which randomly assigns 1 or 2 never assigned 2.")
   end
   
   def test_oscillating

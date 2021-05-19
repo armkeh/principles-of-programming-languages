@@ -65,6 +65,15 @@ The discussion in this section is fairly “encyclopedic”;
 the next section on the typed λ-calculus give some insight about
 how some of these types can be incorporated into a programming system.
 
+* What is a type?
+
+# This subsection /at least/ probably needs to be put earlier into the course.
+# Adding it here for now to capture a joke.
+
+# When your type system is too permissive with casting:
+# https://www.tiktok.com/@brock1137/video/6912243945200225542
+# (Everything goes in the square hole.)
+
 * Properties of type systems
 
 In the previous notes, we have discussed

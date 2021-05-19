@@ -1,9 +1,13 @@
-#+Title: Imperativeness
+#+Title: Imperativeness and an imperative core /WHILE/
 #+Subtitle: Principles of Programming Languages
 #+Author: Mark Armstrong
 #+Date: Fall 2020
-#+Description: Imperativeness: statements, side effects, impurity
+#+Description: Discussion of traits of the imperative programming paradigm
+#+Description: not found in pure functional languages.
+#+Description:  a small imperative language.
 #+Options: toc:nil
+
+# TODO: statements, side effects, and impurity.
 
 * HTML settings                                 :noexport:
 
@@ -49,11 +53,58 @@
 In this section we leave behind the “pure” languages
 which we have considered so far, and discuss the central features
 of imperative languages.
-* Control structures
+
+We then construct a simple imperative language,
+based on the ~while~ loop,
+giving several approaches to defining its semantics
+(and extend the language slightly.)
+
+* The “Von Neumann Architecture”
 
 :TODO:
 
-* Memory management
+* Imperative traits
 
 :TODO:
 
+* The /WHILE/ language
+
+We now construct a simple imperative language,
+and give a stack-machine based semantics for it.
+
+After this, we will extend the language slightly
+and provide other approaches to its semantics.
+
+To begin, the language consists of
+- integer expressions, which may involve (integer-valued) variables,
+- boolean tests, which can only appear in conditional/iteration constructs, and
+- statements, which include assignment, composition, a conditional ~if~,
+  and the iterating ~while~ statement.
+
+** Syntax
+
+#+begin_src text
+⟨expr⟩ ∷= constant_integer | variable
+        | ⟨expr⟩ ('+' | '*' | '-' | '÷') ⟨expr⟩
+
+⟨test⟩ ∷= ⟨expr⟩ ('=' | '<' | '>') ⟨expr⟩
+        | ⟨test⟩ ('and' | 'or') ⟨test⟩
+
+⟨stmt⟩ ∷= 'skip'
+        | variable '≔' ⟨expr⟩
+        | ⟨stmt⟩ ';' ⟨stmt⟩
+        | 'if' ⟨test⟩ 'then' ⟨stmt⟩ 'else' ⟨stmt⟩
+        | 'while' ⟨test⟩ 'do' ⟨stmt⟩
+#+end_src
+
+** A stack machine
+
+#+begin_src text
+
+#+end_src
+
+* The /WHILE/ language with scoping
+
+#+begin_src text
+
+#+end_src

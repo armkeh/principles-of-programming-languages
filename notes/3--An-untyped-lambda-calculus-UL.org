@@ -718,15 +718,23 @@ omega = (λ x → x x) (λ x → x x)
 A generalisation of the ~omega~ combinator will let us
 define recursive functions.
 
-** The fixed-point combinator, a.k.a. the Y-combinator
+** The Z-combinator
 
-The /fixed-point combinator/, or the (call-by-value) /Y-combinator/,
+The /Z-combinator/ (also sometimes called the call-by-value /Y-combinator/)
 has the form
 #+begin_src text
 fix = λ f → (λ x → f (λ y → x x y)) (λ x → f (λ y → x x y))
 #+end_src
 
-:TODO: prove that this gives rise to a fixed point
+This ~fix~ is one instance of a /fixed-point/ combinator;
+notice that
+#+begin_src text
+  fix g v
+= (λ f → (λ x → f (λ y → x x y)) (λ x → f (λ y → x x y))) g v
+⟶ ((λ x → g (λ y → x x y)) (λ x → g (λ y → x x y))) v
+⟶ (g (λ y → (λ x → g (λ y → x x y)) (λ x → g (λ y → x x y)) y)) v
+
+#+end_src
 
 ** Recursive definitions via the fixed point combinator
 
