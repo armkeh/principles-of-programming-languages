@@ -3,13 +3,14 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2021-01-11 Mon 23:07 -->
+<!-- 2021-08-17 Tue 17:33 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Computer Science 3MI3 - Principles of Programming Languages</title>
+<title>Computer Science 3mi3 - Principles of Programming Languages</title>
 <meta name="generator" content="Org mode" />
 <meta name="author" content="Mark Armstrong" />
-<meta name="description" content="The course homepage for the 2020 class of 3mi3."
+<meta name="description" content="The course homepage for the {{{year}}} class
+{{{course-subject}}} {{{course-code}}}."
  />
 <style type="text/css">
  <!--/*--><![CDATA[/*><!--*/
@@ -208,7 +209,7 @@
 <script type="text/javascript" src="styles/lib/js/jquery.stickytableheaders.min.js"></script>
 <style>pre.src{background:#000000;color:white;} </style>
 <script type="text/javascript">
-// @license magnet:?xt=urn:btih:e95b018ef3580986a04669f1b5879592219e2a7a&dn=public-domain.txt Public Domain
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
 <!--/*--><![CDATA[/*><!--*/
      function CodeHighlightOn(elem, id)
      {
@@ -232,1386 +233,103 @@
 </head>
 <body>
 <div id="content">
-<h1 class="title">Computer Science 3MI3 - Principles of Programming Languages
+<h1 class="title">Computer Science 3mi3 - Principles of Programming Languages
 <br />
-<span class="subtitle">2020 Course Homepage</span>
+<span class="subtitle">(year TBD) Course Homepage</span>
 </h1>
 <div id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#Communications">Communication</a>
+<li><a href="#org-anchor-Communication^1">Communication</a></li>
+<li><a href="#org-anchor-Notes^1">Notes</a>
 <ul>
-<li><a href="#End-of-term">End of term</a></li>
-<li><a href="#Mark-release-tracker">Mark release tracker</a></li>
-<li><a href="#December">December</a></li>
-<li><a href="#November">November</a></li>
-<li><a href="#October">October</a></li>
-<li><a href="#September">September</a></li>
-<li><a href="#August">August</a></li>
+<li><a href="#org-anchor-Lecture-slides^1">Lecture slides</a></li>
+<li><a href="#org-anchor-Lecture-hand-written-notes^1">Lecture hand-written notes</a></li>
 </ul>
 </li>
-<li><a href="#Lecture-notes">Notes</a>
+<li><a href="#org-anchor-Literate-programs^1">Literate programs</a></li>
+<li><a href="#org-anchor-Homework^1">Homework</a>
 <ul>
-<li><a href="#Lecture-slides">Lecture slides</a>
+<li><a href="#org-anchor-Current-homeworks^1">Current homeworks</a></li>
+<li><a href="#org-anchor-Unit-testing-policy^1">Unit testing policy</a>
 <ul>
-<li><a href="#1-–-Introduction-and-Overview">1 – Introduction and overview</a></li>
-<li><a href="#2-–-Formal-languages">2 – Formal languages</a></li>
-<li><a href="#3-–-An-untyped-λ-calculus,-/UL/">3 – An untyped λ-calculus, <i>UL</i></a></li>
-<li><a href="#4-–-Bindings-and-scope">4 – Bindings and scope</a></li>
-<li><a href="#5-–-Types">5 – Types</a></li>
-<li><a href="#6-–-A-typed-λ-calculus,-/TL/">6 – A typed λ-calculus, <i>TL</i></a></li>
-<li><a href="#7-–-Imperativeness-and-an-imperative-core,-/WHILE/">7 – Imperativeness and an imperative core, <i>WHILE</i></a></li>
-<li><a href="#Appendix-1-–">Appendix 1 – Notation and conventions</a></li>
-<li><a href="#Appendix-2-–">Appendix 2 – Software and tools</a></li>
-<li><a href="#Appendix-3-–">Appendix 3 – External resources</a></li>
+<li><a href="#org-anchor-Policy^1">Policy</a></li>
 </ul>
 </li>
-<li><a href="#Lecture-hand-written-notes">Lecture hand-written notes</a></li>
+<li><a href="#org-anchor-Previous-homeworks^1">Previous homeworks</a></li>
 </ul>
 </li>
-<li><a href="#Lecture-literate-programs">Literate programs</a>
+<li><a href="#org-anchor-Assignments^1">Assignments</a>
 <ul>
-<li><a href="#Lectures">Lectures</a>
+<li><a href="#org-anchor-Current-assignments^1">Current assignments</a></li>
+<li><a href="#org-anchor-Literate-documentation-policy^1">Literate documentation policy</a></li>
+<li><a href="#org-anchor-Unit-testing-policy^2">Unit testing policy</a>
 <ul>
-<li><a href="#November-27th-–-Introductory-concurrency">November 27th – Introductory concurrency</a></li>
-<li><a href="#November-20th-–-Introductory-metaprogramming">November 20th – Introductory metaprogramming</a></li>
-<li><a href="#November-6th-–-Introduction-to-Clojure">November 6th – Introduction to Clojure</a></li>
-<li><a href="#October-9th-–-Introduction-to-Ruby">October 9th – Introduction to Ruby</a></li>
-<li><a href="#September-25th-–-Trees-in-Prolog">October 2nd – Infinite data in Scala</a></li>
-<li><a href="#September-25th-–-Trees-in-Prolog">September 25th – Trees in Prolog</a></li>
-<li><a href="#September-18th-–-Puzzles-in-Prolog">September 18th – Puzzles in Prolog</a></li>
-<li><a href="#September-14th-–-The-Boom-hierarchy-in-Scala">September 14th – The Boom hierarchy in Scala</a></li>
+<li><a href="#org-anchor-Policy^2">Policy</a></li>
 </ul>
 </li>
-<li><a href="#Tutorials">Tutorials</a>
-<ul>
-<li><a href="#Monday-November-16th-–-Tail-recursion-in-Clojure">Monday November 16th – Tail recursion in Clojure</a></li>
-<li><a href="#Monday-November-2nd-–-Propagating-failure-with-the-Option-type">Monday November 2nd – Propagating failure with the Option type</a></li>
-<li><a href="#Monday-October-26th-&-Wednesday-October-28th-–-Trees-in-Ruby">Monday October 26th &amp; Wednesday October 28th – Trees in Ruby</a></li>
-<li><a href="#Wednesday-October-21st-–">Wednesday October 21st –</a></li>
-<li><a href="#Wednesday-October-7th-–">Wednesday October 7th –</a></li>
-<li><a href="#Wednesday-September-30th-–-Trees-in-Prolog">Wednesday September 30th – Trees in Prolog</a></li>
-<li><a href="#Wednesday-September-23rd-–-Docker-and-Prolog">Wednesday September 23rd – Docker and Prolog</a></li>
+<li><a href="#org-anchor-Previous-assignments^1">Previous assignments</a></li>
 </ul>
 </li>
+<li><a href="#org-anchor-Course-outline^1">Course outline</a>
+<ul>
+<li><a href="#org-anchor-Outline^1">Outline</a></li>
 </ul>
 </li>
-<li><a href="#Recordings">Recordings</a>
+<li><a href="#org-anchor-Appendices^1">Appendices</a>
 <ul>
-<li><a href="#Lectures">Note lectures</a></li>
-<li><a href="#Live-coding-lectures">Live coding lectures</a></li>
-<li><a href="#Tutorials">Tutorials</a></li>
+<li><a href="#org-anchor-Appendix-1-–-Notation-and-conventions^1">Appendix 1 – Notation and conventions</a></li>
+<li><a href="#org-anchor-Appendix-2-–-Software-and-tools^1">Appendix 2 – Software and tools</a></li>
+<li><a href="#org-anchor-Appendix-3-–-External-resources^1">Appendix 3 – External resources</a></li>
+<li><a href="#org-anchor-Appendix-4-–-Assessment-policies^1">Appendix 4 – Assessment policies</a></li>
 </ul>
 </li>
-<li><a href="#Course-Work">Homework</a>
+<li><a href="#org-anchor-Language-information^1">Language information</a>
 <ul>
-<li><a href="#Current-homeworks">Current homeworks</a>
-<ul>
-<li><a href="#Homework-10-–-Using-concurrency-to-break-up-large-problems-–-Dec-4th-to-Dec-9th">Homework 10 – Using concurrency to break up large problems – Dec 4th to Dec 9th</a></li>
-<li><a href="#Homework-9-–-Adding-“guarded-commands”-to-Clojure-–-Nov-29th-to-Dec-9th">Homework 9 – Adding “guarded commands” to Clojure – Nov 29th to Dec 9th</a></li>
-</ul>
-</li>
-<li><a href="#Homework-testing-policy">Homework testing policy</a></li>
-<li><a href="#Previous-homeworks">Previous homeworks</a>
-<ul>
-<li><a href="#Homework-8-–-Visualing-the-call-stack-in-Clojure-–-Nov-19th-to-Nov-25th">Homework 8 – Visualing the call stack in Clojure – Nov 19th to Nov 26th</a></li>
-<li><a href="#Homework-7-–-Pretty-printing-a-representation-of-the-untyped-λ-calculus-–-Nov-1st-to-Nov-8th">Homework 7 – Pretty printing a representation of the untyped λ-calculus – Nov 1st to Nov 8th</a></li>
-<li><a href="#Homework-6-–-Representing-and-interpreting-~Expr~-in-Ruby-–-Oct-23rd-to-Nov-1st">Homework 6 – Representing and interpreting <code>Expr</code> in Ruby – Oct 23rd to Nov 1st</a></li>
-<li><a href="#Homework-5-–-“Fizzbuzz”-ing-in-Ruby-–-October-12th-to-Oct-25th">Homework 5 – “Fizzbuzz”-ing in Ruby – Oct 12th to Oct 25th</a></li>
-<li><a href="#Homework-4-–-Working-with-lazy-(potentially-infinite)-lists-in-Scala-–-Oct-7th-to-Oct-19th">Homework 4 – Working with lazy (potentially infinite) lists in Scala – Oct 7th to Oct 19th</a></li>
-<li><a href="#Homework-3-–-Revisiting-homework-1-in-Prolog-and-homework-2-in-Scala-–-Sept-25th-to-Oct-4th">Homework 3 – Revisiting homework 1 in Prolog and homework 2 in Scala – Sept 25th to Oct 4th</a></li>
-<li><a href="#Homework-2-–-Solving-problems-in-Prolog-–-Sept-18th-to-Sept-27th">Homework 2 – Solving problems in Prolog – Sept 18th to Sept 27th</a></li>
-<li><a href="#Homework-1-–-Implementing-Trees-in-Scala-–-Sept-11th-to-Sept-20th">Homework 1 – Implementing Trees in Scala – Sept 11th to Sept 20th</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#Assignments">Assignments</a>
-<ul>
-<li><a href="#Assignment-3-–-A-representation-of-Dijkstra's-guarded-command-language-–-Dec-2nd-to-Dec-18th">Assignment 3 – A representation of Dijkstra's guarded command language – Dec 2nd to Dec 18th</a>
-<ul>
-<li><a href="#Regarding-MSAFs,-the-due-date,-and-extensions">Regarding MSAFs, the due date, and extensions</a></li>
-</ul>
-</li>
-<li><a href="#Assignment-1-–-Interpreting-simple-integer-expressions-–-Sept-26th-to-Oct-21st.">Assignment 2 – Typing a λ-calculus – Oct 30th to Nov 29th</a></li>
-<li><a href="#Assignment-1-–-Interpreting-simple-integer-expressions-–-Sept-26th-to-Oct-21st">Assignment 1 – Interpreting simple integer expressions – Sept 26th to Oct 21st</a></li>
-<li><a href="#Assignment-testing-policy">Assignment testing policy</a></li>
-</ul>
-</li>
-<li><a href="#Course-outline">Course outline</a></li>
-<li><a href="#Scala">Scala</a>
-<ul>
-<li><a href="#Installation-instructions">Installation instructions</a>
-<ul>
-<li><a href="#Installation-guides">Installation guides</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#Prolog">Prolog</a>
-<ul>
-<li><a href="#Installation-instructions">Installation instructions</a>
-<ul>
-<li><a href="#Installation-guides">Installation guides</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#Ruby">Ruby</a>
-<ul>
-<li><a href="#Installation-instructions">Installation instructions</a></li>
-</ul>
-</li>
-<li><a href="#Clojure">Clojure</a>
-<ul>
-<li><a href="#Installation-instructions">Installation instructions</a></li>
+<li><a href="#org-anchor-Tidbits^1">Tidbits</a></li>
+<li><a href="#org-anchor-Resources^1">Resources</a></li>
+<li><a href="#org-anchor-Installation-instructions^1">Installation instructions</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-Communications" class="outline-2">
-<h2 id="Communications">Communication</h2>
-<div class="outline-text-2" id="text-Communications">
-</div>
-
-<div id="outline-container-End-of-term" class="outline-3">
-<h3 id="End-of-term">End of term</h3>
-<div class="outline-text-3" id="text-End-of-term">
-<ul class="org-ul">
-<li>All marks have now been pushed to your repositories,
-and the grades have been submitted to the school.
-<ul class="org-ul">
-<li>Still, do feel free to contact me if you have any concerns.</li>
-</ul></li>
-
-<li>For those who submitted assignment 2 early,
-your mark may have been adjusted up by one if
-it was within 1% of where it would have been done so otherwise.
-This did not apply in every case.</li>
-</ul>
-
+<div id="outline-container-org-anchor-Communication^1" class="outline-2">
+<h2 id="org-anchor-Communication^1">Communication</h2>
+<div class="outline-text-2" id="text-org-anchor-Communication^1">
 <p>
-<b>All the best with your future studies!</b>
+This homepage is now under construction for future versions of the course.
 </p>
-<ul class="org-ul">
-<li>For those taking 3ac3 this term, I will be a TA
-(though I'm not running any tutorials.)</li>
-</ul>
 </div>
 </div>
 
-<div id="outline-container-Mark-release-tracker" class="outline-3">
-<h3 id="Mark-release-tracker">Mark release tracker</h3>
-<div class="outline-text-3" id="text-Mark-release-tracker">
-<p>
-This table tracks which marks have been released,
-so you may check if your marks are missing or simply not released yet.
-</p>
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-
-
-<colgroup>
-<col  class="org-left" />
-
-<col  class="org-left" />
-
-<col  class="org-left" />
-
-<col  class="org-left" />
-</colgroup>
-<thead>
-<tr>
-<th scope="col" class="org-left">Coursework</th>
-<th scope="col" class="org-left">Marks released?</th>
-<th scope="col" class="org-left">Bonus marks done?</th>
-<th scope="col" class="org-left">Comments</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="org-left">Assignment 3</td>
-<td class="org-left">Yes</td>
-<td class="org-left">Yes</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Homework 10</td>
-<td class="org-left">Yes</td>
-<td class="org-left">N/A</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Homework 9</td>
-<td class="org-left">Yes</td>
-<td class="org-left">Yes</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Assignment 2</td>
-<td class="org-left">Yes</td>
-<td class="org-left">Yes</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Homework 8</td>
-<td class="org-left">Yes</td>
-<td class="org-left">N/A</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Homework 7</td>
-<td class="org-left">Yes</td>
-<td class="org-left">N/A</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Homework 6</td>
-<td class="org-left">Yes</td>
-<td class="org-left">Yes</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Homework 5</td>
-<td class="org-left">Yes</td>
-<td class="org-left">Yes</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Assignment 1</td>
-<td class="org-left">Yes</td>
-<td class="org-left">Yes</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Homework 4</td>
-<td class="org-left">Yes</td>
-<td class="org-left">Yes</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Homework 3</td>
-<td class="org-left">Yes</td>
-<td class="org-left">N/A</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Homework 2</td>
-<td class="org-left">Yes</td>
-<td class="org-left">Yes</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Homework 1</td>
-<td class="org-left">Yes</td>
-<td class="org-left">Yes</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-</tbody>
-</table>
-</div>
+<div id="outline-container-org-anchor-Notes^1" class="outline-2">
+<h2 id="org-anchor-Notes^1">Notes</h2>
+<div class="outline-text-2" id="text-org-anchor-Notes^1">
 </div>
 
-<div id="outline-container-December" class="outline-3">
-<h3 id="December">December</h3>
-<div class="outline-text-3" id="text-December">
-<dl class="org-dl">
-<dt>December 17th</dt><dd><ul class="org-ul">
-<li>One more bad test case was identified and corrected in
-assignment 3. See the updates in that file.</li>
-
-<li>A missing Clojure record type definition, the <code>Config</code> record
-used in the testing, has been added to the assignment 3 document.</li>
-
-<li>Over the last week in particular, I got very behind in responding
-to emails and messages. I believe I am now fully caught up.
-If you have tried to get in touch with me about anything
-and I have not yet responded to you, please send me
-a follow up message to let me know I have missed something.</li>
-
-<li>Sample solutions are now posted for assignment 2,
-in the assignment documents.</li>
-</ul></dd>
-
-<dt>December 16th</dt><dd><ul class="org-ul">
-<li>Some corrections have been made to the assignment 3 descriptions,
-and unfortunately to some of the testing.
-<ul class="org-ul">
-<li>In particular, the “oscillating” test cases would always fail
-as given, because they do not actually make the initial assignment
-part of the evaluated statement.</li>
-</ul></li>
-
-<li>Marks for homeworks 4 through 7 have now been
-added to your repositories.
-<ul class="org-ul">
-<li>Marks for homeworks 3 and 8 and assignment 2
-should be following shortly.</li>
-</ul></li>
-<li>Those students whose homework 2 was incorrectly marked as incomplete
-(due to file naming issues) should also have marks added soon.</li>
-<li>The homework 2 and assignment 1 bonus marking is also now done.
-In the testing, a “naive” implementation took about
-1,400,000,000. The marks were roughly
-<ul class="org-ul">
-<li>5/10 for implementations taking about 700,000,000 inferences,</li>
-<li>7/10 for implementations taking about 100,000 inferences,</li>
-<li>9/10 for implementations taking about 20,000 inferences, and</li>
-<li>10/10 for implementations taking under 500,000 inferences
-which do not rely upon builtin predicates (except those
-suggested in the homework itself.)</li>
-</ul></li>
-</ul></dd>
-
-<dt>December 11th</dt><dd><ul class="org-ul">
-<li>Tests have been posted for assignment 3.</li>
-<li>Some minor clarifying statements were added to the assignment
-around midday; the updates to each section are prepended
-by “(Added December 11th.)”.</li>
-</ul></dd>
-
-<dt>December 9th</dt><dd><ul class="org-ul">
-<li><p>
-For those who may not be regularly checking the Teams channel,
-there have been some common problems with homework 10,
-in particular with the Scala portion.
-There seems to be a bug with Ammonite affecting the use of <code>Future</code>'s
-on some systems (specifically, it is a problem
-with using <code>Await.results</code> to extract the value of a <code>Future</code>.
-Because of this, an alternate set of tests for the Scala portion
-has been posted, which expect your method to return
-the <code>Vector</code> wrapped in a <code>Future</code>.
-</p>
-
-<div class="org-center">
-<p>
-These tests are not intended to <i>replace</i> the originals;
-they are an alternate test set, and you can code towards
-either one (presumably the other set will not typecheck for you.)
-</p>
-</div>
-
-<p>
-Because this is very last minute, if you need additional time
-because you want to adjust your code to the new test set,
-please let me (Mark) know. We will accept late changes to your repository.
-</p>
-
-<p>
-If you would have benefitted from this change, but
-are unable to take the time to adjust your code
-due to other coursework or exams,
-please also let me know. Scala code that fails both test sets
-will be marked by visual inspection,
-and I would appreciate knowing if the reason for the incompatability
-with the tests was lack of time.
-</p>
-
-<p>
-To emphasise, if your code passes the existing tests,
-there's no need to do anything.
-</p></li>
-</ul></dd>
-
-<dt>December 8th</dt><dd><ul class="org-ul">
-<li>Two notes regarding homework 10:
-<ul class="org-ul">
-<li>I encourage you to attempt to make your concurrent solution
-more efficient than the non-concurrent solution,
-but because of the relatively small size of the input list
-that may not be possible,
-and you will not be penalised if your solution
-does end up slower.
-<ul class="org-ul">
-<li>For some context, I had hoped to make the input much larger;
-initially it was to be 100,000 or 1,000,000 integers.
-But such a large list could not be written as a single
-vector in Scala (and possibly in the other languages)
-as it exhausted the space on the heap.
-Of course there are ways I could have worked around this,
-but it would have complicated the problem,
-so it was not done.</li>
-</ul></li>
-<li>While the homework suggests the approaches to concurrency
-that were discussed in the lecture and tutorials,
-you can investigate alternative approaches
-and are free to use them,
-so long as your code remains compatible with the tests
-(which only checks the result, not the means of computation.)
-<ul class="org-ul">
-<li>That is, independent study is encouraged!</li>
-</ul></li>
-</ul></li>
-
-<li><p>
-A note regarding individual extensions to assignment 3
-has been added to the assignment 3 portion
-of the Assignments tab.
-</p>
-<div class="org-center">
-<p>
-<b>Please review it.</b>
-</p>
-</div></li>
-</ul></dd>
-
-<dt>(no term)</dt><dd>As a last reminder, online course evaluations close tomorrow.
-If you have not yet, please take the time
-to offer some feedback on this course
-and your other courses at <a href="https://evals.mcmaster.ca">https://evals.mcmaster.ca</a>.
-<ul class="org-ul">
-<li>Preferably, make your feedback constructive,
-whether it is positive or negative.
-Thank you!</li>
-</ul></dd>
-
-<dt>December 7th</dt><dd><ul class="org-ul">
-<li>Tests for homework 10 are now posted.</li>
-
-<li>The more complete version of the introductory concurrency
-notes (under Literate Programs) is now posted.
-This includes examples of using the constructs in all 4 languages.
-Of particular note, it shows a means of communicating between
-the <code>fork</code>'ed processes in Ruby, and how to extract
-the results of a <code>Future</code> in Scala.</li>
-
-<li>Some errors in the links to the testing files,
-as well as a typo in the <code>docker-compose.yml</code> file,
-have been corrected. If you have trouble with the testing setup,
-try downloading them now.
-Tnanks to Hishmat Salehi for catching these errors!</li>
-</ul></dd>
-
-<dt>December 5th</dt><dd><ul class="org-ul">
-<li>The tests for homework 9 are now posted.</li>
-</ul></dd>
-
-<dt>December 4th</dt><dd><ul class="org-ul">
-<li>Homework 10 is now posted, focussed on concurrency.
-To account for the shorter time before the deadline,
-the majority of the solution is provided;
-you must only adjust the code to take advantage
-of concurrency.</li>
-</ul></dd>
-
-<dt>December 2nd</dt><dd>Assignment 3 is now posted.
-There should not be major changes to it, but the testing
-is not posted yet.</dd>
-</dl>
-</div>
-</div>
-
-<div id="outline-container-November" class="outline-3">
-<h3 id="November">November</h3>
-<div class="outline-text-3" id="text-November">
-<dl class="org-dl">
-<dt>November 29th</dt><dd><ul class="org-ul">
-<li>Homework 9 is now posted. Its due date has been modified
-to be the end of term (which will also be the due date of
-the still-to-be-released final homework 10.)</li>
-</ul></dd>
-
-<dt>November 25th</dt><dd><ul class="org-ul">
-<li>Sample solutions for homework 7 (the pretty printer for <code>ULTerm</code>)
-are now posted.</li>
-
-<li>The due dates for assignment 2 and homework 8 have now been shifted.
-<ul class="org-ul">
-<li>Assignment 2 is shifted to November 29th (Sunday) from the 26th.</li>
-<li>Homework 8 is shifted to November 26th from the 25th.</li>
-<li>As mentioned in lecture, if you have completed, committed and pushed
-all or a majority of assignment 2 by tomorrow (the original due date),
-please e-mail or message Mark.
-Because you will not have benefitted from this extension,
-we will be considering a small (unspecified amount of) bonus
-at the end of the term for those in this situation.</li>
-</ul></li>
-
-<li>You should now be able to fill out course evaluations
-at <a href="https://evals.mcmaster.ca">https://evals.mcmaster.ca</a>.
-Please do leave feedback; I always read and take it into account.
-Specific and constructive comments are especially appreciated.
-
-<ul class="org-ul">
-<li>Note that unfortunately, as I am a sessional instructor,
-the “response rates” page will not show this course.
-(I am not certain exactly why this is the case.)</li>
-</ul></li>
-
-<li>The Clojure section of this page now includes
-some basic installation instructions,
-taken from the “Introduction to Clojure” lecture
-(which has also been slightly expanded
-based on the Docker image setup.)</li>
-
-<li>Testing is now included for homework 8.
-Because this is so late (on the scheduled due date),
-there will be at least a one day extension,
-to be finalised later today.</li>
-</ul></dd>
-
-<dt>November 19th</dt><dd><ul class="org-ul">
-<li><p>
-Homework 8 is now posted. Its due date has been shifted to be
-Wednesday of next week.
-</p>
-
-<p>
-The remaining homework deadlines are also going to be shifted
-to be on Wednesdays for the remainder of the course.
-</p></li>
-</ul></dd>
-
-<dt>November 15th</dt><dd><ul class="org-ul">
-<li>Some extra text and examples have been added to assignment 2
-based on some questions I've received.</li>
-</ul></dd>
-
-<dt>November 10th</dt><dd><ul class="org-ul">
-<li>The testing and more detailed specifications
-for assignment 2 are now posted.
-Sorry for the numerous delays.
-<ul class="org-ul">
-<li>Note that a somewhat small change was required to the
-Ruby code for the untyped calculus (<a href="./assignments/src/a2_ulterm.rb"><code>a2_ulterm.rb</code></a>.)
-The tests need to compare <i>UL</i> terms, and so
-the <code>==</code> method had to be defined for that type.</li>
-<li>The assignment itself contains an update section
-with any other important information you will need
-about changes.</li>
-</ul></li>
-</ul></dd>
-
-<dt>November 9th</dt><dd><ul class="org-ul">
-<li>Assignment 2's due date has now been shifted to November 26th.
-Testing and more detailed instructions should be released by
-the end of day today.</li>
-<li><p>
-There will not be a homework released for this week
-(i.e., the homework that was to be released Friday, November 6th
-has been cancelled.)
-</p>
-
-<p>
-The remaining homeworks will all be shifted down by 1,
-so homework 8 is released this Friday, homework 9 the following,
-and homework 10 the week after that.
-This does mean there are now 10 homeworks instead of 11.
-</p></li>
-</ul></dd>
-
-<dt>November 6th</dt><dd><ul class="org-ul">
-<li>A significant error in the homework 7 tests sample output
-was reported by some of your classmates during lecture today
-(thank you Omar and Paul.) It has been corrected now.
-<ul class="org-ul">
-<li><p>
-The final test case, which corresponds to the nameless term
-</p>
-<div class="org-src-container">
-<pre class="src src-text">&#955; &#955; &#955; <span style="color: #00cd68;">(</span>0 1<span style="color: #00cd68;">)</span> <span style="color: #00cd68;">(</span>2 3<span style="color: #00cd68;">)</span>
-</pre>
-</div>
-<p>
-(updated November 8th; previously there were incorrectly 4 “λ”'s above)
-previously was given an example output of
-</p>
-<div class="org-src-container">
-<pre class="src src-text">lambda a . lambda b . lambda c . <span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">(</span>a<span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">(</span>b<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span> <span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">(</span>c<span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">(</span>d<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
-</pre>
-</div>
-<p>
-But notice how the first variable in the body
-refers to the outermost abstraction here,
-whereas the example in the homework specification shows
-(and the definition of nameless terms in the assignment specifies)
-that it should refer to the <b>innermost</b> abstraction.
-A correct sample output would instead be
-</p>
-<div class="org-src-container">
-<pre class="src src-text">lambda a . lambda b . lambda c . <span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">(</span>c<span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">(</span>b<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span> <span style="color: #00cd68;">(</span><span style="color: #b6a0ff;">(</span>a<span style="color: #b6a0ff;">)</span> <span style="color: #b6a0ff;">(</span>d<span style="color: #b6a0ff;">)</span><span style="color: #00cd68;">)</span>
-</pre>
-</div></li>
-</ul></li>
-</ul></dd>
-
-<dt>November 5th</dt><dd><ul class="org-ul">
-<li>Testing code has been added to homework 7.</li>
-<li>Some minor updates the the current homework and
-assignment have been posted; see the updates section for each.
-<ul class="org-ul">
-<li>More updates (more significant updates, such as testing)
-are to come later today.</li>
-</ul></li>
-</ul></dd>
-
-<dt>November 3rd</dt><dd><ul class="org-ul">
-<li>The notes on propagating errors using the <code>Option</code> type
-from Monday's tutorial have been cleaned up,
-added to, and now posted under the tutorial notes
-subsection of the literate program section of the site.</li>
-</ul></dd>
-
-<dt>November 2nd</dt><dd><ul class="org-ul">
-<li>The recordings section has been updated with new links
-(for the first time in a while 🙁.)</li>
-</ul></dd>
-
-<dt>November 1st</dt><dd><ul class="org-ul">
-<li>Homework 7 has been posted.
-<ul class="org-ul">
-<li>This is slightly delayed from Friday;
-however, this homework is fairly light (there's just one part.)</li>
-</ul></li>
-
-<li>I've made a first small update to assignment 2.
-<ul class="org-ul">
-<li>Part 4 has been made bonus, though some code I was
-planning to supply is now part of the required work
-for that bonus.</li>
-</ul></li>
-
-<li>More assignment 2 updates are to come ASAP;
-in particular, I will decide upon the change to the due date
-and provide the testing.</li>
-</ul></dd>
-</dl>
-</div>
-</div>
-
-<div id="outline-container-October" class="outline-3">
-<h3 id="October">October</h3>
-<div class="outline-text-3" id="text-October">
-<dl class="org-dl">
-<dt>October 30th</dt><dd><ul class="org-ul">
-<li>The first version of assignment 2 is posted.
-<ul class="org-ul">
-<li>The due date is currently not set. It will be announced.</li>
-</ul></li>
-</ul></dd>
-
-<dt>October 29th</dt><dd><ul class="org-ul">
-<li><p>
-The second C++ example has been added to homework 6,
-showing an approach to representing the expression language
-using subclasses.
-</p>
-
-<p>
-Some errors were also fixed; the “part 2” now correctly specifies
-that you should construct an <code>interpret</code> method,
-and the specified name of the file for the bonus portion was corrected.
-</p></li>
-</ul></dd>
-
-<dt>October 28th</dt><dd><ul class="org-ul">
-<li>I am very sorry to cancel another lecture,
-and without any notice, but
-I am cancelling today's lecture.
-<ul class="org-ul">
-<li>The content of what would have been today's lecture
-will instead be covered on Friday,
-<ul class="org-ul">
-<li>and there will not be a live coding lecture this week.</li>
-</ul></li>
-<li>I will try to have the recorded lecture promised from Friday
-out today,</li>
-<li>but it will only be posted after the assignment 2 is posted
-(which will be published today.)</li>
-</ul></li>
-
-<li>Notes from the tutorials this week have been uploaded,
-under the tutorials subsection of the literate programs section.
-<ul class="org-ul">
-<li>They should be cleaned up later today or tomorrow,
-(some commentary should be added to the literate portions)
-but they are provided for your convenience now.</li>
-</ul></li>
-</ul></dd>
-
-<dt>October 23rd</dt><dd><ul class="org-ul">
-<li>Homework 6 has been posted.</li>
-<li>Today's (live coding) lecture is cancelled, and I'll be posting notes
-and a recording to replace it sometime over the weekend.
-<ul class="org-ul">
-<li>I apologise; I'm just not quite up for the lecture today.</li>
-<li>The content of the lecture is not required for the planned
-homework in any case, which will still be posted today.</li>
-</ul></li>
-<li>Instructions for installing Ruby and the version used for
-the Docker testing (2.7.2) are now given in a “part 0”
-of homework 5, and under the Ruby section of this page.</li>
-</ul></dd>
-
-<dt>October 21st</dt><dd><ul class="org-ul">
-<li>The assignment's boilerplate now specifies the grading
-for the documentation portion.
-It is not assigned a specific grade;
-instead, 20% of each part is for documentation.</li>
-</ul></dd>
-
-<dt>October 20th</dt><dd><ul class="org-ul">
-<li>An aside about variable substitution was added to the assignment 1,
-as requested during lecture yesterday.</li>
-</ul></dd>
-
-<dt>October 19th</dt><dd><ul class="org-ul">
-<li>A short example of using the <code>Option[Either[Int,Boolean]]</code> type,
-which is used in part 4 of the assignment,
-has been in the notes now posted at the top of
-the Scala section of this site.
-<ul class="org-ul">
-<li>See the <a href="./language-tidbits/scala.html">HTML site</a> or</li>
-<li><a href="./language-tidbits/scala.pdf">PDF</a>.</li>
-</ul></li>
-</ul></dd>
-
-<dt>October 17th</dt><dd><ul class="org-ul">
-<li>Marks for homework 1 have now been distributed to your
-GitLab repositories. See the file <code>marks.org</code>,
-which can be viewed with nice formatting on the web interface
-for your repo.</li>
-
-<li>Homework 3 sample solutions are now posted
-(inside the homework document as usual.)</li>
-</ul></dd>
-
-<dt>October 14th</dt><dd>The Prolog tests and Docker setup have been added to assignment 1.</dd>
-
-<dt>October 13th</dt><dd><ul class="org-ul">
-<li>Assignment 1 has undergone a fairly major update,
-<ul class="org-ul">
-<li>adding the assignment boilerplate,
-<ul class="org-ul">
-<li>which includes
-a <b>new (literate) documentation file requirement</b>,</li>
-</ul></li>
-<li>correcting the instructions on how to implement
-the types of parts 3 and 4 in Scala,</li>
-<li>changing some type, method and predicate names
-to ensure a uniform naming standard across the assignment, and</li>
-<li>adding the testing code for the Scala portions
-(though the scripts are still to come.)</li>
-</ul></li>
-
-<li><b>To repeat, there is now a (fairly light)</b>
-<b>(literate) documentation requirement for assignment 1!</b>
-<ul class="org-ul">
-<li>See the boilerplate.</li>
-</ul></li>
-
-<li>Before it is asked, at this point, I am not planning
-a further extension for assignment 1.</li>
-
-<li>The testing and Docker setup for homework 5
-was posted yesterday evening.</li>
-</ul></dd>
-
-<dt>October 12th</dt><dd><ul class="org-ul">
-<li>Homework 5 is now posted. The testing is to follow later today.</li>
-<li>I apologise for the relative “radio silence” since Friday.
-I have had some personal things come up over the weekend so far,
-but the updates to the assignment (mentioned in lecture)
-and then the marks for the submitted homeworks
-will be coming shortly.</li>
-</ul></dd>
-
-<dt>October 7th</dt><dd><ul class="org-ul">
-<li>Homework 4 is now posted.
-<ul class="org-ul">
-<li>Testing and Docker setup are included immediately this time.</li>
-</ul></li>
-
-<li>A sample solution is now in place in the homework 2 document.</li>
-<li>Notes from last week's Wednesday tutorial and lecture are now posted;
-sorry for the delay.</li>
-</ul></dd>
-
-<dt>October 6th</dt><dd>The notes on infinite data in Scala
-have been updated with the developments from Monday's tutorial.
-This content will be reviewed and possibly built upon
-in tomorrow's tutorial, and you should review it
-for the (still to come) homework 4.</dd>
-
-<dt>October 2nd</dt><dd><ul class="org-ul">
-<li>Notes for today's lecture on infinite data in Scala
-have been posted under “Literate programs”.</li>
-<li>Unfortunately, I'm not on track to release homework 4 this evening;
-I need to iron out some details to try and make sure
-they are right the first time.
-<ul class="org-ul">
-<li>It should be released tomorrow by end of day.</li>
-<li>In any case, this homework is not due until the Monday
-after reading week, so there will be lots of time to work on it.</li>
-</ul></li>
-</ul></dd>
-
-<dt>October 1st</dt><dd><ul class="org-ul">
-<li>Docker setup has been added for the homework 3 testing.</li>
-<li>A sample solution has been added to the homework 1 document.</li>
-</ul></dd>
-</dl>
-</div>
-</div>
-
-<div id="outline-container-September" class="outline-3">
-<h3 id="September">September</h3>
-<div class="outline-text-3" id="text-September">
-<dl class="org-dl">
-<dt>September 29th</dt><dd><p>
-Some of the names in the homework 3 testing script
-were inconsistent with the homework's instructions.
-The scripts have been corrected now.
-</p>
-
-<p>
-Additionally,
-</p>
-<ul class="org-ul">
-<li>I have removed the blank bonus task from homework 3.
-I can't think of a fitting bonus for this week 🙁.</li>
-
-<li>The link to the Scala tests was broken. It is corrected now.</li>
-</ul></dd>
-
-<dt>September 28th</dt><dd>Test scripts for homework 3 have been posted.
-The Docker setup is to follow shortly.</dd>
-
-<dt>September 27th</dt><dd><p>
-Assignment 1 has been posted.
-The boilerplate and testing will come ASAP;
-I am catching up on more pressing content first,
-such as the testing for homework 3.
-</p>
-
-<div class="org-center">
-<p>
-<b>Note that the deadline date for assignment 1 has changed.</b>
-<b>It is now due October 21st, two weeks later than originally stated.</b>
-<b>This change is reflected in the outline and the Avenue course's schedule.</b>
-</p>
-</div></dd>
-
-<dt>September 26</dt><dd><p>
-A statement on how testing and grading relate
-has been added to the homework section of this site,
-under the new current homework section.
-</p>
-
-<p>
-Additionally, the description of the efficiency tests
-for homework 2's bonus has been updated.
-The number of inferences applied on my sample solutions is now provided,
-which is a better metric to compare to than the time those tests
-took on my machine (which is, naturally, likely going to execute code
-at a different speed than your machine.)
-Note: in addition to comparing your solution to my sample solution,
-the marking for the bonus will also compare your solution
-to the rest of the class. So the bonus marks assigned
-will be relative to the average performance.
-</p></dd>
-
-<dt>September 25</dt><dd><p>
-Homework 3 is posted.
-</p>
-<ul class="org-ul">
-<li>The bonus is still to come; I need to think of one 😀.</li>
-</ul>
-
-<p>
-Also, tests for the efficiency of your code in homework 2
-have been added to the homework 2 files.
-</p></dd>
-
-<dt>September 25</dt><dd>Live coding notes for today,
-on programming trees in Prolog, have been uploaded.</dd>
-
-<dt>September 24</dt><dd><p>
-A new “Prolog tidbits” document has been uploaded
-and can be found under the Prolog section/tab on this site.
-</p>
-
-<p>
-I will aim to add information and examples to this file
-as I answer people's questions on the language and our homeworks in it,
-so that you can refer there if you have questions.
-</p></dd>
-
-<dt>September 23</dt><dd>The files and instructions for using Docker
-to test homework 2 are now uploaded.
-The instructions and links can be found in the homework 2 document.</dd>
-
-<dt>September 23</dt><dd><p>
-The completed version of notes 2 is now uploaded.
-</p>
-
-<p>
-Also,
-</p>
-<ul class="org-ul">
-<li><b>I've had to make one more edit to the provided code</b>
-<b>for <code>isDigitList</code>; don't include the cut in the first case</b>.</li>
-<li>Habib's tutorial notes are now posted in the
-literate programs section of the homepage.</li>
-</ul></dd>
-
-<dt>September 23</dt><dd><p>
-There has been a change to the
-<code>isDigitList</code> question in homework 2.
-Please review that question.
-(For those who may have already completed it,
-reversing the list should adapt your current solution
-to the new requirements.)
-</p>
-
-<p>
-Also, unit tests for checking your homework 2
-have now been provided in the homework 2 document.
-</p>
-
-<p>
-Important notes regarding this testing:
-</p>
-<ol class="org-ol">
-<li>Unlike homework 1, for homework 2 it is <i>mandatory</i>
-that your code pass these tests.</li>
-<li>There is no interface file that you need to complete.
-You still only need submit your <code>h2.pl</code> file.</li>
-<li>Passing these tests does not guarantee a particular grade.
-What has been provided is intended to act as a <i>sanity check</i>,
-and more thorough tests may be used in the grading process.</li>
-</ol>
-
-<p>
-Instructions and files for using Docker to run the tests
-will be provided later today.
-</p></dd>
-
-<dt>September 22</dt><dd>More recording links have been added to the list.
-Also,
-<ul class="org-ul">
-<li>The homework boilerplate has been updated
-to indicate that use of the standard
-higher-order operators is always allowed.</li>
-<li>Instructions for testing homework 1 using Docker are now uploaded
-(obviously too late to be useful, but added for completion's sake.)
-Similar setup and instructions will be added for homework 2 shortly.</li>
-<li>A poor choice of wording regarding <code>isDigitList</code> has been changed
-in homework 2; “the first digit of <code>X</code> ⇒ the “ones” digit of <code>X</code>”.</li>
-</ul></dd>
-
-<dt>September 18</dt><dd>Homework 2 has been posted.</dd>
-
-<dt>September 18</dt><dd><p>
-The notes from the live coding lecture
-have been properly placed in that section.
-</p>
-
-<p>
-They will be updated ASAP to include relevant code
-for the upcoming homework.
-</p></dd>
-
-<dt>September 18</dt><dd><p>
-Testing code has been uploaded for homework 1,
-in the homework file itself.
-<b>For this homework, it is optional that you complete the</b>
-<b>testing interface and submit it with your homework</b>.
-For future homeworks and assignments, tests will be provided
-in a more timely manner and required.
-</p>
-
-<p>
-Also note, the requirement to name both instances of
-your <code>flatten</code> and <code>orderedElems</code> function the same
-has been dropped.
-</p></dd>
-
-<dt>September 17</dt><dd><p>
-A note has been added to the course outline
-regarding use of <b>plaintext</b> or <b>code snippet markup</b>
-when sharing code in discussions with staff and on Teams,
-<b>instead of screenshots</b>.
-Also see the post in the general chat on Teams
-regarding how to use the code snippet formatting tool.
-</p>
-
-<p>
-Additionally:
-</p>
-<ul class="org-ul">
-<li>A note was added to homework 1
-regarding the marking of the <code>orderedElems</code> question.
-And a small error regarding usage of two type parameters
-was fixed in the <code>StructTree</code> problem.</li>
-</ul></dd>
-
-<dt>September 16</dt><dd><p>
-The typos encountered in today's lecture
-have all been corrected (if I missed any, let me know.)
-</p>
-<ul class="org-ul">
-<li>The first parse tree example has been corrected,
-and I've also massaged the definition of parse tree's a bit
-so that we don't need to draw the “pointless nodes”
-I mentioned. The first example shows what we omit.</li>
-</ul>
-
-<p>
-Also note, especially for those in the Monday tutorial,
-the live coding notes on Scala have been updated.
-</p>
-<ul class="org-ul">
-<li>A motivation section has been added which should better
-describe why we are coding the way we are in Scala.</li>
-<li>One further update will be coming with some changes
-that came up during today's tutorial.</li>
-</ul></dd>
-
-<dt>September 15</dt><dd><p>
-Each student of this course should now have a
-(private) GitLab repository, at the address
-<a href="https://gitlab.cas.mcmaster.ca/cs3mi3-2020-student-repos/macid">https://gitlab.cas.mcmaster.ca/cs3mi3-2020-student-repos/macid</a>
-where <code>macid</code> is your McMaster ID.
-</p>
-
-<p>
-There were some initial issues with the <code>master</code> branch being protected,
-so you could not <code>push</code> to it; those should be resolved now.
-</p>
-
-<p>
-Please <code>commit</code> and <code>push</code> to your repo ASAP,
-even if it's just some placeholder files,
-to confirm everything is working.
-</p>
-
-<p>
-Please <i>do</i> use the <code>master</code> branch for submitting homework.
-There is no need to create other branches for this course,
-though you are free to do so if you want to.
-</p>
-
-<p>
-If you seem unable to log in to the CAS GitLab,
-please try to follow the instructions to reset your CAS password
-that are located to the left of the login form.
-</p></dd>
-
-<dt>September 15</dt><dd>A recordings section has been added to this website
-with links to the recordings of lectures and tutorials on Streams
-(which I hope work for everyone, and not just me).</dd>
-
-<dt>September 14</dt><dd>The (still a bit incomplete) live coding notes
-from lecture and tutorial today have been posted.
-Note the new section along the top for these notes.
-They'll be cleaned up after Wednesday's tutorial.</dd>
-
-<dt>September 14</dt><dd><p>
-To address some questions which have come up
-in lectures and tutorials so far:
-</p>
-<ul class="org-ul">
-<li>“Are we going to alternate between different programming languages
-or will we stick to Scala for a while?”
-<ul class="org-ul">
-<li><p>
-A good question, and something I meant to discuss
-but never got to.
-</p>
-
-<p>
-The rough timeline for introducing languages is intended to be
-</p>
-<ul class="org-ul">
-<li>September 14th: introduce Scala (today)</li>
-<li>September 18th: introduce Prolog (Friday)</li>
-<li>October 7th: introduce Ruby</li>
-<li>November 6th: introduce Clojure</li>
-</ul>
-<p>
-Assignment 1 will use Scala and Prolog,
-assignment 2 will use Scala and Ruby, and
-assignment 3 will use Prolog and Clojure.
-Homeworks may alternate sometimes, but I intend to focus on
-the languages which are being used for the current assignment
-in each homework.
-</p>
-
-<p>
-This is a much faster pace for
-picking up a language than previous courses,
-but we are usually focusing on a relatively small number
-of ideas in each language.
-</p>
-
-<p>
-Leverage what you know from previous courses,
-ask lots of questions (please!),
-and when in doubt, look closely at provided examples.
-</p></li>
-</ul></li>
-
-<li>“Can we use IntelliJ for Scala?”, “Do we have to use Ammonite?”, etc.
-<ul class="org-ul">
-<li>You can use whatever tools you wish to for writing your code
-and interacting with Scala.
-On our end, we will be using Ammonite, but
-there should not be conflicts,
-and I intend to release a Docker image you can use
-to test for conflicts later this week.</li>
-</ul></li>
-<li>“Do we have to use Docker?”
-<ul class="org-ul">
-<li>Not explicitely, though it's <i>strongly</i> encouraged.
-Docker images will be provided so you can ensure
-your code works on the system it will be marked on.
-It is unlikely we will encounter conflicts in any case,
-but it is better to be certain by using the Docker images.</li>
-</ul></li>
-<li>“Will live coding lecture and tutorial notes be posted?”
-<ul class="org-ul">
-<li>Yes, they will be posted, and should be available
-in the usual set of formats.</li>
-</ul></li>
-</ul>
-<p>
-Also,
-</p>
-<ul class="org-ul">
-<li>Note that homework 1 was updated over the weekend
-with submission guidelines and a homework code of conduct
-related to collaboration. Please review it.</li>
-</ul></dd>
-
-<dt>September 11</dt><dd><p>
-Homework 1 has been uploaded and can be found
-under the homework section.
-</p>
-<ul class="org-ul">
-<li>I am aware of the issues with the images in the PDF version;
-they will be fixed shortly.</li>
-</ul>
-<p>
-Also of note:
-</p>
-<ul class="org-ul">
-<li>The Monday lecture will be a live coding session introducing
-some basic Scala concepts.</li>
-<li>The tutorials will be running next week, and will be used
-to discuss Scala further.</li>
-</ul></dd>
-
-<dt>September 11</dt><dd>Reminder that the first lecture is today, at 1:30pm.
-It will be in the lectures and tutorials channel in Microsoft Teams.</dd>
-
-<dt>September 11</dt><dd>The first section of notes,
-<a href="#1-–-Introduction-and-Overview">1 – Introduction and overview</a>, is now complete and uploaded.</dd>
-
-<dt>September 9</dt><dd>The Microsoft Teams team for the course
-has been activated. Please ensure you have access,
-and contact me ASAP if you do not.</dd>
-
-<dt>September 7</dt><dd><p>
-I have decided to cancel
-the Wednesday lecture for this week, in support
-of <a href="https://scholarstrikecanada.ca/">Scholar Strike Canada</a> and their mission
-“to protest anti-Black, racist and colonial police brutality
-in the U.S., Canada and elsewhere.”
-I encourage everyone to spend the lecture time
-and any other time you have that day on
-the public digital teach-ins they are offering.
-</p>
-
-<p>
-The scholar strike is planned for September 9<sup>th</sup> and 10<sup>th</sup>.
-Note that the Friday lecture on the 11<sup>th</sup>
-will still take place as scheduled.
-Note also that there are no tutorials scheduled this week.
-</p></dd>
-</dl>
-
-
-<dl class="org-dl">
-<dt>September 6</dt><dd>As of this point, I am waiting on UTS to allow me
-access to the course Microsoft Teams team.
-If this is not done by Wednesday,
-we will be using Zoom for lectures until I am able
-to activate  the team.</dd>
-</dl>
-
-
-<dl class="org-dl">
-<dt>September 6</dt><dd>The course outline is in near complete state;
-I am still waiting for confirmation of the teaching assistants.
-<ul class="org-ul">
-<li>In particular, please review the information on grading;
-we will not be having midterm or final exams for this course.</li>
-</ul></dd>
-</dl>
-</div>
-</div>
-
-<div id="outline-container-August" class="outline-3">
-<h3 id="August">August</h3>
-<div class="outline-text-3" id="text-August">
-<dl class="org-dl">
-<dt>August 3</dt><dd>Incomplete course outline added to homepage.</dd>
-</dl>
-</div>
-</div>
-</div>
-
-<div id="outline-container-Lecture-notes" class="outline-2">
-<h2 id="Lecture-notes">Notes</h2>
-<div class="outline-text-2" id="text-Lecture-notes">
-</div>
-
-<div id="outline-container-Lecture-slides" class="outline-3">
-<h3 id="Lecture-slides">Lecture slides</h3>
-<div class="outline-text-3" id="text-Lecture-slides">
+<div id="outline-container-org-anchor-Lecture-slides^1" class="outline-3">
+<h3 id="org-anchor-Lecture-slides^1">Lecture slides</h3>
+<div class="outline-text-3" id="text-org-anchor-Lecture-slides^1">
 <p>
 The slides are available as
 </p>
 <ul class="org-ul">
-<li>Online <code>reveal.js</code> 2-dimensional slideshows,</li>
+<li>Online <a href="https://revealjs.com/">reveal.js</a> 2-dimensional slideshows,</li>
 <li>printable PDFs, or</li>
 <li>text-editor friendly plaintext Org files.</li>
 </ul>
 </div>
-
-<div id="outline-container-1-–-Introduction-and-Overview" class="outline-4">
-<h4 id="1-–-Introduction-and-Overview">1 – Introduction and overview</h4>
-<div class="outline-text-4" id="text-1-–-Introduction-and-Overview">
-<ul class="org-ul">
-<li><a href="./notes/1--Introduction-and-overview.html">Online slides</a></li>
-<li><a href="./notes/1--Introduction-and-overview.pdf">PDF</a></li>
-<li><a href="./notes/1--Introduction-and-overview.org">Org plaintext</a></li>
-</ul>
-</div>
 </div>
 
-<div id="outline-container-2-–-Formal-languages" class="outline-4">
-<h4 id="2-–-Formal-languages">2 – Formal languages</h4>
-<div class="outline-text-4" id="text-2-–-Formal-languages">
-<ul class="org-ul">
-<li><a href="./notes/2--Formal-languages.html">Online slides</a></li>
-<li><a href="./notes/2--Formal-languages.pdf">PDF</a></li>
-<li><a href="./notes/2--Formal-languages.org">Org plaintext</a></li>
-</ul>
-</div>
-</div>
-
-<div id="outline-container-3-–-An-untyped-λ-calculus,-/UL/" class="outline-4">
-<h4 id="3-–-An-untyped-λ-calculus,-/UL/">3 – An untyped λ-calculus, <i>UL</i></h4>
-<div class="outline-text-4" id="text-3-–-An-untyped-λ-calculus,-/UL/">
-<ul class="org-ul">
-<li><a href="./notes/3--An-untyped-lambda-calculus-UL.html">Online slides</a></li>
-<li><a href="./notes/3--An-untyped-lambda-calculus-UL.pdf">PDF</a></li>
-<li><a href="./notes/3--An-untyped-lambda-calculus-UL.org">Org plaintext</a></li>
-</ul>
-</div>
-</div>
-
-<div id="outline-container-4-–-Bindings-and-scope" class="outline-4">
-<h4 id="4-–-Bindings-and-scope">4 – Bindings and scope</h4>
-<div class="outline-text-4" id="text-4-–-Bindings-and-scope">
-<ul class="org-ul">
-<li><a href="./notes/4--Bindings-and-scope.html">Online slides</a></li>
-<li><a href="./notes/4--Bindings-and-scope.pdf">PDF</a></li>
-<li><a href="./notes/4--Bindings-and-scope.org">Org plaintext</a></li>
-</ul>
-</div>
-</div>
-
-<div id="outline-container-5-–-Types" class="outline-4">
-<h4 id="5-–-Types">5 – Types</h4>
-<div class="outline-text-4" id="text-5-–-Types">
-<ul class="org-ul">
-<li><a href="./notes/5--Types.html">Online slides</a></li>
-<li><a href="./notes/5--Types.pdf">PDF</a></li>
-<li><a href="./notes/5--Types.org">Org plaintext</a></li>
-</ul>
-</div>
-</div>
-
-<div id="outline-container-6-–-A-typed-λ-calculus,-/TL/" class="outline-4">
-<h4 id="6-–-A-typed-λ-calculus,-/TL/">6 – A typed λ-calculus, <i>TL</i></h4>
-<div class="outline-text-4" id="text-6-–-A-typed-λ-calculus,-/TL/">
-<ul class="org-ul">
-<li><a href="./notes/6--A-typed-lambda-calculus-TL.html">Online slides</a></li>
-<li><a href="./notes/6--A-typed-lambda-calculus-TL.pdf">PDF</a></li>
-<li><a href="./notes/6--A-typed-lambda-calculus-TL.org">Org plaintext</a></li>
-</ul>
-</div>
-</div>
-
-<div id="outline-container-7-–-Imperativeness-and-an-imperative-core,-/WHILE/" class="outline-4">
-<h4 id="7-–-Imperativeness-and-an-imperative-core,-/WHILE/">7 – Imperativeness and an imperative core, <i>WHILE</i></h4>
-<div class="outline-text-4" id="text-7-–-Imperativeness-and-an-imperative-core,-/WHILE/">
-<ul class="org-ul">
-<li><a href="./notes/7--Imperativeness-and-an-imperative-core-WHILE.html">Online slides</a></li>
-<li><a href="./notes/7--Imperativeness-and-an-imperative-core-WHILE.pdf">PDF</a></li>
-<li><a href="./notes/7--Imperativeness-and-an-imperative-core-WHILE.org">Org plaintext</a></li>
-</ul>
-</div>
-</div>
-
-<div id="outline-container-Appendix-1-–" class="outline-4">
-<h4 id="Appendix-1-–">Appendix 1 – Notation and conventions</h4>
-<div class="outline-text-4" id="text-Appendix-1-–">
-<ul class="org-ul">
-<li><a href="./notes/A1--Notation-and-conventions.html">Webpage</a></li>
-<li><a href="./notes/A1--Notation-and-conventions.pdf">PDF</a></li>
-<li><a href="./notes/A1--Notation-and-conventions.org">Org plaintext</a></li>
-</ul>
-</div>
-</div>
-
-<div id="outline-container-Appendix-2-–" class="outline-4">
-<h4 id="Appendix-2-–">Appendix 2 – Software and tools</h4>
-<div class="outline-text-4" id="text-Appendix-2-–">
-<ul class="org-ul">
-<li><a href="./notes/A2--Software-and-tools.pdf">Webpage</a></li>
-<li><a href="./notes/A2--Software-and-tools.pdf">PDF</a></li>
-<li><a href="./notes/A2--Software-and-tools.org">Org plaintext</a></li>
-</ul>
-</div>
-</div>
-
-<div id="outline-container-Appendix-3-–" class="outline-4">
-<h4 id="Appendix-3-–">Appendix 3 – External resources</h4>
-<div class="outline-text-4" id="text-Appendix-3-–">
-<ul class="org-ul">
-<li><a href="./notes/A3--External-resources.pdf">Webpage</a></li>
-<li><a href="./notes/A3--External-resources.pdf">PDF</a></li>
-<li><a href="./notes/A3--External-resources.org">Org plaintext</a></li>
-</ul>
-</div>
-</div>
-</div>
-
-<div id="outline-container-Lecture-hand-written-notes" class="outline-3">
-<h3 id="Lecture-hand-written-notes">Lecture hand-written notes</h3>
-<div class="outline-text-3" id="text-Lecture-hand-written-notes">
+<div id="outline-container-org-anchor-Lecture-hand-written-notes^1" class="outline-3">
+<h3 id="org-anchor-Lecture-hand-written-notes^1">Lecture hand-written notes</h3>
+<div class="outline-text-3" id="text-org-anchor-Lecture-hand-written-notes^1">
 <p>
 In some cases, some handwritten notes accompany the slides
-during lecture. This term, those notes will be written
-on paper that can be seen during the online lecture.
+during lecture.
 </p>
 
 <p>
@@ -1619,630 +337,240 @@ When necessary and possible,
 those notes are scanned and made available here.
 If any are missing that you would like to see, please ask.
 </p>
-
-<ul class="org-ul">
-<li><a href="./notes/handwritten/sept30-currying.pdf">September 30th – currying</a></li>
-<li><a href="./notes/handwritten/sept23-trees.pdf">September 23rd – Ambiguity in parse trees</a></li>
-</ul>
 </div>
 </div>
 </div>
 
-<div id="outline-container-Lecture-literate-programs" class="outline-2">
-<h2 id="Lecture-literate-programs">Literate programs</h2>
-<div class="outline-text-2" id="text-Lecture-literate-programs">
+<div id="outline-container-org-anchor-Literate-programs^1" class="outline-2">
+<h2 id="org-anchor-Literate-programs^1">Literate programs</h2>
+<div class="outline-text-2" id="text-org-anchor-Literate-programs^1">
 <p>
-The last lecture of each week is usually
-a hands-on live programming session.
-Sometimes the same document is used for tutorials the following week.
+Tutorial sessions and
+the last lecture of each week are usually
+hands-on live programming sessions.
+Partial notes will usually be posted ahead of time,
+with some parts code snippets usually excluded
+to be filled in during the session.
 </p>
 
 <p>
-Literate copies of the programs developed in those lectures and tutorials
-are available here.
-Particularly relevant portions of raw code are also included.
+Literate copies of the programs developed
+in those lectures and tutorials are available here.
+In some cases the same notes are used
+for both a lecture and then a tutorial,
+in which case there will likely be updates and additions
+between the two.
 </p>
-</div>
-
-<div id="outline-container-Lectures" class="outline-3">
-<h3 id="Lectures">Lectures</h3>
-<div class="outline-text-3" id="text-Lectures">
-</div>
-
-<div id="outline-container-November-27th-–-Introductory-concurrency" class="outline-4">
-<h4 id="November-27th-–-Introductory-concurrency">November 27th – Introductory concurrency</h4>
-<div class="outline-text-4" id="text-November-27th-–-Introductory-concurrency">
-<ul class="org-ul">
-<li><a href="./notes/live-coding/11-27-Introductory-concurrency.html">HTML</a></li>
-<li><a href="./notes/live-coding/11-27-Introductory-concurrency.pdf">PDF</a></li>
-<li><a href="./notes/live-coding/11-27-Introductory-concurrency.org">Org plaintext</a></li>
-</ul>
-</div>
-</div>
-
-<div id="outline-container-November-20th-–-Introductory-metaprogramming" class="outline-4">
-<h4 id="November-20th-–-Introductory-metaprogramming">November 20th – Introductory metaprogramming</h4>
-<div class="outline-text-4" id="text-November-20th-–-Introductory-metaprogramming">
-<ul class="org-ul">
-<li><a href="./notes/live-coding/11-20-Introductory-metaprogramming.html">HTML</a></li>
-<li><a href="./notes/live-coding/11-20-Introductory-metaprogramming.pdf">PDF</a></li>
-<li><a href="./notes/live-coding/11-20-Introductory-metaprogramming.org">Org plaintext</a></li>
-</ul>
-</div>
-</div>
-
-<div id="outline-container-November-6th-–-Introduction-to-Clojure" class="outline-4">
-<h4 id="November-6th-–-Introduction-to-Clojure">November 6th – Introduction to Clojure</h4>
-<div class="outline-text-4" id="text-November-6th-–-Introduction-to-Clojure">
-<ul class="org-ul">
-<li><a href="./notes/live-coding/11-06-Introduction-to-Clojure.html">HTML</a></li>
-<li><a href="./notes/live-coding/11-06-Introduction-to-Clojure.pdf">PDF</a></li>
-<li><a href="./notes/live-coding/11-06-Introduction-to-Clojure.org">Org plaintext</a></li>
-</ul>
-</div>
-</div>
-
-<div id="outline-container-October-9th-–-Introduction-to-Ruby" class="outline-4">
-<h4 id="October-9th-–-Introduction-to-Ruby">October 9th – Introduction to Ruby</h4>
-<div class="outline-text-4" id="text-October-9th-–-Introduction-to-Ruby">
-<ul class="org-ul">
-<li><a href="./notes/live-coding/10-09-Introduction-to-Ruby.html">HTML</a></li>
-<li><a href="./notes/live-coding/10-09-Introduction-to-Ruby.pdf">PDF</a></li>
-<li><a href="./notes/live-coding/10-09-Introduction-to-Ruby.org">Org plaintext</a></li>
-</ul>
-</div>
-</div>
-
-<div id="outline-container-September-25th-–-Trees-in-Prolog" class="outline-4">
-<h4 id="September-25th-–-Trees-in-Prolog">October 2nd – Infinite data in Scala</h4>
-<div class="outline-text-4" id="text-September-25th-–-Trees-in-Prolog">
-<ul class="org-ul">
-<li><a href="./notes/live-coding/10-02-infinite-data-in-Scala.html">HTML</a></li>
-<li><a href="./notes/live-coding/10-02-infinite-data-in-Scala.pdf">PDF</a></li>
-<li><a href="./notes/live-coding/10-02-infinite-data-in-Scala.org">Org plaintext</a></li>
-</ul>
 
 <p>
-Relevant raw code:
-:TODO:
+Particularly relevant portions of raw code may also
+be tangled (extracted) into separate files,
+and then linked to directly here.
 </p>
 </div>
 </div>
 
-<div id="outline-container-September-25th-–-Trees-in-Prolog" class="outline-4">
-<h4 id="September-25th-–-Trees-in-Prolog">September 25th – Trees in Prolog</h4>
-<div class="outline-text-4" id="text-September-25th-–-Trees-in-Prolog">
-<ul class="org-ul">
-<li><a href="./notes/live-coding/09-25-Trees-in-Prolog.html">HTML</a></li>
-<li><a href="./notes/live-coding/09-25-Trees-in-Prolog.pdf">PDF</a></li>
-<li><a href="./notes/live-coding/09-25-Trees-in-Prolog.org">Org plaintext</a></li>
-</ul>
+<div id="outline-container-org-anchor-Homework^1" class="outline-2">
+<h2 id="org-anchor-Homework^1">Homework</h2>
+<div class="outline-text-2" id="text-org-anchor-Homework^1">
+</div>
 
+<div id="outline-container-org-anchor-Current-homeworks^1" class="outline-3">
+<h3 id="org-anchor-Current-homeworks^1">Current homeworks</h3>
+<div class="outline-text-3" id="text-org-anchor-Current-homeworks^1">
+</div>
+</div>
+
+<div id="outline-container-org-anchor-Unit-testing-policy^1" class="outline-3">
+<h3 id="org-anchor-Unit-testing-policy^1">Unit testing policy</h3>
+<div class="outline-text-3" id="text-org-anchor-Unit-testing-policy^1">
 <p>
-Relevant raw code:
-</p>
-<ul class="org-ul">
-<li><a href="./notes/live-coding/src/tree.pl">The <code>is_Tree</code> predicates</a> and some operations on trees.</li>
-</ul>
-</div>
-</div>
-
-<div id="outline-container-September-18th-–-Puzzles-in-Prolog" class="outline-4">
-<h4 id="September-18th-–-Puzzles-in-Prolog">September 18th – Puzzles in Prolog</h4>
-<div class="outline-text-4" id="text-September-18th-–-Puzzles-in-Prolog">
-<ul class="org-ul">
-<li><a href="./notes/live-coding/09-18-Introduction-to-Prolog.html">HTML</a></li>
-<li><a href="./notes/live-coding/09-18-Introduction-to-Prolog.pdf">PDF</a></li>
-<li><a href="./notes/live-coding/09-18-Introduction-to-Prolog.org">Org plaintext</a></li>
-</ul>
-
-<p>
-Relevant raw code:
-:TODO:
-</p>
-</div>
-</div>
-
-<div id="outline-container-September-14th-–-The-Boom-hierarchy-in-Scala" class="outline-4">
-<h4 id="September-14th-–-The-Boom-hierarchy-in-Scala">September 14th – The Boom hierarchy in Scala</h4>
-<div class="outline-text-4" id="text-September-14th-–-The-Boom-hierarchy-in-Scala">
-<ul class="org-ul">
-<li><a href="./notes/live-coding/09-14-Boom-hierarchy-in-Scala.html">HTML</a></li>
-<li><a href="./notes/live-coding/09-14-Boom-hierarchy-in-Scala.pdf">PDF</a></li>
-<li><a href="./notes/live-coding/09-14-Boom-hierarchy-in-Scala.org">Org plaintext</a></li>
-</ul>
-
-<p>
-Relevant raw code:
-</p>
-<ul class="org-ul">
-<li><a href="./notes/live-coding/src/ConsList.sc">The <code>ConsList</code> type</a> and some operations on it.</li>
-</ul>
-</div>
-</div>
-</div>
-
-<div id="outline-container-Tutorials" class="outline-3">
-<h3 id="Tutorials">Tutorials</h3>
-<div class="outline-text-3" id="text-Tutorials">
-<p>
-Files from the Wednesday tutorial, led by Habib, are collected here.
-In most cases, the material is largely similar to the
-material from the lecture notes.
+The unit testing policy for homeworks and assignments
+is laid out in
+<a href="./appendices/A4--Assessment-policies.org#org-anchor-Automated-unit-testing-policy^1">appendix 4, under “Automated unit testing policy”</a>
+and is repeated below.
 </p>
 </div>
 
-<div id="outline-container-Monday-November-16th-–-Tail-recursion-in-Clojure" class="outline-4">
-<h4 id="Monday-November-16th-–-Tail-recursion-in-Clojure">Monday November 16th – Tail recursion in Clojure</h4>
-<div class="outline-text-4" id="text-Monday-November-16th-–-Tail-recursion-in-Clojure">
-<ul class="org-ul">
-<li><a href="./notes/tutorial/11-16-Tail-recursion-in-Clojure.html">HTML</a></li>
-<li><a href="./notes/tutorial/11-16-Tail-recursion-in-Clojure.pdf">PDF</a></li>
-<li><a href="./notes/tutorial/11-16-Tail-recursion-in-Clojure.org">Org plaintext</a></li>
-</ul>
-</div>
-</div>
-
-<div id="outline-container-Monday-November-2nd-–-Propagating-failure-with-the-Option-type" class="outline-4">
-<h4 id="Monday-November-2nd-–-Propagating-failure-with-the-Option-type">Monday November 2nd – Propagating failure with the Option type</h4>
-<div class="outline-text-4" id="text-Monday-November-2nd-–-Propagating-failure-with-the-Option-type">
-<ul class="org-ul">
-<li><a href="./notes/tutorial/11-02-Propagating-failure-with-the-Option-type.html">HTML</a></li>
-<li><a href="./notes/tutorial/11-02-Propagating-failure-with-the-Option-type.pdf">PDF</a></li>
-<li><a href="./notes/tutorial/11-02-Propagating-failure-with-the-Option-type.org">Org plaintext</a></li>
-</ul>
-</div>
-</div>
-
-<div id="outline-container-Monday-October-26th-&-Wednesday-October-28th-–-Trees-in-Ruby" class="outline-4">
-<h4 id="Monday-October-26th-&-Wednesday-October-28th-–-Trees-in-Ruby">Monday October 26th &amp; Wednesday October 28th – Trees in Ruby</h4>
-<div class="outline-text-4" id="text-Monday-October-26th-&-Wednesday-October-28th-–-Trees-in-Ruby">
-<ul class="org-ul">
-<li><a href="./notes/tutorial/10-26-Trees-in-Ruby.html">HTML</a></li>
-<li><a href="./notes/tutorial/10-26-Trees-in-Ruby.pdf">PDF</a></li>
-<li><a href="./notes/tutorial/10-26-Trees-in-Ruby.org">Org plaintext</a></li>
-</ul>
-</div>
-</div>
-
-<div id="outline-container-Wednesday-October-21st-–" class="outline-4">
-<h4 id="Wednesday-October-21st-–">Wednesday October 21st –</h4>
-<div class="outline-text-4" id="text-Wednesday-October-21st-–">
+<div id="outline-container-org-anchor-Policy^1" class="outline-4">
+<h4 id="org-anchor-Policy^1">Policy</h4>
+<div class="outline-text-4" id="text-org-anchor-Policy^1">
 <p>
-:TODO:
-</p>
-</div>
-</div>
-
-<div id="outline-container-Wednesday-October-7th-–" class="outline-4">
-<h4 id="Wednesday-October-7th-–">Wednesday October 7th –</h4>
-<div class="outline-text-4" id="text-Wednesday-October-7th-–">
-<p>
-:TODO:
-</p>
-</div>
-</div>
-
-<div id="outline-container-Wednesday-September-30th-–-Trees-in-Prolog" class="outline-4">
-<h4 id="Wednesday-September-30th-–-Trees-in-Prolog">Wednesday September 30th – Trees in Prolog</h4>
-<div class="outline-text-4" id="text-Wednesday-September-30th-–-Trees-in-Prolog">
-<ul class="org-ul">
-<li><a href="https://github.com/armkeh/principles-of-programming-languages/blob/master/notes/tutorial/Constructing%20a%20Tree%20Using%20the%20Prolog.ipynb">Prettified Jupyter notebook on GitHub</a></li>
-<li><a href="./notes/tutorial/Constructing a Tree using the Prolog.ipynb">Jupyter notebook source</a></li>
-<li><a href="./notes/tutorial/Constructing a Tree using the Prolog.pdf">PDF</a></li>
-</ul>
-</div>
-</div>
-
-<div id="outline-container-Wednesday-September-23rd-–-Docker-and-Prolog" class="outline-4">
-<h4 id="Wednesday-September-23rd-–-Docker-and-Prolog">Wednesday September 23rd – Docker and Prolog</h4>
-<div class="outline-text-4" id="text-Wednesday-September-23rd-–-Docker-and-Prolog">
-<ul class="org-ul">
-<li><a href="https://github.com/armkeh/principles-of-programming-languages/blob/master/notes/tutorial/Introduction%20to%20Docker%20and%20Prolog.ipynb">Prettified Jupyter notebook on GitHub</a></li>
-<li><a href="./notes/tutorial/Introduction to Docker and Prolog.ipynb">Jupyter notebook source</a></li>
-<li><a href="./notes/tutorial/Introduction to Docker and Prolog.pdf">PDF</a></li>
-</ul>
-</div>
-</div>
-</div>
-</div>
-
-<div id="outline-container-Recordings" class="outline-2">
-<h2 id="Recordings">Recordings</h2>
-<div class="outline-text-2" id="text-Recordings">
-<p>
-Lecture and tutorial recordings are available on Microsoft Stream.
-As long as you are registered in the course,
-the full list should be available
-<a href="https://web.microsoftstream.com/group/16cec1b5-2ab3-4af9-9120-2ea9091b20c5?view=videos">here</a>.
+Automated unit tests will be provided for all assignments,
+and whenever possible and practical,
+they will also be provided for each homework.
 </p>
 
 <p>
-Links directly to specific lectures/tutorials are also included below,
-but this may not be updated quickly after lectures/tutorials.
+<b>You should not submit the testing files with your assignment contents</b>;
+it will not cause any problems, but testing files will be ignored
+and overwritten before testing.
 </p>
-</div>
 
-<div id="outline-container-Lectures" class="outline-3">
-<h3 id="Lectures">Note lectures</h3>
-<div class="outline-text-3" id="text-Lectures">
 <p>
-These lectures cover material from the <a href="#Lecture-notes">Notes</a> section of the website,
-and usually take place on Mondays and Wednesdays.
+Alongside the files for unit testing,
+a <a href="https://docker.com">Docker</a> image
+will also be provided, in order to ensure that
+you are able to run the tests in the exact same environment
+that the course staff will use.
 </p>
 
+<p>
+Passing the provided tests is <i>mandatory</i>,
+but <b>does not</b> <i>guarantee</i> a passing grade
+(both for homeworks and assignments.)
+</p>
 <ul class="org-ul">
-<li><a href="https://web.microsoftstream.com/video/5d454b17-ce30-42e3-b775-f5b2216cf451">November 2nd (Monday) – Types (part 2)</a></li>
-<li><a href="https://web.microsoftstream.com/video/efa0e5bf-3a86-43dc-bf61-1e26ea8fefb2">October 30th (Friday) – Some λ-calculus topics</a></li>
-<li><a href="https://web.microsoftstream.com/video/8dbb8f80-3317-46be-91b0-28333c94effa">October 26th (Monday) – Bindings and Scopes (part 3), Types</a></li>
-<li><a href="https://web.microsoftstream.com/video/89249645-df76-4960-ae1f-46dfb1d2539b">October 21st (Wednesday) – Bindings and scope (part 2)</a></li>
-<li><a href="https://web.microsoftstream.com/video/4ac95e0c-37b9-4d93-af02-d828e72983fc">October 19th (Monday) – Bindings and scope</a></li>
-<li><a href="https://web.microsoftstream.com/video/521fe4e3-e3b5-40a0-b59a-3237136887e7">October 7th (Wednesday) – And untyped λ-calculus, <i>UL</i> (part 3)</a></li>
-<li><a href="https://web.microsoftstream.com/video/0c33b318-f644-49a9-905e-676594e9d5da">October 5th (Monday) – And untyped λ-calculus, <i>UL</i> (part 2)</a></li>
-<li><a href="https://web.microsoftstream.com/video/7c37e57d-4c10-4cae-914d-89b4e2e58a92">September 30th (Wednesday) – An untyped λ-calculus, <i>UL</i></a></li>
-<li><a href="https://web.microsoftstream.com/video/bed4dad7-dc7f-4721-8795-3c4d6d956a37">September 28th (Monday) – Formal languages (part 4)</a>
-<ul class="org-ul">
-<li>(also the beginning of “An untyped λ-calculus, <i>UL</i>”)</li>
-</ul></li>
-<li><a href="https://web.microsoftstream.com/video/56841a6d-5ae0-4378-8c0d-ed7cce18a614">September 23rd (Wednesday) – Formal language (part 3)</a></li>
-<li><a href="https://web.microsoftstream.com/video/d7d61b56-b593-4c48-8890-b03e9ff71015">September 21st (Monday) – Formal languages (part 2)</a></li>
-<li><a href="https://web.microsoftstream.com/video/6aa707fa-3e68-4b61-8f6c-ed60e62f3b14">September 16th (Wednesday) – Formal languages (part 1)</a></li>
-<li><a href="https://web.microsoftstream.com/video/fe0b46f8-2512-4084-a399-f9d1b33257b6">September 14th (Monday) – The Boom hierarchy in Scala</a>
-<ul class="org-ul">
-<li>(also the end of “Introduction and Overview” notes)</li>
-</ul></li>
-<li><a href="https://web.microsoftstream.com/video/af55c09e-00dc-4d7c-a048-166907b6abd7">September 11th (Friday) – Introduction and Overview</a></li>
+<li>Assignments will undergo a code review by the course staff,
+and your grade will be influenced just as much or more
+by your code's <i>approach</i> and <i>style</i> as by passing of tests.</li>
+<li>Homeworks will undergo a similar, but much more cursory, code review.
+Barring any obvious issues, you should receive a passing grade
+if your code passes the tests.</li>
 </ul>
-</div>
-</div>
-
-<div id="outline-container-Live-coding-lectures" class="outline-3">
-<h3 id="Live-coding-lectures">Live coding lectures</h3>
-<div class="outline-text-3" id="text-Live-coding-lectures">
 <p>
-These lectures cover supplementary materials,
-found in the <a href="#Lecture-literate-programs">Literate programs</a> section of the website.
-Usually this material lays the groundwork for the weeks homework.
-These lectures usually take place on Fridays.
-</p>
-
-<ul class="org-ul">
-<li><a href="https://web.microsoftstream.com/video/65c0ab12-344e-4bca-8b16-dc469b6e2339">October 9th (Friday) – Introduction to Ruby</a></li>
-<li><a href="https://web.microsoftstream.com/video/0a516345-0f40-40f3-a309-6bf9a3046188">October 2nd (Friday) – Infinite data in Scala</a></li>
-<li><a href="https://web.microsoftstream.com/video/6201a5a8-3757-4dc4-bb98-ff49628f4639">September 25th (Friday) – Trees in Prolog</a></li>
-<li><a href="https://web.microsoftstream.com/video/f29fc2dd-f3c0-40f6-9e67-a81eeb273065">September 18th (Friday) – Logical games in Prolog</a></li>
-<li><a href="https://web.microsoftstream.com/video/fe0b46f8-2512-4084-a399-f9d1b33257b6">September 14th (Monday) – The Boom hierarchy in Scala</a></li>
-</ul>
-</div>
-</div>
-
-<div id="outline-container-Tutorials" class="outline-3">
-<h3 id="Tutorials">Tutorials</h3>
-<div class="outline-text-3" id="text-Tutorials">
-<p>
-The contents of each week's tutorials is usually consistent
-across the two tutorials.
-We will put a note here in the case that there is a significant
-difference between Monday and Wednesday.
-</p>
-
-<ul class="org-ul">
-<li><a href="https://web.microsoftstream.com/video/4040de86-4326-4543-9b7e-893f980cb0b4">Week 7 Monday, November 2nd – Propagating failure with the Option type</a></li>
-<li><a href="https://web.microsoftstream.com/video/204cb8c0-196f-4982-864e-882b91629e2a">Week 6 Wednesday, October 28th – Trees in Ruby</a> (Mark)</li>
-<li><a href="https://web.microsoftstream.com/video/03995825-e0dd-42bc-81b4-cc3e41f9a741">Week 6 Monday, October 26th – Trees in Ruby</a> (Mark)</li>
-<li>Week 5 Wednesday, October 21st – Introduction to Ruby
-<ul class="org-ul">
-<li>Unfortunately not recorded.</li>
-</ul></li>
-<li><a href="https://web.microsoftstream.com/video/9df1e93a-629c-4e8e-95c4-1326cc81e555">Week 5 Monday, October 19th – Introduction to Ruby</a> (Mark)</li>
-<li><a href="https://web.microsoftstream.com/video/63bf6efc-7f16-4a0e-86ea-68778fc1e0ea">Week 4 Wednesday, October 7th – More infinite data in Scala</a> (Habib)</li>
-<li><a href="https://web.microsoftstream.com/video/a44b3b3c-b61d-499f-b6c0-041613e13ccb">Week 4 Monday, October 5th – More infinite data in Scala</a> (Mark)</li>
-<li><a href="https://web.microsoftstream.com/video/bb9938cd-ffec-43e6-b9d4-3a1e93b1ce2a">Week 3 Wednesday, September 30th – More trees in Prolog</a> (Habib)</li>
-<li><a href="https://web.microsoftstream.com/video/7a37a812-9955-4edd-a08f-bd0d95ce4c25">Week 3 Monday, September 28th – More trees in Prolog</a> (Mark)</li>
-<li><a href="https://web.microsoftstream.com/video/8f852c44-7249-42ca-9fc0-acc21578ecd5">Week 2 Wednesday, September 23rd – Docker, Introduction to Prolog</a> (Habib)
-<ul class="org-ul">
-<li>Covers Docker, which the Monday tutorial did not.</li>
-</ul></li>
-<li><a href="https://web.microsoftstream.com/video/dd31d267-6de5-4cc1-afae-8e81b126d3f8">Week 2 Monday, September 21st – Introduction to Prolog</a> (Mark)
-<ul class="org-ul">
-<li>Discusses Prolog with a little more depth than the Wednesday tutorial.</li>
-</ul></li>
-<li><a href="https://web.microsoftstream.com/video/da69ad32-13c9-4e26-904e-e06a66c3b537">Week 2 Wednesday, September 16th – Algebraic data in Scala</a> (Mark)</li>
-<li><a href="https://web.microsoftstream.com/video/1f99aa1e-ee5e-4bb4-a27c-6c32175332fd">Week 2 Monday, September 14th – Algebraic data in Scala</a> (Mark)</li>
-</ul>
-</div>
-</div>
-</div>
-
-<div id="outline-container-Course-Work" class="outline-2">
-<h2 id="Course-Work">Homework</h2>
-<div class="outline-text-2" id="text-Course-Work">
-</div>
-
-<div id="outline-container-Current-homeworks" class="outline-3">
-<h3 id="Current-homeworks">Current homeworks</h3>
-<div class="outline-text-3" id="text-Current-homeworks">
-</div>
-
-<div id="outline-container-Homework-10-–-Using-concurrency-to-break-up-large-problems-–-Dec-4th-to-Dec-9th" class="outline-4">
-<h4 id="Homework-10-–-Using-concurrency-to-break-up-large-problems-–-Dec-4th-to-Dec-9th">Homework 10 – Using concurrency to break up large problems – Dec 4th to Dec 9th</h4>
-<div class="outline-text-4" id="text-Homework-10-–-Using-concurrency-to-break-up-large-problems-–-Dec-4th-to-Dec-9th">
-<ul class="org-ul">
-<li><a href="./homework/h10.html">HTML</a></li>
-<li><a href="./homework/h10.pdf">PDF</a></li>
-<li><a href="./homework/h10.org">Org plaintext</a></li>
-</ul>
-</div>
-</div>
-
-<div id="outline-container-Homework-9-–-Adding-“guarded-commands”-to-Clojure-–-Nov-29th-to-Dec-9th" class="outline-4">
-<h4 id="Homework-9-–-Adding-“guarded-commands”-to-Clojure-–-Nov-29th-to-Dec-9th">Homework 9 – Adding “guarded commands” to Clojure – Nov 29th to Dec 9th</h4>
-<div class="outline-text-4" id="text-Homework-9-–-Adding-“guarded-commands”-to-Clojure-–-Nov-29th-to-Dec-9th">
-<p>
-<b>Note the due date; considering the late release of this homework,</b>
-<b>it is not due until the last day of classes.</b>
-</p>
-
-<ul class="org-ul">
-<li><a href="./homework/h9.html">HTML</a></li>
-<li><a href="./homework/h9.pdf">PDF</a></li>
-<li><a href="./homework/h9.org">Org plaintext</a></li>
-</ul>
-</div>
-</div>
-</div>
-
-<div id="outline-container-Homework-testing-policy" class="outline-3">
-<h3 id="Homework-testing-policy">Homework testing policy</h3>
-<div class="outline-text-3" id="text-Homework-testing-policy">
-<p>
-As of homework 2, automated unit tests are provided.
-A Docker image is also provided, in order to ensure that
-you are able to run the tests in the same environment
-that we will run them in.
+Submissions which do not pass
+all or a majority of the tests <b>may not be considered for grading at all</b>,
+at the discretion of the course staff.
 </p>
 
 <p>
-Passing the provided tests is <i>mandatory</i>.
-And unless other issues are found, passing the tests
-should imply you will receive a passing grade on the homework.
+During marking, we will typically add some <i>additional tests</i>,
+often constructed to test what we consider to be
+more “extreme” cases than are covered by the the provided tests,
+possibly including interesting <a href="https://en.wikipedia.org/wiki/Edge_case">edge cases</a>.
 </p>
 <ul class="org-ul">
-<li>But no particular grade is guaranteed.</li>
-</ul>
-
-<p>
-The automated testing we run during marking will typically
-include some number of additional tests,
-usually chosen to test “edge cases”.
-You are encouraged to try and think of these cases yourselves,
+<li>You are encouraged to try and think of these cases yourselves,
 and add appropriate tests to the provided ones
-in order to better check your solutions.
-This is not required though; a uniform set of tests
-will be used for every student's submission.
+in order to better check your solutions.</li>
+<li>You are not expected to submit any updates or additions
+to the testing files; as mentioned, any submissions of testing files
+will be ignored and overwritten.</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org-anchor-Previous-homeworks^1" class="outline-3">
+<h3 id="org-anchor-Previous-homeworks^1">Previous homeworks</h3>
+<div class="outline-text-3" id="text-org-anchor-Previous-homeworks^1">
+</div>
+</div>
+</div>
+
+<div id="outline-container-org-anchor-Assignments^1" class="outline-2">
+<h2 id="org-anchor-Assignments^1">Assignments</h2>
+<div class="outline-text-2" id="text-org-anchor-Assignments^1">
+</div>
+
+<div id="outline-container-org-anchor-Current-assignments^1" class="outline-3">
+<h3 id="org-anchor-Current-assignments^1">Current assignments</h3>
+<div class="outline-text-3" id="text-org-anchor-Current-assignments^1">
+</div>
+</div>
+<div id="outline-container-org-anchor-Literate-documentation-policy^1" class="outline-3">
+<h3 id="org-anchor-Literate-documentation-policy^1">Literate documentation policy</h3>
+<div class="outline-text-3" id="text-org-anchor-Literate-documentation-policy^1">
+<p>
+The literate documentation policy for assignments
+is laid out in
+<a href="./appendices/A4--Assessment-policies.html#org-anchor-Assignment-literate-documentation-policy^1">appendix 4, under “Assignment literate documentation”</a>
+The policy itself is repeated below.
+<a href="./appendices/A4--Assessment-policies.html#org-anchor-Assignment-literate-documentation-style-guide^1">Style</a>
+and
+<a href="./appendices/A4--Assessment-policies.html#org-anchor-Assignment-literate-documentation-content-guide^1">content</a>
+guides can be found in the appendix.
 </p>
 </div>
 </div>
 
-<div id="outline-container-Previous-homeworks" class="outline-3">
-<h3 id="Previous-homeworks">Previous homeworks</h3>
-<div class="outline-text-3" id="text-Previous-homeworks">
-</div>
-
-<div id="outline-container-Homework-8-–-Visualing-the-call-stack-in-Clojure-–-Nov-19th-to-Nov-25th" class="outline-4">
-<h4 id="Homework-8-–-Visualing-the-call-stack-in-Clojure-–-Nov-19th-to-Nov-25th">Homework 8 – Visualing the call stack in Clojure – Nov 19th to Nov 26th</h4>
-<div class="outline-text-4" id="text-Homework-8-–-Visualing-the-call-stack-in-Clojure-–-Nov-19th-to-Nov-25th">
+<div id="outline-container-org-anchor-Unit-testing-policy^2" class="outline-3">
+<h3 id="org-anchor-Unit-testing-policy^2">Unit testing policy</h3>
+<div class="outline-text-3" id="text-org-anchor-Unit-testing-policy^2">
 <p>
-<b>As of November 25th, the due date for this homework was shifted to November 26th</b>
-from November 25th. The testing setup is also released.
+The unit testing policy for homeworks and assignments
+is laid out in
+<a href="./appendices/A4--Assessment-policies.org#org-anchor-Automated-unit-testing-policy^1">appendix 4, under “Assignment literate documentation”</a>
+The policy is repeated below.
+Style and content guides can be found in the appendix.
 </p>
-
-<ul class="org-ul">
-<li><a href="./homework/h8.html">HTML</a></li>
-<li><a href="./homework/h8.pdf">PDF</a></li>
-<li><a href="./homework/h8.org">Org plaintext</a></li>
-</ul>
-</div>
 </div>
 
-<div id="outline-container-Homework-7-–-Pretty-printing-a-representation-of-the-untyped-λ-calculus-–-Nov-1st-to-Nov-8th" class="outline-4">
-<h4 id="Homework-7-–-Pretty-printing-a-representation-of-the-untyped-λ-calculus-–-Nov-1st-to-Nov-8th">Homework 7 – Pretty printing a representation of the untyped λ-calculus – Nov 1st to Nov 8th</h4>
-<div class="outline-text-4" id="text-Homework-7-–-Pretty-printing-a-representation-of-the-untyped-λ-calculus-–-Nov-1st-to-Nov-8th">
-<ul class="org-ul">
-<li><a href="./homework/h7.html">HTML</a></li>
-<li><a href="./homework/h7.pdf">PDF</a></li>
-<li><a href="./homework/h7.org">Org plaintext</a></li>
-</ul>
-</div>
-</div>
-
-<div id="outline-container-Homework-6-–-Representing-and-interpreting-~Expr~-in-Ruby-–-Oct-23rd-to-Nov-1st" class="outline-4">
-<h4 id="Homework-6-–-Representing-and-interpreting-~Expr~-in-Ruby-–-Oct-23rd-to-Nov-1st">Homework 6 – Representing and interpreting <code>Expr</code> in Ruby – Oct 23rd to Nov 1st</h4>
-<div class="outline-text-4" id="text-Homework-6-–-Representing-and-interpreting-~Expr~-in-Ruby-–-Oct-23rd-to-Nov-1st">
-<ul class="org-ul">
-<li><a href="./homework/h6.html">HTML</a></li>
-<li><a href="./homework/h6.pdf">PDF</a></li>
-<li><a href="./homework/h6.org">Org plaintext</a></li>
-</ul>
-</div>
-</div>
-
-<div id="outline-container-Homework-5-–-“Fizzbuzz”-ing-in-Ruby-–-October-12th-to-Oct-25th" class="outline-4">
-<h4 id="Homework-5-–-“Fizzbuzz”-ing-in-Ruby-–-October-12th-to-Oct-25th">Homework 5 – “Fizzbuzz”-ing in Ruby – Oct 12th to Oct 25th</h4>
-<div class="outline-text-4" id="text-Homework-5-–-“Fizzbuzz”-ing-in-Ruby-–-October-12th-to-Oct-25th">
+<div id="outline-container-org-anchor-Policy^2" class="outline-4">
+<h4 id="org-anchor-Policy^2">Policy</h4>
+<div class="outline-text-4" id="text-org-anchor-Policy^2">
 <p>
-Note the due date: the Sunday following reading week.
-</p>
-
-<ul class="org-ul">
-<li><a href="./homework/h5.html">HTML</a></li>
-<li><a href="./homework/h5.pdf">PDF</a></li>
-<li><a href="./homework/h5.org">Org plaintext</a></li>
-</ul>
-</div>
-</div>
-
-<div id="outline-container-Homework-4-–-Working-with-lazy-(potentially-infinite)-lists-in-Scala-–-Oct-7th-to-Oct-19th" class="outline-4">
-<h4 id="Homework-4-–-Working-with-lazy-(potentially-infinite)-lists-in-Scala-–-Oct-7th-to-Oct-19th">Homework 4 – Working with lazy (potentially infinite) lists in Scala – Oct 7th to Oct 19th</h4>
-<div class="outline-text-4" id="text-Homework-4-–-Working-with-lazy-(potentially-infinite)-lists-in-Scala-–-Oct-7th-to-Oct-19th">
-<ul class="org-ul">
-<li><a href="./homework/h4.html">HTML</a></li>
-<li><a href="./homework/h4.pdf">PDF</a></li>
-<li><a href="./homework/h4.org">Org plaintext</a></li>
-</ul>
-</div>
-</div>
-
-<div id="outline-container-Homework-3-–-Revisiting-homework-1-in-Prolog-and-homework-2-in-Scala-–-Sept-25th-to-Oct-4th" class="outline-4">
-<h4 id="Homework-3-–-Revisiting-homework-1-in-Prolog-and-homework-2-in-Scala-–-Sept-25th-to-Oct-4th">Homework 3 – Revisiting homework 1 in Prolog and homework 2 in Scala – Sept 25th to Oct 4th</h4>
-<div class="outline-text-4" id="text-Homework-3-–-Revisiting-homework-1-in-Prolog-and-homework-2-in-Scala-–-Sept-25th-to-Oct-4th">
-<ul class="org-ul">
-<li><a href="./homework/h3.html">HTML</a></li>
-<li><a href="./homework/h3.pdf">PDF</a></li>
-<li><a href="./homework/h3.org">Org plaintext</a></li>
-</ul>
-</div>
-</div>
-
-<div id="outline-container-Homework-2-–-Solving-problems-in-Prolog-–-Sept-18th-to-Sept-27th" class="outline-4">
-<h4 id="Homework-2-–-Solving-problems-in-Prolog-–-Sept-18th-to-Sept-27th">Homework 2 – Solving problems in Prolog – Sept 18th to Sept 27th</h4>
-<div class="outline-text-4" id="text-Homework-2-–-Solving-problems-in-Prolog-–-Sept-18th-to-Sept-27th">
-<ul class="org-ul">
-<li><a href="./homework/h2.html">HTML</a></li>
-<li><a href="./homework/h2.pdf">PDF</a></li>
-<li><a href="./homework/h2.org">Org plaintext</a></li>
-</ul>
-</div>
-</div>
-
-<div id="outline-container-Homework-1-–-Implementing-Trees-in-Scala-–-Sept-11th-to-Sept-20th" class="outline-4">
-<h4 id="Homework-1-–-Implementing-Trees-in-Scala-–-Sept-11th-to-Sept-20th">Homework 1 – Implementing Trees in Scala – Sept 11th to Sept 20th</h4>
-<div class="outline-text-4" id="text-Homework-1-–-Implementing-Trees-in-Scala-–-Sept-11th-to-Sept-20th">
-<ul class="org-ul">
-<li><a href="./homework/h1.html">HTML</a></li>
-<li><a href="./homework/h1.pdf">PDF</a></li>
-<li><a href="./homework/h1.org">Org plaintext</a></li>
-</ul>
-</div>
-</div>
-</div>
-</div>
-
-<div id="outline-container-Assignments" class="outline-2">
-<h2 id="Assignments">Assignments</h2>
-<div class="outline-text-2" id="text-Assignments">
-</div>
-
-<div id="outline-container-Assignment-3-–-A-representation-of-Dijkstra's-guarded-command-language-–-Dec-2nd-to-Dec-18th" class="outline-3">
-<h3 id="Assignment-3-–-A-representation-of-Dijkstra's-guarded-command-language-–-Dec-2nd-to-Dec-18th">Assignment 3 – A representation of Dijkstra's guarded command language – Dec 2nd to Dec 18th</h3>
-<div class="outline-text-3" id="text-Assignment-3-–-A-representation-of-Dijkstra's-guarded-command-language-–-Dec-2nd-to-Dec-18th">
-<ul class="org-ul">
-<li><a href="./assignments/a3.html">HTML</a></li>
-<li><a href="./assignments/a3.pdf">PDF</a></li>
-<li><a href="./assignments/a3.org">Org plaintext</a></li>
-</ul>
-</div>
-
-<div id="outline-container-Regarding-MSAFs,-the-due-date,-and-extensions" class="outline-4">
-<h4 id="Regarding-MSAFs,-the-due-date,-and-extensions">Regarding MSAFs, the due date, and extensions</h4>
-<div class="outline-text-4" id="text-Regarding-MSAFs,-the-due-date,-and-extensions">
-<p>
-Note that because this assignment is worth 30%,
-the use of an MSAF would require approval of the faculty office
-and presumably some documentation.
+Automated unit tests will be provided for all assignments,
+and whenever possible and practical,
+they will also be provided for each homework.
 </p>
 
 <p>
-The set due date of the assignment
-(the 18th of December) <b>will not</b> be
-shifted again in any circumstance,
-in order to ensure time for students who are granted
-an extension to still submit before the 23rd.
+<b>You should not submit the testing files with your assignment contents</b>;
+it will not cause any problems, but testing files will be ignored
+and overwritten before testing.
 </p>
 
 <p>
-With all of that said, you <b>may</b> communicate with Mark to discuss
-individual extensions of no more than 4 days
-(which is the length of a normal MSAF extension),
-without necessarily needing to submit an MSAF.
+Alongside the files for unit testing,
+a <a href="https://docker.com">Docker</a> image
+will also be provided, in order to ensure that
+you are able to run the tests in the exact same environment
+that the course staff will use.
 </p>
 
 <p>
-To ensure your comfort, please <b>do not</b> initially send
-any documentation or any more details
-about why you need an extension
-than you are absolutely comfortable sharing with us.
+Passing the provided tests is <i>mandatory</i>,
+but <b>does not</b> <i>guarantee</i> a passing grade
+(both for homeworks and assignments.)
 </p>
-</div>
-</div>
-</div>
-
-<div id="outline-container-Assignment-1-–-Interpreting-simple-integer-expressions-–-Sept-26th-to-Oct-21st." class="outline-3">
-<h3 id="Assignment-1-–-Interpreting-simple-integer-expressions-–-Sept-26th-to-Oct-21st.">Assignment 2 – Typing a λ-calculus – Oct 30th to Nov 29th</h3>
-<div class="outline-text-3" id="text-Assignment-1-–-Interpreting-simple-integer-expressions-–-Sept-26th-to-Oct-21st.">
-<p>
-<b>As of November 25th, the due date has been shifted to November 29th</b>,
-from November 26th. If you have completed the assignment by November 26th,
-please e-mail or message Mark to inform him, and commit/push your work,
-for a possible (unspecified) bonus consideration in your final mark.
-</p>
-
 <ul class="org-ul">
-<li><a href="./assignments/a2.html">HTML</a></li>
-<li><a href="./assignments/a2.pdf">PDF</a></li>
-<li><a href="./assignments/a2.org">Org plaintext</a></li>
+<li>Assignments will undergo a code review by the course staff,
+and your grade will be influenced just as much or more
+by your code's <i>approach</i> and <i>style</i> as by passing of tests.</li>
+<li>Homeworks will undergo a similar, but much more cursory, code review.
+Barring any obvious issues, you should receive a passing grade
+if your code passes the tests.</li>
 </ul>
-</div>
-</div>
+<p>
+Submissions which do not pass
+all or a majority of the tests <b>may not be considered for grading at all</b>,
+at the discretion of the course staff.
+</p>
 
-<div id="outline-container-Assignment-1-–-Interpreting-simple-integer-expressions-–-Sept-26th-to-Oct-21st" class="outline-3">
-<h3 id="Assignment-1-–-Interpreting-simple-integer-expressions-–-Sept-26th-to-Oct-21st">Assignment 1 – Interpreting simple integer expressions – Sept 26th to Oct 21st</h3>
-<div class="outline-text-3" id="text-Assignment-1-–-Interpreting-simple-integer-expressions-–-Sept-26th-to-Oct-21st">
+<p>
+During marking, we will typically add some <i>additional tests</i>,
+often constructed to test what we consider to be
+more “extreme” cases than are covered by the the provided tests,
+possibly including interesting <a href="https://en.wikipedia.org/wiki/Edge_case">edge cases</a>.
+</p>
 <ul class="org-ul">
-<li><a href="./assignments/a1.html">HTML</a></li>
-<li><a href="./assignments/a1.pdf">PDF</a></li>
-<li><a href="./assignments/a1.org">Org plaintext</a></li>
-</ul>
-</div>
-</div>
-
-<div id="outline-container-Assignment-testing-policy" class="outline-3">
-<h3 id="Assignment-testing-policy">Assignment testing policy</h3>
-<div class="outline-text-3" id="text-Assignment-testing-policy">
-<p>
-Automated unit tests will be provided for all assignments.
-A Docker image is also provided, in order to ensure that
-you are able to run the tests in the same environment
-that we will run them in.
-</p>
-
-<p>
-Passing the provided tests is <i>mandatory</i>.
-But unlike the homeworks, passing the provided tests
-does <b>not</b> necessarily mean you will receive
-a passing grade on the assignment.
-The assignment grades are more heavily influenced
-by a code inspection.
-</p>
-
-<p>
-As with the homework,
-the automated testing we run during marking will typically
-include some number of additional tests,
-usually chosen to test “edge cases”.
-You are encouraged to try and think of these cases yourselves,
+<li>You are encouraged to try and think of these cases yourselves,
 and add appropriate tests to the provided ones
-in order to better check your solutions.
-This is not required though; a uniform set of tests
-will be used for every student's submission.
-</p>
+in order to better check your solutions.</li>
+<li>You are not expected to submit any updates or additions
+to the testing files; as mentioned, any submissions of testing files
+will be ignored and overwritten.</li>
+</ul>
 </div>
 </div>
 </div>
 
-<div id="outline-container-Course-outline" class="outline-2">
-<h2 id="Course-outline">Course outline</h2>
-<div class="outline-text-2" id="text-Course-outline">
+<div id="outline-container-org-anchor-Previous-assignments^1" class="outline-3">
+<h3 id="org-anchor-Previous-assignments^1">Previous assignments</h3>
+<div class="outline-text-3" id="text-org-anchor-Previous-assignments^1">
+</div>
+</div>
+</div>
+<div id="outline-container-org-anchor-Course-outline^1" class="outline-2">
+<h2 id="org-anchor-Course-outline^1">Course outline</h2>
+<div class="outline-text-2" id="text-org-anchor-Course-outline^1">
+</div>
+
+<div id="outline-container-org-anchor-Outline^1" class="outline-3">
+<h3 id="org-anchor-Outline^1">Outline</h3>
+<div class="outline-text-3" id="text-org-anchor-Outline^1">
 <p>
 The course outline is available as
 </p>
@@ -2258,211 +586,111 @@ The webpage is also embedded here for convenience.
 </p>
 </div>
 </div>
+</div>
 
-<div id="outline-container-Scala" class="outline-2">
-<h2 id="Scala">Scala</h2>
-<div class="outline-text-2" id="text-Scala">
+<div id="outline-container-org-anchor-Appendices^1" class="outline-2">
+<h2 id="org-anchor-Appendices^1">Appendices</h2>
+<div class="outline-text-2" id="text-org-anchor-Appendices^1">
 <p>
-Answers to some common or interesting questions regarding Prolog
-can be found in the Prolog tidbits file, available as
+These appendices complement the other course documents,
+providing key information both in terms of the content of the course
+and its administration.
 </p>
+
+<p>
+In many cases, information from these appendices
+will be imported into the other course documents,
+usually with a note and a link back to the appendix.
+</p>
+</div>
+
+<div id="outline-container-org-anchor-Appendix-1-–-Notation-and-conventions^1" class="outline-3">
+<h3 id="org-anchor-Appendix-1-–-Notation-and-conventions^1">Appendix 1 – Notation and conventions</h3>
+<div class="outline-text-3" id="text-org-anchor-Appendix-1-–-Notation-and-conventions^1">
 <ul class="org-ul">
-<li>an <a href="./language-tidbits/scala.html">HTML site</a>,</li>
-<li>a <a href="./language-tidbits/scala.pdf">PDF</a>, or</li>
-<li>a plaintext <a href="./language-tidbits/scala.org">Org document</a>.</li>
+<li><a href="./appendices/A1--Notation-and-conventions.html">Webpage</a></li>
+<li><a href="./appendices/A1--Notation-and-conventions.pdf">PDF</a></li>
+<li><a href="./appendices/A1--Notation-and-conventions.org">Org plaintext</a></li>
 </ul>
 </div>
+</div>
 
-<div id="outline-container-Installation-instructions" class="outline-3">
-<h3 id="Installation-instructions">Installation instructions</h3>
-<div class="outline-text-3" id="text-Installation-instructions">
-<p>
-In this course, we will be targetting
-</p>
+<div id="outline-container-org-anchor-Appendix-2-–-Software-and-tools^1" class="outline-3">
+<h3 id="org-anchor-Appendix-2-–-Software-and-tools^1">Appendix 2 – Software and tools</h3>
+<div class="outline-text-3" id="text-org-anchor-Appendix-2-–-Software-and-tools^1">
 <ul class="org-ul">
-<li><a href="https://scala-lang.org">Scala</a> version 2.13 and</li>
-<li><a href="https://ammonite.io">Ammonite</a>, an “improved” Scala REPL (read, evaluate, print loop),
-version 1.7.1,</li>
+<li><a href="./appendices/A2--Software-and-tools.html">Webpage</a></li>
+<li><a href="./appendices/A2--Software-and-tools.pdf">PDF</a></li>
+<li><a href="./appendices/A2--Software-and-tools.org">Org plaintext</a></li>
 </ul>
-<p>
-as used in the
-<a href="https://hub.docker.com/r/lolhens/ammonite/">lolhens/ammonite</a>
-Docker image.
-</p>
-
-<div class="org-center">
-<p>
-<b>If there is any update to the Docker image,</b>
-<b>or if for any other reason we change our targeted versions</b>,
-<b>we will make an announcement on the homepage.</b>
-</p>
+</div>
 </div>
 
-<p>
-All of that said, any recent version of Scala and Ammonite
-should suffice for our purposes; it is unlikely we will
-be using any features which could have compatability issues.
-You may install whatever is most convenient on your system,
-and later run tests in the Docker image
-to verify there are no compatability issues.
-</p>
-
-<p>
-So, we recommend whatever installation method
-that seems appropriate for your operating system,
-and we link to guides to get you started below.
-</p>
+<div id="outline-container-org-anchor-Appendix-3-–-External-resources^1" class="outline-3">
+<h3 id="org-anchor-Appendix-3-–-External-resources^1">Appendix 3 – External resources</h3>
+<div class="outline-text-3" id="text-org-anchor-Appendix-3-–-External-resources^1">
+<ul class="org-ul">
+<li><a href="./appendices/A3--External-resources.html">Webpage</a></li>
+<li><a href="./appendices/A3--External-resources.pdf">PDF</a></li>
+<li><a href="./appendices/A3--External-resources.org">Org plaintext</a></li>
+</ul>
+</div>
 </div>
 
-<div id="outline-container-Installation-guides" class="outline-4">
-<h4 id="Installation-guides">Installation guides</h4>
-<div class="outline-text-4" id="text-Installation-guides">
+<div id="outline-container-org-anchor-Appendix-4-–-Assessment-policies^1" class="outline-3">
+<h3 id="org-anchor-Appendix-4-–-Assessment-policies^1">Appendix 4 – Assessment policies</h3>
+<div class="outline-text-3" id="text-org-anchor-Appendix-4-–-Assessment-policies^1">
 <ul class="org-ul">
-<li>The <a href="https://ammonite.io">Ammonite</a> homepage.</li>
-<li><a href="https://www.handsonscala.com/chapter-2-setting-up.html">Chapter 2</a> of
-the online “Hands-on Scala”, titled “Setting Up”.
-<ul class="org-ul">
-<li>“<a href="https://www.handsonscala.com/index.html">Hands-on Scala</a>”, by Li Haoyi,
-is a very recent book on Scala using Ammonite.
-Its first 5 chapters are free to read online.</li>
-</ul></li>
+<li><a href="./appendices/A4--Assessment-policies.html">Webpage</a></li>
+<li><a href="./appendices/A4--Assessment-policies.pdf">PDF</a></li>
+<li><a href="./appendices/A4--Assessment-policies.org">Org plaintext</a></li>
 </ul>
 </div>
 </div>
 </div>
-</div>
 
-<div id="outline-container-Prolog" class="outline-2">
-<h2 id="Prolog">Prolog</h2>
-<div class="outline-text-2" id="text-Prolog">
+<div id="outline-container-org-anchor-Language-information^1" class="outline-2">
+<h2 id="org-anchor-Language-information^1">Language information</h2>
+<div class="outline-text-2" id="text-org-anchor-Language-information^1">
 <p>
-Answers to some common or interesting questions regarding Prolog
-can be found in the Prolog tidbits file, available as
-</p>
-<ul class="org-ul">
-<li>an <a href="./language-tidbits/prolog.html">HTML site</a>,</li>
-<li>a <a href="./language-tidbits/prolog.pdf">PDF</a>, or</li>
-<li>a plaintext <a href="./language-tidbits/prolog.org">Org document</a>.</li>
-</ul>
-</div>
-
-<div id="outline-container-Installation-instructions" class="outline-3">
-<h3 id="Installation-instructions">Installation instructions</h3>
-<div class="outline-text-3" id="text-Installation-instructions">
-<p>
-In this course, we will be targetting
-<a href="https://www.swi-prolog.org/">SWI Prolog</a> version 8.2.0,
-as used in the
-<a href="https://hub.docker.com/_/swipl/">swipl</a>
-Docker image.
-</p>
-
-<div class="org-center">
-<p>
-<b>If there is any update to the Docker image,</b>
-<b>or if for any other reason we change our targeted versions</b>,
-<b>we will make an announcement on the homepage.</b>
+This tab would be used for information regarding
+the first programming language used in the course.
+Other such tabs would be added as the course goes on.
 </p>
 </div>
 
+<div id="outline-container-org-anchor-Tidbits^1" class="outline-3">
+<h3 id="org-anchor-Tidbits^1">Tidbits</h3>
+<div class="outline-text-3" id="text-org-anchor-Tidbits^1">
 <p>
-That said, any recent version should suffice. 
-</p>
-</div>
-
-<div id="outline-container-Installation-guides" class="outline-4">
-<h4 id="Installation-guides">Installation guides</h4>
-<div class="outline-text-4" id="text-Installation-guides">
-<ul class="org-ul">
-<li>Linux and MacOS users should be able to install SWI Prolog
-via their package manager.</li>
-<li>The <a href="https://www.swi-prolog.org/download/stable">SWI Prolog website</a>
-provides downloads of prebuilt binaries for SWI Prolog 8.2.1.</li>
-</ul>
-</div>
-</div>
-</div>
-</div>
-
-<div id="outline-container-Ruby" class="outline-2">
-<h2 id="Ruby">Ruby</h2>
-<div class="outline-text-2" id="text-Ruby">
-</div>
-
-<div id="outline-container-Installation-instructions" class="outline-3">
-<h3 id="Installation-instructions">Installation instructions</h3>
-<div class="outline-text-3" id="text-Installation-instructions">
-<p>
-If you are on a Unix based system
-(including the Windows Subsystem for Linux)
-you most likely already have Ruby installed on your system.
-Try <code>ruby -v</code> from your terminal of choice to confirm.
+Answers to some common or interesting questions that have come up
+regarding the use of
+(first language, TBD)
+in this course can be found in the
+(first language, TBD) tidbits file,
 </p>
 
 <p>
-Otherwise, or if you want a different version,
-see the <a href="https://www.ruby-lang.org/en/documentation/installation/#rubyinstaller">Ruby installation guide</a>.
-</p>
-
-<p>
-The Docker images used for testing will be using Ruby version 2.7.2,
-but as usual, (small) differences in the version of Ruby you use
-should not matter for this course. 
-</p>
-
-<p>
-You can get started with an interpreter session by running <code>irb</code> from
-your favourite terminal, or writing your code in a <code>.rb</code> file
-and running it with, for instance, <code>ruby h5.rb</code>.
-(You can also use <code>irb</code> to run your code; this will echo
-each line of your file as it is run, which you may find helpful
-for debugging purposes.)
+which will be made available here.
 </p>
 </div>
 </div>
+
+<div id="outline-container-org-anchor-Resources^1" class="outline-3">
+<h3 id="org-anchor-Resources^1">Resources</h3>
+<div class="outline-text-3" id="text-org-anchor-Resources^1">
+<p>
+Herein are collected some general resources for
+(first language, TBD).
+These resources may be particularly useful to learn
+more about the language than what we cover in this course.
+</p>
+</div>
 </div>
 
-<div id="outline-container-Clojure" class="outline-2">
-<h2 id="Clojure">Clojure</h2>
-<div class="outline-text-2" id="text-Clojure">
-</div>
-
-<div id="outline-container-Installation-instructions" class="outline-3">
-<h3 id="Installation-instructions">Installation instructions</h3>
-<div class="outline-text-3" id="text-Installation-instructions">
-<p>
-For a quick start with Clojure, you can use
-<a href="https://repl.it/languages/clojure">repl.it</a>.
-</p>
-
-<p>
-For instructions on installing Clojure,
-see the Clojure <a href="https://clojure.org/guides/getting_started">getting started guide</a>.
-</p>
-
-<p>
-For the purposes of testing in Docker,
-we will use the build tool <a href="https://leiningen.org/">Leiningen</a>.
-</p>
-
-<p>
-That said, we do not assume that a “project” is created
-for the homeworks and assignments. As with Scala,
-we will assume that your Clojure code is a <i>script</i>,
-to be run in the REPL.
-</p>
-
-<p>
-Specifically, we will run your code by starting a REPL with <code>lein repl</code>,
-and then “dumping” your code into that REPL.
-</p>
-
-<p>
-If you want to check how your code runs
-with <code>lein repl</code> on your own system,
-you can run <code>cat my-code-file.clj | lein repl</code>.
-This is the command the Docker image will use.
-</p>
+<div id="outline-container-org-anchor-Installation-instructions^1" class="outline-3">
+<h3 id="org-anchor-Installation-instructions^1">Installation instructions</h3>
+<div class="outline-text-3" id="text-org-anchor-Installation-instructions^1">
 </div>
 </div>
 </div>
@@ -2470,9 +698,9 @@ This is the command the Docker image will use.
 <div id="postamble" class="status">
 <p class="author">Author: Mark Armstrong</p>
      <p class="author">Contact: <a href="mailto:markparmstrong@gmail.com">markparmstrong@gmail.com</a></p>
-     <p class="date">Original date: July 31st, 2020</p>
-     <p class="date">Last updated: 2021-01-11 Mon 23:07</p>
-     <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.90 (<a href="https://orgmode.org">Org</a> mode 9.4.4)</p>
+     <p class="date">Original date: </p>
+     <p class="date">Last updated: 2021-08-17 Tue 17:31</p>
+     <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 28.0.50 (<a href="https://orgmode.org">Org</a> mode 9.4.6)</p>
      <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

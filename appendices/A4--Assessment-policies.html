@@ -1,0 +1,488 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-08-11 Wed 12:53 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Assessment policies</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Mark Armstrong" />
+<meta name="description" content="A living list of notation and conventions
+used in my principles of programming course."
+ />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline; margin-top: 14px;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="styles/readtheorg/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="styles/readtheorg/css/readtheorg.css"/>
+<script type="text/javascript" src="styles/lib/js/jquery.min.js"></script>
+<script type="text/javascript" src="styles/lib/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="styles/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" src="styles/readtheorg/js/readtheorg.js"></script>
+<style>pre.src{background:#000000;color:white;} </style>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.add("code-highlighted");
+         target.classList.add("code-highlighted");
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.remove("code-highlighted");
+         target.classList.remove("code-highlighted");
+       }
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Assessment policies</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org-anchor-Automated-unit-testing-policy^1">1. Automated unit testing policy</a></li>
+<li><a href="#org-anchor-Assignment-literate-documentation^1">2. Assignment literate documentation</a>
+<ul>
+<li><a href="#org-anchor-Assignment-literate-documentation-policy^1">2.1. Assignment literate documentation policy</a></li>
+<li><a href="#org-anchor-Assignment-literate-documentation-style-guide^1">2.2. Assignment literate documentation style guide</a>
+<ul>
+<li><a href="#org-anchor-General-literate-documentation-style-rules^1">2.2.1. General literate documentation style rules</a></li>
+<li><a href="#org-anchor-Format-specific-literate-documentation-style-rules^1">2.2.2. Format specific literate documentation style rules</a></li>
+</ul>
+</li>
+<li><a href="#org-anchor-Assignment-literate-documentation-content-guide^1">2.3. Assignment literate documentation content guide</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org-anchor-Automated-unit-testing-policy^1" class="outline-2">
+<h2 id="org-anchor-Automated-unit-testing-policy^1"><span class="section-number-2">1.</span> Automated unit testing policy</h2>
+<div class="outline-text-2" id="text-org-anchor-Automated-unit-testing-policy^1">
+<p>
+Automated unit tests will be provided for all assignments,
+and whenever possible and practical,
+they will also be provided for each homework.
+</p>
+
+<p>
+<b>You should not submit the testing files with your assignment contents</b>;
+it will not cause any problems, but testing files will be ignored
+and overwritten before testing.
+</p>
+
+<p>
+Alongside the files for unit testing,
+a <a href="https://docker.com">Docker</a> image
+will also be provided, in order to ensure that
+you are able to run the tests in the exact same environment
+that the course staff will use.
+</p>
+
+<p>
+Passing the provided tests is <i>mandatory</i>,
+but <b>does not</b> <i>guarantee</i> a passing grade
+(both for homeworks and assignments.)
+</p>
+<ul class="org-ul">
+<li>Assignments will undergo a code review by the course staff,
+and your grade will be influenced just as much or more
+by your code's <i>approach</i> and <i>style</i> as by passing of tests.</li>
+<li>Homeworks will undergo a similar, but much more cursory, code review.
+Barring any obvious issues, you should receive a passing grade
+if your code passes the tests.</li>
+</ul>
+<p>
+Submissions which do not pass
+all or a majority of the tests <b>may not be considered for grading at all</b>,
+at the discretion of the course staff.
+</p>
+
+<p>
+During marking, we will typically add some <i>additional tests</i>,
+often constructed to test what we consider to be
+more “extreme” cases than are covered by the the provided tests,
+possibly including interesting <a href="https://en.wikipedia.org/wiki/Edge_case">edge cases</a>.
+</p>
+<ul class="org-ul">
+<li>You are encouraged to try and think of these cases yourselves,
+and add appropriate tests to the provided ones
+in order to better check your solutions.</li>
+<li>You are not expected to submit any updates or additions
+to the testing files; as mentioned, any submissions of testing files
+will be ignored and overwritten.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org-anchor-Assignment-literate-documentation^1" class="outline-2">
+<h2 id="org-anchor-Assignment-literate-documentation^1"><span class="section-number-2">2.</span> Assignment literate documentation</h2>
+<div class="outline-text-2" id="text-org-anchor-Assignment-literate-documentation^1">
+</div>
+
+<div id="outline-container-org-anchor-Assignment-literate-documentation-policy^1" class="outline-3">
+<h3 id="org-anchor-Assignment-literate-documentation-policy^1"><span class="section-number-3">2.1.</span> Assignment literate documentation policy</h3>
+<div class="outline-text-3" id="text-org-anchor-Assignment-literate-documentation-policy^1">
+<p>
+In addition to source code files,
+assignments will also require you submit <i>documentation</i> for your code
+in the form of
+a <a href="http://www.literateprogramming.com/index.html">literate programming</a> document.
+</p>
+
+<p>
+20% of each assignment's marks are set aside for this documentation.
+</p>
+<ul class="org-ul">
+<li>12% for the contents of the documentation, and</li>
+<li>8% for the style of the documentation.</li>
+<li>Even if the assignment is incomplete, full documentation marks
+may be awarded,
+<ul class="org-ul">
+<li>so long as some parts are sufficiently completed,</li>
+<li>and some discussion of the difficulties with missing parts is included.
+<ul class="org-ul">
+<li>(More than just “I ran out of time”.)</li>
+</ul></li>
+</ul></li>
+</ul>
+
+<p>
+Any of the following formats are acceptable for this documentation:
+</p>
+<ul class="org-ul">
+<li>Markdown (<a href="https://daringfireball.net/projects/markdown/">homepage</a>)</li>
+<li>Org mode (<a href="https://orgmode.org/">homepage</a>)
+<ul class="org-ul">
+<li>Implementations outside of Emacs exist,
+but typically have somewhat minimal features.</li>
+</ul></li>
+<li>ReStructured text (<a href="https://docutils.sourceforge.io/rst.html">homepage</a>)</li>
+<li>HTML
+<ul class="org-ul">
+<li>Using <code>&lt;code&gt;</code> tags,</li>
+<li>and preferably a tool to provide syntax highlighting,
+such as
+<ul class="org-ul">
+<li><a href="https://highlightjs.org/usage/">highlight.js</a> or</li>
+<li><a href="https://prismjs.com/#basic-usage">Prism</a></li>
+</ul></li>
+</ul></li>
+<li>PDF
+<ul class="org-ul">
+<li>In particular, through LaTeX (<a href="https://www.latex-project.org/">homepage</a>)
+<ul class="org-ul">
+<li>Using a package such as <code>listings</code>
+(<a href="https://en.wikibooks.org/wiki/LaTeX/Source_Code_Listings">documentation</a>)
+or <code>minted</code>, which provides syntax highlighting
+(<a href="https://github.com/gpoore/minted">GitHub homepage and documentation</a>)</li>
+</ul></li>
+</ul></li>
+<li>Possibly more; speak to us if there is a format you feel
+should be accepted.
+<ul class="org-ul">
+<li>Microsoft Word, OpenOffice and other WSIWYG
+(What You See Is What You Get)
+editor formats will not be accepted.
+<ul class="org-ul">
+<li>If you wish to use such an editor, you may export
+your file to a PDF for submission.
+Do be sure to follow the style guidelines below.</li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org-anchor-Assignment-literate-documentation-style-guide^1" class="outline-3">
+<h3 id="org-anchor-Assignment-literate-documentation-style-guide^1"><span class="section-number-3">2.2.</span> Assignment literate documentation style guide</h3>
+<div class="outline-text-3" id="text-org-anchor-Assignment-literate-documentation-style-guide^1">
+<p>
+As mentioned in the
+<a href="#org-anchor-Assignment-literate-documentation-policy^1">assignment literate documentation policy</a>,
+8% of the marks of each assignment
+is allocated for the style of the documentation.
+</p>
+
+<p>
+The section
+<a href="#org-anchor-General-literate-documentation-style-rules^1">general literate documenation style rules</a>
+below outlines what is required in your documentation,
+and what is optional.
+</p>
+
+<p>
+Then the section
+<a href="#org-anchor-Format-specific-literate-documentation-style-rules^1">format specific literate documentation style rules</a>
+ are some comments about style requirements or
+recommendations for specific formats.
+</p>
+</div>
+
+<div id="outline-container-org-anchor-General-literate-documentation-style-rules^1" class="outline-4">
+<h4 id="org-anchor-General-literate-documentation-style-rules^1"><span class="section-number-4">2.2.1.</span> General literate documentation style rules</h4>
+<div class="outline-text-4" id="text-org-anchor-General-literate-documentation-style-rules^1">
+<p>
+Required:
+</p>
+<ul class="org-ul">
+<li>In non-plaintext formats (such as HTML and PDF),
+code blocks <b>must</b> be displayed using fixed width
+(monospace) fonts.
+(<a href="https://en.wikipedia.org/wiki/Monospaced_font">What's a fixed width font?</a>)
+<ul class="org-ul">
+<li>In <i>non</i>-plaintext formats (such as HTML and PDF),
+non-code-block portions should be displayed using
+non-fixed width fonts.</li>
+<li>There <i>must</i> be a font distinction between</li>
+</ul></li>
+<li>Headings (and often subheadings) must be used for organisation.
+<ul class="org-ul">
+<li>Typically, it is sufficient to use the same document structure
+as in the assignment description.</li>
+</ul></li>
+<li>Code blocks must not be too long; there should be documentation
+interspersed with code regularly.
+<ul class="org-ul">
+<li>There is not a hard and fast rule here;
+instead follow these guidelines:
+<ul class="org-ul">
+<li>Where they are more than a few lines, each function, procedure,
+type declaration, etc., should be in its own code block.</li>
+<li>In no instance should a code block span an entire page or more.</li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org-anchor-Format-specific-literate-documentation-style-rules^1" class="outline-4">
+<h4 id="org-anchor-Format-specific-literate-documentation-style-rules^1"><span class="section-number-4">2.2.2.</span> Format specific literate documentation style rules</h4>
+<div class="outline-text-4" id="text-org-anchor-Format-specific-literate-documentation-style-rules^1">
+<p>
+:PROPERTIES
+:CUSTOM_ID: org-anchor-Format-specific-literate-documentation-style-rules^1
+:END
+</p>
+
+<p>
+:TODO:
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org-anchor-Assignment-literate-documentation-content-guide^1" class="outline-3">
+<h3 id="org-anchor-Assignment-literate-documentation-content-guide^1"><span class="section-number-3">2.3.</span> Assignment literate documentation content guide</h3>
+<div class="outline-text-3" id="text-org-anchor-Assignment-literate-documentation-content-guide^1">
+<p>
+:TODO:
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Mark Armstrong</p>
+     <p class="author">Contact: <a href="mailto:markparmstrong@gmail.com">markparmstrong@gmail.com</a></p>
+     <p class="date">Original date: </p>
+     <p class="date">Last updated: 2021-08-11 Wed 12:53</p>
+     <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 28.0.50 (<a href="https://orgmode.org">Org</a> mode 9.4.6)</p>
+     <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

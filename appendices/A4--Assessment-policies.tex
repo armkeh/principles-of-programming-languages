@@ -1,0 +1,210 @@
+% Created 2021-08-11 Wed 13:04
+% Intended LaTeX compiler: lualatex
+\documentclass[11pt]{article}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{etoolbox}
+\makeatletter
+\def\dontdofcolorbox{\renewcommand\fcolorbox[4][]{##4}}
+\AtBeginEnvironment{minted}{\dontdofcolorbox}
+\makeatother
+\usepackage[newfloat]{minted}
+\author{Mark Armstrong}
+\date{\today}
+\title{Assessment policies}
+\hypersetup{
+   pdfauthor={Mark Armstrong},
+   pdftitle={Assessment policies},
+   pdfkeywords={},
+   pdfsubject={A living list of notation and conventions used in my principles of programming course.},
+   pdfcreator={Emacs 28.0.50 (Org mode 9.4.6)},
+   pdflang={English},
+   colorlinks,
+   linkcolor=blue,
+   citecolor=blue,
+   urlcolor=blue
+   }
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+
+\section{Automated unit testing policy}
+\label{sec:orga2af092}
+Automated unit tests will be provided for all assignments,
+and whenever possible and practical,
+they will also be provided for each homework.
+
+\textbf{You should not submit the testing files with your assignment contents};
+it will not cause any problems, but testing files will be ignored
+and overwritten before testing.
+
+Alongside the files for unit testing,
+a \href{https://docker.com}{Docker} image
+will also be provided, in order to ensure that
+you are able to run the tests in the exact same environment
+that the course staff will use.
+
+Passing the provided tests is \emph{mandatory},
+but \textbf{does not} \emph{guarantee} a passing grade
+(both for homeworks and assignments.)
+\begin{itemize}
+\item Assignments will undergo a code review by the course staff,
+and your grade will be influenced just as much or more
+by your code's \emph{approach} and \emph{style} as by passing of tests.
+\item Homeworks will undergo a similar, but much more cursory, code review.
+Barring any obvious issues, you should receive a passing grade
+if your code passes the tests.
+\end{itemize}
+Submissions which do not pass
+all or a majority of the tests \textbf{may not be considered for grading at all},
+at the discretion of the course staff.
+
+During marking, we will typically add some \emph{additional tests},
+often constructed to test what we consider to be
+more “extreme” cases than are covered by the the provided tests,
+possibly including interesting \href{https://en.wikipedia.org/wiki/Edge\_case}{edge cases}.
+\begin{itemize}
+\item You are encouraged to try and think of these cases yourselves,
+and add appropriate tests to the provided ones
+in order to better check your solutions.
+\item You are not expected to submit any updates or additions
+to the testing files; as mentioned, any submissions of testing files
+will be ignored and overwritten.
+\end{itemize}
+
+\section{Assignment literate documentation}
+\label{sec:orgacc7ec9}
+\subsection{Assignment literate documentation policy}
+\label{sec:org9ca13e1}
+In addition to source code files,
+assignments will also require you submit \emph{documentation} for your code
+in the form of
+a \href{http://www.literateprogramming.com/index.html}{literate programming} document.
+
+20\% of each assignment's marks are set aside for this documentation.
+\begin{itemize}
+\item 12\% for the contents of the documentation, and
+\item 8\% for the style of the documentation.
+\item Even if the assignment is incomplete, full documentation marks
+may be awarded,
+\begin{itemize}
+\item so long as some parts are sufficiently completed,
+\item and some discussion of the difficulties with missing parts is included.
+\begin{itemize}
+\item (More than just “I ran out of time”.)
+\end{itemize}
+\end{itemize}
+\end{itemize}
+
+Any of the following formats are acceptable for this documentation:
+\begin{itemize}
+\item Markdown (\href{https://daringfireball.net/projects/markdown/}{homepage})
+\item Org mode (\href{https://orgmode.org/}{homepage})
+\begin{itemize}
+\item Implementations outside of Emacs exist,
+but typically have somewhat minimal features.
+\end{itemize}
+\item ReStructured text (\href{https://docutils.sourceforge.io/rst.html}{homepage})
+\item HTML
+\begin{itemize}
+\item Using \texttt{<code>} tags,
+\item and preferably a tool to provide syntax highlighting,
+such as
+\begin{itemize}
+\item \href{https://highlightjs.org/usage/}{highlight.js} or
+\item \href{https://prismjs.com/\#basic-usage}{Prism}
+\end{itemize}
+\end{itemize}
+\item PDF
+\begin{itemize}
+\item In particular, through \LaTeX{} (\href{https://www.latex-project.org/}{homepage})
+\begin{itemize}
+\item Using a package such as \texttt{listings}
+(\href{https://en.wikibooks.org/wiki/LaTeX/Source\_Code\_Listings}{documentation})
+or \texttt{minted}, which provides syntax highlighting
+(\href{https://github.com/gpoore/minted}{GitHub homepage and documentation})
+\end{itemize}
+\end{itemize}
+\item Possibly more; speak to us if there is a format you feel
+should be accepted.
+\begin{itemize}
+\item Microsoft Word, OpenOffice and other WSIWYG
+(What You See Is What You Get)
+editor formats will not be accepted.
+\begin{itemize}
+\item If you wish to use such an editor, you may export
+your file to a PDF for submission.
+Do be sure to follow the style guidelines below.
+\end{itemize}
+\end{itemize}
+\end{itemize}
+
+\subsection{Assignment literate documentation style guide}
+\label{sec:org7d37673}
+As mentioned in the
+\hyperref[sec:org9ca13e1]{assignment literate documentation policy},
+8\% of the marks of each assignment
+is allocated for the style of the documentation.
+
+The section
+\hyperref[sec:org08f20a6]{general literate documenation style rules}
+below outlines what is required in your documentation,
+and what is optional.
+
+Then the section
+\hyperref[sec:orgbbd1578]{format specific literate documentation style rules}
+ are some comments about style requirements or
+recommendations for specific formats.
+
+\subsubsection{General literate documentation style rules}
+\label{sec:org08f20a6}
+Required:
+\begin{itemize}
+\item In non-plaintext formats (such as HTML and PDF),
+code blocks \textbf{must} be displayed using fixed width
+(monospace) fonts.
+(\href{https://en.wikipedia.org/wiki/Monospaced\_font}{What's a fixed width font?})
+\begin{itemize}
+\item In \emph{non}-plaintext formats (such as HTML and PDF),
+non-code-block portions should be displayed using
+non-fixed width fonts.
+\item There \emph{must} be a font distinction between
+\end{itemize}
+\item Headings (and often subheadings) must be used for organisation.
+\begin{itemize}
+\item Typically, it is sufficient to use the same document structure
+as in the assignment description.
+\end{itemize}
+\item Code blocks must not be too long; there should be documentation
+interspersed with code regularly.
+\begin{itemize}
+\item There is not a hard and fast rule here;
+instead follow these guidelines:
+\begin{itemize}
+\item Where they are more than a few lines, each function, procedure,
+type declaration, etc., should be in its own code block.
+\item In no instance should a code block span an entire page or more.
+\end{itemize}
+\end{itemize}
+\end{itemize}
+
+\subsubsection{Format specific literate documentation style rules}
+\label{sec:orgbbd1578}
+:TODO:
+
+\subsection{Assignment literate documentation content guide}
+\label{sec:org53fa978}
+:TODO:
+\end{document}

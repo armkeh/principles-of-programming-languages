@@ -1,5 +1,5 @@
 #+Title: Principle of Programming Languages
-#+Subtitle: Computer Science 3mi3, McMaster University
+# Subtitle: Computer Science 3mi3, McMaster University
 #+Author: Mark Armstrong
 #+Description: README and the inlined homepage
 
@@ -23,13 +23,49 @@
 #+end_src
 
 * Introduction
+:PROPERTIES:
+:CUSTOM_ID: org-anchor-Introduction^1
+:END:
 
 Repository of course notes and publically available assignment/test documents
-for the course “CS3mi3: Principles of Programming Languages”
-at McMaster University.
+# for the course “CS3mi3: Principles of Programming Languages”
+# at McMaster University.
+for a Principles of Programming Languages course;
+most recently, in 2020, specifically Computer Science 3mi3 at McMaster University.
 
-The remainder of this README is an inlined copy of the course
-homepage, better viewed at
+The remainder of this README is an inlined copy of
+the some of the main contents of the course homepage, better viewed at
 [[https://armkeh.github.io/principles-of-programming-languages/]]
 
-#+INCLUDE: "./index.org" :minlevel 1
+* Macros                                        :noexport:
+
+We need to include these macro definitions here for the included bits.
+#+include: "./index.org::*Macros" :only-contents t
+
+* Course outline
+
+#+include: "./index.org::*Course outline" :only-contents t
+
+* Notes
+
+#+include: "./index.org::*Notes" :only-contents t
+
+* Literate programs
+
+#+include: "./index.org::*Literate programs" :only-contents t
+
+* Homework
+
+#+include: "./index.org::*Homework" :only-contents t
+
+* Assignments
+
+#+include: "./index.org::*Assignments" :only-contents t
+
+* Appendices
+
+#+include: "./index.org::*Appendices" :only-contents t
+
+* Language information
+
+#+include: "./index.org::*Language information" :only-contents t
