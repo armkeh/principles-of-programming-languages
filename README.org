@@ -3,24 +3,29 @@
 #+Author: Mark Armstrong
 #+Description: README and the inlined homepage
 
-* ~gitignore~                                   :noexport:
+* Maintainer notes                              :noexport:
 
-#+begin_src text :tangle ./.gitignore
-# This file is tangled from README.org and
-# should not be modified directly.
+** Subtrees
 
-# scratch files
-*scratch.*
-
-# Local backups
-*.*~
-*.*#
-
-# LaTeX generation artifacts
-*.aux
-*.log
-*_minted*
+The git subtrees
+for [[https://github.com/fniessen/org-html-themes][org-html-themes]]
+and [[https://github.com/hakimel/reveal.js][reveal.js]]
+were added via the following shell commands.
+#+begin_src sh :results none
+git subtree add --prefix org-html-themes https://github.com/fniessen/org-html-themes master --squash
 #+end_src
+#+begin_src sh :results none
+git subtree add --prefix ./notes/reveal.js https://github.com/hakimel/reveal.js master --squash
+#+end_src
+
+They can be updated via these commands.
+#+begin_src sh :results none
+git subtree pull --prefix org-html-themes https://github.com/fniessen/org-html-themes master --squash
+#+end_src
+#+begin_src sh :results none
+git subtree pull --prefix ./notes/reveal.js https://github.com/hakimel/reveal.js master --squash
+#+end_src
+
 
 * Introduction
 :PROPERTIES:
@@ -69,3 +74,23 @@ We need to include these macro definitions here for the included bits.
 * Language information
 
 #+include: "./index.org::*Language information" :only-contents t
+
+* ~gitignore~                                   :noexport:
+
+#+begin_src text :tangle ./.gitignore
+# This file is tangled from README.org and
+# should not be modified directly.
+
+# scratch files
+*scratch.*
+
+# Local backups
+*.*~
+*.*#
+
+# LaTeX generation artifacts
+*.aux
+*.log
+*_minted*
+#+end_src
+
