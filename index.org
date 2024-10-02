@@ -22,7 +22,8 @@
 :CUSTOM_ID: org-anchor-Communication^1
 :END:
 
-This homepage is now under construction for future versions of the course.
+This homepage is in a state of construction for potential future versions of the course
+(none currently planned).
 
 * Notes
 :PROPERTIES:
@@ -133,12 +134,12 @@ to be a feature of the course again.
 
 The unit testing policy for homeworks and assignments
 is laid out in
-[[./appendices/A4--Assessment-policies.org::Automated unit testing policy][appendix 4, under “Automated unit testing policy”]]
+[[./appendices/A4--Assessment-policies.html#automated-unit-testing-policy][appendix 4, under “Automated unit testing policy”]]
 and is repeated below.
 
-*** Policy
+*** The policy
 :PROPERTIES:
-:CUSTOM_ID: org-anchor-Policy^1
+:CUSTOM_ID: org-anchor-The-policy^1
 :END:
 
 #+include: "./appendices/A4--Assessment-policies.org::*Automated unit testing policy" :only-contents t
@@ -175,14 +176,19 @@ and is repeated below.
 
 The literate documentation policy for assignments
 is laid out in
-[[./appendices/A4--Assessment-policies.html#org-anchor-Assignment-literate-documentation-policy^1][appendix 4, under “Assignment literate documentation”]]
-The policy itself is repeated below.
-[[./appendices/A4--Assessment-policies.html#org-anchor-Assignment-literate-documentation-style-guide^1][Style]]
+[[./appendices/A4--Assessment-policies.html#assignment-literate-doc-policy][appendix 4, under “Assignment literate documentation”]]
+The policy itself is repeated below
+[[./appendices/A4--Assessment-policies.html#assignment-literate-doc-style-guide][Style]]
 and
-[[./appendices/A4--Assessment-policies.html#org-anchor-Assignment-literate-documentation-content-guide^1][content]]
+[[./appendices/A4--Assessment-policies.html#assignment-literate-doc-content-guide][content]]
 guides can be found in the appendix.
 
-# INCLUDE: "./notes.A4--Assessment-policies.org::Assignment literate documentation policy overview" :only-contents t
+*** The policy
+:PROPERTIES:
+:CUSTOM_ID: org-anchor-The-policy^2
+:END:
+
+#+include: "./appendices/A4--Assessment-policies.org::Assignment literate documentation policy" :only-contents t
 
 ** Unit testing policy
 :PROPERTIES:
@@ -191,13 +197,13 @@ guides can be found in the appendix.
 
 The unit testing policy for homeworks and assignments
 is laid out in
-[[./appendices/A4--Assessment-policies.org::Automated unit testing policy][appendix 4, under “Assignment literate documentation”]]
+[[./appendices/A4--Assessment-policies.html#automated-unit-testing-policy][appendix 4, under “Automated unit testing policy”]]
 The policy is repeated below.
 Style and content guides can be found in the appendix.
 
-*** Policy
+*** The policy
 :PROPERTIES:
-:CUSTOM_ID: org-anchor-Policy^2
+:CUSTOM_ID: org-anchor-The-policy^3
 :END:
 
 #+include: "./appendices/A4--Assessment-policies.org::*Automated unit testing policy" :only-contents t
@@ -292,8 +298,8 @@ regarding the use of
 {{{language1}}}
 in this course can be found in the
 {{{language1}}} tidbits file,
-# available as
 which will be made available here.
+# available as
 # - an [[./language-tidbits/??.html][HTML site]],
 # - a [[./language-tidbits/??.pdf][PDF]], or
 # - a plaintext [[./language-tidbits/??.org][Org document]].

@@ -1,12 +1,12 @@
 #+Title: Assessment policies
 #+Author: Mark Armstrong
-#+Description: A living list of notation and conventions
-#+Description: used in my principles of programming course.
+#+Description: Policies regarding assessments (homeworks and assignments)
+#+Description: that apply somewhat globally through the course.
 #+SETUPFILE: ../org-html-themes/setup/theme-readtheorg-local.setup
 
 * Automated unit testing policy
 :PROPERTIES:
-:CUSTOM_ID: org-anchor-Automated-unit-testing-policy^1
+:CUSTOM_ID: automated-unit-testing-policy
 :END:
 
 Automated unit tests will be provided for all assignments,
@@ -54,7 +54,7 @@ possibly including interesting [[https://en.wikipedia.org/wiki/Edge_case][edge c
 
 ** Assignment literate documentation policy
 :PROPERTIES:
-:CUSTOM_ID: org-anchor-Assignment-literate-documentation-policy^1
+:CUSTOM_ID: assignment-literate-doc-policy
 :END:
 
 # :TODO: Compare this with what was stated in the assignment files in 2020.
@@ -102,7 +102,7 @@ Any of the following formats are acceptable for this documentation:
 
 ** Assignment literate documentation style guide
 :PROPERTIES:
-:CUSTOM_ID: org-anchor-Assignment-literate-documentation-style-guide^1
+:CUSTOM_ID: assignment-literate-doc-style-guide
 :END:
 
 As mentioned in the
@@ -156,7 +156,7 @@ Required:
 
 ** Assignment literate documentation content guide
 :PROPERTIES:
-:CUSTOM_ID: org-anchor-Assignment-literate-documentation-content-guide^1
+:CUSTOM_ID: assignment-literate-doc-content-guide
 :END:
 
 :TODO:

@@ -1,6 +1,6 @@
 #+Title: Software and tools
 #+Author: Mark Armstrong
-#+Description: Documentation on required and recommended software/tools
+#+Description: Documentation on required and recommended software/tools.
 #+SETUPFILE: ../org-html-themes/setup/theme-readtheorg-local.setup
 
 * Introduction

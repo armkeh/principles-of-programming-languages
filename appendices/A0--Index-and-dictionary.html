@@ -1,0 +1,939 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-08-31 Tue 02:50 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Index and dictionary</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Mark Armstrong" />
+<meta name="description" content="An index and dictionary for common terms in the course."
+ />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline; margin-top: 14px;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="styles/readtheorg/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="styles/readtheorg/css/readtheorg.css"/>
+<script type="text/javascript" src="styles/lib/js/jquery.min.js"></script>
+<script type="text/javascript" src="styles/lib/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="styles/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" src="styles/readtheorg/js/readtheorg.js"></script>
+<style>pre.src{background:#000000;color:white;} </style>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.add("code-highlighted");
+         target.classList.add("code-highlighted");
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.remove("code-highlighted");
+         target.classList.remove("code-highlighted");
+       }
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Index and dictionary</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org-anchor-Introduction^1">Introduction</a></li>
+<li><a href="#org-anchor-Associative^1">Associative</a></li>
+<li><a href="#org-anchor-Associates-conventions^1">Associates conventions</a></li>
+<li><a href="#org-anchor-BSS-segment^1">BSS segment</a></li>
+<li><a href="#org-anchor-Category-theory^1">Category theory</a></li>
+<li><a href="#org-anchor-Code-segment^1">Code segment</a></li>
+<li><a href="#org-anchor-Commutative^1">Commutative</a></li>
+<li><a href="#org-anchor-Compiler^1">Compiler</a></li>
+<li><a href="#org-anchor-Compile-time^1">Compile time</a></li>
+<li><a href="#org-anchor-Data-segment^1">Data segment</a></li>
+<li><a href="#org-anchor-Flatten^1">Flatten</a></li>
+<li><a href="#org-anchor-Flatmapable^1">Flatmapable</a></li>
+<li><a href="#org-anchor-Function^1">Function</a></li>
+<li><a href="#org-anchor-Functional-language^1">Functional language</a></li>
+<li><a href="#org-anchor-Haskell^1">Haskell</a></li>
+<li><a href="#org-anchor-Heap^1">Heap</a></li>
+<li><a href="#org-anchor-Identity^1">Identity</a></li>
+<li><a href="#org-anchor-Interpreter^1">Interpreter</a></li>
+<li><a href="#org-anchor-Load-time^1">Load time</a></li>
+<li><a href="#org-anchor-Method^1">Method</a></li>
+<li><a href="#org-anchor-Monad^1">Monad</a></li>
+<li><a href="#org-anchor-Operation^1">Operation</a></li>
+<li><a href="#org-anchor-Operator^1">Operator</a></li>
+<li><a href="#org-anchor-Pure-function^1">Pure function</a></li>
+<li><a href="#org-anchor-Precedence^1">Precedence</a></li>
+<li><a href="#org-anchor-Procedure^1">Procedure</a></li>
+<li><a href="#org-anchor-Program-memory^1">Program memory</a></li>
+<li><a href="#org-anchor-Runtime^1">Runtime</a></li>
+<li><a href="#org-anchor-Stack^1">Stack</a></li>
+<li><a href="#org-anchor-Static^1">Static</a></li>
+<li><a href="#org-anchor-Static-memory^1">Static memory</a></li>
+<li><a href="#org-anchor-Static-variable^1">Static variable</a></li>
+<li><a href="#org-anchor-Subroutine^1">Subroutine</a></li>
+<li><a href="#org-anchor-Text-segment^1">Text segment</a></li>
+<li><a href="#org-anchor-Type^1">Type</a></li>
+<li><a href="#org-anchor-Universal-algebra^1">Universal algebra</a></li>
+<li><a href="#org-anchor-Zero^1">Zero</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org-anchor-Introduction^1" class="outline-2">
+<h2 id="org-anchor-Introduction^1">Introduction</h2>
+<div class="outline-text-2" id="text-org-anchor-Introduction^1">
+<p>
+This index/dictionary records common or important terms
+discussed in this course,
+giving a brief definition of each and
+possibly providing links to related terms.
+</p>
+
+<p>
+This is intended to be an aid to studying,
+as well as a alternative means to recall knowledge about specific terms
+to searching through the course notes.
+</p>
+
+<p>
+Be aware of definitions which may be unique to this course;
+the entries for those terms start with the sentence
+“<b>Heads up! This definition is, to some extent at least, unique to this course! Consider consulting other sources for comparison!</b>” to warn you that
+other sources may disagree with our definition. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-org-anchor-Associative^1" class="outline-2">
+<h2 id="org-anchor-Associative^1">Associative</h2>
+<div class="outline-text-2" id="text-org-anchor-Associative^1">
+<p>
+An <a href="#org-anchor-Operation^1">Operation</a> <code>⊕</code> has the associative property if,
+for all terms <code>a</code>, <code>b</code>, <code>c</code> of the appropriate type,
+</p>
+<div class="org-src-container">
+<pre class="src src-text">a &#8853; <span style="color: #ffffff;">(</span>b &#8853; c<span style="color: #ffffff;">)</span> = <span style="color: #ffffff;">(</span>a &#8853; b<span style="color: #ffffff;">)</span> &#8853; c
+</pre>
+</div>
+
+<p>
+We can say that for associative operations,
+“parentheses don't matter”
+(assuming we are not using more than one operation in the sentence).
+</p>
+
+<p>
+Following this informal description, for associative operators,
+we may write <code>a ⊕ b ⊕ c</code> instead of either <code>a ⊕ (b ⊕ c)</code> or <code>(a ⊕ b) ⊕ c</code>.
+The latter two are equivalent, and the former is a convention
+to avoid writing unnecessary parentheses.
+</p>
+
+<p>
+Note that the adjective “associative” applies to
+an <a href="#org-anchor-Operation^1">Operation</a>, <b>not a type</b>.
+A type may have a common associative operator associated with it
+—for instance, in math, numerical types have two very common
+ associative operators, addition and multiplication—
+but it is the operator that is associative,
+and there will usually be many associative operators
+associated with a type.
+</p>
+
+<p>
+See also <a href="#org-anchor-Associates-conventions^1">Associates conventions</a>.
+</p>
+
+<p>
+The associative property is not to be confused
+with the <a href="#org-anchor-Commutative^1">Commutative</a> property,
+which similarly to the associative property
+can be informally understood as “order doesn't matter”,
+but with order referring to positioning of the terms/arguments.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org-anchor-Associates-conventions^1" class="outline-2">
+<h2 id="org-anchor-Associates-conventions^1">Associates conventions</h2>
+<div class="outline-text-2" id="text-org-anchor-Associates-conventions^1">
+<p>
+Recall that for an <a href="#org-anchor-Associative^1">Associative</a> operation,
+“parentheses don't matter”,
+so that for an associative operator <code>⊕</code>:
+</p>
+<blockquote>
+<p>
+we may write <code>a ⊕ b ⊕ c</code> instead of either <code>a ⊕ (b ⊕ c)</code> or <code>(a ⊕ b) ⊕ c</code>.
+The latter two are equivalent, and the former is a convention
+to avoid writing unnecessary parentheses.
+</p>
+</blockquote>
+
+<p>
+In order to achieve the same benefit of avoiding writing parentheses,
+for binary operations which are <b>not</b> associative
+we usually adopt the convention that they “associate to the left”
+or “associate to the right”.
+</p>
+<ul class="org-ul">
+<li>If an operation “associates to the left”,
+we write <code>a ⊕ b ⊕ c</code> to mean <code>(a ⊕ b) ⊕ c</code>.</li>
+<li>If an operation “associates to the right”,
+we write <code>a ⊕ b ⊕ c</code> to mean <code>a ⊕ (b ⊕ c)</code>.</li>
+</ul>
+
+<p>
+Most standard operations associate to the left by convention,
+including division and subtraction.
+Notable exceptions include exponentiation (powers),
+implication, and the function arrow.
+</p>
+
+<p>
+See also the related <a href="#org-anchor-Precedence^1">Precedence</a> conventions.
+</p>
+
+<p>
+For operations which are <a href="#org-anchor-Associative^1">Associative</a>,
+no such convention is needed,
+though in the context of a programming language
+there will still be a design decision about how such operations associate,
+as a concrete decision must be made.
+</p>
+<ul class="org-ul">
+<li>Because types in programming languages are not always a perfect
+analog to their “real-world” or “mathematical” counterparts
+—in particular, floating point representations of real numbers—
+operations which are conventionally associative
+may not be so in programming languages.
+<ul class="org-ul">
+<li><p>
+For instance, while addition of real numbers is associative,
+addition of floating point numbers is not due to rounding
+due to limited precision; for instance, the C program snippet
+</p>
+<div class="org-src-container">
+<pre class="src src-C"><span style="color: #6ae4b9;">double</span> <span style="color: #00d3d0;">x</span> = 1.0 + <span style="color: #ffffff;">(</span>1.0  + 9007199254740992.0<span style="color: #ffffff;">)</span>; <span style="color: #a8a8a8;">// </span><span style="color: #a8a8a8;">9007199254740992 = 2^53</span>
+<span style="color: #6ae4b9;">double</span> <span style="color: #00d3d0;">y</span> = <span style="color: #ffffff;">(</span>1.0 + 1.0<span style="color: #ffffff;">)</span> + 9007199254740992.0;
+printf<span style="color: #ffffff;">(</span><span style="color: #79a8ff;">"%f\n%f"</span>, x, y<span style="color: #ffffff;">)</span>;
+</pre>
+</div>
+<p>
+will output <code>9007199254740992.0</code> and <code>9007199254740994.0</code>.
+This is due to the 53-bit precision for
+the significand (fraction portion) of double-precision floats;
+note that  <code>9007199254740992.0</code> is <code>2^{53}</code>,
+or <code>100000000000000000000000000000000000000000000000000000</code> in binary,
+and so its least bit must be dropped for it to be represented
+as a double-precision float.
+So when we add <code>1</code> to it, it has no effect; the affected bit has been dropped.
+And adding <code>1</code> twice similarly has no effect.
+But adding <code>2</code> changes the second-to-least significant bit,
+which is present in the double-precision representation.
+</p></li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org-anchor-BSS-segment^1" class="outline-2">
+<h2 id="org-anchor-BSS-segment^1">BSS segment</h2>
+<div class="outline-text-2" id="text-org-anchor-BSS-segment^1">
+<p>
+The BSS segment of memory is similar to the <a href="#org-anchor-Data-segment^1">Data segment</a>,
+but specifically used for global or static variables
+which are uninitialised or initialised to zero.
+</p>
+
+<p>
+This <a href="https://stackoverflow.com/a/9535579">StackOverflow post</a> and its first comment
+gives an excellent description of why this segment
+is distinguished from the data segment;
+it's a matter of efficiency of the <a href="#org-anchor-Load-time^1">Load time</a> process,
+which is of particular concern on embedded systems.
+By separating memory locations which are not initialised or initially zero,
+the loading process does not need to iterate past those memory locations
+during the initialisation of the data segment.
+</p>
+
+<p>
+See also <a href="#org-anchor-Program-memory^1">Program memory</a> and <a href="#org-anchor-Data-segment^1">Data segment</a>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org-anchor-Category-theory^1" class="outline-2">
+<h2 id="org-anchor-Category-theory^1">Category theory</h2>
+<div class="outline-text-2" id="text-org-anchor-Category-theory^1">
+<p>
+Category theory is a branch of mathematics
+which examines the concept of structure,
+and is most often used to study mathematics itself
+—category theory is the “mathematics of mathematics”. 
+Category theorists construct/discover categories
+representing various mathematical theories and concepts.
+For instance, some basic categories include
+</p>
+<ul class="org-ul">
+<li>the category of sets and functions between them,</li>
+<li>the category of vector spaces and linear maps between them, and</li>
+<li>the category of <a href="#org-anchor-Type^1">Type</a>s and <a href="#org-anchor-Pure-function^1">Pure function</a>s (from type to type).</li>
+</ul>
+
+<p>
+A category consists of a collection of <i>objects</i> (such as sets)
+and a collection of <i>morphisms</i> (or mappings) between the objects.
+The study of category theory involves identifying several
+constructs and properties of objects and morphisms,
+which are typically generalisations of constructs and properties
+from the underlying theory.
+The identification of these constructs and properties as
+being present in several categories identifies similarities between
+theories that may not have been obvious or even possible previously.
+</p>
+
+<p>
+As they are highly structured, programming languages
+can be modelled in category theory.
+The <a href="#org-anchor-Haskell^1">Haskell</a> community makes particular use of the “Haskell category”,
+whose objects are types and 
+</p>
+
+<p>
+See also <a href="#org-anchor-Universal-algebra^1">Universal algebra</a>.
+</p>
+
+<p>
+See in particular the concept of a <a href="#org-anchor-Monad^1">Monad</a>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org-anchor-Code-segment^1" class="outline-2">
+<h2 id="org-anchor-Code-segment^1">Code segment</h2>
+<div class="outline-text-2" id="text-org-anchor-Code-segment^1">
+<p>
+The code segment of memory is the portion of memory
+allocated for the program when it is run
+in which the program's executable code is stored.
+</p>
+
+<p>
+This portion of memory is typically read-only and fixed size.
+This of course is not the case if the code is allowed to be self-modifying,
+but that is rare.
+</p>
+
+<p>
+Separation of the code segment from the other segments
+of the memory allocated from the program,
+along with the fact that it is read-only,
+reduces the likelyhood of arbitrary code execution
+—which can be exploited for execution of malicious code—
+and allows for easier implementation of out-of-order execution
+—since it is known that the memory locations following
+ the after the instruction pointer are also instructions,
+ not data (unless the instruction pointer is at the end of the code segment).
+</p>
+
+<p>
+See also <a href="#org-anchor-Data-segment^1">Data segment</a>. <a href="#org-anchor-BSS-segment^1">BSS segment</a>, <a href="#org-anchor-Stack^1">Stack</a>, and <a href="#org-anchor-Heap^1">Heap</a>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org-anchor-Commutative^1" class="outline-2">
+<h2 id="org-anchor-Commutative^1">Commutative</h2>
+<div class="outline-text-2" id="text-org-anchor-Commutative^1">
+<p>
+An <a href="#org-anchor-Operation^1">Operation</a> <code>⊕</code> has the commutative property if,
+for all terms <code>a</code> and <code>b</code> of the appropriate type,
+</p>
+<div class="org-src-container">
+<pre class="src src-text">a &#8853; b = b &#8853; a
+</pre>
+</div>
+
+<p>
+We can say that for commutative operations,
+“order doesn't matter”.
+</p>
+
+<p>
+Note that the adjective “commutative” applies to
+an <a href="#org-anchor-Operation^1">Operation</a>, <b>not a type</b>.
+A type may have a common commutative operator associated with it
+—for instance, in math, numerical types have two very common
+ commutative operators, addition and multiplication—
+but it is the operator that is commutative,
+and there will usually be many commutative operators
+associated with a type.
+</p>
+
+<p>
+Not to be confused with the <a href="#org-anchor-Associative^1">Associative</a> property,
+which similarly to the commutative property
+can be informally understood as “order doesn't matter”,
+but with order referring to grouping (via parentheses). 
+</p>
+</div>
+</div>
+
+<div id="outline-container-org-anchor-Compiler^1" class="outline-2">
+<h2 id="org-anchor-Compiler^1">Compiler</h2>
+<div class="outline-text-2" id="text-org-anchor-Compiler^1">
+<p>
+:TODO:
+</p>
+</div>
+</div>
+
+<div id="outline-container-org-anchor-Compile-time^1" class="outline-2">
+<h2 id="org-anchor-Compile-time^1">Compile time</h2>
+<div class="outline-text-2" id="text-org-anchor-Compile-time^1">
+<p>
+:TODO:
+</p>
+
+<p>
+See also <a href="#org-anchor-Static^1">Static</a>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org-anchor-Data-segment^1" class="outline-2">
+<h2 id="org-anchor-Data-segment^1">Data segment</h2>
+<div class="outline-text-2" id="text-org-anchor-Data-segment^1">
+<p>
+The data segment of memory is the portion of memory
+allocated for the program when it is run
+which is used for global and <a href="#org-anchor-Static-variable^1">Static variable</a>s.
+</p>
+
+<p>
+See also <a href="#org-anchor-Code-segment^1">Code segment</a>, <a href="#org-anchor-BSS-segment^1">BSS segment</a>, <a href="#org-anchor-Stack^1">Stack</a> and <a href="#org-anchor-Heap^1">Heap</a>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org-anchor-Flatten^1" class="outline-2">
+<h2 id="org-anchor-Flatten^1">Flatten</h2>
+<div class="outline-text-2" id="text-org-anchor-Flatten^1">
+<p>
+:TODO:
+</p>
+</div>
+</div>
+
+<div id="outline-container-org-anchor-Flatmapable^1" class="outline-2">
+<h2 id="org-anchor-Flatmapable^1">Flatmapable</h2>
+<div class="outline-text-2" id="text-org-anchor-Flatmapable^1">
+<p>
+:TODO:
+</p>
+</div>
+</div>
+
+<div id="outline-container-org-anchor-Function^1" class="outline-2">
+<h2 id="org-anchor-Function^1">Function</h2>
+<div class="outline-text-2" id="text-org-anchor-Function^1">
+<p>
+:TODO:
+</p>
+</div>
+</div>
+
+<div id="outline-container-org-anchor-Functional-language^1" class="outline-2">
+<h2 id="org-anchor-Functional-language^1">Functional language</h2>
+<div class="outline-text-2" id="text-org-anchor-Functional-language^1">
+<p>
+:TODO:
+</p>
+</div>
+</div>
+
+<div id="outline-container-org-anchor-Haskell^1" class="outline-2">
+<h2 id="org-anchor-Haskell^1">Haskell</h2>
+<div class="outline-text-2" id="text-org-anchor-Haskell^1">
+<p>
+:TODO:
+</p>
+</div>
+</div>
+
+<div id="outline-container-org-anchor-Heap^1" class="outline-2">
+<h2 id="org-anchor-Heap^1">Heap</h2>
+<div class="outline-text-2" id="text-org-anchor-Heap^1">
+<p>
+:TODO:
+</p>
+</div>
+</div>
+
+<div id="outline-container-org-anchor-Identity^1" class="outline-2">
+<h2 id="org-anchor-Identity^1">Identity</h2>
+<div class="outline-text-2" id="text-org-anchor-Identity^1">
+<p>
+:TODO:
+</p>
+</div>
+</div>
+
+<div id="outline-container-org-anchor-Interpreter^1" class="outline-2">
+<h2 id="org-anchor-Interpreter^1">Interpreter</h2>
+<div class="outline-text-2" id="text-org-anchor-Interpreter^1">
+<p>
+:TODO:
+</p>
+</div>
+</div>
+
+<div id="outline-container-org-anchor-Load-time^1" class="outline-2">
+<h2 id="org-anchor-Load-time^1">Load time</h2>
+<div class="outline-text-2" id="text-org-anchor-Load-time^1">
+<p>
+The period of program execution during which
+the code is loaded into memory.
+</p>
+
+<p>
+It is at this time that <a href="#org-anchor-Static-memory^1">Static memory</a> is allocated
+in the <a href="#org-anchor-Data-segment^1">Data segment</a>.
+</p>
+
+<p>
+Load time occurs after <a href="#org-anchor-Compile-time^1">Compile time</a> (in a compiled language)
+but before <a href="#org-anchor-Runtime^1">Runtime</a>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org-anchor-Method^1" class="outline-2">
+<h2 id="org-anchor-Method^1">Method</h2>
+<div class="outline-text-2" id="text-org-anchor-Method^1">
+<p>
+:TODO:
+</p>
+</div>
+</div>
+
+<div id="outline-container-org-anchor-Monad^1" class="outline-2">
+<h2 id="org-anchor-Monad^1">Monad</h2>
+<div class="outline-text-2" id="text-org-anchor-Monad^1">
+<p>
+A term from mathematics, specifically <a href="#org-anchor-Category-theory^1">Category theory</a>,
+:TODO:
+</p>
+
+<p>
+See <a href="#org-anchor-Flatmapable^1">Flatmapable</a>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org-anchor-Operation^1" class="outline-2">
+<h2 id="org-anchor-Operation^1">Operation</h2>
+<div class="outline-text-2" id="text-org-anchor-Operation^1">
+<p>
+<b>Heads up! This definition is, to some extent at least, unique to this course! Consider consulting other sources for comparison!</b>
+</p>
+
+<p>
+A generic term for a means of relating some number of inputs
+to some number of outputs.
+</p>
+
+<p>
+In mathematics, operations are usually functions,
+but since functions are but one of many
+kinds of input/output relating “devices” we discuss,
+we treat operations as being more generic.
+</p>
+
+<p>
+Kinds of operations include
+</p>
+<ul class="org-ul">
+<li><a href="#org-anchor-Operator^1">Operator</a>s,</li>
+<li><a href="#org-anchor-Subroutine^1">Subroutine</a>s,</li>
+<li><a href="#org-anchor-Function^1">Function</a>s,</li>
+<li><a href="#org-anchor-Procedure^1">Procedure</a>s. and</li>
+<li><a href="#org-anchor-Method^1">Method</a>s.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org-anchor-Operator^1" class="outline-2">
+<h2 id="org-anchor-Operator^1">Operator</h2>
+<div class="outline-text-2" id="text-org-anchor-Operator^1">
+<p>
+In the context of programming languages,
+an operator is a 
+:TODO:
+</p>
+</div>
+</div>
+
+<div id="outline-container-org-anchor-Pure-function^1" class="outline-2">
+<h2 id="org-anchor-Pure-function^1">Pure function</h2>
+<div class="outline-text-2" id="text-org-anchor-Pure-function^1">
+<p>
+:TODO:
+</p>
+</div>
+</div>
+
+<div id="outline-container-org-anchor-Precedence^1" class="outline-2">
+<h2 id="org-anchor-Precedence^1">Precedence</h2>
+<div class="outline-text-2" id="text-org-anchor-Precedence^1">
+<p>
+:TODO:
+</p>
+</div>
+</div>
+
+<div id="outline-container-org-anchor-Procedure^1" class="outline-2">
+<h2 id="org-anchor-Procedure^1">Procedure</h2>
+<div class="outline-text-2" id="text-org-anchor-Procedure^1">
+<p>
+:TODO:
+</p>
+</div>
+</div>
+
+<div id="outline-container-org-anchor-Program-memory^1" class="outline-2">
+<h2 id="org-anchor-Program-memory^1">Program memory</h2>
+<div class="outline-text-2" id="text-org-anchor-Program-memory^1">
+<p>
+:TODO:
+</p>
+</div>
+</div>
+
+<div id="outline-container-org-anchor-Runtime^1" class="outline-2">
+<h2 id="org-anchor-Runtime^1">Runtime</h2>
+<div class="outline-text-2" id="text-org-anchor-Runtime^1">
+<p>
+:TODO:
+</p>
+</div>
+</div>
+
+<div id="outline-container-org-anchor-Stack^1" class="outline-2">
+<h2 id="org-anchor-Stack^1">Stack</h2>
+<div class="outline-text-2" id="text-org-anchor-Stack^1">
+<p>
+:TODO:
+</p>
+</div>
+</div>
+
+<div id="outline-container-org-anchor-Static^1" class="outline-2">
+<h2 id="org-anchor-Static^1">Static</h2>
+<div class="outline-text-2" id="text-org-anchor-Static^1">
+<p>
+:TODO:
+</p>
+</div>
+</div>
+
+<div id="outline-container-org-anchor-Static-memory^1" class="outline-2">
+<h2 id="org-anchor-Static-memory^1">Static memory</h2>
+<div class="outline-text-2" id="text-org-anchor-Static-memory^1">
+<p>
+:TODO:
+</p>
+</div>
+</div>
+
+<div id="outline-container-org-anchor-Static-variable^1" class="outline-2">
+<h2 id="org-anchor-Static-variable^1">Static variable</h2>
+<div class="outline-text-2" id="text-org-anchor-Static-variable^1">
+<p>
+:TODO:
+</p>
+</div>
+</div>
+
+<div id="outline-container-org-anchor-Subroutine^1" class="outline-2">
+<h2 id="org-anchor-Subroutine^1">Subroutine</h2>
+<div class="outline-text-2" id="text-org-anchor-Subroutine^1">
+<p>
+A generic term for a portion of a program,
+usually assigned a name, and
+somehow portioned into a unit which may be invoked.
+</p>
+
+<p>
+Specific kinds of subroutines include
+</p>
+<ul class="org-ul">
+<li><a href="#org-anchor-Procedure^1">Procedure</a>s,</li>
+<li><a href="#org-anchor-Function^1">Function</a>s, and</li>
+<li><a href="#org-anchor-Method^1">Method</a>s.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org-anchor-Text-segment^1" class="outline-2">
+<h2 id="org-anchor-Text-segment^1">Text segment</h2>
+<div class="outline-text-2" id="text-org-anchor-Text-segment^1">
+<p>
+See <a href="#org-anchor-Code-segment^1">Code segment</a>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org-anchor-Type^1" class="outline-2">
+<h2 id="org-anchor-Type^1">Type</h2>
+<div class="outline-text-2" id="text-org-anchor-Type^1">
+<p>
+:TODO:
+</p>
+</div>
+</div>
+
+<div id="outline-container-org-anchor-Universal-algebra^1" class="outline-2">
+<h2 id="org-anchor-Universal-algebra^1">Universal algebra</h2>
+<div class="outline-text-2" id="text-org-anchor-Universal-algebra^1">
+<p>
+:TODO:
+</p>
+</div>
+</div>
+
+<div id="outline-container-org-anchor-Zero^1" class="outline-2">
+<h2 id="org-anchor-Zero^1">Zero</h2>
+<div class="outline-text-2" id="text-org-anchor-Zero^1">
+<p>
+An <a href="#org-anchor-Operation^1">Operation</a> <code>⊕</code> has a zero <code>∅</code> if
+for all terms <code>a</code>,
+</p>
+<div class="org-src-container">
+<pre class="src src-text">a &#8853; &#8709;  =  &#8709; &#8853; a  =  &#8709;
+</pre>
+</div>
+
+<p>
+If for all terms <code>a</code>, <code>a ⊕ ∅ = ∅</code>, but perhaps not <code>∅ ⊕ a = ∅</code>,
+then <code>⊕</code> is said to have a right zero.
+Similarly, if for all terms <code>a</code>, <code>∅ ⊕ a = ∅</code>, but perhaps not <code>a ⊕ ∅ = ∅</code>,
+then <code>⊕</code> is said to have a left zero.
+Note that <code>⊕</code> has a zero iff it has both a left zero and a right zero.
+</p>
+
+<p>
+:TODO: Examples.
+</p>
+
+<p>
+See also the <a href="#org-anchor-Identity^1">Identity</a> element of an operation.
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Mark Armstrong</p>
+     <p class="author">Contact: <a href="mailto:markparmstrong@gmail.com">markparmstrong@gmail.com</a></p>
+     <p class="date">Original date: </p>
+     <p class="date">Last updated: 2021-08-31 Tue 02:49</p>
+     <p class="creator">Created using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 28.0.50 (<a href="https://orgmode.org">Org</a> mode 9.4.6)</p>
+     <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

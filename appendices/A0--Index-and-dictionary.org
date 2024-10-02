@@ -1,0 +1,513 @@
+#+Title: Index and dictionary
+#+Author: Mark Armstrong
+#+Description: An index and dictionary for common terms in the course.
+#+Options: num:nil
+#+SETUPFILE: ../org-html-themes/setup/theme-readtheorg-local.setup
+
+* Macros                                        :noexport:
+
+#+macro: unique  *Heads up! This definition is, to some extent at least, unique to this course! Consider consulting other sources for comparison!*
+
+* Introduction
+:PROPERTIES:
+:CUSTOM_ID: org-anchor-Introduction^1
+:END:
+
+This index/dictionary records common or important terms
+discussed in this course,
+giving a brief definition of each and
+possibly providing links to related terms.
+
+This is intended to be an aid to studying,
+as well as a alternative means to recall knowledge about specific terms
+to searching through the course notes.
+
+Be aware of definitions which may be unique to this course;
+the entries for those terms start with the sentence
+“{{{unique}}}” to warn you that
+other sources may disagree with our definition. 
+
+* Associative
+:PROPERTIES:
+:CUSTOM_ID: org-anchor-Associative^1
+:END:
+
+An [[Operation]] ~⊕~ has the associative property if,
+for all terms ~a~, ~b~, ~c~ of the appropriate type,
+#+begin_src text
+a ⊕ (b ⊕ c) = (a ⊕ b) ⊕ c
+#+end_src
+
+We can say that for associative operations,
+“parentheses don't matter”
+(assuming we are not using more than one operation in the sentence).
+
+Following this informal description, for associative operators,
+we may write ~a ⊕ b ⊕ c~ instead of either ~a ⊕ (b ⊕ c)~ or ~(a ⊕ b) ⊕ c~.
+The latter two are equivalent, and the former is a convention
+to avoid writing unnecessary parentheses.
+
+Note that the adjective “associative” applies to
+an [[Operation]], *not a type*.
+A type may have a common associative operator associated with it
+—for instance, in math, numerical types have two very common
+ associative operators, addition and multiplication—
+but it is the operator that is associative,
+and there will usually be many associative operators
+associated with a type.
+
+See also [[Associates conventions]].
+
+The associative property is not to be confused
+with the [[Commutative]] property,
+which similarly to the associative property
+can be informally understood as “order doesn't matter”,
+but with order referring to positioning of the terms/arguments.
+
+* Associates conventions
+:PROPERTIES:
+:CUSTOM_ID: org-anchor-Associates-conventions^1
+:END:
+
+Recall that for an [[Associative]] operation,
+“parentheses don't matter”,
+so that for an associative operator ~⊕~:
+#+begin_quote
+we may write ~a ⊕ b ⊕ c~ instead of either ~a ⊕ (b ⊕ c)~ or ~(a ⊕ b) ⊕ c~.
+The latter two are equivalent, and the former is a convention
+to avoid writing unnecessary parentheses.
+#+end_quote
+
+In order to achieve the same benefit of avoiding writing parentheses,
+for binary operations which are *not* associative
+we usually adopt the convention that they “associate to the left”
+or “associate to the right”.
+- If an operation “associates to the left”,
+  we write ~a ⊕ b ⊕ c~ to mean ~(a ⊕ b) ⊕ c~.
+- If an operation “associates to the right”,
+  we write ~a ⊕ b ⊕ c~ to mean ~a ⊕ (b ⊕ c)~.
+
+Most standard operations associate to the left by convention,
+including division and subtraction.
+Notable exceptions include exponentiation (powers),
+implication, and the function arrow.
+
+See also the related [[Precedence]] conventions.
+
+For operations which are [[Associative]],
+no such convention is needed,
+though in the context of a programming language
+there will still be a design decision about how such operations associate,
+as a concrete decision must be made.
+- Because types in programming languages are not always a perfect
+  analog to their “real-world” or “mathematical” counterparts
+  —in particular, floating point representations of real numbers—
+  operations which are conventionally associative
+  may not be so in programming languages.
+  - For instance, while addition of real numbers is associative,
+    addition of floating point numbers is not due to rounding
+    due to limited precision; for instance, the C program snippet
+    #+begin_src C
+double x = 1.0 + (1.0  + 9007199254740992.0); // 9007199254740992 = 2^53
+double y = (1.0 + 1.0) + 9007199254740992.0;
+printf("%f\n%f", x, y);
+    #+end_src
+    will output ~9007199254740992.0~ and ~9007199254740994.0~.
+    This is due to the 53-bit precision for
+    the significand (fraction portion) of double-precision floats;
+    note that  ~9007199254740992.0~ is ~2^{53}~,
+    or ~100000000000000000000000000000000000000000000000000000~ in binary,
+    and so its least bit must be dropped for it to be represented
+    as a double-precision float.
+    So when we add ~1~ to it, it has no effect; the affected bit has been dropped.
+    And adding ~1~ twice similarly has no effect.
+    But adding ~2~ changes the second-to-least significant bit,
+    which is present in the double-precision representation.
+
+* BSS segment
+:PROPERTIES:
+:CUSTOM_ID: org-anchor-BSS-segment^1
+:END:
+
+The BSS segment of memory is similar to the [[Data segment]],
+but specifically used for global or static variables
+which are uninitialised or initialised to zero.
+
+This [[https://stackoverflow.com/a/9535579][StackOverflow post]] and its first comment
+gives an excellent description of why this segment
+is distinguished from the data segment;
+it's a matter of efficiency of the [[Load time]] process,
+which is of particular concern on embedded systems.
+By separating memory locations which are not initialised or initially zero,
+the loading process does not need to iterate past those memory locations
+during the initialisation of the data segment.
+
+See also [[Program memory]] and [[Data segment]].
+
+* Category theory
+:PROPERTIES:
+:CUSTOM_ID: org-anchor-Category-theory^1
+:END:
+
+Category theory is a branch of mathematics
+which examines the concept of structure,
+and is most often used to study mathematics itself
+—category theory is the “mathematics of mathematics”. 
+Category theorists construct/discover categories
+representing various mathematical theories and concepts.
+For instance, some basic categories include
+- the category of sets and functions between them,
+- the category of vector spaces and linear maps between them, and
+- the category of [[Type]]s and [[Pure function]]s (from type to type).
+
+A category consists of a collection of /objects/ (such as sets)
+and a collection of /morphisms/ (or mappings) between the objects.
+The study of category theory involves identifying several
+constructs and properties of objects and morphisms,
+which are typically generalisations of constructs and properties
+from the underlying theory.
+The identification of these constructs and properties as
+being present in several categories identifies similarities between
+theories that may not have been obvious or even possible previously.
+# For instance:
+# - Some categories have what are called /initial/ objects or /terminal/ objects;
+#   in the category of sets and functions, the empty set is the only initial object,
+#   whereas every singleton set is a final object.
+# - Some categories have what are called /epimorphisms/ and /monomorphisms/;
+#   in the category of sets and functions, epimorphisms are surjective functions,
+#   whereas monomorphisms are injective functions.
+# - In some categories, for certain pairs of objects in the category,
+#   there can exist what is called a /product/ object;
+#   in the category of sets and functions,
+#   for any two sets there exists a product object,
+#   and it is the cartesian product of those sets.
+# While the examples given above in the category of sets and functions
+# are all familiar constructs and properties,
+# in other categories, these same constructs and products may exist
+# but not be as familiar or even recognizable.
+
+As they are highly structured, programming languages
+can be modelled in category theory.
+The [[Haskell]] community makes particular use of the “Haskell category”,
+whose objects are types and 
+
+See also [[Universal algebra]].
+
+See in particular the concept of a [[Monad]].
+
+* Code segment
+:PROPERTIES:
+:CUSTOM_ID: org-anchor-Code-segment^1
+:END:
+
+The code segment of memory is the portion of memory
+allocated for the program when it is run
+in which the program's executable code is stored.
+
+This portion of memory is typically read-only and fixed size.
+This of course is not the case if the code is allowed to be self-modifying,
+but that is rare.
+
+Separation of the code segment from the other segments
+of the memory allocated from the program,
+along with the fact that it is read-only,
+reduces the likelyhood of arbitrary code execution
+—which can be exploited for execution of malicious code—
+and allows for easier implementation of out-of-order execution
+—since it is known that the memory locations following
+ the after the instruction pointer are also instructions,
+ not data (unless the instruction pointer is at the end of the code segment).
+
+See also [[Data segment]]. [[BSS segment]], [[Stack]], and [[Heap]].
+
+* Commutative
+:PROPERTIES:
+:CUSTOM_ID: org-anchor-Commutative^1
+:END:
+
+An [[Operation]] ~⊕~ has the commutative property if,
+for all terms ~a~ and ~b~ of the appropriate type,
+#+begin_src text
+a ⊕ b = b ⊕ a
+#+end_src
+
+We can say that for commutative operations,
+“order doesn't matter”.
+
+Note that the adjective “commutative” applies to
+an [[Operation]], *not a type*.
+A type may have a common commutative operator associated with it
+—for instance, in math, numerical types have two very common
+ commutative operators, addition and multiplication—
+but it is the operator that is commutative,
+and there will usually be many commutative operators
+associated with a type.
+
+Not to be confused with the [[Associative]] property,
+which similarly to the commutative property
+can be informally understood as “order doesn't matter”,
+but with order referring to grouping (via parentheses). 
+
+* Compiler
+:PROPERTIES:
+:CUSTOM_ID: org-anchor-Compiler^1
+:END:
+
+:TODO:
+
+* Compile time
+:PROPERTIES:
+:CUSTOM_ID: org-anchor-Compile-time^1
+:END:
+
+:TODO:
+
+See also [[Static]].
+
+* Data segment
+:PROPERTIES:
+:CUSTOM_ID: org-anchor-Data-segment^1
+:END:
+
+The data segment of memory is the portion of memory
+allocated for the program when it is run
+which is used for global and [[Static variable]]s.
+
+See also [[Code segment]], [[BSS segment]], [[Stack]] and [[Heap]].
+
+* Flatten
+:PROPERTIES:
+:CUSTOM_ID: org-anchor-Flatten^1
+:END:
+
+:TODO:
+
+* Flatmapable
+:PROPERTIES:
+:CUSTOM_ID: org-anchor-Flatmapable^1
+:END:
+
+:TODO:
+
+* Function
+:PROPERTIES:
+:CUSTOM_ID: org-anchor-Function^1
+:END:
+
+:TODO:
+
+* Functional language
+:PROPERTIES:
+:CUSTOM_ID: org-anchor-Functional-language^1
+:END:
+
+:TODO:
+
+* Haskell
+:PROPERTIES:
+:CUSTOM_ID: org-anchor-Haskell^1
+:END:
+
+:TODO:
+
+* Heap
+:PROPERTIES:
+:CUSTOM_ID: org-anchor-Heap^1
+:END:
+
+:TODO:
+
+* Identity
+:PROPERTIES:
+:CUSTOM_ID: org-anchor-Identity^1
+:END:
+
+:TODO:
+
+* Interpreter
+:PROPERTIES:
+:CUSTOM_ID: org-anchor-Interpreter^1
+:END:
+
+:TODO:
+
+* Load time
+:PROPERTIES:
+:CUSTOM_ID: org-anchor-Load-time^1
+:END:
+
+The period of program execution during which
+the code is loaded into memory.
+
+It is at this time that [[Static memory]] is allocated
+in the [[Data segment]].
+
+Load time occurs after [[Compile time]] (in a compiled language)
+but before [[Runtime]].
+
+* Method
+:PROPERTIES:
+:CUSTOM_ID: org-anchor-Method^1
+:END:
+
+:TODO:
+
+* Monad
+:PROPERTIES:
+:CUSTOM_ID: org-anchor-Monad^1
+:END:
+
+A term from mathematics, specifically [[Category theory]],
+:TODO:
+
+See [[Flatmapable]].
+
+* Operation
+:PROPERTIES:
+:CUSTOM_ID: org-anchor-Operation^1
+:END:
+
+{{{unique}}}
+
+A generic term for a means of relating some number of inputs
+to some number of outputs.
+
+In mathematics, operations are usually functions,
+but since functions are but one of many
+kinds of input/output relating “devices” we discuss,
+we treat operations as being more generic.
+
+Kinds of operations include
+- [[Operator]]s,
+- [[Subroutine]]s,
+- [[Function]]s,
+- [[Procedure]]s. and
+- [[Method]]s.
+
+* Operator
+:PROPERTIES:
+:CUSTOM_ID: org-anchor-Operator^1
+:END:
+
+In the context of programming languages,
+an operator is a 
+:TODO:
+
+* Pure function
+:PROPERTIES:
+:CUSTOM_ID: org-anchor-Pure-function^1
+:END:
+
+:TODO:
+
+* Precedence
+:PROPERTIES:
+:CUSTOM_ID: org-anchor-Precedence^1
+:END:
+
+:TODO:
+
+* Procedure
+:PROPERTIES:
+:CUSTOM_ID: org-anchor-Procedure^1
+:END:
+
+:TODO:
+
+* Program memory
+:PROPERTIES:
+:CUSTOM_ID: org-anchor-Program-memory^1
+:END:
+
+:TODO:
+
+* Runtime
+:PROPERTIES:
+:CUSTOM_ID: org-anchor-Runtime^1
+:END:
+
+:TODO:
+
+* Stack
+:PROPERTIES:
+:CUSTOM_ID: org-anchor-Stack^1
+:END:
+
+:TODO:
+
+* Static
+:PROPERTIES:
+:CUSTOM_ID: org-anchor-Static^1
+:END:
+
+:TODO:
+
+* Static memory
+:PROPERTIES:
+:CUSTOM_ID: org-anchor-Static-memory^1
+:END:
+
+:TODO:
+
+* Static variable
+:PROPERTIES:
+:CUSTOM_ID: org-anchor-Static-variable^1
+:END:
+
+:TODO:
+
+* Subroutine
+:PROPERTIES:
+:CUSTOM_ID: org-anchor-Subroutine^1
+:END:
+
+A generic term for a portion of a program,
+usually assigned a name, and
+somehow portioned into a unit which may be invoked.
+
+Specific kinds of subroutines include
+- [[Procedure]]s,
+- [[Function]]s, and
+- [[Method]]s.
+
+* Text segment
+:PROPERTIES:
+:CUSTOM_ID: org-anchor-Text-segment^1
+:END:
+
+See [[Code segment]].
+
+* Type
+:PROPERTIES:
+:CUSTOM_ID: org-anchor-Type^1
+:END:
+
+:TODO:
+
+* Universal algebra
+:PROPERTIES:
+:CUSTOM_ID: org-anchor-Universal-algebra^1
+:END:
+
+:TODO:
+
+* Zero
+:PROPERTIES:
+:CUSTOM_ID: org-anchor-Zero^1
+:END:
+
+An [[Operation]] ~⊕~ has a zero ~∅~ if
+for all terms ~a~,
+#+begin_src text
+a ⊕ ∅  =  ∅ ⊕ a  =  ∅
+#+end_src
+
+If for all terms ~a~, ~a ⊕ ∅ = ∅~, but perhaps not ~∅ ⊕ a = ∅~,
+then ~⊕~ is said to have a right zero.
+Similarly, if for all terms ~a~, ~∅ ⊕ a = ∅~, but perhaps not ~a ⊕ ∅ = ∅~,
+then ~⊕~ is said to have a left zero.
+Note that ~⊕~ has a zero iff it has both a left zero and a right zero.
+
+:TODO: Examples.
+
+See also the [[Identity]] element of an operation.
