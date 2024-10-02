@@ -15,7 +15,7 @@ were added via the following shell commands.
 git subtree add --prefix org-html-themes https://github.com/fniessen/org-html-themes master --squash
 #+end_src
 #+begin_src sh :results none
-git subtree add --prefix ./notes/reveal.js https://github.com/hakimel/reveal.js master --squash
+git subtree add --prefix notes/reveal.js https://github.com/hakimel/reveal.js master --squash
 #+end_src
 
 They can be updated via these commands.
@@ -23,7 +23,7 @@ They can be updated via these commands.
 git subtree pull --prefix org-html-themes https://github.com/fniessen/org-html-themes master --squash
 #+end_src
 #+begin_src sh :results none
-git subtree pull --prefix ./notes/reveal.js https://github.com/hakimel/reveal.js master --squash
+git subtree pull --prefix notes/reveal.js https://github.com/hakimel/reveal.js master --squash
 #+end_src
 
 
