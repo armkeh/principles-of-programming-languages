@@ -26,7 +26,6 @@ git subtree pull --prefix org-html-themes https://github.com/fniessen/org-html-t
 git subtree pull --prefix notes/reveal.js https://github.com/hakimel/reveal.js master --squash
 #+end_src
 
-
 * Introduction
 :PROPERTIES:
 :CUSTOM_ID: org-anchor-Introduction^1

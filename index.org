@@ -338,8 +338,7 @@ more about the language than what we cover in this course.
 
 #+begin_src emacs-lisp :exports results :results none
 (with-temp-buffer
-  (insert-file-contents "./README.org")
-  (org-mode)
-  (message "hello world")
-  (org-export-to-file 'md "README.md"))
+  (find-file "./README.org")
+  (org-pandoc-export-to-gfm)
+  (kill-buffer))
 #+end_src
