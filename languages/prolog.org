@@ -12,7 +12,7 @@
 
 Not “guarding” the cases in your predicate definitions
 can result in slightly different behaviour when it comes to backtracking.
-#+begin_src prolog :tangle ./src/unguarded-cases.pl
+#+begin_src prolog :tangle ./artifacts/unguarded-cases.pl
 % This tidbit illustrates the effect of
 % not correctly restricting the application of different cases
 % in our predicate definitions.
@@ -35,7 +35,7 @@ fact2(_) :- writeln('fact2, supposedly unreachable case'), false.
 #+end_src
 
 You can try out this example by loading the [[./src/unguarded-cases.pl][source code]] into your REPL.
-#+begin_src prolog :tangle ./src/unguarded-cases.pl
+#+begin_src prolog :tangle ./artifacts/unguarded-cases.pl
 % Query test to see how Prolog will pause after the query,
 % allowing you to to use ; or <space> to then get `false.`
 test :- fact2([1]).

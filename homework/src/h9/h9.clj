@@ -1,1 +1,0 @@
-(defrecord GuardedCommand [guard command])
